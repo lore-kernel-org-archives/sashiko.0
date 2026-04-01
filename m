@@ -1,91 +1,71 @@
-Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-176.mta1.migadu.com (out-176.mta1.migadu.com [95.215.58.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C2642FD681
-	for <sashiko@lists.linux.dev>; Wed,  1 Apr 2026 06:36:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775025402; cv=pass; b=PlePe7nY0jz0I9HOEynxGoRbcCjfkRk0nrHMl6oj/s4lUlV4mUb5LurBC7AYTo5IZromTMRjQwnu35km6azNIYiZ7XOJR+TcViqs2Bj/VCafKFXeqi7gE+ka1xvDIrtk4qGCOye67p76NiM15Na+qhs+/zSwkKDIpav3WjE9wx8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775025402; c=relaxed/simple;
-	bh=5SJC8jEtYk4/+sQecQfOsXWs1pH+jkryl1gFeAsTB5I=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=kFriLnkDZdbO4s9IEfadvEXBzOWDJn0yl/EpLYZfrEw28i0Df+D5LUPhuPrSXnG8qPbxLw5pCCPLnln109fMUXx0GCWyRzZsXottIt1KxFoaZRp1F5OVzL6Gr0e3LaMBKJAmWwOvmKHbKvArEvcBv+OlUNsWrVqKfj4/sNgqFq8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Rsl76Syi; arc=pass smtp.client-ip=209.85.210.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E608D36309B
+	for <sashiko@lists.linux.dev>; Wed,  1 Apr 2026 20:35:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.176
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775075706; cv=none; b=akR6zwgekXotLjhG7DjFmfGYhJMsGrzD8+2jl57UMVQs4FETU8eNuhH/JPwKuLQ8h8iXAGaSSj5Ns4+A23XaelFR89en50GG4qP4tkEye1rVAPt5hS6yXBVGCh5kNxl8ONsUMgEPELaIWSpW61d9JMIuFHoMavpSyT8VVLFawtI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775075706; c=relaxed/simple;
+	bh=x0XSS4GLxq5DIa5FkZ/KX4e9Y6XyXmAPA1awtx/68hw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=ArjiNbXanNjz2zD0lfjTG0r+MR4vJXOvmP9kVlXQtfzFJ1KQLh0k1eB9K7cNcstyMgAIdQu4mO1lhEinwE3bZPaQYEcj129fbXi3ljycwk6EdfGnaQcG/Qbq2gTcHBkKuPQ79i//An5jl9k5oZQuYgzyLaaQlqQf2hDOBiV+FMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=kZ1JldFq; arc=none smtp.client-ip=95.215.58.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Rsl76Syi"
-Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-7d7f09aa39fso7991897a34.0
-        for <sashiko@lists.linux.dev>; Tue, 31 Mar 2026 23:36:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775025400; cv=none;
-        d=google.com; s=arc-20240605;
-        b=affEEbl6j4k5Vph4x4xKmyplnF9Fm4dfTBlCYpofptbGZ7mBi5A6D2vJfLdj30Qoln
-         +9C9OPkqiF6th5AAndgbR9pB1sDfu5HGih05euUw+jfOkzYGG0MayKRuGWckzt52eRpu
-         Cid95F0rw6u5XXSsSM/xP55rs/u90NdgVNoRrLsN5QWkv8n2IDlJOLEBROCoqyQiwB4d
-         x+4LjD2gC8Xl8brfS9Gyc7xj657+2v7u1Bzv+ehF3p3Yjfi0dxL8ng51yePcJK7nINBc
-         hPmqR+60j8ey8YG9+EBOK2yOSjJrB5iX6GBSiFbEXLYnIKJp7RFGtcYuGt0QCpFLErpA
-         TdxQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=5SJC8jEtYk4/+sQecQfOsXWs1pH+jkryl1gFeAsTB5I=;
-        fh=HcGdhGcItcW9GSXstMW/vRjM1pLZ2hS7bNLN/OlwQ0k=;
-        b=haAeqWSdkoIOCdbIcL54zboGkqaQYRXJIf355R3bHu4lODDcpG0yTO5ES6oPZDvqFB
-         FpyjEKnsowWSzg52Bt4+Ylqb4mKD5hkGyy7Tw2gKjpqcCvOi9WSdnbJCZR8qPdJT9lYw
-         UuvBjbIT7zFFNQenTmuc+rh0i/mGTbEkeNN92I1sjFQfJ4pMyek9lahHm82jNVLw7kdR
-         EYAMA0JNUTLZGdMYXblDWj/U+px6FKae+KeVhI1uNPpb+Styz7+tPd4Dz+MCdGU2SmhX
-         NMTYOPBzfovt00LkrTMPo3iuGvGEbYAlTbqUVJrGeV0ZR/HBsHl3hiFV97qnBiR2a+Ab
-         F/jg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1775025400; x=1775630200; darn=lists.linux.dev;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=5SJC8jEtYk4/+sQecQfOsXWs1pH+jkryl1gFeAsTB5I=;
-        b=Rsl76SyigjKEnB9sFEmdER98IFQlWA18tSMQ73ZwoC0EQf4MUN3+lHf+ZKZgW2dtXT
-         ltXfery9EKkIV4WjzYNITpZHspnwLd+wnwDcEkC/dCKFxtExUDpgzYCLE5uzXyHdnNhk
-         UerMlAE8VSYNTxO0TJqkmTlUhvktDqzzsUwqQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775025400; x=1775630200;
-        h=to:subject:message-id:date:from:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5SJC8jEtYk4/+sQecQfOsXWs1pH+jkryl1gFeAsTB5I=;
-        b=RGGV7FAwa4n0yCENgU/LydxQ0ysBv6ex+heWCTEeEaDHnb1JKw8K7Zn06Bxxj1KeCg
-         bHONvEJfgbDbIBI91NfUgzQYeZXJQpfg0RTieGexdZ2C9Poa5TMfOtZOa2WymzubbCEe
-         ef71/suzOBy+lP0TgQxYfGYb3yR4hBY2kCgaBlgO+YojdTVS/wsfCJGDkcwRUXiuYidz
-         ren7G8sQHnVDS91SICdJScYv3f6n7wTSVxIQtO34E/VqdzEHdD2HM2FcLI6e8SMuEO8a
-         Mcu3ep9bStumOtm+lvAro2dYqNHiV+oXwkCbH3FdsD2lsUnjj4Yc33E1KwZOTdKHEVkD
-         1wBQ==
-X-Gm-Message-State: AOJu0Yx2XTfkua0o6B6zKBw2bu4VZ9/8osSY6Roih/B4LwpkAPTWYSZp
-	X0BRvv51lkRfvxMxM96YZ4E+istePjpBFWQK3dbrX1saf9y7nVzUBO4vdj1guJGL+WRnqlk445/
-	JHq1aI7HAS3WFm8Wge0v7+PTzuOsS9os0FCdmQTUO6QbWY+t5o/50pRg=
-X-Gm-Gg: ATEYQzx5o3qGbJYifEx520pMjHOXASXfgwo2Pv0zPNpXV9JMEsIXffu+m2gBlUAlomu
-	MCAUaU25dsd5AYE9zkFhkFGC2gc1zer5mKtY9n5zw/OqaK/5pEfkrwHDPjjLvpk8pUzYwI8bHRm
-	B6PJo3MR+gFrZAn4oUKI4GLrsIpH+AvsJSjP+V4dB+HsDIQaDZO2RBsN5tn/aYlNs8Gj9TzUn45
-	uveGj5m5tBqVKZBKkY8dI1Lbm692Hk4wcHBAeARGpjdpLQNaIImVyP15A/i6wJDWlLSv2e/H2my
-	CoGnzBT7lkQZ9XPBxeoAfLpYHSkRndKHg/3JuyHQV8RW9WAd
-X-Received: by 2002:a05:6820:4b98:b0:67d:e836:2e32 with SMTP id
- 006d021491bc7-67fabca3119mr1279601eaf.35.1775025399925; Tue, 31 Mar 2026
- 23:36:39 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="kZ1JldFq"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1775075702;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=x0XSS4GLxq5DIa5FkZ/KX4e9Y6XyXmAPA1awtx/68hw=;
+	b=kZ1JldFq4RHVMrUZDfxNUImz0xuAmRoARAqhMRLSTP3hlZV5a7vjj13QVgGmFaeeEKb0nO
+	nnsmJ27g8HUUtr8hHb5mLHHxF6RohE/Dq43L0/7ctwHOKXUuNw4p/hrGHgHLJiDJeZxQN1
+	89VeNwnG8qbyaHxTM/s9/VVhQyf9B2g=
+From: Roman Gushchin <roman.gushchin@linux.dev>
+To: Shuah <shuah@kernel.org>
+Cc: linux-kselftest@vger.kernel.org, sashiko@lists.linux.dev
+Subject: Re: Sashiko.dev for kselftest
+In-Reply-To: <d0dc7caa-052b-4d50-aeb8-60d3327d1130@kernel.org>
+	(shuah@kernel.org's message of "Wed, 1 Apr 2026 13:51:30 -0600")
+References: <d0dc7caa-052b-4d50-aeb8-60d3327d1130@kernel.org>
+Date: Wed, 01 Apr 2026 13:34:49 -0700
+Message-ID: <877bqqh11y.fsf@linux.dev>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: Christopher Hoy Poy <choypoy@linuxfoundation.org>
-Date: Wed, 1 Apr 2026 14:36:29 +0800
-X-Gm-Features: AQROBzCRlqVn0yjOqKCfvD5KjZcYp1d47UxYRV2Q16xVCVvSaRK-QkNWegSIWu8
-Message-ID: <CAKkv+gy22MDTr9qHGahoiurLKDk6+Bsz5R38umwi_AnYoRXA0A@mail.gmail.com>
-Subject: first post
-To: sashiko@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-Migadu-Flow: FLOW_OUT
 
-test post for sashiko@lists.linux.dev
+Shuah <shuah@kernel.org> writes:
 
+Hi Shuah,
 
-Chris Hoy Poy
-Senior Systems Engineer
-Core Projects
-The Linux Foundation
-Perth, Western Australia (GMT:+8)
+Sure, will add later today.
+
+> Hi Roman,
+>
+> Please add linux-kselftest list to sashiko.dev for reviews.
+>
+> There might be double coverage for patches cc'ed to lkml
+> and other lists such as mm, net, bpf etc. Hope that won't
+> cause problems.
+
+It's not a problem at all.
+
+What I believe might be a problem: kselftests are mostly userspace
+code and at least some parts are written somewhat loosely (which
+is totally fine for tests), so Sashiko will report a ton of issues,
+many of them are not worth fixing.
+
+So I guess it will be good to put down a kselftest-specific prompt with
+some guidance what we believe is acceptable in tests code and what's not.
+
+Thanks
