@@ -1,100 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F5EE32ED34;
-	Fri, 10 Apr 2026 04:28:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0FA803CC9EB
+	for <sashiko@lists.linux.dev>; Fri, 10 Apr 2026 14:09:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775795306; cv=none; b=Wqw+k0y/nNVxJcFxNdS7p6XRQtxUn5+VdxMHPOLs+GkQjDioYYbvtYSfyHtpHOztzlWnZ+0ZYvwmvs3atecondC7qcch0Jf+Q5kzolfIYNpWaV6fH0fHGzTvjozM39TKrZknSpZxvWh3ON0NvdR540dT/WRtZ7uGCXMBIFugzhE=
+	t=1775830148; cv=none; b=eq8RYkXM85s1s9VgZZS57SQx0B0LvUW4hZPO9XaybIc1xSr3JA9o7aEAKTSiGqDSZwkVlVmpcTtdulPuixNyXOM/dO1ll/eoKhn44wUYsY9/hMsllAVk60ijFwGQwvs8C/2gPdzKTDyfIJayDMn3pe3NpIAm8o68afP6YxF9j5g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775795306; c=relaxed/simple;
-	bh=Q6U7E3EJPQ+lalVF0+spSK5bBYBw7XpGaDstGNSnOYo=;
+	s=arc-20240116; t=1775830148; c=relaxed/simple;
+	bh=PWUdipTXwKBx8jeLCzhNEDbIPUVGdnPKwgmKrR2E4GU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g0WlnzSrXV/mPau1nqwqJI295JLc5LnaEjr+FueeAzdAZyeNuAiDbJQZN0cXBpNQAGixB9juh2poN8KinhmRaAP5Q3ZOQ5UvhVWHI8ISWFnA5ekeLbKCL5T8RKm0JNB9Lx7OQ57JNrQy2xKpec25OCVo1j2+aWUFkgOwU1tyHWQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kDosoVYo; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=JlQC4G99JkhbbvwH8Ul3UH9eiJ67Xn5/Q75Ul57BIkiJFvY+vyt4IhSDIt8V/YlZkXT3QY4Hmcf2/0JYzk0jAgJec2yfpYJg1vNG4FejwpR6MotlB7K1SrgXrNtrS2n/P47lY2ogbaur3LjiFd8slvqrEO6WI79zyaB6KhlcFpM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=ciOjqjVF; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kDosoVYo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8F11C19421;
-	Fri, 10 Apr 2026 04:28:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775795306;
-	bh=Q6U7E3EJPQ+lalVF0+spSK5bBYBw7XpGaDstGNSnOYo=;
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="ciOjqjVF"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8FD35464B;
+	Fri, 10 Apr 2026 07:08:59 -0700 (PDT)
+Received: from localhost (e132581.arm.com [10.1.196.87])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E8BCE3FE53;
+	Fri, 10 Apr 2026 07:09:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1775830145; bh=PWUdipTXwKBx8jeLCzhNEDbIPUVGdnPKwgmKrR2E4GU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kDosoVYoGcriwnL3BDMDOGoj80crAlFHXJe8AvdOIKmy0RfhBVvyC354nwqU1DPVO
-	 Qk4hOty1lzEI+8Z8rJlBd5gYgnzkNbcopUNNdcTeNqu6mmyGmpn9OdKSRLx77n/ZwU
-	 M14pAMfeoMkHTvQAYN/HKHC5kRBph2kVOnI0LGb3G7yeEuKgqzovhWJsgiNOeFVOeq
-	 q72j618yJBCOwOZmDejzDW6YmHbQctQZMhH1QSfJngYBnM1A6yVIRyhbraM9CbkfVW
-	 de+VdPIddM+TLFGzUDE2VdaQKh3MJv/VqiriATJ/Cu7rlBvtjR4shW6bLljTaO9M5J
-	 qZcpDbAoUZ4PQ==
-Date: Thu, 9 Apr 2026 21:28:24 -0700
-From: Namhyung Kim <namhyung@kernel.org>
+	b=ciOjqjVF6hSH8S9JYpWGU56/9N9tfz69e3PbKPnUfh+YI19NMWDCO35wnVvyhM3Pe
+	 NYdCmMdPPiIpaGN3Xe0PslJRhV7TdqR462OaKYN0MJ9sXKM+q5nnP2EJCeY2t5A1uB
+	 Pv2rFxmGVglct78r/wXMUTghuGb4lbaZr3mdwgI8=
+Date: Fri, 10 Apr 2026 15:09:02 +0100
+From: Leo Yan <leo.yan@arm.com>
 To: sashiko@lists.linux.dev
 Cc: linux-perf-users@vger.kernel.org
-Subject: Re: [PATCH 2/2] perf build: Add -Wno-missing-declarations for
- GEN_VMLINUX_H=1
-Message-ID: <adh8aFYVspZmrLpZ@google.com>
-References: <20260408055259.374744-2-namhyung@kernel.org>
- <20260408060017.9F21DC19424@smtp.kernel.org>
+Subject: Re: [PATCH v2] perf pmu: Skip test on Arm64 when #slots is zero
+Message-ID: <20260410140902.GZ356832@e132581.arm.com>
+References: <20260410-perf_fix_pmu_metrics_test-v2-1-61826ab3ca8b@arm.com>
+ <20260410112824.839EBC19421@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260408060017.9F21DC19424@smtp.kernel.org>
+In-Reply-To: <20260410112824.839EBC19421@smtp.kernel.org>
 
-Hi Sashiko! ;-)
+On Fri, Apr 10, 2026 at 11:28:23AM +0000, sashiko-bot@kernel.org wrote:
 
-On Wed, Apr 08, 2026 at 06:00:17AM +0000, sashiko-bot@kernel.org wrote:
-> Sashiko AI review found 1 potential issue(s):
-> - [Medium] Suppressing the missing-declarations warning instead of enabling Microsoft extensions causes Clang to silently drop anonymous fields from structures in `vmlinux.h`.
-> --
-> 
-> commit 93aff8b1d8d6d53f0451d4c78852fef0b06314df
-> Author: Namhyung Kim <namhyung@kernel.org>
-> 
-> perf build: Add -Wno-missing-declarations for GEN_VMLINUX_H=1
-> 
-> This commit suppresses the missing-declarations warning by adding
-> -Wno-missing-declarations when compiling BPF skeletons in perf.
-> 
-> > diff --git a/tools/perf/Makefile.perf b/tools/perf/Makefile.perf
-> > --- a/tools/perf/Makefile.perf
-> > +++ b/tools/perf/Makefile.perf
-> > @@ -1249,7 +1249,7 @@ $(SKEL_TMP_OUT)/%.bpf.o: util/bpf_skel/%.bpf.c $(LIBBPF) $(SKEL_OUT)/vmlinux.h
-> >  	$(QUIET_CLANG)$(CLANG) -g -O2 -fno-stack-protector --target=bpf \
-> >  	  $(CLANG_OPTIONS) $(EXTRA_BPF_FLAGS) $(BPF_INCLUDE) $(TOOLS_UAPI_INCLUDE) \
-> >  	  -include $(OUTPUT)PERF-VERSION-FILE -include util/bpf_skel/perf_version.h \
-> > -	  -c $(filter util/bpf_skel/%.bpf.c,$^) -o $@
-> > +	  -Wno-missing-declarations -c $(filter util/bpf_skel/%.bpf.c,$^) -o $@
-> 
-> Does suppressing this warning instead of enabling Microsoft extensions cause
-> Clang to silently drop anonymous fields from structures in vmlinux.h?
-> 
-> bpftool generates anonymous structs in vmlinux.h using a Microsoft extension.
-> Without -fms-extensions, standard C treats these as empty forward declarations.
-> Clang ignores them, effectively removing them from the struct layout and
-> altering the structure's size and offsets.
-> 
-> By passing -Wno-missing-declarations instead of enabling the extension, could
-> this hide the layout corruption? Any perf BPF programs relying on the size of
-> such structs or performing non-CO-RE offset calculations might compute
-> incorrect values, leading to verifier rejections or incorrect tracing
-> statistics.
-> 
-> Would it be better to pass -fms-extensions and -Wno-microsoft-anon-tag to
-> properly support this in Clang, mirroring the fix applied to BPF selftests in
-> commit 835a50753579a?
+[...]
 
-Oh, it's good to know that there is a fix for that.  For some reason, I
-cannot reproduce it anynmore.  But it'd be fine to have this fix anyway.
-
-Thanhks,
-Namhyung
-
+> > +static bool is_expected_broken_metric(const struct pmu_metric *pm)
+> > +{
+> > +	if (!strcmp(pm->metric_name, "M1") || !strcmp(pm->metric_name, "M2") ||
+> > +	    !strcmp(pm->metric_name, "M3"))
+> > +		return true;
+> > +
+> > +#if defined(__aarch64__)
+> > +	/*
+> > +	 * Arm64 platforms may return "#slots == 0", which is treated as a
+> > +	 * syntax error by the parser. Don't test these metrics when running
+> > +	 * on such platforms.
+> > +	 */
+> > +	if (strstr(pm->metric_expr, "#slots") &&
+> > +	    !tool_pmu__cpu_slots_per_cycle())
 > 
-> -- 
-> Sashiko AI review · https://sashiko.dev/#/patchset/20260408055259.374744-1-namhyung@kernel.org?part=2
+> Does reading host capabilities via tool_pmu__cpu_slots_per_cycle() bypass
+> the fake PMU abstraction used by these tests?
+> 
+> The fake PMU tests are intended to validate the metric parser across all
+> architectures without requiring the actual referenced PMUs or hardware
+> capabilities to exist on the host machine.
+> 
+> Because tool_pmu__cpu_slots_per_cycle() checks the host's
+> /sys/bus/event_source/devices/ caps/slots, does this break the test's
+> hardware-independent validation?
+
+I agreed that the test is designed for hardware-independent, however,
+the low level's parser has already invoked
+tool_pmu__cpu_slots_per_cycle() for event parsing, even with the fake
+PMU.
+
+[...]
+
+> > @@ -852,8 +873,7 @@ static int test__parsing_callback(const struct pmu_metric *pm,
+> >  
+> >  	err = metricgroup__parse_groups_test(evlist, table, pm->metric_name);
+> >  	if (err) {
+> > -		if (!strcmp(pm->metric_name, "M1") || !strcmp(pm->metric_name, "M2") ||
+> > -		    !strcmp(pm->metric_name, "M3")) {
+> > +		if (is_expected_broken_metric(pm)) {
+> >  			(*failures)--;
+> >  			pr_debug("Expected broken metric %s skipping\n", pm->metric_name);
+> >  			err = 0;
+> 
+> Does unconditionally clearing the error here create a testing blind spot
+> for genuine syntax errors?
+> 
+> If a metric expression contains "#slots" on an Arm64 host without slot
+> support, the failure is ignored entirely. Could this silently hide other
+> issues, like typos in other events or malformed operators within the same
+> metric expression?
+
+The test will run on PMUs that support #slots, so any malformed metric
+expressions can be detected.  Simply say, if a metric is applicable to
+a platform, it will be verified on that platform.
+
+I don't think I need any update on this patch.
