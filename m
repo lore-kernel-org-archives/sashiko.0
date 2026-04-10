@@ -1,100 +1,132 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43D257E792;
-	Fri, 10 Apr 2026 01:01:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66DE51E1E04;
+	Fri, 10 Apr 2026 04:17:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775782887; cv=none; b=TDX9040C9J15AfnY6kir8Vh17GjgYOO/7fVrAuRdnGUJaY6mgF8+JklaI5D++BFpZuuSB/lHFnQqkdnkUYCmgFSUs8y87XDa13o5fmE6AMT1JNGdq8DW/+TKB0rAClrCBlOzOd49ZliPGe4MdAjxkEbRmQyUyjumJm07RLFLOAA=
+	t=1775794633; cv=none; b=BPBHNTZXnr3JHz3p6XzuW7o71LzNwCIwbTbTFqkHUfN35hIFdNt+5HA+DT0UXMYMCB5h4xmCsoketkboDbNZFTGY+T7aa9G+a16o/v10F0gXYWTqEysa7IAYMCvg0QcYFNWDhqliQuLAhNDNWHTD+432/7iDACCHLi8yJQuUO04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775782887; c=relaxed/simple;
-	bh=PA3j5yJ4LRfJW5DI9IX2E8IxbmgNZvGwjLoFEIttv7E=;
+	s=arc-20240116; t=1775794633; c=relaxed/simple;
+	bh=q0bl+lD6eXBemvwpIgitksayrW9K1ju/yDtIWiWP4Ro=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Xl4zunvdQi2PVjuaVN/hKddxRcJVBvVCZIopUoWd1xcXsp179BFVWn34Jwa/jLEZ7+GiHYOQJf0snUfE73Fas6ZD7EWMn7p3ixZHwpJEBiWc5hk9e+VIjgl6UwOIFC1Xpq8vbo/nolU8ejRrU+CkYEmSmw6Rex1qngb+eAFtqWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cRp23qhW; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=nG56+kOiWm+KWg885k8umeWYGiAi1BaSbEcNQ2LR5VLIvSKHB8FWTRifQOOFBzG6sHdwz5Xy95g6YWdtUZ5VnrlLcI1MnYDL+8f5/EdYW5VzcogBh9qrT4CYibbxh407km8FcUZuacy8V+5kKV+oTeou16+OeZAjMgIRsr0MnuI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zx/HP4cZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cRp23qhW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11FBDC4CEF7;
-	Fri, 10 Apr 2026 01:01:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zx/HP4cZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB004C19421;
+	Fri, 10 Apr 2026 04:17:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775782886;
-	bh=PA3j5yJ4LRfJW5DI9IX2E8IxbmgNZvGwjLoFEIttv7E=;
+	s=k20201202; t=1775794633;
+	bh=q0bl+lD6eXBemvwpIgitksayrW9K1ju/yDtIWiWP4Ro=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cRp23qhWFYQ6ysvmzt07qpwO5XYZBkMKEkU8ekYqb6Uj90SXZ/1BVGka1wf+zFww0
-	 YkPUzFCPwDh2Pzju3H+FFRt/LYz67JNmtCtBp5oHYVEgfF8vkXPQQTXjjcAtXMXCv7
-	 924zeAos3P30xSBBMb4shK2QwsDY6Y0Md+PmJdd/W7CnoO54EYjzC6fXcjqPc4KnxD
-	 wtd1dM2jMb0qX2v7ORz1BmuY5ncG3fsVJyBbf/uRIK7AZBXdc7nMUxLU/Att/aMjjN
-	 jaGXq7GG2am97hfRYGxvh/FuXuLtQjcsg55Iig/gkspVQ1jh3vA2Sr76fqNBfsD5+L
-	 bl9j1Jkf00ujA==
-Date: Thu, 9 Apr 2026 22:01:22 -0300
-From: Arnaldo Carvalho de Melo <acme@kernel.org>
+	b=Zx/HP4cZVEY+zC6rIW+D706xtMExaaYJ5JKG5scNoCh1abqOHOW0oo+UcEhWtYi1U
+	 l4qjK3FaNT4qqUMhejwAUM6EDKJ9ydvhphstYyqCxXcX5lSd8fWqcCxvSby7ifV/D4
+	 1ABxQxO+A9QEDcjdsuXBhJN7CDgiFyEkPum9ILhZ9wiApJMqPjSs6oVruhJ0PqMkVR
+	 uk6aK4OPzge6HEyEU6rgJ24mkNtoRGpFOPAahxIXh1bFUyjJerU0Tml7i9vq5r5et0
+	 lJyBRsCD9eZWivM/MxNopi2V5A9y6DheQIFZ/AeeWNNTZpjKr8U0QgbkNgrrfHKsXL
+	 +wGRWVTrDg2rw==
+Date: Thu, 9 Apr 2026 21:17:11 -0700
+From: Namhyung Kim <namhyung@kernel.org>
 To: sashiko@lists.linux.dev
-Cc: linux-perf-users@vger.kernel.org
-Subject: Re: [PATCH 10/13] perf header: Sanity check HEADER_HYBRID_TOPOLOGY
-Message-ID: <adhL4vXRiW0TIGSM@x1>
-References: <20260410004000.148138-11-acme@kernel.org>
- <20260410005837.D3516C4CEF7@smtp.kernel.org>
+Cc: Swapnil Sapkal <swapnil.sapkal@amd.com>,
+	linux-perf-users@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] perf sched stats: Fix SIGCHLD race in
+ schedstat_record()
+Message-ID: <adh5x7wQv9uE6T2b@google.com>
+References: <20260409162249.25581-2-swapnil.sapkal@amd.com>
+ <20260409165102.E8A44C4CEF7@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260410005837.D3516C4CEF7@smtp.kernel.org>
+In-Reply-To: <20260409165102.E8A44C4CEF7@smtp.kernel.org>
 
-On Fri, Apr 10, 2026 at 12:58:37AM +0000, sashiko-bot@kernel.org wrote:
+On Thu, Apr 09, 2026 at 04:51:02PM +0000, sashiko-bot@kernel.org wrote:
 > Sashiko AI review found 1 potential issue(s):
-> - [Low] The MAX_PMU_MAPPINGS macro is defined locally inside process_pmu_mappings() but reused in process_hybrid_topology().
+> - [Medium] The patch leaves a race window where early signals (like SIGINT) are lost, causing sigsuspend() to hang indefinitely.
 > --
 > 
-> commit b5af27fec41475de3166cc72abe94ddc329689cc
-> Author: Arnaldo Carvalho de Melo <acme@redhat.com>
+> commit 82e42f3b8c8062e3b83019c07f66b6e7199c4104
+> Author: Swapnil Sapkal <swapnil.sapkal@amd.com>
 > 
-> perf header: Sanity check HEADER_HYBRID_TOPOLOGY
+> perf sched stats: Fix SIGCHLD race in schedstat_record()
 > 
-> This commit adds an upper bound check on nr_nodes in
-> process_hybrid_topology() to harden against malformed perf.data files by
-> reusing the MAX_PMU_MAPPINGS limit.
+> This commit attempts to fix a SIGCHLD race in perf sched stats record by
+> replacing pause() with sigsuspend(). It blocks SIGCHLD, SIGINT, and SIGTERM
+> before starting the workload to ensure no signal is lost if the child exits
+> quickly.
 > 
-> > diff --git a/tools/perf/util/header.c b/tools/perf/util/header.c
-> > --- a/tools/perf/util/header.c
-> > +++ b/tools/perf/util/header.c
-> > @@ -3448,6 +3448,18 @@ static int process_hybrid_topology(struct feat_fd *ff,
-> >  	if (do_read_u32(ff, &nr))
-> >  		return -1;
+> > diff --git a/tools/perf/builtin-sched.c b/tools/perf/builtin-sched.c
+> > --- a/tools/perf/builtin-sched.c
+> > +++ b/tools/perf/builtin-sched.c
+> 
+> [ ... ]
+> 
+> > @@ -3899,11 +3900,25 @@ static int perf_sched__schedstat_record(struct perf_sched *sched,
+> >  	if (err < 0)
+> >  		goto out;
 > >  
-> > +	if (nr > MAX_PMU_MAPPINGS) {
+> > +	/*
+> > +	 * Block all handled signals so that a short-lived workload exiting
+> > +	 * (SIGCHLD) or an early Ctrl+C (SIGINT/SIGTERM) during the remaining
+> > +	 * setup cannot be delivered before we are ready to wait. sigsuspend()
+> > +	 * below will atomically unblock them. This is done after
+> > +	 * evlist__prepare_workload() so the forked child does not inherit a
+> > +	 * modified signal mask.
+> > +	 */
+> > +	sigemptyset(&sig_mask);
+> > +	sigaddset(&sig_mask, SIGCHLD);
+> > +	sigaddset(&sig_mask, SIGINT);
+> > +	sigaddset(&sig_mask, SIGTERM);
+> > +	sigprocmask(SIG_BLOCK, &sig_mask, &oldmask);
 > 
-> This isn't a bug, but could this cause build failures if the functions are
-> reordered in the future?
+> Does this leave a race window where early signals like SIGINT can be lost,
+> causing sigsuspend() to hang indefinitely?
 > 
-> MAX_PMU_MAPPINGS is currently defined locally inside process_pmu_mappings():
+> If a signal like SIGINT or SIGTERM is delivered before this sigprocmask()
+> call, the existing sighandler will consume it without setting any state flag
+> that gets checked here.
 > 
-> tools/perf/util/header.c:process_pmu_mappings() {
->     ...
-> #define MAX_PMU_MAPPINGS 4096
-> 	if (pmu_num > MAX_PMU_MAPPINGS) {
->     ...
-> }
+> >  	if (argc)
+> >  		evlist__start_workload(evlist);
+> >  
+> > -	/* wait for signal */
+> > -	pause();
+> > +	sigsuspend(&oldmask);
 > 
-> While the C preprocessor doesn't respect function block scope, allowing it
-> to be used here, this relies on process_pmu_mappings() always appearing
-> lexically before process_hybrid_topology() in this file.
+> When execution subsequently reaches sigsuspend(), wouldn't it block
+> indefinitely waiting for an event that was already processed?
 > 
-> Should this macro be hoisted to file scope to prevent accidental breakage
-> during future refactoring?
+> To robustly resolve the TOCTOU race without leaking a modified signal mask
+> to the child, should the signal handler set a volatile sig_atomic_t flag,
+> and sigsuspend() be called conditionally based on that flag?
 
-Yeah, I'll do it in v2.
+Right, maybe simply:
 
-- Arnaldo
- 
-> > +		pr_err("Invalid HEADER_HYBRID_TOPOLOGY: nr_nodes (%u) > %u\n",
-> > +		       nr, MAX_PMU_MAPPINGS);
-> > +		return -1;
-> > +	}
+	if (argc) {
+		evlist__start_workload(evlist);
+		waitpid(evlist->workload.pid, NULL, 0);
+	} else {
+		while (!done)
+			sleep(1);
+	}
+
+And SIG{INT,TERM,CHLD} should set done to true.
+
+Thanks,
+Namhyung
+
+> 
+> > +	sigprocmask(SIG_SETMASK, &oldmask, NULL);
+> >  
+> >  	if (reset) {
+> >  		err = disable_sched_schedstat();
 > 
 > -- 
-> Sashiko AI review · https://sashiko.dev/#/patchset/20260410004000.148138-1-acme@kernel.org?part=10
+> Sashiko AI review Â· https://sashiko.dev/#/patchset/20260409162249.25581-1-swapnil.sapkal@amd.com?part=1
