@@ -1,111 +1,106 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18354346FB3;
-	Sun, 12 Apr 2026 18:10:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E5D42DA765;
+	Sun, 12 Apr 2026 20:11:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776017429; cv=none; b=nANM2ohn0xCvGcit258imgHBWhWnyqCvnI5GfjkFEGpBjrld/mf7ac1tGLP39pqdvEVT/3leDtv/CweJhRAhRWpBGkxtDobxPYeckDj7I96Q1r32G1m97RNuW08UEvcZ5UDcRFeeQ9NEFoJkxTqaCgAKOMoA9TtD57qbKkaCdQs=
+	t=1776024666; cv=none; b=krl1/UaNPanPR4SjXJFMTCEXyfG7jXcquc0roAlG9Z6+fZ8P9L7+P5SYEPylcAP0Lhn4Ua0lmbj0CGKEsXjxhjcjDVv1Yf6iUyBErXOeMBF+glw7uqQxjSDK7pAALtQDlHWwmmOdfKC8QGScti1hs7TlalO4GhVN1Ujy+AvHqVQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776017429; c=relaxed/simple;
-	bh=9iH3qkwImK1/O+QefkDCqpV04KGR50w7LLCmPpXJW9M=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=iVQkz47LdcY0GW2Wz8tzcrcUln0imH2MrRPOfH3gJdxeRuCemlFLoMug68G0xrIP6D14D9RMQn7FUOfcjKYAjsmARD8pxf4SIQidaOvMsARjaUi/uy5GuaDRPKNdSA/CajpRsztuSXSDoShC4gEiHhXqiXt/gB5nAQSxXWSj0WQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KNmJw5jd; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776024666; c=relaxed/simple;
+	bh=xD9D7/AznUZAG41N43xvNIp4+5G8oFDLC2TRiZWI4vE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bwf7VfBzIFsvHhOZceoAwz9ZAZGaeTSnKe1NxCUIxjQgdaXc+p9aeicmwBR+93w6EUqameAwBIXVXAnLWDTBKuW6CjdbRbGdKjLa8iP4IEE53fVMgq9DRXRTjDaV5UYFX3Tn74nlWA3plbHM8wdZHho3k1kJFEsULn44Muxf2eU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AFrpTY4B; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KNmJw5jd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8746CC19424;
-	Sun, 12 Apr 2026 18:10:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AFrpTY4B"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9CF1C19424;
+	Sun, 12 Apr 2026 20:11:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776017428;
-	bh=9iH3qkwImK1/O+QefkDCqpV04KGR50w7LLCmPpXJW9M=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=KNmJw5jdueSCOXs7VUrUkiY8QVH8oJ/A9q7fVqcNAn38Gv0nmsTsKkeAe7GnPulgk
-	 5WODFQgKijbNrPHdEmEk7FGoOEBEw+W0ixwvTb22PjX/dh9r90UnLNis1aLxEAJJcI
-	 Q+FPcMpBqKvOibqbE63qEH6LKh1iPYN/rrZF/onpPfAzeSUds7lpY5rwJ1XId4v4zT
-	 GlIhbb2fz1XmmG1jsp31ZWH7HRMrWbJ2eCosZAQrFdYu5tfA2q3+MDaLSau9J6T/jT
-	 ZV72LwuMwwIW3Pf5G22EKzac+fALyOoSrSkxUWGgI34RSgMmCj3tZiPH68pv/uCvJ1
-	 5ses5Y/afSkOA==
-From: SeongJae Park <sj@kernel.org>
-To: SeongJae Park <sj@kernel.org>
-Cc: damon@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	sashiko@lists.linux.dev
-Subject: Re: (sashiko review) [RFC PATCH v5.2 07/11] Docs/ABI/damon: document fail_charge_{num,denom}
-Date: Sun, 12 Apr 2026 11:10:20 -0700
-Message-ID: <20260412181021.84296-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260412161957.82835-8-sj@kernel.org>
-References: 
+	s=k20201202; t=1776024665;
+	bh=xD9D7/AznUZAG41N43xvNIp4+5G8oFDLC2TRiZWI4vE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AFrpTY4BxdtqBszLyDvBodcMtpKAgqP40mXa2bZoy8zy7gbsXkjMGg2jmwzFgxyIQ
+	 9nEZZoFMVOh4TV6kYkXbedawSzkaW8MtCC3Ly5ty9j5pVu2b1cLmzIQ5QqyPoaqKWI
+	 2LkmtrvEvc8bu3RPftS6FsFmDkER1hU7MYOIXHe5Ha0W2TyUKY6izLIqiMJiAd8hkq
+	 GW5hYUcwqJVKPMmAKbAZWyWYgLKcuX96+N7gt9coM+1Zrrrj3/Cy+97x2Hzx61s3DM
+	 9oJNvlEwivAldoMwUGehfgX5AaRvvdysxRR23bNlPVf8MTyorC0dXZsByfr/wfGzhs
+	 eD6GagbOyX9fQ==
+Date: Sun, 12 Apr 2026 13:11:04 -0700
+From: Namhyung Kim <namhyung@kernel.org>
+To: sashiko@lists.linux.dev
+Cc: Ian Rogers <irogers@google.com>, linux-perf-users@vger.kernel.org
+Subject: Re: [PATCH v10 04/29] perf evsel: Refactor evsel tracepoint sample
+ accessors perf_sample
+Message-ID: <adv8WGAZUBy3q4MV@google.com>
+References: <20260412020833.641177-5-irogers@google.com>
+ <20260412023420.44E47C116C6@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260412023420.44E47C116C6@smtp.kernel.org>
 
-TL; DR: Sashiko found no issue but hallucinated.
-
-Forwarding full sashiko review in a reply format with my inline comments below,
-for sharing details of my view and doing followup discussions via mails if
-needed.
-
-> # review url: https://sashiko.dev/#/patchset/20260412161957.82835-8-sj@kernel.org
-> # start of sashiko.dev inline review
-> commit 4091d558c881126aba4445ec7fa5033266c62c55
-> Author: SeongJae Park <sj@kernel.org>
+On Sun, Apr 12, 2026 at 02:34:19AM +0000, sashiko-bot@kernel.org wrote:
+> Sashiko AI review found 1 potential issue(s):
+> - [High] Removal of `strdup` in `sched_work_init` introduces a Use-After-Free vulnerability when storing the task name.
+> --
 > 
-> Docs/ABI/damon: document fail_charge_{num,denom}
+> commit 0d7b6945ae0c6b8ad53d53aacf54fb3b747a99a7
+> Author: Ian Rogers <irogers@google.com>
 > 
-> Update DAMON ABI document for the DAMOS action failed regions quota
-> charge ratio control sysfs files.
+> perf evsel: Refactor evsel tracepoint sample accessors perf_sample
 > 
-> > diff --git a/Documentation/ABI/testing/sysfs-kernel-mm-damon b/Documentation/ABI/testing/sysfs-kernel-mm-damon
-> > index 2424237ebb105..213eb87392d88 100644
-> > --- a/Documentation/ABI/testing/sysfs-kernel-mm-damon
-> > +++ b/Documentation/ABI/testing/sysfs-kernel-mm-damon
-> > @@ -322,6 +322,18 @@ Contact:	SeongJae Park <sj@kernel.org>
-> >  Description:	Writing to and reading from this file sets and gets the
-> >  		goal-based effective quota auto-tuning algorithm to use.
+> This commit removes the evsel argument from tracepoint sample accessor
+> functions, renaming them to reflect that the data is being read directly
+> from the sample.
+> 
+> Please note that the issue discussed below was resolved in a later commit
+> upstream, specifically commit 5e8ad46aaa11f37f17084b59fcd84e6b4bbc3d6e
+> (perf kwork: Fix memory management of kwork_work). It is included here
+> for completeness regarding this specific patch.
+> 
+> [ ... ]
+> > diff --git a/tools/perf/builtin-kwork.c b/tools/perf/builtin-kwork.c
+> > index d4bb19ed91b59..8ba5ea201bf94 100644
+> > --- a/tools/perf/builtin-kwork.c
+> > +++ b/tools/perf/builtin-kwork.c
+> [ ... ]
+> > @@ -1310,11 +1309,11 @@ static void sched_work_init(struct perf_kwork *kwork __maybe_unused,
+> >  	work->cpu = sample->cpu;
 > >  
-> > +What:		/sys/kernel/mm/damon/admin/kdamonds/<K>/contexts/<C>/schemes/<S>/quotas/fail_charge_num
-> > +Date:		Mar 2026
+> >  	if (src_type == KWORK_TRACE_EXIT) {
+> > -		work->id = evsel__intval(evsel, sample, "prev_pid");
+> > -		work->name = strdup(evsel__strval(evsel, sample, "prev_comm"));
+> > +		work->id = perf_sample__intval(sample, "prev_pid");
+> > +		work->name = perf_sample__strval(sample, "prev_comm");
 > 
-> This isn't a bug, but is the year 2026 a typo?
+> Does removing the strdup call here leave work->name pointing directly to
+> the raw data inside the memory mapped ring buffer?
+> 
+> If perf_sample__strval returns a pointer to the sample data, that memory
+> will be overwritten as new events arrive. When the reporting phase later
+> iterates over the kwork_work tree, could this result in a use-after-free
+> and output garbage strings?
 
-Apparently a hallucination of Sashiko.
-
-> 
-> > +Contact:	SeongJae Park <sj@kernel.org>
-> > +Description:	Writing to and reading from this file sets and gets the
-> > +		action-failed memory quota charging ratio numerator.
-> > +
-> > +What:		/sys/kernel/mm/damon/admin/kdamonds/<K>/contexts/<C>/schemes/<S>/quotas/fail_charge_denom
-> > +Date:		Mar 2026
-> 
-> Is the year a typo here as well?
-
-Ditto.
-
-> 
-> > +Contact:	SeongJae Park <sj@kernel.org>
-> > +Description:	Writing to and reading from this file sets and gets the
-> > +		action-failed memory quota charging ratio denominator.
-> 
-> 
-> # end of sashiko.dev inline review
-> # review url: https://sashiko.dev/#/patchset/20260412161957.82835-8-sj@kernel.org
-
+I've removed this part for now.
 
 Thanks,
-SJ
+Namhyung
 
-# hkml [1] generated a draft of this mail.  You can regenerate
-# this using below command:
-#
-#     hkml patch sashiko_dev --for_forwarding \
-#             20260412161957.82835-8-sj@kernel.org
-#
-# [1] https://github.com/sjp38/hackermail
+> 
+> >  	} else if (src_type == KWORK_TRACE_ENTRY) {
+> > -		work->id = evsel__intval(evsel, sample, "next_pid");
+> > -		work->name = strdup(evsel__strval(evsel, sample, "next_comm"));
+> > +		work->id = perf_sample__intval(sample, "next_pid");
+> > +		work->name = perf_sample__strval(sample, "next_comm");
+> >  	}
+> >  }
+> 
+> -- 
+> Sashiko AI review · https://sashiko.dev/#/patchset/20260412020833.641177-1-irogers@google.com?part=4
