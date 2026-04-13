@@ -1,106 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C38AB146A66;
-	Sun, 12 Apr 2026 21:19:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from mailgw2.hygon.cn (unknown [101.204.27.37])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D23E33164BA
+	for <sashiko@lists.linux.dev>; Mon, 13 Apr 2026 06:55:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.204.27.37
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776028781; cv=none; b=g4fQd8JtpslCGIKVUDt7LYkachQ0mljEkzFEd3f9i54/Ib4INa60s4KqYIDwDcAMEStcyOcBz5xr11JIvjtqjby5en+tUj9MDrk3KE/rnmcwzYrb9pxm/EDZep+eR+8gQNzqBjmXgRL94JtG57x2q6X3uUvxJ8SJHNVQ+ADGcyI=
+	t=1776063326; cv=none; b=q4GvdH2ecKd3onU+VbDftFO1mItF1BhoLVsjExfRKaAcfgzlS/T5GUHPfatqwoOZksy+KeXFWVyE4JcXgXZZtPJufGkzb2ZjD9fDfJ+8X/m1arINhc/YEo3KT0zYKDNF944KEF9TiY9LFRODsUrYqrTZffMg1SKPk3EtbfaCQ38=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776028781; c=relaxed/simple;
-	bh=A+viAtzJhebo8EZLCtKP1pqNz8neWzmWQtOaasROq5E=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KmP36onCMe5wkkARahu2opSIgMfPmxoy1/73aQBXcSlWGlKgDA3OSJmFQqDevhhAD6vbrwNeR1u5d1g0iUhlaKOmKGQGaozJe1NSBAx++ZfEeQkMkO2mocpdwohhyOwA2mbpmRqFk8ysj8lVaM6CNl+V5m3rDaeN/d4GgSBn6rs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uWqUOw6W; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uWqUOw6W"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFBF5C19424;
-	Sun, 12 Apr 2026 21:19:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776028781;
-	bh=A+viAtzJhebo8EZLCtKP1pqNz8neWzmWQtOaasROq5E=;
-	h=From:To:Cc:Subject:Date:From;
-	b=uWqUOw6W58RXhfqMvzzHjaiqCSMnugIccRIlvCBDUZbR5n05lrVD3dsDRoFnDJJDV
-	 dz9/qvoDWtgV843kX1KtouCgqUwXJcx6V4Zuw5+Y48muX66ZiH3vt634iAlRu04ZWy
-	 yTgQCE7NmgUoIWfZaMFR2jG40eJsXvd4cXAzMf6XIowPJ8dX7Jm0VAw32MAhqSkeDy
-	 Wm46TJ5TZdPf6GaO1lThQZMd5JIyeCN2LYR4JykBLAgGDV3I+1pbc3qqRuNqY7tY1f
-	 BX6+ZhOFGkogLg8KtaGXyaT6gp4CIMlTrdqI4R5xrZDyUy6FSUH0QJIlnfjZ2mXZRS
-	 3utuA4U8c3T5g==
-From: SeongJae Park <sj@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: SeongJae Park <sj@kernel.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	David Hildenbrand <david@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Michal Hocko <mhocko@suse.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	damon@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	sashiko@lists.linux.dev
-Subject: [PATCH] Docs/mm/damon/maintainer-profile: add AI review usage guideline
-Date: Sun, 12 Apr 2026 14:19:31 -0700
-Message-ID: <20260412211932.89038-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
+	s=arc-20240116; t=1776063326; c=relaxed/simple;
+	bh=X9nVPqu6ICn/GIyufxEXK5wFTDE/TwlyQH0t0LVCqeY=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QY9phr5iljTU50VEFIOIzv2xysyBPzmvlSfGzNuhZaBt1YuTUIfCwmxe/TdxoAD45sV7sGYecUYrDPJZVhhFtfojr33ZyHG+gfJ7tmuuiv4nnjeTvbwPGXf72OSA5jgTPKzGSA8CUEF9nh3lrgqd7NwVaUyqqN7ZQTb8wVGd5zE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hygon.cn; spf=pass smtp.mailfrom=hygon.cn; arc=none smtp.client-ip=101.204.27.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hygon.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hygon.cn
+Received: from maildlp2.hygon.cn (unknown [127.0.0.1])
+	by mailgw2.hygon.cn (Postfix) with ESMTP id 4fvJ7Z0GPGz1YQpmD;
+	Mon, 13 Apr 2026 14:55:06 +0800 (CST)
+Received: from maildlp2.hygon.cn (unknown [172.23.18.61])
+	by mailgw2.hygon.cn (Postfix) with ESMTP id 4fvJ7Y6Qz4z1YQpmD;
+	Mon, 13 Apr 2026 14:55:05 +0800 (CST)
+Received: from cncheex04.Hygon.cn (unknown [172.23.18.114])
+	by maildlp2.hygon.cn (Postfix) with ESMTPS id CB25530004D3;
+	Mon, 13 Apr 2026 14:53:11 +0800 (CST)
+Received: from SH-HV00110.Hygon.cn (172.19.26.208) by cncheex04.Hygon.cn
+ (172.23.18.114) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.36; Mon, 13 Apr
+ 2026 14:55:05 +0800
+Date: Mon, 13 Apr 2026 14:55:03 +0800
+From: Huang Shijie <huangsj@hygon.cn>
+To: <sashiko@lists.linux.dev>
+CC: <linux-perf-users@vger.kernel.org>
+Subject: Re: [PATCH 2/3] mm: use get_i_mmap_root to access the file's i_mmap
+Message-ID: <adyTR7vqbBuQTddE@SH-HV00110.Hygon.cn>
+References: <20260413062042.804-3-huangsj@hygon.cn>
+ <20260413064431.12603C116C6@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20260413064431.12603C116C6@smtp.kernel.org>
+X-ClientProxiedBy: cncheex05.Hygon.cn (172.23.18.115) To cncheex04.Hygon.cn
+ (172.23.18.114)
 
-DAMON is opted-in for DAMON patches scanning [1] and email delivery [2].
-Clarify how that could be used on DAMON maintainer profile.
+On Mon, Apr 13, 2026 at 06:44:30AM +0000, sashiko-bot@kernel.org wrote:
+> Sashiko AI review found 1 potential issue(s):
+> - [Low] Compilation error in mm/nommu.c due to incorrect struct inode member access.
+> --
+> 
+> commit e38eaf1de7eaee855cd4763bac9c006d3d26fa76
+> Author: Huang Shijie <huangsj@hygon.cn>
+> 
+> mm: use get_i_mmap_root to access the file's i_mmap
+> 
+> This commit introduces get_i_mmap_root() to access the i_mmap interval tree 
+> in struct address_space and refactors multiple architectures and subsystems 
+> to use this new helper.
+> 
+> > diff --git a/mm/nommu.c b/mm/nommu.c
+> > index ed3934bc2de48..418c8c91689df 100644
+> > --- a/mm/nommu.c
+> > +++ b/mm/nommu.c
+> 
+> [ ... ]
+> 
+> > @@ -1804,6 +1804,7 @@ EXPORT_SYMBOL_GPL(copy_remote_vm_str);
+> >  int nommu_shrink_inode_mappings(struct inode *inode, size_t size,
+> >  				size_t newsize)
+> >  {
+> > +	struct rb_root_cached *root = get_i_mmap_root(&inode->mapping);
+> 
+> Does this cause a compilation error for nommu configurations? It looks like
+> struct inode uses the member name i_mapping, rather than mapping.
+> 
+> Also, since i_mapping is a pointer to an address_space, taking its address
+> with the & operator passes a pointer-to-pointer, whereas get_i_mmap_root()
+> expects a struct address_space *. Could this be updated to use
+> get_i_mmap_root(inode->i_mapping) instead?
+Yes. thanks for pointing this.
 
-[1] https://github.com/sashiko-dev/sashiko/commit/ad9f4a98f958
-[2] https://github.com/sashiko-dev/sashiko/commit/b554c7b6e733
+Thanks
+Huang Shijie
 
-Signed-off-by: SeongJae Park <sj@kernel.org>
----
-Changes from v1
-- v1: https://lore.kernel.org/20260411183029.81030-1-sj@kernel.org
-- replace typo-ed word: s/a non-mandastory/an optional/.
-- wordsmith recipients reduction rule of thumbs.
-
- Documentation/mm/damon/maintainer-profile.rst | 21 +++++++++++++++++++
- 1 file changed, 21 insertions(+)
-
-diff --git a/Documentation/mm/damon/maintainer-profile.rst b/Documentation/mm/damon/maintainer-profile.rst
-index bcb9798a27a86..fb2fa00cc9aa1 100644
---- a/Documentation/mm/damon/maintainer-profile.rst
-+++ b/Documentation/mm/damon/maintainer-profile.rst
-@@ -100,3 +100,24 @@ There is also a public Google `calendar
- <https://calendar.google.com/calendar/u/0?cid=ZDIwOTA4YTMxNjc2MDQ3NTIyMmUzYTM5ZmQyM2U4NDA0ZGIwZjBiYmJlZGQxNDM0MmY4ZTRjOTE0NjdhZDRiY0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t>`_
- that has the events.  Anyone can subscribe to it.  DAMON maintainer will also
- provide periodic reminders to the mailing list (damon@lists.linux.dev).
-+
-+AI Review
-+---------
-+
-+For patches that are publicly posted to DAMON mailing list
-+(damon@lists.linux.dev), AI reviews of the patches will be available at
-+sashiko.dev.  The reviews could also be sent as mails to the author of the
-+patch.
-+
-+Patch authors are encouraged to check the AI reviews and share their opinions.
-+The sharing could be done as a reply to the mail thread.  Consider reducing the
-+recipients list for such sharing, since some people are not really interested
-+in AI reviews.  As a rule of thumb, drop stable@vger.kernel.org and individuals
-+except DAMON maintainer.
-+
-+`hkml` also provides a `feature
-+<https://github.com/sjp38/hackermail/blob/master/USAGE.md#forwarding-sashikodev-statuscomments-to-mailing-list>`_
-+for such sharing.  Please feel free to use the feature.
-+
-+It is only an optional recommendation.  DAMON maintainer could also ask any
-+question about the AI reviews, though.
-
-base-commit: 507d761b28278a923d86e7a29c5d084b74639e15
--- 
-2.47.3
