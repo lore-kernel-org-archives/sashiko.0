@@ -1,66 +1,66 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8511C33D6DD
-	for <sashiko@lists.linux.dev>; Mon, 13 Apr 2026 13:51:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 897A23CEB82
+	for <sashiko@lists.linux.dev>; Mon, 13 Apr 2026 13:55:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776088294; cv=none; b=RbjiOndcI2mglPOgP+hVoDWPY6ZWOe9iHlC/1NRAn7pohA2RR+B10Yzr50ZDx0AfD2Ea1BAIueQTuqtkze7D/1cNvLmR1ln4+Or54YYacyajvehCI7Veag7LEMCZoxOw6wCUGR222MCbUSM7fPAGTPLcJkjYwk07F4LBYw+TZdw=
+	t=1776088520; cv=none; b=sFdSeY+JyAv6Q5sSgIGbn+L4CokmCEalx47NoP51AGCJ/phTKJ7X8YxwLrPRijs5Ev4dHJq69TSNyWMHZcR/gzLTStyPQVivii/5LMc/6cSgVNtkN9aW8PkEd9chIaLP76pbsqgNmgibduanQc9zdlgDh/9z+TQ5wimcx3JvSzo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776088294; c=relaxed/simple;
-	bh=dOFRD4LjyXBhMI9i/FPHFGluRHwvw4LiuXsDbuZQiYo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=F5YNF5bFfSXfmp8wyhrZz8Iizn5lCcneZ6e0t3Q71x57MCQSb74Gi0lFyytdn/PXLV9osD6dJWw/GNptAaFb/hZ7fiFHRvwvUgj/XoaHT3ZEu51N+MnZIpVwIwnBz/70K6PubBfN6cxtpd3Sp4pe330jcwPC4tkXRpEElOKsY3g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lhWV000F; arc=none smtp.client-ip=209.85.216.50
+	s=arc-20240116; t=1776088520; c=relaxed/simple;
+	bh=KDP4cFOa0c7ZzyV8skRlfCriXiHrkBG1iCHPe4oUnO8=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=Al13Zs/9VIypPXuQtXsd6L3yAKkI4FqKoLVN8wk+GaeqKX6NG7vGWiVbGXKKfAcOaT5J4BcE5gV87egHJAE01aGgetHZPYjk1M0ep3OI2b5X35BzzsEHo64Vwv1bQtAlexoOJWNk9OFvmSRC1GsaV3HZuGIBjgwEfNl8MnfIFLo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RkclUZCs; arc=none smtp.client-ip=209.85.216.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lhWV000F"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-35f9ab079bdso740544a91.2
-        for <sashiko@lists.linux.dev>; Mon, 13 Apr 2026 06:51:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RkclUZCs"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-35fc2b18363so129603a91.0
+        for <sashiko@lists.linux.dev>; Mon, 13 Apr 2026 06:55:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776088292; x=1776693092; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=f+faTN9vd/Ea2VF1vC4ZltVOC7htXKJ5sWse+LpSSEM=;
-        b=lhWV000FG/D+cv9DtfdN8CQkifXJqFD5ByEpi5Yy8aSROhM3KbatfyEvSFLMwfzcnb
-         n1ThbIIQr4bnCXzJsJcFDMh0dCv32c7/PT/cMWSQMAtjQbwD9+UnHCxbwq5P/4Vnv8sL
-         0HmW8YZNqa4t1OsPf+NTgHoKH9hJN17jYFqgF5veX5OOLqDIkyzenSx9Nh8ifiFiia4k
-         yvfZVzyIzCCPOqx87pUZjH2RdXilP0vISNtwcAOJeb11UuPq1XkdE1mZxn7BHwFUoFmQ
-         nGfFRs8N7Brm6PJmR6Np5ztkhnm84Ha/5rrxakxf2UH39cnlo8joCQolhfvutLaq1kJN
-         cmTQ==
+        d=gmail.com; s=20251104; t=1776088517; x=1776693317; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :references:cc:to:from:subject:user-agent:mime-version:date
+         :message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=F/HX6K8joYKfEJAhak2EQVB9q+0hYdTtnErSTbH1Ies=;
+        b=RkclUZCsvGJIlUQFCI/2cemKe8A7VpOl/aonAV+cG5hbccxsH4IvmK1RbQLuQFnB9e
+         CHcnj60VNuHdoBny8f43G2AlX2BMfy8t+uGQaHm5XRfAsh3loLG9g+iUK1CogvgSOK1e
+         cfp53mhVFmbRtcY8Y1QO4qp72PfWOfhYD92Lr9nWFoUdUjhYWJRTgE2bIp/prIx823Gr
+         2F+FGb5AnYgIUl4dKVSJdrKZrEtg/nSJxItsDbDeyuk93wPNJVuSEbXrLfZ6pxF/+ti+
+         Llgh92VWtsTNNHR8nq5RyXK6tQXykVlQmG1G03vDItLUBJyV8XjCYiVFHMCMlVXG4llw
+         O6Cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776088292; x=1776693092;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=f+faTN9vd/Ea2VF1vC4ZltVOC7htXKJ5sWse+LpSSEM=;
-        b=OjXkMxt7cKyqNEdd7G8wfmvMpv/Y+sEVAAs8BmaLVuUOhcCqhPk+jSRQGAyIOXpYhU
-         czcnt5LmWO+IYJob9CBwpY3FzJ0bu3OQcgXS4dXcjR9q7EnipmskkLpOjmw3XnK8rnwc
-         cshHyduGybQSyNvo6sh+e20WjQ979oc5MWLAzOeyRZSXcMg8r4c47k8QmH+HrkFPbzW5
-         4N82Xh3UDEoGjHXie9x6oDkjniFaj76e9gEkINLuWb7pI2uDKbSpUCUsgg1j6rk+3JOk
-         ApVlAAs3/bTgyiznsVgPHaxpDHN8PlYOkny7RQPN1NseO3rPneISXIYABg6ph+uPo/Zx
-         SxpQ==
-X-Gm-Message-State: AOJu0YxqvCZi2IiDPAqj2nw0MyT7HGs3Gu6Xbcpk6umone2A0p/AWJLo
-	FiNoMiDdAr3t/eKXPr7HRDxGmEuUV3hechhk5BfdaK5XXbNVH/r0iearVtr9nQ==
-X-Gm-Gg: AeBDietL1ypVJpNoNyPrdAukv/DauLt02WPbiqlE2IMGSzXqvdh07bezLp4a+puaXZd
-	Eu0LsePiOnY4/b82ap8WZ9rMuaG7zTTVPvUmCisiJHgkkZrUhJPO0aoDxmruiufI5YjIiMctaE6
-	N+VInDBYhFJwccS+UAw2ZgHVXHj/CcIvliX2YDGI3c8MQ38LBvbVp1s3+Mc9dV212+YJc64zYE9
-	1yUzlpaKnGDctPh2U3CDfD4AqYy0nf/nG/F5zyrJzTaECg3rYu/B2LUzrcliTSTqbBK7ktFBdFe
-	BP6cE0hDVY8tqEFYDwka17LIuAjNBwGAclWvMj+vU9vFhtD1EsU47dpL1DD7//qU4VRxHkxhRRg
-	b4vvGMpxFsWAbXzx0Idla6RHvQPh8ZeMsdr1da180HSnAGp9L1ffFmzqG5AmyerxCJ7Yj6hfYQI
-	6Ql0Cg9EGmSlCiQI0poZ9m9DsGtPtxEIuXYdAtZD1lYypZ3DCsqgwuQhMr3em8KlwEcKGWp92P
-X-Received: by 2002:a17:90b:3e81:b0:35f:b50e:defc with SMTP id 98e67ed59e1d1-35fb50ee113mr4320246a91.16.1776088291561;
-        Mon, 13 Apr 2026 06:51:31 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1776088517; x=1776693317;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :references:cc:to:from:subject:user-agent:mime-version:date
+         :message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=F/HX6K8joYKfEJAhak2EQVB9q+0hYdTtnErSTbH1Ies=;
+        b=ogbm0Fr3zX8c3d/edCUslGZKpOa+861dAzOiREJElVs7CmRKbKcKByRNzBDvO/u5Zy
+         hHm5rYPf7fOLHoXGnZDs+gL58WKMsmIEX4CtUPvI9jaqesmADwh4ro8Sc/MMIll33lZb
+         dNgHWNCa9ay+USiLksH/n5H3uADQWYaZml2+ZjCSTuzWxzK65+xf+Q6Mejoa9ERF6XG4
+         43uz960XKvgnwVAvjpXbJq3ELWu1dljmrEqpqIp9la7PrBMDwJjAbrP2olr5S6o5WaNl
+         LNU7HsH36CzuQ+u4CKXNE9VdeZywXLKF6uKumXjZtuaR1muDUDaAJWQCuJR7Ju9Ev4j0
+         FoWQ==
+X-Gm-Message-State: AOJu0YxRFcyOEOOZfLgv88n+ecnCQ4MdZFnb4eWS/kyz5mQ8fbusFaCX
+	JE+FyBJhIxwkvWMsRU+Cnf0MIZe7kHeEPKw6MFRZANlKT2rK8eOWdrroizulpA==
+X-Gm-Gg: AeBDieujASFh/wGb92IPuQCDHDe+yh5vRf+j1OKTWMV6RK93ZCAPHVYU1qHJ0h2+Neg
+	+PYl3N551QXCdl0yOt8WukGLNlQ0d6v1t6oOHLlpK330dIz9/e33t06S9MpQhjkBOcScvXB7US9
+	dH51GuR/n57xwrj2jAT+zjjwslSSGm9RC7h/zFivDGAmu+96lfCdvZIULW4x0WNJC80qPUAGvBf
+	wcY9QMf0hLvwWGmv0iTOhM/Pwt0ZY6S/c0TUolnGFR4KQeVk2NyOBYWqenR2W+HXHpMGM37G+B1
+	EbOdMvfpBZBhr25t/scgi8Ms3j4/HLKtnQ5AEiGFh4ClHpWJXpvvdq3//4ZgVoGC33Msy48s2s8
+	PsMy30WwbhgYpnkfDj2pg1+mIvWy3qVpKBFn1zMNztcfUN/meiwHsGG+o1ILp82HRKh5nhTTCGi
+	Vc+VtK2ul1ltRZm/f+J/udNUDNPuHetYVs6MSlQLI25Qg6rnzgI7e0OkGSYKghtpURQBaY+9O9
+X-Received: by 2002:a17:90b:3ccd:b0:35b:9ab6:1d4b with SMTP id 98e67ed59e1d1-35e42846246mr13825582a91.20.1776088517459;
+        Mon, 13 Apr 2026 06:55:17 -0700 (PDT)
 Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b45c217ba6sm40979585ad.36.2026.04.13.06.51.30
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35e5755ea3csm3654883a91.1.2026.04.13.06.55.16
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Apr 2026 06:51:30 -0700 (PDT)
+        Mon, 13 Apr 2026 06:55:16 -0700 (PDT)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <a899500e-cc92-45bf-b377-4b0680cdad60@roeck-us.net>
-Date: Mon, 13 Apr 2026 06:51:29 -0700
+Message-ID: <a73b6a0d-9669-427d-96f9-6bc2f56e8c2f@roeck-us.net>
+Date: Mon, 13 Apr 2026 06:55:15 -0700
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
@@ -70,12 +70,13 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v1] hwmon: (yogafan) Massive hardware expansion and
  structural refactoring
+From: Guenter Roeck <linux@roeck-us.net>
 To: sashiko@lists.linux.dev, Sergio Melas <sergiomelas@gmail.com>
 Cc: linux-hwmon@vger.kernel.org
 References: <20260413060931.31091-2-sergiomelas@gmail.com>
  <20260413063835.2C331C116C6@smtp.kernel.org>
+ <a899500e-cc92-45bf-b377-4b0680cdad60@roeck-us.net>
 Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
 Autocrypt: addr=linux@roeck-us.net; keydata=
  xsFNBE6H1WcBEACu6jIcw5kZ5dGeJ7E7B2uweQR/4FGxH10/H1O1+ApmcQ9i87XdZQiB9cpN
  RYHA7RCEK2dh6dDccykQk3bC90xXMPg+O3R+C/SkwcnUak1UZaeK/SwQbq/t0tkMzYDRxfJ7
@@ -119,101 +120,113 @@ Autocrypt: addr=linux@roeck-us.net; keydata=
  F0WaMvQMNrk9UAUziVcUkLU52NS9SXqpVg8vgrO0JKx97IXFPcNh0DWsSj/0Y8HO/RDkGXYn
  FDMj7fZSPKyPQPmEHg+W/KzxSSfdgWIHF2QaQ0b2q1wOSec4Rti52ohmNSY+KNIW/zODhugJ
  np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20260413063835.2C331C116C6@smtp.kernel.org>
+In-Reply-To: <a899500e-cc92-45bf-b377-4b0680cdad60@roeck-us.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 4/12/26 23:38, sashiko-bot@kernel.org wrote:
-> Sashiko AI review found 3 potential issue(s):
-> - [Medium] The driver's anti-spam polling protection fails to prevent rapid ACPI reads, exposing the Embedded Controller (EC) to the exact polling spam it claims to prevent.
-> - [Medium] The DMI quirk table relies on short, non-unique strings without matching the system vendor, risking unintended driver binding on non-Lenovo hardware.
-> - [Medium] The `const` qualifier was removed from all hardware profile structures, directly contradicting the documented security architecture.
-> --
+On 4/13/26 06:51, Guenter Roeck wrote:
+> On 4/12/26 23:38, sashiko-bot@kernel.org wrote:
+>> Sashiko AI review found 3 potential issue(s):
+>> - [Medium] The driver's anti-spam polling protection fails to prevent rapid ACPI reads, exposing the Embedded Controller (EC) to the exact polling spam it claims to prevent.
+>> - [Medium] The DMI quirk table relies on short, non-unique strings without matching the system vendor, risking unintended driver binding on non-Lenovo hardware.
+>> - [Medium] The `const` qualifier was removed from all hardware profile structures, directly contradicting the documented security architecture.
+>> -- 
+>>
+> 
+> Those are genuine concerns as far as I can see. Please address.
 > 
 
-Those are genuine concerns as far as I can see. Please address.
+Oh, and please drop "Massive" from the patch subject.
+
+Note that the commit message very much looks like it was
+AI generated. No problem with it, but next time ask Gemini
+to refrain from using superlatives when generating commit
+messages ;-).
 
 Thanks,
 Guenter
 
-> commit 4e3a104ba986fdf8eb4e1dff6e4429669d7cf376
-> Author: Sergio Melas <sergiomelas@gmail.com>
+> Thanks,
+> Guenter
 > 
-> hwmon: (yogafan) Massive hardware expansion and structural refactoring
-> 
-> This commit expands support for Lenovo consumer laptops in the yogafan driver,
-> replacing the pilot implementation with a 7-series Hardware Abstraction Layer.
-> It introduces discrete-step EC estimation, DMI quirk-based multi-path ACPI
-> discovery, and implements physics-based RLLag filter dynamics.
-> 
->> diff --git a/drivers/hwmon/yogafan.c b/drivers/hwmon/yogafan.c
->> --- a/drivers/hwmon/yogafan.c
->> +++ b/drivers/hwmon/yogafan.c
-> [ ... ]
->> +/* 1.1 Single-Fan Continuous */
->> +
->> +/* Reference Model: Yoga 14cACN (d=50mm) - Baseline inertia (Reference J) */
->> +static struct yogafan_config yoga_continuous_8bit_cfg = {
->> +	.multiplier = 100, .fan_count = 1, .n_max = 0,
->> +	.r_max = 5500, .tau_ms = 1000, .slew_time_s = 4, .stop_threshold = 50,
->> +	.paths = { "\\_SB.PCI0.LPC0.EC0.FANS", "\\_SB.PCI0.LPC0.EC0.FAN0" }
->>   };
-> 
-> Does removing the const qualifier from these hardware profiles contradict the
-> security architecture outlined in the documentation?
-> 
-> The documentation explicitly claims adherence to IEC 62443 by using read-only
-> section (.rodata) placement via "static const" to prevent runtime tampering.
-> Because these structures are no longer const, they will be placed in writable
-> memory (.data).
-> 
-> [ ... ]
->> +	/* 2. Get hardware data only for INPUT requests */
->>   	status = acpi_evaluate_integer(data->active_handles[channel], NULL, NULL, &raw_acpi);
->>   	if (ACPI_FAILURE(status))
->>   		return -EIO;
->>   
->> -	apply_rllag_filter(data, channel, (long)raw_acpi * data->multiplier);
->> -	*val = data->filtered_val[channel];
->> +	/* 3. Calculate raw RPM based on architecture */
->> +	if (cfg->n_max > 0)
->> +		/* Use s64 promotion to prevent overflow during multiplication before division */
->> +		rpm_raw = (long)div64_s64((s64)data->device_max_rpm * raw_acpi, cfg->n_max);
->> +	else
->> +		rpm_raw = (long)raw_acpi * cfg->multiplier;
->> +
->> +	/* 4. Apply filter only for real speed readings */
->> +	apply_rllag_filter(data, channel, rpm_raw);
-> 
-> Does this actually prevent rapid polling to the Embedded Controller (EC)?
-> 
-> The commit documentation mentions a Cybersecurity Gating mechanism to ignore
-> polling spam faster than 100ms. However, acpi_evaluate_integer() is
-> unconditionally called here in yoga_fan_read() before invoking
-> apply_rllag_filter().
-> 
-> Since apply_rllag_filter() checks the time delta and drops the reading if it
-> is too fast, the EC is still queried on every sysfs read and the result is
-> simply discarded. Should the time check happen before acpi_evaluate_integer()
-> to truly protect the EC?
-> 
-> [ ... ]
->> -static const struct dmi_system_id yogafan_quirks[] = {
->> +static const struct dmi_system_id yogafan_quirks[] = {
->> +/* --- 1. YOGA SERIES --- */
->> +	{
->> +		.ident = "Lenovo Yoga Pro 9i (83DN)",
->> +		.matches = { DMI_MATCH(DMI_PRODUCT_NAME, "83DN") },
->> +		.driver_data = &legion_high_perf_cfg, /* 16" Chassis - High Inertia */
->> +	},
-> 
-> Could matching on short strings like "83DN" without the system vendor
-> constraint risk binding to non-Lenovo hardware?
-> 
-> The previous implementation included DMI_MATCH(DMI_SYS_VENDOR, "LENOVO").
-> Without it, these short product name identifiers might collide with hardware
-> from other manufacturers. If an unrelated system matches the string and uses
-> a common ACPI path like \_SB.PCI0.LPC0.EC0.FAN0, the driver might bind and
-> interact with the EC unintentionally.
+>> commit 4e3a104ba986fdf8eb4e1dff6e4429669d7cf376
+>> Author: Sergio Melas <sergiomelas@gmail.com>
+>>
+>> hwmon: (yogafan) Massive hardware expansion and structural refactoring
+>>
+>> This commit expands support for Lenovo consumer laptops in the yogafan driver,
+>> replacing the pilot implementation with a 7-series Hardware Abstraction Layer.
+>> It introduces discrete-step EC estimation, DMI quirk-based multi-path ACPI
+>> discovery, and implements physics-based RLLag filter dynamics.
+>>
+>>> diff --git a/drivers/hwmon/yogafan.c b/drivers/hwmon/yogafan.c
+>>> --- a/drivers/hwmon/yogafan.c
+>>> +++ b/drivers/hwmon/yogafan.c
+>> [ ... ]
+>>> +/* 1.1 Single-Fan Continuous */
+>>> +
+>>> +/* Reference Model: Yoga 14cACN (d=50mm) - Baseline inertia (Reference J) */
+>>> +static struct yogafan_config yoga_continuous_8bit_cfg = {
+>>> +    .multiplier = 100, .fan_count = 1, .n_max = 0,
+>>> +    .r_max = 5500, .tau_ms = 1000, .slew_time_s = 4, .stop_threshold = 50,
+>>> +    .paths = { "\\_SB.PCI0.LPC0.EC0.FANS", "\\_SB.PCI0.LPC0.EC0.FAN0" }
+>>>   };
+>>
+>> Does removing the const qualifier from these hardware profiles contradict the
+>> security architecture outlined in the documentation?
+>>
+>> The documentation explicitly claims adherence to IEC 62443 by using read-only
+>> section (.rodata) placement via "static const" to prevent runtime tampering.
+>> Because these structures are no longer const, they will be placed in writable
+>> memory (.data).
+>>
+>> [ ... ]
+>>> +    /* 2. Get hardware data only for INPUT requests */
+>>>       status = acpi_evaluate_integer(data->active_handles[channel], NULL, NULL, &raw_acpi);
+>>>       if (ACPI_FAILURE(status))
+>>>           return -EIO;
+>>> -    apply_rllag_filter(data, channel, (long)raw_acpi * data->multiplier);
+>>> -    *val = data->filtered_val[channel];
+>>> +    /* 3. Calculate raw RPM based on architecture */
+>>> +    if (cfg->n_max > 0)
+>>> +        /* Use s64 promotion to prevent overflow during multiplication before division */
+>>> +        rpm_raw = (long)div64_s64((s64)data->device_max_rpm * raw_acpi, cfg->n_max);
+>>> +    else
+>>> +        rpm_raw = (long)raw_acpi * cfg->multiplier;
+>>> +
+>>> +    /* 4. Apply filter only for real speed readings */
+>>> +    apply_rllag_filter(data, channel, rpm_raw);
+>>
+>> Does this actually prevent rapid polling to the Embedded Controller (EC)?
+>>
+>> The commit documentation mentions a Cybersecurity Gating mechanism to ignore
+>> polling spam faster than 100ms. However, acpi_evaluate_integer() is
+>> unconditionally called here in yoga_fan_read() before invoking
+>> apply_rllag_filter().
+>>
+>> Since apply_rllag_filter() checks the time delta and drops the reading if it
+>> is too fast, the EC is still queried on every sysfs read and the result is
+>> simply discarded. Should the time check happen before acpi_evaluate_integer()
+>> to truly protect the EC?
+>>
+>> [ ... ]
+>>> -static const struct dmi_system_id yogafan_quirks[] = {
+>>> +static const struct dmi_system_id yogafan_quirks[] = {
+>>> +/* --- 1. YOGA SERIES --- */
+>>> +    {
+>>> +        .ident = "Lenovo Yoga Pro 9i (83DN)",
+>>> +        .matches = { DMI_MATCH(DMI_PRODUCT_NAME, "83DN") },
+>>> +        .driver_data = &legion_high_perf_cfg, /* 16" Chassis - High Inertia */
+>>> +    },
+>>
+>> Could matching on short strings like "83DN" without the system vendor
+>> constraint risk binding to non-Lenovo hardware?
+>>
+>> The previous implementation included DMI_MATCH(DMI_SYS_VENDOR, "LENOVO").
+>> Without it, these short product name identifiers might collide with hardware
+>> from other manufacturers. If an unrelated system matches the string and uses
+>> a common ACPI path like \_SB.PCI0.LPC0.EC0.FAN0, the driver might bind and
+>> interact with the EC unintentionally.
+>>
 > 
 
