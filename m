@@ -1,150 +1,130 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24E2731354F;
-	Mon, 13 Apr 2026 21:43:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10A2619DFAB
+	for <sashiko@lists.linux.dev>; Tue, 14 Apr 2026 02:57:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776116605; cv=none; b=VaiFovSOv6FvWyJDYGyv1vOMfWKJCxPYGrAJ6TpHUEHLKyco9IXELBmOjy0BJkGVIIIj4rrZ3Qc62JxcTsWP0p4BeuuKH0UWuTPp0Edtw0ITyqKj+tiMiHOAHILWe1pdhfQGnUNPAlYPvwJzJbgib9S/KDfF0M7Dnaeb4djNwZg=
+	t=1776135455; cv=none; b=b4kMtcov5wckDHfwo5Qu8B4yHuxgOfE6O0NYxevSKKt/mQbVFACGKZF2CI9GciPKxpyVLkEv0hrpBEtl29r/68uR6x6zrRmyZwVWOq5poO+dG9c5PydBphPYiadxyRZUgpP7mTYuwN1Hq+6ElGvkiT70fh9SomdKqug0PquGiGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776116605; c=relaxed/simple;
-	bh=1iHlGppiEXtzNWnLwNq4X/Dkeax9YpKMiynLLQomu+g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f3mv5XhVMSOteNAaBNFaHFNbSS6moEjf24zeVcHhiYY0EcMQ45pskIZKKT5RiczyMfhghcmyUJUuYwxKWXLgRCW28Ijb+WHNVP6T7Ip/bSQl9IbJKRRdF4bQsCdl1uni/gWlJNX2SpGOcA8SfmIi8M0WqTtTy/8mFOLyX6ctXmA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sBkULrhj; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776135455; c=relaxed/simple;
+	bh=I8QBk6V9KiUQJdpyZi3I9aLmH1uKlWnR6WnL5+GfI0s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cdCevSIpkg7qiLSx7jxLJ4dozrjemFD8kubo6YR5QYUrQyxPGAH5k2OW6XUXW71IdxAHTHzxLEdWdQ5ZDpuaj1oYfGHriy9v7SchebSz7bnLp6V3WSOZ8I5QzIUhq9IMQvDKYxS+890HfIADvf4Olf2DqZmwCC8eDgWZqRO3hEI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V9FN9kAG; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sBkULrhj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96C76C2BCAF;
-	Mon, 13 Apr 2026 21:43:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776116604;
-	bh=1iHlGppiEXtzNWnLwNq4X/Dkeax9YpKMiynLLQomu+g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sBkULrhj6DL91An0Zug73cQ3C7221vWOWBHGroJC3+zlnD82xHSYE6vQZ4pHfxPGT
-	 Py5CA2MACm/Whg1CRHtqGhjaX8VwaUbM/AX5A7dnp9bAChrD0L76mGdFxcE/Jgt5X/
-	 ERujDCgwXDCg+IZJ/Cp+ttwPcfnO0lo29aLmJlRLwlUYnzLmFkX4GLWqgyg5Dugiaq
-	 ByWclwP3mwrPSzTFGOJTxNwgotTqA8nhCZOS4pamtD9O80+cw8KQt7q9gY4YI3wFP5
-	 D7A2vHQi/P0SwMHDzT+nskUCop+oseUcYiqCYhl+dF8VLxmOjek6SIPEwXpXXrAfj1
-	 3bS8kWmtugi0Q==
-Date: Mon, 13 Apr 2026 14:43:22 -0700
-From: Namhyung Kim <namhyung@kernel.org>
-To: sashiko@lists.linux.dev
-Cc: Ingo Molnar <mingo@kernel.org>, linux-perf-users@vger.kernel.org,
-	Peter Zijlstra <peterz@infradead.org>
-Subject: Re: [GIT PULL] Performance events changes for v7.1
-Message-ID: <ad1jeq0HC6Sa0wE0@google.com>
-References: <adynEfZ0r_GIu06k@gmail.com>
- <20260413094110.C3CAAC116C6@smtp.kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V9FN9kAG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1776135454; x=1807671454;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=I8QBk6V9KiUQJdpyZi3I9aLmH1uKlWnR6WnL5+GfI0s=;
+  b=V9FN9kAGloCFsFDDmE1RG4hTWdrsPzOC3vP393PlWHszqxkFeZlNxy8I
+   6sKlHgRJcbYYsbiNq0FnKeK8nyhH7hkkQs2E0WyNfbpUlzcS7++MpR6oJ
+   epTxEK+Jo69HD4Xy9kBjOmuo3joax+njNJbfFm0pLQmpgjaBo+/wYSRz8
+   oZSD5Wvae2UIJqNvJiqwX/0J3w6ji/RgotjuU47WYhPgxmIoysbS8ttuH
+   WLn8uok15VNWng5t28MmRu0X62rDZOZWP+W629Xit2PYJF1AHS9XKQSGm
+   9U8h/yEsVMghOLcIG+kuxTFgzqzNN8tZNh19jNo0jkl0P6WpZ3Mej+GrY
+   g==;
+X-CSE-ConnectionGUID: kAmlQmNYRr+e6B7HxeGROw==
+X-CSE-MsgGUID: +Aunm7wmQmKHV40AiESqLA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11758"; a="80967909"
+X-IronPort-AV: E=Sophos;i="6.23,178,1770624000"; 
+   d="scan'208";a="80967909"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2026 19:57:33 -0700
+X-CSE-ConnectionGUID: Z6ekcJ5cQamxgT+0SizzYQ==
+X-CSE-MsgGUID: zlXleB48QqaIDLAAz2pMvQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,178,1770624000"; 
+   d="scan'208";a="234894951"
+Received: from unknown (HELO [10.238.1.30]) ([10.238.1.30])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2026 19:57:32 -0700
+Message-ID: <7d3ba145-23e7-4cec-97ff-699c4ae679dd@linux.intel.com>
+Date: Tue, 14 Apr 2026 10:57:30 +0800
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260413094110.C3CAAC116C6@smtp.kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] perf/x86/intel: Clear stale ACR mask before updating
+ new mask
+To: sashiko@lists.linux.dev
+Cc: linux-perf-users@vger.kernel.org
+References: <20260413010157.535990-2-dapeng1.mi@linux.intel.com>
+ <20260413013558.0EFE3C19424@smtp.kernel.org>
+Content-Language: en-US
+From: "Mi, Dapeng" <dapeng1.mi@linux.intel.com>
+In-Reply-To: <20260413013558.0EFE3C19424@smtp.kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hello,
 
-It seems sashio removes receipients in a reply.  Added PeterZ.
-
-On Mon, Apr 13, 2026 at 09:41:09AM +0000, sashiko-bot@kernel.org wrote:
+On 4/13/2026 9:35 AM, sashiko-bot@kernel.org wrote:
 > Sashiko AI review found 2 potential issue(s):
-> - [Critical] Pre-existing Stack Buffer Overflow in AMD IBS NMI handler on CPUs supporting `IBS_CAPS_OPDATA4`.
-> - [High] Reference count leak of `perf_ctx_data` in `attach_global_ctx_data()` when racing with a concurrent non-global context creation.
+> - [High] Incomplete Fix: Early return bypasses the newly added stale mask cleanup for subsequent events.
+> - [High] Missing bounds check on user-provided mask allows cross-event PMU interference (cross-wiring).
 > --
-> 
-> commit 167b4d230f2ffe8284d5afdbd849ef2f4f05ef9a
-> Author: Ingo Molnar <mingo@kernel.org>
-> 
-> Performance events changes for v7.1
-> 
-> This commit pulls in various performance event changes for v7.1. It includes
-> an optimization to allocate task_ctx_data quickly on large systems, updates
-> and fixes for the AMD PMU driver IBS support, Intel PEBS constraint
-> validation, and MSR driver changes.
-> 
-> > diff --git a/kernel/events/core.c b/kernel/events/core.c
-> > --- a/kernel/events/core.c
-> > +++ b/kernel/events/core.c
-> > @@ -5487,6 +5487,12 @@ attach_global_ctx_data(struct kmem_cache *ctx_cache)
-> >  					cd = NULL;
-> >  			}
-> >  			if (!cd) {
-> > +				/*
-> > +				 * Try to allocate context quickly before
-> > +				 * traversing the whole thread list again.
-> > +				 */
-> > +				if (!attach_task_ctx_data(p, ctx_cache, true, GFP_NOWAIT))
-> > +					continue;
-> >  				get_task_struct(p);
-> >  				goto alloc;
-> >  			}
-> 
-> Could the new GFP_NOWAIT fast-path in attach_global_ctx_data() leak the
-> perf_ctx_data reference if it races with a concurrent non-global context
-> creation?
-> 
-> If attach_task_ctx_data() races with a per-task event attaching a non-global
-> context, it will find an existing context where old is not NULL. It increments
-> old->refcount and returns 0, but intentionally ignores the global argument
-> and does not set old->global to 1.
-> 
-> Because it returns success, attach_global_ctx_data() executes continue and
-> skips to the next thread. The context for the thread is left with an
-> extra reference but global remains 0.
+>
+> commit f516548e46c9feac44792cd958b5c0a840d60d43
+> Author: Dapeng Mi <dapeng1.mi@linux.intel.com>
+>
+> perf/x86/intel: Clear stale ACR mask before updating new mask
+>
+> This commit clears the ACR mask before applying a new one to prevent
+> stale bits from persisting during event rescheduling. It ensures the
+> hardware state does not get polluted by previous configurations.
+>
+>> diff --git a/arch/x86/events/intel/core.c b/arch/x86/events/intel/core.c
+>> index 4768236c054bb..58c236ce47474 100644
+>> --- a/arch/x86/events/intel/core.c
+>> +++ b/arch/x86/events/intel/core.c
+>> @@ -3344,6 +3344,9 @@ static void intel_pmu_acr_late_setup(struct cpu_hw_events *cpuc)
+>>  			event = cpuc->event_list[j];
+>>  			if (event->group_leader != leader->group_leader)
+>>  				break;
+>> +
+>> +			/* Clear stale ACR mask first. */
+>> +			event->hw.config1 = 0;
+>>  			for_each_set_bit(idx, (unsigned long *)&event->attr.config2, X86_PMC_IDX_MAX) {
+>>  				if (i + idx >= cpuc->n_events ||
+>>  				    !is_acr_event_group(cpuc->event_list[i + idx]))
+> Could this validation check allow unprivileged users to cross-wire the PMU?
+>
+> Since is_acr_event_group() only verifies that the target event belongs to any
+> ACR group, rather than the same group_leader, does this allow a user-provided
+> out-of-bounds bit in config2 to point to an independent, system-wide ACR event
+> running on the same CPU?
+>
+> If so, it seems the hardware counter index of an unrelated privileged event
+> could be blindly copied into the user's hw.config1.
 
-Right, it looks like an existing problem.  It should set the old->global
-like below:
+It couldn't be. The above "if (event->group_leader !=
+leader->group_leader)" has checked if the events are in a same ACR group.
 
-diff --git a/kernel/events/core.c b/kernel/events/core.c
-index 95d7a3e57268b6b4..af773bc750495706 100644
---- a/kernel/events/core.c
-+++ b/kernel/events/core.c
-@@ -5447,6 +5447,8 @@ attach_task_ctx_data(struct task_struct *task, struct kmem_cache *ctx_cache,
-                }
- 
-                if (refcount_inc_not_zero(&old->refcount)) {
-+                       if (global)
-+                               old->global = 1;
-                        free_perf_ctx_data(cd); /* unused */
-                        return 0;
-                }
 
-> 
-> Later, when the global context is detached, __detach_global_ctx_data()
-> iterates over all threads and only calls detach_task_ctx_data(p) if
-> cd and cd->global are true. Since cd->global is 0, the context is skipped,
-> permanently leaking the perf_ctx_data allocation.
-> 
-> > @@ -5497,7 +5503,7 @@ attach_global_ctx_data(struct kmem_cache *ctx_cache)
-> >  
-> >  	return 0;
-> >  alloc:
-> > -	ret = attach_task_ctx_data(p, ctx_cache, true);
-> > +	ret = attach_task_ctx_data(p, ctx_cache, true, GFP_KERNEL);
-> >  	put_task_struct(p);
-> >  	if (ret) {
-> >  		__detach_global_ctx_data();
-> 
-> Can this result in a double-increment leak? If the same race occurs,
-> attach_task_ctx_data() bumps the refcount without setting global to 1 and
-> returns success. Then goto again restarts the loop.
-> 
-> When the loop reaches the thread again, it evaluates:
-> 
-> 	cd = rcu_dereference(p->perf_ctx_data);
-> 	if (cd && !cd->global) {
-> 		cd->global = 1;
-> 		refcount_inc_not_zero(&cd->refcount);
-> 	}
-> 
-> This bumps the refcount a second time. Since __detach_global_ctx_data()
-> only decrements once, the extra reference is leaked.
+>
+>>  					return;
+> Does this early return bypass the newly added stale mask cleanup for subsequent
+> events?
+>
+> Because attr.config2 is user-controlled, a user could supply a malformed mask
+> with an out-of-bounds bit to intentionally trigger this early return.
+>
+> Since it returns from intel_pmu_acr_late_setup() completely, wouldn't this skip
+> the event->hw.config1 = 0 cleanup for all subsequent ACR events scheduled on the
+> same CPU, leaving them with a polluted hardware state?
 
-Looks correct and should be fixed by the above change as well.  I'll
-send a formal patch if you're ok.
+Yes, it's possible. It looks we have to do twice iteration for the
+event_list.  The 1st iteration is to clear the stale hw.config1 and the 2nd
+iteration is to validate and parse the ACR mask. Would fix it in next
+version. Thanks.
 
-Thanks,
-Namhyung
+
+
+>
