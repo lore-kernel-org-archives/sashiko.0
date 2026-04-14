@@ -1,126 +1,105 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB3433090F5
-	for <sashiko@lists.linux.dev>; Tue, 14 Apr 2026 05:41:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDE0C23372C;
+	Tue, 14 Apr 2026 06:37:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776145314; cv=none; b=NGWSFhml0wZJ8YLlEvXTXCgi3tFwKze9ZNwY5bPBOlKY9mwYHXqjCmF06jTXdWvZfgQPcISc8j4Whv8unPN1EcO6CyIns5fe+z20+8DW8UJ3Re3rEWQ86GVdPDjlH62+CAd2w3QwZgkpTyMt0ClE6UTZxXw30ZK1lqx/yJvHINQ=
+	t=1776148633; cv=none; b=VyaQDzz2qKINpvnaHATQtmDuaW+v8j9//iPXkUipWVAxL40DB/36o7q2SXZzhuG8RX6wDqRNzytKx52B8KpvWVAJ1z+xU+TT9PjzLPYJhulHK6p3JXUt6REpb09Q9N55pCiy/WwRe3fXqZjEwyvi2xPNRlNY5sQ84mKBMgRZeUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776145314; c=relaxed/simple;
-	bh=WhM7y1PbpushOIS/C/VU5u7la+Pct9BbJzUIPWTRtQM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XBZ9o33WHE7945jO/YxBXIy2wu7+MxhnStembX1/Zi304W0Xg1RwX2kgh6ZtiUVO6ZYMnUPNKiMtTyTjraC6JJ4wArevpLEXrp+wGN5+/6rSKeJ6kQvpmLw0xmrp4PQ/5eb/0b974GZmoz4Sn8X/Xm8vYLNackjDfjUMcYLBbmM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fAhvit1s; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1776148633; c=relaxed/simple;
+	bh=rAMrbuV7+mtv+mVSBX787Q2+LKMdBce5YJGLCl+57Yk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RCznNOoKb2sIjEXhlCebmYNd6yuI6vnpkOrAJKShSwIZModS6kppBfsb7hyjFoXpY7N1taQS+nhoKAcP6wf59PJXsOdh1Z2eE6PmEeLB5WaDj1AuArauCSDNSXBgdCgEcaj+fUdVIJ9K5hg/AYDbqMlLAd5BQAwQU8HDcm6NQQM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p8wMl9dO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fAhvit1s"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776145309; x=1807681309;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=WhM7y1PbpushOIS/C/VU5u7la+Pct9BbJzUIPWTRtQM=;
-  b=fAhvit1sOB2Q29z7zhfgSkz6e/PKUtEoPSjbijTrfbyI8bWApqDni2AN
-   mJiOBG9NBVoUoyg/5Xb4O8z58ImlOvA+zpKPZjHAMFPr9wcC1Ra2iILpg
-   4UtH148loFVcwunKt/wWykebPvPcyK2AGmYxzwLuCxy86z+NkP07W7PBI
-   nY4X36D6JrnVJC3+RmGOS2jnUlzdPof94mGPX+fYYG3qhyCilZpwQNooL
-   UqAaiDhfIlK1PMAr8/3CG003u0ful779X9IyATw6kPs8c1OZDBT19Qdpr
-   YH1MKmGAXkuywoRWgisnKaug596usuCGnnD8owtDJAm250x8CGqA8e0Ks
-   A==;
-X-CSE-ConnectionGUID: YdBkCx/DQrCSuktqI5SZPA==
-X-CSE-MsgGUID: 0f2Zex5ATA6ZXSAbhG9Z/Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11758"; a="64624725"
-X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="64624725"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2026 22:41:27 -0700
-X-CSE-ConnectionGUID: etRj/eaMTvyJqCzdBKRg+Q==
-X-CSE-MsgGUID: 3e9i+87MQMCKSU1w8FTBSg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,178,1770624000"; 
-   d="scan'208";a="260410037"
-Received: from dapengmi-mobl1.ccr.corp.intel.com (HELO [10.124.241.147]) ([10.124.241.147])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2026 22:41:26 -0700
-Message-ID: <0b02aea9-a0b3-44cd-96ed-679f1339ccf4@linux.intel.com>
-Date: Tue, 14 Apr 2026 13:41:23 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p8wMl9dO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1453C19425;
+	Tue, 14 Apr 2026 06:37:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776148633;
+	bh=rAMrbuV7+mtv+mVSBX787Q2+LKMdBce5YJGLCl+57Yk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=p8wMl9dOM5gbScWY+51w+Tin6WBAt5MJBIifiJkYYsD8wm7DUdFi3Kk3dkbO+MXZp
+	 2CPI6HDIYtnnUtR0xdsJNuIiehMobhCeIEqQc6CK7m/m/L9PUyBKgncxVWPIxyyV33
+	 S/+aGIwkub35q7KhzndWzz4fIsQkE5/HHqgiwa6HKeU63DdTyk26ZuyTrDm8IWPXeR
+	 qbrLT4pZBTcXkKcajCDcKoW9Hr9B6ojbzY2YdAHwV5Mkrfwwq+MgxFEmyKI/idqdQw
+	 Pwmo4hzguoKSZojNSRmqO8TK2b9lTolHil4n5z+bI/wsr2WvsyB1JUc6o/MxLqpFGd
+	 20Z4NCPxuBa4A==
+Date: Tue, 14 Apr 2026 08:37:10 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: sashiko@lists.linux.dev
+Cc: Geetha sowjanya <gakula@marvell.com>, linux-perf-users@vger.kernel.org
+Subject: Re: [PATCH v5 1/2] dt-bindings: perf: marvell: Add CN20K DDR PMU
+ binding
+Message-ID: <20260414-tireless-skinny-cow-0e8cf6@quoll>
+References: <20260413165621.10921-2-gakula@marvell.com>
+ <20260413171206.F380AC2BCAF@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] perf/x86/intel: Fix kernel address leakages in LBR
- stack
-To: sashiko@lists.linux.dev
-Cc: linux-perf-users@vger.kernel.org
-References: <20260414021440.928068-2-dapeng1.mi@linux.intel.com>
- <20260414031613.CC82EC2BCAF@smtp.kernel.org>
-Content-Language: en-US
-From: "Mi, Dapeng" <dapeng1.mi@linux.intel.com>
-In-Reply-To: <20260414031613.CC82EC2BCAF@smtp.kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260413171206.F380AC2BCAF@smtp.kernel.org>
 
-
-On 4/14/2026 11:16 AM, sashiko-bot@kernel.org wrote:
-> Sashiko AI review found 1 potential issue(s):
-> - [High] The patch addresses kernel address leakage in Intel's LBR software filter but overlooks identical vulnerabilities in AMD's LBR and BRS software filters.
+On Mon, Apr 13, 2026 at 05:12:06PM +0000, sashiko-bot@kernel.org wrote:
+> Sashiko AI review found 2 potential issue(s):
+> - [Low] DT binding example unit address and generic node name mismatch.
+> - [Low] Unnecessary duplication of binding files instead of updating the existing schema.
 > --
->
-> commit 8dbb741871f5824e6032a6a5fa35f5db78494ff9
-> Author: Dapeng Mi <dapeng1.mi@linux.intel.com>
->
-> perf/x86/intel: Fix kernel address leakages in LBR stack
->
-> This commit fixes a kernel address leakage in the Intel LBR stack by extending
-> the software filtering to check both the source and destination addresses.
-> Prior to this change, kernel-to-user branches like SYSRET could leak kernel
-> addresses to user space even when PERF_SAMPLE_BRANCH_USER was requested.
->
->> diff --git a/arch/x86/events/intel/lbr.c b/arch/x86/events/intel/lbr.c
->> index 16977e4c6f8a5..deef81c16571a 100644
->> --- a/arch/x86/events/intel/lbr.c
->> +++ b/arch/x86/events/intel/lbr.c
+> 
+> commit e2d439a05897c67e7bc90170f7cf6e218505769a
+> Author: Geetha sowjanya <gakula@marvell.com>
+> 
+> dt-bindings: perf: marvell: Add CN20K DDR PMU binding
+> 
+> This commit adds a new device tree binding for the DDR Performance Monitoring
+> Unit found in Marvell CN20K SoCs. The hardware provides counters to monitor
+> DDR traffic and is accessed via a dedicated MMIO region.
+> 
+> > diff --git a/Documentation/devicetree/bindings/perf/marvell,cn20k-ddr-pmu.yaml b/Documentation/devicetree/bindings/perf/marvell,cn20k-ddr-pmu.yaml
+> > new file mode 100644
+> > index 0000000000000..cc6aa760de49e
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/perf/marvell,cn20k-ddr-pmu.yaml
+> 
+> The commit message notes that the CN20K DDR PMU is functionally equivalent
+> to the CN10K DDR PMU. Does it make sense to consolidate this by adding the new
+> compatible string to the existing marvell-cn10k-ddr.yaml schema instead of
+> introducing a new duplicate file?
+> 
+
+That's valid comment, I did not notice there is a file which is almost
+identical. Why isn't this part of that file?
+
+> Splitting schemas is typically recommended only when conditionals become
+> too unwieldy.
+> 
 > [ ... ]
->> @@ -1244,8 +1244,15 @@ intel_pmu_lbr_filter(struct cpu_hw_events *cpuc)
->>  				type |= X86_BR_NO_TX;
->>  		}
->>  
->> -		/* if type does not correspond, then discard */
->> -		if ((type & ~X86_BR_PLM) == X86_BR_NONE || (br_sel & type) != type) {
->> +		from_plm = kernel_ip(from) ? X86_BR_KERNEL : X86_BR_USER;
->> +		/*
->> +		 * If type does not correspond, then discard.
->> +		 * Especially filter out the entries whose from or to address
->> +		 * is a kernel address while only X86_BR_USER is set. This prevents
->> +		 * kernel address from being leaked into a user-space-only LBR stack.
->> +		 */
->> +		if ((type & ~X86_BR_PLM) == X86_BR_NONE || (br_sel & type) != type ||
->> +		    (!(br_sel & X86_BR_KERNEL) && (from_plm & X86_BR_KERNEL))) {
->>  			cpuc->lbr_entries[i].from = 0;
->>  			compress = true;
->>  		}
-> This patch successfully addresses the kernel address leakage in Intel's LBR
-> software filter, but does it leave AMD platforms exposed to the same KASLR
-> bypass?
->
-> Looking at arch/x86/events/amd/lbr.c, amd_pmu_lbr_filter() appears to classify
-> branch privilege levels based exclusively on the destination address via
-> branch_type_fused(). Does this mean it classifies kernel-to-user branches as
-> user-space and leaks the source kernel address?
->
-> Similarly in arch/x86/events/amd/brs.c, amd_brs_drain() filters branches
-> using amd_brs_match_plm() which explicitly checks only kernel_ip(to). Would
-> this also blindly accept the branch and log the source kernel address?
->
-> Should equivalent privilege level checks for the source address be added to
-> the AMD routines to fully resolve the issue across platforms?
+> 
+> > +examples:
+> > +  - |
+> > +    bus {
+> > +        #address-cells = <2>;
+> > +        #size-cells = <2>;
+> > +
+> > +        ddr-pmu@c200000000 {
+> > +            compatible = "marvell,cn20k-ddr-pmu";
+> > +            reg = <0xc200 0x00000000 0x0 0x100000>;
+> > +        };
+> > +    };
+> 
+> Is there a unit address mismatch here? The 64-bit base address formed by the
+> reg property is 0xc20000000000, but the node name uses @c200000000, missing two
+> trailing zeros. This can trigger a unit_address_vs_reg regression during
+> dt_binding_check.
+> 
 
-AMD guys have known the issue, suppose they would post the fix in a
-separate patch. Thanks.
+Also valid.
 
+Best regards,
+Krzysztof
 
->
