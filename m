@@ -1,153 +1,140 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com [74.125.82.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 541C527F75C
-	for <sashiko@lists.linux.dev>; Wed, 15 Apr 2026 16:03:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96B0E3016E0
+	for <sashiko@lists.linux.dev>; Wed, 15 Apr 2026 18:30:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776269003; cv=none; b=naUI1AyciJBpgI/66WNZ7AUue73b0tCgsxt21rwaZbnkW+V73JbgiuOjH0ziRLhRme/pwYIztKvCIEWCeQ0n1byfTll4Dhs56W+cGokMYE+vC4fH9Qykt9kYNE3GGndEWLxagwnSV9XZ5kage7zS5mmjfVaDbrLeWEI4ct2x7jo=
+	t=1776277852; cv=none; b=IhyGmXpOjuNCl1nMjbiHTprdlIY1LzILsXzyvTxFnaotP17lLQ0mApksCQ/foXsaIujwMZZ47H7h3ejAY/hF15XjG28cYe3iQCLICpVHQPM2kG02JPBkGBG+g5nhlFtna21fCoO9pZbFwRe+1SaamC4RHgtsGMsC25AiBC3nzi4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776269003; c=relaxed/simple;
-	bh=RERTq8I3MIF1yMkiB6wZkHJkgJHv+ltcECYK8aKlT20=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PGno1Qx65F6WvZQfSodAnXGr3JJXucV6+ey101G7EBK4fpUfpiCTr3QwP5jPKRk8j27hJhvjTqp6Vnr2eKH2BBwnM+S8RjhtklfabypeXF9/KPrvE5XfXOEhI6DxcPsGRnXXoKnEGZFHm1EBZUB+ZE9eFG/YFPfKlkj+7amgKNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PjgnEiD3; arc=none smtp.client-ip=209.85.221.47
+	s=arc-20240116; t=1776277852; c=relaxed/simple;
+	bh=BVUA7N2yaeCQv6TbIR9RaYMc7eBqBCpeEQlxFB7Rkak=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=ploTGIW2P9kEHI6kO3lD+YQKgr+gaZt2JPRoHYnGTp+p5XUT8ypqU/U/zv6ADMyxIbGH6hUmh8O6XWArsiri8WEvD9N1NNhYxt6t9SQasXgTuy9cAMOwhODhHl9m0+3rFDfnDSDpuCXHv42WInL4PF9wTYhvW18GJl5u8K99kJs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mHNIs5SU; arc=none smtp.client-ip=74.125.82.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PjgnEiD3"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-43d734223e4so2488649f8f.0
-        for <sashiko@lists.linux.dev>; Wed, 15 Apr 2026 09:03:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mHNIs5SU"
+Received: by mail-dy1-f169.google.com with SMTP id 5a478bee46e88-2d8ffdc31d0so7834350eec.0
+        for <sashiko@lists.linux.dev>; Wed, 15 Apr 2026 11:30:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776269001; x=1776873801; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6aoMj0PyvdjaOSOF6R9+rApmF70RjoEgTTBHQu7dCmw=;
-        b=PjgnEiD3Ut0hdgs7Reh4OyLRPquwHO+S763SxvLffWMep9jRKjnfw7LLSuwDdEPU0S
-         3Y2Je+EeHGn268a8mFBlonmMPUps+LCKCBHuy6h3yOfFngV0Zxt2pTIG71zRqTMYUTXt
-         2RCXr0d3iiAlMNLuT7rmgllZT1Ix53mpaN0+P+KtVu40mbZd/IQHM3BMQ1RpiEFnAiKb
-         1hXr69ZroOkEaQLC6MiKIbqhFe1bD+KHsxCHH2wAjLfi790q2duiDsv7cDcxwiggHVwq
-         rcCH+DA7RnK51OVSIe7X2w1VnP1mgfjMNoTntZWn41bJ8qAmImcJPl1dtSuXl7cIz7oH
-         PULQ==
+        d=gmail.com; s=20251104; t=1776277851; x=1776882651; darn=lists.linux.dev;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=NKK54Iv6FoJSV+Ee9e/EOm1dSYdLDZIIeDygmYMlKIM=;
+        b=mHNIs5SUKr7DHwPqkuRubSEKC/i4+xhZvpnqQphJ64ZaRXaI18NBqiE1+WpYsU6EQw
+         nKt+Bi0aSpPx1HVd9jJ3lVi0e4WosPDnHMUSEu4mSQnKY42VL7EiaxCXzZxHVvWJr739
+         TdRGFBX/I1ZcUDFOAvVN7+L+4//MalqFynq2OUrJ6Is0rxlHDrePTAPOJ+sM5u79wDD9
+         f/n8t46uT9BfiPxzghzcjVjMJt1On1/x9rCP1YRhOzGIu4VgTzKQGCB/Xx0qZX5MLuqG
+         E6ii5B3hnYrO4XLeT5sSB/aByefaFBNr8iNvfmERvJoQLO0nAlKYUP7N+ScTp7pyIocm
+         miVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776269001; x=1776873801;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6aoMj0PyvdjaOSOF6R9+rApmF70RjoEgTTBHQu7dCmw=;
-        b=TEy55heb72IxEH+wkxRZN56/WvAyy+XmPiKv/djLUnNmPXWODtb5UdI3ygkoKfbK3L
-         u0sAHU16z7dD3ke2HrHA9sFZCHs3lIaHG9EILLn90G4XdCUECPv4DDfRVlGUfBjoZyBV
-         iOINpWZzfZbMmXs1Jqy8JgUeCD1NttTG1CUDQLIINRAgC+fkg5IqqoZdrTm0hyhjOBEI
-         xSBEryYVs9W7H7jJbFk+3SLM/X2kHwC4AOO2ibHZ0b0gBT8FvQ4kflRD53R7ZC0aT3Yg
-         ta9Wt/s8t4gEBGcjgQ9jRl5PjHfoce/CxntnD0KH3/qI/IMHXR75fH0es+OlItITaBlh
-         OKdQ==
-X-Gm-Message-State: AOJu0YxscBGK6yaSUIbyts6HDc4MywMGgHjsQkj25kQS5u8MAJ9qOjh0
-	XPjYgIoEnxcm0ELNl7xNgekAIEDR7mF19j1akiNwuhmP4CqSUWzo1iaCa1iDC+47KEA=
-X-Gm-Gg: AeBDieuEBTKMkqp75xIVLFcsRjuyXtG9Fm18fRscZCojvHFasktEqs7pNj16SdWRDtl
-	3u83DbNnZXnLOrSRzCS56UvmS3uolFawcsv9zpPF+7Ebsh55StUWfi5bsbtN/V+Osf7tGHXRG5g
-	ojo9r6an6Ul8JyPRCXEzUeBMnLBEKi38m9RrYzLaGHlz8tP/3ydTj4b+JGcFz4d7L8Nz1J7+qd7
-	Kn0nQzs3CmXRh1jX+4u8p/tv5oj4BnKhWca3pHTBJfIXyoqI65jsZsWqGGAR/B6ks3Gv9b5iHiC
-	HHRK+CZogtvnL8RhkFpJ9NU+aNxeQ7nHwZKgV7lQ7MyJniHtPbLUuCQczGanLemTghRgKhYKAZk
-	ZIBqYRz9jcpzrz9nc1AtP/Mn+M0auejrfhgHHMV7TZPRvdvK4ixU1brI4vaYn+UD8dG1nboAh1J
-	IGigy414UDLqqMpxrmwOxnUibGDDfEE8F4aywLBJ2dTfuGfsIDCYmQi4PlTBv5
-X-Received: by 2002:a05:6000:4205:b0:43d:772d:2b61 with SMTP id ffacd0b85a97d-43eb10ceeadmr19592f8f.15.1776268999156;
-        Wed, 15 Apr 2026 09:03:19 -0700 (PDT)
-Received: from ?IPV6:2a03:83e0:1126:4:cbe8:6434:118f:886d? ([2620:10d:c092:500::5:3ecd])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43ead3d5f06sm6539936f8f.17.2026.04.15.09.03.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 Apr 2026 09:03:18 -0700 (PDT)
-Message-ID: <235f4a5d-c5fc-4980-a075-284e966c4fc6@gmail.com>
-Date: Wed, 15 Apr 2026 17:03:17 +0100
+        d=1e100.net; s=20251104; t=1776277851; x=1776882651;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=NKK54Iv6FoJSV+Ee9e/EOm1dSYdLDZIIeDygmYMlKIM=;
+        b=A2nKhvWYG56vlusqyC8opPVmO8wDmsEKfVdUxAHW2qpFEWfDxVYfiIQJF0zGF9BuNJ
+         lyEr94tt8AA4XS0Z4TdiZMBEjXoLVHqDasbvTisx5gXYc/vQ9AsTZDx19H451RdLo9OI
+         2LzNlQXUP5oRzY8+rkizF7GUpnXmyyGz/jkNoG8Qe66oyg8XUTsoUJ7DMz6zY8KoMxUV
+         ye3txd1FId7oWFk/57w8dPcpOr2gGLgrNfU0qOrCKpmOo8Op1OBkmSnRe4cOFO26I4cw
+         30AK6ekYMEqHVnyc4koSBiMQTcPsnECjy6QKFLnJotgS8jNBUUyqHlauQ6zefkgOxFCU
+         DQUA==
+X-Gm-Message-State: AOJu0YzJXByzPnqCXhBEVWNBSnqtrU3GYbZKwWBlMuOhtOXeP0YTTsie
+	RJtPogvUo4ZumexXT5P1v9P0k0r6GK7xdz6ZCKQPCBnEY7PGVDNX+u65bMiePZS+
+X-Gm-Gg: AeBDievTVnU9b9TopTG1G8gtvGz6h1WSRFzmwAG5r17Lyybw0gVmBxmkjq8ALlg1F33
+	rMB0GSf9GsLgLXz3tlL6fwvKFCg2sYr4DuRWBHrLySLvC2I2crXTOfzxlYGfpkGgz0G1FyW7fU2
+	A8zWIu8mmBMTHqsteW0WDjBhIjIC7W4/HSg8hddn5V1tc1o7wduGeF8P7Dn/HbQar+6F8TfEqrD
+	E2va77iPFowHE4PNPiPcZxoVKHPZT3aKPvfZCGZ7COBZM4bsy8oROnLwBEKhc3INJlGZuBddMOD
+	SYpyce2MncxfMSFF8sD2nBlDrhubAUY/wJIw04HB9ktePDt2AdvhNPtYlJe8PEb7U0oGskTVTlH
+	EcqRav/66nfOUa85r1hpRLe9iLNFlXqqsB46vOyuaM/b8mMOSP428yIw0SWMb+q84+sLiOYrm8G
+	ZzBnTRyZZaz4qpVJkg+8f8DjeNl6sghEAb1FmHw7DQsoGFS6YxkKrRrWB0B65ms0AeJzwZoBWEJ
+	dlABw==
+X-Received: by 2002:a05:693c:2c8d:b0:2d1:93b8:bc81 with SMTP id 5a478bee46e88-2d5893632cfmr12879890eec.31.1776277850477;
+        Wed, 15 Apr 2026 11:30:50 -0700 (PDT)
+Received: from ?IPv6:2a03:83e0:115c:1:21dc:2944:7f23:f4d7? ([2620:10d:c090:500::cdb0])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2de8c606222sm4742024eec.8.2026.04.15.11.30.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Apr 2026 11:30:50 -0700 (PDT)
+Message-ID: <7178d2fa2b2bd6d9e33b72985d20141ad15bfa81.camel@gmail.com>
+Subject: Re: [PATCH bpf-next v2 1/2] bpf: copy BPF token from main program
+ to subprograms
+From: Eduard Zingerman <eddyz87@gmail.com>
+To: sashiko@lists.linux.dev
+Cc: bpf@vger.kernel.org
+Date: Wed, 15 Apr 2026 11:30:49 -0700
+In-Reply-To: <20260415010834.C7DA5C19425@smtp.kernel.org>
+References: <20260414-subprog-token-fix-v2-1-59146c31f6f1@gmail.com>
+	 <20260415010834.C7DA5C19425@smtp.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH bpf-next 5/6] selftests/bpf: Test BTF sanitization
- rejection for invalid vlen
-To: sashiko@lists.linux.dev, Alan Maguire <alan.maguire@oracle.com>
-Cc: bpf@vger.kernel.org
-References: <20260414195019.684531-6-alan.maguire@oracle.com>
- <20260414222624.A722AC19425@smtp.kernel.org>
-Content-Language: en-US
-From: Mykyta Yatsenko <mykyta.yatsenko5@gmail.com>
-In-Reply-To: <20260414222624.A722AC19425@smtp.kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-
-
-On 4/14/26 11:26 PM, sashiko-bot@kernel.org wrote:
-> Sashiko AI review found 3 potential issue(s):
-> - [Low] Leaking the BTF object on unexpected success of sanitization.
-> - [Low] Lack of error checks for BTF construction calls.
-> - [Low] Using `BTF_MAX_VLEN` as the `byte_sz` argument in `btf__add_datasec()`.
+On Wed, 2026-04-15 at 01:08 +0000, sashiko-bot@kernel.org wrote:
+> Sashiko AI review found 1 potential issue(s):
+> - [High] BPF token capability delegation is ignored for JIT blinding beca=
+use blinding_requested is evaluated before the token is attached.
 > --
-> 
-> commit 9c5af444155b34aa840793bf185bc0c0aaa04f3f
-> Author: Alan Maguire <alan.maguire@oracle.com>
-> 
-> selftests/bpf: Test BTF sanitization rejection for invalid vlen
->      
-> This patch adds a selftest to verify that BTF objects with extended vlen
-> are properly rejected by kernels that do not support the extended feature.
-> It simulates the lack of support using the feature cache and checks if
-> sanitization fails when the vlen limit is surpassed.
-> 
->> diff --git a/tools/testing/selftests/bpf/prog_tests/btf_sanitize.c b/tools/testing/selftests/bpf/prog_tests/btf_sanitize.c
->> index 652b51efafc27..f41cea5a769a2 100644
->> --- a/tools/testing/selftests/bpf/prog_tests/btf_sanitize.c
->> +++ b/tools/testing/selftests/bpf/prog_tests/btf_sanitize.c
-> [ ... ]
->> @@ -95,3 +95,65 @@ void test_btf_sanitize_layout(void)
->> +static void test_btf_sanitize_extended(void)
->> +{
-> [ ... ]
->> +	btf = btf__new_empty();
->> +	if (!ASSERT_OK_PTR(btf, "empty_btf"))
->> +		goto out;
->> +	btf__add_int(btf, "int", 4, BTF_INT_SIGNED);
->> +	btf__add_var(btf, "var1", 0, 1);
-> 
-> Are we missing error checks on these btf__add_*() calls?
-> 
-> If any of these allocations silently fail, the test might proceed with an
-> incomplete BTF object that hasn't actually surpassed the vlen limit. This
-> would cause the subsequent bpf_object__sanitize_btf() call to unexpectedly
-> succeed, failing the test for the wrong reason.
-> 
->> +	btf__add_datasec(btf, "datasec1", BTF_MAX_VLEN);
-> 
-> Is it intentional to use BTF_MAX_VLEN for the byte_sz argument here?
-> 
-> BTF_MAX_VLEN is a bitmask representing the maximum number of items, not a byte
-> size. Using a proper calculated byte size like 0x10000 * 4 might be clearer.
-> 
->> +	for (i = 0; i <= 0xffff; i++)
->> +		btf__add_datasec_var_info(btf, 2, i * 4, 4);
->> +
->> +	/* Sanitization should fail here as vlen surpasses unextended limit. */
->> +	sanitized = bpf_object__sanitize_btf(skel->obj, btf);
->> +	if (!ASSERT_ERR_PTR(sanitized, "bpf_object__sanitize_btf_should_fail")) {
->> +		sanitized = NULL;
-> 
-> If the first bpf_object__sanitize_btf() call unexpectedly succeeds, sanitized
-> will hold a valid pointer.
-> 
-> Doesn't setting it to NULL before the goto out path leak the memory, since
-> btf__free(sanitized) will be called with a NULL pointer at the end of the
-> function?
-> 
+>=20
+> commit 6cda306e3c0e6ae78f183769fc6ebeb4369f35c3
+> Author: Eduard Zingerman <eddyz87@gmail.com>
+>=20
+> bpf: copy BPF token from main program to subprograms
+>=20
+> This patch fixes an issue where bpf_jit_subprogs() omits copying the BPF
+> token to subprograms' aux data. By copying prog->aux->token, subprograms
+> inherit the same capability delegation as the main program, allowing
+> bpf_prog_kallsyms_add() to succeed for token-loaded subprograms.
+>=20
+> > diff --git a/kernel/bpf/fixups.c b/kernel/bpf/fixups.c
+> > --- a/kernel/bpf/fixups.c
+> > +++ b/kernel/bpf/fixups.c
+> > @@ -1110,6 +1110,7 @@ int bpf_jit_subprogs(struct bpf_verifier_env *env=
+)
+> >  		func[i]->aux->exception_cb =3D env->subprog_info[i].is_exception_cb;
+> >  		func[i]->aux->changes_pkt_data =3D env->subprog_info[i].changes_pkt_=
+data;
+> >  		func[i]->aux->might_sleep =3D env->subprog_info[i].might_sleep;
+> > +		func[i]->aux->token =3D prog->aux->token;
+>=20
+> While this ensures the token is propagated for bpf_prog_kallsyms_add(), d=
+oes
+> the token delegation still fail for JIT blinding?
+>=20
+> Looking at bpf_prog_alloc(), it sets:
+>     fp->blinding_requested =3D bpf_jit_blinding_enabled(fp);
+>=20
+> And bpf_jit_blinding_enabled() calls bpf_token_capable(prog->aux->token,
+> CAP_BPF) to bypass JIT hardening for privileged users.
+>=20
+> However, at the time of bpf_prog_alloc(), prog->aux->token is uncondition=
+ally
+> NULL, as it gets assigned later in bpf_prog_load(). As a result,
+> bpf_token_capable() falls back to checking the current process's global
+> capabilities.
+>=20
+> If an unprivileged user provides a valid BPF token granting CAP_BPF, the =
+check
+> fails, and blinding_requested is set to true. This state is then copied t=
+o
+> all subprograms in bpf_jit_subprogs():
+>     func[i]->blinding_requested =3D prog->blinding_requested;
+>=20
+> Are token holders incorrectly forced into JIT hardening due to this seque=
+nce,
+> disabling direct tail-call optimizations?
+>=20
+> >  		if (!i)
+> >  			func[i]->aux->exception_boundary =3D env->seen_exception;
 
-This is no leak, but setting to NULL is not needed, because btf__free() 
-checks IS_ERR_OR_NULL(btf).
-
->> +		goto out;
->> +	}
->> +	/* Now switch extended feature on and ensure success. */
-> 
-
+I think this analysis is a dud. The token is correctly set for the main pro=
+gram
+and then is propagated to the subprograms.
