@@ -1,140 +1,130 @@
-Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com [74.125.82.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailtransmit05.runbox.com (mailtransmit05.runbox.com [185.226.149.38])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96B0E3016E0
-	for <sashiko@lists.linux.dev>; Wed, 15 Apr 2026 18:30:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E21383BB57
+	for <sashiko@lists.linux.dev>; Wed, 15 Apr 2026 19:18:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.226.149.38
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776277852; cv=none; b=IhyGmXpOjuNCl1nMjbiHTprdlIY1LzILsXzyvTxFnaotP17lLQ0mApksCQ/foXsaIujwMZZ47H7h3ejAY/hF15XjG28cYe3iQCLICpVHQPM2kG02JPBkGBG+g5nhlFtna21fCoO9pZbFwRe+1SaamC4RHgtsGMsC25AiBC3nzi4=
+	t=1776280711; cv=none; b=Ceb/aaB7WeZFW+RNI5kxq41jFyB/tEJXTuqiSnkFTvkCmBXMn8x8BAJEPVCiuRqXijN9hGoSWP9Vm/hv7EdYYWeO9ShwcCcCvM554usCFWTtPoys9l5tpJHi8hrATcLasKR4nqwqTZQ3c7AhUchLQUhOd1cs0/p20fHaGMM2LLk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776277852; c=relaxed/simple;
-	bh=BVUA7N2yaeCQv6TbIR9RaYMc7eBqBCpeEQlxFB7Rkak=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ploTGIW2P9kEHI6kO3lD+YQKgr+gaZt2JPRoHYnGTp+p5XUT8ypqU/U/zv6ADMyxIbGH6hUmh8O6XWArsiri8WEvD9N1NNhYxt6t9SQasXgTuy9cAMOwhODhHl9m0+3rFDfnDSDpuCXHv42WInL4PF9wTYhvW18GJl5u8K99kJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mHNIs5SU; arc=none smtp.client-ip=74.125.82.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1776280711; c=relaxed/simple;
+	bh=+VX3ABiykZiwTZsTXbzNW63rp3WUJp+pT8vXDr8C47M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=vDDVOdq1+O/0SWFUqQezqxBoWw/Abu82mFXgyeXvQmXrlgS7HdYOVtKG/GFOJSac1TovdkV/G0sxLrBju1C6QLQAfgIiPhGH9Yc4LenlrGzRdLWaWCTJomdnUnPaEObup/yycOvQxLX/i4SGtfZU8wmFESj20Zn1OYo/HL+ap3w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rbox.co; spf=pass smtp.mailfrom=rbox.co; dkim=pass (2048-bit key) header.d=rbox.co header.i=@rbox.co header.b=aSxW9qEa; arc=none smtp.client-ip=185.226.149.38
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rbox.co
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rbox.co
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mHNIs5SU"
-Received: by mail-dy1-f169.google.com with SMTP id 5a478bee46e88-2d8ffdc31d0so7834350eec.0
-        for <sashiko@lists.linux.dev>; Wed, 15 Apr 2026 11:30:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776277851; x=1776882651; darn=lists.linux.dev;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=NKK54Iv6FoJSV+Ee9e/EOm1dSYdLDZIIeDygmYMlKIM=;
-        b=mHNIs5SUKr7DHwPqkuRubSEKC/i4+xhZvpnqQphJ64ZaRXaI18NBqiE1+WpYsU6EQw
-         nKt+Bi0aSpPx1HVd9jJ3lVi0e4WosPDnHMUSEu4mSQnKY42VL7EiaxCXzZxHVvWJr739
-         TdRGFBX/I1ZcUDFOAvVN7+L+4//MalqFynq2OUrJ6Is0rxlHDrePTAPOJ+sM5u79wDD9
-         f/n8t46uT9BfiPxzghzcjVjMJt1On1/x9rCP1YRhOzGIu4VgTzKQGCB/Xx0qZX5MLuqG
-         E6ii5B3hnYrO4XLeT5sSB/aByefaFBNr8iNvfmERvJoQLO0nAlKYUP7N+ScTp7pyIocm
-         miVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776277851; x=1776882651;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NKK54Iv6FoJSV+Ee9e/EOm1dSYdLDZIIeDygmYMlKIM=;
-        b=A2nKhvWYG56vlusqyC8opPVmO8wDmsEKfVdUxAHW2qpFEWfDxVYfiIQJF0zGF9BuNJ
-         lyEr94tt8AA4XS0Z4TdiZMBEjXoLVHqDasbvTisx5gXYc/vQ9AsTZDx19H451RdLo9OI
-         2LzNlQXUP5oRzY8+rkizF7GUpnXmyyGz/jkNoG8Qe66oyg8XUTsoUJ7DMz6zY8KoMxUV
-         ye3txd1FId7oWFk/57w8dPcpOr2gGLgrNfU0qOrCKpmOo8Op1OBkmSnRe4cOFO26I4cw
-         30AK6ekYMEqHVnyc4koSBiMQTcPsnECjy6QKFLnJotgS8jNBUUyqHlauQ6zefkgOxFCU
-         DQUA==
-X-Gm-Message-State: AOJu0YzJXByzPnqCXhBEVWNBSnqtrU3GYbZKwWBlMuOhtOXeP0YTTsie
-	RJtPogvUo4ZumexXT5P1v9P0k0r6GK7xdz6ZCKQPCBnEY7PGVDNX+u65bMiePZS+
-X-Gm-Gg: AeBDievTVnU9b9TopTG1G8gtvGz6h1WSRFzmwAG5r17Lyybw0gVmBxmkjq8ALlg1F33
-	rMB0GSf9GsLgLXz3tlL6fwvKFCg2sYr4DuRWBHrLySLvC2I2crXTOfzxlYGfpkGgz0G1FyW7fU2
-	A8zWIu8mmBMTHqsteW0WDjBhIjIC7W4/HSg8hddn5V1tc1o7wduGeF8P7Dn/HbQar+6F8TfEqrD
-	E2va77iPFowHE4PNPiPcZxoVKHPZT3aKPvfZCGZ7COBZM4bsy8oROnLwBEKhc3INJlGZuBddMOD
-	SYpyce2MncxfMSFF8sD2nBlDrhubAUY/wJIw04HB9ktePDt2AdvhNPtYlJe8PEb7U0oGskTVTlH
-	EcqRav/66nfOUa85r1hpRLe9iLNFlXqqsB46vOyuaM/b8mMOSP428yIw0SWMb+q84+sLiOYrm8G
-	ZzBnTRyZZaz4qpVJkg+8f8DjeNl6sghEAb1FmHw7DQsoGFS6YxkKrRrWB0B65ms0AeJzwZoBWEJ
-	dlABw==
-X-Received: by 2002:a05:693c:2c8d:b0:2d1:93b8:bc81 with SMTP id 5a478bee46e88-2d5893632cfmr12879890eec.31.1776277850477;
-        Wed, 15 Apr 2026 11:30:50 -0700 (PDT)
-Received: from ?IPv6:2a03:83e0:115c:1:21dc:2944:7f23:f4d7? ([2620:10d:c090:500::cdb0])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2de8c606222sm4742024eec.8.2026.04.15.11.30.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Apr 2026 11:30:50 -0700 (PDT)
-Message-ID: <7178d2fa2b2bd6d9e33b72985d20141ad15bfa81.camel@gmail.com>
-Subject: Re: [PATCH bpf-next v2 1/2] bpf: copy BPF token from main program
- to subprograms
-From: Eduard Zingerman <eddyz87@gmail.com>
-To: sashiko@lists.linux.dev
-Cc: bpf@vger.kernel.org
-Date: Wed, 15 Apr 2026 11:30:49 -0700
-In-Reply-To: <20260415010834.C7DA5C19425@smtp.kernel.org>
-References: <20260414-subprog-token-fix-v2-1-59146c31f6f1@gmail.com>
-	 <20260415010834.C7DA5C19425@smtp.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
+	dkim=pass (2048-bit key) header.d=rbox.co header.i=@rbox.co header.b="aSxW9qEa"
+Received: from mailtransmit02.runbox ([10.9.9.162] helo=aibo.runbox.com)
+	by mailtransmit05.runbox.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.93)
+	(envelope-from <mhal@rbox.co>)
+	id 1wD5kf-001lZv-J8
+	for sashiko@lists.linux.dev; Wed, 15 Apr 2026 21:18:17 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rbox.co;
+	s=selector1; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID;
+	bh=Tz66gcL7rAtrZjxGipTgik00gcJfhUMJtuyhDCIFDAw=; b=aSxW9qEa/99pLj7p42Ib9c+TJS
+	tQfdldKY+1aLolpshJNKTbuUBDT05tWHOqvDQAutG3pfkNN4sYP7uZ/EcQyTJxY8B29xfI5TeN5Lo
+	HhBGEo21txsE/NTbz9D79/7SX2N0iyNTYYDM2SmqQ/GFqqZBNd4BDap1mS8bqxVdAsF+V8/gBOO6I
+	avtwbATzWXC51+2PZMIGe/WUq1j2hn2zet7qwojgvrlWHkvI2OrZU/l8VizgaS4ao2DlzwUI8mT7h
+	4JHXVggDWjguKKIsdPnhrjpUVskoYWtROinRFqWuQG6TUGzOYDCgZzAtSMJ3Q7jXXYcRxKN7xotrr
+	WKfoV/Mg==;
+Received: from [10.9.9.73] (helo=submission02.runbox)
+	by mailtransmit02.runbox with esmtp (Exim 4.86_2)
+	(envelope-from <mhal@rbox.co>)
+	id 1wD5kf-0006P7-9g; Wed, 15 Apr 2026 21:18:17 +0200
+Received: by submission02.runbox with esmtpsa  [Authenticated ID (604044)]  (TLS1.2:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.93)
+	id 1wD5kP-00H78r-8t; Wed, 15 Apr 2026 21:18:01 +0200
+Message-ID: <6ee6f51b-6e28-498c-b702-eba6c42767b7@rbox.co>
+Date: Wed, 15 Apr 2026 21:18:00 +0200
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH bpf v4 5/5] bpf, sockmap: Take state lock for af_unix iter
+To: sashiko@lists.linux.dev
+Cc: bpf@vger.kernel.org
+References: <20260414-unix-proto-update-null-ptr-deref-v4-5-2af6fe97918e@rbox.co>
+ <20260414213057.61CEDC19425@smtp.kernel.org>
+Content-Language: pl-PL, en-GB
+From: Michal Luczaj <mhal@rbox.co>
+In-Reply-To: <20260414213057.61CEDC19425@smtp.kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, 2026-04-15 at 01:08 +0000, sashiko-bot@kernel.org wrote:
-> Sashiko AI review found 1 potential issue(s):
-> - [High] BPF token capability delegation is ignored for JIT blinding beca=
-use blinding_requested is evaluated before the token is attached.
-> --
->=20
-> commit 6cda306e3c0e6ae78f183769fc6ebeb4369f35c3
-> Author: Eduard Zingerman <eddyz87@gmail.com>
->=20
-> bpf: copy BPF token from main program to subprograms
->=20
-> This patch fixes an issue where bpf_jit_subprogs() omits copying the BPF
-> token to subprograms' aux data. By copying prog->aux->token, subprograms
-> inherit the same capability delegation as the main program, allowing
-> bpf_prog_kallsyms_add() to succeed for token-loaded subprograms.
->=20
-> > diff --git a/kernel/bpf/fixups.c b/kernel/bpf/fixups.c
-> > --- a/kernel/bpf/fixups.c
-> > +++ b/kernel/bpf/fixups.c
-> > @@ -1110,6 +1110,7 @@ int bpf_jit_subprogs(struct bpf_verifier_env *env=
-)
-> >  		func[i]->aux->exception_cb =3D env->subprog_info[i].is_exception_cb;
-> >  		func[i]->aux->changes_pkt_data =3D env->subprog_info[i].changes_pkt_=
-data;
-> >  		func[i]->aux->might_sleep =3D env->subprog_info[i].might_sleep;
-> > +		func[i]->aux->token =3D prog->aux->token;
->=20
-> While this ensures the token is propagated for bpf_prog_kallsyms_add(), d=
-oes
-> the token delegation still fail for JIT blinding?
->=20
-> Looking at bpf_prog_alloc(), it sets:
->     fp->blinding_requested =3D bpf_jit_blinding_enabled(fp);
->=20
-> And bpf_jit_blinding_enabled() calls bpf_token_capable(prog->aux->token,
-> CAP_BPF) to bypass JIT hardening for privileged users.
->=20
-> However, at the time of bpf_prog_alloc(), prog->aux->token is uncondition=
-ally
-> NULL, as it gets assigned later in bpf_prog_load(). As a result,
-> bpf_token_capable() falls back to checking the current process's global
-> capabilities.
->=20
-> If an unprivileged user provides a valid BPF token granting CAP_BPF, the =
-check
-> fails, and blinding_requested is set to true. This state is then copied t=
-o
-> all subprograms in bpf_jit_subprogs():
->     func[i]->blinding_requested =3D prog->blinding_requested;
->=20
-> Are token holders incorrectly forced into JIT hardening due to this seque=
-nce,
-> disabling direct tail-call optimizations?
->=20
-> >  		if (!i)
-> >  			func[i]->aux->exception_boundary =3D env->seen_exception;
+On 4/14/26 23:30, sashiko-bot@kernel.org wrote:
+>> @@ -3737,6 +3737,7 @@ static int bpf_iter_unix_seq_show(struct seq_file *seq, void *v)
+>>  		return 0;
+>>  
+>>  	lock_sock(sk);
+>> +	unix_state_lock(sk);
+> 
+> [ ... ]
+> 
+>> @@ -3748,6 +3749,7 @@ static int bpf_iter_unix_seq_show(struct seq_file *seq, void *v)
+>>  	prog = bpf_iter_get_info(&meta, false);
+>>  	ret = unix_prog_seq_show(prog, &meta, v, uid);
+> 
+> Does holding a spinlock during bpf program execution introduce
+> sleep-in-atomic or lock inversion issues?
+> 
+> If the bpf iterator program is loaded with BPF_F_SLEEPABLE,
+> bpf_iter_run_prog() explicitly calls might_fault(). Calling might_fault()
+> while holding a spinlock (which disables preemption) triggers a sleep in
+> atomic context bug.
 
-I think this analysis is a dud. The token is correctly set for the main pro=
-gram
-and then is propagated to the subprograms.
+See bpf_iter_link_attach(): BPF_F_SLEEPABLE is only allowed for
+resched-able iterators (BPF_ITER_RESCHED). This excludes unix iter.
+
+> Also, could this introduce a lock inversion risk? The bpf programs can
+> interact with maps or other sockets, acquiring locks like map->lock or
+> bh_lock_sock. Taking unix_state_lock before these locks might create an
+> unnatural lock hierarchy, potentially leading to deadlocks if other kernel
+> paths acquire these locks in the standard order.
+
+Nothing I can think of. Any specific lock inversion scenario to consider?
+
+> Additionally, does this fully resolve the use-after-free in
+> unix_stream_bpf_update_proto()?
+> 
+> Since unix_stream_bpf_update_proto() is the underlying callback used
+> whenever an af_unix socket is inserted into a sockmap, can it be reached
+> independently of this iterator?
+> 
+> For example, could it be reached via the bpf(BPF_MAP_UPDATE_ELEM) syscall,
+> or when a bpf program updates the map using a different af_unix socket than
+> the one being iterated? In those cases, unix_state_lock(sk) would not be
+> held, leaving the use-after-free unresolved.
+
+No, I don't think it can race the bpf() syscall. Both
+bpf_iter_unix_seq_show() (see patch 2/5) and sock_map_update_elem_sys()
+take the lock_sock. The latter via sock_map_sk_acquire().
+
+Yes, bpf updating sockmap using a different unix sock than the one being
+iterated is possible:
+a) iter prog accessing another sock (e.g. peer) by pointer chasing. To my
+understanding that's something the bpf validator is expected to reject[1].
+b) iter prog looking up another sock in a sockmap. That sounds like a
+(safe) scenario 2.2.1 described in patch 4/5 commit message.
+
+And yes, as pointed out by Martin[2], there's still the issue of
+sock_map_update_elem() missing sock_owned_by_user() check.
+
+[1]:
+https://lore.kernel.org/bpf/CAADnVQK_93g_KkNFYXSr8ZvA1fYh4hoFRJCJFPS-zs4ox0HhAA@mail.gmail.com/
+[2]:
+https://lore.kernel.org/bpf/a2f2c260-38e8-4ba3-8655-cffbee046259@linux.dev/
+
+> Should the lock be acquired directly inside unix_stream_bpf_update_proto()
+> instead?
+
+unix_stream_bpf_update_proto() is called in both process (e.g. syscall) and
+softirq (e.g. TC prog) contexts. Taking spinlock there would lead to
+context violation.
+
