@@ -1,130 +1,149 @@
-Received: from mailtransmit05.runbox.com (mailtransmit05.runbox.com [185.226.149.38])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E21383BB57
-	for <sashiko@lists.linux.dev>; Wed, 15 Apr 2026 19:18:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.226.149.38
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77EAD2222D0
+	for <sashiko@lists.linux.dev>; Wed, 15 Apr 2026 19:32:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776280711; cv=none; b=Ceb/aaB7WeZFW+RNI5kxq41jFyB/tEJXTuqiSnkFTvkCmBXMn8x8BAJEPVCiuRqXijN9hGoSWP9Vm/hv7EdYYWeO9ShwcCcCvM554usCFWTtPoys9l5tpJHi8hrATcLasKR4nqwqTZQ3c7AhUchLQUhOd1cs0/p20fHaGMM2LLk=
+	t=1776281534; cv=none; b=HBTVxJ5QN7i5sUHjzCx76FS2bk5kA9TNULF/nSD7B/4sztqCdhQ6U7qufvmvXCiFA6bDcJy/8iIm6mocDykGuP1HcxCBKdEEDrppwkA8ToLKFoZIzQK8mioNyyZKefwq1+QtpycoJBEn8vcf7LsJcMfChyynEl6u4+ph9C4hUUA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776280711; c=relaxed/simple;
-	bh=+VX3ABiykZiwTZsTXbzNW63rp3WUJp+pT8vXDr8C47M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=vDDVOdq1+O/0SWFUqQezqxBoWw/Abu82mFXgyeXvQmXrlgS7HdYOVtKG/GFOJSac1TovdkV/G0sxLrBju1C6QLQAfgIiPhGH9Yc4LenlrGzRdLWaWCTJomdnUnPaEObup/yycOvQxLX/i4SGtfZU8wmFESj20Zn1OYo/HL+ap3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rbox.co; spf=pass smtp.mailfrom=rbox.co; dkim=pass (2048-bit key) header.d=rbox.co header.i=@rbox.co header.b=aSxW9qEa; arc=none smtp.client-ip=185.226.149.38
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rbox.co
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rbox.co
+	s=arc-20240116; t=1776281534; c=relaxed/simple;
+	bh=STr3ytdwHXCKXbD/oqlkTHF4bjtfg6nYMJTiZzXVZrs=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=ZGT7F8Z4PD55zfAaVgHNaaD01KEd8OKdtwKSToq8gZYt5trPYkWGrxO0J2CZSagZ9G3A5hU+TqMG3R6LxDGYjL8Uh6hGoyu9a7ccoFZKbHA0BKiOLhJk84U0+Yza0w+SXNGn2uwPNUnX9yloesuabwvtMfVKLjvD3kbV4a4qMe8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ffMhMBy/; arc=none smtp.client-ip=74.125.82.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rbox.co header.i=@rbox.co header.b="aSxW9qEa"
-Received: from mailtransmit02.runbox ([10.9.9.162] helo=aibo.runbox.com)
-	by mailtransmit05.runbox.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.93)
-	(envelope-from <mhal@rbox.co>)
-	id 1wD5kf-001lZv-J8
-	for sashiko@lists.linux.dev; Wed, 15 Apr 2026 21:18:17 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rbox.co;
-	s=selector1; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID;
-	bh=Tz66gcL7rAtrZjxGipTgik00gcJfhUMJtuyhDCIFDAw=; b=aSxW9qEa/99pLj7p42Ib9c+TJS
-	tQfdldKY+1aLolpshJNKTbuUBDT05tWHOqvDQAutG3pfkNN4sYP7uZ/EcQyTJxY8B29xfI5TeN5Lo
-	HhBGEo21txsE/NTbz9D79/7SX2N0iyNTYYDM2SmqQ/GFqqZBNd4BDap1mS8bqxVdAsF+V8/gBOO6I
-	avtwbATzWXC51+2PZMIGe/WUq1j2hn2zet7qwojgvrlWHkvI2OrZU/l8VizgaS4ao2DlzwUI8mT7h
-	4JHXVggDWjguKKIsdPnhrjpUVskoYWtROinRFqWuQG6TUGzOYDCgZzAtSMJ3Q7jXXYcRxKN7xotrr
-	WKfoV/Mg==;
-Received: from [10.9.9.73] (helo=submission02.runbox)
-	by mailtransmit02.runbox with esmtp (Exim 4.86_2)
-	(envelope-from <mhal@rbox.co>)
-	id 1wD5kf-0006P7-9g; Wed, 15 Apr 2026 21:18:17 +0200
-Received: by submission02.runbox with esmtpsa  [Authenticated ID (604044)]  (TLS1.2:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.93)
-	id 1wD5kP-00H78r-8t; Wed, 15 Apr 2026 21:18:01 +0200
-Message-ID: <6ee6f51b-6e28-498c-b702-eba6c42767b7@rbox.co>
-Date: Wed, 15 Apr 2026 21:18:00 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ffMhMBy/"
+Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-2d891442388so6683307eec.0
+        for <sashiko@lists.linux.dev>; Wed, 15 Apr 2026 12:32:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776281532; x=1776886332; darn=lists.linux.dev;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=xQDjnxsRJ1VgLaxh3r+cVvaXvxLdFW+s3hShCjWRoJY=;
+        b=ffMhMBy/gaZbmBooGIoJCVp/ir/Snz4+iYSP1yeH4n9t7Rct5GE8RJyeokJCpXafgV
+         UOJRN9CQvZokKuO3zoJcsbMUHcjhld2yqHSik9/VMEY0CnxKZ6GWHB8/1ZiSymq2WNNc
+         F1vTfr0B/va1APGrPPOFwooJEPHeYkagbxkw6VJCBgFTR5r03t8SbF0mCpS+vV34jLrM
+         zube0sblg+2flwTZA5wg1hFSdGgL2F2qMSnMsIkPVO+k5mvV2OW/AVQGktOPaqLgrnlk
+         zRk0sdaglFgC6WWr+1nDV0L6gF6rohYylVO4zk46j0UiWlj7nlNHqMwQ9f8H+FPolGs4
+         MKLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776281532; x=1776886332;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=xQDjnxsRJ1VgLaxh3r+cVvaXvxLdFW+s3hShCjWRoJY=;
+        b=ULY7nLsPtXXh3l7I23LfVjQ+O/SWexiYMm0q3NbY7mt3bFQ20SvLuZu7PGvgpMnKbl
+         OcwjS44fchBpofoeb7JpFSdn2LjI9Fdup7ISj2mHpUC9PJu6uOR98cBGPii72jyOX/r7
+         MaPzkC5uZ37fCV8OMyz2ZvAXvHD6eKgnKwS8By2byBvw4KmRlnqF1Mx4gYV2Cjjnz3Vz
+         yb99vUi2gJ9ZegDWgmT+flEFOe9Rs1uR+1Uw78yk1RkdnULCVDDl3pzfHRgMPYG4aT2m
+         tK85b5Dw19XLeMwt3ezgoAh/RQPtnMQdLcyfeRJK1okvUAmBSNXExc0/1hppof2PA6ct
+         uZzw==
+X-Gm-Message-State: AOJu0Ywqtu5IyMd88c0bEDHuMMAWOY03IJ0LoHBQTu6SpI5rOaThIbPk
+	skwzRoLDFzZWG9QFlcF0ZuyH48wReLLFQwxP+QEKXv5iDPztGyrQnx4hOxujrk50
+X-Gm-Gg: AeBDietxK5vGy3HGiOnycxbWNzmdqTmzzwX6Lc+FGf9zQb3Jcv2NaSwm+WN8i40hKka
+	ovEZ/lN1x2cl69X30boS81NQxKoAQhIWYqy+kFXyWoPcfUqoup2CxHdxKLhlQK7saxaKDFoWZ7i
+	yNhQAw+pcUm/iWs/aMNsN4fuYkvlt0LyhYpc1j/YRu1o7IihgC7x7fvTC1GtrCkeIcYh28iozFs
+	MNPFcA3dR2sG+tF6NHNJu19q8JpuP7qe9QxtxxShcrBTwTCe30EoC31IX9PnOndcbil8Tc1lBN4
+	gPaCcnoy2F5hhbOKUCn9VTG4MObzv4/9sRKcQ/LkdS7y90Tg1eT83wci3FLU/t6dWkl+NM/a3gX
+	JV/IlS2Meu3+T0VxaekRqWoXI5piAZ2VIOFBo9D55ByzZhMmKNHeBFjj3/o5QF7zPsCuG2Ob8zj
+	EiddNQ2MIDPj+mEZABXXTntxtVefDRJBcf3/F9sOCqAimP/EEYDu2H+jzwts4SzLsvXYJ8EOdMk
+	DFtYQ==
+X-Received: by 2002:a05:7301:470e:b0:2d8:1efe:51dc with SMTP id 5a478bee46e88-2d81efe56c0mr6296618eec.6.1776281532185;
+        Wed, 15 Apr 2026 12:32:12 -0700 (PDT)
+Received: from ?IPv6:2a03:83e0:115c:1:21dc:2944:7f23:f4d7? ([2620:10d:c090:500::cdb0])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2de8fe4ea2bsm4019815eec.31.2026.04.15.12.32.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Apr 2026 12:32:11 -0700 (PDT)
+Message-ID: <f6016087c52b0a84cb2cb871cf62674ae1fb472f.camel@gmail.com>
+Subject: Re: [PATCH bpf-next v3 2/2] selftests/bpf: verify kallsyms entries
+ for token-loaded subprograms
+From: Eduard Zingerman <eddyz87@gmail.com>
+To: sashiko@lists.linux.dev
+Cc: bpf@vger.kernel.org
+Date: Wed, 15 Apr 2026 12:32:10 -0700
+In-Reply-To: <20260415191738.226BFC19424@smtp.kernel.org>
+References: <20260415-subprog-token-fix-v3-2-6fefe1d51646@gmail.com>
+	 <20260415191738.226BFC19424@smtp.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH bpf v4 5/5] bpf, sockmap: Take state lock for af_unix iter
-To: sashiko@lists.linux.dev
-Cc: bpf@vger.kernel.org
-References: <20260414-unix-proto-update-null-ptr-deref-v4-5-2af6fe97918e@rbox.co>
- <20260414213057.61CEDC19425@smtp.kernel.org>
-Content-Language: pl-PL, en-GB
-From: Michal Luczaj <mhal@rbox.co>
-In-Reply-To: <20260414213057.61CEDC19425@smtp.kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-On 4/14/26 23:30, sashiko-bot@kernel.org wrote:
->> @@ -3737,6 +3737,7 @@ static int bpf_iter_unix_seq_show(struct seq_file *seq, void *v)
->>  		return 0;
->>  
->>  	lock_sock(sk);
->> +	unix_state_lock(sk);
-> 
+On Wed, 2026-04-15 at 19:17 +0000, sashiko-bot@kernel.org wrote:
+> Sashiko AI review found 1 potential issue(s):
+> - [Medium] Unchecked return values of `sysctl_set()` in `serial_test_toke=
+n()` can lead to confusing test failures.
+> --
+>=20
+> commit e7dc629b9f37dc08742ff9bbddeaaf65c1e34956
+> Author: Eduard Zingerman <eddyz87@gmail.com>
+>=20
+> selftests/bpf: verify kallsyms entries for token-loaded subprograms
+>=20
+> This commit adds a test to verify that both the main XDP program and its
+> global subprogram appear in /proc/kallsyms when loaded using a user
+> namespace BPF token. It also introduces a sysctl_set utility to configure
+> system parameters needed to read kallsyms.
+>=20
+> > diff --git a/tools/testing/selftests/bpf/prog_tests/token.c b/tools/tes=
+ting/selftests/bpf/prog_tests/token.c
+> > index b81dde283052e..cf5b94512cff4 100644
+> > --- a/tools/testing/selftests/bpf/prog_tests/token.c
+> > +++ b/tools/testing/selftests/bpf/prog_tests/token.c
+>=20
 > [ ... ]
-> 
->> @@ -3748,6 +3749,7 @@ static int bpf_iter_unix_seq_show(struct seq_file *seq, void *v)
->>  	prog = bpf_iter_get_info(&meta, false);
->>  	ret = unix_prog_seq_show(prog, &meta, v, uid);
-> 
-> Does holding a spinlock during bpf program execution introduce
-> sleep-in-atomic or lock inversion issues?
-> 
-> If the bpf iterator program is loaded with BPF_F_SLEEPABLE,
-> bpf_iter_run_prog() explicitly calls might_fault(). Calling might_fault()
-> while holding a spinlock (which disables preemption) triggers a sleep in
-> atomic context bug.
+>=20
+> > @@ -1194,4 +1252,23 @@ void test_token(void)
+> > =20
+> >  		subtest_userns(&opts, userns_bpf_token_info);
+> >  	}
+> > +	if (test__start_subtest("obj_priv_prog_kallsyms")) {
+> > +		char perf_paranoid_orig[32] =3D {};
+> > +		char kptr_restrict_orig[32] =3D {};
+> > +		struct bpffs_opts opts =3D {
+> > +			.cmds =3D bit(BPF_BTF_LOAD) | bit(BPF_PROG_LOAD),
+> > +			.progs =3D bit(BPF_PROG_TYPE_XDP),
+> > +			.attachs =3D ~0ULL,
+> > +		};
+> > +
+> > +		sysctl_set("/proc/sys/kernel/perf_event_paranoid", perf_paranoid_ori=
+g, "0");
+> > +		sysctl_set("/proc/sys/kernel/kptr_restrict", kptr_restrict_orig, "0"=
+);
+>=20
+> Should the return values of these sysctl_set calls be checked?
+>=20
+> If the test is executed in an environment where these sysctls are read-on=
+ly
+> or inaccessible (such as inside a container), sysctl_set will silently fa=
+il.
+>=20
+> This would cause load_kallsyms_local to read zeroed addresses because
+> kptr_restrict wasn't successfully disabled, resulting in confusing test
+> failures later at ASSERT_TRUE instead of catching the setup failure early=
+.
+>=20
+> Would it be better to wrap these with ASSERT_OK?
 
-See bpf_iter_link_attach(): BPF_F_SLEEPABLE is only allowed for
-resched-able iterators (BPF_ITER_RESCHED). This excludes unix iter.
+Makes sense.
 
-> Also, could this introduce a lock inversion risk? The bpf programs can
-> interact with maps or other sockets, acquiring locks like map->lock or
-> bh_lock_sock. Taking unix_state_lock before these locks might create an
-> unnatural lock hierarchy, potentially leading to deadlocks if other kernel
-> paths acquire these locks in the standard order.
-
-Nothing I can think of. Any specific lock inversion scenario to consider?
-
-> Additionally, does this fully resolve the use-after-free in
-> unix_stream_bpf_update_proto()?
-> 
-> Since unix_stream_bpf_update_proto() is the underlying callback used
-> whenever an af_unix socket is inserted into a sockmap, can it be reached
-> independently of this iterator?
-> 
-> For example, could it be reached via the bpf(BPF_MAP_UPDATE_ELEM) syscall,
-> or when a bpf program updates the map using a different af_unix socket than
-> the one being iterated? In those cases, unix_state_lock(sk) would not be
-> held, leaving the use-after-free unresolved.
-
-No, I don't think it can race the bpf() syscall. Both
-bpf_iter_unix_seq_show() (see patch 2/5) and sock_map_update_elem_sys()
-take the lock_sock. The latter via sock_map_sk_acquire().
-
-Yes, bpf updating sockmap using a different unix sock than the one being
-iterated is possible:
-a) iter prog accessing another sock (e.g. peer) by pointer chasing. To my
-understanding that's something the bpf validator is expected to reject[1].
-b) iter prog looking up another sock in a sockmap. That sounds like a
-(safe) scenario 2.2.1 described in patch 4/5 commit message.
-
-And yes, as pointed out by Martin[2], there's still the issue of
-sock_map_update_elem() missing sock_owned_by_user() check.
-
-[1]:
-https://lore.kernel.org/bpf/CAADnVQK_93g_KkNFYXSr8ZvA1fYh4hoFRJCJFPS-zs4ox0HhAA@mail.gmail.com/
-[2]:
-https://lore.kernel.org/bpf/a2f2c260-38e8-4ba3-8655-cffbee046259@linux.dev/
-
-> Should the lock be acquired directly inside unix_stream_bpf_update_proto()
-> instead?
-
-unix_stream_bpf_update_proto() is called in both process (e.g. syscall) and
-softirq (e.g. TC prog) contexts. Taking spinlock there would lead to
-context violation.
-
+> > +
+> > +		subtest_userns(&opts, userns_obj_priv_prog_kallsyms);
+> > +
+> > +		if (perf_paranoid_orig[0])
+> > +			sysctl_set("/proc/sys/kernel/perf_event_paranoid", NULL, perf_paran=
+oid_orig);
+> > +		if (kptr_restrict_orig[0])
+> > +			sysctl_set("/proc/sys/kernel/kptr_restrict", NULL, kptr_restrict_or=
+ig);
+> > +	}
+> >  }
