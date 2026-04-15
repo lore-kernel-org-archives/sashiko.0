@@ -1,65 +1,65 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DFA23E314D
-	for <sashiko@lists.linux.dev>; Wed, 15 Apr 2026 15:48:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 541C527F75C
+	for <sashiko@lists.linux.dev>; Wed, 15 Apr 2026 16:03:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776268112; cv=none; b=Af3YPWNAgBqQY16Yj8hw8ky5xhpg1jekffurcr21iCLa6Ku5naEzOP8SF1I16J5bffqfUmB0uexwYi3XE7hamV4FzB2lWDkDAj+X/HKqmnhdL62d5FL1iyN5JF+u/0avQrbBu9kU7EHNt4i12WHdSzB1l/kN9TwXP6mOk6kV/58=
+	t=1776269003; cv=none; b=naUI1AyciJBpgI/66WNZ7AUue73b0tCgsxt21rwaZbnkW+V73JbgiuOjH0ziRLhRme/pwYIztKvCIEWCeQ0n1byfTll4Dhs56W+cGokMYE+vC4fH9Qykt9kYNE3GGndEWLxagwnSV9XZ5kage7zS5mmjfVaDbrLeWEI4ct2x7jo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776268112; c=relaxed/simple;
-	bh=4U+lGXzdrqaxB/1sHdVpDCnsS8PBYriLa1JgIX2Uijw=;
+	s=arc-20240116; t=1776269003; c=relaxed/simple;
+	bh=RERTq8I3MIF1yMkiB6wZkHJkgJHv+ltcECYK8aKlT20=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AHmYGQ2XVULhcVMo3pfRBtzNsyNeAqWc7hrhWQb6ihd7ueNGfp0/d7qq0sQgLgdpogIOIsHpwzfeZQBmmAY3Ui4xZRWbrbEr6SAU9wkHl7HsJwcypfJv73apjWTJbyW3iH/JYsrlecwVM/m+4Xp0jxLeX/8lhP1WUF88ZgVQl64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JU4Nj2xw; arc=none smtp.client-ip=209.85.128.47
+	 In-Reply-To:Content-Type; b=PGno1Qx65F6WvZQfSodAnXGr3JJXucV6+ey101G7EBK4fpUfpiCTr3QwP5jPKRk8j27hJhvjTqp6Vnr2eKH2BBwnM+S8RjhtklfabypeXF9/KPrvE5XfXOEhI6DxcPsGRnXXoKnEGZFHm1EBZUB+ZE9eFG/YFPfKlkj+7amgKNI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PjgnEiD3; arc=none smtp.client-ip=209.85.221.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JU4Nj2xw"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4887f49ec5aso84508275e9.1
-        for <sashiko@lists.linux.dev>; Wed, 15 Apr 2026 08:48:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PjgnEiD3"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-43d734223e4so2488649f8f.0
+        for <sashiko@lists.linux.dev>; Wed, 15 Apr 2026 09:03:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776268106; x=1776872906; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1776269001; x=1776873801; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=HynLTqHYNy+686QPoe/hx3nOpHjVAP0O5bTsZ35kxyk=;
-        b=JU4Nj2xwMj3XTsIjCqQbpnr5CP3WMaSlOOmPz4xGxStGgIPRnk6x/ldV7ZUPy4U96Y
-         5Fkqi5BHZDnnrSAiUVsk9gYuItmDDt4nu/JR8pR8n/mB9HPH4R7VaG9JHMNwOKuub1v/
-         Cq/Psul+LvmlhgntdWpsqsoUNKNa1xSj00Ar6Oc25nggQH3KNYj3CKgi9CclnDNbW1+q
-         0RCjpzXh7Cji+/pMC7O7aZBVIzJiIIQa9U2hcQ6EGGhvMrkFWUO7ztUS67YtwUzddxjm
-         w/WCshNkUbDdEubglxK1G7OX1P/8+xs8P3TaPQDTCjLe/2PqeKejRL9R4n5twstliIM4
-         Psrg==
+        bh=6aoMj0PyvdjaOSOF6R9+rApmF70RjoEgTTBHQu7dCmw=;
+        b=PjgnEiD3Ut0hdgs7Reh4OyLRPquwHO+S763SxvLffWMep9jRKjnfw7LLSuwDdEPU0S
+         3Y2Je+EeHGn268a8mFBlonmMPUps+LCKCBHuy6h3yOfFngV0Zxt2pTIG71zRqTMYUTXt
+         2RCXr0d3iiAlMNLuT7rmgllZT1Ix53mpaN0+P+KtVu40mbZd/IQHM3BMQ1RpiEFnAiKb
+         1hXr69ZroOkEaQLC6MiKIbqhFe1bD+KHsxCHH2wAjLfi790q2duiDsv7cDcxwiggHVwq
+         rcCH+DA7RnK51OVSIe7X2w1VnP1mgfjMNoTntZWn41bJ8qAmImcJPl1dtSuXl7cIz7oH
+         PULQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776268106; x=1776872906;
+        d=1e100.net; s=20251104; t=1776269001; x=1776873801;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=HynLTqHYNy+686QPoe/hx3nOpHjVAP0O5bTsZ35kxyk=;
-        b=MxM5ayOLC3Sz0VBbwhBRE/z0n/+y4B583PV779GVmMUgBTva7LgeuqJXG85yO/3Ur1
-         SOyicEd/m5ko3qFxKCpO9xZV7kbKplgPpA9owTnSequZRrsgFuHj5Fh7zndzBSF/P5ww
-         Lpg2OloHFW29CR4dVtUxtrPqZav1rT75RkO9OMHUvW+THckhOD3V3PWVZWxM36Fmbv9/
-         z1Pi1XxmdvsqdIWSuI4zQEhCzOSPGwhzfGNdxtXly6ZhZQ5IMnkTwZV2VtO2J6b0Sef3
-         RcwGNNDvZgBqtkfu7VTgGaIH9sgQDikNBqJIDH1F0iJ9/IzAvIHlFlKYuRuH42iypcA4
-         pu9Q==
-X-Gm-Message-State: AOJu0YwjimZOJND5O2Y8Ju2h2TSKtHClZQnTwjzUwt/H3veJ8hT7a1wr
-	CrcobIJbbsjIeexwy+QV0uh7BOXaKT2rNnTmCHbn3TpWC4QVPKZnSzpIxfTCPk96+/Q=
-X-Gm-Gg: AeBDievXP0A5xUCespeJN04IvOE4oPgOHvIS2pIErR3X+FrIMolTITdvKHAP0iy2JPx
-	lIeDYkL76H5UMn14Q3MB19bAkS6A2Jb25Aj9B62dCsAHJNkgf6m+z0ICa+I1B5BqNWgXSa1ssWa
-	mdwFOuU2Af8dOESLmXXzAiOIBVNKsNDyaLOEEE3sGXMJL3GJVchKg0Sl8Ng9xKF7IwT5SQVbcU0
-	/zCn25tASHbTfcDF8oZG36JjG97x+pZuhncTMsGMxrf6NSv0wNLUs9haE+fxLJkLmgXSonMxe58
-	hq+TIRXD5hpT8q09N6nq+9C/HAKLNaasKy/s8SQY+X77AnnGJVMwXvmx3rtR12ETtbawBrwiVFf
-	UoSb16gBfjg4Xm01MOx0mb7l/jH0vDGuSZ7i0c137r2g85XeW9cnLcaExiCUcHFmvHXfJr0qock
-	zJwyGXZDsYBA9Uvxsa1abaXrQWRrOleBN61z6exXPkanEoRYvEwXF2RlH2Jtis
-X-Received: by 2002:a05:600c:2d47:b0:488:dfbc:490c with SMTP id 5b1f17b1804b1-488dfbc4b2cmr143916905e9.16.1776268106031;
-        Wed, 15 Apr 2026 08:48:26 -0700 (PDT)
+        bh=6aoMj0PyvdjaOSOF6R9+rApmF70RjoEgTTBHQu7dCmw=;
+        b=TEy55heb72IxEH+wkxRZN56/WvAyy+XmPiKv/djLUnNmPXWODtb5UdI3ygkoKfbK3L
+         u0sAHU16z7dD3ke2HrHA9sFZCHs3lIaHG9EILLn90G4XdCUECPv4DDfRVlGUfBjoZyBV
+         iOINpWZzfZbMmXs1Jqy8JgUeCD1NttTG1CUDQLIINRAgC+fkg5IqqoZdrTm0hyhjOBEI
+         xSBEryYVs9W7H7jJbFk+3SLM/X2kHwC4AOO2ibHZ0b0gBT8FvQ4kflRD53R7ZC0aT3Yg
+         ta9Wt/s8t4gEBGcjgQ9jRl5PjHfoce/CxntnD0KH3/qI/IMHXR75fH0es+OlItITaBlh
+         OKdQ==
+X-Gm-Message-State: AOJu0YxscBGK6yaSUIbyts6HDc4MywMGgHjsQkj25kQS5u8MAJ9qOjh0
+	XPjYgIoEnxcm0ELNl7xNgekAIEDR7mF19j1akiNwuhmP4CqSUWzo1iaCa1iDC+47KEA=
+X-Gm-Gg: AeBDieuEBTKMkqp75xIVLFcsRjuyXtG9Fm18fRscZCojvHFasktEqs7pNj16SdWRDtl
+	3u83DbNnZXnLOrSRzCS56UvmS3uolFawcsv9zpPF+7Ebsh55StUWfi5bsbtN/V+Osf7tGHXRG5g
+	ojo9r6an6Ul8JyPRCXEzUeBMnLBEKi38m9RrYzLaGHlz8tP/3ydTj4b+JGcFz4d7L8Nz1J7+qd7
+	Kn0nQzs3CmXRh1jX+4u8p/tv5oj4BnKhWca3pHTBJfIXyoqI65jsZsWqGGAR/B6ks3Gv9b5iHiC
+	HHRK+CZogtvnL8RhkFpJ9NU+aNxeQ7nHwZKgV7lQ7MyJniHtPbLUuCQczGanLemTghRgKhYKAZk
+	ZIBqYRz9jcpzrz9nc1AtP/Mn+M0auejrfhgHHMV7TZPRvdvK4ixU1brI4vaYn+UD8dG1nboAh1J
+	IGigy414UDLqqMpxrmwOxnUibGDDfEE8F4aywLBJ2dTfuGfsIDCYmQi4PlTBv5
+X-Received: by 2002:a05:6000:4205:b0:43d:772d:2b61 with SMTP id ffacd0b85a97d-43eb10ceeadmr19592f8f.15.1776268999156;
+        Wed, 15 Apr 2026 09:03:19 -0700 (PDT)
 Received: from ?IPV6:2a03:83e0:1126:4:cbe8:6434:118f:886d? ([2620:10d:c092:500::5:3ecd])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488f4352af8sm4364775e9.0.2026.04.15.08.48.25
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43ead3d5f06sm6539936f8f.17.2026.04.15.09.03.17
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 Apr 2026 08:48:25 -0700 (PDT)
-Message-ID: <e41d94d4-bbef-4d04-a6ef-8f885aab9b72@gmail.com>
-Date: Wed, 15 Apr 2026 16:48:24 +0100
+        Wed, 15 Apr 2026 09:03:18 -0700 (PDT)
+Message-ID: <235f4a5d-c5fc-4980-a075-284e966c4fc6@gmail.com>
+Date: Wed, 15 Apr 2026 17:03:17 +0100
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
@@ -67,107 +67,87 @@ List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH bpf-next 1/6] bpf: Extend BTF UAPI vlen, kinds to use
- unused bits
+Subject: Re: [PATCH bpf-next 5/6] selftests/bpf: Test BTF sanitization
+ rejection for invalid vlen
 To: sashiko@lists.linux.dev, Alan Maguire <alan.maguire@oracle.com>
 Cc: bpf@vger.kernel.org
-References: <20260414195019.684531-2-alan.maguire@oracle.com>
- <20260414211101.59F73C19425@smtp.kernel.org>
+References: <20260414195019.684531-6-alan.maguire@oracle.com>
+ <20260414222624.A722AC19425@smtp.kernel.org>
 Content-Language: en-US
 From: Mykyta Yatsenko <mykyta.yatsenko5@gmail.com>
-In-Reply-To: <20260414211101.59F73C19425@smtp.kernel.org>
+In-Reply-To: <20260414222624.A722AC19425@smtp.kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 4/14/26 10:11 PM, sashiko-bot@kernel.org wrote:
-> Sashiko AI review found 2 potential issue(s):
-> - [High] The `env_stack_set_next_member()` helper takes a `u16` argument, which truncates the new 24-bit BTF `vlen` and causes an O(N^2) infinite-loop-like CPU lockup (Denial of Service).
-> - [Medium] UAPI Source Breakage: Converting `BTF_MAX_*` macros to `enum btf_max` removes preprocessor macros, breaking existing userspace compilation.
+
+
+On 4/14/26 11:26 PM, sashiko-bot@kernel.org wrote:
+> Sashiko AI review found 3 potential issue(s):
+> - [Low] Leaking the BTF object on unexpected success of sanitization.
+> - [Low] Lack of error checks for BTF construction calls.
+> - [Low] Using `BTF_MAX_VLEN` as the `byte_sz` argument in `btf__add_datasec()`.
 > --
 > 
-> commit d88c0688f1be53ae1871dacf198a4a18b2e56ae0
+> commit 9c5af444155b34aa840793bf185bc0c0aaa04f3f
 > Author: Alan Maguire <alan.maguire@oracle.com>
 > 
-> bpf: Extend BTF UAPI vlen, kinds to use unused bits
+> selftests/bpf: Test BTF sanitization rejection for invalid vlen
+>      
+> This patch adds a selftest to verify that BTF objects with extended vlen
+> are properly rejected by kernels that do not support the extended feature.
+> It simulates the lack of support using the feature cache and checks if
+> sanitization fails when the vlen limit is surpassed.
 > 
-> This commit expands the BTF maximum vlen from 16 bits to 24 bits, allowing
-> up to 16 million members. It also extends the BTF kind encoding from 5 to 7
-> bits, and converts the BTF_MAX_* constants to an enum to expose them in
-> kernel BTF.
-> 
-> Link: https://lore.kernel.org/bpf/CAEf4BzZx=X6vGqcA8SPU6D+v6k+TR=ZewebXMuXtpmML058piw@mail.gmail.com/
-> 
->> diff --git a/include/uapi/linux/btf.h b/include/uapi/linux/btf.h
->> index 638615ebddc22..618167cab4e61 100644
->> --- a/include/uapi/linux/btf.h
->> +++ b/include/uapi/linux/btf.h
->> @@ -33,20 +33,22 @@ struct btf_header {
->>   	__u32	layout_len;	/* length of layout section	*/
->>   };
->>   
->> -/* Max # of type identifier */
->> -#define BTF_MAX_TYPE	0x000fffff
->> -/* Max offset into the string section */
->> -#define BTF_MAX_NAME_OFFSET	0x00ffffff
->> -/* Max # of struct/union/enum members or func args */
->> -#define BTF_MAX_VLEN	0xffff
->> +enum btf_max {
->> +	/* Max possible kind */
->> +	BTF_MAX_KIND =		0x0000007f,
->> +	/* Max # of type identifier */
->> +	BTF_MAX_TYPE =		0x000fffff,
->> +	/* Max offset into the string section */
->> +	BTF_MAX_NAME_OFFSET =	0x00ffffff,
->> +	/* Max # of struct/union/enum members or func args */
->> +	BTF_MAX_VLEN =		0x00ffffff,
->> +};
-> 
-> Could replacing these #define macros with an enum break existing userspace
-> applications?
-> 
-> Programs using #ifdef BTF_MAX_VLEN or evaluating #if BTF_MAX_VLEN == ...
-> for conditional compilation will fail to build without the preprocessor
-> macros.
-> 
-> Would it be better to redefine the macros alongside the enums
-> (e.g., #define BTF_MAX_VLEN BTF_MAX_VLEN) to maintain UAPI backward
-> compatibility while still exposing the constants to BTF?
-> 
-
-Looks like this is done on purpose and we don't expect anyone actually 
-use #ifdef BTF_MAX_VLEN, so it's an acceptable change.
-
+>> diff --git a/tools/testing/selftests/bpf/prog_tests/btf_sanitize.c b/tools/testing/selftests/bpf/prog_tests/btf_sanitize.c
+>> index 652b51efafc27..f41cea5a769a2 100644
+>> --- a/tools/testing/selftests/bpf/prog_tests/btf_sanitize.c
+>> +++ b/tools/testing/selftests/bpf/prog_tests/btf_sanitize.c
 > [ ... ]
+>> @@ -95,3 +95,65 @@ void test_btf_sanitize_layout(void)
+>> +static void test_btf_sanitize_extended(void)
+>> +{
+> [ ... ]
+>> +	btf = btf__new_empty();
+>> +	if (!ASSERT_OK_PTR(btf, "empty_btf"))
+>> +		goto out;
+>> +	btf__add_int(btf, "int", 4, BTF_INT_SIGNED);
+>> +	btf__add_var(btf, "var1", 0, 1);
 > 
->> diff --git a/kernel/bpf/btf.c b/kernel/bpf/btf.c
->> index a62d785812076..1663970fc1bf6 100644
->> --- a/kernel/bpf/btf.c
->> +++ b/kernel/bpf/btf.c
->> @@ -289,7 +288,7 @@ enum verifier_phase {
->>   struct resolve_vertex {
->>   	const struct btf_type *t;
->>   	u32 type_id;
->> -	u16 next_member;
->> +	u32 next_member;
->>   };
+> Are we missing error checks on these btf__add_*() calls?
 > 
-> Does the env_stack_set_next_member() helper also need its next_member
-> argument updated to u32?
+> If any of these allocations silently fail, the test might proceed with an
+> incomplete BTF object that hasn't actually surpassed the vlen limit. This
+> would cause the subsequent bpf_object__sanitize_btf() call to unexpectedly
+> succeed, failing the test for the wrong reason.
 > 
-> Looking at env_stack_set_next_member() in kernel/bpf/btf.c:
+>> +	btf__add_datasec(btf, "datasec1", BTF_MAX_VLEN);
 > 
-> static void env_stack_set_next_member(struct btf_verifier_env *env,
-> 				      u16 next_member)
-> {
-> 	env->stack[env->top_stack - 1].next_member = next_member;
-> }
+> Is it intentional to use BTF_MAX_VLEN for the byte_sz argument here?
 > 
-> Since the argument is still u16, won't this silently truncate the i + 1
-> index for any struct or datasec member beyond 65,535?
+> BTF_MAX_VLEN is a bitmask representing the maximum number of items, not a byte
+> size. Using a proper calculated byte size like 0x10000 * 4 might be clearer.
 > 
-> If this happens, when the verifier resumes resolution of the struct, could
-> it restart from the truncated index and redundantly iterate over
-> already-resolved members? With a very large number of members, could this
-> cause excessive CPU usage or soft lockups?
+>> +	for (i = 0; i <= 0xffff; i++)
+>> +		btf__add_datasec_var_info(btf, 2, i * 4, 4);
+>> +
+>> +	/* Sanitization should fail here as vlen surpasses unextended limit. */
+>> +	sanitized = bpf_object__sanitize_btf(skel->obj, btf);
+>> +	if (!ASSERT_ERR_PTR(sanitized, "bpf_object__sanitize_btf_should_fail")) {
+>> +		sanitized = NULL;
+> 
+> If the first bpf_object__sanitize_btf() call unexpectedly succeeds, sanitized
+> will hold a valid pointer.
+> 
+> Doesn't setting it to NULL before the goto out path leak the memory, since
+> btf__free(sanitized) will be called with a NULL pointer at the end of the
+> function?
+> 
+
+This is no leak, but setting to NULL is not needed, because btf__free() 
+checks IS_ERR_OR_NULL(btf).
+
+>> +		goto out;
+>> +	}
+>> +	/* Now switch extended feature on and ensure success. */
 > 
 
