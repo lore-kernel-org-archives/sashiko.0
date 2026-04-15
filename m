@@ -1,153 +1,144 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 519E52C21EC
-	for <sashiko@lists.linux.dev>; Wed, 15 Apr 2026 05:55:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04C3130E82D;
+	Wed, 15 Apr 2026 06:56:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776232557; cv=none; b=qHxacbono7aaNjyDn5Bo4lLcJu/UufTPphP6MNKwmy11xvSyvDUBmj/JZ5oSAOO7zKKEE0O+8CxVfaowJ9UOkW6gAaKwtmBOp6XrqigrpM5QFGt3X9jFSgaDJoESKWdOUK4leI/KO6uapCQLgfW2Mw10pVqCHeGq11Sx0pYclPc=
+	t=1776236207; cv=none; b=I5QyVVIZ8d9QzAeKBDlfb9jayZmK+djhLWEQewW+aPn8Vj7jLlVoFtbxo5YhoYTyJxVE1Ejch1xlvSwFvRUbOe9Jy5XsrD5uy3wSyRO6Z2ig43xpwNWI4tMODyqfIag9M8EiDE4Pkfo3hnpO8dvYHrp+FBbcUMfDH9LvzRE7yKA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776232557; c=relaxed/simple;
-	bh=mun1sf8kmKZk08Nymw1fIkZAY0k5mSEpHquJTLuAa90=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=UyyuEmntPWK0+oEpI9UORHk7XWxQxghOSLZ0HImoN8gyR9mIxQRMxE/kbfFxuMom1VIy2Kflo4iMMMt4wSJ1nWWf9xrZtFgDBOEWsFw1WB5w/2H0UEH4hKXswxzFyk4zydUUqdTpYDl5934eimhY1j4/j2ft1RgGgssqT7jff0o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XFAG8cdl; arc=none smtp.client-ip=209.85.216.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1776236207; c=relaxed/simple;
+	bh=MVX/vYQurhaopMrf+nsihoTaRYybtqgxwIvNR5JY+4w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=W8IjGJchX8pxmZvBpmQPDI/Eqx6x4E9ZLNxUt1f8mqXCYlKNQS1phCKKOtglT7DtGHABPgfn41gDZDCyXHP31yOOSS9dzUGvuTMWe7ZJoVQ0znPA2z+i1VS1Rgn0v4DCBrZ1Q4Cr+pBS3/zxbYvk3SjdxtrM8ConqHCAkfH8UhI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=E5K8/ydj; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XFAG8cdl"
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-35d965648a2so5482982a91.0
-        for <sashiko@lists.linux.dev>; Tue, 14 Apr 2026 22:55:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776232555; x=1776837355; darn=lists.linux.dev;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=DS2EJhxlzryfSIx+ZY5iXdPRGbh5lfuGbvnIsk11xco=;
-        b=XFAG8cdl2QDP+Htk/i6kf441spbUew5srXbV3sa19wuAnc4ke3x5/R2CG9jJ0fJDUP
-         BfD2CLPxsCbK2DCitQbpkinqjIj1dpXu+qvLY0L70obXKBO3A7mPzGv//sT2yzOy2dS8
-         KWqFOmpXmPos4TzQgYVIPXMY2v5dld1HATV3w2LgcqpSrj/vicVpngqYfOk9EB1dA7kc
-         FkzgTZbxk/tr51tb5wvGeDbtz1nQxka3pWXuMhyyJLWtSRUa8w5qYnn2UNYzs/UNn2a8
-         ptEDjMEfNCIUQmXCIJwWIhycxQ+Q/efVgL0TQik4GPkHb8Z/hrq0TAZ6qx2B6JyZdp1E
-         i5Gg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776232555; x=1776837355;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DS2EJhxlzryfSIx+ZY5iXdPRGbh5lfuGbvnIsk11xco=;
-        b=M9jiRhHrGzj/eQg9bAdpDo8fPuKz2Li+MGMgO1iJQaMN5xMQVI4ehI7QQScpt4JE3z
-         kJ+t+yShlrhKNBATPxWfmBpn5WjgvvRl2Z76QG0ZJUrpFQ4Hsv98fhdeNPrmSfHgV5Qj
-         AMgEc6fmbbe4givkPwRAP8nUPdpAuMltTvuLiNhQeKOdefEvgJEHeKyjQPMNTGWkr+/i
-         4nJbjAs7BpJ3uASUsKdqfBchAIHwMpzcnu707Q2YZ9vxcfG4oYA/zJ4OlGVuZ8yHHh5L
-         IU52N3J4DuOE9D7JPuQl0MD005Cm4ulBJWDwOag4JEeOLZ4DpnXU4ymvyRH/2Rk35OFO
-         8mYw==
-X-Gm-Message-State: AOJu0YyXM/5I/d39kjJVULfmeG2QymWRxVV8YBWIO7JRBcjtCbimKWkg
-	JKrBj8y1SA2TKu7oqYjjbWymmiSBWNxeBPtys0sOQ5hR2rNTcYbnNoVwHHnMxK1H
-X-Gm-Gg: AeBDiettJZGPorbc0gcZ+WQLSB5RE7fGiVbh+yT/7Mz8xzXCq0simIafoKHW010Qu9s
-	EEHOLxv8PQgRTJV31cZk57bVsQekobgmGU1UXOhvQoHLIgTXj2IrdJYSFlBk5w/kC2RMRmUF4/Q
-	9i4dvwAvbW9Fd2FEz69F0obhIfbqCdp1wL6UYPf6SFun7YIq6TgqfWnIUbK6jzmzDnD5oD2GIYb
-	gErVg0mqODmLCVmQGNi59FrzyD14gbMmQ/l1nLx2mgKj5cHIoX+o7ZFRRBPK0QiYFhj53T8Qoyk
-	EM7o41n1VogdlZaenDDQDXU9ThvqD1JJxgPmFJ9M61JItav/Eqz4de/eZfBt2DxJYn4Rihd+7mq
-	rD9CiZ3MAjNKGHvwGBvimZcp6qFMybYDEisWtgVv3NJZkEWLDjV6pnzlDsADOhQR07wwpVeG7m0
-	6KnFId/bhZ0bNgPkjp6WDMHCON4F2mWew8yOBLLYwDSQRHdoteE05D
-X-Received: by 2002:a17:90b:1850:b0:35f:bcfc:27b8 with SMTP id 98e67ed59e1d1-35fbcfc2b0emr9507734a91.7.1776232555418;
-        Tue, 14 Apr 2026 22:55:55 -0700 (PDT)
-Received: from [192.168.0.226] ([38.34.87.7])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b478115de4sm8544415ad.27.2026.04.14.22.55.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Apr 2026 22:55:54 -0700 (PDT)
-Message-ID: <6fe22c1f033064a68fe170e6135611cac72ee59d.camel@gmail.com>
-Subject: Re: [PATCH bpf-next v2 2/2] selftests/bpf: verify kallsyms entries
- for token-loaded subprograms
-From: Eduard Zingerman <eddyz87@gmail.com>
-To: sashiko@lists.linux.dev
-Cc: bpf@vger.kernel.org
-Date: Tue, 14 Apr 2026 22:55:51 -0700
-In-Reply-To: <20260415012106.5C63CC19425@smtp.kernel.org>
-References: <20260414-subprog-token-fix-v2-2-59146c31f6f1@gmail.com>
-	 <20260415012106.5C63CC19425@smtp.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="E5K8/ydj"
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63F4q1MX1842840;
+	Wed, 15 Apr 2026 06:56:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=s7FiuM
+	MxGzAPUeniN10CFqtTWCLOjA1F0k5lQ+KohKg=; b=E5K8/ydjsvXET6jBB4QXSt
+	8N87lEYR/IPjbGEGW3zLgNI+IBvbI2PI6YOB6ToxpXEn7lFg1w7cS5u9PXdATRMP
+	Bceyt2g1WIHd1RPV0Nvo1/hw9ZF1lxCelSgLd/saAo8GgcrxahsyWDpdQqR47AAq
+	EFy4Q4y0NFvBHqQpNzDRwsqw1nu/U0YBuoOmRJfR43pXiwdPaqOIy0xdmYHZVUq/
+	kQ5Z+SE7GJSkUg7HguwFG3r5gUw4Gfa108Yxp4gBzUlN08qJ36ZObaZOXwwDsxx5
+	AYfE0pDwdLdF5N2i+St01EAGWhxHCliT4t+SplvuaxmJi+eMtqkNQ2ejmsTnD14w
+	==
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4dh89mpqms-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 15 Apr 2026 06:56:45 +0000 (GMT)
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 63F4t4JV025801;
+	Wed, 15 Apr 2026 06:56:44 GMT
+Received: from smtprelay03.dal12v.mail.ibm.com ([172.16.1.5])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4dg3b1mtq0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 15 Apr 2026 06:56:44 +0000
+Received: from smtpav01.wdc07v.mail.ibm.com (smtpav01.wdc07v.mail.ibm.com [10.39.53.228])
+	by smtprelay03.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 63F6uhWL15467214
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 15 Apr 2026 06:56:44 GMT
+Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id A3C7A58063;
+	Wed, 15 Apr 2026 06:56:43 +0000 (GMT)
+Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id B61025804B;
+	Wed, 15 Apr 2026 06:56:42 +0000 (GMT)
+Received: from [9.39.27.100] (unknown [9.39.27.100])
+	by smtpav01.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Wed, 15 Apr 2026 06:56:42 +0000 (GMT)
+Message-ID: <157c4ffb-0d81-4394-bea5-12a9b8f08307@linux.ibm.com>
+Date: Wed, 15 Apr 2026 12:26:40 +0530
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] perf dso: Fix kallsyms DSO detection with fallback logic
+To: sashiko@lists.linux.dev
+Cc: linux-perf-users@vger.kernel.org
+References: <20260410071225.708005-2-tshah@linux.ibm.com>
+ <20260410081724.69B1EC19421@smtp.kernel.org>
+Content-Language: en-US
+From: tshah <tshah@linux.ibm.com>
+In-Reply-To: <20260410081724.69B1EC19421@smtp.kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDE1MDA2MSBTYWx0ZWRfX6r1X3As/AQQN
+ hHXkb3PO2eG2+XM0pcDhT4BCas5xlig6PQa0AsprFwRzrhGYdCH6rPSnCcH7tvtQHuK8uIPx7aR
+ P0rS1HUKKB8wBThPnXUQrkjo6rHpbxARuHfirHq2/XPDsx0PzetstSKogyW2RyhPyL6jT/NoxWj
+ lkx/dWR49zEOXyhp7h5CLQow0Ri6XZ7kCTxt3d0zq1uzjw/+Hdv0qvfDiS0o3WXP6TsUM0m4cIO
+ oB9q2TWLM+AwsRsoTeye2699UpunWdCa0pvT/80vRN7bAws/Z1df0IvzAx2CyJ9gQXQuuRsYAmG
+ GRhNVZpGr/bv7rs1ia/5GDRtx9hCzd1ioLJ03Sd8iPGmTN6ENBCRG218DU2wWLrcuKo5XZemPjT
+ wOmd0XDMYdDo/8035icAFbWAk33zc9T/yhuGDrumaLXCxoSK49PfGEFdeOb3DVhbLSQy2L6JtpF
+ mCvP+fZL8Zl0D2m6TLw==
+X-Authority-Analysis: v=2.4 cv=eJ4jSnp1 c=1 sm=1 tr=0 ts=69df36ad cx=c_pps
+ a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
+ a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=uAbxVGIbfxUO_5tXvNgY:22 a=VwQbUJbxAAAA:8
+ a=VnNF1IyMAAAA:8 a=rFWBiRdqTB6FeBwMLQYA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: DblJSxG3F5sRKTabsH1nI7H2UlsS8guz
+X-Proofpoint-ORIG-GUID: DblJSxG3F5sRKTabsH1nI7H2UlsS8guz
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-14_04,2026-04-13_04,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 lowpriorityscore=0 adultscore=0 priorityscore=1501
+ clxscore=1015 bulkscore=0 suspectscore=0 spamscore=0 impostorscore=0
+ phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2604070000
+ definitions=main-2604150061
 
-On Wed, 2026-04-15 at 01:21 +0000, sashiko-bot@kernel.org wrote:
+Thanks for the suggestion. The missing closing bracket is intentional. I 
+Will rename it to DSO__PREFIX_GUEST_KALLSYMS to make this intent 
+explicit and avoid confusion with complete name macros like 
+DSO__NAME_KALLSYMS
+
+On 10/04/26 13:47, sashiko-bot@kernel.org wrote:
 > Sashiko AI review found 1 potential issue(s):
-> - [Medium] The test modifies global sysctls (`perf_event_paranoid` and `k=
-ptr_restrict`) while running in parallel, causing race conditions and poten=
-tial host state leakage.
+> - [Low] The macro `DSO__NAME_GUEST_KALLSYMS` is defined with an unbalanced bracket, which is deceptive and prone to misuse.
 > --
->=20
-> commit 9e0a167112286dfb5b44d5686732b8297533a10b
-> Author: Eduard Zingerman <eddyz87@gmail.com>
->=20
-> selftests/bpf: verify kallsyms entries for token-loaded subprograms
->=20
-> This commit adds a test to verify that both the main program and its glob=
-al
-> subprogram appear in /proc/kallsyms when loaded using a user namespace BP=
-F
-> token. It temporarily modifies global sysctl variables to allow reading
-> kallsym addresses.
->=20
-> > diff --git a/tools/testing/selftests/bpf/prog_tests/token.c b/tools/tes=
-ting/selftests/bpf/prog_tests/token.c
-> > index b81dde283052e..89da527ed9304 100644
-> > --- a/tools/testing/selftests/bpf/prog_tests/token.c
-> > +++ b/tools/testing/selftests/bpf/prog_tests/token.c
->=20
+> 
+> commit bff739892129d9369935f2dfb42b44d83b2f857d
+> Author: Tanushree Shah <tshah@linux.ibm.com>
+> 
+> perf dso: Fix kallsyms DSO detection with fallback logic
+> 
+> This commit fixes kallsyms DSO detection during build-id injection when
+> the binary type is not yet explicitly set. It implements a fallback that
+> matches the long_name against known kallsyms strings to correctly identify
+> the kernel DSO.
+> 
+>> diff --git a/tools/perf/util/dso.h b/tools/perf/util/dso.h
+>> index ede691e9a2495..e44071998c499 100644
+>> --- a/tools/perf/util/dso.h
+>> +++ b/tools/perf/util/dso.h
 > [ ... ]
->=20
-> > @@ -1194,4 +1252,23 @@ void test_token(void)
-> > =20
-> >  		subtest_userns(&opts, userns_bpf_token_info);
-> >  	}
-> > +	if (test__start_subtest("obj_priv_prog_kallsyms")) {
-> > +		char perf_paranoid_orig[32] =3D {};
-> > +		char kptr_restrict_orig[32] =3D {};
-> > +		struct bpffs_opts opts =3D {
-> > +			.cmds =3D bit(BPF_BTF_LOAD) | bit(BPF_PROG_LOAD),
-> > +			.progs =3D bit(BPF_PROG_TYPE_XDP),
-> > +			.attachs =3D ~0ULL,
-> > +		};
-> > +
-> > +		sysctl_set("/proc/sys/kernel/perf_event_paranoid", perf_paranoid_ori=
-g, "0");
-> > +		sysctl_set("/proc/sys/kernel/kptr_restrict", kptr_restrict_orig, "0"=
-);
->=20
-> The BPF selftest framework executes test_token() concurrently with other
-> tests because it lacks the serial_test_ prefix.
->=20
-> If another parallel test modifies or relies on these sysctls simultaneous=
-ly,
-> can this create a race condition where the parallel test reads the
-> already-modified "0" as its original state?=20
->=20
-> This could result in the host permanently retaining the lowered security
-> settings once the tests complete.
->=20
-> Should this test be renamed to serial_test_token() to prevent concurrent
-> modification of global system state?
+>> @@ -20,6 +21,7 @@ struct perf_env;
+>>   
+>>   #define DSO__NAME_KALLSYMS	"[kernel.kallsyms]"
+>>   #define DSO__NAME_KCORE		"[kernel.kcore]"
+>> +#define DSO__NAME_GUEST_KALLSYMS	"[guest.kernel.kallsyms"
+> 
+> This isn't a bug, but there is a missing closing bracket in this macro
+> definition.
+> 
+> While it looks like this was done intentionally to allow prefix matching
+> against dynamic guest kallsyms names (which append a PID) using strncmp
+> later in the patch, naming it DSO__NAME_GUEST_KALLSYMS implies it represents
+> a complete, well-formed identifier like DSO__NAME_KALLSYMS.
+> 
+> Could this macro be renamed to something like DSO__PREFIX_GUEST_KALLSYMS
+> to make its intended use as a prefix clear, preventing it from being
+> accidentally used in contexts expecting a full name?
+> 
 
-I don't think that we have tests that rely on these parameters atm,
-but suggestion makes sense.
-
->=20
-> > +
-> > +		subtest_userns(&opts, userns_obj_priv_prog_kallsyms);
-> > +
-> > +		if (perf_paranoid_orig[0])
-> > +			sysctl_set("/proc/sys/kernel/perf_event_paranoid", NULL, perf_paran=
-oid_orig);
-> > +		if (kptr_restrict_orig[0])
-> > +			sysctl_set("/proc/sys/kernel/kptr_restrict", NULL, kptr_restrict_or=
-ig);
-> > +	}
-> >  }
