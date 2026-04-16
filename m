@@ -1,191 +1,233 @@
-Received: from mx0b-00128a01.pphosted.com (mx0b-00128a01.pphosted.com [148.163.139.77])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 799554A07
-	for <sashiko@lists.linux.dev>; Thu, 16 Apr 2026 03:04:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.139.77
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6B21165F16
+	for <sashiko@lists.linux.dev>; Thu, 16 Apr 2026 03:05:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.45
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776308654; cv=fail; b=um9L6fTnkeFtMVh1R/UhBIO5XrgMrgpwtaqRwWdjTe/VHg4y3v8yRZJ9Q7K9hi1LaA0CjbP+TT2/ZQrBtDnm0rbqFuqt6s/HfNqzEC1xks+E/j174CnWaGzzUaFnVTnXkQR3HIM7Ay/+YzNp1xQcLpMz0ZEgQmEQyZyAWPVS1m8=
+	t=1776308728; cv=pass; b=lXYQXAO33e1RxWbwo5yfaMmUC3NRs15j73ZD+1ZbCNcVbdS7tjPdVrc1XtEEJGh1P5wopzT6sSSqQ8pCySMlJSewYM3V/h0WcB1b65TwilqTqLXWTDxsxu88vDnlBlZKmXfojeA3LE2li4agP8Yk+5RrsOjht/Au74lOYOfG5tw=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776308654; c=relaxed/simple;
-	bh=VIzud0uLgqH/YQklackg88u8L477GsZyvox69BdG3Lk=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=F4wQYxllgN6Y4qnQg4TD4czRgUSS6xQmyhcsBwq5gl3QheFtXnjK8edgfnN5dwQ1na3x1TACciFKhPAIP3T5YK9DQaEmbWDjbIxQx9MiHmeaB7YiWhmFEVUgHVW+FsavKcABnOBeKkF3q5ot6FwDTIXTLithiRrfRFsUzxJPhIs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=fWhxAXzL; arc=fail smtp.client-ip=148.163.139.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
+	s=arc-20240116; t=1776308728; c=relaxed/simple;
+	bh=3SJOaDXiJKPLrEQCXp0Hi1o/eFcwWpxbFDX39mPRpWk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sizHCDBEf3dTe88hwlw3lg2ZWEilMGXB5oqc7DQukSB9IlXIQQzTd5efRN6FQjdQ6XZYMNMWcbyqYgBqPfBroFg7s7/S5R+ayX51NX0gJ54HYbYQD9y+DZ9sYX23ilcR0z42FRDJtltlQrbVP97I4BTOs8+kmdEgNt802JNu3hI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NoE2k6r8; arc=pass smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="fWhxAXzL"
-Received: from pps.filterd (m0516786.ppops.net [127.0.0.1])
-	by mx0b-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63G1lmCk1736681;
-	Wed, 15 Apr 2026 23:04:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=DKIM; bh=oggxb
-	bUsJRIPC6HQ9OLjQY3yv2StJipyDeu0zuCgTIk=; b=fWhxAXzLB8qr1StpBQBMl
-	gh1QEDqciv0qprzp8dFpRbosHxXI2HjIAFy1ubW0tWIBVKlWJhHtXhHKQxIMNAhf
-	erBWL0mUN5Er30CEXD05F1xHHbYfBYAu97PeXCiUZaQ63MlbBLhpmrA+ZGY3/P8s
-	Me4CiVs73KWY5aLe9n1bp939JRvXSvqu5ZwK8/V8P6/twU7H9bHV1bCHbUmMbN20
-	uIoUbSTId3BdYcCCUvjFZOYYQD7lCzme9DhBLXbhCYIKhw/n8zEVELDous1/v9E4
-	CM7tVw1WG3Wb3GTL+pe7N1tkhUufKRpcKPs8wwp/gLEMBFof8ZGTXIZbqjBmMelz
-	w==
-Received: from bn8pr05cu002.outbound.protection.outlook.com (mail-eastus2azon11011050.outbound.protection.outlook.com [52.101.57.50])
-	by mx0b-00128a01.pphosted.com (PPS) with ESMTPS id 4dh84nhmkk-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Wed, 15 Apr 2026 23:04:12 -0400 (EDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kY8Ui5fE4IAkAfOklJjpM9qBcwth6ol3Ig8Ny9sK1NZOvXdWsxNB0hQ+ox+ApKnHzJ/EzGgIqq+zsQ2fabE0JZeUAlXR1L8nToh2gHE0zwKoF2ULfEtR+lGuymQA3aVzy+lCc2cjtEJ4uwPddnAsLXJ/DEjXbqO1bCEKUGLP3wCWyxT/L7TFIYo8lSX426VjdayQ/CpIardje4yFA48fKKCxObFcvgBvDb//MFFA05iMESMs/s9NgsgAS4g7RE52QpCBvGzc0Idsz2cfDirnP09l7YLR4GliXpR2uO5vcWt+9jNOgCzmt3ni3kGBOLBwXVgt0rA/ZdrnpfgSpve4Eg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oggxbbUsJRIPC6HQ9OLjQY3yv2StJipyDeu0zuCgTIk=;
- b=tBYC4RgvSXL6g9TKgTQXDRdJCEnoiUhzQOHsntI1yE4lfJJd+bLG/w6Qt5VLRxNP1LuqKkaOSyXDFx+DDT7vzAPPbL+Y7jwEgkxpc+lHbvXpvt0xA0BXDZCT4VZ5AhNyMWUHJuxYnPjxg/DF/DMmo6n983d5kX8QyjrESbOjkU4kmJrZOYXGIPPKn9Ow1p8Mxj9IV+XIxYKGBpoyUn0m8+gfxj2dcgGIaMRFOLt6Dja7p/zPFJtU1ScH3Oi2oJ6fzLAr+qyZVSoyxH1NV/vcBIwNP/KtHaHDKdWndFjO991si6kIkrdUbD9dhB9n8aQIJ7aJsv0nuPWqbkTYzZPCxw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=analog.com; dmarc=pass action=none header.from=analog.com;
- dkim=pass header.d=analog.com; arc=none
-Received: from PH0PR03MB6351.namprd03.prod.outlook.com (2603:10b6:510:ab::18)
- by SJ0PR03MB5645.namprd03.prod.outlook.com (2603:10b6:a03:282::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.48; Thu, 16 Apr
- 2026 03:04:10 +0000
-Received: from PH0PR03MB6351.namprd03.prod.outlook.com
- ([fe80::1578:4572:29b5:2442]) by PH0PR03MB6351.namprd03.prod.outlook.com
- ([fe80::1578:4572:29b5:2442%6]) with mapi id 15.20.9818.017; Thu, 16 Apr 2026
- 03:04:10 +0000
-From: "Torreno, Alexis Czezar" <AlexisCzezar.Torreno@analog.com>
-To: Guenter Roeck <linux@roeck-us.net>,
-        "sashiko@lists.linux.dev"
-	<sashiko@lists.linux.dev>
-CC: "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>
-Subject: RE: [PATCH 2/2] hwmon: (pmbus/max20830) add driver for max20830
-Thread-Topic: [PATCH 2/2] hwmon: (pmbus/max20830) add driver for max20830
-Thread-Index: AQHcy8dEUgafwxoXDUyLmPRX7RRvmrXd/qEAgACm9YCAAL46cIAADT4AgAGMzwA=
-Date: Thu, 16 Apr 2026 03:04:10 +0000
-Message-ID:
- <PH0PR03MB6351026955AFF2D037BF0266F1232@PH0PR03MB6351.namprd03.prod.outlook.com>
-References: <20260414-dev_max20830-v1-2-210d3f82c571@analog.com>
- <20260414045647.4AACCC19425@smtp.kernel.org>
- <69f893bd-bb38-439c-b7e3-30d17c6b8cd3@roeck-us.net>
- <PH0PR03MB635179B8E59E60DB994415A7F1222@PH0PR03MB6351.namprd03.prod.outlook.com>
- <e4a4c2a6-e757-49f8-8fbc-215a74c7a9b5@roeck-us.net>
-In-Reply-To: <e4a4c2a6-e757-49f8-8fbc-215a74c7a9b5@roeck-us.net>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH0PR03MB6351:EE_|SJ0PR03MB5645:EE_
-x-ms-office365-filtering-correlation-id: 3ec11db0-a85e-4120-5139-08de9b64d4c2
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|1800799024|376014|38070700021|22082099003|56012099003|18002099003;
-x-microsoft-antispam-message-info:
- b5xZMWM6fPo/RCP9x2HU89DBuCeG6IUvoVtJbs1RrmhduaYYMOJGLI6XPJTR55ZN8pi/yuQt5IQmRU2tX+cHkOUN1ycDqJc83LhaFF0bu5RlCT729UC693i5tTT8cRdTFKQehWnc2zpbqsl3MuGqtx6nGoA43EFxz6cOiBIi7+qnc/0rB5PEN6tIsyZ0xYcSRgo8U9NW3yatf1Hni+il4NsFUuVXE5cagouKqgA1UQgF+/Ru2KJfzs/ioLB3hTyxXO7pWdJ6B9PLwuXuRxkYYUokwyUtCtKkpxsqjbQcz/+T6gunId53h9BSTUntP1qH0YI/CwGHTkTUhVNTuHc94XI8vjGrRrCw81KBm0PbIgiT8zTnZ6w7BYamQm4XtfU9S88RdNy5lun+y+Tg45xhQuKbiXsogqM2rAVqssWpg+a6FnFn0ZT9OX68bAlBxEheLVv+bQnSKEQU6PhzPjCB9F0YCyRd9+YisAkjbsRY/wgr7jnY2wv/zo7n0gaLP5Hac375JziahcIDBct/sOIgamA6RKWYn1btPrUv+SjAi8NbEqKmFISA14S3TtZZtgZvcX9t/cTRRUog/Z9Oqil/4og6VfLayImEEmSHo1DPHbW5ypaQDenEuAwd7VTobJ78KuViaie58a4HxcGNvp6bxWj72/Z7VvQsYonnczVsxQDBrcOYoGc4N9T/0sz1m++B8tDpUJaN7vtrEJSPDLzbeERzYvTm3LdQmRRkzfN2FZbZSrzgfFNzQNSlA70fgicCYAn2TUP+Bu1Vv5ejOVet7tmwSZosakd+Dl0ElSYf9Og=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR03MB6351.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(38070700021)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?NMazSZDBHBTVk4N+VxJ+NUg1/YFxLq9/gj774j9jmqCkhYBDW2SZA6ZR6pdr?=
- =?us-ascii?Q?RWJC8rKsBNv35c3L0NtFMh06iG4d+vjqdRtENAXtn7/SiMht3LAlZCJxciK/?=
- =?us-ascii?Q?sx9WFOMsI06v8Jj6zqWXICGKtPWCrWUjA5I1wS9Sih4vxhEf6x6OZD1sWJco?=
- =?us-ascii?Q?FECj/y2SA1EFtitWWUrVuXjd9eLsS8U34xSJuOy/oSLEnl3eom0BboMM4tWW?=
- =?us-ascii?Q?0ySLyT4bAS3bmA5nAcjW5pK5fzp6C4t+jmdgcuFa3IG0Iez0Rgj/11lDGbDd?=
- =?us-ascii?Q?KftYP6/uAtPBUTFVZ34hbQ/ngJNlfGQMQ7aTXxcjZ3LAlNPt7CwRePS2T4yX?=
- =?us-ascii?Q?zLNLGKWjl966Ya41hcW34hK0TkheLrTUUNgymHc+DHLQtedP7dfT0jDFxR04?=
- =?us-ascii?Q?NupZBlB18/Zmx9Pq2mJP0QAR8qkcapS1ihYlMrgqTL5oNK5ysmGDeCb5xsec?=
- =?us-ascii?Q?kr3Gnac2lQ/rY9XniS+S/bJC8W/n+cJOCJ5nDJ1j6MjvpScoYPYLkJP8VYmo?=
- =?us-ascii?Q?5g9W7fhV5i4l2WXD+7lYqeKOgPmVQjrayOHth4nnEiPoobWCInrjRBfHo3Wk?=
- =?us-ascii?Q?FROlBfDnHjhypknASNZ506eSMe58AkepCixGudtcg6/zOqaUWkxOcG5kGxQT?=
- =?us-ascii?Q?enDZX/5rgMEZbOZ7isapdLKBT0KFEZJz30kVtwTgUKIGGgxdPFeyIt8Teq+2?=
- =?us-ascii?Q?4aTgOvFUe3OiTiBP+6oDQs/8t0WscyaMPtvLIT+1bOfSt9q92e9hgkyt/2mm?=
- =?us-ascii?Q?olG6xHJCx3An5ur0alGPQSh/W7Ph27lAq1qclLaVFo8OpTN7+/e6TILNHsc5?=
- =?us-ascii?Q?UFPzZ7F6/tI5sW9IhJhLA/wmVTfNw4djd7MIlRds1ZFewKIFHk5wXneesA+U?=
- =?us-ascii?Q?jEQLIFsJYhtrvLF2j6sS8gKoYi7fm7A7lX0sQtLTV6Odl2hmEOUKnmO6Bkmo?=
- =?us-ascii?Q?IT1n4D81aRmVfQpCIzn6Y6bQDNDcSOoMvMIH/BQinYDtx+6zWMPQZV24YCyz?=
- =?us-ascii?Q?poWkpmmLM0C2Td+BAA63Is+cBzTafA2qtlH7iT+mCHARfI6qJOzyUAs66GA3?=
- =?us-ascii?Q?xa7jE2vCQBGRQVTAOcDNfwaGwyQKAJjzWkqCwRPESloXobY85UkzWlZkwCgC?=
- =?us-ascii?Q?dincdoEYKHknuhUemOe81nQSdA3/nxOrXw2y9tIC5X1W8LdnK5pZ0nG/H6rR?=
- =?us-ascii?Q?asg6ESJAtAOEeD0P7PvJD4oXy+wyeNi2x38FMRda+y+CSj33N1R36W1+OQ/Q?=
- =?us-ascii?Q?CHkptMA5zhNTDShhP/PZLDvbId1NmRFkMlQAPn/qyj8ryLDpyngRH9KAjqo2?=
- =?us-ascii?Q?5PfCYlOe7k5AAESfycU06MBa3A6UxNhIhxZJF5Rvnab7zcBEJb3jXHmJCyU7?=
- =?us-ascii?Q?1c0TbC5TIEgqR4dlca7dONBt0XvWVPHQdHvIm+VyfO7a3Ivo+37r+0ahsO/o?=
- =?us-ascii?Q?zDYMWDlaeNcIN5LqTxN64n112IQyj9nKUrMsmOxgnL1Rbl09IGtQB7awglBS?=
- =?us-ascii?Q?ce17lxc9RWTR8BSVCAHRJQTLZIsMM5PpMXN3TidwyIgC9oOmgeF2brzRlSV4?=
- =?us-ascii?Q?Yz+kzQVsehjKpX1y1HeJSCHP59Rl3NrZQou/52vxp78UJIcG2q3EeEVA3AOO?=
- =?us-ascii?Q?9OAXPLaJ67ZHfmLjl2YFdVCCI06a38X8D5grgo/3jKaaOSwzX4OlCM9cnPYv?=
- =?us-ascii?Q?Tij60CiZ55naxNoN+P/Fcjd69bh6CbMkXJ6m/rDvS4vFAKA1G0+yqkH9r8vo?=
- =?us-ascii?Q?HUVWnTkwAeKZQ6Od1zKuODx7ebwKa6Q=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NoE2k6r8"
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5a0ff30b240so10133100e87.0
+        for <sashiko@lists.linux.dev>; Wed, 15 Apr 2026 20:05:26 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776308724; cv=none;
+        d=google.com; s=arc-20240605;
+        b=T0SUy7lKhPHlRBCpPNF3vf5iM2k4ngMz77Gt46Qw/6JoJHV92sKBLvu23qD60QdhNf
+         2/CvrPmhyp2RK2VR9PsEYzKcn5G/PHxQIpeaurlG9C0aMZg5MDm4M0gTN4KJO8Zfr2pM
+         ggFhgOTIbUoORAzYiJcU3UVa4btPe3AwJxZ35JLLLKUmZFKZ3QKyTHs+jinbu4jPYWn0
+         KxZEqJcs0PVAxcM6tDKxtSuPMVbjCThxFBQsw+MNAvOMz6m0T8+DCDliiI4P++VUMWaP
+         vL/bzepxwd18rmATggVOiYqwz+ZbnER42wmEIAkqf+zf0FJaanyoNU4Sd1w1PWsBTE2M
+         BvaQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=+x9fm6pO6USW8WdV5snWH77PpLZQ5qVyPAEGN3LxmSE=;
+        fh=7pQPbM1mTaKjUbZ75iTISJbipA72wUVZwkXXTYMxzFw=;
+        b=WjK1BtSqX1CkIAsDc0pMMFOV3mQQvPa99X5TvH2urTAOUs+sfA3+c5atvOpcWy+EQq
+         h0XdF3EhrgIVMvKTKF2ksYc8ARB6wB5s8lN4kinCI+RIhbK1+lxEQNnsXSX1bGqyOFAf
+         25AX31d7ddLROANIdI01n6eh5iuj0GNiv8DQ5wc/u1PSeB6DxESRJIsZgiwsOovyBMF4
+         lSLV4IYcZh7FOXtK+jkVsauANK7KLzYDpIhbinxI3kCUSie+PIJVylbTb4NToSmBtRsQ
+         xAyFm8A36R8j/c7M40d2zJevoXYpjETjRuT1vEpkuOuhmC9tDmiquERDtilGLzLr8Fuo
+         tcNQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776308724; x=1776913524; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+x9fm6pO6USW8WdV5snWH77PpLZQ5qVyPAEGN3LxmSE=;
+        b=NoE2k6r88dnlEA5gBRL/u6h/dyEK9hqyyk5So0A7kXFG6kHLys8wjjimgG2MGrt0D8
+         Rep2bBXK5LlXt6ftyEfP8P3IMx7uFrS+7jiUGN1ddDRBM6B0FPrln9t0XOdbPpzlyZqJ
+         wgytlFptd7ttruehQGmsiuAuMguhs2mQM9xrFt13J3xqeD+jbMYAjH3JG9swpkELE8ME
+         9Sshwe8NExF+FIhgK7y1J51VX/Tytd1i9S6uMMyrzN8ysBprEGkrJSd6LX9awdF5EOaI
+         4L29tcVdfqpx9XPNgjDEaOP5GWhe3H/Rj2631kO69Ie62Ma/fUWxX5AscyXJDAcaEuAX
+         h6ig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776308724; x=1776913524;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=+x9fm6pO6USW8WdV5snWH77PpLZQ5qVyPAEGN3LxmSE=;
+        b=WKMg8pWWKPfgVZVonzaNocStnH3oUL2kH6Ab96x3P9l0t8uiRAzjQ6pT8M0JvtoQ11
+         mT5uFy6yFg7Pk3/DVMwG9I7zlw9Wg6ogVkYiOycAjPZYRSJmsYDMRX9BO1rXAXg23M15
+         QXRIduKDVzZc8qVa7aHXuB6qwSxuA9V1UcMKtPgPEeWrXNkSJhjc4dRNwBAVlFWNmlBs
+         qvreP0VHLVeLBJNz4oY+bspYkOEHTeVgg/lTGboyZzlfaf9gt62DRi6jbV1k57XSvM3a
+         9s0zZZc75XtKF3JDqaRXQe0F46NSm5zpE8yW3zglDDhNFWeM0E5DIa3F/minEduauxqs
+         9iYA==
+X-Gm-Message-State: AOJu0YyOnkPe5vm3CG76o8gvrDhsjMCYeBabYbUBDhVDtNRgeKSz1Ykx
+	h2zz0icHvRThoHRC/pylsf/+bFWTWXa8otq2pWZGvR17k5SGf+n2Q8viSPphKyGj5oXnUW85RB/
+	pr2cg93CcgKZFBdt6KzgC/6bUbwu2372TuZ415q0=
+X-Gm-Gg: AeBDietWHzeENFAnG74J8jkZEM4kpMVnK/Ewi/48x326L5Il+3/rcEXmc1cgo8rb5B3
+	7LJZwk4cqW0wUu6+fACXIJ3rQYej7iYJE7IhEnI8w8hMOwTodycZy+4blGPLgDHjROMVjrjyf2m
+	0kjLtVhWPFjDGJyBMDP0t5YWQ1rlzof9TyRYKWauC5iSw1/2s/+sH/3HD+LV38qUr94N7Akl07a
+	w9iZt8BDSQTpu5chthVGkAnr2arkM/Jmri0GtjD/uMToy2N9CUW++c7freVBNiQx6FzzH7d7+CW
+	/RGxtPbaTiQYDhbO4wMNd5gzuoZLeQ==
+X-Received: by 2002:ac2:5df8:0:b0:5a3:f3a4:1aff with SMTP id
+ 2adb3069b0e04-5a3f3a41bbfmr5546765e87.38.1776308724250; Wed, 15 Apr 2026
+ 20:05:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked:
-	bS86BDeZATQ9S+kWYUYMAXxSL4YkTjUC3Kosp/S2T+QqbaycGCcugh0IU8PAL6WXibfh6cC7HegwCcTGy5uBaLWJpoxECuEHDlxATBtA8BKQzPT77H/YRK4bft7PILizxDymDgR+raK3/8oZPavVUukooZl9vBwl2ZGbGXo49oU0leH/dnTTP8cXda+CzI6XYi30UlHv3vqb+posrZ/Jfg/v1oho5sm+q68vyTfyRDmLoOjqqF1LY5+iTiUMz/gs40aEN5EcBKaSu2iNwsqCl2CD+mIfn3NdRbfZH7H/HvpGid1L7SCxrft6Wy/XPig8sCE+Hz4oC8blACkdFpn+Mw==
-X-OriginatorOrg: analog.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR03MB6351.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3ec11db0-a85e-4120-5139-08de9b64d4c2
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Apr 2026 03:04:10.1272
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: eaa689b4-8f87-40e0-9c6f-7228de4d754a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: y4vVvLn3LVLXENWVivAHxIkuxw1NRxKknUM3HJ/va6iYOp/NxQWzK86LcaDwsexRuYd1a2NEI8Qj0Z0hCz4x4r+ILW7jcxje8+I+EmUdSlg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR03MB5645
-X-Authority-Analysis: v=2.4 cv=IMQyzAvG c=1 sm=1 tr=0 ts=69e051ac cx=c_pps
- a=l+Dg58WJtlZLJwH7BKFLvw==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22 a=0sLvza09kfJOxVLZPwjg:22
- a=ZQxX5BWu6Z8IJBb2zLX7:22 a=NCTkoKkEeFucyI6JJS8A:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-ORIG-GUID: 2faVrVDe4fOa_xi1NL4viLmDYPRqIWO0
-X-Proofpoint-GUID: 2faVrVDe4fOa_xi1NL4viLmDYPRqIWO0
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDE2MDAyNiBTYWx0ZWRfX1/bgiy4mLgdT
- hB0CFOuznXK1s+3xr0bFC/MSp3kjcjo9BrP3p1dcqojmkV8070XmS2aq9lS/z6lmOCi9RSA+DfZ
- iHM9zwjDtFp0dJouCS3bvFVrzTa4442VWYsdxywBPjHrIR9+1rqjzSD87CpBk6zaQpbo6Gsienp
- X2pWx6HKTWYpde3fT0NotyMbgacxQv4bVZ9xYoqAtA23FcCt3hL8+Gh5yoMt6G9PwVf/HHqHsRG
- F6SGv5Ryp4jbhg+ZhwYUF/jTVDCGVykvYg3ucagXrruCtFfnCAN3Yp708bxbPWT3TDkesrCuQh+
- 1Gw+ARa3TUnhenR6l3mMPeioffGxt19ThIURaWJHDfNC3L3c3vufBpHN/dioPV726Yt1bYs5ZZ8
- S3sqevyHBPn7KRVBqadQvaslFZ8PeT/Ke017MBsIZIOWBy1lBi9F1G+rPUK5Lv4uvReqgi5m8dL
- GuXV734xaEK2UWGsURQ==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-04-16_01,2026-04-13_04,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 bulkscore=0 lowpriorityscore=0 adultscore=0 suspectscore=0
- phishscore=0 spamscore=0 malwarescore=0 priorityscore=1501 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2604070000 definitions=main-2604160026
+References: <20260415082654.21026-6-kerneljasonxing@gmail.com> <20260415091159.2BC4FC19424@smtp.kernel.org>
+In-Reply-To: <20260415091159.2BC4FC19424@smtp.kernel.org>
+From: Jason Xing <kerneljasonxing@gmail.com>
+Date: Thu, 16 Apr 2026 11:04:45 +0800
+X-Gm-Features: AQROBzBEKiKbghToJ65gA5j39dJR3T27ly3tRT1z5EFF8r1bEsdg-lixRkSHrkw
+Message-ID: <CAL+tcoAN-U1YgKRGEys-nvamnbmEsnED=0bOThFi3vpEgYgOvw@mail.gmail.com>
+Subject: Re: [PATCH RFC net-next v4 05/14] xsk: add direct xmit in batch function
+To: sashiko@lists.linux.dev
+Cc: bpf@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> >
-> > I may need to keep i2c_smbus_read_i2c_block_data. I'm testing this on
-> > an rpi4 and it seems i2c_smbus_read_block_data isn't supported by the
-> adapter.
-> >
->=20
-> Odd. I can see that the bcm2835 controller driver sets
-> I2C_FUNC_SMBUS_EMUL but not I2C_FUNC_SMBUS_BLOCK_DATA. That
-> makes me wonder if the controller really does not support block reads. An=
-y
-> chance you can try setting that flag in ./drivers/i2c/busses/i2c-bcm2835.=
-c and
-> see what happens ?
->=20
+On Wed, Apr 15, 2026 at 5:12=E2=80=AFPM <sashiko-bot@kernel.org> wrote:
+>
+> Sashiko AI review found 4 potential issue(s):
+> - [High] Packet validation executed inside hardware transmit lock, causin=
+g severe lock contention
+> - [High] Missing transmit recursion protection introduces deadlock vector=
+s
+> - [High] Missing device state validation allows transmission to stopped o=
+r suspended devices
+> - [Medium] Hardware doorbell batching is defeated by hardcoded 'more' par=
+ameter
+> --
+>
+> commit b98984346f64d24e3ecd521b219464ccbe9fba91
+> Author: Jason Xing <kernelxing@tencent.com>
+>
+> xsk: add direct xmit in batch function
+>
+> This commit adds a batch transmission logic for AF_XDP. It introduces a
+> new direct transmit function that disables bottom halves, grabs the lock
+> once, and sends all aggregated packets in a loop.
+>
+> > diff --git a/net/core/dev.c b/net/core/dev.c
+> > --- a/net/core/dev.c
+> > +++ b/net/core/dev.c
+>
+> [ ... ]
+>
+> > +int xsk_direct_xmit_batch(struct xdp_sock *xs, struct net_device *dev)
+> > +{
+> > +     u16 queue_id =3D xs->queue_id;
+> > +     struct netdev_queue *txq =3D netdev_get_tx_queue(dev, queue_id);
+> > +     struct sk_buff_head *send_queue =3D &xs->batch.send_queue;
+> > +     int ret =3D NETDEV_TX_BUSY;
+> > +     struct sk_buff *skb;
+> > +
+>
+> Should there be a check for the device state before attempting to transmi=
+t?
+> Direct transmit paths that bypass the Qdisc layer, like __dev_direct_xmit=
+(),
+> typically verify that the device is running and the carrier is up:
+>
+>         if (unlikely(!netif_running(dev) ||
+>                      !netif_carrier_ok(dev)))
+>                 goto drop;
 
-I tried using i2c_smbus_read_block_data, and here's some log messages=20
+Actually I did it at the very beginning of the sendmsg function, but
+with the respect to the original code I will move it.
 
-[ 6857.261998] max20830: adapter does NOT support I2C_FUNC_SMBUS_BLOCK_DATA
-[ 6857.262006] max20830: adapter supports I2C_FUNC_SMBUS_READ_I2C_BLOCK
-[ 6857.265228] max20830: i2c_block_data read 32 bytes: '        MAX20830'
-[ 6857.265648] max20830: smbus_block_data read 9 bytes: ''
+>
+> Could invoking transmission on a stopped or suspended device cause issues=
+?
+>
+> > +     local_bh_disable();
+>
+> Are we missing transmit recursion protection here? Standard paths wrap th=
+e
+> hardware transmit lock with recursion tracking to protect against stack
+> overflows and deadlocks when routing through virtual devices:
+>
+>         dev_xmit_recursion_inc();
+>         HARD_TX_LOCK(dev, txq, smp_processor_id());
 
-i2c_smbus_read_i2c_block_data returns 32 for 32 bytes read
-and the buffer content is expected "MAX20830"
+This is intended because I think it's not necessary for XSK that is
+only triggered by sendmsg only in copy mode. No such terrible thing is
+likely to happen as no one binds xsk to macvlan type of devices.
 
-i2c_smbus_read_block_data returned 9 so I think it read the payload length =
-of 1byte
-but no data beyond it, hence buffer =3D ''
+I will reconsider it, fearing some over-engineering work impacts the
+performance.
+
+>
+> > +     HARD_TX_LOCK(dev, txq, smp_processor_id());
+> > +     while ((skb =3D __skb_dequeue(send_queue)) !=3D NULL) {
+> > +             struct sk_buff *orig_skb =3D skb;
+> > +             bool again =3D false;
+> > +
+> > +             skb =3D validate_xmit_skb_list(skb, dev, &again);
+>
+> Will executing validate_xmit_skb_list() inside the hardware transmit lock
+> cause lock contention? This function can perform computationally expensiv=
+e
+> operations such as GSO segmentation, software checksum fallbacks, and
+> subsystem hooks. Other transmit paths execute this validation strictly
+> before acquiring the hardware lock.
+
+The next patch adds a fast path check for this so it has been improved.
+
+>
+> > +             if (skb !=3D orig_skb) {
+> > +                     dev_core_stats_tx_dropped_inc(dev);
+> > +                     kfree_skb_list(skb);
+> > +                     ret =3D NET_XMIT_DROP;
+> > +                     break;
+> > +             }
+> > +
+> > +             if (netif_xmit_frozen_or_drv_stopped(txq)) {
+> > +                     __skb_queue_head(send_queue, skb);
+> > +                     break;
+> > +             }
+> > +             skb_set_queue_mapping(skb, queue_id);
+> > +             ret =3D netdev_start_xmit(skb, dev, txq, false);
+>
+> Does passing false for the more parameter defeat the purpose of hardware
+> doorbell batching? It instructs the driver to ring the hardware doorbell =
+for
+> every single packet instead of delaying it until the end of the batch.
+>
+> It looks like this might be fixed later in the patch series by commit
+> 6d7c8f2ad056e ("xsk: support dynamic xmit.more control for batch xmit").
+
+Yep, it was suggested by Jesper already.
+
+Thanks,
+Jason
+
+>
+> > +             if (ret !=3D NETDEV_TX_OK) {
+> > +                     if (ret =3D=3D NETDEV_TX_BUSY)
+> > +                             __skb_queue_head(send_queue, skb);
+> > +                     break;
+> > +             }
+> > +     }
+> > +     HARD_TX_UNLOCK(dev, txq);
+>
+> Also, we would need to pair any added recursion increment with a decremen=
+t
+> here:
+>
+>         dev_xmit_recursion_dec();
+>
+> > +     local_bh_enable();
+> > +
+> > +     return ret;
+> > +}
+>
+> --
+> Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260415082654.21=
+026-1-kerneljasonxing@gmail.com?part=3D5
