@@ -1,188 +1,145 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out30-99.freemail.mail.aliyun.com (out30-99.freemail.mail.aliyun.com [115.124.30.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E51772E65D
-	for <sashiko@lists.linux.dev>; Thu, 16 Apr 2026 02:46:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776307601; cv=pass; b=h2XxUVSAGUb9KBfse0D5qu35pf2zMd0ZW72bJ3IwjHdL6KgDsMA3RqrTvd7t4SXJzeHwGhKm+GbUNcPN8NbX6O4H732QuGfLDLI+w42CWlPVK1eq8pRF2OiwSX15917a5u1UvOvt0mVSnkvfujB0Gys+BxTI3VruJgNpnXEQuWQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776307601; c=relaxed/simple;
-	bh=jzqWozEUYYFZPS/6kekndzo0Rcu/slzAa6UDlc4bz6E=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fhYvCqEj4r+Fw0DAppEGBmslgeWMVgr2VSoltGdc6QmKwLKbMBlVb4MvU0K4z3zKVFXdiI28mnDwfnE6kJpx0bvJ9h4PGDiBr7nDnH1npXNAvv/bpQMtBPdlwtiYhF3WYedDw/j1N+FI2QKAXUnDjUjbvJ9zWHxQSsYcGUzjRgo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ATbH9FIS; arc=pass smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FF9D22126C
+	for <sashiko@lists.linux.dev>; Thu, 16 Apr 2026 02:49:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.99
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776307761; cv=none; b=mruCJbG16/Jem/V/E+38/KvnM/uWEU5PyGS84w85nSDPXBDmKACuEGozuzFTCH7onYVyGcaaSwYeiiiNmPTf1CtR0AWfArTtIpfjR1xd308zr/qxc8exE+yTOhZq47tZ3X5oDlc1J9NZOYVhgHubd08C/yvKX5x/ME/HoTOFrqU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776307761; c=relaxed/simple;
+	bh=j7e17LDifneIOjOnZrc8mnGt63vusi8zEfl/w8qeblk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=DhMEKMuqKROxExHhaXcdUDs6hhvfktYHWRy0/IBXJFTb0/fPLnCkMXIiwR2pjxvItcQiBy0StHGNmdV7e9+iRCKFlVUMjtBe9EZ0AxwkXHYYzZ7mti+rCKIruGKz6JMQwxkgIZ1bRi2wsZXff/ax6tA24Q8jBoppcxqvT6Drsww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=WWtOdCM2; arc=none smtp.client-ip=115.124.30.99
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ATbH9FIS"
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-59e4a04f059so7246838e87.2
-        for <sashiko@lists.linux.dev>; Wed, 15 Apr 2026 19:46:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776307597; cv=none;
-        d=google.com; s=arc-20240605;
-        b=IY0ggSFWK5tDN0zvn84ekU/RcA34AW0+MHVK2nCrtPSG1nLcayX8o6PHNbhIvEeZ6X
-         81s0S+oMMShnXWFKF41l4rxQ8z5UXXA3QnSYSdax0SlXVSNUhl4IV3H3eCpXNM8+4TQu
-         J1qjuHg8x0zdOhAgmK1h10O+3UHWAYOTg6jSV4eMBpzqFt/NLVl48EDIdpTML3z9StrS
-         WAYnwCiaGrs9XGKULS0lc36YHpH7PECqk2alp4IYSoUWOsxQVge/Y1wep34AdncCLvNc
-         EXKOBRT8Yu98qzXNAw6I1gBErXO5eb8aczeYdNSfes3nuSy9rdtkORuSOFBh/26/uvlt
-         oLDg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=bMpAi1WfcnB71WumSoAXkBgMlLV2naKm0UdS2vprTuk=;
-        fh=7pQPbM1mTaKjUbZ75iTISJbipA72wUVZwkXXTYMxzFw=;
-        b=iKMqLFLzmsbEMJ3yxFI6ktK1wdVeHnIvUMW+IXvU/D1FdFOi0bQwtoKf9j4craMgEh
-         B1Y3NTq8Dy3xjU4AGWQJr9XzEdhsYlbi31JnHDmJcgpNQ60g3t4CGmzR1QtJEUWHc2oz
-         q29zDrJ5eSfFW1CWpxUYhxZ7J0aPnJ+gUinf8orgSf7Dv80UGkH/EOnmGdNgWNWvsRT4
-         QX9/RJKpLW2yUzo15SkqLHKotuVYIJ6wCq/MJijPXLnOVp+zcksWTSko7hKCsWa/SQKE
-         qKnBd5F8VzST7v/ETKv02S+DnrxE7SvBc37GrYcmQhuYuPx7x0Dh8vdC0fxO5rdpl8m/
-         7mbw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776307597; x=1776912397; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bMpAi1WfcnB71WumSoAXkBgMlLV2naKm0UdS2vprTuk=;
-        b=ATbH9FISs9BBBuWpVcPRarxYlQmiSFfGDDOmUkfEKF8hseE2uT4zeFNFtiyEITr9pf
-         azyJpkKCgsryPMNQLCxQ8Adqy3OfBBZLrp4TmEUWG4HRt40aci4EmsnMhdl/RG1wEjnU
-         mKPgx0UrxQ7XdQF2NQ33Xy3LdygebhnxF8+e2Ezeqy5pYbFtLidTcYUGjB/oKI2o0Kcx
-         aVBpRzytF8aSMkz8hPuihm47cuWa4lleZ5B1qtJRN5A2+HRxCq4aj+BW0NgVZFHtrT0G
-         JeEUNAgAVYQY6cKOkMiAaEjIUOmIm1jaBH7G5FJcOuKwCdXjTW2Iu8dl6NuU01NO4+o3
-         qplQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776307597; x=1776912397;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=bMpAi1WfcnB71WumSoAXkBgMlLV2naKm0UdS2vprTuk=;
-        b=ZA9+zMuIP/nUgeiMMA01qgS6Cfkys2y9DCPk34qPQgh9E715+fsbsM5Vx0e1WXTvBU
-         7IHhYEBkhH9Q0enaCTyquGHUyeJo5n/IV01SikZ5BdVdvXaUSe1O3+Egw35xaPXdaOGU
-         inJU+heU1DF4eBbhpEYpFoB0fs+hiNyGNA+52Ae3ruIVUxIRqwiQg7Svh0bFJFgf8Di+
-         EnKP3LYsyEJuEaVZ9NpB+oAyg26LiL9EclvY+YtbDombSaIGBZszC+t8O4F0JpVdbKiu
-         5/pEx5BGkCdATFTTce1dvsJG+ADG1oHKt491FCpheK8No8OzQP/tqXjqGcK5mA/vInbQ
-         mdEw==
-X-Gm-Message-State: AOJu0Yz4P8ny41K6mPusEjhiAi139DI7epi/1AlDgNTN48jzvmO9Tmv6
-	E/rJAEGJnsNTlb2fOQmOnFdiUcUZ7XVpS9SYfMFMsIs1SOF+slprosOkCiQ8dsJBlf0Lu4ivBnN
-	s38PhfgSbiMB4mK0mIalM1EFXDd40qkKiijZL5uA=
-X-Gm-Gg: AeBDievs8qUinOA/fyTTlR2ii8WYXKitZXqaXPI+ofLfSiNykfwwQkXHy3rPFHMIAON
-	VDXo6eijW1G0umhgs1nZY9RmBwuIH6TrDKRYIr/MZBSyfSuGTgpOIeX5YsjU8+HLRrbFdRzcOWM
-	62B2/b/zBEuN/g9ltr2H0ITzBn1RoahgRoftlORV0ENEdzBw/S/y95vkE0z+eRTYYZmBTBrm/Ev
-	obF0VvDvTY4ARgXrXNSJfg9BztjoWrQDim0q0ZveeVtI+ynvo7YvetBZ+SUpGJ9++17c7gvNT9g
-	960yNM4ByCBkgfwLsI8=
-X-Received: by 2002:a05:6512:a91:b0:5a3:ff60:b72e with SMTP id
- 2adb3069b0e04-5a3ff60c455mr4177412e87.39.1776307596793; Wed, 15 Apr 2026
- 19:46:36 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="WWtOdCM2"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1776307755; h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	bh=5ekEIn/dZVWD2qMUuw46y5eHBbDEAF08FRZBv3kB4Ro=;
+	b=WWtOdCM23scA0zNrC06ImOnIJ5nwQuieziqVaxQmoWEsGi2iDWNMWNMRvKJ7E10ufNOjWjb4nNetvYs7F89QrgSx7cuA80tDnGhJe4UYYWk2QLTtcqCIwfwg0yQoCZCA3iIZGpuLZ34ipM7ifaVWhnsydZynZ5JPDdi+hQ5lpqI=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R191e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033032089153;MF=cp0613@linux.alibaba.com;NM=1;PH=DS;RN=3;SR=0;TI=SMTPD_---0X16f.G6_1776307750;
+Received: from DESKTOP-S9E58SO.localdomain(mailfrom:cp0613@linux.alibaba.com fp:SMTPD_---0X16f.G6_1776307750 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Thu, 16 Apr 2026 10:49:15 +0800
+From: Chen Pei <cp0613@linux.alibaba.com>
+To: sashiko-bot@kernel.org
+Cc: linux-perf-users@vger.kernel.org,
+	sashiko@lists.linux.dev
+Subject: Re: [PATCH] perf riscv: Add SDT argument parsing for RISC-V
+Date: Thu, 16 Apr 2026 10:49:03 +0800
+Message-ID: <20260416024910.20041-1-cp0613@linux.alibaba.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260414131753.7E1E2C19425@smtp.kernel.org>
+References: <20260414131753.7E1E2C19425@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260415082654.21026-5-kerneljasonxing@gmail.com> <20260415093822.79A76C19424@smtp.kernel.org>
-In-Reply-To: <20260415093822.79A76C19424@smtp.kernel.org>
-From: Jason Xing <kerneljasonxing@gmail.com>
-Date: Thu, 16 Apr 2026 10:45:58 +0800
-X-Gm-Features: AQROBzAef71r8tiUdyeZgUJhpnVKcyP5ZGIv1I1HR-iZo_mj3Web780eg-zTQnU
-Message-ID: <CAL+tcoDbMq9s5tQkpBQfjWZGajUtJxhYzxJ9vD-hpq7uU3RYNQ@mail.gmail.com>
-Subject: Re: [PATCH RFC net-next v4 04/14] xsk: cache data buffers to avoid
- frequently calling kmalloc_reserve
-To: sashiko@lists.linux.dev
-Cc: bpf@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=y
+Content-Transfer-Encoding: 8bit
 
-On Wed, Apr 15, 2026 at 5:38=E2=80=AFPM <sashiko-bot@kernel.org> wrote:
->
-> Sashiko AI review found 2 potential issue(s):
-> - [High] Cached data buffers are consumed without validating current allo=
-cation flags, potentially violating memory placement constraints.
-> - [Medium] Meaningful code and commit message mismatch regarding cache re=
-fill logic.
-> --
->
-> commit 5a442e9c44f0a64a147908843084cffe5e2fed9f
-> Author: Jason Xing <kernelxing@tencent.com>
->
-> xsk: cache data buffers to avoid frequently calling kmalloc_reserve
->
-> This commit introduces a per-socket data buffer cache for small packets
-> to reduce kmalloc_reserve() overhead. It adds bulk allocation from
-> skb_small_head_cache and persists unused buffers across batch cycles.
->
-> >     Inside the Phase-1 per-descriptor loop, when a small packet needs a
-> >     data buffer and the cache is empty, a single kmem_cache_alloc_bulk(=
-)
-> >     refills it with generic_xmit_batch objects. Subsequent small packet=
-s
-> >     pop directly from the cache. Large packets bypass the cache entirel=
-y
-> >     and fall back to kmalloc_reserve(). Unused buffers remain in the
-> >     cache for the next batch.
->
-> Is this description accurate? Looking at the implementation below, the bu=
-lk
-> allocation happens outside the Phase-1 loop. If the cache runs empty duri=
-ng
-> the loop, it appears to fall back to kmalloc_reserve() for each subsequen=
-t
-> packet rather than refilling the cache via kmem_cache_alloc_bulk(). Could
-> the commit message be updated to match the actual execution flow?
+On Tue, 14 Apr 2026 13:17:52 +0000, sashiko-bot@kernel.org wrote:
 
-Will update it.
-
->
-> > diff --git a/net/core/skbuff.c b/net/core/skbuff.c
-> > index c7e42c2966cdd..3b3969adfd23f 100644
-> > --- a/net/core/skbuff.c
-> > +++ b/net/core/skbuff.c
+> > diff --git a/tools/perf/util/perf-regs-arch/perf_regs_riscv.c b/tools/perf/util/perf-regs-arch/perf_regs_riscv.c
+> > index 5b5f21fcba8c6..51b43e68e0e3d 100644
+> > --- a/tools/perf/util/perf-regs-arch/perf_regs_riscv.c
+> > +++ b/tools/perf/util/perf-regs-arch/perf_regs_riscv.c
+> 
 > [ ... ]
-> > @@ -709,10 +718,17 @@ int xsk_alloc_batch_skb(struct xdp_sock *xs, u32 =
-nb_pkts, u32 nb_descs, int *err
-> >
-> >                       skb =3D skbs[skb_count - 1 - i];
-> >                       skbuff_clear(skb);
-> > -                     data =3D kmalloc_reserve(&size, gfp_mask, node, s=
-kb);
-> > -                     if (unlikely(!data)) {
-> > -                             *err =3D -ENOBUFS;
-> > -                             break;
-> > +                     if (dc_count &&
-> > +                         SKB_HEAD_ALIGN(size) <=3D SKB_SMALL_HEAD_CACH=
-E_SIZE) {
->
-> If the socket's sk_allocation (which populates gfp_mask) was modified to
-> require restricted memory placement (e.g. __GFP_DMA), could this code use=
- a
-> standard memory buffer left over from a previous batch?
->
-> While the bulk allocation check before the loop correctly avoids allocati=
-ng
-> from skb_small_head_cache if KMALLOC_NOT_NORMAL_BITS is set, the
-> consumption path here only checks dc_count. Does this need to validate
-> gfp_mask against KMALLOC_NOT_NORMAL_BITS before consuming from the cache,
-> to ensure memory placement constraints are not bypassed?
+> 
+> > +/* RISC-V register ABI names: zero, ra, sp, gp, tp, t0-t6, s0-s11, a0-a7 */
+> > +#define SDT_OP_REGEX1  "^(zero|ra|sp|gp|tp|t[0-6]|s[0-9]|s1[01]|a[0-7])$"
+> > +
+> > +/* RISC-V memory operand: [-]NUM(REG) */
+> > +#define SDT_OP_REGEX2  "^(\\-)?([0-9]+)\\((zero|ra|sp|gp|tp|t[0-6]|s[0-9]|s1[01]|a[0-7])\\)$"
+> 
+> Since the 'zero' register is hardwired and not saved in pt_regs, will the
+> kernel reject probes with a BAD_REG_NAME error when perf translates it
+> to '%zero' for tracefs?
+> 
+> Should 'zero' be excluded from these regexes and instead treated as an
+> unsupported constant-like argument to be skipped with SDT_ARG_SKIP?
 
-I can add the check but it seems meaningless to me. In the whole
-implementation of xsk, there is no place where sk_allocation can be
-set to a different value other than GPF_KERNEL.
+Good point. The 'zero' register (x0) is not saved in pt_regs and is absent
+from regoffset_table in arch/riscv/kernel/ptrace.c, so passing '%zero' to
+tracefs would trigger BAD_REG_NAME. Fixed by removing 'zero' from both regexes
+and letting it fall through to SDT_ARG_SKIP.
+
+> [ ... ]
+> 
+> > +static int sdt_init_op_regex(void)
+> > +{
+> > + static int initialized;
+> > + int ret = 0;
+> > +
+> > + if (initialized)
+> > +  return 0;
+> > +
+> > + ret = regcomp(&sdt_op_regex1, SDT_OP_REGEX1, REG_EXTENDED);
+> > + if (ret)
+> > +  goto error;
+> > +
+> > + ret = regcomp(&sdt_op_regex2, SDT_OP_REGEX2, REG_EXTENDED);
+> > + if (ret)
+> > +  goto free_regex1;
+> > +
+> > + initialized = 1;
+> > + return 0;
+> > +
+> > +free_regex1:
+> > + regfree(&sdt_op_regex1);
+> > +error:
+> > + pr_debug4("Regex compilation error.\n");
+> > + return ret;
+> > +}
+> 
+> [ ... ]
+> 
+> > +int __perf_sdt_arg_parse_op_riscv(char *old_op, char **new_op)
+> > +{
+> > + int ret, new_len;
+> > + regmatch_t rm[4];
+> > + char prefix;
+> 
+> [ ... ]
+> 
+> > + ret = sdt_init_op_regex();
+> > + if (ret < 0)
+> > +  return ret;
+> 
+> Does this properly catch regex compilation failures? 
+> 
+> POSIX regcomp() returns a strictly positive integer (like REG_ESPACE)
+> on error, so this condition will evaluate to false if regcomp() fails.
+> 
+> If the first regcomp() in sdt_init_op_regex() fails, could this lead to a
+> crash when calling regexec() on the zero-initialized sdt_op_regex1 below?
+> 
+> Alternatively, if the second regcomp() fails, sdt_init_op_regex()
+> calls regfree(&sdt_op_regex1) before returning the positive error code.
+> 
+> Could this cause a use-after-free when regexec() operates on the freed
+> regex object?
+
+Good catch. regcomp() returns a strictly positive integer on error, so
+ret < 0 was indeed always false, causing regexec() to be called on an
+uninitialized or freed regex object.
+
+Fixed by returning -ret at the error path, so the caller's if (ret < 0)
+check properly catches the failure and bails out before reaching regexec().
+
+> > +
+> > + if (!regexec(&sdt_op_regex1, old_op, 2, rm, 0)) {
+> > +  /* REG --> %REG */
+> 
+> -- 
+> Sashiko AI review · https://sashiko.dev/#/patchset/20260414124655.129463-1-cp0613@linux.alibaba.com?part=1
 
 Thanks,
-Jason
-
->
-> > +                             data =3D dc[--dc_count];
-> > +                             size =3D SKB_SMALL_HEAD_CACHE_SIZE;
-> > +                     } else {
-> > +                             data =3D kmalloc_reserve(&size, gfp_mask,
-> > +                                                    node, skb);
-> > +                             if (unlikely(!data)) {
-> > +                                     *err =3D -ENOBUFS;
-> > +                                     break;
-> > +                             }
-> >                       }
->
-> --
-> Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260415082654.21=
-026-1-kerneljasonxing@gmail.com?part=3D4
+Pei
