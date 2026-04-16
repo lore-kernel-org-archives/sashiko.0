@@ -1,192 +1,171 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+Received: from mail-dl1-f52.google.com (mail-dl1-f52.google.com [74.125.82.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 545A73002BD
-	for <sashiko@lists.linux.dev>; Thu, 16 Apr 2026 03:44:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776311077; cv=pass; b=lwab0dm7QsS6iWQoHRuLpJdwytVfBI5oULHpuPbHiiDQXriQorxESCbg7uKp8s89VmgN+taKU4z8NxgMcvEEyI/hBr0Z4+jRk1iTaMHMG4E8L5VMGzd8cvqd+HeB+9x7Eoac0v0NmmkjoTHJgTxeUsv1jlHO9eem795cztnFvTs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776311077; c=relaxed/simple;
-	bh=dpt4IJ3GDG0XHW9jydXe0NywBRPJF46+FLWkhFYg8uQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=itSNsYiLD/Ts6eUU4l8qn2nY6ReE6dh/B6IW/MgJoPfJqAsSDto54JxOSYhn79yyJQ2HhyC0UCB39XRoIYdOM2GKaJhRxzMTCfOFFob7Mca6megFBr7Mg9kbexFI5B6l3JFvr8xyaDOcQb4IAT6FT+e42W4rZNJX1M9NiE/N3AA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oFqVKYI7; arc=pass smtp.client-ip=209.85.167.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90EAB33B969
+	for <sashiko@lists.linux.dev>; Thu, 16 Apr 2026 04:49:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.52
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776314946; cv=none; b=nT4PTjM+v00wscl3AGA1fR+oGYJDucmRIrpayrJ9folzfEhMtYiMLBfke6Xeg9BZ3kkFKKxHczp3gpKNMYY8m9My86WwKXDPCGUXb7RyM11BL4aVUHkElwiu2QY0B5a+qn9jqypp9Ntmj9Kp6sG89U63s2pLxpc8MYweA3piqi8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776314946; c=relaxed/simple;
+	bh=58a1ou5dTzlBCcmc8gPgcsCSwZyWrOcRK+6vEMo8G5c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GZEUHZdOVRrsnZfOZz8YqBaMPXoxE2veVX+lkF46pCFcWktm28e2+CaARw9zB4+vULaNfUTfDWcXC3fDYgfuor+zm0fF17bfLJrae/h6veuq0Ry/L5kZy/4hNbBOKAeuf4o9cwbqcnDr6ImDEXqNo62m4gZ1sSeUSNKGoTRaHhI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FcTdKWok; arc=none smtp.client-ip=74.125.82.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oFqVKYI7"
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5a3e66f849dso247742e87.1
-        for <sashiko@lists.linux.dev>; Wed, 15 Apr 2026 20:44:36 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776311072; cv=none;
-        d=google.com; s=arc-20240605;
-        b=LDlRvSl//v39hCBBnlpvHNgy1xIAr5ZaH8mNY1NATO9Y6ebwNdIxALFNJyC27Idkee
-         DIvSJ+jWe1faJq6imQP3vA2FcQ+B2PdNIe/n0MQvWlzCnS5CaV895STgrcw3Sph+NUph
-         9gEkCxgx/Es556F0xIlLqZwYh31K4oe/J34lv1gDhhRktIvqFAHP4ubk6uVGqATFTLvr
-         ygwXDM6m4QSi+hGHhu22N64OQ7d3BgsXeYN2/a+sOYPPiicIS6Su+cDRlegjNm7rN7OE
-         NApBqFoH+VAkQ7JoyhlpaczG7Ryrxu2hOaTP/7Vw4ms7jXafnnWk6GeeWp10f5h30AZb
-         1xlA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ucDq05nFVA74XEJrVhKyCRM7W5uLCDWodS8G7L/HG4U=;
-        fh=7pQPbM1mTaKjUbZ75iTISJbipA72wUVZwkXXTYMxzFw=;
-        b=TUQEnwTbIKyicJNnYDks5+WLUngco3riC6+7rcNO9TFCm+9nBHKehd+CbQ95wVcAc5
-         JZ8wgaaDMb2IO9lhrMXm3dvIOt8WxHRXOexhyh0rWV6IGcWidIAM25Si6evP/y3NnHwo
-         aFgHcR3fDcpocuXhYbg4dqOh1IAjBb/WCd7cdQXv1JemBmtOu47f9IdJrjIb01X2CKAL
-         t3fgoOOqgeCSo1JLantEE6WVudq820+Fzz57E4nJTCDnG35WPYYui9jC8GqLBQ8VhlFz
-         tf3pxHNgLuczpUJUPHsyfNxeXDI0vr5lWEjpQSe/UNZuRaEBKIJmC5Au3E3I1+ysM4DM
-         PwRw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FcTdKWok"
+Received: by mail-dl1-f52.google.com with SMTP id a92af1059eb24-12c1fcce8f8so1215929c88.1
+        for <sashiko@lists.linux.dev>; Wed, 15 Apr 2026 21:49:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776311072; x=1776915872; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ucDq05nFVA74XEJrVhKyCRM7W5uLCDWodS8G7L/HG4U=;
-        b=oFqVKYI77f/KMFUsnUulquYQiMl8fzCpP/8YO+FlZFQgLrlQ8+odx8fZS1LwlN51wu
-         CfiTAcrdg51YXqdFAi41jI5AtmcQXs4vUuL11VeJ0RxGuciKPnskslPaJqLkU/zIxT8J
-         VEQgLUX2wPhq1WLfJ46V0abCZoiteI5FGa6UMR4eVm2lCoDsbXyxg9GyGQjsrakzhXLg
-         A5tzDawBIdLdawx45MRvBa0q11X01Vw1KNm8mZxfFuoyY6gDl6BmbgS7FSMb3/riY9Dj
-         bog2q5JYL8dQPlapivj0nJoEs0FV1vCD+yDgNvBQv0x9kaAaQd5CoNreF8LRaOTslLBK
-         1oOQ==
+        d=gmail.com; s=20251104; t=1776314943; x=1776919743; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=l5qZNIb399Xzo4308jp71ye0p5c2WwoKVKHEs2lDIQ4=;
+        b=FcTdKWokRjJ+Oy6YoHwuP+Co5a3i/cDSUsbASQug2D1RPcH8ZYy/C0AQGIH6mFRiLP
+         cg/MF4WK/vAqJnTPAqnIh1sC+JSVJcbilOfB42o5RWkSIgC2xaScMekRr8A45hRGUhoy
+         xx436yhu54+NJwmYg+sj/D9lf97VV2lxv2TIFC7+GBEKIkXNyJmrYNX2eVW2RIc+2I4l
+         yasgTXlQ11joLZZkUJyG8DiWzphM6CvBq5E35SYAvqJJ7S17roa5xP+JLcR92ZaX+iNI
+         JmloM4UFNN7lF1StMdNqIWaL/zd89AanZ59DFUPfXISeHOiLIiZayD6gF9C29lQrsmZU
+         bakQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776311072; x=1776915872;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ucDq05nFVA74XEJrVhKyCRM7W5uLCDWodS8G7L/HG4U=;
-        b=JgLhye3krAO1/vBEffNhm5EKGl2iUYOhSJic6mQjlXioj3+20O7wKmXA432jP+JNDC
-         o0OA+221KjN0Z1BVL88EpN5QBy7G6iiAyhEX4Hbn7kXju4DOz9Wxv6mqKU5ibMvrPAJ/
-         DPdCbG3+nLrzjg7j/wGnAlcEZoce6ZDSbggLPjWBVKTSkdA37hYIrKDKJMgYL+1E0hUZ
-         cYyyuMUdgVNIAtCkYMcHNRIFb92KiN96j1oYS4PcOBbn0DIA1GIK927Jew2SG609MOHm
-         y9CBG28aWGFfstvDznNqMfLwPb9gNl3QckCRxHwenqxLxAvCaq0Pd+tTw2KuzPPd+M3n
-         GBnA==
-X-Gm-Message-State: AOJu0Yx9YNRhrZygMqMqVMVGZYuaCzH3FlJlHLeeRgBttvSb02A7TqJe
-	vW74utLJ4eP23A/6M47qg3VrsNAX0UTWsYv3uByW9PB7UzYgVg1MQSm4fqRzLEA4+PFpn3afV1n
-	DfNl8R1A6VyE57lpHjYzaXMGPagVHxLHWw8rglpancg==
-X-Gm-Gg: AeBDieve+79xADVHsDblHXsSObFCinBeHgQVYsNPPPl/MKC3p9J6ZOg81641JxFyX6m
-	hGe+qyhF8NuCWsOKjILVfrGQDaEN86P+ZiYHOgaht4VsBV1Xrzhm5jzM1YmSE/2jyoxcaEB9uyk
-	7sXUJjlHPRZfTYGHlM3SUVcGQ1PAcfnyZV8ZIniJO1ZpoHJ4KOYvfgFhV6ajIKoXuiZrApicFyU
-	xegqWm8/s2tuOqC6dnvS2Lpgi+NKrkHZHcHZj7BJvF/dCP8Xwrm0Y7U4W/+j21tLoIDMptKTOy5
-	fQFYrREO/XzoKdSbMVg=
-X-Received: by 2002:a05:6512:1081:b0:5a2:9b96:528b with SMTP id
- 2adb3069b0e04-5a40dfa9058mr504302e87.20.1776311072241; Wed, 15 Apr 2026
- 20:44:32 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1776314943; x=1776919743;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=l5qZNIb399Xzo4308jp71ye0p5c2WwoKVKHEs2lDIQ4=;
+        b=ESvacl8G1479G+6OH2Qcr6//Z18NS+w6cM6MaVXMVDmySvvX0nltRVsmvjuRZjT8tb
+         DL67voQlIxmsPz+wrvbVYiZb7+oDgZ0Uf8gyo+XlkCcNbTWUxwk6TQC+smkkJz42hYzv
+         Bx/9l+yjrlXn+gJA3MJtu/F+2Ie56nQf+iB0AA7nf2v7NEa9sjzPrb4VucxWrac6j1Jj
+         LFh9gCbbmR5Jda8QaYpQiPrU0PweNNKVQBEk/U+6R4ojQU7mKy6r1mi0IxNwWh7OaYAM
+         R2brTtOmoIsR9SLtyboSHR5EUO/7Vh9kCraK8zsD/f3gblUmkzug9vKosJnaTDunoHeH
+         57EQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9nkjfGtLECicHlzSJNQEDKry+7m/E/fJs2JfMycjrgj3sD+T6N0gYuC5GCp2M+ja6hTgYPWnlB@lists.linux.dev
+X-Gm-Message-State: AOJu0YwEF4acrAiDcTeXOLqN0AktTuppFSzhcND3oKaoHhGOXsHKAFTN
+	F0fZcl1rqei+eCdT+3CqQNmQ2qZjn0ril1MW9I6xFCK+wXEwus646ys2
+X-Gm-Gg: AeBDieviZuJxlZyGprYScxB4beOQllgQ5fCIfSo9e5h2FZ9eBGrX01xvxDbxxOujGpv
+	zU7ebR09Uv1Etog4ffwYzLKr9GzsghCRADFhOWzrhuZMSQqXVgAu40txaBqsojkLhzfmhlQ1/db
+	AwpJLG9w0dM8i9Jvs+GV7aRQ60u0chYd71d4PsyVgy6o8f7GzhI1Ilc3IGfNQmJwXS5+1Rd6J+q
+	oMTvYLZYwAUi0oUshEtHnOvhy6enUjM/Hdye4H9xCawzRam+8prRBJmAphZD0SyqdCUrbElPWVD
+	ptaP2WYHWHB7w9Ctp5ikjfHSEWuZq6sg7v48k6lT87MN6JBBKp5KuwinLitz4j2+BSmNUV9GUPi
+	nTxdf4x4sraiT7yq0XyJ3qDhYapoSZQbRRQUWQCdfIJHvEC8kPB7kOAhOO/edsNEByrRDT/Ja1m
+	VbpfDW2z7UJqIt9WvvFAhhvM1+W9ztr6kSsuFC5fTsRye9EqrcX6yI31xuKuFbY9yvL2ktE2SKF
+	Xb4jbao7sBdZEgO/8vueA==
+X-Received: by 2002:a05:693c:2c92:b0:2df:7b88:a1b0 with SMTP id 5a478bee46e88-2df7b88a90cmr1341945eec.27.1776314943264;
+        Wed, 15 Apr 2026 21:49:03 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2de8eb84673sm5905125eec.19.2026.04.15.21.49.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 15 Apr 2026 21:49:02 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <49e4ae2a-85a0-44c9-99e6-dc38d5cd60cf@roeck-us.net>
+Date: Wed, 15 Apr 2026 21:49:01 -0700
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260415082654.21026-7-kerneljasonxing@gmail.com> <20260415093539.4A4BFC19424@smtp.kernel.org>
-In-Reply-To: <20260415093539.4A4BFC19424@smtp.kernel.org>
-From: Jason Xing <kerneljasonxing@gmail.com>
-Date: Thu, 16 Apr 2026 11:43:53 +0800
-X-Gm-Features: AQROBzBl8Pk-WRPKQxQEIYAyeKD4MLfT8hpQzV8U-3Xe31PaNeksxymOLwuLY2Y
-Message-ID: <CAL+tcoDUa=MpXSEtweT0LvkBEM2hcYnrjn4FK-ntU3WNMbLEWQ@mail.gmail.com>
-Subject: Re: [PATCH RFC net-next v4 06/14] xsk: support dynamic xmit.more
- control for batch xmit
-To: sashiko@lists.linux.dev
-Cc: bpf@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] hwmon: (pmbus/max20830) add driver for max20830
+To: "Torreno, Alexis Czezar" <AlexisCzezar.Torreno@analog.com>,
+ "sashiko@lists.linux.dev" <sashiko@lists.linux.dev>
+Cc: "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>
+References: <20260414-dev_max20830-v1-2-210d3f82c571@analog.com>
+ <20260414045647.4AACCC19425@smtp.kernel.org>
+ <69f893bd-bb38-439c-b7e3-30d17c6b8cd3@roeck-us.net>
+ <PH0PR03MB635179B8E59E60DB994415A7F1222@PH0PR03MB6351.namprd03.prod.outlook.com>
+ <e4a4c2a6-e757-49f8-8fbc-215a74c7a9b5@roeck-us.net>
+ <PH0PR03MB6351026955AFF2D037BF0266F1232@PH0PR03MB6351.namprd03.prod.outlook.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <PH0PR03MB6351026955AFF2D037BF0266F1232@PH0PR03MB6351.namprd03.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Apr 15, 2026 at 5:35=E2=80=AFPM <sashiko-bot@kernel.org> wrote:
->
-> Sashiko AI review found 1 potential issue(s):
-> - [High] Stalled TX queue due to missing hardware doorbell ring on early =
-loop exit
-> --
->
-> commit 6d7c8f2ad056eb4cb2eec8d360e632f9ef9044f5
-> Author: Jason Xing <kernelxing@tencent.com>
->
-> xsk: support dynamic xmit.more control for batch xmit
->
-> This commit updates xsk batch transmission to only set xmit.more to false=
- for
-> the last skb in the send queue, aiming to reduce unnecessary IRQs and imp=
-rove
-> batching performance.
->
-> > diff --git a/net/core/dev.c b/net/core/dev.c
-> > --- a/net/core/dev.c
-> > +++ b/net/core/dev.c
-> > @@ -4873,6 +4873,7 @@ int xsk_direct_xmit_batch(struct xdp_sock *xs, st=
-ruct net_device *dev)
-> >       struct sk_buff_head *send_queue =3D &xs->batch.send_queue;
-> >       int ret =3D NETDEV_TX_BUSY;
-> >       struct sk_buff *skb;
-> > +     bool more =3D true;
-> >
-> >       local_bh_disable();
-> >       HARD_TX_LOCK(dev, txq, smp_processor_id());
->
-> [ ... ]
->
-> > @@ -4892,8 +4893,12 @@ int xsk_direct_xmit_batch(struct xdp_sock *xs, s=
-truct net_device *dev)
-> >                       __skb_queue_head(send_queue, skb);
-> >                       break;
-> >               }
-> > +
-> > +             if (!skb_peek(send_queue))
-> > +                     more =3D false;
-> > +
-> >               skb_set_queue_mapping(skb, queue_id);
-> > -             ret =3D netdev_start_xmit(skb, dev, txq, false);
-> > +             ret =3D netdev_start_xmit(skb, dev, txq, more);
-> >               if (ret !=3D NETDEV_TX_OK) {
-> >                       if (ret =3D=3D NETDEV_TX_BUSY)
-> >                               __skb_queue_head(send_queue, skb);
-> >                       break;
-> >               }
-> >       }
->
-> If an error occurs and the loop breaks early, does this leave previously
-> transmitted packets stalled in the driver's TX ring?
->
-> Since more is passed as true for all packets prior to the failure, the
-> network driver defers ringing the hardware TX doorbell.
->
-> If the code breaks out of the loop due to validate_xmit_skb_list() failin=
-g,
-> netif_xmit_frozen_or_drv_stopped(), or netdev_start_xmit() returning
-> NETDEV_TX_BUSY, the loop terminates without ever passing more =3D false t=
-o the
-> driver.
->
-> Could this omission prevent the hardware from being notified to transmit
-> the successfully processed packets that preceded the error?
+On 4/15/26 20:04, Torreno, Alexis Czezar wrote:
+>>>
+>>> I may need to keep i2c_smbus_read_i2c_block_data. I'm testing this on
+>>> an rpi4 and it seems i2c_smbus_read_block_data isn't supported by the
+>> adapter.
+>>>
+>>
+>> Odd. I can see that the bcm2835 controller driver sets
+>> I2C_FUNC_SMBUS_EMUL but not I2C_FUNC_SMBUS_BLOCK_DATA. That
+>> makes me wonder if the controller really does not support block reads. Any
+>> chance you can try setting that flag in ./drivers/i2c/busses/i2c-bcm2835.c and
+>> see what happens ?
+>>
+> 
+> I tried using i2c_smbus_read_block_data, and here's some log messages
+> 
+> [ 6857.261998] max20830: adapter does NOT support I2C_FUNC_SMBUS_BLOCK_DATA
+> [ 6857.262006] max20830: adapter supports I2C_FUNC_SMBUS_READ_I2C_BLOCK
+> [ 6857.265228] max20830: i2c_block_data read 32 bytes: '        MAX20830'
+> [ 6857.265648] max20830: smbus_block_data read 9 bytes: ''
+> 
+> i2c_smbus_read_i2c_block_data returns 32 for 32 bytes read
+> and the buffer content is expected "MAX20830"
+> 
+> i2c_smbus_read_block_data returned 9 so I think it read the payload length of 1byte
+> but no data beyond it, hence buffer = ''
+> 
 
-The quite similar code snippet was added in dev_hard_start_xmit()
-introduced by the following commit in 2014:
-commit 95f6b3dda2a4a052f7dabe9998e4ffac491b7bc2
-Author: David S. Miller <davem@davemloft.net>
-Date:   Fri Aug 29 21:57:30 2014 -0700
+Ok, worth a try. The "correct" fix would be to implement support for the command
+in the I2C controller driver, but that would be too much to ask for.
 
-    net: Have xmit_list() signal more=3D=3Dtrue when appropriate.
-
-    Signed-off-by: David S. Miller <davem@davemloft.net>
-
-Look at the doorbell of drivers, like ixgbe:
-if (netif_xmit_stopped(txring_txq(tx_ring)) || !netdev_xmit_more()) {
-        writel(i, tx_ring->tail);
-}
-
-It has already taken care of it.
-
-If we really want to cover all the possible drivers in the above two
-cases, maybe we need a separate patchset to add a common interface of
-devices to actively kick the hardware. But now I choose to defer it
-unless someone insists on this.
+Ok to use i2c_smbus_read_i2c_block_data, but please add a comment describing
+the reason, i.e., that this is to support drivers/controllers which don't support
+i2c_smbus_read_block_data(). Also, please implement code to address the
+differences: The first returned byte is the real length, so please check that.
+Also, please fix the "Unsupported device" log to not print the first byte.
 
 Thanks,
-Jason
+Guenter
 
->
-> --
-> Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260415082654.21=
-026-1-kerneljasonxing@gmail.com?part=3D6
