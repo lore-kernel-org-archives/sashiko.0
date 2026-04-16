@@ -1,141 +1,91 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com [91.218.175.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CFC537BE8F;
-	Thu, 16 Apr 2026 15:26:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4974519E97B
+	for <sashiko@lists.linux.dev>; Thu, 16 Apr 2026 17:46:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776353195; cv=none; b=XMaYjemw7ETiXbmRTftA5qoVYgsnP4By83Cj5Jmhc6A+XXTD5Rc/mnsJVHk+ADfe3OXaDXycNZC0liqOgSqO7syES+jdDqjZtpmavSXsTq+2g2sEUvELT1Jmh4LKez80Jx1VaQndeoF2unnjxVjeaJi/3JHzKfLUdl2LOa4Wjqk=
+	t=1776361565; cv=none; b=rvldLTGhq/dvf7tTfd/pdKCW0IynSDawzectLenyUKlvVd+JTMmPfX/1ETVa3uEKZaKDGZ/v88y3Jyu7nHw7h+u5CQD/h4PfQuUrVlkBZGaYrBcXat2HgX6kzBVuEC2li+jF/njgeobJ+5yBYPdzJpx0I4NybspTKcrlTxVYumE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776353195; c=relaxed/simple;
-	bh=F0+Yhx8r47WTbUpmSIX9JGHqykxC7gGlPolhy0ZbDdw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XO8UInz1mk9acWdUPHYyCqvNsCAG2dj3ASOIn76SyV6wksIwmxArh5RgAJB9vyORc/T+eOSl7Hk9pq0EWCG8X7gRK4Z5rzqAiwPvyqq3nBWV5mHywumsqAL2FXqYvFfcm0V9mk7F2GfYPVaF/zMNYFTGAXj07OBIVbsEC0m4HDw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L4zX728r; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776361565; c=relaxed/simple;
+	bh=wRSkLfcxxI60K4+Gdv3RJeMKnHTLNNxnmgVuhPXbhzs=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=T7zKUTkIo6Y8pB05tP4LaslVMCaG9jTOwFZ9EXyi6is5xhXgrWlN5/7UyCpQoyTaDRlfNKATM3SVWygLVfm1jhsnPYqFTJKaUtU7fv2PCW7oAQDKFw/pfpzNTK1cTfnZHkHmApfM3gN3r8szor19AxB6vaRtv+NKy8pvm94lHRI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=fOTUkpnf; arc=none smtp.client-ip=91.218.175.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L4zX728r"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0AD9C2BCAF;
-	Thu, 16 Apr 2026 15:26:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776353195;
-	bh=F0+Yhx8r47WTbUpmSIX9JGHqykxC7gGlPolhy0ZbDdw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=L4zX728rBW0f81bfgarw+xFlxj1elSTwt5B1ebPdYLs9S8r0snefYgRgHAPLh4GrZ
-	 aZFWvFRHamyfnF8zyAToOVJrAJ6Or1SRR4VOJaTtjLGrl4Yc4BTq9KkxZKK+kF86Bu
-	 kvZz7plL6tVb2TH3hza4wBp9SqWqFcttLZIfy6ZS4wLEeFmBrbkD6eIQHLf/pXexpG
-	 Qvpbr4Y42rchpDAOxio0uFwtrE2N1jndZ41EXN4GJxNjPCd2mSkWksIjYWE7QTCKuZ
-	 Ttkd4qT1U1silqjU53aGCk6G830DyumRF9ih6qLgbeEIVDhuXgzIVvWvuEv6zxUXCI
-	 Bq57yBmZo/ewA==
-Date: Thu, 16 Apr 2026 12:26:31 -0300
-From: Arnaldo Carvalho de Melo <acme@kernel.org>
-To: sashiko@lists.linux.dev
-Cc: linux-perf-users@vger.kernel.org, Ian Rogers <irogers@google.com>,
-	Namhyung Kim <namhyung@kernel.org>
-Subject: Re: [PATCH 4/5] perf header: Validate bitmap size before allocating
- in do_read_bitmap()
-Message-ID: <aeD_p9iGYlNNSSNZ@x1>
-References: <20260416001424.362797-5-acme@kernel.org>
- <20260416022540.287E3C19424@smtp.kernel.org>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="fOTUkpnf"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1776361562;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hHrCtpMITWLNXcE8f7X9uNRRlALPyi+stAXMDLaH5G8=;
+	b=fOTUkpnf3ZAy2h749K+cZfBPw83econdG91pjjSTWNDvwU/W5JFU9PX5VOqUIwbsun5ug8
+	6xDvmemAsh11DuBQLXnNfSkRErClyOiV0xnNTbAgc9k0xhRAY1gSH5WibhJkbX/LbbCR7U
+	GsS9Ylty+TWWmzJvYivsdX1z265zicI=
+From: Roman Gushchin <roman.gushchin@linux.dev>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: sashiko@lists.linux.dev,  Alexis Czezar Torreno
+ <alexisczezar.torreno@analog.com>,  linux-hwmon@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: hwmon: pmbus: add max20830
+In-Reply-To: <20260416-winged-ivory-mandrill-f1e8b3@quoll> (Krzysztof
+	Kozlowski's message of "Thu, 16 Apr 2026 11:25:26 +0200")
+References: <20260414-dev_max20830-v1-1-210d3f82c571@analog.com>
+	<20260414043841.1ED2AC19425@smtp.kernel.org>
+	<20260416-winged-ivory-mandrill-f1e8b3@quoll>
+Date: Thu, 16 Apr 2026 17:45:52 +0000
+Message-ID: <7ia4mrz2ssrz.fsf@castle.c.googlers.com>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260416022540.287E3C19424@smtp.kernel.org>
+Content-Type: text/plain
+X-Migadu-Flow: FLOW_OUT
 
-On Thu, Apr 16, 2026 at 02:25:38AM +0000, sashiko-bot@kernel.org wrote:
-> Sashiko AI review found 1 potential issue(s):
-> - [High] Integer overflow in process_mem_topology() leading to heap buffer overflow
-> --
-> 
-> commit cc7a509cea916b4f4ae9c056c5eb0517bac22dfa
-> Author: Arnaldo Carvalho de Melo <acme@redhat.com>
-> 
-> perf header: Validate bitmap size before allocating in do_read_bitmap()
-> 
-> This patch updates do_read_bitmap() to validate the u64 bit count read
-> from the file before allocating memory. It rejects sizes that exceed
-> INT_MAX or exceed the remaining section bounds, preventing potential
-> large allocations or truncation issues with bitmap_zalloc().
-> 
-> Link: https://lore.kernel.org/linux-perf-users/20260414224622.2AE69C19425@smtp.kernel.org/
-> 
-> > diff --git a/tools/perf/util/header.c b/tools/perf/util/header.c
-> > index 696f19739074e..89697aec914c9 100644
-> > --- a/tools/perf/util/header.c
-> > +++ b/tools/perf/util/header.c
-> > @@ -290,6 +290,11 @@ static int do_read_bitmap(struct feat_fd *ff, unsigned long **pset, u64 *psize)
-> >  	if (ret)
-> >  		return ret;
-> >  
-> > +	/* bitmap_zalloc() takes an int; reject u64 values that truncate. */
-> > +	if (size > INT_MAX ||
-> > +	    BITS_TO_U64(size) > (ff->size - ff->offset) / sizeof(u64))
-> > +		return -1;
-> > +
-> >  	set = bitmap_zalloc(size);
-> >  	if (!set)
-> >  		return -ENOMEM;
-> 
-> This isn't a bug introduced by this patch, but since the commit message notes
-> that do_read_bitmap() is used by process_mem_topology(), does the same missing
-> validation exist when allocating the nodes array in process_mem_topology()?
-> 
-> tools/perf/util/header.c:process_mem_topology() {
->     ...
-> 	if (do_read_u64(ff, &nr))
-> 		return -1;
-> 
-> 	nodes = zalloc(sizeof(*nodes) * nr);
+Krzysztof Kozlowski <krzk@kernel.org> writes:
 
-This code now already has a bounds check and is using calloc:
+> On Tue, Apr 14, 2026 at 04:38:40AM +0000, sashiko-bot@kernel.org wrote:
+>> Sashiko AI review found 3 potential issue(s):
+>> - [Medium] Incomplete Regulator Schema
+>> - [Medium] Missing Hardware Capability (Interrupts)
+>> - [Low] Devicetree Best Practices Violation (Node Name)
+>> --
+>> 
+>> commit 20a4d8dcd2f3344ac22d7d2e974bae1ef57874ed
+>> Author: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
+>> 
+>> dt-bindings: hwmon: pmbus: add max20830
+>> 
+>> This commit adds device tree documentation for the MAX20830 step-down DC-DC
+>> switching regulator with PMBus interface. It allows monitoring of voltage,
+>> current, and temperature.
+>
+> Sashiko devs,
+> Can we drop such comments? They are useless - we know what the commit is
+> doing, no point for reviewing tool to say it again.
 
-        if (do_read_u64(ff, &nr))
-                return -1;
+It's the format which originated from initial Chris Mason's prompts
+and as *I understand* it's purpose was to make sure the llm is reviewing
+the right patch and more or less understands it. Idk if we still need
+this, but at least some find it useful: e.g.
+https://github.com/sashiko-dev/sashiko/issues/90 .
 
-        if (nr > MAX_NUMA_NODES) {
-                pr_err("Invalid HEADER_MEM_TOPOLOGY: nr_nodes (%llu) > %u\n",
-                       (unsigned long long)nr, MAX_NUMA_NODES);
-                return -1;
-        }
+I'm planning to do it configurable in UI, but for emails I can
+only make it configurable on per-subsystem basis.
+If there is a consensus amongst hwmon maintainers, I'm happy to remove
+it for hwmon (in several days).
 
-        if (ff->size < 3 * sizeof(u64) + nr * 2 * sizeof(u64)) {
-                pr_err("Invalid HEADER_MEM_TOPOLOGY: section too small (%zu) for %llu nodes\n",
-                       ff->size, (unsigned long long)nr);
-                return -1;
-        }
+>
+> Please send only useful feedback to mailing list, otherwise this will be
+> just noise and going to be ignored.
 
-        nodes = calloc(nr, sizeof(*nodes));
-        if (!nodes)
-                return -1;
+Agree, but there are many sometimes conflicting opinions on what's
+useful and what's not. So I'm trying to make it as flexible and
+configurable as possible.
 
-Probably you're working with upstream and the fixes are in
-perf-tools-next/perf-tools-next.
-
-> 	if (!nodes)
-> 		return -1;
-> 
-> 	for (i = 0; i < nr; i++) {
-> 		struct memory_node n;
->     ...
-> 		nodes[i] = n;
-> 	}
->     ...
-> }
-> 
-> Because nr is an unvalidated 64-bit integer read from perf.data, could a
-> crafted value like 0x2000000000000000 cause the 64-bit multiplication
-> (24 * nr) to wrap around to 0 during the zalloc() call?
-> 
-> If zalloc(0) succeeds and allocates a minimum-sized heap chunk, the loop
-> could iterate and write beyond the allocated bounds when assigning
-> nodes[i] = n on subsequent iterations.
-> 
-> Could this overflow the nodes[] buffer?
-> 
-> -- 
-> Sashiko AI review · https://sashiko.dev/#/patchset/20260416001424.362797-1-acme@kernel.org?part=4
+Thanks
