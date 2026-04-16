@@ -1,149 +1,200 @@
-Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77EAD2222D0
-	for <sashiko@lists.linux.dev>; Wed, 15 Apr 2026 19:32:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.176
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776281534; cv=none; b=HBTVxJ5QN7i5sUHjzCx76FS2bk5kA9TNULF/nSD7B/4sztqCdhQ6U7qufvmvXCiFA6bDcJy/8iIm6mocDykGuP1HcxCBKdEEDrppwkA8ToLKFoZIzQK8mioNyyZKefwq1+QtpycoJBEn8vcf7LsJcMfChyynEl6u4+ph9C4hUUA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776281534; c=relaxed/simple;
-	bh=STr3ytdwHXCKXbD/oqlkTHF4bjtfg6nYMJTiZzXVZrs=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ZGT7F8Z4PD55zfAaVgHNaaD01KEd8OKdtwKSToq8gZYt5trPYkWGrxO0J2CZSagZ9G3A5hU+TqMG3R6LxDGYjL8Uh6hGoyu9a7ccoFZKbHA0BKiOLhJk84U0+Yza0w+SXNGn2uwPNUnX9yloesuabwvtMfVKLjvD3kbV4a4qMe8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ffMhMBy/; arc=none smtp.client-ip=74.125.82.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E93F61F03DE
+	for <sashiko@lists.linux.dev>; Thu, 16 Apr 2026 01:19:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.176
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776302346; cv=pass; b=d9Ka3646yUoa1G5qYn/5x4DComrrTnp5lWNvokxcR6wPc0nc+V7YZ5kcjV63ET/kXrqM8o777QeeZS6OCAijMuaUp+n7XFavZpokimPZvMFzhtPLVyiOcEFxHysEvEKMXHKDgmbjVlJWm6IdIIuwlI3BAOfoVK7vj2eM2czSbJs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776302346; c=relaxed/simple;
+	bh=XCtJXo6oKu5qJcO35V9S1Ifbd7LnW/zGipwZFVwFPkU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uwIbRP4EJnRI64KEUTSvGc1Uy5Y0N6LX8Mt0KVajsxnVNvCYBc1B4/UKvd4c1KYQDlLH0BsyMZ/sAsZkVLmfyFtB/iYopB4HhIXj/sXmEVBpL6kH0+mgH8daFkyhf1tvFccKYV3A5raBoo6Sc5dacfpz7R0KhfDjZ10ZB4pLLwA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZwQFk8gf; arc=pass smtp.client-ip=209.85.208.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ffMhMBy/"
-Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-2d891442388so6683307eec.0
-        for <sashiko@lists.linux.dev>; Wed, 15 Apr 2026 12:32:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZwQFk8gf"
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-38e7d984096so41474731fa.2
+        for <sashiko@lists.linux.dev>; Wed, 15 Apr 2026 18:19:04 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776302342; cv=none;
+        d=google.com; s=arc-20240605;
+        b=SjvZjoza3JtZUhy0t1IC4rbndTfZQbOkpG/f+WY8hcGnD8+eXX0On82sBxaF2aC//4
+         sfsvGPoWXMKTW6njMXuriA7qpennUCdemf51rBk2tF/khXmn3Lt8Yf0raaZsXEHGzFay
+         u/oSjNTiTfwoyuWmjJdxg3Rxc9j6lgBjrtoS951rUHqG0g5hNWz2v8P7q222yW6WjII4
+         2hE057cS6cyDRogzWdr4H6f8aGrJTb7ucBwF9+QRF2X5rW6yfZnHbsxbtXAfurkcP4YF
+         7qt3MpN+YN6qHQK5yyc54JkpiYm7ztNGxBJU0VvvnJmaqpPlEClG9dFxcun5lT4O29k0
+         FV7A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=jZNhlsmlO+2dvKw7ULeWGa/3ZgJ/3xNp9y/uk0LituQ=;
+        fh=7pQPbM1mTaKjUbZ75iTISJbipA72wUVZwkXXTYMxzFw=;
+        b=QheQ6u869Ky/kDyBJugN7uN6CXjVALETVuIiSL1JOuHuwINa9AnFc/JD35PbdJi6CU
+         xHuzemD49SPAQaau5dKRSSR+JGIDfZodeBjWtVHGK021+ph8YdAEG6YG7bINQs2QypBB
+         hbFoVq3bOTsFl+C2MD0ArtA3jL78VkqAMfQSRebH4F8a+EGDq11Rzl0AL9TJo7PmbxqU
+         KYIzEXEn7Yb468UtuYCBx7CG5J0/v14YlwBxughcCQiMQT6J+Vc4YD6n3rFpRWCLJfpb
+         MZRkSOhtR856lq/Y6s++g2imLn9CXBx2+MvW8UxpZSdcklL6YpS4SBs92U8gMHc9uzn0
+         PcjQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776281532; x=1776886332; darn=lists.linux.dev;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=xQDjnxsRJ1VgLaxh3r+cVvaXvxLdFW+s3hShCjWRoJY=;
-        b=ffMhMBy/gaZbmBooGIoJCVp/ir/Snz4+iYSP1yeH4n9t7Rct5GE8RJyeokJCpXafgV
-         UOJRN9CQvZokKuO3zoJcsbMUHcjhld2yqHSik9/VMEY0CnxKZ6GWHB8/1ZiSymq2WNNc
-         F1vTfr0B/va1APGrPPOFwooJEPHeYkagbxkw6VJCBgFTR5r03t8SbF0mCpS+vV34jLrM
-         zube0sblg+2flwTZA5wg1hFSdGgL2F2qMSnMsIkPVO+k5mvV2OW/AVQGktOPaqLgrnlk
-         zRk0sdaglFgC6WWr+1nDV0L6gF6rohYylVO4zk46j0UiWlj7nlNHqMwQ9f8H+FPolGs4
-         MKLw==
+        d=gmail.com; s=20251104; t=1776302342; x=1776907142; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jZNhlsmlO+2dvKw7ULeWGa/3ZgJ/3xNp9y/uk0LituQ=;
+        b=ZwQFk8gfq3yVpq2sUH+ksSTlTxbu7+8ahXHG3VoWqRZwKxDxrO5z0w7cUX23rC/mzB
+         IWgoM9qNl6W+RxX+1G7fdG3Q4i+WNQBKLZfh3Ad4B/1/DXS+W2lOe+bjPFiKfHQJ/ixN
+         xNGuzECsI/W6OiUiOVBpfes2pCwPzMToaWsFJaZQOTrMSCWwsX9+kZdN46fjiVDR4fUI
+         s2KpxlKKkpA773OK6Nu+lcGxd3T6aY5W6oZF8QgnYabw3a6lXC8zGHzxN644v1OZNBhT
+         fVT4fw+FzAdr0XIoj4tKnNKwiRQlaqr+0eyYV89YJ+iJAsvHBSD+sQA1IPoYLLQB79Ic
+         74tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776281532; x=1776886332;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xQDjnxsRJ1VgLaxh3r+cVvaXvxLdFW+s3hShCjWRoJY=;
-        b=ULY7nLsPtXXh3l7I23LfVjQ+O/SWexiYMm0q3NbY7mt3bFQ20SvLuZu7PGvgpMnKbl
-         OcwjS44fchBpofoeb7JpFSdn2LjI9Fdup7ISj2mHpUC9PJu6uOR98cBGPii72jyOX/r7
-         MaPzkC5uZ37fCV8OMyz2ZvAXvHD6eKgnKwS8By2byBvw4KmRlnqF1Mx4gYV2Cjjnz3Vz
-         yb99vUi2gJ9ZegDWgmT+flEFOe9Rs1uR+1Uw78yk1RkdnULCVDDl3pzfHRgMPYG4aT2m
-         tK85b5Dw19XLeMwt3ezgoAh/RQPtnMQdLcyfeRJK1okvUAmBSNXExc0/1hppof2PA6ct
-         uZzw==
-X-Gm-Message-State: AOJu0Ywqtu5IyMd88c0bEDHuMMAWOY03IJ0LoHBQTu6SpI5rOaThIbPk
-	skwzRoLDFzZWG9QFlcF0ZuyH48wReLLFQwxP+QEKXv5iDPztGyrQnx4hOxujrk50
-X-Gm-Gg: AeBDietxK5vGy3HGiOnycxbWNzmdqTmzzwX6Lc+FGf9zQb3Jcv2NaSwm+WN8i40hKka
-	ovEZ/lN1x2cl69X30boS81NQxKoAQhIWYqy+kFXyWoPcfUqoup2CxHdxKLhlQK7saxaKDFoWZ7i
-	yNhQAw+pcUm/iWs/aMNsN4fuYkvlt0LyhYpc1j/YRu1o7IihgC7x7fvTC1GtrCkeIcYh28iozFs
-	MNPFcA3dR2sG+tF6NHNJu19q8JpuP7qe9QxtxxShcrBTwTCe30EoC31IX9PnOndcbil8Tc1lBN4
-	gPaCcnoy2F5hhbOKUCn9VTG4MObzv4/9sRKcQ/LkdS7y90Tg1eT83wci3FLU/t6dWkl+NM/a3gX
-	JV/IlS2Meu3+T0VxaekRqWoXI5piAZ2VIOFBo9D55ByzZhMmKNHeBFjj3/o5QF7zPsCuG2Ob8zj
-	EiddNQ2MIDPj+mEZABXXTntxtVefDRJBcf3/F9sOCqAimP/EEYDu2H+jzwts4SzLsvXYJ8EOdMk
-	DFtYQ==
-X-Received: by 2002:a05:7301:470e:b0:2d8:1efe:51dc with SMTP id 5a478bee46e88-2d81efe56c0mr6296618eec.6.1776281532185;
-        Wed, 15 Apr 2026 12:32:12 -0700 (PDT)
-Received: from ?IPv6:2a03:83e0:115c:1:21dc:2944:7f23:f4d7? ([2620:10d:c090:500::cdb0])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2de8fe4ea2bsm4019815eec.31.2026.04.15.12.32.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Apr 2026 12:32:11 -0700 (PDT)
-Message-ID: <f6016087c52b0a84cb2cb871cf62674ae1fb472f.camel@gmail.com>
-Subject: Re: [PATCH bpf-next v3 2/2] selftests/bpf: verify kallsyms entries
- for token-loaded subprograms
-From: Eduard Zingerman <eddyz87@gmail.com>
-To: sashiko@lists.linux.dev
-Cc: bpf@vger.kernel.org
-Date: Wed, 15 Apr 2026 12:32:10 -0700
-In-Reply-To: <20260415191738.226BFC19424@smtp.kernel.org>
-References: <20260415-subprog-token-fix-v3-2-6fefe1d51646@gmail.com>
-	 <20260415191738.226BFC19424@smtp.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
+        d=1e100.net; s=20251104; t=1776302342; x=1776907142;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=jZNhlsmlO+2dvKw7ULeWGa/3ZgJ/3xNp9y/uk0LituQ=;
+        b=lJ0P8GeUUhyG1TazK+b6y06PezDAks6QJHhqE7t+NNOxjpmIeA+rV8i2sZ+Z3cTTQo
+         VABZVy4zASV5FoPuy8Y3sLdGstzJFIoA8KraNFmS7Vb107kUhPgz2F2brgPrsxcu0AQR
+         99aQtP72KImcVDvu4P10B4bz6u1vK2zwKpfC9LMzQ5X+p6JILFdIOPaVlIAmILLRvHAY
+         XoSebRQ8CXWELpV8nrny7X6fMYizrE35SdzBV51DFn36b5p6kHhEKjuDz81kYdWblAdw
+         ZKSb8FWe7Ar9mxhuDQt0TTf3teK2QjA9BlLj7pSxuvcvqnh3WSgTvxXIePufVudO31Sd
+         xvSw==
+X-Gm-Message-State: AOJu0YzkdxBpvP9vDPGom6ZrqpEv6+CMa+U8DJHky/3AXdS9+rmm68tH
+	tmtFZIl1tbfDt9zY92qP8rputk0mPjIbHBM/fGUtokYh5SNwJZDiBanIbAK0ql9mhFyUiNDCVni
+	RSiVx1OmXKoa2D51wA0zkUtJp+4P1s0GCwxaUlmXBzA==
+X-Gm-Gg: AeBDiev3+K/U82RVmm0fp6dNyAcl430+Ksrd0DIj7OdCrKmnRTvkLS16XRS1rltAPb5
+	9QgUx8h5vECmqR0OPJS+QbvsnzkzBDLrh0t2BY4pECyxzqhpslfKmVbaY7a8pPmG/LsA0ZG4v4i
+	LTbnqjAZW43GO0kG7mi7RA9QGNzXNjkbiMobsoSJxzUrzDSHUrKQl7JFBjXS4mMU54I8AyhdU0w
+	8NTBH7CFnpgShOyN45WU7kGX23WFrjROWO+bDhT+ScMR1TnZMhq5sg9QukX9NFD8iQmJDK5G70b
+	1zmpv2qpM3g7Pq51L+qjG45Modin
+X-Received: by 2002:a05:6512:3a90:b0:5a2:b903:3b43 with SMTP id
+ 2adb3069b0e04-5a3efb2c5a2mr9974360e87.7.1776302341381; Wed, 15 Apr 2026
+ 18:19:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+References: <20260415082654.21026-4-kerneljasonxing@gmail.com> <20260415091743.97FA1C19424@smtp.kernel.org>
+In-Reply-To: <20260415091743.97FA1C19424@smtp.kernel.org>
+From: Jason Xing <kerneljasonxing@gmail.com>
+Date: Thu, 16 Apr 2026 09:18:23 +0800
+X-Gm-Features: AQROBzDY8Xm2_8Cu4ecozfQPST7XLRuJGrF9Z76mRu-0wA7GQDyWPFtrQn7sF58
+Message-ID: <CAL+tcoD9g4M9iv+oLzSzPs1pcyQDe+R9wnHvn-DfnuZVysxbSQ@mail.gmail.com>
+Subject: Re: [PATCH RFC net-next v4 03/14] xsk: add xsk_alloc_batch_skb() to
+ build skbs in batch
+To: sashiko@lists.linux.dev
+Cc: bpf@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2026-04-15 at 19:17 +0000, sashiko-bot@kernel.org wrote:
-> Sashiko AI review found 1 potential issue(s):
-> - [Medium] Unchecked return values of `sysctl_set()` in `serial_test_toke=
-n()` can lead to confusing test failures.
+On Wed, Apr 15, 2026 at 5:17=E2=80=AFPM <sashiko-bot@kernel.org> wrote:
+>
+> Sashiko AI review found 2 potential issue(s):
+> - [High] Pre-allocated SKB and socket memory charge (`sk_wmem_alloc`) are=
+ permanently leaked when zerocopy metadata processing fails.
+> - [High] Double-free and Use-After-Free of `xs->skb` when fragment alloca=
+tion fails with `-EAGAIN` in copy mode.
 > --
->=20
-> commit e7dc629b9f37dc08742ff9bbddeaaf65c1e34956
-> Author: Eduard Zingerman <eddyz87@gmail.com>
->=20
-> selftests/bpf: verify kallsyms entries for token-loaded subprograms
->=20
-> This commit adds a test to verify that both the main XDP program and its
-> global subprogram appear in /proc/kallsyms when loaded using a user
-> namespace BPF token. It also introduces a sysctl_set utility to configure
-> system parameters needed to read kallsyms.
->=20
-> > diff --git a/tools/testing/selftests/bpf/prog_tests/token.c b/tools/tes=
-ting/selftests/bpf/prog_tests/token.c
-> > index b81dde283052e..cf5b94512cff4 100644
-> > --- a/tools/testing/selftests/bpf/prog_tests/token.c
-> > +++ b/tools/testing/selftests/bpf/prog_tests/token.c
->=20
+>
+> commit 3ef2c03b6204759327ab337fe34617d9dd8e04ef
+> Author: Jason Xing <kernelxing@tencent.com>
+>
+> xsk: add xsk_alloc_batch_skb() to build skbs in batch
+>
+> This commit introduces xsk_alloc_batch_skb() to support allocating and
+> building skbs in batch. It reserves skbs, batches the sk_wmem_alloc charg=
+e,
+> and then copies data to complete initialization.
+>
+> > diff --git a/net/core/skbuff.c b/net/core/skbuff.c
+> > --- a/net/core/skbuff.c
+> > +++ b/net/core/skbuff.c
+>
 > [ ... ]
->=20
-> > @@ -1194,4 +1252,23 @@ void test_token(void)
-> > =20
-> >  		subtest_userns(&opts, userns_bpf_token_info);
-> >  	}
-> > +	if (test__start_subtest("obj_priv_prog_kallsyms")) {
-> > +		char perf_paranoid_orig[32] =3D {};
-> > +		char kptr_restrict_orig[32] =3D {};
-> > +		struct bpffs_opts opts =3D {
-> > +			.cmds =3D bit(BPF_BTF_LOAD) | bit(BPF_PROG_LOAD),
-> > +			.progs =3D bit(BPF_PROG_TYPE_XDP),
-> > +			.attachs =3D ~0ULL,
-> > +		};
+>
+> > +     /* Phase 3: Build SKBs with packet data */
+> > +     for (j =3D 0; j < alloc_descs; j++) {
+> > +             if (!xs->skb) {
+> > +                     skb =3D skbs[skb_count - 1 - k];
+> > +                     k++;
+> > +             }
 > > +
-> > +		sysctl_set("/proc/sys/kernel/perf_event_paranoid", perf_paranoid_ori=
-g, "0");
-> > +		sysctl_set("/proc/sys/kernel/kptr_restrict", kptr_restrict_orig, "0"=
-);
->=20
-> Should the return values of these sysctl_set calls be checked?
->=20
-> If the test is executed in an environment where these sysctls are read-on=
-ly
-> or inaccessible (such as inside a container), sysctl_set will silently fa=
-il.
->=20
-> This would cause load_kallsyms_local to read zeroed addresses because
-> kptr_restrict wasn't successfully disabled, resulting in confusing test
-> failures later at ASSERT_TRUE instead of catching the setup failure early=
-.
->=20
-> Would it be better to wrap these with ASSERT_OK?
+> > +             skb =3D xsk_build_skb(xs, skb, &descs[j]);
+> > +             if (IS_ERR(skb)) {
+> > +                     *err =3D PTR_ERR(skb);
+> > +                     break;
+> > +             }
+>
+> Can this lead to a double-free and use-after-free of xs->skb if a fragmen=
+t
+> allocation fails?
+>
+> If xsk_build_skb() fails to allocate a page for a subsequent fragment in =
+copy
+> mode, it frees the partially built skb and returns -EAGAIN. However, it
+> leaves xs->skb pointing to this freed memory.
+>
+> When this loop breaks and returns -EAGAIN up the call chain, the caller
+> __xsk_generic_xmit_batch() checks xs->skb and calls xsk_drop_skb(xs->skb)=
+,
+> which would double-free the skb. Furthermore, any subsequent transmission=
+s
+> could dereference the dangling pointer. Should xs->skb be explicitly clea=
+red
+> when handling this error?
 
-Makes sense.
+Ah, great job! Sashiko again found a real pre-existing bug! I will
+include it in my separate fixes.
 
+The corresponding fix would be adding a more strict check in
+xsk_build_skb() to exclude the case and let the caller to free it:
+free_err:
+        if (skb && !xs->skb && !skb_shinfo(skb)->nr_frags)
+                kfree_skb(skb);
+
+>
 > > +
-> > +		subtest_userns(&opts, userns_obj_priv_prog_kallsyms);
+> > +             if (xp_mb_desc(&descs[j])) {
+> > +                     xs->skb =3D skb;
+> > +                     continue;
+> > +             }
 > > +
-> > +		if (perf_paranoid_orig[0])
-> > +			sysctl_set("/proc/sys/kernel/perf_event_paranoid", NULL, perf_paran=
-oid_orig);
-> > +		if (kptr_restrict_orig[0])
-> > +			sysctl_set("/proc/sys/kernel/kptr_restrict", NULL, kptr_restrict_or=
-ig);
-> > +	}
-> >  }
+> > +             xs->skb =3D NULL;
+> > +             __skb_queue_tail(&batch->send_queue, skb);
+> > +     }
+> > +
+> > +     /* Phase 4: Reclaim unused allocated SKBs */
+> > +     while (k < i)
+> > +             kfree_skb(skbs[skb_count - 1 - k++]);
+>
+> Does this permanently leak the pre-allocated skb and its socket memory ch=
+arge
+> if xsk_build_skb() fails?
+>
+> When xsk_build_skb() encounters an error like a zerocopy metadata process=
+ing
+> failure, it returns an ERR_PTR() without freeing the skb. Because k was
+> already incremented before the xsk_build_skb() call, the Phase 4 loop sta=
+rts
+> reclaiming at the next skb.
+>
+> The failed skb at index k - 1 is bypassed. Since it is never freed,
+> sock_wfree is skipped, leaking both the skb and the batched sk_wmem_alloc
+> charge.
+
+This is the pre-existing bug that you pointed out in patch 2. I'll
+take care of it for sure.
+
+Thanks,
+Jason
+
+>
+> --
+> Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260415082654.21=
+026-1-kerneljasonxing@gmail.com?part=3D3
