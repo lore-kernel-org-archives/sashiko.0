@@ -1,183 +1,194 @@
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E82DF39DBE4
-	for <sashiko@lists.linux.dev>; Thu, 16 Apr 2026 12:19:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FABA396B68
+	for <sashiko@lists.linux.dev>; Thu, 16 Apr 2026 13:02:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.48
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776341968; cv=pass; b=ObGFIj40YPCaP/+8JW5meyp46+kM/mYA++dmvhfObD1oNz85Z2ITP6gWy40j5Oe+o1Wcv8cv9bIhDpGdUVJXbNVIhqY1plrV3oM3RxjiYuE4W7hSOY7MRx4ibQor+ZwLxCiLsfKeHChPq6MZR03Mg/BwIWvRU+SIHoA1nsJqtD0=
+	t=1776344559; cv=pass; b=PKqi1IEZTEzbcGOSHJpQ0I+V37/RnO1bb2v1sBItrf2styGrOCtwN6fFovwS84LwF7EEEHA+8V7n/X30BmTI3mqhd9RP9EJjedj56IHIeTeDQqhpQnP/0W6yIeE2QuCEX5LeP+aLEukpUlCobS+KkP98sqcbNGHMeRSvMB32C8M=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776341968; c=relaxed/simple;
-	bh=tUtN6Xxl6/8ZUOe0081FLqroxi56blaLuoccETQ6u14=;
+	s=arc-20240116; t=1776344559; c=relaxed/simple;
+	bh=BfQXFZ/HjdcyaSH/dFi13ajZQYKDRhVss+JCyz3jJu0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QYBniZlZR/UTNIRAiqv9ES6ms2JVLBYe2eYXqFuIcGag7pu4+kb2vfJO9Wq1HXf3I4pbgNMr93Bl0HUxuWwIt/6xiMHy8O2qQdJ+4EZHPO1J2m+fGRxTf7O4GbRyw+XyXSfkg3uAGM8b1TC7glztvx0SBihhf7cvSYx2FrnUEo4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Fo3PxcUP; arc=pass smtp.client-ip=209.85.208.169
+	 To:Cc:Content-Type; b=RAbojWt2545Z8pD0fhIm0fVZwxoo2pXIj6TtfkSBe76dF9RAlt8WXA54MiqCYEUsdmQRibXKsm3QAyN1ysD2OMswCqd+2R7QWlesEqxb0tRihFghy+fNqBkJYbdLSY0PcDaIPvppKNeJhCe50Lt6Ocg9IKLwvx4fWEhniCcQsi8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ff9UmEv3; arc=pass smtp.client-ip=209.85.160.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fo3PxcUP"
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-38e84ed22bdso40420091fa.2
-        for <sashiko@lists.linux.dev>; Thu, 16 Apr 2026 05:19:26 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776341964; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ff9UmEv3"
+Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-4233e152457so5805619fac.1
+        for <sashiko@lists.linux.dev>; Thu, 16 Apr 2026 06:02:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776344557; cv=none;
         d=google.com; s=arc-20240605;
-        b=UTddS1dSAeqPckce5nOLLZ8pH+EK93SwENYjPPwkbNXBzDeemLbeSgSfRR0sYocqON
-         GxhCo1iBCYHKqrYEL5qI1LM9fqy/2YCavUgGDaLAPC4HEyxNx+hvwBMiV2I4FgWBzFkr
-         9Ur7sSxGrAob0s8T54KpfhNhFYhTONfTK+eR+2HH+6UoM/927Q2/XBqosZ+YGLRECFKL
-         v0x+/qlVVvIWKO7DIKYUePicT5xIuHeUMCw0ku+el4aKqxwwRQ6dhFghp+5eiesMIrjP
-         vLV1+Hv/Bk2X8DBBrXood2FeYJ4Qa08rg5+cIAAL3t8jUe73BarUcxxrDLgLFkOpx29r
-         NYcw==
+        b=CCdTYIm3pymAiowiAARnwpBqfr1F091rMmCLKi4vA5Ob+5/zyip73YLNLLixwJWIqz
+         HXRUex+0jpz/UQN5Lh7i/SZ0oVIA6su7Y/uq+uSfUiWcQWdjuyPUL5jzyUYjLlk1GcSy
+         Q10DV31EwEarl6SfchLbX5WnWE2rIUrJ1lD6mlQ8/HG2p6xq56WDQBqWTnRJSMGv7OCh
+         zU/a8IJsKwrFv3PlUPKFEsKTZ5fsZvNHgJpFx1byQOx6jqZZwerSFMH4HCPFKOdKcIT4
+         CPdGBRBhAfWS2U4Y+1J50vQnERIyCEBhuk434sy1nqsGtq6Xj67a743VH07ugzCupENN
+         zSQA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=ILKzf2TXIFnuxQeSOZRYDomaIK5WqLDrf3a3oWRfbEo=;
-        fh=7pQPbM1mTaKjUbZ75iTISJbipA72wUVZwkXXTYMxzFw=;
-        b=Au5kwIyJa2KG3eZcJhhTY4lbuUVpHHzJO60DJniwMeTv3Do5HvATNnET8CkMMrti/4
-         PJvQSqHSIRfqFyrA1zXeht+CSTA7ApcD+V9CUfQUxJGEX87PwaDyDXLhuXEhXquW0/3C
-         TAFP4D6iB3D2YtwZou0nJJ3IHZuJcyycR24bFeyZvvsx2yjvlKJobzZZWBD9WeDlICL5
-         0luj2e95ZSaEw+2yNNm34Kq8/vhumNcYRoNQXrmhFIaGyhRdsitQ4hrFSwEKF/xgSdLz
-         1C6QRRPfTr5Wo3Y47aAgkJUGfZqx+6sUO4BiB/k1eSJRYFU4g21UFuW0Fp/byh3nwyBi
-         mFWQ==;
+        bh=W9FpxBxwQfLvLwFkmMeMjlLjY4/9LE5fqelrbsenVAA=;
+        fh=LIRAVtNkvFebIJTmd3sXQRhyI56KpQNcHjhAac0CiC0=;
+        b=M+GOL7kJjWK/9ZYA9bH/j5f1QAyrOhzMRiFfONGJ5wp5iiiVUx1QqkCyJWfgRSkLGo
+         s2MwaB3QfGQz26+VG5sY5sQ6tD8AwdcljnlDAd6CfBvE6HZM7ur8Slvrp+uLNmeWLBJE
+         ZVPyOYMQwBa1+QJd7xDL0xMQwdLivMUVNwUgo8dM8qSO+qZUjwfG1saqh3ibXjqBRbWe
+         CHR4QcfqUtgjo+YxwTNs65rs/kttlyveWa7ld3JJRvrN3JMaUGxdzLcmzpZ+SIIKndiH
+         44wXYibNTZ5FPaVvozqRWUZgWLIi46fHOQ2bLX5Pc0TjApyVjzzcEAamf4lnsEntp6Xf
+         o8xw==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776341964; x=1776946764; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1776344557; x=1776949357; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ILKzf2TXIFnuxQeSOZRYDomaIK5WqLDrf3a3oWRfbEo=;
-        b=Fo3PxcUPSST8dumwBx6phlcnQnkH7RVZXAHdpqkcMNJ+aHQtk7mrQNyEIE9ktu0bP7
-         nbELzQhvso7yhWsamhsr1B4RZk0XdQGx2DlOLaPbNzYeaAzxGmeIhP6cH8T3XGOG9Zgp
-         ny3tv54HW3RgZbIBWdCcmtGVYtZtfg3JWudtS+L4g3CJLvU83OS1r4sjmHdFK/9VxuWN
-         L9L8fEEzg1oZ89NyM3JCTpD8K3m55dh1ljHgh8D8YQS2xYPB0RPYKPxVER/fKQwL3Kfb
-         s5tmmSte6/jWAcaWBM9hISPgGz42veTso1Wi1I0KMa9A6vTOQpg8slhblnqkUSthUkUV
-         6MMw==
+        bh=W9FpxBxwQfLvLwFkmMeMjlLjY4/9LE5fqelrbsenVAA=;
+        b=ff9UmEv3XWUBR5VrL9T0n53M/EqD70ufMh/80XhlX5meHzXbv0ksLeixdOya4rrRM+
+         QNftNJLLoP1uARHnSCd83DMEB/HeSSKJUGpogev3AvXqJ5TH8bGid9FxTremP2Dl0ChU
+         sUpw3jQwVuLGeMqn44XSluBFTz0ABLf3HQ6EacJgiUWmvnPsmLPX/VuEBeYnvFtWirC8
+         epuY8vPQWa77GiMuvIv8tmxvRpdfFcXcQKUwOU8SPlzUCtAKrEzEPrXH1ligvVrFwHNj
+         Vne9iSjBqTkLzRwpHu9gH+tFOZW1E5Hroy9lY34umA5KQI8ONhcH57rwJ0C6nENJAZTf
+         yysg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776341964; x=1776946764;
+        d=1e100.net; s=20251104; t=1776344557; x=1776949357;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=ILKzf2TXIFnuxQeSOZRYDomaIK5WqLDrf3a3oWRfbEo=;
-        b=Bp3DWtPybhBwenmPCY6TRpfPhjdTE+madOkVzhbwm3n3rqvfFx5IU+au92ZMlR5yUu
-         Ks9YZm0BGUDxuyzr8HmdlMFNCFSqsBD/kKNuZlf0XD3nfaC0+8mSoHxutniZZuUNB0Iz
-         ZMFFkKAyiXzywWdoDjq9aOFmKgPer70hJko/tNrSdJDmY2JfQkYCsdhrVMmRl6w4tEfH
-         ShmxcmSDWz2/bndNREfz0sgYHPbefu0ATEvnWOP9MRiiw8zfMquTwMic+vsRRbZKmV7N
-         WKdiGEIf08R0m7Tx9VoaCinW/EIr4q5W//gvXCk5QEfn7mrD+wMTNS9PCk+I9IpqXeso
-         Ve2g==
-X-Gm-Message-State: AOJu0YzOnrhizGtJQhBTNn2EBxpp/8a5Qw1CJ2UZysfoGKNMZgzDxKla
-	d+4fpZx+pOer7yOPv4QOt2Aa1mlRU+dgGnHceTVQnf8OrievMRktpIPOsO9i95yxrUZXmxy1vvM
-	hsaE7OSct4rYMo7zGC4Bobt4CEGJfY6AIc5SSZmE=
-X-Gm-Gg: AeBDieuOhsbPVfnkHa2Mr/s3NMYz5QWfD81kk+2bSIQ8KSEHfge2g2gmwKg0NDp2EzM
-	t0GXBMn5BDUFEXLi9XuEBvfIsZzQcpYDm7yTAlMu2q2x9GXpaHX8jE/rBH3HmmBO/JYjuwJs2SZ
-	MIiGwIiI16p7CXrLE6cVLXvgB1XksPrcHhtZnK0Ek5VRfcx0URClVcHl+hYYQzh1GQOeRj793Mw
-	YjhoOMHE+XLItZfPEZmn9LRey1+fPOLW/wfPjsMMGZt16dHiUay6294XjV36pnu079xcYuOgxgQ
-	dH348552czQcLuysbrNXjWunnSlMkw==
-X-Received: by 2002:a05:6512:3192:b0:5a2:bb8e:d4f4 with SMTP id
- 2adb3069b0e04-5a3ef906681mr8036490e87.15.1776341963805; Thu, 16 Apr 2026
- 05:19:23 -0700 (PDT)
+        bh=W9FpxBxwQfLvLwFkmMeMjlLjY4/9LE5fqelrbsenVAA=;
+        b=Tb6pBEdNM9Ek+q/v34+I+SaNudKlaH7CnkobgIPi3HEaHF08jGf/H0rFybUxrUKOAD
+         opwyQQ8kvI2lQ9X6L87FlVAvY/AoAcfiqfIexuRSh0gti+fOwAf7JXdD0cobb1gV1Xwu
+         VmJc3q7I9vrl4yfRm8mYuVHe3DXAlWa1q45M9oRwqS+Dc1aPfQxXqEr3CkS54pet9u0E
+         cyxiz1yB4Z4/cPYka02wIiz+8Xj+KiMYDTLpP0dsVs5+d92XswpNB744r8OzX38HlNYs
+         Uu+7f2GlrFA5+NCMbgNlaj7hJFymGz0hnD/QI2T1/rb3pLH0UH9dPN2+RQL1fGNVd0AL
+         ljiQ==
+X-Gm-Message-State: AOJu0Yzkl1q/Y1kfEykkjJOnAzSdQpIf10ftilMhrA00QE8rnNvjvbxy
+	YZQhANH7Jb6wW/9czY9RrsXvcGfng2QzZpxD6nGeBCmlKnDFnLzBUnEMZVQG3xazE1ji/7GyEPR
+	uKV1wjZZJixo755YfJvPdCe74tpqLRrvybnUx
+X-Gm-Gg: AeBDiev98nLFPzkWrcXNwfT7HPqWIIFid+OgopJCJQLcNOKmE7ABEBsGA0pHzeADKV6
+	glLwbrLwGLaONncr17/plx3D9mvwX4BUf0KgXPzN9ONw6BfRIPltdfNuPmXdazw1M0+kUfSlAKw
+	hpvg4H14Bddouu3JUKb15jjZZLAu1paVUKIv2d0RPCfOQ621Ba22aCk1FmWSQ2w4k2XWI3WIUY1
+	d4bcitolbuRQksRBY5Pwdja6Uj0zcz9G5h99fqxEhhz/3RJB8BtYbMT2IqigSao7J2ggGeg9+qc
+	ThvsAS6Z4hM5U/9WqvCiawlcJF7deHkUjb0BLVE8ktOZy4fVU/6hFo0OTuPotjurYqwa69pf8yW
+	GUksRWZXzjfxgRw1/Jt5Ub5qwzduZ
+X-Received: by 2002:a05:6870:2b1a:b0:40a:605b:518a with SMTP id
+ 586e51a60fabf-423e108440amr14891269fac.27.1776344536584; Thu, 16 Apr 2026
+ 06:02:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260415082654.21026-5-kerneljasonxing@gmail.com>
- <20260415093822.79A76C19424@smtp.kernel.org> <CAL+tcoDbMq9s5tQkpBQfjWZGajUtJxhYzxJ9vD-hpq7uU3RYNQ@mail.gmail.com>
-In-Reply-To: <CAL+tcoDbMq9s5tQkpBQfjWZGajUtJxhYzxJ9vD-hpq7uU3RYNQ@mail.gmail.com>
-From: Jason Xing <kerneljasonxing@gmail.com>
-Date: Thu, 16 Apr 2026 20:18:46 +0800
-X-Gm-Features: AQROBzDX6UeNBNYFxkf6uUL0MhYAcF7vDabM4TqiAgTIdXevyhyLpwRjeOgewnE
-Message-ID: <CAL+tcoAvMFo848fHqgCbTxrA_mt71DcRAuD9WEfSsBgdR7jrvA@mail.gmail.com>
-Subject: Re: [PATCH RFC net-next v4 04/14] xsk: cache data buffers to avoid
- frequently calling kmalloc_reserve
+References: <20260416091754.310-2-hanguidong02@gmail.com> <20260416115716.CBDAFC2BCAF@smtp.kernel.org>
+In-Reply-To: <20260416115716.CBDAFC2BCAF@smtp.kernel.org>
+From: Gui-Dong Han <hanguidong02@gmail.com>
+Date: Thu, 16 Apr 2026 21:02:05 +0800
+X-Gm-Features: AQROBzDhU4y7kpl2Cd-6gRhXM378oMdGfa9xdqKEsjcelqHCo_AnbsiZOd4Gmmc
+Message-ID: <CALbr=LZjZ4t-FCafzSg-JDApz6F31EFXpXtwPXV3adBqM5SbSg@mail.gmail.com>
+Subject: Re: [PATCH 2/3] hwmon: (adm1031) Hold lock while reading cached data
 To: sashiko@lists.linux.dev
-Cc: bpf@vger.kernel.org
+Cc: linux-hwmon@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 16, 2026 at 10:45=E2=80=AFAM Jason Xing <kerneljasonxing@gmail.=
-com> wrote:
+On Thu, Apr 16, 2026 at 7:57=E2=80=AFPM <sashiko-bot@kernel.org> wrote:
 >
-> On Wed, Apr 15, 2026 at 5:38=E2=80=AFPM <sashiko-bot@kernel.org> wrote:
-> >
-> > Sashiko AI review found 2 potential issue(s):
-> > - [High] Cached data buffers are consumed without validating current al=
-location flags, potentially violating memory placement constraints.
-> > - [Medium] Meaningful code and commit message mismatch regarding cache =
-refill logic.
-> > --
-> >
-> > commit 5a442e9c44f0a64a147908843084cffe5e2fed9f
-> > Author: Jason Xing <kernelxing@tencent.com>
-> >
-> > xsk: cache data buffers to avoid frequently calling kmalloc_reserve
-> >
-> > This commit introduces a per-socket data buffer cache for small packets
-> > to reduce kmalloc_reserve() overhead. It adds bulk allocation from
-> > skb_small_head_cache and persists unused buffers across batch cycles.
-> >
-> > >     Inside the Phase-1 per-descriptor loop, when a small packet needs=
- a
-> > >     data buffer and the cache is empty, a single kmem_cache_alloc_bul=
-k()
-> > >     refills it with generic_xmit_batch objects. Subsequent small pack=
-ets
-> > >     pop directly from the cache. Large packets bypass the cache entir=
-ely
-> > >     and fall back to kmalloc_reserve(). Unused buffers remain in the
-> > >     cache for the next batch.
-> >
-> > Is this description accurate? Looking at the implementation below, the =
-bulk
-> > allocation happens outside the Phase-1 loop. If the cache runs empty du=
-ring
-> > the loop, it appears to fall back to kmalloc_reserve() for each subsequ=
-ent
-> > packet rather than refilling the cache via kmem_cache_alloc_bulk(). Cou=
-ld
-> > the commit message be updated to match the actual execution flow?
->
-> Will update it.
->
-> >
-> > > diff --git a/net/core/skbuff.c b/net/core/skbuff.c
-> > > index c7e42c2966cdd..3b3969adfd23f 100644
-> > > --- a/net/core/skbuff.c
-> > > +++ b/net/core/skbuff.c
-> > [ ... ]
-> > > @@ -709,10 +718,17 @@ int xsk_alloc_batch_skb(struct xdp_sock *xs, u3=
-2 nb_pkts, u32 nb_descs, int *err
-> > >
-> > >                       skb =3D skbs[skb_count - 1 - i];
-> > >                       skbuff_clear(skb);
-> > > -                     data =3D kmalloc_reserve(&size, gfp_mask, node,=
- skb);
-> > > -                     if (unlikely(!data)) {
-> > > -                             *err =3D -ENOBUFS;
-> > > -                             break;
-> > > +                     if (dc_count &&
-> > > +                         SKB_HEAD_ALIGN(size) <=3D SKB_SMALL_HEAD_CA=
-CHE_SIZE) {
-> >
-> > If the socket's sk_allocation (which populates gfp_mask) was modified t=
-o
-> > require restricted memory placement (e.g. __GFP_DMA), could this code u=
-se a
-> > standard memory buffer left over from a previous batch?
-> >
-> > While the bulk allocation check before the loop correctly avoids alloca=
-ting
-> > from skb_small_head_cache if KMALLOC_NOT_NORMAL_BITS is set, the
-> > consumption path here only checks dc_count. Does this need to validate
-> > gfp_mask against KMALLOC_NOT_NORMAL_BITS before consuming from the cach=
-e,
-> > to ensure memory placement constraints are not bypassed?
->
-> I can add the check but it seems meaningless to me. In the whole
-> implementation of xsk, there is no place where sk_allocation can be
-> set to a different value other than GPF_KERNEL.
+> Sashiko AI review found 2 potential issue(s):
+> - [High] Store functions like fan_auto_channel_store() read uninitialized=
+ cached values, which can silently disable hardware monitoring.
+> - [High] auto_temp_max_store() corrupts the temp_max cache and causes reg=
+ister desynchronization.
 
-After a few rounds of investigation, I finally gave up the idea of
-using KMALLOC_NOT_NORMAL_BITS. The reason has been explained.
+Thanks for the review.
 
-Thanks,
-Jason
+The existing code here does look a bit weird, but I need to study the
+driver more carefully to be certain. If there are indeed bugs, I will
+address them in a new, separate patch.
+
+Please note that these are pre-existing issues and were not introduced
+by this patch.
+
+> --
+>
+> commit 8f551aed0a746551e7fda3272d5c7e3fcaa2b090
+> Author: Gui-Dong Han <hanguidong02@gmail.com>
+>
+> hwmon: (adm1031) Hold lock while reading cached data
+>
+> The patch addresses TOCTOU races by holding data->update_lock while
+> accessing cached values in sysfs show and store functions.
+>
+> Link: https://lore.kernel.org/linux-hwmon/CALbr=3DLYJ_ehtp53HXEVkSpYoub+X=
+YSTU8Rg=3Do1xxMJ8=3D5z8B-g@mail.gmail.com/
+>
+> > diff --git a/drivers/hwmon/adm1031.c b/drivers/hwmon/adm1031.c
+> > index 0551f815233d9..887fba9ea149f 100644
+> > --- a/drivers/hwmon/adm1031.c
+> > +++ b/drivers/hwmon/adm1031.c
+> > @@ -350,9 +350,8 @@ fan_auto_channel_store(struct device *dev, struct d=
+evice_attribute *attr,
+> >       if (ret)
+> >               return ret;
+> >
+> > -     old_fan_mode =3D data->conf1;
+> > -
+> >       mutex_lock(&data->update_lock);
+> > +     old_fan_mode =3D data->conf1;
+>
+> This is not a regression from this patch, but does this store function re=
+ad
+> uninitialized cached values if it is called before adm1031_update_device(=
+)
+> has populated them?
+>
+> The driver allocates its data structure with devm_kzalloc() during probe,
+> initializing the cache variables (like data->conf1) to zero, but
+> adm1031_update_device() is not called during probe to populate them.
+>
+> If a user writes to this sysfs attribute before any reads, the store
+> function performs a read-modify-write using the zeroed data->conf1. When =
+it
+> writes data->conf1 back to the ADM1031_REG_CONF1 register, it clears the
+> ADM1031_CONF1_MONITOR_ENABLE bit (0x01).
+>
+> Could this silently disable the chip's hardware monitoring and thermal
+> protection?
+>
+> [ ... ]
+>
+> Additionally, there appears to be a separate pre-existing regression in
+> auto_temp_max_store():
+>
+> drivers/hwmon/adm1031.c:auto_temp_max_store() {
+>     ...
+>         val =3D clamp_val(val, 0, 127000);
+>         mutex_lock(&data->update_lock);
+>         data->temp_max[nr] =3D AUTO_TEMP_MAX_TO_REG(val, data->auto_temp[=
+nr],
+>                                                   data->pwm[nr]);
+>         adm1031_write_value(client, ADM1031_REG_AUTO_TEMP(nr),
+>                             data->temp_max[nr]);
+>         mutex_unlock(&data->update_lock);
+>     ...
+> }
+>
+> Does this corrupt the temp_max cache and cause register desynchronization=
+?
+>
+> The calculated new automatic temperature limit is assigned to
+> data->temp_max[nr] instead of data->auto_temp[nr], corrupting the cache
+> used by temp_max_show().
+>
+> Because data->auto_temp[nr] is left stale, if auto_temp_min_store() is
+> called before the cache expires, it will read the old data->auto_temp[nr]
+> value and write it back to ADM1031_REG_AUTO_TEMP.
+>
+> Could this cause the hardware to silently revert the max temperature limi=
+t
+> just set by the user?
+>
+> --
+> Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260416091754.31=
+0-1-hanguidong02@gmail.com?part=3D2
