@@ -1,166 +1,138 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-dl1-f42.google.com (mail-dl1-f42.google.com [74.125.82.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 723B527603F
-	for <sashiko@lists.linux.dev>; Thu, 16 Apr 2026 17:51:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 660DA322B7D
+	for <sashiko@lists.linux.dev>; Thu, 16 Apr 2026 18:09:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776361918; cv=none; b=ETIxExeBtx8aVoUsAfGUkHhlf/saSzBT2j45lzyEDp6PtEJXYj9YmMgYWhxI7Z3TUFZ7hhP0dmMl5cPLXJxJ0/CqYda5FvsFP33am4rJFZmSxMSDWFaiworVAxVMKYSDAxOEvMbJEfotBmeUOj6GO0PfR65aE0fdw/xn/2DqZJo=
+	t=1776362957; cv=none; b=Oe3/Mo6qwjZ3freqXa6V7fWkmd+7EVKDOYqAxPuhyNf4u/5iRsDuvK0BVRG8jrkfWIq5zAT0cjb2XBFdDbhQh/Jg+0dOgwqBqHLH01ii9UhizTSzN+opx/eWlEu5RRHDQcQd10kVDpfjfeag4U2bEtgbQZqXPbVzxthdpBCMFSU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776361918; c=relaxed/simple;
-	bh=1EH6/eggcrN+2q9BPJj+q+jQoBGLudz6LP8XGzBakHo=;
+	s=arc-20240116; t=1776362957; c=relaxed/simple;
+	bh=8LLcBZxKbesEH65s0Q9hKBPrL8LJIDUga5qB2PH/PHs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qfMK2J4IFnsJ6vL3s/FkPR8wn3bNhh8CSv3mRC/FJfLI+6HkxNifigoioHF0BE+Qv1V7Kq9DEbms2sKqrA2YBDDROwP/BnCGnOkglAlFZPxkLtpSTnSLwREuCrQFnFE34HWCHRR551dFRt5s/WwEaewTQCYdJvoUz8ykdFF9c9k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ADnIrZV7; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=pV3vgQiS4ZRF90uIdyyMCFjZDylMAOGqrLQ9D6DtOlyXOoVuBvpGUs3lvHMyVdL9hFt/d6hmRG9p6Yi1CoC2B8sAgnwOIuxoUEtNqa7iREIm5qTZi+5nH1l9a1Od1WVzY136h4/uo/Xs15h/vAyFnQwqctEiUBzVWAJmztlzF3E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JPk9sLu6; arc=none smtp.client-ip=74.125.82.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ADnIrZV7"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-488a4bc360bso46433225e9.0
-        for <sashiko@lists.linux.dev>; Thu, 16 Apr 2026 10:51:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JPk9sLu6"
+Received: by mail-dl1-f42.google.com with SMTP id a92af1059eb24-12c555f886dso556299c88.0
+        for <sashiko@lists.linux.dev>; Thu, 16 Apr 2026 11:09:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776361916; x=1776966716; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=9lw0+OPmfDnGiyamEFF6WGsMRzAbLtpadOQYAgY907c=;
-        b=ADnIrZV7Pf/mIfVP61eu4th4iw/KjDzbYz//A6102X9R6jJMlBJMUHLwehbKqZWzyw
-         mS7EUqLlpr/6KxL3oD6RbjS2xQFt0GWF3gNcHMGg3vA4AfW5vdmrfXEIsUy+Vbnmk82h
-         mdAPQ2U5vojFoAssnjWBF0AkFsYgYMyHOORTA0eoCgvuSGF13OYktiviirs1/85yIMor
-         qIn1GPAy1OdNB//ppnvpa5ObJVlkfwZJge56ZIWiNMSbg/zQZuxu0AkUpF49DRme5rNu
-         qq6WBwx2uBZanp4+EEKG7MNbU/4Mm2hJxy8c3MjkzbtnKu77wissiIsCfDldFRHhWhEP
-         AZXA==
+        d=gmail.com; s=20251104; t=1776362955; x=1776967755; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HZye2vplKUU5LS4z/qlGroyCrHO1/xWXM8eiS2rVWx8=;
+        b=JPk9sLu6BoG+Hj2Jzds0nYns6wBVBo40er7n1EsVnb3LtdZWC4zWE9dzqqwWUOzjCy
+         B39lISPjkTSS9LyXq+zoKzc6tqKFy9Ge9LUgJymeF0E5+fKbNlDMhQu0URb7bJPO+Sd2
+         dFHOXMRImysJAvFleuHMbjmKpD3R25OkpkUWLX+pA9ZV5BlVIx+/iS/l8N6RErodQpRB
+         0X3Plwc9cV68DeEZ7wlQIhpx2EdA6yq8s2N4TeKIxcyrrk7kXtL4sf67cZIjxjTgjKap
+         joo1mluf8ICbEIfeBoln0cct1dFdfKhz+y9hYQkP25TbD4W9kxm55MIK9AfChbG6PKWg
+         6HXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776361916; x=1776966716;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9lw0+OPmfDnGiyamEFF6WGsMRzAbLtpadOQYAgY907c=;
-        b=TRK9YzpWyBuJMv5Iil1cRMQH/qXJ6Y/zPY1Lgfp0Y0WIoYr3AMGvzCkeYAGM4NfZ82
-         n8NUuYKsdUd2gVe3pC5F0biB4Wr7r1W4x/N9gvflvzcm4iuSaDvXxxEDqSeI2UE0ABam
-         QX5PpcncksudK8imPL9FNw9ciHX0o9b5oHzB/PKPXXWpIS5Jv9HCkKpVhWChqI/Rdxdy
-         0ixACuUisvK/ybvu7CU8u2FzKFA97O10giphM+xB/XLEGhzkT1TAnNiK9ygIBKybDBeu
-         xS40wTYEF375nxzlBbbaVZHxHgQMbq+2Zsyx65XI49ym12kHKnhU4UNpq2wnFM2nJeYJ
-         PVcA==
-X-Gm-Message-State: AOJu0YxMkH3aR0+h9bs8sTRF5AIoURF+ZuV2T52jqeLohitnRTF6BwvC
-	WUZBDZWLOMFOvzYy1Z+zUtBkiPVAfLgm5Ov2JSBBYQcWBo+Na3HsWMa8akRVHmuY
-X-Gm-Gg: AeBDies57F9yF1+eqv/eDpSarK6Fhfy0Bby2XIwECGWCAPpY0cWGKa5RHM3HmVa8shf
-	npF8ch0RjowwxfVDrkSu0/WAhQcdGtnvOnzWBkZTav6DFKL9Hvsqma2odUi0fo/HMQX7v2QaaUn
-	jg05Q47Q8ZQTwEkYF60zUKZV+cvUUfZqyjAsUY3UmH/hWRfupinCLUlTVEF9TG9DwUO0xr49VtD
-	Y0fQ8fhOuAnVVWITPuv+DtV5mx6LAe7juAB8z8XBLWeLE8xTAO35lsPWq2Ch8EA5OsMBElnqLpA
-	LyR0iqWYPKkEMD11uNfPGdzzXAcLiJh3+PO/69L+TKxZ4hBnHETAYttcqFswfP4p7qYtL9b3rWq
-	IwHSDJwGUhNalLS8FZFTdMtv5IG7gpD2b6KWlM9ZKVCs77fpjfch2ntALxio+spkSKK91l33aBA
-	D/e5U9wEidcHbRYJjKvqqB9X0eHZjjymKhZdc2vIhi8FVCn+K8IY8gDsJ7eT29Do5oze/N99ljX
-	rdo1VkuVdqfnTKqJuGISwU+cKJdI2BDjyBPqGzz4eH3Ld8Vf672nOh9Z9ot324HH/SHNm4SbY9j
-	1XsCkY2x1j9BRinRnpg4POKmqbB9xNc8ynqcR4u9zB6v8Xsb3kLL
-X-Received: by 2002:a05:600c:a105:b0:485:3af5:7e53 with SMTP id 5b1f17b1804b1-488d6839821mr261694475e9.19.1776361915648;
-        Thu, 16 Apr 2026 10:51:55 -0700 (PDT)
-Received: from mail.gmail.com (2a01cb0889497e00b55a04a9836ebec0.ipv6.abo.wanadoo.fr. [2a01:cb08:8949:7e00:b55a:4a9:836e:bec0])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488f5818d70sm119654275e9.4.2026.04.16.10.51.54
+        d=1e100.net; s=20251104; t=1776362955; x=1776967755;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=HZye2vplKUU5LS4z/qlGroyCrHO1/xWXM8eiS2rVWx8=;
+        b=AE46QR2o7ymkBEHM9O7AJ4E2gTNoGbAeuts2KGYe687RkL3pLqihfRzNgCmDUAMBkH
+         fdtDf9Yc413dorprRz8fnq2119PhiQrTqvDg49JOrtQOBouIrF6Fw1HSz1Yx1lDeLS3u
+         k+DddHnl2ehZYsfRNVt3COCsuU5hbZy6mdb0v9Vp8lC5cIvZFzYWPg1pJiVrHwGbHM2U
+         1DW6kiTZ4q1NwyDJtBr9PMrgtrvEssNS7n2jff02agc6CMCnGHOnF6TaFcoWENdKBugy
+         GMN7xGrVAXzxCJN7ngNpHfLVKsHw4nSmTKjcrB0MKIqRQYjlMPb4iIQ2B54lheWuQQrq
+         6EMA==
+X-Forwarded-Encrypted: i=1; AFNElJ8zUb3QU/BNaxOA024vUgbPV25lqakIRfkFsVOzM2HUqHhteCUSQA6B2vyanhySNhR/4cknV3mg@lists.linux.dev
+X-Gm-Message-State: AOJu0YzpQoDwZxea0Kh4L9d5RK6mkquJK0vpiFeyHHvGeyrK5fv7dK+0
+	DPOCJpL2n1++0qj6Q0J7MHO7P7HHVN8H824zQMeE5XzvC4XzeLace4cx
+X-Gm-Gg: AeBDietvtCyT+AV48t9Z6tPeMxHkYn/58/WswxXJwXPRuWzyGgUkeTE2nxptBQmgvyI
+	H32q3CJCmsOco7Ff9fj1xjuBRXA+AKM0FchNG4NPGK6Jn4rnn7iA7B9i11MD7ene0zjrO4w7SNB
+	xZHovupLLIACZf5omn9cZkJSObLCEbFa1szpLNt0PDrYzjSRKpDlifwSwK5C6gmXiRWuIWBeTTN
+	KK+aNyMc+WLYoF1jvZQie1MZRFqO+2lY5CZHm5LSATpFYe4Eo8cehbJHDAm3mbz8xiEyZMspWXq
+	nD0j1k7RnNItLwH6LRfP++sPgRtW7tqU0Iee00IKyaJtpDLeHp4nqlx5Rbda2PaGak/RBqVopTp
+	pu1dzn3MPuWE2PsfiuD+Leq67cX4D/TX3e8LR7zDaQWHmXfLJ/J8xlOezwjd4WaHYOioIg/r7o6
+	QDR7XfMJyycDzDrSGkpOV2qHYCHEUN/EY+J66+4qdjfKlxe6w=
+X-Received: by 2002:a05:7022:438d:b0:119:e56b:c75b with SMTP id a92af1059eb24-12c7287baeemr96092c88.32.1776362955194;
+        Thu, 16 Apr 2026 11:09:15 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12c641d18a7sm3423039c88.0.2026.04.16.11.09.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Apr 2026 10:51:55 -0700 (PDT)
-Date: Thu, 16 Apr 2026 19:51:53 +0200
-From: Paul Chaignon <paul.chaignon@gmail.com>
-To: sashiko@lists.linux.dev
-Cc: Harishankar Vishwanathan <harishankar.vishwanathan@gmail.com>,
-	bpf@vger.kernel.org
-Subject: Re: [PATCH bpf-next 2/2] selftests/bpf: Test for empty intersection
- of tnum and u64
-Message-ID: <aeEhua0q1C8xCO0F@mail.gmail.com>
-References: <20260415160728.657270-3-harishankar.vishwanathan@gmail.com>
- <20260415182952.C7B77C19424@smtp.kernel.org>
+        Thu, 16 Apr 2026 11:09:14 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Thu, 16 Apr 2026 11:09:12 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Roman Gushchin <roman.gushchin@linux.dev>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, sashiko@lists.linux.dev,
+	Alexis Czezar Torreno <alexisczezar.torreno@analog.com>,
+	linux-hwmon@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: hwmon: pmbus: add max20830
+Message-ID: <cb47e2b5-5da8-472f-9c4e-7414b6cddf84@roeck-us.net>
+References: <20260414-dev_max20830-v1-1-210d3f82c571@analog.com>
+ <20260414043841.1ED2AC19425@smtp.kernel.org>
+ <20260416-winged-ivory-mandrill-f1e8b3@quoll>
+ <7ia4mrz2ssrz.fsf@castle.c.googlers.com>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260415182952.C7B77C19424@smtp.kernel.org>
+In-Reply-To: <7ia4mrz2ssrz.fsf@castle.c.googlers.com>
 
-On Wed, Apr 15, 2026 at 06:29:52PM +0000, sashiko-bot@kernel.org wrote:
-> Sashiko AI review found 2 potential issue(s):
-> - [Medium] The test relies on the verifier treating the return value of `bpf_get_prandom_u32()` as a completely unbounded 64-bit scalar. If the verifier is improved to track its true 32-bit bounds, the test will silently stop testing the intended logic.
-> - [Medium] The inline comments in `empty_tnum_u64_intersection` incorrectly describe the verifier state at the wrong instruction boundaries and use incorrect terminology.
-> --
+On Thu, Apr 16, 2026 at 05:45:52PM +0000, Roman Gushchin wrote:
+> Krzysztof Kozlowski <krzk@kernel.org> writes:
 > 
-> commit f07d8c6131ab63ef38acb708d393fc328146ef7c
-> Author: Paul Chaignon <paul.chaignon@gmail.com>
+> > On Tue, Apr 14, 2026 at 04:38:40AM +0000, sashiko-bot@kernel.org wrote:
+> >> Sashiko AI review found 3 potential issue(s):
+> >> - [Medium] Incomplete Regulator Schema
+> >> - [Medium] Missing Hardware Capability (Interrupts)
+> >> - [Low] Devicetree Best Practices Violation (Node Name)
+> >> --
+> >> 
+> >> commit 20a4d8dcd2f3344ac22d7d2e974bae1ef57874ed
+> >> Author: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
+> >> 
+> >> dt-bindings: hwmon: pmbus: add max20830
+> >> 
+> >> This commit adds device tree documentation for the MAX20830 step-down DC-DC
+> >> switching regulator with PMBus interface. It allows monitoring of voltage,
+> >> current, and temperature.
+> >
+> > Sashiko devs,
+> > Can we drop such comments? They are useless - we know what the commit is
+> > doing, no point for reviewing tool to say it again.
 > 
-> selftests/bpf: Test for empty intersection of tnum and u64
+> It's the format which originated from initial Chris Mason's prompts
+> and as *I understand* it's purpose was to make sure the llm is reviewing
+> the right patch and more or less understands it. Idk if we still need
+> this, but at least some find it useful: e.g.
+> https://github.com/sashiko-dev/sashiko/issues/90 .
 > 
-> This commit adds a verifier selftest for a scenario where the tnum and u64
-> values don't intersect on a branch. It uses bpf_get_prandom_u32() and
-> conditional jumps to test if the verifier correctly deduces that the branch
-> is dead code.
-> 
-> > diff --git a/tools/testing/selftests/bpf/progs/verifier_bounds.c b/tools/testing/selftests/bpf/progs/verifier_bounds.c
-> > index c1ae013dee29c..151c7a479a6b8 100644
-> > --- a/tools/testing/selftests/bpf/progs/verifier_bounds.c
-> > +++ b/tools/testing/selftests/bpf/progs/verifier_bounds.c
-> 
-> [ ... ]
-> 
-> > @@ -2184,4 +2184,29 @@ __naked void tnums_equal_impossible_constant(void *ctx)
-> >  	: __clobber_all);
-> >  }
-> >  
-> > +SEC("socket")
-> > +__description("dead branch: tnum and u64 don't intersect on true branch")
-> > +__success
-> > +__naked void empty_tnum_u64_intersection(void *ctx)
-> > +{
-> > +	asm volatile("									\
-> > +	call %[bpf_get_prandom_u32];							\
-> > +	r6 = r0;									\
-> 
-> Since bpf_get_prandom_u32() returns a u32, its runtime value is strictly
-> within [0, 0xffffffff]. If a future verifier update bounds prandom_u32() to
-> this range, the verifier will accurately determine that the jump
-> (r6 s< 0xe00000002) is always taken and prune the fallthrough path as dead
-> code.
-> 
-> Would this cause the test to silently pass while no longer providing any test
-> coverage for the tnum intersection logic? Could a truly unknown 64-bit value
-> be constructed instead to prevent this test fragility?
+> I'm planning to do it configurable in UI, but for emails I can
+> only make it configurable on per-subsystem basis.
+> If there is a consensus amongst hwmon maintainers, I'm happy to remove
+> it for hwmon (in several days).
 
-That's not a bad comment, but I would expect bpf_get_prandom_u32_proto
-to be part of the API at this point. Many other selftests use it to
-retrieve a RET_INTEGER from the verifier's point of view. If we were to
-ever change that, we'd likely get more than one failure.
+I find it useful. Please don't take it out. Maybe there is a means to drop
+it from devicetree patches if that is what devicetree maintainers want. Fine
+with me to drop it for those, or to drop devicetree feedback entirely if
+that is what devicetree maintainers want and if it is possible to separate
+devicetree patches submitted as part of a hwmon series from the actual code
+patches.
+
+Thanks,
+Guenter
 
 > 
-> > +	r1 = 0xe00000002 ll;								\
-> > +	r2 = 0xf00000000 ll;								\
-> > +	if r6 s< r1 goto +2;								\
-> > +	/* On fallthrough, r6's u64=[0xe00000002;0xf00000000] */			\
+> >
+> > Please send only useful feedback to mailing list, otherwise this will be
+> > just noise and going to be ignored.
 > 
-> Are these inline comments describing the verifier state accurately? The upper
-> bound of 0xf00000000 does not seem to be established until the fallthrough of
-> the next instruction (if r6 s> r2 goto +1).
-
-The convention seems to be that comments explain the next line, not the
-previous (cf. other tests and [1]).
-
-1: https://lore.kernel.org/bpf/CAADnVQJ2hX6E1_p557MYJOQLxXROzDxezwr-x79A7MyZZLzJuA@mail.gmail.com/
-
+> Agree, but there are many sometimes conflicting opinions on what's
+> useful and what's not. So I'm trying to make it as flexible and
+> configurable as possible.
 > 
-> > +	/*                      tnum=(0xe00000000; 0x1ffffffff) */			\
-> > +	if r6 s> r2 goto +1;								\
-> > +	/* On fallthrough, r6's tnum=(0xe00000001; 0x100000000) */			\
-> 
-> Does this tnum state actually describe the fallthrough path? It appears to
-> describe the mathematically deduced state on the jump target (true branch) of
-> the w6 == 1 check, making the term "fallthrough" incorrect here.
-
-Same here.
-
-> 
-> > +	/* It doesn't intersect with the u64 so the condition is always false */	\
-> > +	if w6 == 1 goto +1;								\
-> 
-> -- 
-> Sashiko AI review · https://sashiko.dev/#/patchset/20260415160728.657270-1-harishankar.vishwanathan@gmail.com?part=2
+> Thanks
 > 
