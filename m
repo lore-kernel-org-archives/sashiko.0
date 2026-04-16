@@ -1,200 +1,188 @@
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E93F61F03DE
-	for <sashiko@lists.linux.dev>; Thu, 16 Apr 2026 01:19:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E51772E65D
+	for <sashiko@lists.linux.dev>; Thu, 16 Apr 2026 02:46:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.44
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776302346; cv=pass; b=d9Ka3646yUoa1G5qYn/5x4DComrrTnp5lWNvokxcR6wPc0nc+V7YZ5kcjV63ET/kXrqM8o777QeeZS6OCAijMuaUp+n7XFavZpokimPZvMFzhtPLVyiOcEFxHysEvEKMXHKDgmbjVlJWm6IdIIuwlI3BAOfoVK7vj2eM2czSbJs=
+	t=1776307601; cv=pass; b=h2XxUVSAGUb9KBfse0D5qu35pf2zMd0ZW72bJ3IwjHdL6KgDsMA3RqrTvd7t4SXJzeHwGhKm+GbUNcPN8NbX6O4H732QuGfLDLI+w42CWlPVK1eq8pRF2OiwSX15917a5u1UvOvt0mVSnkvfujB0Gys+BxTI3VruJgNpnXEQuWQ=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776302346; c=relaxed/simple;
-	bh=XCtJXo6oKu5qJcO35V9S1Ifbd7LnW/zGipwZFVwFPkU=;
+	s=arc-20240116; t=1776307601; c=relaxed/simple;
+	bh=jzqWozEUYYFZPS/6kekndzo0Rcu/slzAa6UDlc4bz6E=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uwIbRP4EJnRI64KEUTSvGc1Uy5Y0N6LX8Mt0KVajsxnVNvCYBc1B4/UKvd4c1KYQDlLH0BsyMZ/sAsZkVLmfyFtB/iYopB4HhIXj/sXmEVBpL6kH0+mgH8daFkyhf1tvFccKYV3A5raBoo6Sc5dacfpz7R0KhfDjZ10ZB4pLLwA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZwQFk8gf; arc=pass smtp.client-ip=209.85.208.176
+	 To:Cc:Content-Type; b=fhYvCqEj4r+Fw0DAppEGBmslgeWMVgr2VSoltGdc6QmKwLKbMBlVb4MvU0K4z3zKVFXdiI28mnDwfnE6kJpx0bvJ9h4PGDiBr7nDnH1npXNAvv/bpQMtBPdlwtiYhF3WYedDw/j1N+FI2QKAXUnDjUjbvJ9zWHxQSsYcGUzjRgo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ATbH9FIS; arc=pass smtp.client-ip=209.85.167.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZwQFk8gf"
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-38e7d984096so41474731fa.2
-        for <sashiko@lists.linux.dev>; Wed, 15 Apr 2026 18:19:04 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776302342; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ATbH9FIS"
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-59e4a04f059so7246838e87.2
+        for <sashiko@lists.linux.dev>; Wed, 15 Apr 2026 19:46:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776307597; cv=none;
         d=google.com; s=arc-20240605;
-        b=SjvZjoza3JtZUhy0t1IC4rbndTfZQbOkpG/f+WY8hcGnD8+eXX0On82sBxaF2aC//4
-         sfsvGPoWXMKTW6njMXuriA7qpennUCdemf51rBk2tF/khXmn3Lt8Yf0raaZsXEHGzFay
-         u/oSjNTiTfwoyuWmjJdxg3Rxc9j6lgBjrtoS951rUHqG0g5hNWz2v8P7q222yW6WjII4
-         2hE057cS6cyDRogzWdr4H6f8aGrJTb7ucBwF9+QRF2X5rW6yfZnHbsxbtXAfurkcP4YF
-         7qt3MpN+YN6qHQK5yyc54JkpiYm7ztNGxBJU0VvvnJmaqpPlEClG9dFxcun5lT4O29k0
-         FV7A==
+        b=IY0ggSFWK5tDN0zvn84ekU/RcA34AW0+MHVK2nCrtPSG1nLcayX8o6PHNbhIvEeZ6X
+         81s0S+oMMShnXWFKF41l4rxQ8z5UXXA3QnSYSdax0SlXVSNUhl4IV3H3eCpXNM8+4TQu
+         J1qjuHg8x0zdOhAgmK1h10O+3UHWAYOTg6jSV4eMBpzqFt/NLVl48EDIdpTML3z9StrS
+         WAYnwCiaGrs9XGKULS0lc36YHpH7PECqk2alp4IYSoUWOsxQVge/Y1wep34AdncCLvNc
+         EXKOBRT8Yu98qzXNAw6I1gBErXO5eb8aczeYdNSfes3nuSy9rdtkORuSOFBh/26/uvlt
+         oLDg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=jZNhlsmlO+2dvKw7ULeWGa/3ZgJ/3xNp9y/uk0LituQ=;
+        bh=bMpAi1WfcnB71WumSoAXkBgMlLV2naKm0UdS2vprTuk=;
         fh=7pQPbM1mTaKjUbZ75iTISJbipA72wUVZwkXXTYMxzFw=;
-        b=QheQ6u869Ky/kDyBJugN7uN6CXjVALETVuIiSL1JOuHuwINa9AnFc/JD35PbdJi6CU
-         xHuzemD49SPAQaau5dKRSSR+JGIDfZodeBjWtVHGK021+ph8YdAEG6YG7bINQs2QypBB
-         hbFoVq3bOTsFl+C2MD0ArtA3jL78VkqAMfQSRebH4F8a+EGDq11Rzl0AL9TJo7PmbxqU
-         KYIzEXEn7Yb468UtuYCBx7CG5J0/v14YlwBxughcCQiMQT6J+Vc4YD6n3rFpRWCLJfpb
-         MZRkSOhtR856lq/Y6s++g2imLn9CXBx2+MvW8UxpZSdcklL6YpS4SBs92U8gMHc9uzn0
-         PcjQ==;
+        b=iKMqLFLzmsbEMJ3yxFI6ktK1wdVeHnIvUMW+IXvU/D1FdFOi0bQwtoKf9j4craMgEh
+         B1Y3NTq8Dy3xjU4AGWQJr9XzEdhsYlbi31JnHDmJcgpNQ60g3t4CGmzR1QtJEUWHc2oz
+         q29zDrJ5eSfFW1CWpxUYhxZ7J0aPnJ+gUinf8orgSf7Dv80UGkH/EOnmGdNgWNWvsRT4
+         QX9/RJKpLW2yUzo15SkqLHKotuVYIJ6wCq/MJijPXLnOVp+zcksWTSko7hKCsWa/SQKE
+         qKnBd5F8VzST7v/ETKv02S+DnrxE7SvBc37GrYcmQhuYuPx7x0Dh8vdC0fxO5rdpl8m/
+         7mbw==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776302342; x=1776907142; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1776307597; x=1776912397; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=jZNhlsmlO+2dvKw7ULeWGa/3ZgJ/3xNp9y/uk0LituQ=;
-        b=ZwQFk8gfq3yVpq2sUH+ksSTlTxbu7+8ahXHG3VoWqRZwKxDxrO5z0w7cUX23rC/mzB
-         IWgoM9qNl6W+RxX+1G7fdG3Q4i+WNQBKLZfh3Ad4B/1/DXS+W2lOe+bjPFiKfHQJ/ixN
-         xNGuzECsI/W6OiUiOVBpfes2pCwPzMToaWsFJaZQOTrMSCWwsX9+kZdN46fjiVDR4fUI
-         s2KpxlKKkpA773OK6Nu+lcGxd3T6aY5W6oZF8QgnYabw3a6lXC8zGHzxN644v1OZNBhT
-         fVT4fw+FzAdr0XIoj4tKnNKwiRQlaqr+0eyYV89YJ+iJAsvHBSD+sQA1IPoYLLQB79Ic
-         74tw==
+        bh=bMpAi1WfcnB71WumSoAXkBgMlLV2naKm0UdS2vprTuk=;
+        b=ATbH9FISs9BBBuWpVcPRarxYlQmiSFfGDDOmUkfEKF8hseE2uT4zeFNFtiyEITr9pf
+         azyJpkKCgsryPMNQLCxQ8Adqy3OfBBZLrp4TmEUWG4HRt40aci4EmsnMhdl/RG1wEjnU
+         mKPgx0UrxQ7XdQF2NQ33Xy3LdygebhnxF8+e2Ezeqy5pYbFtLidTcYUGjB/oKI2o0Kcx
+         aVBpRzytF8aSMkz8hPuihm47cuWa4lleZ5B1qtJRN5A2+HRxCq4aj+BW0NgVZFHtrT0G
+         JeEUNAgAVYQY6cKOkMiAaEjIUOmIm1jaBH7G5FJcOuKwCdXjTW2Iu8dl6NuU01NO4+o3
+         qplQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776302342; x=1776907142;
+        d=1e100.net; s=20251104; t=1776307597; x=1776912397;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=jZNhlsmlO+2dvKw7ULeWGa/3ZgJ/3xNp9y/uk0LituQ=;
-        b=lJ0P8GeUUhyG1TazK+b6y06PezDAks6QJHhqE7t+NNOxjpmIeA+rV8i2sZ+Z3cTTQo
-         VABZVy4zASV5FoPuy8Y3sLdGstzJFIoA8KraNFmS7Vb107kUhPgz2F2brgPrsxcu0AQR
-         99aQtP72KImcVDvu4P10B4bz6u1vK2zwKpfC9LMzQ5X+p6JILFdIOPaVlIAmILLRvHAY
-         XoSebRQ8CXWELpV8nrny7X6fMYizrE35SdzBV51DFn36b5p6kHhEKjuDz81kYdWblAdw
-         ZKSb8FWe7Ar9mxhuDQt0TTf3teK2QjA9BlLj7pSxuvcvqnh3WSgTvxXIePufVudO31Sd
-         xvSw==
-X-Gm-Message-State: AOJu0YzkdxBpvP9vDPGom6ZrqpEv6+CMa+U8DJHky/3AXdS9+rmm68tH
-	tmtFZIl1tbfDt9zY92qP8rputk0mPjIbHBM/fGUtokYh5SNwJZDiBanIbAK0ql9mhFyUiNDCVni
-	RSiVx1OmXKoa2D51wA0zkUtJp+4P1s0GCwxaUlmXBzA==
-X-Gm-Gg: AeBDiev3+K/U82RVmm0fp6dNyAcl430+Ksrd0DIj7OdCrKmnRTvkLS16XRS1rltAPb5
-	9QgUx8h5vECmqR0OPJS+QbvsnzkzBDLrh0t2BY4pECyxzqhpslfKmVbaY7a8pPmG/LsA0ZG4v4i
-	LTbnqjAZW43GO0kG7mi7RA9QGNzXNjkbiMobsoSJxzUrzDSHUrKQl7JFBjXS4mMU54I8AyhdU0w
-	8NTBH7CFnpgShOyN45WU7kGX23WFrjROWO+bDhT+ScMR1TnZMhq5sg9QukX9NFD8iQmJDK5G70b
-	1zmpv2qpM3g7Pq51L+qjG45Modin
-X-Received: by 2002:a05:6512:3a90:b0:5a2:b903:3b43 with SMTP id
- 2adb3069b0e04-5a3efb2c5a2mr9974360e87.7.1776302341381; Wed, 15 Apr 2026
- 18:19:01 -0700 (PDT)
+        bh=bMpAi1WfcnB71WumSoAXkBgMlLV2naKm0UdS2vprTuk=;
+        b=ZA9+zMuIP/nUgeiMMA01qgS6Cfkys2y9DCPk34qPQgh9E715+fsbsM5Vx0e1WXTvBU
+         7IHhYEBkhH9Q0enaCTyquGHUyeJo5n/IV01SikZ5BdVdvXaUSe1O3+Egw35xaPXdaOGU
+         inJU+heU1DF4eBbhpEYpFoB0fs+hiNyGNA+52Ae3ruIVUxIRqwiQg7Svh0bFJFgf8Di+
+         EnKP3LYsyEJuEaVZ9NpB+oAyg26LiL9EclvY+YtbDombSaIGBZszC+t8O4F0JpVdbKiu
+         5/pEx5BGkCdATFTTce1dvsJG+ADG1oHKt491FCpheK8No8OzQP/tqXjqGcK5mA/vInbQ
+         mdEw==
+X-Gm-Message-State: AOJu0Yz4P8ny41K6mPusEjhiAi139DI7epi/1AlDgNTN48jzvmO9Tmv6
+	E/rJAEGJnsNTlb2fOQmOnFdiUcUZ7XVpS9SYfMFMsIs1SOF+slprosOkCiQ8dsJBlf0Lu4ivBnN
+	s38PhfgSbiMB4mK0mIalM1EFXDd40qkKiijZL5uA=
+X-Gm-Gg: AeBDievs8qUinOA/fyTTlR2ii8WYXKitZXqaXPI+ofLfSiNykfwwQkXHy3rPFHMIAON
+	VDXo6eijW1G0umhgs1nZY9RmBwuIH6TrDKRYIr/MZBSyfSuGTgpOIeX5YsjU8+HLRrbFdRzcOWM
+	62B2/b/zBEuN/g9ltr2H0ITzBn1RoahgRoftlORV0ENEdzBw/S/y95vkE0z+eRTYYZmBTBrm/Ev
+	obF0VvDvTY4ARgXrXNSJfg9BztjoWrQDim0q0ZveeVtI+ynvo7YvetBZ+SUpGJ9++17c7gvNT9g
+	960yNM4ByCBkgfwLsI8=
+X-Received: by 2002:a05:6512:a91:b0:5a3:ff60:b72e with SMTP id
+ 2adb3069b0e04-5a3ff60c455mr4177412e87.39.1776307596793; Wed, 15 Apr 2026
+ 19:46:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260415082654.21026-4-kerneljasonxing@gmail.com> <20260415091743.97FA1C19424@smtp.kernel.org>
-In-Reply-To: <20260415091743.97FA1C19424@smtp.kernel.org>
+References: <20260415082654.21026-5-kerneljasonxing@gmail.com> <20260415093822.79A76C19424@smtp.kernel.org>
+In-Reply-To: <20260415093822.79A76C19424@smtp.kernel.org>
 From: Jason Xing <kerneljasonxing@gmail.com>
-Date: Thu, 16 Apr 2026 09:18:23 +0800
-X-Gm-Features: AQROBzDY8Xm2_8Cu4ecozfQPST7XLRuJGrF9Z76mRu-0wA7GQDyWPFtrQn7sF58
-Message-ID: <CAL+tcoD9g4M9iv+oLzSzPs1pcyQDe+R9wnHvn-DfnuZVysxbSQ@mail.gmail.com>
-Subject: Re: [PATCH RFC net-next v4 03/14] xsk: add xsk_alloc_batch_skb() to
- build skbs in batch
+Date: Thu, 16 Apr 2026 10:45:58 +0800
+X-Gm-Features: AQROBzAef71r8tiUdyeZgUJhpnVKcyP5ZGIv1I1HR-iZo_mj3Web780eg-zTQnU
+Message-ID: <CAL+tcoDbMq9s5tQkpBQfjWZGajUtJxhYzxJ9vD-hpq7uU3RYNQ@mail.gmail.com>
+Subject: Re: [PATCH RFC net-next v4 04/14] xsk: cache data buffers to avoid
+ frequently calling kmalloc_reserve
 To: sashiko@lists.linux.dev
 Cc: bpf@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Apr 15, 2026 at 5:17=E2=80=AFPM <sashiko-bot@kernel.org> wrote:
+On Wed, Apr 15, 2026 at 5:38=E2=80=AFPM <sashiko-bot@kernel.org> wrote:
 >
 > Sashiko AI review found 2 potential issue(s):
-> - [High] Pre-allocated SKB and socket memory charge (`sk_wmem_alloc`) are=
- permanently leaked when zerocopy metadata processing fails.
-> - [High] Double-free and Use-After-Free of `xs->skb` when fragment alloca=
-tion fails with `-EAGAIN` in copy mode.
+> - [High] Cached data buffers are consumed without validating current allo=
+cation flags, potentially violating memory placement constraints.
+> - [Medium] Meaningful code and commit message mismatch regarding cache re=
+fill logic.
 > --
 >
-> commit 3ef2c03b6204759327ab337fe34617d9dd8e04ef
+> commit 5a442e9c44f0a64a147908843084cffe5e2fed9f
 > Author: Jason Xing <kernelxing@tencent.com>
 >
-> xsk: add xsk_alloc_batch_skb() to build skbs in batch
+> xsk: cache data buffers to avoid frequently calling kmalloc_reserve
 >
-> This commit introduces xsk_alloc_batch_skb() to support allocating and
-> building skbs in batch. It reserves skbs, batches the sk_wmem_alloc charg=
-e,
-> and then copies data to complete initialization.
+> This commit introduces a per-socket data buffer cache for small packets
+> to reduce kmalloc_reserve() overhead. It adds bulk allocation from
+> skb_small_head_cache and persists unused buffers across batch cycles.
+>
+> >     Inside the Phase-1 per-descriptor loop, when a small packet needs a
+> >     data buffer and the cache is empty, a single kmem_cache_alloc_bulk(=
+)
+> >     refills it with generic_xmit_batch objects. Subsequent small packet=
+s
+> >     pop directly from the cache. Large packets bypass the cache entirel=
+y
+> >     and fall back to kmalloc_reserve(). Unused buffers remain in the
+> >     cache for the next batch.
+>
+> Is this description accurate? Looking at the implementation below, the bu=
+lk
+> allocation happens outside the Phase-1 loop. If the cache runs empty duri=
+ng
+> the loop, it appears to fall back to kmalloc_reserve() for each subsequen=
+t
+> packet rather than refilling the cache via kmem_cache_alloc_bulk(). Could
+> the commit message be updated to match the actual execution flow?
+
+Will update it.
+
 >
 > > diff --git a/net/core/skbuff.c b/net/core/skbuff.c
+> > index c7e42c2966cdd..3b3969adfd23f 100644
 > > --- a/net/core/skbuff.c
 > > +++ b/net/core/skbuff.c
->
 > [ ... ]
+> > @@ -709,10 +718,17 @@ int xsk_alloc_batch_skb(struct xdp_sock *xs, u32 =
+nb_pkts, u32 nb_descs, int *err
+> >
+> >                       skb =3D skbs[skb_count - 1 - i];
+> >                       skbuff_clear(skb);
+> > -                     data =3D kmalloc_reserve(&size, gfp_mask, node, s=
+kb);
+> > -                     if (unlikely(!data)) {
+> > -                             *err =3D -ENOBUFS;
+> > -                             break;
+> > +                     if (dc_count &&
+> > +                         SKB_HEAD_ALIGN(size) <=3D SKB_SMALL_HEAD_CACH=
+E_SIZE) {
 >
-> > +     /* Phase 3: Build SKBs with packet data */
-> > +     for (j =3D 0; j < alloc_descs; j++) {
-> > +             if (!xs->skb) {
-> > +                     skb =3D skbs[skb_count - 1 - k];
-> > +                     k++;
-> > +             }
-> > +
-> > +             skb =3D xsk_build_skb(xs, skb, &descs[j]);
-> > +             if (IS_ERR(skb)) {
-> > +                     *err =3D PTR_ERR(skb);
-> > +                     break;
-> > +             }
+> If the socket's sk_allocation (which populates gfp_mask) was modified to
+> require restricted memory placement (e.g. __GFP_DMA), could this code use=
+ a
+> standard memory buffer left over from a previous batch?
 >
-> Can this lead to a double-free and use-after-free of xs->skb if a fragmen=
-t
-> allocation fails?
->
-> If xsk_build_skb() fails to allocate a page for a subsequent fragment in =
-copy
-> mode, it frees the partially built skb and returns -EAGAIN. However, it
-> leaves xs->skb pointing to this freed memory.
->
-> When this loop breaks and returns -EAGAIN up the call chain, the caller
-> __xsk_generic_xmit_batch() checks xs->skb and calls xsk_drop_skb(xs->skb)=
-,
-> which would double-free the skb. Furthermore, any subsequent transmission=
-s
-> could dereference the dangling pointer. Should xs->skb be explicitly clea=
-red
-> when handling this error?
+> While the bulk allocation check before the loop correctly avoids allocati=
+ng
+> from skb_small_head_cache if KMALLOC_NOT_NORMAL_BITS is set, the
+> consumption path here only checks dc_count. Does this need to validate
+> gfp_mask against KMALLOC_NOT_NORMAL_BITS before consuming from the cache,
+> to ensure memory placement constraints are not bypassed?
 
-Ah, great job! Sashiko again found a real pre-existing bug! I will
-include it in my separate fixes.
-
-The corresponding fix would be adding a more strict check in
-xsk_build_skb() to exclude the case and let the caller to free it:
-free_err:
-        if (skb && !xs->skb && !skb_shinfo(skb)->nr_frags)
-                kfree_skb(skb);
-
->
-> > +
-> > +             if (xp_mb_desc(&descs[j])) {
-> > +                     xs->skb =3D skb;
-> > +                     continue;
-> > +             }
-> > +
-> > +             xs->skb =3D NULL;
-> > +             __skb_queue_tail(&batch->send_queue, skb);
-> > +     }
-> > +
-> > +     /* Phase 4: Reclaim unused allocated SKBs */
-> > +     while (k < i)
-> > +             kfree_skb(skbs[skb_count - 1 - k++]);
->
-> Does this permanently leak the pre-allocated skb and its socket memory ch=
-arge
-> if xsk_build_skb() fails?
->
-> When xsk_build_skb() encounters an error like a zerocopy metadata process=
-ing
-> failure, it returns an ERR_PTR() without freeing the skb. Because k was
-> already incremented before the xsk_build_skb() call, the Phase 4 loop sta=
-rts
-> reclaiming at the next skb.
->
-> The failed skb at index k - 1 is bypassed. Since it is never freed,
-> sock_wfree is skipped, leaking both the skb and the batched sk_wmem_alloc
-> charge.
-
-This is the pre-existing bug that you pointed out in patch 2. I'll
-take care of it for sure.
+I can add the check but it seems meaningless to me. In the whole
+implementation of xsk, there is no place where sk_allocation can be
+set to a different value other than GPF_KERNEL.
 
 Thanks,
 Jason
 
 >
+> > +                             data =3D dc[--dc_count];
+> > +                             size =3D SKB_SMALL_HEAD_CACHE_SIZE;
+> > +                     } else {
+> > +                             data =3D kmalloc_reserve(&size, gfp_mask,
+> > +                                                    node, skb);
+> > +                             if (unlikely(!data)) {
+> > +                                     *err =3D -ENOBUFS;
+> > +                                     break;
+> > +                             }
+> >                       }
+>
 > --
 > Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260415082654.21=
-026-1-kerneljasonxing@gmail.com?part=3D3
+026-1-kerneljasonxing@gmail.com?part=3D4
