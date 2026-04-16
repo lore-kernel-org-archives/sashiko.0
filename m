@@ -1,198 +1,206 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D652E3B8944
-	for <sashiko@lists.linux.dev>; Thu, 16 Apr 2026 13:13:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D039169AD2
+	for <sashiko@lists.linux.dev>; Thu, 16 Apr 2026 13:15:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.178
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776345191; cv=pass; b=IrQFpTyT+YkC3jyv6B0JsVz39K44kjb9ULfIa+nl6a5ujtfwb4dt6YoB3lZ95/rc5N9mEt/4rzvY8H1EHj1WGEUBqC4Rj5N5V/XYjbVJR3wUwIQ22d3ffaouyHrC57Gm+5VfLy6xLGyNa3mtY63pmqTP2nS4dpQVBtkaSgx2ks8=
+	t=1776345357; cv=pass; b=ui3loDngT+D/0vc2lRM+CzUZn9dzjwewuD8FcYb5MEwmVw6QouE4YYZINXOVOyp3zwJaxCpamGhLMwzsTbfIr80XTHFIpLrOSH5u3pPTHdp6e2MVyVBa8J3lHFUuPYPpUeozgnadGn99PjxI5xITfhqbWtHLyvE3lUIt3N8D7Jk=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776345191; c=relaxed/simple;
-	bh=Igi6tnJY9dqW2uqFEAkI8yxBTN/zxFPDtJhiiuyAWw4=;
+	s=arc-20240116; t=1776345357; c=relaxed/simple;
+	bh=RQ/nzNjGxdlPsgg0WN5PpATLVNP03uCuIwLlbSw2FgE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=d4eOAwh86L1Eooci+WUdd3FBM6NCmnQZHEZd/pibOY+CFB3nMutw/pZnfCgQS8fx4hqWAtPlYv91o1khyGMN8DqbYLtqX57td+P77rnz6cC38qiJZxkq2LQGkpOfgNHe3b3K7WnykjjNht41E8Cq4qaoY93lD/5f3zNF8KZRJwg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fcfzm8ON; arc=pass smtp.client-ip=209.85.167.45
+	 To:Cc:Content-Type; b=bddloWkn93cbeICs1oyhBUMWwZUQbI2h7Eio1E+Ktlc+qKtgWl69LweUAXPqw/hwsKNqbjz7BibE4svP54u5OZqJJU7eJKrl+3eR3Dpn3lxmyW7+BWr5MEFcjkBgAswegjXkxWxWdQExD41q7IgsmzT+J0nu7MKNeqsHFB3XkA0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SEsG+KgZ; arc=pass smtp.client-ip=209.85.167.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fcfzm8ON"
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5a40cfab24dso1894886e87.2
-        for <sashiko@lists.linux.dev>; Thu, 16 Apr 2026 06:13:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776345187; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SEsG+KgZ"
+Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-47018d341f8so5298630b6e.3
+        for <sashiko@lists.linux.dev>; Thu, 16 Apr 2026 06:15:56 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776345355; cv=none;
         d=google.com; s=arc-20240605;
-        b=cKvfzvYT7G/q/t+8hRsyF66PbN6UfgbkOMEbxN0zuwy3KE45dg+e5MzplqT3fALr9x
-         lMlVQdv3N8bc/+XWxmtI1Qe1R7lPCmt9uwx26RGkKuA9q2GD98cbuzbG9d3Z39rQKC4+
-         g0jn2i3Cl7yshlYATz23PPoYyEU3s0jTOZtRIY3ZyVOxciLq+3PLHo6EKhn0if0pV3Zj
-         1IS9O0zVHkwwG9Vt2xQXD+VwW05CTz92QQWp67VCtWygisxc7KVsmbYJp5P/ir39d/N2
-         DkNGm0webUftlwu2+ZPJOv0hArDLT5Jprxcrv1ba3TqLi+WqvAMQRQ/D7EF0l+b9YjEb
-         GqfA==
+        b=eRLdx2XSRuO6K9eNphklihpPzrcV6+hOeLEhY0lxLoLguSthu9ER9RCxVpv9wzO7JI
+         Ll2alCuYKwfsfiWm+dso2ZgBDT7ywhJmKTmWtxMA44NsF3wGL6FTjajZ7vopG3uWlRC6
+         ZMh3kR7Vm1k4cqum4jhzWVQfF+KlyyuUrwOvo7SM02F/l51tz8KEhCx4EihGR+EJEalk
+         ndK0OQAMicMZaNcT5m7evnUUE+GKGbZK1qplXIK82kwqoJyvMo6fhjbo1a6sgRWiTmUZ
+         Y/GTKqODLKx2ckloiomIqxMNardWNU54HorMBNkOZM/yNxHx3h9x7BN9vAYxWHydTQBQ
+         XHJw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=JloOiKR7gKouLV0lGcQMz03Isz+4TmwR02S2Q3iy2ZE=;
-        fh=7pQPbM1mTaKjUbZ75iTISJbipA72wUVZwkXXTYMxzFw=;
-        b=BSXyhOs/7UqvqN5ahTW4PdBAf9AOrR/k4Vct3hlXZgVqw2/ukKnnLPH+kDPK+WuEIH
-         cYSLCdtVyPsqXPkO0VlZiV04DCKyY8XUNKe/wlWouzHSI4yjFvAKbdzR0uOXcbamuuuF
-         25vLfmxU6dh7KHOw+cVl3aH73RfrMoGMy0lXtu0HIdFw9MXQguAXObe21rwQr+C+iGkc
-         Db2VnheKNmmu24vmqLkF/fgvX1G9xwANEk+RLiXX0k3s13ZhwukMDowGVS38M9c/mT6E
-         qgaI4qRolML6gfd3RyIFS6spidwOOPJjJpRoGaI/D6s3fg+zJkU2Af5pIfuUzFyk4lLQ
-         kf/A==;
+        bh=eNxy/oU7oyMIUDrrRH+z7VVC6MHx4Yy/gG9DvYfA+T0=;
+        fh=LIRAVtNkvFebIJTmd3sXQRhyI56KpQNcHjhAac0CiC0=;
+        b=d8r1R3b7RkdvmEowiYmFJNLtu0a+qSeLGeFmxUzdrrnzX+4rKKQ3Tmj/DxcibM/3ru
+         Y3g70+kKIJLVCKBInYBCYFmWKfIKNyE6yXIk7nP39o+zCF+aiNW+HvwPpQg4nVK98vL3
+         OuKdxhLJFz4D1PAEQMMHxhN5bTZsfYHiNNKahXVXB24yBItX2GCEmL1YblmaPC28VmOk
+         qQUIcKXASxIH6gwtrVShFUoCgJAelxy9m9WSiWSgAtaZERKPtqWc1xdNxkBvjlVeUXqN
+         nChKCNtO/Pf2YjH9aelavWOpV7q8A8rvDy8mYv3tkNt6TUXwZKTDSNr4pzOS7AXs2921
+         PeVA==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776345187; x=1776949987; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1776345355; x=1776950155; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=JloOiKR7gKouLV0lGcQMz03Isz+4TmwR02S2Q3iy2ZE=;
-        b=fcfzm8ONad2jl+EjOtAhTU3BhqSJK18+7+4QHPS/KCWjXuVjPDq3m243IrI+XWxnXt
-         jjIaiX5KH5pnVjULhJTrvcQtab8OsV6gAMdkYfmADpTHk1bIRTbV04X2qQaGzzqp34g0
-         EAB8tMVF8/h2nmLo3osqUHRqjB9KJtVEhZVTID8Zn7ErnzxudVt49JS0JZD0AeDh5ziY
-         J/wtMEopLWVq6sGvQm0VuIgAwrPeGk1DDWzsieit3AqBdV2+OopvU0bL6XX62ULBkt3H
-         L/TIrOF15PKOMoRBab9Cj5DpRkUuV35J7ps3i2MTwICz87Rv2SihYlDh55cymkC6xyud
-         nocA==
+        bh=eNxy/oU7oyMIUDrrRH+z7VVC6MHx4Yy/gG9DvYfA+T0=;
+        b=SEsG+KgZse5Xht9OYXHoGkZpNn+Fb6LAH6ud0I5ItozkWzyAEy9k/wD8Ddnsl5pjMp
+         Vp9kQgj3C8vLwUsQ/wkevqkMB6vqmDiHmnpL7MbSPcSKZXm6ccV4R5ugL9YVFQevbhit
+         roFRVm9IoB4dS5rLEq/1WLbs0qB3mSErIrCMpgoke/kV6CdpCymAdMiZBDhMv9kW72Ju
+         1sGxc7TcAhzERv/UBdGR8hZcwTZ/FCLqmvXEoZtwPfmiax26s/+E7loOmn44K2dGH/HS
+         UrjrTXfEUtc4yiqyoKE053D5uUJ8onch1TeQwrz+Bpknm9UiaMiDumS4MltvUPyDcXCe
+         G42Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776345187; x=1776949987;
+        d=1e100.net; s=20251104; t=1776345355; x=1776950155;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=JloOiKR7gKouLV0lGcQMz03Isz+4TmwR02S2Q3iy2ZE=;
-        b=WdPbDzUNmSZoaHXhIfpRp8e2Tb7oR752Gy2ZRlm5i2ul//u+W0eH8EjBvdsYZdmAPO
-         Vr3j29LxxVcbDGf8fMDjya85X7LEk/4AutxTiCc2Kzl7UKajW32xFMZ9frV7w17PCY5m
-         fQjWuRMwPJPzeIMO+/bpVTOfxfl4Kf7QEjhksB8xCbE5ypOa1FwUmWo2aW5HbVg1su77
-         AlHxjXgNyFyYPyuqlmbknaaltyQdQuQi52WhNQCsi+9xjF2QOLI4h5Jztn+PgQamdKlT
-         cFMCBkQYULndKNjJu6cu+2dweSfnXY43wODhAFslOCWNiv51wLG06B8Wp/IdF8V2ZA+i
-         4dpw==
-X-Gm-Message-State: AOJu0Yw1hLgclo/AaTFju+6DuriCnQKhe+Tm2JqdFGdYlGOkwVXWGhNH
-	afMoSFZqcexe2ye8KGftphbMwpoPgb6uwzWGHN5Hr3tfoPPlIfR8SRbfQFytlstxCXTPdd0l9qA
-	DtfZOdzGqWBaHgVSq4NjIJO/jmBhZooHgqFBcai7Z1g==
-X-Gm-Gg: AeBDiesxO6p2Cz9HyVH7DoPmv4JtHmspWXeDP/PMwr5/JLP83UXqIcDH+KDjsyAl3Vt
-	wNyIv2xp0GWyTIC42I/12/K+rHXn+kfsTB7iidMywViNX4o2EGstp4f+Pmr2XptW67SJwg8x+fI
-	oBOx1XU+GIjB7gJACj9LuA02F0UKC5TqjbpLAoBGE81Pg/7bZfmEfnxI+eNlSxQ8ssAl43HHatS
-	rf2xcUcuaoctvHiOJtmpDsf3OfB/WwWwm5R+kaOWpsxoFRSHLoJDQaWOns4KaNm0wa/7OdoQr3n
-	XKaju9wtT/jpynWctvc=
-X-Received: by 2002:a05:6512:1248:b0:5a3:ffc6:6600 with SMTP id
- 2adb3069b0e04-5a3ffc66782mr5756835e87.31.1776345186718; Thu, 16 Apr 2026
- 06:13:06 -0700 (PDT)
+        bh=eNxy/oU7oyMIUDrrRH+z7VVC6MHx4Yy/gG9DvYfA+T0=;
+        b=Z30USSpAqcbsPiw0XWOSdav1c2Bi1Av/9gtvdHTa39JfeNdt6SOdgj7jt9y/WRC/1P
+         V50iTMgxXm7GtTtBlAKMHEl/pGF9bd6kSppVzLg22Y4rmRSn1C0q/OUTqn3ZMbeTWYpj
+         MLtUSFzxWEAYx0pm7mdw3T0ajIHNG3iMvcA0JByn3my0LPwlH8zxHBQNmYbNDGEFx+PC
+         M67cwK9+Vhr2bSn1w3kme+t/1GRK9WnbiK4YErxsDG2utnWVORjcwqVqp75tBJ7piMYx
+         zx9SDz+vAXdIuvLgQw3+xjWuZKFk1ezK6yYGOpRsIVd1FlPUDlB4aJzBlYTgRuqagrsO
+         KoHg==
+X-Gm-Message-State: AOJu0Yxj36AYvBXu9xJrttc6tyR3bSZJYB1hiBhwbnoQL1fSWQeBEZh0
+	bHzSyVF008NVmnFuWSIYjpbJHPIfNKzo/AbvkdrRvvlP5UHzfaYojUp/pzziSad9GuABuVpxmnH
+	gf6B/qUmt0kNwdOEc5W8lBK15w0IyPui/OCdE
+X-Gm-Gg: AeBDieufUJ2brW96pRLI5bEfGngUtQzVOQt9htTGfxrX69jszXyVPeeNH6k/u5VW/5U
+	3RqbMIYu/fPqJk1jqrUAVh2/Hjzawmk03xv8K19aLxm0OBEQM1okJ8fJSUUpe9TJWL/+jrQ393b
+	DCy8/KgSI8MpftBWpKASbsGxHOw3Tw+eyI2tAYH4ao6xEBQLwqQi7P0ojHvU9ZJTUv0jmyK6Kr8
+	qQ0JnT+llIMGeiTfLiemfkF1MaDFe8z6G5wXPBIpSXWn52jqrEnQLyOAoT3l/e7UsDJOhSaITY9
+	09KWHBF4IWihoCzYaNNWwHVq8qnSjzqO3Wvq0ufEtxF5NXYz6T6DO1dIKGnFpFEQAds3XDgM6jO
+	wPXhHLvZaLdvCYukMxvfl068jjih/Iq7l87pGbmE=
+X-Received: by 2002:a05:6808:c168:b0:467:1f38:bc1a with SMTP id
+ 5614622812f47-4789d95209bmr12935100b6e.7.1776345355123; Thu, 16 Apr 2026
+ 06:15:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260415082654.21026-15-kerneljasonxing@gmail.com> <20260415094721.7C052C19424@smtp.kernel.org>
-In-Reply-To: <20260415094721.7C052C19424@smtp.kernel.org>
-From: Jason Xing <kerneljasonxing@gmail.com>
-Date: Thu, 16 Apr 2026 21:12:29 +0800
-X-Gm-Features: AQROBzCeGXvciSVxk-HpPiNiOGKinHbcNq2f1IMKWCFDQrCxv3yvqsdRowIHJ0E
-Message-ID: <CAL+tcoDN3CDCyvgQasEF+7H5K20rJQov6UoVffytY37=ajnFpA@mail.gmail.com>
-Subject: Re: [PATCH RFC net-next v4 14/14] xsk: optimize xsk_build_skb for
- batch copy-mode fast path
+References: <20260416090752.97392-1-hanguidong02@gmail.com> <20260416104136.63F14C2BCB0@smtp.kernel.org>
+In-Reply-To: <20260416104136.63F14C2BCB0@smtp.kernel.org>
+From: Gui-Dong Han <hanguidong02@gmail.com>
+Date: Thu, 16 Apr 2026 21:15:42 +0800
+X-Gm-Features: AQROBzD_hzeE2Uyez9rAZ-m57cvFs7xG0KJvMe0ElfA13adQFTx8Hf3KB28IHg8
+Message-ID: <CALbr=LZimkhj_R889nV5UxSjwNraB2reNgWF67_9j=r+g=2Rfw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] hwmon: (lm63) Convert macro to function to avoid TOCTOU
 To: sashiko@lists.linux.dev
-Cc: bpf@vger.kernel.org
+Cc: linux-hwmon@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Apr 15, 2026 at 5:47=E2=80=AFPM <sashiko-bot@kernel.org> wrote:
+On Thu, Apr 16, 2026 at 6:41=E2=80=AFPM <sashiko-bot@kernel.org> wrote:
 >
 > Sashiko AI review found 2 potential issue(s):
-> - [High] An SKB memory leak occurs when xsk_build_skb() returns an error =
-for a newly assigned SKB.
-> - [Medium] The prefetch instruction uses the raw AF_XDP descriptor addres=
-s without extracting the offset, creating an invalid pointer in unaligned m=
-ode.
+> - [High] Incomplete TOCTOU fix allows compiler-induced divide-by-zero cra=
+sh in `show_fan()`.
+> - [Medium] Lockless sysfs read in `show_fan()` causes torn reads and viol=
+ates hwmon subsystem locking guidelines.
 > --
 >
-> commit 7bdeef673e571c57c404cb8d05446f46b3e2676e
-> Author: Jason Xing <kernelxing@tencent.com>
+> commit ebc10731137639981842ea19f80f0b969db71842
+> Author: Gui-Dong Han <hanguidong02@gmail.com>
 >
-> xsk: optimize xsk_build_skb for batch copy-mode fast path
+> hwmon: (lm63) Convert macro to function to avoid TOCTOU
 >
-> This commit introduces three targeted optimizations for the batch
-> copy-mode TX hot path in XDP sockets, including replacing skb_store_bits(=
-)
-> with memcpy(), inlining UMEM address computation, and prefetching the
-> next descriptor's UMEM data.
+> The patch converts the FAN_FROM_REG macro to a static function
+> fan_from_reg() to evaluate its argument only once, avoiding a TOCTOU
+> race and potential divide-by-zero error.
 >
-> > diff --git a/net/core/skbuff.c b/net/core/skbuff.c
-> > index 3b3969adfd23f..0fccb0c8cbe90 100644
-> > --- a/net/core/skbuff.c
-> > +++ b/net/core/skbuff.c
-> > @@ -751,14 +751,28 @@ int xsk_alloc_batch_skb(struct xdp_sock *xs, u32 =
-nb_pkts, u32 nb_descs, int *err
-> >       if (total_truesize)
-> >               refcount_add(total_truesize, &xs->sk.sk_wmem_alloc);
+> Link: https://lore.kernel.org/linux-hwmon/CALbr=3DLYJ_ehtp53HXEVkSpYoub+X=
+YSTU8Rg=3Do1xxMJ8=3D5z8B-g@mail.gmail.com/
+>
+> > diff --git a/drivers/hwmon/lm63.c b/drivers/hwmon/lm63.c
+> > index 035176a98ce9c..da132b267c584 100644
+> > --- a/drivers/hwmon/lm63.c
+> > +++ b/drivers/hwmon/lm63.c
+> > @@ -109,8 +109,14 @@ static const unsigned short normal_i2c[] =3D { 0x1=
+8, 0x4c, 0x4e, I2C_CLIENT_END };
+> >   * adapted accordingly.
+> >   */
 > >
-> > -     /* Phase 3: Build SKBs with packet data */
-> > +     /* Phase 3: Build SKBs with packet data. */
-> > +     struct xsk_buff_pool *pool =3D xs->pool;
-> > +     void *pool_addrs =3D pool->addrs;
-> > +     bool unaligned =3D pool->unaligned;
+> > -#define FAN_FROM_REG(reg)    ((reg) =3D=3D 0xFFFC || (reg) =3D=3D 0 ? =
+0 : \
+> > -                              5400000 / (reg))
+> > +static int fan_from_reg(int reg)
+> > +{
+> > +     if (reg =3D=3D 0xFFFC || reg =3D=3D 0)
+> > +             return 0;
 > > +
-> >       for (j =3D 0; j < alloc_descs; j++) {
-> > +             u64 addr =3D descs[j].addr;
-> > +             void *buffer;
+> > +     return 5400000 / reg;
+> > +}
 > > +
-> > +             if (unaligned)
-> > +                     addr =3D xp_unaligned_add_offset_to_addr(addr);
-> > +             buffer =3D pool_addrs + addr;
-> > +
-> > +             if (j + 1 < alloc_descs)
-> > +                     prefetch(pool_addrs + descs[j + 1].addr);
 >
-> Does this prefetch use the raw AF_XDP descriptor address without extracti=
+> [ ... ]
+>
+> > @@ -333,7 +339,7 @@ static ssize_t show_fan(struct device *dev, struct =
+device_attribute *devattr,
+> >  {
+> >       struct sensor_device_attribute *attr =3D to_sensor_dev_attr(devat=
+tr);
+> >       struct lm63_data *data =3D lm63_update_device(dev);
+> > -     return sprintf(buf, "%d\n", FAN_FROM_REG(data->fan[attr->index]))=
+;
+> > +     return sprintf(buf, "%d\n", fan_from_reg(data->fan[attr->index]))=
+;
+>
+> Since fan_from_reg() is a small static function, won't the compiler likel=
+y
+> inline it?
+>
+> If it gets inlined, couldn't the compiler optimize the code by reloading
+> data->fan[attr->index] from memory multiple times (once for the 0 check, =
+and
+> again for the division)?
+
+I am not an expert on compiler optimization. I consulted a few
+different models and got mixed answers. Unlike a macro with a side
+effect (like ++), an inlined function doesn't strictly force multiple
+memory fetches, so it's a bit ambiguous.
+
+>
+> If lm63_update_device() concurrently writes to data->fan[0] in two non-at=
+omic
+> steps (where the first step can momentarily set the value to 0), and a re=
+load
+> happens exactly when the value is 0, could this still cause a divide-by-z=
+ero
+> panic?
+>
+> Note that the subsequent patch in the series ('hwmon: (lm63) Add locking
+> to avoid TOCTOU') explicitly skips show_fan(), leaving this unfixed.
+>
+> Additionally, is it safe to read data->fan locklessly here?
+>
+> According to the hwmon subsystem guidelines, drivers must implement locki=
 ng
-> the offset?
+> for attributes registered outside the core-serialized info API. Because t=
+his
+> driver registers its attributes using devm_hwmon_device_register_with_gro=
+ups(),
+> it should lock its attribute accesses.
 >
-> In unaligned mode, an AF_XDP descriptor addr field encodes a chunk offset
-> in its upper 16 bits. While xp_unaligned_add_offset_to_addr() is used to
-> decode the current descriptor address, the prefetch directly adds
-> descs[j + 1].addr to pool_addrs.
->
-> Could this result in an out-of-bounds pointer in unaligned mode, failing =
-to
-> hide memory latency and causing cache pollution?
+> Since lm63_update_device() releases the update_lock before returning, and
+> data->fan[0] is updated non-atomically in two steps, couldn't a concurren=
+t
+> sysfs read observe a partially updated 16-bit state?
 
-Will handle unaligned mode soon.
-
->
-> > +
-> >               if (!xs->skb) {
-> >                       skb =3D skbs[skb_count - 1 - k];
-> >                       k++;
-> >               }
-> >
-> > -             skb =3D xsk_build_skb(xs, skb, &descs[j]);
-> > +             skb =3D xsk_build_skb(xs, skb, &descs[j], buffer);
-> >               if (IS_ERR(skb)) {
-> >                       *err =3D PTR_ERR(skb);
-> >                       break;
->
-> Can this leak the newly assigned SKB if xsk_build_skb() returns an error?
-
-This patch doesn't introduce any new stuff here...
+Your point about data->fan[0] being updated non-atomically in two
+steps is a very nice finding. This gives me a solid reason to just add
+locking to show_fan() and fix the torn read properly.
 
 >
-> If xsk_build_skb() fails, it returns ERR_PTR(err) and the loop breaks. Si=
-nce
-> k was already incremented, the cleanup loop in Phase 4 (while (k < i)
-> kfree_skb(...)) reclaims unused SKBs starting from the current k, skippin=
-g
-> the failed SKB at index k - 1.
+> Could this torn read result in wildly inaccurate fan speed values being
+> reported? The subsequent patch ('hwmon: (lm63) Add locking to avoid TOCTO=
+U')
+> fixes similar locking issues but explicitly omits show_fan().
 >
-> Could a malicious userspace program exploit this to systematically leak S=
-KBs
-> by triggering metadata errors?
-
-I confirm this claim is wrong because 1) xsk_build_skb() frees the skb
-directly if frag is zero, or 2) __xsk_generic_xmit_batch() takes
-responsibility to free xs->skb if frag is not zero and err is not
--EAGAIN.
-
-Thanks,
-Jason
-
+> >  }
 >
 > --
-> Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260415082654.21=
-026-1-kerneljasonxing@gmail.com?part=3D14
+> Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260416090752.97=
+392-1-hanguidong02@gmail.com?part=3D1
