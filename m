@@ -1,135 +1,172 @@
-Received: from out-177.mta0.migadu.com (out-177.mta0.migadu.com [91.218.175.177])
+Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com [95.215.58.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F6B128B40E
-	for <sashiko@lists.linux.dev>; Fri, 17 Apr 2026 02:06:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F42025E469
+	for <sashiko@lists.linux.dev>; Fri, 17 Apr 2026 02:17:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776391612; cv=none; b=ZuiwvIM3mKZoXFxGhja6ZVNaA49kH17mz9h4QmaHa8DOYKMljEz0A8Mof+K7kkrswylK8LmkJ8YyJdcLhS6lGg8oa2IHqRgEdAeHoYbP0vSti796o9SzD09TWQsrD9/GxheJ3aytsEIEmqi6sum1yRA6jYzIEUcYGgbzjibCxpM=
+	t=1776392257; cv=none; b=qz0HsmV9ijvgugN9Z5QV1afiS5PIoVHl+O5YCnqZy6YPpAGzwh1UqWv1uW0P/OSAAbcS5sV6povtO1BESenLEY2dJ5DGyAtLrlCk3/ibyKYJpxar7YeRoPS/NPtpcY1O3jruJo5xWukK3rCO0DJHfee1kaBnD/mqhMdd4zXcbao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776391612; c=relaxed/simple;
-	bh=IgaENIdhWhvAOTEAWBv+mmptGFaaCY3lf7A25U2Ievo=;
+	s=arc-20240116; t=1776392257; c=relaxed/simple;
+	bh=cdoquM5uqhR3ZqPtELP8c3EiPGTFie+pFNZK+7kBMTw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=c4/KY4UyPi8/xfGecatfb8SaGJoOMCEM/WtveJmWcqw2/4AmcZfHwAqVU3EnngYcnLgm8NgDFrz/BBpqFOaZKkTXiJDXU9ae5r1X4GQvfoYEzwA9RGLe75QYpsFPhmmsnA0a66pfGY8M0FTvLAS7LdtdT9/KtY05maPtz8i2H3c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=MTmnaMS5; arc=none smtp.client-ip=91.218.175.177
+	 In-Reply-To:Content-Type; b=qUx+lE80tImG8ErESet74FU1tx9qZSBbSFj9C9wdo6E+zxrGJttYmTl1JSbohVzGJ/k/n5RQ0jt6Kkx0IFi+9z1mj+JhlcVjU8CraeONnP551mbyu/yL0a2hRM1op/Ed8CaePj3eyz/EC/czBkQKnvzfd1n6JATANCOwwZ65Vf8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=l4hEQHBL; arc=none smtp.client-ip=95.215.58.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="MTmnaMS5"
-Message-ID: <d4460398-2f11-42e3-80d1-588931ea2f17@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="l4hEQHBL"
+Message-ID: <a5ba416e-f70d-4ba3-9443-923ce3b10d33@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1776391608;
+	t=1776392254;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=VQJbJ5Z0KhaIA3bQwoWMT/+Xairtq16m8wHI3nTbmos=;
-	b=MTmnaMS5QAEiYpbTp8Eae3a6QiIpDMISvMjXCrgIeM9NEbt9cLGr1crAr0bDVl/1J9vL3F
-	DAIIqpBXfjv5IHFtxqTZbTCRRRh54Kt3dIyFXZ5anOGFk4TEHK0qTgfKwz8FsYUbPzvrvr
-	e3VlZsZZKSf5AtkQvtS0dNEIyUM/wCs=
-Date: Fri, 17 Apr 2026 10:06:43 +0800
+	bh=TdITxPE861+ZwCznNJRIBMh9F1oYXIA+qrDu3sQ7wRI=;
+	b=l4hEQHBLThyZMVrGTL9swkarwa6Za6R9tsjU/PdA6ojv6qajEbKJL3OPS4uEqUTIaIddsF
+	DeGV3SH1dByeqvNSuNy1POiTPrqdQcNNzI5EpNYKq03Dd5iV/Ev8Bx0IStC2nQov8W2VyA
+	UKIKE1AtfTvkmFHjXaPfBmnbrVfslaw=
+Date: Fri, 17 Apr 2026 10:17:20 +0800
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH bpf-next v4 7/8] selftests/bpf: Add tests to verify global
- percpu data
+Subject: Re: [PATCH bpf-next v4 8/8] selftests/bpf: Add a test to verify
+ bpf_iter for global percpu data
 Content-Language: en-US
 To: sashiko@lists.linux.dev
 Cc: bpf@vger.kernel.org
-References: <20260414132421.63409-8-leon.hwang@linux.dev>
- <20260414214525.589E8C2BCB6@smtp.kernel.org>
+References: <20260414132421.63409-9-leon.hwang@linux.dev>
+ <20260414220850.D6421C19425@smtp.kernel.org>
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Leon Hwang <leon.hwang@linux.dev>
-In-Reply-To: <20260414214525.589E8C2BCB6@smtp.kernel.org>
+In-Reply-To: <20260414220850.D6421C19425@smtp.kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Migadu-Flow: FLOW_OUT
 
-On 15/4/26 05:45, sashiko-bot@kernel.org wrote:
-> Sashiko AI review found 1 potential issue(s):
-> - [Medium] The tests use the raw CPU ID to index into the densely packed `percpu_data` array, which will cause an out-of-bounds read and test failures on systems with sparse CPU masks.
+On 15/4/26 06:08, sashiko-bot@kernel.org wrote:
+> Sashiko AI review found 3 potential issue(s):
+> - [Medium] The `dump_percpu_data` program is autoloaded by default, breaking existing subtests on older kernels.
+> - [Medium] Checking `err == -EOPNOTSUPP` after skeleton load incorrectly handles unsupported kernels.
+> - [Medium] Casting the global datasec to an anonymous C struct relies on fragile compiler layout assumptions.
 > --
 > 
-> commit a7c2685b539ebc816cdb05decab1d7a8a4e1328e
+> commit 1e00e3e2b318918e67a2c7d2e251132e1b985484
 > Author: Leon Hwang <leon.hwang@linux.dev>
->     
-> selftests/bpf: Add tests to verify global percpu data
->     
-> This commit adds new selftests to verify the behavior of global percpu data
-> by checking map initial values, struct pointers, and looking up elements from
-> global percpu data maps.
+> 
+> selftests/bpf: Add a test to verify bpf_iter for global percpu data
+> 
+> Add a test to verify that it is OK to iter the percpu_array map used for
+> global percpu data.
 > 
 >> diff --git a/tools/testing/selftests/bpf/prog_tests/global_data_init.c b/tools/testing/selftests/bpf/prog_tests/global_data_init.c
+>> index 0b0384b6515ed..9ff09ff1981c4 100644
 >> --- a/tools/testing/selftests/bpf/prog_tests/global_data_init.c
 >> +++ b/tools/testing/selftests/bpf/prog_tests/global_data_init.c
 > 
 > [ ... ]
 > 
->> +static void test_global_percpu_data_init(void)
+>> @@ -269,6 +269,57 @@ static void test_global_percpu_data_verifier_failure(void)
+>> +static void test_global_percpu_data_iter(void)
 >> +{
 > 
 > [ ... ]
 > 
->> +	err = bpf_map__lookup_elem(map, &key, sizeof(key), percpu_data,
->> +				   elem_sz * num_cpus, 0);
->> +	if (!ASSERT_OK(err, "bpf_map__lookup_elem"))
+>> +	err = test_global_percpu_data__load(skel);
+>> +	if (err == -EOPNOTSUPP) {
+>> +		test__skip();
 >> +		goto out;
->> +
->> +	for (i = 0; i < num_online; i++) {
->> +		if (!online[i])
->> +			continue;
->> +
->> +		data = (void *)percpu_data + elem_sz * i;
+>> +	}
 > 
-> Will this logic cause an out-of-bounds read on systems with sparse CPU masks?
+> Will this correctly skip on older kernels? When the kernel verifier
+> rejects an unsupported program type or feature during bpf_prog_load(),
+> it typically returns -EINVAL (or -EACCES), not -EOPNOTSUPP.
 > 
-> When reading a per-CPU map using bpf_map__lookup_elem(), the kernel packs the
-> per-CPU values densely into the output buffer by iterating over the possible
-> CPU mask.
+> Libbpf passes this error code back to the caller, so this condition
+> might evaluate to false, causing the test to fail on the subsequent
+> ASSERT_OK(err) check instead of gracefully skipping.
 > 
-> The test allocates num_cpus (the total count of possible CPUs) elements for
-> the output buffer, but then iterates over the raw CPU IDs using i and uses i
-> as an index into the densely packed array.
+
+This err check should be dropped, because this test won't run when the
+kernel does not support global percpu data.
+
+See previous patch:
+
++void test_global_percpu_data(void)
++{
++	if (!feat_supported(NULL, FEAT_PERCPU_DATA)) {
++		test__skip();
++		return;
++	}
+
+> [ ... ]
 > 
-> On systems with sparse CPU masks (for example, where CPUs 0 and 100 are
-> possible/online), num_cpus will be 2. When the loop reaches i = 100, it
-> appears it will attempt to access percpu_data + elem_sz * 100, reading past
-> the bounds of the allocated memory.
-> 
-> Could we maintain a separate index counter that increments only for possible
-> CPUs to match the kernel's dense packing behavior?
+>> diff --git a/tools/testing/selftests/bpf/progs/test_global_percpu_data.c b/tools/testing/selftests/bpf/progs/test_global_percpu_data.c
+>> index 947721c21f30c..0ddb820509ebf 100644
+>> --- a/tools/testing/selftests/bpf/progs/test_global_percpu_data.c
+>> +++ b/tools/testing/selftests/bpf/progs/test_global_percpu_data.c
 > 
 > [ ... ]
 > 
->> +static void test_global_percpu_data_lskel(void)
+>> +SEC("iter/bpf_map_elem")
+>> +__auxiliary
+>> +int dump_percpu_data(struct bpf_iter__bpf_map_elem *ctx)
+> 
+> Will this break existing subtests on older kernels? The bpf program
+> dump_percpu_data is defined with SEC("iter/bpf_map_elem") without the
+> ? prefix, meaning libbpf will attempt to autoload it whenever
+> test_global_percpu_data__load() is called.
+> 
+> Since the existing init and lskel subtests also load the full skeleton,
+> they might inadvertently attempt to load this new iterator program.
+> Should this use SEC("?iter/bpf_map_elem") to prevent autoloading by
+> default, and only be explicitly autoloaded in the iter subtest?
+> 
+
+Since older kernels do not have global percpu data support, this test
+won't run on them. See aforementioned explanation.
+
 >> +{
+>> +	struct {
+>> +		int data;
+>> +		char run;
+>> +		struct {
+>> +			char set;
+>> +			int i;
+>> +			int nums[7];
+>> +		} struct_data;
+>> +		int nums[7];
+>> +	} *pptr = ctx->value;
+> 
+> Is it safe to cast the global datasec to an anonymous C struct like
+> this?
+> 
+> In the BPF source, these are declared as independent global variables.
+> The layout of these variables in the .percpu ELF section is determined
+> entirely by the compiler. While the current compiler version might emit
+> the uninitialized nums array after the initialized variables (matching
+> the struct layout), this relies on undocumented compiler behavior.
+> 
+> If the compiler alters the layout, or if variables are added or
+> initialized differently in the future, the field offsets will mismatch.
+> This could cause the step calculation to diverge from the map's actual
+> value_size, leading to out-of-bounds reads.
+> 
+> Would it be safer to group these variables into a single explicit struct
+> in the BPF code to guarantee their memory layout?
 > 
 > [ ... ]
 > 
->> +	err = bpf_map_lookup_elem(map_fd, &key, percpu_data);
->> +	if (!ASSERT_OK(err, "bpf_map_lookup_elem"))
->> +		goto out;
->> +
->> +	for (i = 0; i < num_online; i++) {
->> +		if (!online[i])
->> +			continue;
->> +
->> +		data = (void *)percpu_data + elem_sz * i;
-> 
-> Does this loop have the same bounds checking issue as mentioned above?
-> 
-> If i is a raw CPU ID on a system with a sparse CPU mask, this calculation
-> could exceed the bounds of the percpu_data buffer.
-> 
 
-Yep, agree with the review.
+Correct, I should not use such an anonymous struct, even if it matches
+the generated skeleton's embedded struct.
 
-Instead of lookup values across all possible CPUs, it should lookup
-value on specified CPU using BPF_F_CPU, because the test only runs on
-online CPUs.
+A better approach is to locate the int by offset, which will match its
+offset in the generated skeleton's embedded struct.
 
 Thanks,
 Leon
