@@ -1,221 +1,169 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 748402C159A;
-	Sat, 18 Apr 2026 16:43:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 174083016E7
+	for <sashiko@lists.linux.dev>; Sat, 18 Apr 2026 16:50:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776530590; cv=none; b=kG/Z79LvvYVQICra2fRe3V+5Pj5yMK4xA6QUyfnRQNeOkH5MTXJgsa3MXeVsOdjfW+75M5uptO2DUyWa+WXGF6/g62do3mkCiV/cexXyHZ0SN0cmDMn7tz3xWudnKCI3W4pLFSltJ7TZuJYKXMyPPvvImICPW93B9b/dcWSLYpw=
+	t=1776531023; cv=none; b=WVf6dHTbPLvLLIxXIKfOpAvWEPwaZ2rC9msROFPg/ksvw6fdNZevldpFL1jLkPZh/QDjbmLHFccYLJYeTZDqtVyYr/8V51cbc3KHYObHnZU5mC7qeK98TBC6yunihbvSxL0zSc9HldMRh67f+oJMSTKxNJRgkaTfmOaD6TN8xJY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776530590; c=relaxed/simple;
-	bh=gUl9wFwl/EkshrHahMjm655VgjyXxXiXxD1MKAwY6D4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=k7Zd93F+BTkhGDNA0LMufo8KTkqCzRnASb+kD4FjW2HsgZNsX+f1OYgtn0hUx3XVY1VbhD0YH58JMNAPGTVop4WjGOAkr+ahyHav8tB80uF2ihUDbK7kfynXyIhuev3rT0yGYNX36RcB0wYPDLyhvxC2iS3UDOZfaUtN0CU9/YY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XrqO0eqa; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776531023; c=relaxed/simple;
+	bh=3ddAbr/DMm39kdnOnxL7Hc4rOhOd6c2qp/GtUEradQM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gTmTVmRU+uTVd6iDHxzpHUZSIf0QrYFOURzx/2w6A4GF3uOTtpdtF+OVXRwvoph0GlaHWF2q2aIfki5YKcw5ZxYxJdgbzyveRgQUt2SrgHPZA3aIDdowzqZ38cGUkumCS9hYMNoOkYFdWRrPcJHQFlo4rkyfnzWnFcOL/elgdeI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ilBjRVzQ; arc=none smtp.client-ip=91.218.175.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XrqO0eqa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8A73C19424;
-	Sat, 18 Apr 2026 16:43:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776530590;
-	bh=gUl9wFwl/EkshrHahMjm655VgjyXxXiXxD1MKAwY6D4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=XrqO0eqaTBm1wSjaPkzi1IDg2TunOFRyHW2WCK+d1fJ0uW8vOOHmkIQaAe2zVr/8b
-	 AedQyP3Pildb4WRe3cFM0lQc+h3ZKfrm4v1+hX5iW384lyNiYToBg3AxUHfNynN9Dh
-	 gbA5cAG1k9NLmN1x+ucivYiqWEpflyGsUrs+NppfyeoF0fuRIihKKlBLF6Gt76ZuEH
-	 +5l2wB+ksDdF7jv7CWyP6YmcCIfkKXOPD59OOpMWFRn59bUuMWe9CUAhd8yua4Jl5s
-	 79yqwc0x2JfEnBI9cViZT3wU6ADB3JuDmJMNQ1awkZu+RkQ9ISD25tVW7EDpwJAW4i
-	 N1qQ0OFS4BXEg==
-From: Puranjay Mohan <puranjay@kernel.org>
-To: sashiko@lists.linux.dev, Yonghong Song <yonghong.song@linux.dev>
-Cc: bpf@vger.kernel.org, Puranjay Mohan <puranjay12@gmail.com>
-Subject: Re: [PATCH bpf-next v5 13/16] bpf,x86: Implement JIT support for
- stack arguments
-In-Reply-To: <20260417044443.66D37C19425@smtp.kernel.org>
-References: <20260417034823.2632289-1-yonghong.song@linux.dev>
- <20260417044443.66D37C19425@smtp.kernel.org>
-Date: Sat, 18 Apr 2026 17:43:03 +0100
-Message-ID: <m2se8s1ap4.fsf@kernel.org>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ilBjRVzQ"
+Message-ID: <376af95d-14c5-49e3-ae12-98896a83d9e3@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1776531020;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WLO/jKiWMI3UgiM42LANXQxLPLx1PLK6us+QRVy53Ac=;
+	b=ilBjRVzQKXuq4QcicNcPq7Cn2vxJ8FturLrMnkgI0fkNmwu9dUFCWuvypbYuAusr9FSzCN
+	Kue24ZxAcrcDpHAiHyVt2sZ702EX1RVX0t/8KG0OH63MBpIi/vtZQMsGCm4x/F2I3yofM+
+	x1afpmT5hKMMtk8LundKrcE6LXbwYAI=
+Date: Sat, 18 Apr 2026 09:50:15 -0700
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH bpf-next v5 06/16] bpf: Limit the scope of BPF_REG_PARAMS
+ usage
+Content-Language: en-GB
+To: sashiko@lists.linux.dev
+Cc: bpf@vger.kernel.org
+References: <20260417034729.2629367-1-yonghong.song@linux.dev>
+ <20260417045015.4CE60C19425@smtp.kernel.org>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Yonghong Song <yonghong.song@linux.dev>
+In-Reply-To: <20260417045015.4CE60C19425@smtp.kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-sashiko-bot@kernel.org writes:
 
-> Sashiko AI review found 4 potential issue(s):
-> - [High] Data corruption of Argument 6 across function calls due to calle=
-r-saved register clobbering.
-> - [High] Missing size handling for Argument 6 allows verifier bounds trac=
-king bypass and out-of-bounds memory writes.
-> - [High] The offset translation formula for outgoing arguments 7+ reverse=
-s the memory layout, corrupting sub-slot accesses.
-> - [Medium] The JIT misroutes stack accesses because it rigidly assumes LD=
-X only targets incoming arguments and STX/ST only target outgoing arguments.
+
+On 4/16/26 9:50 PM, sashiko-bot@kernel.org wrote:
+> Sashiko AI review found 2 potential issue(s):
+> - [Critical] Early returns in dataflow tracking passes skip necessary state updates for the destination register during BPF_LDX using BPF_REG_PARAMS.
+> - [Critical] Permitting BPF_REG_PARAMS causes severe out-of-bounds memory accesses to the `regs` array during the main verifier loop (`do_check_main`).
 > --
 >
-> commit 41dcf99330b6b0a3804185f2a284a76be8340ed1
+> commit d68722297de575b838cc2f76141cf9c052e63448
 > Author: Yonghong Song <yonghong.song@linux.dev>
 >
-> bpf,x86: Implement JIT support for stack arguments
+> bpf: Limit the scope of BPF_REG_PARAMS usage
 >
-> Add x86_64 JIT support for BPF functions and kfuncs with more than
-> 5 arguments. The extra arguments are passed through a stack area
-> addressed by register r11 (BPF_REG_PARAMS) in BPF bytecode,
-> which the JIT translates to native code.
+> This commit restricts the usage of BPF_REG_PARAMS (r11) to specific memory
+> load and store instruction forms. It also adds early returns in dataflow
+> tracking passes to prevent out-of-bounds accesses for stack arguments.
 >
->> diff --git a/arch/x86/net/bpf_jit_comp.c b/arch/x86/net/bpf_jit_comp.c
->> index 32864dbc2c4e8..25b4357de023b 100644
->> --- a/arch/x86/net/bpf_jit_comp.c
->> +++ b/arch/x86/net/bpf_jit_comp.c
->
+>> diff --git a/kernel/bpf/const_fold.c b/kernel/bpf/const_fold.c
+>> index db73c4740b1e1..09db7fdb370fd 100644
+>> --- a/kernel/bpf/const_fold.c
+>> +++ b/kernel/bpf/const_fold.c
 > [ ... ]
 >
->> @@ -1664,16 +1692,45 @@ static int do_jit(struct bpf_prog *bpf_prog, int=
- *addrs, u8 *image, u8 *rw_image
->>  	stack_depth =3D bpf_prog->aux->stack_depth;
->> +	stack_arg_depth =3D bpf_prog->aux->stack_arg_depth;
->> +	incoming_stack_arg_depth =3D bpf_prog->aux->incoming_stack_arg_depth;
->> +	outgoing_stack_arg_depth =3D stack_arg_depth - incoming_stack_arg_dept=
-h;
->>  	priv_stack_ptr =3D bpf_prog->aux->priv_stack_ptr;
->>  	if (priv_stack_ptr) {
->>  		priv_frame_ptr =3D priv_stack_ptr + PRIV_STACK_GUARD_SZ + round_up(st=
-ack_depth, 8);
->>  		stack_depth =3D 0;
->>  	}
->>=20=20
->> +	/*
->> +	 * Follow x86-64 calling convention for both BPF-to-BPF and
->> +	 * kfunc calls:
->> +	 *   - Arg 6 is passed in R9 register
->> +	 *   - Args 7+ are passed on the stack at [rsp]
+>> @@ -51,13 +51,18 @@ static void const_reg_xfer(struct bpf_verifier_env *env, struct const_arg_info *
+>>   			   struct bpf_insn *insn, struct bpf_insn *insns, int idx)
+>>   {
+>>   	struct const_arg_info unknown = { .state = CONST_ARG_UNKNOWN, .val = 0 };
+>> -	struct const_arg_info *dst = &ci_out[insn->dst_reg];
+>> -	struct const_arg_info *src = &ci_out[insn->src_reg];
+>> +	struct const_arg_info *dst, *src;
+>>   	u8 class = BPF_CLASS(insn->code);
+>>   	u8 mode = BPF_MODE(insn->code);
+>>   	u8 opcode = BPF_OP(insn->code) | BPF_SRC(insn->code);
+>>   	int r;
+>>   
+>> +	/* Stack arguments using BPF_REG_PARAMS are outside the tracked register set. */
+>> +	if (insn->dst_reg >= MAX_BPF_REG || insn->src_reg >= MAX_BPF_REG)
+>> +		return;
+> If we return early here during a BPF_LDX instruction where src_reg is
+> BPF_REG_PARAMS (11), doesn't this skip necessary state updates for dst_reg
+> (e.g., registers 0 through 9)?
 >
-> Can the use of the R9 register cause data corruption across function call=
-s?
->
-> The x86-64 C calling convention defines R9 as a caller-saved register.
-> However, the BPF verifier models argument 6 as stack memory, which implies
-> its value should be preserved across calls.
->
-> If a BPF program reads incoming argument 6 after making a helper or kfunc
-> call, will it receive a clobbered value instead of the original argument?
-> Similarly, could a helper call scheduled by LLVM between the setup of
-> outgoing argument 6 and the target call corrupt the R9 register?
->
-> [ ... ]
+> Since dst_reg is not marked as unknown, won't it retain its stale tracking
+> state? Could bpf_prune_dead_branches() rely on this stale constant to
+> incorrectly rewrite conditional jumps, allowing verifier safety checks to be
+> bypassed?
 
-This is correct analysis, I just realized that sashiko has already found
-this!
+Good point. Will fix.
 
 >
->> +	/*
->> +	 * Base offset from rbp for translating BPF outgoing args 7+
->> +	 * to native offsets. BPF uses negative offsets from r11
->> +	 * (r11-8 for arg6, r11-16 for arg7, ...) while x86 uses
->> +	 * positive offsets from rsp ([rsp+0] for arg7, [rsp+8] for
->> +	 * arg8, ...). Arg 6 goes to R9 directly.
->> +	 *
->> +	 * The translation reverses direction:
->> +	 *   native_off =3D outgoing_arg_base - outgoing_rsp - bpf_off - 16
->> +	 *
->> +	 * Note that tail_call_reachable is guaranteed to be false when
->> +	 * stack args exist, so tcc pushes need not be accounted for.
->> +	 */
->
-> Does this formula correctly handle multi-byte sub-slot accesses?
->
-> Since the formula subtracts the BPF offset, the memory layout within the
-> 8-byte slots appears mathematically reversed. While this correctly maps t=
-he
-> 8-byte slot bases (e.g., -16 maps to rsp + 0), it seems to point to the
-> wrong memory for partial writes.
->
-> For example, if a program writes to the upper 32 bits of Arg 7 at BPF off=
-set
-> -12, the formula yields BASE - (-12) - 16 =3D BASE - 4. Will this map the
-> access out-of-bounds below the stack pointer instead of to [rsp + 4]?
->
+>> +
+>> +	dst = &ci_out[insn->dst_reg];
+>> +	src = &ci_out[insn->src_reg];
 > [ ... ]
 >
->> @@ -2129,12 +2222,26 @@ static int do_jit(struct bpf_prog *bpf_prog, int=
- *addrs, u8 *image, u8 *rw_image
->>  				EMIT1(0xC7);
->>  			goto st;
->>  		case BPF_ST | BPF_MEM | BPF_DW:
->> +			if (dst_reg =3D=3D BPF_REG_PARAMS && insn->off =3D=3D -8) {
->> +				/* Arg 6: store immediate in r9 register */
->> +				emit_mov_imm64(&prog, X86_REG_R9, imm32 >> 31, (u32)imm32);
->> +				break;
->> +			}
->>  			EMIT2(add_1mod(0x48, dst_reg), 0xC7);
->>=20=20
->> -st:			if (is_imm8(insn->off))
->> -				EMIT2(add_1reg(0x40, dst_reg), insn->off);
->> +st:			insn_off =3D insn->off;
->> +			if (dst_reg =3D=3D BPF_REG_PARAMS) {
->> +				/* Args 7+: reverse BPF negative offsets to
->> +				 * x86 positive rsp offsets.
->> +				 * BPF off=3D-16 =E2=86=92 [rsp+0], off=3D-24 =E2=86=92 [rsp+8], ...
->> +				 */
->> +				insn_off =3D outgoing_arg_base - outgoing_rsp - insn_off - 16;
->> +				dst_reg =3D BPF_REG_FP;
->> +			}
+>> diff --git a/kernel/bpf/liveness.c b/kernel/bpf/liveness.c
+>> index 332e6e003f270..0c7eef3385513 100644
+>> --- a/kernel/bpf/liveness.c
+>> +++ b/kernel/bpf/liveness.c
+>> @@ -1068,11 +1068,16 @@ static void arg_track_xfer(struct bpf_verifier_env *env, struct bpf_insn *insn,
+>>   	int depth = instance->depth;
+>>   	u8 class = BPF_CLASS(insn->code);
+>>   	u8 code = BPF_OP(insn->code);
+>> -	struct arg_track *dst = &at_out[insn->dst_reg];
+>> -	struct arg_track *src = &at_out[insn->src_reg];
+>> +	struct arg_track *dst, *src;
+>>   	struct arg_track none = { .frame = ARG_NONE };
+>>   	int r;
+>>   
+>> +	/* Stack arguments using BPF_REG_PARAMS are outside the tracked register set. */
+>> +	if (insn->dst_reg >= MAX_BPF_REG || insn->src_reg >= MAX_BPF_REG)
+>> +		return;
+> Similarly, does this early return skip clearing the arg_track state for the
+> destination register when loading from a stack argument?
+
+Same, will fix.
+
 >
-> Are the size constraints missing for Argument 6 here?
->
-> The check for Arg 6 (insn->off =3D=3D -8) is only implemented under the B=
-PF_DW
-> case. For sizes B, H, and W, execution will fall through to the st: label.
-> This would incorrectly translate the access as a normal stack operation
-> using the formula above, writing out-of-bounds below the stack pointer at
-> [rsp - 8] instead of populating R9.
->
-> Additionally, for BPF_LDX, a 1-byte load emits a full 64-bit move to R9.
-> Since the upper 56 bits of R9 are undefined for 1-byte arguments, could
-> they contain garbage data? This would bypass the verifier's strict value
-> bounds tracking, which assumes the loaded value is strictly within [0, 25=
-5].
->
+>> +
+>> +	dst = &at_out[insn->dst_reg];
+>> +	src = &at_out[insn->src_reg];
 > [ ... ]
 >
->> @@ -2243,6 +2360,19 @@ st:			if (is_imm8(insn->off))
->>  		case BPF_LDX | BPF_PROBE_MEMSX | BPF_H:
->>  		case BPF_LDX | BPF_PROBE_MEMSX | BPF_W:
->>  			insn_off =3D insn->off;
->> +			if (src_reg =3D=3D BPF_REG_PARAMS) {
->> +				if (insn_off =3D=3D 8) {
->> +					/* Incoming arg 6: read from r9 */
->> +					EMIT_mov(dst_reg, X86_REG_R9);
->> +					break;
->> +				}
->> +				src_reg =3D BPF_REG_FP;
->> +				/*
->> +				 * Incoming args 7+: native_off =3D=3D bpf_off
->> +				 * (r11+16 =E2=86=92 [rbp+16], r11+24 =E2=86=92 [rbp+24], ...)
->> +				 * No offset adjustment needed.
->> +				 */
+>> diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
+>> index ff0c55d803117..f25a56cfabaca 100644
+>> --- a/kernel/bpf/verifier.c
+>> +++ b/kernel/bpf/verifier.c
+>> @@ -18487,13 +18487,22 @@ static int check_and_resolve_insns(struct bpf_verifier_env *env)
+>>   		return err;
+>>   
+>>   	for (i = 0; i < insn_cnt; i++, insn++) {
+>> +		u8 class = BPF_CLASS(insn->code);
+>> +		u8 mode = BPF_MODE(insn->code);
+>> +
+>>   		if (insn->dst_reg >= MAX_BPF_REG) {
+>> -			verbose(env, "R%d is invalid\n", insn->dst_reg);
+>> -			return -EINVAL;
+>> +			if (insn->dst_reg != BPF_REG_PARAMS ||
+>> +			    !((class == BPF_ST  || class == BPF_STX) && mode == BPF_MEM)) {
+>> +				verbose(env, "R%d is invalid\n", insn->dst_reg);
+>> +				return -EINVAL;
 >> +			}
+>>   		}
+> By permitting BPF_REG_PARAMS (which equals MAX_BPF_REG) to pass this validation
+> check, won't this cause out-of-bounds memory accesses to the regs array
+> (e.g., struct bpf_reg_state regs[MAX_BPF_REG]) during the main verifier loop?
 >
-> Does this logic misroute stack accesses by assuming LDX always targets
-> incoming arguments and STX/ST always target outgoing arguments?
+> When do_check_main() processes these instructions, functions like
+> check_reg_arg() will attempt to access regs[11], which overlays verifier
+> internal state.
 >
-> If a program writes an outgoing argument ([r11 - 16]) and then reads it b=
-ack
-> via LDX, the JIT appears to apply the incoming argument translation mappi=
-ng
-> the read to [rbp - 16] (the local stack) instead of [rsp] (the outgoing
-> area). This would return uninitialized data.
->
-> Conversely, if a program modifies an incoming argument ([r11 + 16]) using
-> STX, the JIT would apply the outgoing translation formula, yielding
-> BASE - 16 - 16 =3D BASE - 32, which writes out-of-bounds below the stack
-> pointer.
->
-> --=20
-> Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260417034658.26=
-25353-1-yonghong.song@linux.dev?part=3D13
+> I note this regression is fixed later in the patch series in commit
+> 6ec4a3fcb5e83 ("bpf: Support stack arguments for bpf functions"), but it
+> appears to introduce an issue in this intermediate patch.
+
+Yes, this patch should be after "bpf: Support stack arguments for bpf functions
+" patch.
+
+
