@@ -1,131 +1,230 @@
-Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com [91.218.175.171])
+Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com [91.218.175.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DF9C33BBC8
-	for <sashiko@lists.linux.dev>; Sat, 18 Apr 2026 18:29:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6ADC72622
+	for <sashiko@lists.linux.dev>; Sat, 18 Apr 2026 18:37:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776536977; cv=none; b=NQLNd4l4rnuHDB35S5xLYh78sPdnWFWD6Jo4ni8cR/Lf78EBOV9GOw87vdQPaskyDNshnpueDqItjC+rPDJf2Egi/mqYroJ6F9QVwPrIOKkuE/K/FOIbMRmlf31+FyZrRML9V2xIGDBgmb7Av5YZZZwAGiYCUYxo86VsLegDwEE=
+	t=1776537431; cv=none; b=JOIQmNnP1PT/AeCcqXS4ul5b1NmtZyqgWjqMOWtte20SzASN5v6JxC2YOvu5/WUP6WJyDAJ8MAVrbDdx72WnaFml4rZw94+s/0UulZRlvLtyEIqqKW3z3p3ioQfzBBmbRVrzrmI5qKcKQMv3ztL3TYtcI27GGPpJmeMsPar8XmE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776536977; c=relaxed/simple;
-	bh=0D5OxM04+HdyBc8nngQlGQWBWjTTqjpyl9VOlNrRCr8=;
+	s=arc-20240116; t=1776537431; c=relaxed/simple;
+	bh=nx3zDlm9hCsWYkM801Vxak6yVh5r9HPQl66Ijuxw/iU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kfI8eucq96it1ZEsZxJs8SWe1eto5YCehY1ClkY77dubaem4AD+srCaK4E/OPYo5/FgeMzrm+KzEFTjtlni1xKwdiw3cSZ/HNK/vngmf4FOeF8y0wv5C60JLYHWyPwWsgT5L613xZDB22jLgyU8A40yfIRe6BVzRCXo66KGfmxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=r0GvYIAS; arc=none smtp.client-ip=91.218.175.171
+	 In-Reply-To:Content-Type; b=A8KbIM4luOMnyvSubOGwxyZd5T+tQybFvLvzbkV1Km1QJbsahu0oteuoMITmuoP94G5+LLiT7nAxYVUUO0oDt9iUbbBNEqL23wfrQDK3iiKRHgWHszl94zqA2ZhXPo6b+7d3EF8g6jAI/SyPlBc2BT3jwq00pUMVQSbGZYYEGAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=M+itxSwt; arc=none smtp.client-ip=91.218.175.189
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="r0GvYIAS"
-Message-ID: <ef645237-85ae-4f44-b06d-1ffb5f503eeb@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="M+itxSwt"
+Message-ID: <7318c25f-771b-4349-8e78-efb7d0e51822@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1776536974;
+	t=1776537426;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Kgka/eIemE/RMzo2CNUm/wUjPX0jdW0ozB7ab5Fy55w=;
-	b=r0GvYIASBjXLBNKRJAAvJx0v9ScE4kb7kiJ5W3H5iZp/rkN+UhRteUmt+6fmMrYo1lHbJR
-	gRC7DWzI4BgSxv0W9HnbpuF85PZqZGI8h6H0W9DOQW8LEEdh+zCg3wDUJs+g91pVvfUo6z
-	8WVWjfYLDvIpYugDN09ul0yxjtLdBik=
-Date: Sat, 18 Apr 2026 11:29:29 -0700
+	bh=6Fh3j2jqZqy0sjsQndG7QJgzpVbNfHViaoavOGxJ1vE=;
+	b=M+itxSwtciUIovHSXmWJ9+bZzixWgmRN043d53LVwTWLgZAdi8SvmOXEm+v4vU707ORDUR
+	9WL1zF5CuK5bV6ENS7CxpE204qQpvqcS8riZ/t5ygL0hjdnehoXbJiHNhGiylkublzz6AV
+	GammBbXvrkeflY5Eo5DtDugVAczEXSI=
+Date: Sat, 18 Apr 2026 11:36:50 -0700
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH bpf-next v5 15/16] selftests/bpf: Add negative test for
- greater-than-8-byte kfunc stack argument
+Subject: Re: [PATCH bpf-next v5 16/16] selftests/bpf: Add verifier tests for
+ stack argument validation
 Content-Language: en-GB
 To: sashiko@lists.linux.dev
 Cc: bpf@vger.kernel.org
-References: <20260417034833.2636781-1-yonghong.song@linux.dev>
- <20260417042854.4BD1FC19425@smtp.kernel.org>
+References: <20260417034838.2638137-1-yonghong.song@linux.dev>
+ <20260417043846.66CFEC2BCB0@smtp.kernel.org>
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Yonghong Song <yonghong.song@linux.dev>
-In-Reply-To: <20260417042854.4BD1FC19425@smtp.kernel.org>
+In-Reply-To: <20260417043846.66CFEC2BCB0@smtp.kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
 
 
 
-On 4/16/26 9:28 PM, sashiko-bot@kernel.org wrote:
-> Sashiko AI review found 2 potential issue(s):
-> - [Medium] The `prog_test_big_arg` struct uses `long`, which fails to test the >8 byte limit on 32-bit architectures and causes BTF size mismatches.
-> - [Medium] Using `ASSERT_ERR(stack_arg_fail__load(skel))` masks the actual verifier error reason, allowing the negative test to pass for unrelated reasons.
+On 4/16/26 9:38 PM, sashiko-bot@kernel.org wrote:
+> Sashiko AI review found 3 potential issue(s):
+> - [Medium] Negative verifier tests for stack arguments use inherently invalid memory accesses, causing them to pass even if the verifier has bugs.
+> - [Medium] `stack_arg_read_uninitialized` reads from `r11 + 8` instead of a valid negative offset, failing to properly test uninitialized stack argument slots.
+> - [Low] Unused `subprog_8args` function defined in the test file.
 > --
 >
-> commit 1ec644adfded3aa88befcb32fc73958c68b7e018
+> commit 24b1eb352e7d04e7c35a9fbc88c6b91d08b17832
 > Author: Yonghong Song <yonghong.song@linux.dev>
 >
-> selftests/bpf: Add negative test for greater-than-8-byte kfunc stack argument
+> selftests/bpf: Add verifier tests for stack argument validation
 >
-> This commit adds a selftest to ensure the verifier rejects kfunc calls where
-> a stack argument exceeds the 8-byte register-sized slot limit. It introduces
-> a new kfunc taking a struct argument and a BPF program that attempts to pass
-> a large struct to it.
+> This commit adds inline-asm based verifier tests to directly exercise
+> stack argument validation logic.
 >
->> diff --git a/tools/testing/selftests/bpf/test_kmods/bpf_testmod_kfunc.h b/tools/testing/selftests/bpf/test_kmods/bpf_testmod_kfunc.h
->> index 2c1cb118f8867..2a40f80b074a3 100644
->> --- a/tools/testing/selftests/bpf/test_kmods/bpf_testmod_kfunc.h
->> +++ b/tools/testing/selftests/bpf/test_kmods/bpf_testmod_kfunc.h
->> @@ -50,6 +50,11 @@ struct prog_test_pass2 {
->>   	} x;
->>   };
->>   
->> +struct prog_test_big_arg {
->> +	long a;
->> +	long b;
->> +};
->> +
-> Does this structure achieve the intended >8 byte size on 32-bit architectures?
->
-> When the test kernel module is compiled on a 32-bit host, long is 32-bit,
-> making the struct exactly 8 bytes. Since the BPF target always treats long
-> as a 64-bit integer, this makes the struct 16 bytes in the BPF program.
->
-> This size discrepancy between the BPF program's BTF and the host kernel's BTF
-> might cause the verifier to reject the load for a BTF size mismatch rather
-> than the intended stack argument limit.
->
-> Could these fields use explicitly sized types like __u64 to ensure the struct
-> is consistently larger than 8 bytes across all architectures?
-
-Good point, using __64 is much better.
-
->
-> [ ... ]
->
->> diff --git a/tools/testing/selftests/bpf/prog_tests/stack_arg_fail.c b/tools/testing/selftests/bpf/prog_tests/stack_arg_fail.c
+>> diff --git a/tools/testing/selftests/bpf/progs/verifier_stack_arg.c b/tools/testing/selftests/bpf/progs/verifier_stack_arg.c
 >> new file mode 100644
+>> index 0000000000000..d212b6c3cac75
 >> --- /dev/null
->> +++ b/tools/testing/selftests/bpf/prog_tests/stack_arg_fail.c
->> @@ -0,0 +1,24 @@
+>> +++ b/tools/testing/selftests/bpf/progs/verifier_stack_arg.c
 > [ ... ]
->> +	if (!skel->rodata->has_stack_arg) {
->> +		test__skip();
->> +		goto out;
->> +	}
->> +
->> +	ASSERT_ERR(stack_arg_fail__load(skel), "load_should_fail");
-> Could this generic error assertion mask the actual verifier rejection reason?
 >
-> If the program fails to load due to an unrelated issue, such as a missing BTF,
-> a syntax error, or the architecture-dependent size mismatch described above,
-> the test will incorrectly report success because it only checks that the load
-> operation failed.
->
-> Would it be better to refactor this test to use the standard test_loader
-> infrastructure (via RUN_TESTS) with __failure and __msg annotations
-> in the BPF program? That would ensure the rejection is explicitly due to the
-> argument size limit.
-
-will do RUN_TESTS style for this test.
-
->
->> +
->> +out:
->> +	stack_arg_fail__destroy(skel);
+>> +__noinline __used
+>> +static int subprog_8args(int a, int b, int c, int d, int e, int f, int g, int h)
+>> +{
+>> +	return a + b + c + d + e + f + g + h;
 >> +}
+> Is subprog_8args intended to be used in any of the tests? It does not seem
+> to be called anywhere in this file.
+
+Dead code. Will remove.
+
+>
+> [ ... ]
+>
+>> +SEC("tc")
+>> +__description("stack_arg: read from uninitialized stack arg slot")
+>> +__failure
+>> +__arch_x86_64
+>> +__msg("invalid read from stack arg")
+>> +__naked void stack_arg_read_uninitialized(void)
+>> +{
+>> +	asm volatile (
+>> +		"r0 = *(u64 *)(r11 + 8);"
+>> +		"r0 = 0;"
+>> +		"exit;"
+>> +		::: __clobber_all
+>> +	);
+>> +}
+> Should this read from r11 - 8 instead? Since outgoing stack arguments are
+> at negative offsets from r11, reading from r11 + 8 is out of bounds and
+> might be rejected for the wrong reason, rather than testing an uninitialized
+> but valid stack argument slot.
+
+The read must be 'r11 + 8' and store will be 'r11 - <positive_off>'.
+
+>
+> [ ... ]
+>
+>> +__noinline __used
+>> +static long subprog_deref_arg6(long a, long b, long c, long d, long e, long *f)
+>> +{
+>> +	return *f;
+>> +}
+> [ ... ]
+>
+>> +SEC("tc")
+>> +__description("stack_arg: release_reference invalidates stack arg slot")
+>> +__failure
+>> +__arch_x86_64
+>> +__msg("R1 invalid sock access")
+>> +__naked void stack_arg_release_ref(void)
+>> +{
+>> +	asm volatile (
+> [ ... ]
+>> +		/* Release the reference — invalidates the stack arg slot */
+>> +		"r1 = r0;"
+>> +		"call %[bpf_sk_release];"
+>> +		/* Call subprog that dereferences arg6 — should fail */
+>> +		"r1 = 1;"
+>> +		"r2 = 2;"
+>> +		"r3 = 3;"
+>> +		"r4 = 4;"
+>> +		"r5 = 5;"
+>> +		"call subprog_deref_arg6;"
+> Can this test pass even if the verifier fails to invalidate the stack slot?
+>
+> subprog_deref_arg6() performs an 8-byte read on the argument. Since BPF
+> sockets only allow up to 4-byte reads, an 8-byte read is always invalid.
+> If the reference isn't correctly invalidated, the valid socket pointer
+> will still be rejected with "R1 invalid sock access".
+>
+> To properly test the invalidation, should the subprogram perform a valid
+> 4-byte read instead?
+
+4-byte stack argument is not supported.
+
+>
+> [ ... ]
+>
+>> +SEC("tc")
+>> +__description("stack_arg: pkt pointer in stack arg slot invalidated after pull_data")
+>> +__failure
+>> +__arch_x86_64
+>> +__msg("invalid access to packet")
+>> +__naked void stack_arg_stale_pkt_ptr(void)
+>> +{
+>> +	asm volatile (
+>> +		"r6 = r1;"
+>> +		"r7 = *(u32 *)(r6 + %[__sk_buff_data]);"
+>> +		"r8 = *(u32 *)(r6 + %[__sk_buff_data_end]);"
+>> +		/* check pkt has at least 1 byte */
+>> +		"r0 = r7;"
+>> +		"r0 += 1;"
+>> +		"if r0 > r8 goto l0_%=;"
+>> +		/* Store valid pkt pointer to outgoing arg6 slot */
+>> +		"*(u64 *)(r11 - 8) = r7;"
+>> +		/* bpf_skb_pull_data invalidates all pkt pointers */
+>> +		"r1 = r6;"
+>> +		"r2 = 0;"
+>> +		"call %[bpf_skb_pull_data];"
+>> +		/* Call subprog that dereferences arg6 — should fail */
+>> +		"r1 = 1;"
+>> +		"r2 = 2;"
+>> +		"r3 = 3;"
+>> +		"r4 = 4;"
+>> +		"r5 = 5;"
+>> +		"call subprog_deref_arg6;"
+> Similarly, does this properly test packet pointer invalidation? The test
+> verifies 1 byte of the packet pointer, but subprog_deref_arg6() reads 8 bytes.
+> If bpf_skb_pull_data() fails to invalidate the pointer, the 8-byte read would
+> still be rejected as out-of-bounds, yielding the expected "invalid access to
+> packet" message.
+>
+> Should the packet bounds check verify at least 8 bytes so that a valid read is
+> guaranteed if the pointer isn't invalidated?
+
+yes, I can do r0 += 8 instead.
+
+>
+> [ ... ]
+>
+>> +SEC("tc")
+>> +__description("stack_arg: null propagation rejects deref on null branch")
+>> +__failure
+>> +__arch_x86_64
+>> +__msg("R1 invalid mem access")
+>> +__naked void stack_arg_null_propagation_fail(void)
+>> +{
+>> +	asm volatile (
+> [ ... ]
+>> +		"call %[bpf_map_lookup_elem];"
+>> +		/* Store PTR_TO_MAP_VALUE_OR_NULL to outgoing arg6 slot */
+>> +		"*(u64 *)(r11 - 8) = r0;"
+>> +		/* null check on r0 */
+>> +		"if r0 != 0 goto l0_%=;"
+>> +		/*
+>> +		 * On null branch, outgoing slot is SCALAR(0).
+>> +		 * Call subprog that dereferences arg6 — should fail.
+>> +		 */
+>> +		"r1 = 0;"
+>> +		"r2 = 0;"
+>> +		"r3 = 0;"
+>> +		"r4 = 0;"
+>> +		"r5 = 0;"
+>> +		"call subprog_deref_arg6;"
+> Does the __msg() substring match accept the wrong failure mode here?
+> Dereferencing an unrefined PTR_TO_MAP_VALUE_OR_NULL yields "R1 invalid mem
+> access 'map_value_or_null'", while dereferencing SCALAR yields "R1 invalid mem
+> access 'scalar'".
+>
+> The substring match "R1 invalid mem access" accepts both, allowing the test to
+> pass even if null propagation fails and the register is still tracked as a map
+> pointer. Should it match the exact scalar error, or perhaps test the non-null
+> branch for success instead?
+
+Will fix.
 
