@@ -1,246 +1,131 @@
-Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com [95.215.58.180])
+Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com [91.218.175.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F79E2B9B7
-	for <sashiko@lists.linux.dev>; Sat, 18 Apr 2026 18:15:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DF9C33BBC8
+	for <sashiko@lists.linux.dev>; Sat, 18 Apr 2026 18:29:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776536146; cv=none; b=aqVxmeGYfgzEJ4Xd41/waokaODPCz0rz2tyfNQcxkWQIqjz1xsfnsib/LDteGdovdqRZwaz/C4XoqydQf2K0JJwjsBEtctyM02IOaGy/kZ7XPrTd8Mt+5RD8ykKU9KWX8BKnsW4e4PCa0iJ8uZTVArrCaVOKTjztdvX/vkJFl7g=
+	t=1776536977; cv=none; b=NQLNd4l4rnuHDB35S5xLYh78sPdnWFWD6Jo4ni8cR/Lf78EBOV9GOw87vdQPaskyDNshnpueDqItjC+rPDJf2Egi/mqYroJ6F9QVwPrIOKkuE/K/FOIbMRmlf31+FyZrRML9V2xIGDBgmb7Av5YZZZwAGiYCUYxo86VsLegDwEE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776536146; c=relaxed/simple;
-	bh=Yf9GAS6A3VOEp01qzRsNTqZP7AJz7DN8U3mpmW+BE6k=;
+	s=arc-20240116; t=1776536977; c=relaxed/simple;
+	bh=0D5OxM04+HdyBc8nngQlGQWBWjTTqjpyl9VOlNrRCr8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rrCcRZsPpIU/TGGWa6+Uswhp14CiIULhh2ICmsw2Qv5YfljJHAjvUV8Uu/VYO34t29DBJMhVjunLlmiBAFRmbiW3gEyRgSeflTMnuFXGAXYSWOgTjsgg3iBwaX/iZrlbuL4tb+nV7DZrU89HzChjFo2p9VBzatwYzaKLvHZfRK0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Pf5p42AP; arc=none smtp.client-ip=95.215.58.180
+	 In-Reply-To:Content-Type; b=kfI8eucq96it1ZEsZxJs8SWe1eto5YCehY1ClkY77dubaem4AD+srCaK4E/OPYo5/FgeMzrm+KzEFTjtlni1xKwdiw3cSZ/HNK/vngmf4FOeF8y0wv5C60JLYHWyPwWsgT5L613xZDB22jLgyU8A40yfIRe6BVzRCXo66KGfmxc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=r0GvYIAS; arc=none smtp.client-ip=91.218.175.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Pf5p42AP"
-Message-ID: <b4572484-396a-4dc7-ae16-0cf04b49176f@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="r0GvYIAS"
+Message-ID: <ef645237-85ae-4f44-b06d-1ffb5f503eeb@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1776536143;
+	t=1776536974;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=7VbfqOZF/lK8jVyTR2XIx8rDozXAsmJM34X3zJ3tOqU=;
-	b=Pf5p42AP4ts0IwpLdt6+bt0uOK6e+xo2IzfaiMpu4JkFr47hhnnLVx0brc5+Lw4jJLAI8z
-	MxLM9nx3O01Af+ve9PDkFVXsG6fj2H5WCqyk4hlhH/CqkE43B/aoTCaQjFZd89PUVG4jhI
-	z7gbx69b3Xa2E/ghv4CmA0JbSbuAumU=
-Date: Sat, 18 Apr 2026 11:15:33 -0700
+	bh=Kgka/eIemE/RMzo2CNUm/wUjPX0jdW0ozB7ab5Fy55w=;
+	b=r0GvYIASBjXLBNKRJAAvJx0v9ScE4kb7kiJ5W3H5iZp/rkN+UhRteUmt+6fmMrYo1lHbJR
+	gRC7DWzI4BgSxv0W9HnbpuF85PZqZGI8h6H0W9DOQW8LEEdh+zCg3wDUJs+g91pVvfUo6z
+	8WVWjfYLDvIpYugDN09ul0yxjtLdBik=
+Date: Sat, 18 Apr 2026 11:29:29 -0700
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH bpf-next v5 13/16] bpf,x86: Implement JIT support for
- stack arguments
+Subject: Re: [PATCH bpf-next v5 15/16] selftests/bpf: Add negative test for
+ greater-than-8-byte kfunc stack argument
 Content-Language: en-GB
 To: sashiko@lists.linux.dev
 Cc: bpf@vger.kernel.org
-References: <20260417034823.2632289-1-yonghong.song@linux.dev>
- <20260417044443.66D37C19425@smtp.kernel.org>
+References: <20260417034833.2636781-1-yonghong.song@linux.dev>
+ <20260417042854.4BD1FC19425@smtp.kernel.org>
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Yonghong Song <yonghong.song@linux.dev>
-In-Reply-To: <20260417044443.66D37C19425@smtp.kernel.org>
+In-Reply-To: <20260417042854.4BD1FC19425@smtp.kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Migadu-Flow: FLOW_OUT
 
 
 
-On 4/16/26 9:44 PM, sashiko-bot@kernel.org wrote:
-> Sashiko AI review found 4 potential issue(s):
-> - [High] Data corruption of Argument 6 across function calls due to caller-saved register clobbering.
-> - [High] Missing size handling for Argument 6 allows verifier bounds tracking bypass and out-of-bounds memory writes.
-> - [High] The offset translation formula for outgoing arguments 7+ reverses the memory layout, corrupting sub-slot accesses.
-> - [Medium] The JIT misroutes stack accesses because it rigidly assumes LDX only targets incoming arguments and STX/ST only target outgoing arguments.
+On 4/16/26 9:28 PM, sashiko-bot@kernel.org wrote:
+> Sashiko AI review found 2 potential issue(s):
+> - [Medium] The `prog_test_big_arg` struct uses `long`, which fails to test the >8 byte limit on 32-bit architectures and causes BTF size mismatches.
+> - [Medium] Using `ASSERT_ERR(stack_arg_fail__load(skel))` masks the actual verifier error reason, allowing the negative test to pass for unrelated reasons.
 > --
 >
-> commit 41dcf99330b6b0a3804185f2a284a76be8340ed1
+> commit 1ec644adfded3aa88befcb32fc73958c68b7e018
 > Author: Yonghong Song <yonghong.song@linux.dev>
 >
-> bpf,x86: Implement JIT support for stack arguments
+> selftests/bpf: Add negative test for greater-than-8-byte kfunc stack argument
 >
-> Add x86_64 JIT support for BPF functions and kfuncs with more than
-> 5 arguments. The extra arguments are passed through a stack area
-> addressed by register r11 (BPF_REG_PARAMS) in BPF bytecode,
-> which the JIT translates to native code.
+> This commit adds a selftest to ensure the verifier rejects kfunc calls where
+> a stack argument exceeds the 8-byte register-sized slot limit. It introduces
+> a new kfunc taking a struct argument and a BPF program that attempts to pass
+> a large struct to it.
 >
->> diff --git a/arch/x86/net/bpf_jit_comp.c b/arch/x86/net/bpf_jit_comp.c
->> index 32864dbc2c4e8..25b4357de023b 100644
->> --- a/arch/x86/net/bpf_jit_comp.c
->> +++ b/arch/x86/net/bpf_jit_comp.c
-> [ ... ]
->
->> @@ -1664,16 +1692,45 @@ static int do_jit(struct bpf_prog *bpf_prog, int *addrs, u8 *image, u8 *rw_image
->>   	stack_depth = bpf_prog->aux->stack_depth;
->> +	stack_arg_depth = bpf_prog->aux->stack_arg_depth;
->> +	incoming_stack_arg_depth = bpf_prog->aux->incoming_stack_arg_depth;
->> +	outgoing_stack_arg_depth = stack_arg_depth - incoming_stack_arg_depth;
->>   	priv_stack_ptr = bpf_prog->aux->priv_stack_ptr;
->>   	if (priv_stack_ptr) {
->>   		priv_frame_ptr = priv_stack_ptr + PRIV_STACK_GUARD_SZ + round_up(stack_depth, 8);
->>   		stack_depth = 0;
->>   	}
+>> diff --git a/tools/testing/selftests/bpf/test_kmods/bpf_testmod_kfunc.h b/tools/testing/selftests/bpf/test_kmods/bpf_testmod_kfunc.h
+>> index 2c1cb118f8867..2a40f80b074a3 100644
+>> --- a/tools/testing/selftests/bpf/test_kmods/bpf_testmod_kfunc.h
+>> +++ b/tools/testing/selftests/bpf/test_kmods/bpf_testmod_kfunc.h
+>> @@ -50,6 +50,11 @@ struct prog_test_pass2 {
+>>   	} x;
+>>   };
 >>   
->> +	/*
->> +	 * Follow x86-64 calling convention for both BPF-to-BPF and
->> +	 * kfunc calls:
->> +	 *   - Arg 6 is passed in R9 register
->> +	 *   - Args 7+ are passed on the stack at [rsp]
-> Can the use of the R9 register cause data corruption across function calls?
+>> +struct prog_test_big_arg {
+>> +	long a;
+>> +	long b;
+>> +};
+>> +
+> Does this structure achieve the intended >8 byte size on 32-bit architectures?
 >
-> The x86-64 C calling convention defines R9 as a caller-saved register.
-> However, the BPF verifier models argument 6 as stack memory, which implies
-> its value should be preserved across calls.
+> When the test kernel module is compiled on a 32-bit host, long is 32-bit,
+> making the struct exactly 8 bytes. Since the BPF target always treats long
+> as a 64-bit integer, this makes the struct 16 bytes in the BPF program.
 >
-> If a BPF program reads incoming argument 6 after making a helper or kfunc
-> call, will it receive a clobbered value instead of the original argument?
-> Similarly, could a helper call scheduled by LLVM between the setup of
-> outgoing argument 6 and the target call corrupt the R9 register?
+> This size discrepancy between the BPF program's BTF and the host kernel's BTF
+> might cause the verifier to reject the load for a BTF size mismatch rather
+> than the intended stack argument limit.
+>
+> Could these fields use explicitly sized types like __u64 to ensure the struct
+> is consistently larger than 8 bytes across all architectures?
 
-Yes. This is correct. The verifier part needs to do proper invalidation
-to avoid this issue in JIT.
-
->
-> [ ... ]
->
->> +	/*
->> +	 * Base offset from rbp for translating BPF outgoing args 7+
->> +	 * to native offsets. BPF uses negative offsets from r11
->> +	 * (r11-8 for arg6, r11-16 for arg7, ...) while x86 uses
->> +	 * positive offsets from rsp ([rsp+0] for arg7, [rsp+8] for
->> +	 * arg8, ...). Arg 6 goes to R9 directly.
->> +	 *
->> +	 * The translation reverses direction:
->> +	 *   native_off = outgoing_arg_base - outgoing_rsp - bpf_off - 16
->> +	 *
->> +	 * Note that tail_call_reachable is guaranteed to be false when
->> +	 * stack args exist, so tcc pushes need not be accounted for.
->> +	 */
-> Does this formula correctly handle multi-byte sub-slot accesses?
->
-> Since the formula subtracts the BPF offset, the memory layout within the
-> 8-byte slots appears mathematically reversed. While this correctly maps the
-> 8-byte slot bases (e.g., -16 maps to rsp + 0), it seems to point to the
-> wrong memory for partial writes.
->
-> For example, if a program writes to the upper 32 bits of Arg 7 at BPF offset
-> -12, the formula yields BASE - (-12) - 16 = BASE - 4. Will this map the
-> access out-of-bounds below the stack pointer instead of to [rsp + 4]?
-
-Currently, we do not support sub-slot access. All r11 load/store are 8 byte
-size. I will ensure this in verifier checking.
+Good point, using __64 is much better.
 
 >
 > [ ... ]
 >
->> @@ -2129,12 +2222,26 @@ static int do_jit(struct bpf_prog *bpf_prog, int *addrs, u8 *image, u8 *rw_image
->>   				EMIT1(0xC7);
->>   			goto st;
->>   		case BPF_ST | BPF_MEM | BPF_DW:
->> +			if (dst_reg == BPF_REG_PARAMS && insn->off == -8) {
->> +				/* Arg 6: store immediate in r9 register */
->> +				emit_mov_imm64(&prog, X86_REG_R9, imm32 >> 31, (u32)imm32);
->> +				break;
->> +			}
->>   			EMIT2(add_1mod(0x48, dst_reg), 0xC7);
->>   
->> -st:			if (is_imm8(insn->off))
->> -				EMIT2(add_1reg(0x40, dst_reg), insn->off);
->> +st:			insn_off = insn->off;
->> +			if (dst_reg == BPF_REG_PARAMS) {
->> +				/* Args 7+: reverse BPF negative offsets to
->> +				 * x86 positive rsp offsets.
->> +				 * BPF off=-16 → [rsp+0], off=-24 → [rsp+8], ...
->> +				 */
->> +				insn_off = outgoing_arg_base - outgoing_rsp - insn_off - 16;
->> +				dst_reg = BPF_REG_FP;
->> +			}
-> Are the size constraints missing for Argument 6 here?
->
-> The check for Arg 6 (insn->off == -8) is only implemented under the BPF_DW
-> case. For sizes B, H, and W, execution will fall through to the st: label.
-> This would incorrectly translate the access as a normal stack operation
-> using the formula above, writing out-of-bounds below the stack pointer at
-> [rsp - 8] instead of populating R9.
->
-> Additionally, for BPF_LDX, a 1-byte load emits a full 64-bit move to R9.
-> Since the upper 56 bits of R9 are undefined for 1-byte arguments, could
-> they contain garbage data? This would bypass the verifier's strict value
-> bounds tracking, which assumes the loaded value is strictly within [0, 255].
->
+>> diff --git a/tools/testing/selftests/bpf/prog_tests/stack_arg_fail.c b/tools/testing/selftests/bpf/prog_tests/stack_arg_fail.c
+>> new file mode 100644
+>> --- /dev/null
+>> +++ b/tools/testing/selftests/bpf/prog_tests/stack_arg_fail.c
+>> @@ -0,0 +1,24 @@
 > [ ... ]
+>> +	if (!skel->rodata->has_stack_arg) {
+>> +		test__skip();
+>> +		goto out;
+>> +	}
+>> +
+>> +	ASSERT_ERR(stack_arg_fail__load(skel), "load_should_fail");
+> Could this generic error assertion mask the actual verifier rejection reason?
+>
+> If the program fails to load due to an unrelated issue, such as a missing BTF,
+> a syntax error, or the architecture-dependent size mismatch described above,
+> the test will incorrectly report success because it only checks that the load
+> operation failed.
+>
+> Would it be better to refactor this test to use the standard test_loader
+> infrastructure (via RUN_TESTS) with __failure and __msg annotations
+> in the BPF program? That would ensure the rejection is explicitly due to the
+> argument size limit.
 
-Will enforce 8-byte width for r11 based load/stores.
+will do RUN_TESTS style for this test.
 
 >
->> @@ -2243,6 +2360,19 @@ st:			if (is_imm8(insn->off))
->>   		case BPF_LDX | BPF_PROBE_MEMSX | BPF_H:
->>   		case BPF_LDX | BPF_PROBE_MEMSX | BPF_W:
->>   			insn_off = insn->off;
->> +			if (src_reg == BPF_REG_PARAMS) {
->> +				if (insn_off == 8) {
->> +					/* Incoming arg 6: read from r9 */
->> +					EMIT_mov(dst_reg, X86_REG_R9);
->> +					break;
->> +				}
->> +				src_reg = BPF_REG_FP;
->> +				/*
->> +				 * Incoming args 7+: native_off == bpf_off
->> +				 * (r11+16 → [rbp+16], r11+24 → [rbp+24], ...)
->> +				 * No offset adjustment needed.
->> +				 */
->> +			}
-> Does this logic misroute stack accesses by assuming LDX always targets
-> incoming arguments and STX/ST always target outgoing arguments?
-
-Yes.
-
->
-> If a program writes an outgoing argument ([r11 - 16]) and then reads it back
-> via LDX, the JIT appears to apply the incoming argument translation mapping
-> the read to [rbp - 16] (the local stack) instead of [rsp] (the outgoing
-> area). This would return uninitialized data.
->
-> Conversely, if a program modifies an incoming argument ([r11 + 16]) using
-> STX, the JIT would apply the outgoing translation formula, yielding
-> BASE - 16 - 16 = BASE - 32, which writes out-of-bounds below the stack
-> pointer.
-
-In verifier, we have a check:
-
-static int check_stack_arg_access(struct bpf_verifier_env *env,
-                                   struct bpf_insn *insn, const char *op)
-{
-         int size = bpf_size_to_bytes(BPF_SIZE(insn->code));
-                 
-         if (size != BPF_REG_SIZE) {
-                 verbose(env, "stack arg %s must be %d bytes, got %d\n",
-                         op, BPF_REG_SIZE, size);
-                 return -EINVAL;
-         }
-         if (insn->off == 0 || insn->off % BPF_REG_SIZE) {
-                 verbose(env, "stack arg %s offset %d not aligned to %d\n",
-                         op, insn->off, BPF_REG_SIZE);
-                 return -EINVAL;
-         }
-         /* Reads use positive offsets (incoming), writes use negative (outgoing) */
-         if (op[0] == 'r' && insn->off < 0) {
-                 verbose(env, "stack arg read must use positive offset, got %d\n",
-                         insn->off);
-                 return -EINVAL;
-         }
-         if (op[0] == 'w' && insn->off > 0) {
-                 verbose(env, "stack arg write must use negative offset, got %d\n",
-                         insn->off);
-                 return -EINVAL;
-         }
-         return 0;
-}
-
-load must have positive offset and store must have negative offset.
-I will fix the above checking '< 0' => '<= 0" and '> 0' => '>= 0'.
+>> +
+>> +out:
+>> +	stack_arg_fail__destroy(skel);
+>> +}
 
