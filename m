@@ -1,33 +1,33 @@
-Received: from out-171.mta1.migadu.com (out-171.mta1.migadu.com [95.215.58.171])
+Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com [91.218.175.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 165DE2D7DF1
-	for <sashiko@lists.linux.dev>; Sat, 18 Apr 2026 17:18:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E4D82D7BF
+	for <sashiko@lists.linux.dev>; Sat, 18 Apr 2026 17:37:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776532726; cv=none; b=ih1vbPTziOuiA26wE5La/wdoM6vFBAef3sBNpu4fo8d6EMDSyGKmEj7/qEu42H4CxFLLX61XjxtqkYcZOaQO3RR8CvJ7JY3SvEQeFNp/upnGfQnFJ46G4V3wwGVhdnZYow5fFFZfuBsiwBuG9Z1t2/LTkwpKpelo8+54dXF0vR0=
+	t=1776533835; cv=none; b=WH7AbPK9DZxLdMa5IuEt7cmZGkWxNKri5WmV7sjvDwOSLZjbAFYy497yvc/UfAvn/LhQ6guBG1bl80CfCsiUU2gOR6TujSW+WebzcJ0WnWydlEesksYlC6iqHkLTatAH4E6whZnFbOXPwzEV0QopMd1Vkrqa/leL5mUhko30EhQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776532726; c=relaxed/simple;
-	bh=b0GfLP/K3O01Zzzz12D3XxB8QxvPnrsnLVH7OVL0HqY=;
+	s=arc-20240116; t=1776533835; c=relaxed/simple;
+	bh=wNIIhB+V/5T0EQVlLcxb71XgtA1Ge97iXGvi32Jpa78=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=g5mGJTgBJoxy2QzJEcAwhOcq1KyKaL61vmBzFvENYsMZwqZD/lJC4rs8VpXwV3FiGBZagsz9862olcmf8TQRWWqdiB4TX5eTJEUGa9jHinSQlXN3Kj7MQFr1ZPun04UdeFgNrTfv3VT4lHi755MdofSuTJkKpaP28Ka7EGUO4dM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=WNO403xL; arc=none smtp.client-ip=95.215.58.171
+	 In-Reply-To:Content-Type; b=I+mSDh/dGmAWHn1n5OkpmP1DsMpF7AFEycPGbrE8y9kswStT9DVgiAvJqcRn+e4iufFisRnZ+UHDKcS4vCcV0wgRN/szIeo+oFai64/dv4+pzgnZwSM34cbEJ6TvQWQj+ETDq6i4lMWiHAP1zkeDI7g7RmYwTBZ62ezFFggHit8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=psrqRGvj; arc=none smtp.client-ip=91.218.175.189
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="WNO403xL"
-Message-ID: <9afed9a9-3330-4be7-8d27-58a985536626@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="psrqRGvj"
+Message-ID: <45f70cff-6693-4cc9-b48f-eab9bce00969@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1776532723;
+	t=1776533830;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qN3hTP6WUNEDicEua3DbSLvjmi3l4CqMBdx4/7qaH+A=;
-	b=WNO403xLSgHPmK64LpzPEz3oJ6g6A/HW+aK+lW9FDv/wsTFFfCT06by2GtBKv01bUlbPAZ
-	/42+CFcovRJf4eewkANStD8AQBukimXXHIGO9xWpSY5R23pBkEz+wEIwyOJN5UI+4lmeYX
-	zIk4c3OKVryBZ7Mg2KNvaz0Jns/MN9Y=
-Date: Sat, 18 Apr 2026 10:18:37 -0700
+	bh=eRh/p/YnUrAlL1nARbFD+xQ1kPIOOV2zWLUkCYDziro=;
+	b=psrqRGvjp046qRhfRZ7QA+nm05GK55sEYrJrP6zEq0ZwZsNzZ0GNrCfe9wwWL6pV78bwA9
+	v9vuuS8KwRcdeL7f5gKK5iwVlxrlqx7exQMbixbWx227Fyql2sAzSubuxKtXpsERkxjYY4
+	B3/+sDctqTMt3l0iFb5jIUwRvwvZwco=
+Date: Sat, 18 Apr 2026 10:37:03 -0700
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
@@ -45,7 +45,7 @@ X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include 
 From: Yonghong Song <yonghong.song@linux.dev>
 In-Reply-To: <20260417040800.A5345C19425@smtp.kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Migadu-Flow: FLOW_OUT
 
 
@@ -96,9 +96,6 @@ On 4/16/26 9:08 PM, sashiko-bot@kernel.org wrote:
 >
 > Does this logic successfully catch the case where the main program itself
 > contains a tail call and also uses stack arguments?
-
-Yes, we do have an issue here. Will fix.
-
 >
 > If this escapes the verifier, the JIT might emit prologue tail call
 > instructions (pushing 24 bytes on x86) while calculating stack argument
@@ -121,6 +118,10 @@ Yes, we do have an issue here. Will fix.
 >
 > Is there a state leak in this DFS traversal that could cause false positive
 > rejections of valid BPF programs?
+
+You are right. This has been their for sometime. So I guess we can live
+with it even for stack arguments.
+
 >
 >>   			subprog[tmp].tail_call_reachable = true;
 >>   		}
