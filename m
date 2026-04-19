@@ -1,120 +1,234 @@
-Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com [95.215.58.180])
+Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com [91.218.175.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84DA4126C03
-	for <sashiko@lists.linux.dev>; Sun, 19 Apr 2026 18:21:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCEC6265629
+	for <sashiko@lists.linux.dev>; Sun, 19 Apr 2026 18:55:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776622875; cv=none; b=XlRnfaV/6LB9sflakcvJPBt/K9/kCwvcrY/rHEKP5KCAViF+C/EO9qI7zi1hiwpuS+X0SEGmcP2UyjJrj9W2p+uqYH1W37n+LCM8vOpbzFbqvlSzyZmRp2XE4gs9w98H8uMDwVWlh9HB0FBrND+xupWqcduFLsWjgClJQxAKTAc=
+	t=1776624952; cv=none; b=N1eEl048UrDzeMnfpOODiXr8dVQZebpYXFMzB2hZ/PoQdXdQ5ZhS2M9vO44vLMb7BM3+pqV7hIJMvxAwkS1cRCAhh+GNiMLDTei6T9Bky2QOI3mQGQsVtEuEklBG6D8wKVyKaaZHFWo7yJADpuWcSlGb1yIDQ7kKmRg0WzMssj8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776622875; c=relaxed/simple;
-	bh=0d7OQd+D+14S3n20s6xWwnZr1Wxu/zgb1Z+HXT4TST4=;
+	s=arc-20240116; t=1776624952; c=relaxed/simple;
+	bh=Rg4QbZ50k4+ELZ82G/LGZVMH02cYkjakaR0aDvfDlAI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=C0UmgWNUD+OXL7k3SWElBYKniq4DCyA/kDsbhzMZHkhhI4Ph3wC0K7D95v4pxgT8asqRal3GH94n6W/KJi1THnDellhxbQvg16eOE7IA5bGHHSqIOvHDeG1YMSzY43UnHeaKekLvAXcW32l3m6aIDftODPhz3imfZglwzx9Ai0M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=e2fMWtTg; arc=none smtp.client-ip=95.215.58.180
+	 In-Reply-To:Content-Type; b=quAoo04MzIh7VcLR1epMYW/uiR8Vy+sYfRQWFnfIV8TMKaXfjybGYBrDAy62uss6cekX3Qmk27BQQI415SICxo3XnOOdvRos/9qsraWs0AGmwUBjMMu0GDDd2RfCDVc8aEAbnw+XmX8CbpNj/3qi2++P+5IAowMXfZhQEqCNY/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ak3DeHL0; arc=none smtp.client-ip=91.218.175.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="e2fMWtTg"
-Message-ID: <7f02b64b-6319-40af-97df-4f632b406e18@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ak3DeHL0"
+Message-ID: <2ea53044-02a6-4a2c-9571-1c5c9bda7413@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1776622871;
+	t=1776624949;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=LYsoXHvtg/U6zD/M72t4qGHzOMrw3hwEssooHA68UFA=;
-	b=e2fMWtTgmMRtdR5WtNu9wrN3bYsjEEEJ+5ZsK0yNLDSKQgrVSY1e0tbmbYRfqo8MXqEXTQ
-	4bjlWzC1MbkPESK8nbVdsq9zy35yQ15X78/6B7I6fyoYbS6G0qIsdz4Bc/ZpbWy5xSRkm4
-	k1BEwA1bqrMioVdn3NQuX7aqehJGvv0=
-Date: Sun, 19 Apr 2026 11:20:59 -0700
+	bh=lhHi0rjzXqMAkAY0B9X0+j8rqt7flGsnvFzBDWT9ND4=;
+	b=ak3DeHL0CWnuf/iASOpqSRaAI4TrCOFxFNnrBdDg1V97eJVVYVN0VcT35DpdZ+3Vri7igF
+	NIX9HoJ3+eGESrSusy835umGM48MhKKY1PEBauv9MJGGoKt3V93N9ZBtsAGS9cj9ka4kY6
+	GXxQ34TvThavp1ykyq4FFGoY78lw5zo=
+Date: Sun, 19 Apr 2026 11:55:44 -0700
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH bpf-next v6 13/17] bpf: Reject stack arguments if tail
- call reachable
+Subject: Re: [PATCH bpf-next v6 14/17] bpf,x86: Implement JIT support for
+ stack arguments
 Content-Language: en-GB
 To: sashiko@lists.linux.dev
 Cc: bpf@vger.kernel.org
-References: <20260419163422.738397-1-yonghong.song@linux.dev>
- <20260419170812.16705C2BCAF@smtp.kernel.org>
+References: <20260419163429.739002-1-yonghong.song@linux.dev>
+ <20260419172541.BDF59C2BCAF@smtp.kernel.org>
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Yonghong Song <yonghong.song@linux.dev>
-In-Reply-To: <20260419170812.16705C2BCAF@smtp.kernel.org>
+In-Reply-To: <20260419172541.BDF59C2BCAF@smtp.kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
 
 
 
-On 4/19/26 10:08 AM, sashiko-bot@kernel.org wrote:
-> Sashiko AI review found 1 potential issue(s):
-> - [High] The verifier incorrectly rejects perfectly valid subprograms with stack arguments due to an order-dependent state leak of `tail_call_reachable` during the call graph traversal.
+On 4/19/26 10:25 AM, sashiko-bot@kernel.org wrote:
+> Sashiko AI review found 4 potential issue(s):
+> - [Critical] Incoming Arg 6 mapped to volatile R9 is clobbered by calls, causing verifier type confusion.
+> - [Critical] Sub-register BPF_LDX from incoming Arg 6 incorrectly copies the full 64-bit R9 register, breaking verifier bounds tracking.
+> - [High] BPF_ST instructions for outgoing Arg 6 miss size checks, causing out-of-bounds stack corruption and uninitialized arguments.
+> - [High] Sub-register BPF_STX to outgoing Arg 6 overwrites the entire 64-bit R9 register.
 > --
 >
-> commit 2677e39a30cc9fcf44cadb1927d1362ad39f7b4e
+> commit 16df4bd097c0d6a600a22bdb40ebfc360ece0fc6
 > Author: Yonghong Song <yonghong.song@linux.dev>
 >
-> bpf: Reject stack arguments if tail call reachable
+>      bpf,x86: Implement JIT support for stack arguments
 >
-> This commit deprecates tailcalls in the presence of stack arguments,
-> rejecting subprograms with stack arguments if a tail call is reachable.
+> This commit adds x86_64 JIT support for BPF functions with more than 5
+> arguments. The extra arguments are passed through a stack area addressed by
+> register r11 (BPF_REG_PARAMS), mapping Arg 6 to R9 and Args 7+ to the stack.
 >
->> diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
->> index 13f1fd7880921..af89750498836 100644
->> --- a/kernel/bpf/verifier.c
->> +++ b/kernel/bpf/verifier.c
+>> diff --git a/arch/x86/net/bpf_jit_comp.c b/arch/x86/net/bpf_jit_comp.c
+>> index ea9e707e8abff..06f33fef1e8e1 100644
+>> --- a/arch/x86/net/bpf_jit_comp.c
+>> +++ b/arch/x86/net/bpf_jit_comp.c
 > [ ... ]
->
->> @@ -5672,14 +5677,23 @@ static int check_max_stack_depth_subprog(struct bpf_verifier_env *env, int idx,
->>   	 * this info will be utilized by JIT so that we will be preserving the
->>   	 * tail call counter throughout bpf2bpf calls combined with tailcalls
->>   	 */
->> -	if (tail_call_reachable)
->> +	if (tail_call_reachable) {
->>   		for (tmp = idx; tmp >= 0; tmp = dinfo[tmp].caller) {
->>   			if (subprog[tmp].is_exception_cb) {
->>   				verbose(env, "cannot tail call within exception cb\n");
->>   				return -EINVAL;
->>   			}
->> +			if (subprog_has_stack_args(&subprog[tmp])) {
->> +				verbose(env, "tail_calls are not allowed in programs with stack args\n");
->> +				return -EINVAL;
+>> @@ -2134,12 +2227,26 @@ static int do_jit(struct bpf_verifier_env *env, struct bpf_prog *bpf_prog, int *
+>>   				EMIT1(0xC7);
+>>   			goto st;
+>>   		case BPF_ST | BPF_MEM | BPF_DW:
+>> +			if (dst_reg == BPF_REG_PARAMS && insn->off == -8) {
+>> +				/* Arg 6: store immediate in r9 register */
+>> +				emit_mov_imm64(&prog, X86_REG_R9, imm32 >> 31, (u32)imm32);
+>> +				break;
 >> +			}
-> Can this leak the tail_call_reachable state across disjoint call graph branches?
+>>   			EMIT2(add_1mod(0x48, dst_reg), 0xC7);
+>>   
+>> -st:			if (is_imm8(insn->off))
+>> -				EMIT2(add_1reg(0x40, dst_reg), insn->off);
+>> +st:			insn_off = insn->off;
+>> +			if (dst_reg == BPF_REG_PARAMS) {
+>> +				/* Args 7+: reverse BPF negative offsets to
+>> +				 * x86 positive rsp offsets.
+>> +				 * BPF off=-16 → [rsp+0], off=-24 → [rsp+8], ...
+>> +				 */
+>> +				insn_off = outgoing_arg_base - outgoing_rsp - insn_off - 16;
+> Does this code handle 32-bit, 16-bit, or 8-bit stores to Arg 6 correctly?
 
-I guess this is a known issue such that tail_call_reachable is marked more
-than necessar. Since this has been mentioned a couple of times. I will fix
-it in the next revision.
+No. Only 64-bit stores are supported. See patch "bpf: Enable r11 based insns".
 
 >
-> In check_max_stack_depth_subprog(), tail_call_reachable is a local variable
-> that seems to act as an accumulator. If the main program first calls subprogram A
-> (which has a tail call) and subsequently calls subprogram B (which has stack
-> arguments but no tail call), tail_call_reachable remains true while traversing B.
+> The check for dst_reg == BPF_REG_PARAMS && insn->off == -8 is uniquely placed
+> inside the BPF_ST | BPF_MEM | BPF_DW case block. If a BPF program uses a
+> smaller size store like BPF_W to prepare Arg 6, the code bypasses this check
+> and falls through to the st: label.
 >
-> When the traversal finishes subprogram B, this newly added check evaluates the
-> current call stack (main -> B). Since tail_call_reachable leaked from the main
-> -> A traversal, and subprogram B has stack arguments, the check would falsely
-> reject the program.
+> At the st: label, the insn_off calculation equates to RSP - 8 relative to
+> RBP, emitting a memory store that corrupts unallocated stack memory. In
+> addition, R9 is never updated, which leaves Arg 6 uninitialized for the callee.
 >
-> Conversely, if the bytecode is ordered so that B is called before A,
-> tail_call_reachable would be false while traversing B, allowing the program to
-> load successfully.
+> [ ... ]
+>> @@ -2149,7 +2256,17 @@ st:			if (is_imm8(insn->off))
+>>   		case BPF_STX | BPF_MEM | BPF_B:
+>>   		case BPF_STX | BPF_MEM | BPF_H:
+>>   		case BPF_STX | BPF_MEM | BPF_W:
+>>   		case BPF_STX | BPF_MEM | BPF_DW:
+>> -			emit_stx(&prog, BPF_SIZE(insn->code), dst_reg, src_reg, insn->off);
+>> +			if (dst_reg == BPF_REG_PARAMS && insn->off == -8) {
+>> +				/* Arg 6: store register value in r9 */
+>> +				EMIT_mov(X86_REG_R9, src_reg);
+>> +				break;
+>> +			}
+> Does this full 64-bit move break semantics for partial writes?
+
+It should be okay. llvm compiler will promote the value to 64bit before
+r11 based load/store's.
+
 >
-> Does this introduce an unpredictable, order-dependent functional regression?
+> For smaller sizes like BPF_B or BPF_W, EMIT_mov generates a full 64-bit move
+> that copies all 64 bits from src_reg to R9.
 >
->>   			subprog[tmp].tail_call_reachable = true;
->>   		}
->> +	} else if (!idx && subprog[0].has_tail_call && subprog_has_stack_args(&subprog[0])) {
->> +		verbose(env, "tail_calls are not allowed in programs with stack args\n");
->> +		return -EINVAL;
->> +	}
->> +
->>   	if (subprog[0].tail_call_reachable)
->>   		env->prog->aux->tail_call_reachable = true;
->>
+> BPF semantics dictate that a sub-register store should only modify the
+> specified lower bytes of the target location, leaving the rest unmodified. This
+> full copy could overwrite data previously stored in the upper bytes of Arg 6
+> via other partial writes.
+>
+> [ ... ]
+>> @@ -2248,6 +2365,19 @@ st:			if (is_imm8(insn->off))
+>>   		case BPF_LDX | BPF_PROBE_MEMSX | BPF_H:
+>>   		case BPF_LDX | BPF_PROBE_MEMSX | BPF_W:
+>>   			insn_off = insn->off;
+>> +			if (src_reg == BPF_REG_PARAMS) {
+>> +				if (insn_off == 8) {
+>> +					/* Incoming arg 6: read from r9 */
+>> +					EMIT_mov(dst_reg, X86_REG_R9);
+>> +					break;
+>> +				}
+> Can R9 be clobbered by function calls when used for Arg 6?
+
+I think yes as you mentioned below for Arg 6 (r9) usage.
+
+>
+> The verifier treats incoming stack arguments as stable memory preserved across
+> function calls. However, under the x86-64 System V ABI, R9 is a caller-saved
+> (volatile) register.
+>
+> If a BPF program reads [r11+8] after making a helper, kfunc, or subprog call,
+> it will read the clobbered value left in R9. The verifier will incorrectly
+> track this as the uncorrupted argument, which could cause type confusion.
+
+To make things easier, I think verifier can enforce all stack loads must
+be before stack stores. And all stack loads must be before any function/kfunc
+calls. The following is an example:
+
+$ cat t.c
+int bar1(int, int, int, int, int, int);
+int foo(int a, int b, int c, int d, int e, int f) {
+    int ret;
+    ret = bar1(a, a, a, b, b, b);
+    ret += bar1(a, a, a, b, b, f);
+    return ret;
+}
+
+$ llvm-objdump -d t.o
+
+t.o:    file format elf64-x86-64
+
+Disassembly of section .text:
+
+0000000000000000 <foo>:
+        0: 55                            pushq   %rbp
+        1: 41 57                         pushq   %r15
+        3: 41 56                         pushq   %r14
+        5: 53                            pushq   %rbx
+        6: 50                            pushq   %rax
+        7: 44 89 cb                      movl    %r9d, %ebx
+        a: 89 f5                         movl    %esi, %ebp
+        c: 41 89 fe                      movl    %edi, %r14d
+        f: 89 fe                         movl    %edi, %esi
+       11: 89 fa                         movl    %edi, %edx
+       13: 89 e9                         movl    %ebp, %ecx
+       15: 41 89 e8                      movl    %ebp, %r8d
+       18: 41 89 e9                      movl    %ebp, %r9d
+       1b: e8 00 00 00 00                callq   0x20 <foo+0x20>
+       20: 41 89 c7                      movl    %eax, %r15d
+       23: 44 89 f7                      movl    %r14d, %edi
+       26: 44 89 f6                      movl    %r14d, %esi
+       29: 44 89 f2                      movl    %r14d, %edx
+       2c: 89 e9                         movl    %ebp, %ecx
+       2e: 41 89 e8                      movl    %ebp, %r8d
+       31: 41 89 d9                      movl    %ebx, %r9d
+       34: e8 00 00 00 00                callq   0x39 <foo+0x39>
+       39: 44 01 f8                      addl    %r15d, %eax
+       3c: 48 83 c4 08                   addq    $0x8, %rsp
+       40: 5b                            popq    %rbx
+       41: 41 5e                         popq    %r14
+       43: 41 5f                         popq    %r15
+       45: 5d                            popq    %rbp
+       46: c3                            retq
+
+foo()'s argument 'f' is first loaded and saved to an callee saved register:
+     movl    %r9d, %ebx
+
+and after the first bar1(), it did
+     movl    %ebx, %r9d
+to push as #6 argument.
+
+So I think we can enforce certain rules (as mentioned in the above)
+in the verifier.
+
+>
+> Additionally, does EMIT_mov(dst_reg, X86_REG_R9) zero-extend sub-register
+> loads?
+
+Only 64-bit register-to-register is supported.
+
+>
+> This generates a full 64-bit register-to-register move regardless of the load
+> size. For smaller loads like BPF_B, BPF semantics require the value to be
+> zero-extended.
+>
+> Since the entire 64-bit R9 register is copied without zeroing the upper 56
+> bits, garbage left by the caller in the upper bits will leak into the
+> destination register, breaking the bounds tracked by the verifier.
+>
 
