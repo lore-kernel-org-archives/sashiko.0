@@ -1,73 +1,42 @@
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com [91.218.175.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDA6E3A9D9D
-	for <sashiko@lists.linux.dev>; Mon, 20 Apr 2026 18:08:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 607DD38737D
+	for <sashiko@lists.linux.dev>; Mon, 20 Apr 2026 18:12:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776708540; cv=none; b=KW0AAp6Khq0aO+/eQr57lftpY3kVPGy266myoOvKh3fHQjcsB+x18gffi07Oy+n/Vp8Il6n14EdQHl/u37xNEaq90lTtbwBHS3274Hl3cES3wcqxZv6a6k26XDCFAlCr9Irl0TRKTAZOTd9RKEucdPgjvRds1/AmVfY3ydRC5/g=
+	t=1776708767; cv=none; b=TNW2LqwcOQYQlh2dWC5c75xTMR+zlOEEM/cTe64mKdvnf7V05zwRHxxUNgwPkpDXP6SXQzYX/tWnMI38IioBFnT35W+pHqdEnTumpVkYJsA784jUbBdGfBNwblFkrVt7psCjoSfeIAt6c3ko+1mS1/aq1BLl/jCp+y951wqaEs4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776708540; c=relaxed/simple;
-	bh=A8yyj/crXE/M7L62h86VD1i8sAS1UMvSTuXrc+Y21Sk=;
+	s=arc-20240116; t=1776708767; c=relaxed/simple;
+	bh=KdMLvFF62T8w+rP0pIWodgECrAbY0fE5MU19Z5O6gVQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jx7LNjRTBmUuCHAOgy/1znHiwVx1W3wss3//mx5fQ36heo3xN2PV87l9ZHPnzr4/qtFtFilsfXIArrIBgZcwcWq3gzMOPiw0SyekZ4jwF8C4pplXrnWJ2rFvhe50mdoXb9T1PkxNroAcnog+7NMmf1KPT/vVecUlpXEaXctimwM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b=tOhpmR/U; arc=none smtp.client-ip=209.85.222.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=o4anqhsS+qyIBiCEG2fkFUezqxVSKonfVkq4Zrxd6I+acp5qNV4P2ys/KSBfPuNu5wdwlVxmNMSN/PEU9ZCtLbPU10X6eEHc14peTBhXTxZ/Ttqdb+4hYlWqz1wTP4DQ89XRNzGFSyjyrJA5PDRanoERNd/ebFotIisVvsyvzOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=COKSeVUy; arc=none smtp.client-ip=91.218.175.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b="tOhpmR/U"
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-8d67a483d3eso376974185a.1
-        for <sashiko@lists.linux.dev>; Mon, 20 Apr 2026 11:08:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg.org; s=google; t=1776708536; x=1777313336; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=iI3K23he8gHUPdxooOA7+4g/6PX8z/wQB0OJ/JOEpO0=;
-        b=tOhpmR/UBiCumdRQeINemCLUistaFKpxqXdx7DfGQvAUV3FsP0a38qSzrvjzhvy8lm
-         R04kUZ9xw5dKSb9bGAPGYRg1SQn2r2Hoo32PPuVUMnxRUU1fJ1kG3V2juJ7rW49btX6B
-         CCYfXLna29cFqhgoRajMhvQ6t+bjTubzX6ZxcUIpUQC1yudy88WVbcZNTbtyeBQHUaTJ
-         64H6+3jByakqU7qw8zjxM9hilRL0FqVnzT/bhqCDpTR9N2ttyqgg6rvYXscFrTx01Hed
-         hzp3QSuNAw5Vmn75MgsBjc/dZviNC7dgx1irbSV9T6i+ptwP5JrYsfGOpoB2JqO8dQls
-         zqEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776708536; x=1777313336;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=iI3K23he8gHUPdxooOA7+4g/6PX8z/wQB0OJ/JOEpO0=;
-        b=PPObefz1XazHCMQMSAEB8HF6aCHIMaIRa8u2rhVkQLyh8JqqowEw0kq9ke8jjhz2ml
-         VFIAng4gWMXnbO66mUH03Ev1Bm+8KZw/eXuhYID+GZ98I4rwxZkLpunWMYVRXRv9Rm0U
-         3yr3weRxPycKTxBjmbrtC/+C+Y3Knl0+wkmCN7rptWGm0WfZfyAjxnAl5rfFz1cXvN12
-         C4apD0cRip0RSqlJQV0JUkq3HXbe6Bua0bzR+Wg4Xe3sejgJdGR7SQ7C2PNf0sk6wk1H
-         WCJbd4ZJLDYmIw2/jAsrnm6f3BPwcyQaes3hN8JSRefqVHGzcrOtgC5nTBNly6HYsOz5
-         7hiA==
-X-Forwarded-Encrypted: i=1; AFNElJ9YhWg9QKtqBl0BLl49D6gRjvweHFZu/fqexXWe9mBnCC0/p7YN4R4tNaoaX3FLOAUHtn1l5kgf@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw6qGHIK1QfqOBJm12K9KMTqsrCYWMLZ2AJgFV2SmyPDSVWM0Qx
-	RAnxY4CkxA/RpANCxWqDHYDVXlbW0hp2obCEsqE4pXQT15nLYqKeJprkZMNYhzAdRiffvH1gHZ4
-	Holg5
-X-Gm-Gg: AeBDies3LOhzU2SQgcyIW2JM1WvGwcv+XmDMMcsXxtQBCrBh1r/ex102Im8ti6rBnbc
-	PUxbUemVj9g684/x9bmdIbpWXL0mr8hGA68+I/0xjiPQJz8jzq0r7QzggTu5mOeG8ZTQy4Ne1yv
-	PtYpu+pBtnNwVFQUdVcISubOHgy8emEV+9pTBQvZ+ajfT6km5nFaBiMhKNzej1bFSv5KaY31Uqc
-	KJbUD8DShRThbsjjHfNxhqRcjE8mzU6LmH6pxH5OZMFO8LgstwPy99WorZG6sMOSUQCo6GfV8Ri
-	I/HNkauMFF7ozJjpxkii+3Osju7iHFZrD3ooszkByXpJJ7Ic4/gfJDTOYiQ6r2/vWNjvFtNecv+
-	MZua4bo411bJWo4jDL1PcDPylD9wCAkbSOpNuWlyRiJTy+bBXXDvIBuQ+trnZonE/Bv/4ifvqBl
-	GLul6xsSG1Vzwr0aXNQZSiLNdOS1CJbwzl
-X-Received: by 2002:a05:620a:444f:b0:8cd:8a55:510d with SMTP id af79cd13be357-8e792865b31mr2075327885a.48.1776708536016;
-        Mon, 20 Apr 2026 11:08:56 -0700 (PDT)
-Received: from localhost ([2603:7000:c00:3a00:365a:60ff:fe62:ff29])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8e7d69ae320sm989027985a.20.2026.04.20.11.08.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Apr 2026 11:08:55 -0700 (PDT)
-Date: Mon, 20 Apr 2026 14:08:54 -0400
-From: Johannes Weiner <hannes@cmpxchg.org>
-To: Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
-Cc: Tejun Heo <tj@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>,
-	"sashiko@lists.linux.dev" <sashiko@lists.linux.dev>
-Subject: Re: Delivering reviews over email
-Message-ID: <aeZrtiE4hT66NvzA@cmpxchg.org>
-References: <7ia45x5tuj88.fsf@castle.c.googlers.com>
- <z4eztn7epx6kghtm3nyoiexhnbxxc755f5vvh73gtir3nra6yl@etqgkhrpx6r5>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="COKSeVUy"
+Date: Mon, 20 Apr 2026 11:12:32 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1776708763;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ix7/zhoRL3r2Dqp79NoWxKpttMDWSed3uFUeVh5uGCE=;
+	b=COKSeVUygLQul+0PeIfiKpNkjZsb+sokS5/W0sk9kETlA3RXnNc7N5eydZzZgzu3P5X6lk
+	IqiDDJBNhNcltXl/lI9WRF5T4/weOosp/Qs8EwRE4r+7vUSYjLjywwJwwle+meoSDp2XcR
+	AtPrLRlC36Mr1yrskhtunH3sKNVwu3k=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Martin KaFai Lau <martin.lau@linux.dev>
+To: KaFai Wan <kafai.wan@linux.dev>
+Cc: sashiko@lists.linux.dev, bpf@vger.kernel.org
+Subject: Re: [PATCH bpf v3 1/2] bpf: Reject TCP_NODELAY in TCP header option
+ callbacks
+Message-ID: <2026420174537.e2om.martin.lau@linux.dev>
+References: <20260417092035.2299913-2-kafai.wan@linux.dev>
+ <20260418092235.98444C19424@smtp.kernel.org>
+ <0e5602f1ca92074cbef0554a7a399ff8b1cc8a1c.camel@linux.dev>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
@@ -77,24 +46,52 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <z4eztn7epx6kghtm3nyoiexhnbxxc755f5vvh73gtir3nra6yl@etqgkhrpx6r5>
+In-Reply-To: <0e5602f1ca92074cbef0554a7a399ff8b1cc8a1c.camel@linux.dev>
+X-Migadu-Flow: FLOW_OUT
 
-On Mon, Apr 20, 2026 at 06:51:43PM +0200, Michal Koutný wrote:
-> On Wed, Apr 15, 2026 at 01:04:39AM +0000, Roman Gushchin <roman.gushchin@linux.dev> wrote:
-> > Sashiko is now able to send reviews over email.
-> 
-> Great job! E-mail interface is something I've been looking forward to.
-> 
-> > If you're interested in your subsystem to get email reviews,
-> > please, write into this mailing list or me directly or send a PR changing
-> > this file:
-> > https://github.com/sashiko-dev/sashiko/blob/main/sashiko.dev/email_policy.toml
-> 
-> Roman, IIUC, this considers maintainers as all non-ML addresses that are
-> CC'd in the original posting?
-> 
-> > Please, make sure all maintainers in the subsystem are onboard.
-> 
-> Tejun, Johannes, would you be OK with the change below?
+On Mon, Apr 20, 2026 at 09:41:06PM +0800, KaFai Wan wrote:
+> > Does this same recursion vulnerability exist for BPF TCP congestion control
+> > algorithms using BPF_PROG_TYPE_STRUCT_OPS?
+> > 
+> > If a BPF congestion control algorithm invokes bpf_setsockopt(TCP_NODELAY)
+> > from its cwnd_event callback when handling CA_EVENT_TX_START, could it
+> > trigger the same unbounded recursion?
+> > 
+> > When the kernel transmits the first packet of a data train via
+> > tcp_transmit_skb(), it invokes tcp_event_data_sent(). Because
+> > tp->packets_out is not incremented until later, tcp_packets_in_flight(tp)
+> > evaluates to 0, triggering tcp_ca_event(sk, CA_EVENT_TX_START).
+> > 
+> > If the BPF program then calls bpf_setsockopt(TCP_NODELAY), it would result
+> > in this call chain:
+> > 
+> > tcp_transmit_skb()
+> >   tcp_event_data_sent() -> invokes CA_EVENT_TX_START
+> >     cwnd_event()
+> >       bpf_setsockopt(TCP_NODELAY)
+> >         tcp_push_pending_frames()
+> >           tcp_write_xmit()
+> > 
+> > Since the outer tcp_transmit_skb() hasn't finished, the send head hasn't
+> > advanced. Wouldn't tcp_write_xmit() see the same SKB, attempt to transmit
+> > it again, and re-enter tcp_transmit_skb() causing an infinite recursion?
+> > 
+> You are right. I can reproduce this. 
+>  
+> > Should the restriction on TCP_NODELAY be enforced at a broader level, such
+> > as inside _bpf_setsockopt(), to protect contexts holding the socket lock
+> > during TX paths?
+> > 
+> We can check in sol_tcp_sockopt().
 
-100%. Thanks for working on this
+I don't know how it can use the socket lock to single out this case.
+All bpf programs that are allowed to call bpf_setsockopt should
+have the sock lock held. Maybe I am missing something obvious.
+
+In bpf_tcp_ca_get_func_proto, it checks what ops can do bpf_sk_setsockopt_proto.
+Right now, it rejects the "release" ops. One option is to create a new
+func_proto, bpf_sk_setsockopt_nodelay_proto, to reject TCP_NODELAY.
+Instead of checking cwnd_event[_tx_start] in bpf_tcp_ca_get_func_proto,
+I would return bpf_sk_setsockopt_nodelay_proto for all ops. We can revisit
+and be more selective in the future if the hammer turns out to be too big.
+"release" ops will remain disallowed from calling bpf_setsockopt.
