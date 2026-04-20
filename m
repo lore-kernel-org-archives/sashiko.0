@@ -1,50 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9985F158535
-	for <sashiko@lists.linux.dev>; Mon, 20 Apr 2026 06:35:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFAEB40DFBD
+	for <sashiko@lists.linux.dev>; Mon, 20 Apr 2026 07:57:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776666943; cv=none; b=YxUEs67CGp6AeGdECx7wTXQgQ9mThYWgPKISoiKhXkUfxo1hONGf/pTi8BUX16FWt5dinHVEyoI7ENpMLTROSSu6uq/EbetQmTK3HHRifAdNXdGXDr0j50JHmOUT4ITneUsutkq252sekkPbzuJXWukDDjcfZR3VlttkDgt8QrQ=
+	t=1776671874; cv=none; b=uH+JdN9c0aUMJswAq7Paf821nVPGVbQDTKZTxPs68fv53dvUpX/ePvVDboMHiRT5CC7gg12gc0T9ZVqWVM4pByUYtZba6oReUCHKUR6TqZlt7XNgvDDkom8SI7Z8ejyhgiDy9XjUVg0TC5XekU+eoEcpfZFtz/zINIUSsk6n67k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776666943; c=relaxed/simple;
-	bh=IEjHf6kgvr5rO5bK2Nqufdu1Jd/LWFNYRQ9YF/t8SVY=;
+	s=arc-20240116; t=1776671874; c=relaxed/simple;
+	bh=uqcXnkpiCXx3AIuoIba9VmBblLvUW/Cg0n5Cg8ykg50=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ngIWVS0ahIxvrjniceM63qLsZ5KuP82Xl8hBsv1f0gHbfn/AvhIMMBjU+/0LnHddXz2Bc2LOyI1ZkZYHfOtyOWurakL5oq1J9z3ShVFynSxK7loYMNciZBYz+krDYIJaGCOpAABRNXogNfcnPguCdkoTm+VXJ1SeErIU/XAybyY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WRC411p7; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 In-Reply-To:Content-Type; b=Zmz9OcrY4LPJ73Sp45hL4xM88NJMW7PODfHe4CeTCa3gLCPzj/hGEs8RLxLvnKY5L2q4hv6e/R9lDOXLKac9HXtLsot9HoExrXhkYJikwlbgoiDentNr/wBTTxEPXMrYlXRuL0LiM64lpZpKg/6kZWyzcK5WWUCqSSkAy55uK+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B70EVUsw; arc=none smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WRC411p7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776666942; x=1808202942;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=IEjHf6kgvr5rO5bK2Nqufdu1Jd/LWFNYRQ9YF/t8SVY=;
-  b=WRC411p74ukSGZkLQxw8NS28+q75DTKNzfhuM2mRJigNKNw65B/THDrk
-   j84vCmHevJaOLkRzd4FnkFjM4KCFt4tx8wyJvbcDb8qqx3GmT3dQ7+mkL
-   hsemsizepwIfMELw2F4LQtQutQBdPwGl5bmmkyDMsQXXdHIaixGqdsEzB
-   ba2AQunrplVeAXQcPQDdK987YehleiJY0iDyDRaQ5rAFiSxhZ3+XVOqPB
-   V7PWQhqeyMAFtL2gBGfYBUiA1JoNXWEOJZpbq+yxRvLNrdGicDBpzJJlO
-   nMGT8zf1+gk2gFPTFIU/N6lgfXoI+Wk/HSq0vLs8HM+sALkdZibEvpBa8
-   w==;
-X-CSE-ConnectionGUID: 2Lzr1L8SSoibr0+uCTcg8g==
-X-CSE-MsgGUID: 2yODD8wWQRCZ9xjiIn5/YQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11762"; a="87876745"
-X-IronPort-AV: E=Sophos;i="6.23,189,1770624000"; 
-   d="scan'208";a="87876745"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2026 23:35:42 -0700
-X-CSE-ConnectionGUID: p/d5Wr0jTIWNQGnjAYungA==
-X-CSE-MsgGUID: QLsLrC9pQgCSeXcC2Dy3qw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,189,1770624000"; 
-   d="scan'208";a="236618103"
-Received: from dapengmi-mobl1.ccr.corp.intel.com (HELO [10.124.241.147]) ([10.124.241.147])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2026 23:35:39 -0700
-Message-ID: <339de842-c00c-4b99-8a1b-1473c644d29e@linux.intel.com>
-Date: Mon, 20 Apr 2026 14:35:36 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B70EVUsw"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-82f2766905fso1139544b3a.3
+        for <sashiko@lists.linux.dev>; Mon, 20 Apr 2026 00:57:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776671871; x=1777276671; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZqZKdQIUH7jTkvcMEPi7Hm7hAK7t3G5GOLUmrPxBDk4=;
+        b=B70EVUsws7mZ//HJ4dkjpV7nMTHzwLVIyiPXImRA7tNS92PVE94XSrFX+lEC9yjpfw
+         Vv14Szxqne3gxjklTBjFacFVqZBAXvgdQNvX85aax/r9NUJkO8uRct0vvMRyS4xq/2vC
+         pwSxU6gI/jVMZiEcmaC7HKN8Zl+To2ToJxxsYH9MCvGGKxdTklEKitJkpK8TCiIzlSB6
+         8L3NyowxLB8dgxjyICkaXnQHxKY4vLUqjg0djro+iAPbOU9320O8B1DzNXoxtwxkPis7
+         SZRuu+9PvSCjAzsKJx0RV8MlucupNthG9Qk844P1ws0GZSdFlGV0080mx6hgTooUMer1
+         K5oA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776671871; x=1777276671;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZqZKdQIUH7jTkvcMEPi7Hm7hAK7t3G5GOLUmrPxBDk4=;
+        b=NDV0XbtjEDG9NOOG/fipP/rwqCp5ICn8iNJgidv3r/RJAlGKiDRbzv3bi6HD9C578h
+         bUuxug38iU515QXWf7wJhIw4da4TTQ9WfsZ6yOtEA2oKzhiswjMmlpSvx+yRmT052BLI
+         qtO6oGSKALxdLMXQuCCQQtwQybv7hTKXwQqm51sm64yxq3vbz+RQ6XIVrcC2P0JurlgQ
+         fVjFx00FKAAvHS+3n991UnCcw2+RBKEn/ydJ5zIGBQQIsiNdyFV356mo/WcRiLP4zzS0
+         dKq41qeNV1WBVrpB0PoEE0AKJ81ktiEuGydRzUPpMaLZ820dbZq+IiwfjVXHfF4jI15L
+         Acqw==
+X-Gm-Message-State: AOJu0YxWlMlrZu7jYNK5BvQSO0m92OOSXTpfTvV+6enE24k7nf8Diskk
+	1B9eHrTUrc7h++TNDhfTqrM0WGEU+mlK8KisFRej7qFNXfGRfH2tx4UuOqarOLm92NM=
+X-Gm-Gg: AeBDiesW6TTOtpQRr/GXrSG4wFFHzp/6AyJ/ZtL3vcrXH5PTHg7haWa9s6YFk2+fQjY
+	Jk7AysVvbDizjQaNEduP552IVCjODybPfkhJJlp+WzD7xujehrxN5zxuc6aHwVhYZeDhxJMqb6m
+	s0YgoJqa+EzwjJjJ/eloK/0+5vrIyvMb+ZMizhXENJYd8AfHFnb/7crYkYeEqpilYsuLr/WGd8G
+	40zwNxCLZF+GdMtVhgX9B175NzB4/GvpS6eQD2ZiyroKwkYa4IyqZ0VQTCQ3irmshMEpDFEzzbJ
+	l6eFzLG1kJBnIaG/Lu/kXURDNOwL2DdSt6nimIqi+ZxcQM+mUsrXsVLu8KLOjSVAgcBPYNhvw1e
+	ftYjNg8pKaNFq5jywZvs7ogHrgUoDzPaTZ6MinkNQw+FQlE439VsQUTWZPIGfwUTWcTAhv5a5SP
+	nDf65xmnE70hADf6NKmIrxmI5KovQ82pgM4FrgG9Cq5LHHadaIMkOVmQ3CwEVLssyXXjs=
+X-Received: by 2002:a05:6a00:4085:b0:82f:38df:681c with SMTP id d2e1a72fcca58-82f8c7dd179mr12207976b3a.6.1776671871389;
+        Mon, 20 Apr 2026 00:57:51 -0700 (PDT)
+Received: from [10.4.95.172] ([139.177.225.246])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f8ebcc9easm12633109b3a.39.2026.04.20.00.57.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Apr 2026 00:57:50 -0700 (PDT)
+Message-ID: <6687ecc5-fa35-446e-801c-ff737a4c967c@gmail.com>
+Date: Mon, 20 Apr 2026 15:56:32 +0800
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
@@ -52,61 +66,88 @@ List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [Patch v2] perf tests: Add auto counter reload (ACR) sampling
- test
+Subject: Re: [PATCH v2] iomap: avoid memset iomap when iter is done
 To: sashiko@lists.linux.dev
-Cc: linux-perf-users@vger.kernel.org
-References: <20260420025501.2133495-1-dapeng1.mi@linux.intel.com>
- <20260420031020.CFDE8C2BCAF@smtp.kernel.org>
-Content-Language: en-US
-From: "Mi, Dapeng" <dapeng1.mi@linux.intel.com>
-In-Reply-To: <20260420031020.CFDE8C2BCAF@smtp.kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Cc: tytso@mit.edu
+References: <20260420061630.62077-1-changfengnan@bytedance.com>
+ <20260420073254.996FAC19425@smtp.kernel.org>
+From: Fengnan Chang <fengnanchang@gmail.com>
+In-Reply-To: <20260420073254.996FAC19425@smtp.kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
-On 4/20/2026 11:10 AM, sashiko-bot@kernel.org wrote:
+
+在 2026/4/20 15:32, sashiko-bot@kernel.org 写道:
 > Sashiko AI review found 1 potential issue(s):
-> - [Medium] Early return in the PEBS support check unintentionally skips subsequent ratio-to-prev tests and the final success message.
+> - [High] Early return paths in `iomap_iter()` bypass `folio_batch` cleanup, leaking page references.
 > --
 >
-> commit 4863d01ec678cdb7aeb26a69a3ff812dd0a8e16c
-> Author: Dapeng Mi <dapeng1.mi@linux.intel.com>
+> commit 20686db0394fe5c92c4d207b4ec3987147d0e1ab
+> Author: Fengnan Chang <fengnanchang@gmail.com>
 >
-> perf tests: Add auto counter reload (ACR) sampling test
+> iomap: avoid memset iomap when iter is done
 >
-> This commit adds an auto counter reload sampling test to verify that the
-> intended event records can be captured and that self-reloaded events
-> won't generate any records.
+> This commit splits the cleanup logic in iomap_iter() to avoid wasted memory
+> writes by skipping the memset of iomap and srcmap when iteration finishes,
+> while extracting the folio_batch release into iomap_iter_clean_fbatch().
 >
->> diff --git a/tools/perf/tests/shell/record.sh b/tools/perf/tests/shell/record.sh
->> index 7cb81cf3444a7..a05b0c8b6d6b6 100755
->> --- a/tools/perf/tests/shell/record.sh
->> +++ b/tools/perf/tests/shell/record.sh
->> @@ -402,6 +402,94 @@ test_callgraph() {
+>> However, we MUST still call iomap_iter_reset_iomap() to release the
+>> folio_batch if IOMAP_F_FOLIO_BATCH is set, otherwise we leak page
+>> references. Therefore, split the cleanup logic: always release the
+>> folio_batch, but skip the memset() when ret <= 0.
+> Does this actually always release the folio_batch?
+
+Just skip memset, always release the folio_batch.
+
+>
+>> diff --git a/fs/iomap/iter.c b/fs/iomap/iter.c
+>> index c04796f6e57fa..e4a29829591a7 100644
+>> --- a/fs/iomap/iter.c
+>> +++ b/fs/iomap/iter.c
 > [ ... ]
+>> @@ -102,10 +98,14 @@ int iomap_iter(struct iomap_iter *iter, const struct iomap_ops *ops)
+>>   		ret = 0;
+>>   	else
+>>   		ret = 1;
+>> -	iomap_iter_reset_iomap(iter);
+>> +	iomap_iter_clean_fbatch(iter);
+>> +	iter->status = 0;
+>>   	if (ret <= 0)
+>>   		return ret;
+>>   
+>> +	memset(&iter->iomap, 0, sizeof(iter->iomap));
+>> +	memset(&iter->srcmap, 0, sizeof(iter->srcmap));
+>> +
+>>   begin:
+>>   	ret = ops->iomap_begin(iter->inode, iter->pos, iter->len, iter->flags,
+>>   			       &iter->iomap, &iter->srcmap);
+> If ops->iomap_begin() populates iter->fbatch and sets IOMAP_F_FOLIO_BATCH
+> (for example, via iomap_fill_dirty_folios() in
+> xfs_buffered_write_iomap_begin()) but subsequently fails, the next lines
+> in the function are:
 >
->> +  if ! perf record -o "${perfdata}" -e "${pebs_events}" ${testprog} 2> /dev/null
->> +  then
->> +    echo "Auto counter reload PEBS sampling [Skipped not supported]"
->> +    return
->> +  fi
-> If PEBS is not supported, this early return exits the entire function. Does
-> this unintentionally skip the subsequent ratio-to-prev tests and prevent the
-> script from printing the final "Auto counter reload sampling [Success]"
-> message?
+> 	if (ret < 0)
+> 		return ret;
 >
-> The ratio-to-prev tests use the u modifier rather than the p modifier, so it
-> appears they should be allowed to run even if PEBS is not supported.
-
-Hmm, maybe It's a better choice to integrate the ratio_prev_test sampling
-test into the test_ratio_to_prev case. Thanks.
-
-
+> This returns directly and bypasses the iomap_iter_clean_fbatch() call.
 >
->> +  if ! perf script -i "${perfdata}" -F event | grep -q "instructions"
->> +  then
->> +    echo "Auto counter reload PEBS sampling [Failed missing instructions event]"
->> +    err=1
->> +    return
->> +  fi
+> There is also a similar early return at the start of iomap_iter() before
+> the new cleanup logic:
+>
+> 	if (ops->iomap_end) {
+> 		ret = ops->iomap_end(iter->inode, iter->iter_start_pos,
+> 				iomap_length_trim(iter, iter->iter_start_pos,
+> 						  olen),
+> 				advanced, iter->flags, &iter->iomap);
+> 		if (ret < 0 && !advanced)
+> 			return ret;
+>
+> If ops->iomap_end() fails without advancing, this early return also skips
+> the cleanup.
+>
+> Since callers like iomap_zero_range() allocate the batch on the stack and
+> rely on iomap_iter() for cleanup, could these error paths leak folio
+> references when transient I/O errors occur?
+>
+
