@@ -1,182 +1,176 @@
-Received: from out-177.mta0.migadu.com (out-177.mta0.migadu.com [91.218.175.177])
+Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com [95.215.58.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A07C1192B75
-	for <sashiko@lists.linux.dev>; Mon, 20 Apr 2026 04:36:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 307A5212D7C
+	for <sashiko@lists.linux.dev>; Mon, 20 Apr 2026 05:52:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776659783; cv=none; b=TQ5oSnHZqfFH1uvkKJbTVz+2Pli025eW4jzQCvXBkOjRFyZCGGmX2P1u9DUc+eARbxWGVQCcjUscCayQlTf7HYN5mlbggkvjzKh6g8sSjipuVdeM5OlIQ4cFNQS64EhayVz/NtW5iNTliOEljxD/5GX8w6LVYNMVXVOqK/v+FTM=
+	t=1776664371; cv=none; b=BjdYdDgBjkI3LndXMCh7kRgaic+licnKegDDJP8Yu6sojjCnd/dcgv9Uj3GKi0soJjhe3ZsIwfgr4LJHaLffbhTHxLzNrQA5ppj6aF2r4Gjyj7o1tQ5KiEQ3bxfaa5loWhqH+wRk90Gi1rYPI7/NllUrVukcyACVLfir2+mpSGU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776659783; c=relaxed/simple;
-	bh=eyUYTzQ0yFosHRs3osbsHNsFhMltBZmtIRP3PU/upBY=;
+	s=arc-20240116; t=1776664371; c=relaxed/simple;
+	bh=P9Ea85k2ipmaCPdLoOcKf9QW0R2Vs93tj4N1mcnC5xY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=n0EHe1Wg7pLaBNFIVmSQkeInEIWt+PWT2HQ0YiDkk2bR1CtIbGqxgGhT3UQA6XCS/J+54zPVMGI9nUFKchr226aLzjPXjZlceQqyIQqptGWj4GwyCcdV4lM71NOvBXmSniA+Cm5Gbfat0eqEFht1UZqbQ8oVeDDYqdY1kwAsEHg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Lfk8Gy7X; arc=none smtp.client-ip=91.218.175.177
+	 In-Reply-To:Content-Type; b=l+u5qriYH02Tfe4gT5yonYv/y3djZdkkUul0Zpbs6JtKhhWGlcoRdhqJWfOT/Mmy1kAFUAmtINL/nzNJbi5m/+jtMSrZJ4bEmjVL1AfPPhWu69oI1I7QobxAJ2aXkAxe/BdRZIWEcfVd3ZELnBnrlgv8yOG/gWRr6zvpilYoM14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=rLJJbVJc; arc=none smtp.client-ip=95.215.58.189
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Lfk8Gy7X"
-Message-ID: <961513ff-b3ba-4d27-b568-071a7c68e53f@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="rLJJbVJc"
+Message-ID: <c1ea0f04-f902-4f6c-9249-3348f729f0cc@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1776659778;
+	t=1776664366;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=X0tTM2sUcINSVv15KHtbAB/XUomP/HDb/mEQI/jpSI8=;
-	b=Lfk8Gy7Xb0gZNMUmCXUpxVTdTKXcouXZsyxg02xvG4NsnweO50MCdmwGIbj4teEw1SXBae
-	FFdijKn1wpp9ESbqcXnl2DQ+eX0ttPY5V32aMGprPkBIcdtN1jmLQXF28TxRMxoyiidJR+
-	AaFB/yYgVeVTD1VvHaeFuGNN9vo+EdI=
-Date: Sun, 19 Apr 2026 21:35:57 -0700
+	bh=+yuCXDIUaeRW08M8i0mkAdfDh//QKZbNWx3y/KuUFsQ=;
+	b=rLJJbVJcNdU5m/B0Xl5bpIH9526JGewXfXedwrky13TBEScWUhqfyvqePZtICRO/CNcvbF
+	CNHvJ9GC1ii99HV9uoTYuspEum1rKEHYSCvz8mPqQ6JrAw5Rtz994ixThZNwiAvm2PG2Ko
+	PXw8dG4sYszOjhEt2kkSMOX1CJ5HMRU=
+Date: Sun, 19 Apr 2026 22:52:22 -0700
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH bpf-next v6 07/17] bpf: Support stack arguments for bpf
- functions
+Subject: Re: [PATCH bpf-next v6 15/17] selftests/bpf: Add tests for BPF
+ function stack arguments
 Content-Language: en-GB
 To: sashiko@lists.linux.dev
 Cc: bpf@vger.kernel.org
-References: <20260419163352.734115-1-yonghong.song@linux.dev>
- <20260419191516.44EA1C2BCAF@smtp.kernel.org>
+References: <20260419163435.740110-1-yonghong.song@linux.dev>
+ <20260419171509.541CBC2BCAF@smtp.kernel.org>
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Yonghong Song <yonghong.song@linux.dev>
-In-Reply-To: <20260419191516.44EA1C2BCAF@smtp.kernel.org>
+In-Reply-To: <20260419171509.541CBC2BCAF@smtp.kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Migadu-Flow: FLOW_OUT
 
 
 
-On 4/19/26 12:15 PM, sashiko-bot@kernel.org wrote:
+On 4/19/26 10:15 AM, sashiko-bot@kernel.org wrote:
 > Sashiko AI review found 3 potential issue(s):
-> - [Critical] Missing precision tracking for stack arguments (`BPF_REG_PARAMS` / `r11`) leads to incorrect verifier state pruning and arbitrary out-of-bounds memory access.
-> - [Medium] `BPF_PROG_TYPE_EXT` (freplace) programs are incorrectly rejected when targeting static subprograms with more than 5 arguments.
-> - [Low] `stack_arg_safe()` strictly compares `stack_arg_depth`, preventing safe paths from being pruned and leading to state explosion.
+> - [Medium] The `test_async_cb_many` test uses an extremely short `usleep(50)` to wait for a BPF timer callback to execute, leading to potential flakiness.
+> - [Low] The block comment for `global_two_callees` incorrectly refers to the function as `bar`.
+> - [Low] The `bpf_iter_testmod_seq_next` kfunc is incorrectly declared with an `int *` return type in `stack_arg_kfunc.c`.
 > --
 >
-> commit 0c58d1bb907c4a6a387f1afd22baae9d43e95a55
+> commit 63c1c9ef99d02448833e84a39ecb212ccaaf5b80
 > Author: Yonghong Song <yonghong.song@linux.dev>
-> Subject: bpf: Support stack arguments for bpf functions
 >
-> This commit introduces support for passing more than 5 arguments to BPF
-> subprograms by using a dedicated stack area accessed via register r11.
-> It tracks these stack arguments separately from the regular stack to ensure
-> proper verification and pruning.
+> selftests/bpf: Add tests for BPF function stack arguments
+>      
+> This commit adds selftests covering stack argument passing for both BPF-to-BPF
+> subprog calls and kfunc calls with more than 5 arguments.
 >
-> Link: https://github.com/llvm/llvm-project/pull/189060
->
->> diff --git a/kernel/bpf/states.c b/kernel/bpf/states.c
->> index 8478d2c6ed5b6..235841d23fe3f 100644
->> --- a/kernel/bpf/states.c
->> +++ b/kernel/bpf/states.c
+>> diff --git a/tools/testing/selftests/bpf/prog_tests/stack_arg.c b/tools/testing/selftests/bpf/prog_tests/stack_arg.c
+>> new file mode 100644
+>> index 0000000000000..d61bac33f8092
+>> --- /dev/null
+>> +++ b/tools/testing/selftests/bpf/prog_tests/stack_arg.c
 > [ ... ]
->> @@ -838,6 +838,44 @@ static bool stacksafe(struct bpf_verifier_env *env, struct bpf_func_state *old,
->>   	return true;
->>   }
->>   
->> +/*
->> + * Compare stack arg slots between old and current states.
->> + * Outgoing stack args are path-local state and must agree for pruning.
+>
+>> +static void test_async_cb_many(void)
+>> +{
+>> +	struct stack_arg *skel;
+>> +
+>> +	skel = stack_arg__open();
+>> +	if (!ASSERT_OK_PTR(skel, "open"))
+>> +		return;
+>> +
+>> +	if (!skel->rodata->has_stack_arg) {
+>> +		test__skip();
+>> +		goto out;
+>> +	}
+>> +
+>> +	if (!ASSERT_OK(stack_arg__load(skel), "load"))
+>> +		goto out;
+>> +
+>> +	run_subtest(skel->progs.test_async_cb_many_args, 0);
+>> +
+>> +	/* Wait for the timer callback to fire and verify the result.
+>> +	 * 10+20+30+40+50+60+70+80 = 360
+>> +	 */
+>> +	usleep(50);
+>> +	ASSERT_EQ(skel->bss->timer_result, 360, "timer_result");
+> Is 50 microseconds enough time to reliably wait for the timer callback to
+> execute?
+>
+> In CI environments or heavily loaded virtualization systems, might the
+> scheduling and softirq execution be delayed by more than a fraction of a
+> millisecond? If the timer does not fire in exactly that short window, the
+> test would incorrectly read a timer_result of 0 and fail.
+>
+> Would it be more robust to use a polling loop or a significantly larger
+> timeout to avoid flaky tests?
+
+I am using the same 'usleep(50)' in prog_tests/timer.c:
+
+         timer__detach(timer_skel);
+
+         usleep(50); /* 10 usecs should be enough, but give it extra */
+         /* check that timer_cb1() was executed 10+10 times */
+	...
+
+So I think 50 us should be okay.
+
+>
+> [ ... ]
+>
+>> diff --git a/tools/testing/selftests/bpf/progs/stack_arg.c b/tools/testing/selftests/bpf/progs/stack_arg.c
+>> new file mode 100644
+>> index 0000000000000..8c198ee952ff4
+>> --- /dev/null
+>> +++ b/tools/testing/selftests/bpf/progs/stack_arg.c
+> [ ... ]
+>
+>> +/* bar calls foo1 (3 stack args) and foo2 (5 stack args).
+>> + * The outgoing stack arg area is sized for foo2 (the larger callee).
+>> + * Stores for foo1 are a subset of the area used by foo2.
+>> + * Result: foo1(1,2,3,4,5,6,7,8) + foo2(1,2,3,4,5,6,7,8,9,10) = 36 + 55 = 91
+>> + *
+>> + * Pass a-e through so the compiler can't constant-fold the stack args away.
 >> + */
->> +static bool stack_arg_safe(struct bpf_verifier_env *env, struct bpf_func_state *old,
->> +			   struct bpf_func_state *cur, struct bpf_idmap *idmap,
->> +			   enum exact_level exact)
->> +{
->> +	int i, nslots;
+>> +__noinline int global_two_callees(int a, int b, int c, int d, int e)
+> This isn't a bug, but the comment refers to a function named bar, while the
+> function being described is actually named global_two_callees.
+
+Thanks. Will fix.
+
+>
+> [ ... ]
+>
+>> diff --git a/tools/testing/selftests/bpf/progs/stack_arg_kfunc.c b/tools/testing/selftests/bpf/progs/stack_arg_kfunc.c
+>> new file mode 100644
+>> index 0000000000000..6cc404d578639
+>> --- /dev/null
+>> +++ b/tools/testing/selftests/bpf/progs/stack_arg_kfunc.c
+> [ ... ]
+>
+>> +#if defined(__TARGET_ARCH_x86) && defined(__BPF_FEATURE_STACK_ARGUMENT)
 >> +
->> +	if (old->incoming_stack_arg_depth != cur->incoming_stack_arg_depth)
->> +		return false;
+>> +const volatile bool has_stack_arg = true;
 >> +
->> +	/* Compare both incoming and outgoing stack arg slots. */
->> +	if (old->stack_arg_depth != cur->stack_arg_depth)
->> +		return false;
-> Does this strict comparison of stack_arg_depth prevent safe paths from
-> being pruned?
->
-> Since stack_arg_depth tracks the allocated capacity rather than the
-> active outgoing arguments tracked by out_stack_arg_mask, two branches
-> that call subprograms with different stack argument requirements might
-> end up with permanently different stack_arg_depth values.
->
-> Could this unnecessarily increase verification complexity by failing to
-> prune functionally equivalent states?
-
-You are right. We should not compare stack_arg_depth, which is not tracking
-arguments. The out_stack_arg_mask is the correct way to do comparison.
-
->
-> [ ... ]
->> diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
->> index 6aa4dc161a563..78c9322870a51 100644
->> --- a/kernel/bpf/verifier.c
->> +++ b/kernel/bpf/verifier.c
-> [ ... ]
->> +static int check_stack_arg_write(struct bpf_verifier_env *env, struct bpf_func_state *state,
->> +				 int off, int value_regno)
->> +{
->> +	int max_stack_arg_regs = MAX_BPF_FUNC_ARGS - MAX_BPF_FUNC_REG_ARGS;
-> [ ... ]
->> +	state->out_stack_arg_mask |= BIT(idx);
->> +	return 0;
->> +}
+>> +struct bpf_iter_testmod_seq {
+>> +	u64 :64;
+>> +	u64 :64;
+>> +};
 >> +
->> +/*
->> + * Read a value from the incoming stack arg area.
->> + * off is a positive offset from r11 (e.g. +8 for arg6, +16 for arg7).
->> + * Callers ensure off > 0, 8-byte aligned, and size is BPF_REG_SIZE.
->> + */
->> +static int check_stack_arg_read(struct bpf_verifier_env *env, struct bpf_func_state *state,
->> +				int off, int dst_regno)
->> +{
-> [ ... ]
->> +	if (is_spillable_regtype(arg->type))
->> +		copy_register_state(&cur->regs[dst_regno], arg);
->> +	else
->> +		mark_reg_unknown(env, cur->regs, dst_regno);
->> +	return 0;
->> +}
-> Should check_stack_arg_read() and check_stack_arg_write() call
-> bpf_push_jmp_history() with the INSN_F_STACK_ACCESS flag?
->
-> When the callee uses a stack argument in a context requiring precision,
-> backtracking is initiated. Because the INSN_F_STACK_ACCESS flag is
-> missing, backtrack_insn() might silently return 0. This clears the
-> destination register without propagating the precision requirement to
-> the stack slot.
->
-> Could this cause the verifier to incorrectly prune execution paths
-> containing different, potentially unsafe scalar values, allowing
-> programs to bypass verifier bounds checks and perform arbitrary
-> out-of-bounds accesses? Note that the subsequent patch that tracks
-> r11 registers in const_fold and liveness does not address this
-> backtracking logic.
+>> +extern int bpf_iter_testmod_seq_new(struct bpf_iter_testmod_seq *it, s64 value, int cnt) __ksym;
+>> +extern int *bpf_iter_testmod_seq_next(struct bpf_iter_testmod_seq *it) __ksym;
+> Does bpf_iter_testmod_seq_next() actually return an int pointer?
 
-Yes, you are right. I will think of how to get backtracking work
-for check_stack_arg_read() and check_stack_arg_write().
+This one
+	+extern int *bpf_iter_testmod_seq_next(struct bpf_iter_testmod_seq *it) __ksym;
+is dead code. Will remove.
 
 >
-> [ ... ]
->> @@ -18808,7 +19097,7 @@ static int do_check_common(struct bpf_verifier_env *env, int subprog)
->>   				goto out;
->>   			}
->>   		}
->> -		for (i = BPF_REG_1; i <= sub->arg_cnt; i++) {
->> +		for (i = BPF_REG_1; i <= min_t(u32, sub->arg_cnt, MAX_BPF_FUNC_REG_ARGS); i++) {
->>   			arg = &sub->args[i - BPF_REG_1];
->>   			reg = &regs[i];
-> For freplace programs targeting static subprograms with more than 5
-> arguments, do we need to initialize state->frame[0]->incoming_stack_arg_depth
-> here or allocate stack_arg_regs?
+> Looking at the corresponding kfunc definition in bpf_testmod.c, the function
+> appears to return an s64 pointer. Although this function isn't actively called
+> in this test file (which prevents a BTF verifier failure here), could the
+> mismatched return type declaration cause confusion or subtle issues in the
+> future?
 >
-> Currently it seems to only initialize arguments up to MAX_BPF_FUNC_REG_ARGS.
-> If incoming_stack_arg_depth remains 0, an EXT program attempting to read
-> its 6th argument via BPF_REG_PARAMS would fail verification in
-> check_stack_arg_read() with -EACCES.
-
-For freplace, considering the patch set is always very big, I would like
-to delay this. I will add a check for freplace. If it has more than 5
-parameters, will cause verification failure.
 
