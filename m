@@ -1,72 +1,72 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CDC1288C96
-	for <sashiko@lists.linux.dev>; Tue, 21 Apr 2026 17:45:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 388BF3630B2
+	for <sashiko@lists.linux.dev>; Tue, 21 Apr 2026 18:32:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776793526; cv=none; b=uJo2g7xEcswXykYnpRlRZJ1lJp8x8OtLmntkGiGBFaLSG/LhA4HYUzRKmVMCGsZYWb3DB6MAlLMFOFESDtQNx1Y4Ki2RnTDE3I4mORAFLlaM5lrzGBAZjWfDwjHuCVjFW5bjUSlA0YupKOS5HrCjIegL4KsnGsI9E+VMMJEhYOE=
+	t=1776796329; cv=none; b=oG5BQu065PeS5L3QmcJE19zOnPjD4Fwz4puuq4NAAGjCia+c9UlkEmvJ+o1NQFrQjqzs/JT2yGhib+3xg0gydM093VXgkZEteHBWU41b+4MRtrWUF6vw83BZkbdDhqK9AXc+rapEEDYosQP0OE7nQkdBLO11WjsJxf9sRshzUYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776793526; c=relaxed/simple;
-	bh=07D5qQ3MlVLPTytT7je/PastuYKfwOSM10P5ukGmRlw=;
+	s=arc-20240116; t=1776796329; c=relaxed/simple;
+	bh=ij+QIHpFUQyZIYh8EZt9NenTS4afIzL27SdoH8Ox4Ck=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=gRu6dXCZ4AX3gl5xgsqB2SX/pVBg7i5TOvXzQI11CoaWpkVSFVjvEz4SikjasuRAQnzEnqYmcVil9UoJH3OXCxoxPrAPqy2MzD/Mp/1YDcES29sH3Ix8z2w/585YXQpfAmw9i2hq9w7Wk/3+J3ulset9IFMyqyD9VyaoPp++hw4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FaTMB/Se; arc=none smtp.client-ip=209.85.216.42
+	 Content-Type:MIME-Version; b=YPwqohzy+HjxNhDL2hR0c0NzZBY4iEhVhSe/tnFAxItj2+fQymAcfUhnEhkSM9LMqHomDfpRqN/Mwi8ggh1LOWGjfjooCXYlh3RUKyBnMQbmejlHgfs6SrS3Bi+R8QCtYmdPF4tqpUomrcYr+KUgNheG1Vvkh/dq0dHauYDjmRc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SlHRhZO6; arc=none smtp.client-ip=209.85.216.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FaTMB/Se"
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-35fbca04006so2410642a91.1
-        for <sashiko@lists.linux.dev>; Tue, 21 Apr 2026 10:45:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SlHRhZO6"
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-358d80f60ccso2665356a91.3
+        for <sashiko@lists.linux.dev>; Tue, 21 Apr 2026 11:32:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776793523; x=1777398323; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1776796321; x=1777401121; darn=lists.linux.dev;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=NwpF8t+abMZj+EQm51CmZvoY6FlIKBZ/iPBcnwzM688=;
-        b=FaTMB/SeHCPODVC5mq1YWz+VHVJf9Vwb5Al45puoBEg0nYsxUy4+6yKUHG5/2us61U
-         XaxoEuTxycBvlVvL4TpyIEaZ5zvveJXGXr59HggXzOs126tIkcCYhajfNIJ+r6h0nJ8t
-         fYfea4zCCYEH9nisjwUBAWeDFNu9iwsjSGTXoldKz7nSwryUqT/pqZeqwrayuyzbNbvE
-         7fFoB0PKvqq+sXG+836Utu/epa6C1SkNqTwMp2/if6ionU1kqFYvW0IbhZnk1ITA6Qrt
-         QDT7AlOF8sZyXNjsjusZtAuutbyrGltHIh5Uq/poV5RqeXibL71hYNsYh1PMNDJRVgsL
-         Z7fw==
+        bh=lK7+3C2uByBRR9Frq1UsNZvguw0WhkY54cekKawpE+o=;
+        b=SlHRhZO6LLRMhOAXZRWieVlHBijbZ4u0ZV0yaj3C7umBjqrEb9bx8FMWzbJPlI/ajR
+         De7YDD7/6dPSJSFcROhg9ITiuF7JbshIP/VFokLH8xYHhbFprYuXWoVqg8T8GIRJArkP
+         s8vyBqlH2qB7pss+Mg2GZJfQmuoxvGUj17Tzgdn1e009G2g6+ACV9ojppOc+RJw+2BDn
+         mt9ZY/PDMMM97EbIbwNzo0/7EZmPjVQWeu8DgrhM8vmMLoVrNKnIs/PSRdGllm6iuUBv
+         vOGrhYAXSx6XRUvnzz4p0qyqsb2LtIbFW//0s9SnfUcOYzesyAfvKvDWEEMzIqKecnxc
+         RTuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776793523; x=1777398323;
+        d=1e100.net; s=20251104; t=1776796321; x=1777401121;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NwpF8t+abMZj+EQm51CmZvoY6FlIKBZ/iPBcnwzM688=;
-        b=Mt2mXByVijrx0rNmfUj9D8t1yF4kKr6lmiXEIa/ta9LVC2bjrR+9/s7scoT3gcGVRH
-         zzshYjs8eRcavxBFkOAZmQipHo7fTfTZPv5rXsMytLVHOZr2p58NX5Ccrvj8C6h/vN70
-         VFr2aiShhte8A6Yo4olLmi1GRVzRtdjie/4fsOhAz1mj0/2zcuQHJp2wtaFm8wJ78dwp
-         rM6BEnWq4jbpZuL6+OUQ4+L3nso9NHbHY4XZ4gCruVe7WnfWWMWpUJeY1i0HvHp/1g04
-         EtECEDoqRzXhDlKBBomlD4qmC6j/YXl4QlLW+0xB1azEvh9CZPauvG22SnD1yluSUqLC
-         Jgmw==
-X-Gm-Message-State: AOJu0YxjS3LcpVhxD01It7AiidQVL/+LloxaIQRdF37EdRL3fl7rWTFd
-	0cBfywGxgH4Qdp0AYYPZdz5GoeIOpFrwoIb8qFkJz0BSSJY0cwBZd9UDlE975/8S
-X-Gm-Gg: AeBDievvSmD+RNHJyqD6dylgUfH0GrMHNnG9mSOgUrj2nxYs4Wm+YykKJaQwi4rH9Px
-	onTnkpMHWym8LSE1WRPjasoAnu9btE35XUbJFEmQg7hv9SYeL/mnyn0HL1ZmITu6LYvrggOsZwY
-	Yewj6PSx8mS+sulkhQH1PbRg/zCtHXbKuGwrG3hgelYCJGPak1IZqkqP6QfMcZzftdopJlNFBtd
-	XtW3Xo0I/rcIV5H0QRik8tGBrxbqCi3OoKCDkRkQXbJnAMLuV0aVcRB0D0SJNQ8CWSN9a1AktWq
-	ka75SqVhL3Ax8xup6wSFHWnlF7WwKsNeodogOhnHk32HfVFBJxvACIf3xiyZZ9xASxRvt/SUqvE
-	RzdNKe7oTMxhZw5865xwuZtViFQA8vl/I/JxL3xXrqkZljO1sBJ5vTV7BuURIUgPMAfNV/Tcu/a
-	HQPOX7k1plYWa9NFWzds/wrEv2xX/hdQmu1yOnwQUSc6XinRvkdmoQc6zMpEKK0Gs=
-X-Received: by 2002:a17:90a:da8c:b0:35e:581c:6bca with SMTP id 98e67ed59e1d1-361403ca597mr19610737a91.3.1776793522488;
-        Tue, 21 Apr 2026 10:45:22 -0700 (PDT)
+        bh=lK7+3C2uByBRR9Frq1UsNZvguw0WhkY54cekKawpE+o=;
+        b=rH61FmiHbvpqn4o7YAVXJDmC3LELlYYrZKgRxhjOX4eLhmeQc71B9iYgnNNaabYLjS
+         K9GOlP0aWrxembEM7jaP31lMHHD59/IR5vlfqSfPhaHdd5Tvd0/r6gDXjyFJXzyLXokY
+         tAZfgPOflenpsxV7mytsvpTYWGZ/m0ihrrEjS+bVBsNiOpNwXxhPf6DY8eSmgjla8twV
+         eh/oyjw8iKCOGECEG0ydbBOzg/PTn522g27qQVrW9PDndWFkt+R6rOFK3RevuV/D2d/R
+         WZl9kSPnKArvXdy2Ekp2H4F5PuYzsJ8UfoOWVPBkic/vH2s2+sdeyNGdf0fp6ZIeeI9h
+         PicQ==
+X-Gm-Message-State: AOJu0Yx0OYPdeIr5YN1fzZheZ735klko8ao8rSf0k0Rri1Ep7GDsqKsh
+	vG4UxfpeTQ+KyiR/dvn2eKkzJcHX1WTOv3IeOwPZe2iYYspMPedst5z8D2ipnIf9
+X-Gm-Gg: AeBDieve0kdOFn5OFoa+j9fPABhGQcWMhS0+oZC/YQmOKNpnEvPpJ9oSaLQrjsWUPFL
+	i7xegZAYDes4alCO2Zd9nqoZTHabjt3SHe6FsYMEKIzQnPo4fBUP3mTmb8A1qa2xzSCt/ji5DZw
+	tLNKFR7lkCkbyr9WqsXzPsCFaj0ZTsPf7UVattQmdp55CHgt9FQRJHuUWZgLb5lsyfiz2/m3wpP
+	ST1sNQlBkapIfHz7zNeDi7/yVldu2FJzVHbdb1jtOh2i2wp+ym8Wt7Yg9UKSw8fOIjQNsaqsdKA
+	26KaVcuLQStktD6GfOrReAAv6Z3rwriSuBVg3Pa/04Z/XSZ3bZjJ9tGzEIe1en3MV7nqfX+ODfR
+	VZ1HPhpyg8GIlKtodS8nipjnxWJv/YCmEPO8ALaCZOGpmwuJu1LrjkGCiwMKKNCsuLgH7uxZ70f
+	iT+qFi7p6uybHA/NxCK0KewtZ3bE/y/Fq7L96jnbhA2S3tma9WsQzB/UK4EfvDUk8=
+X-Received: by 2002:a17:90b:2e45:b0:35b:e4f8:7cc7 with SMTP id 98e67ed59e1d1-36140473f8amr18060116a91.17.1776796321078;
+        Tue, 21 Apr 2026 11:32:01 -0700 (PDT)
 Received: from [192.168.0.226] ([38.34.87.7])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-36140fc575bsm14409277a91.4.2026.04.21.10.45.21
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-362bbf963c9sm4437875a91.16.2026.04.21.11.32.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Apr 2026 10:45:22 -0700 (PDT)
-Message-ID: <c8eca067d7cc8a3c514d41591a5ff2ab766cbe1e.camel@gmail.com>
-Subject: Re: [PATCH RFC bpf-next 1/4] bpf: representation and basic
- operations on circular numbers
+        Tue, 21 Apr 2026 11:32:00 -0700 (PDT)
+Message-ID: <273f0062e24d927208c46da5b0a323067ab876e0.camel@gmail.com>
+Subject: Re: [PATCH RFC bpf-next 3/4] bpf: replace min/max fields with
+ struct cnum{32,64}
 From: Eduard Zingerman <eddyz87@gmail.com>
 To: sashiko@lists.linux.dev
 Cc: bpf@vger.kernel.org
-Date: Tue, 21 Apr 2026 10:45:19 -0700
-In-Reply-To: <20260421171830.3881BC2BCB5@smtp.kernel.org>
-References: <20260421-cnums-everywhere-rfc-v1-v1-1-8f8e98537f48@gmail.com>
-	 <20260421171830.3881BC2BCB5@smtp.kernel.org>
+Date: Tue, 21 Apr 2026 11:31:57 -0700
+In-Reply-To: <20260421180631.B0A44C2BCB0@smtp.kernel.org>
+References: <20260421-cnums-everywhere-rfc-v1-v1-3-8f8e98537f48@gmail.com>
+	 <20260421180631.B0A44C2BCB0@smtp.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
@@ -77,158 +77,68 @@ List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 
-On Tue, 2026-04-21 at 17:18 +0000, sashiko-bot@kernel.org wrote:
-> Sashiko AI review found 4 potential issue(s):
-> - [Critical] `FN(cut)` emits wrapped chunks causing `FN(mk_mul_u)` to com=
-pute unsound narrow bounds.
-> - [Critical] `cnum32_from_cnum64()` can return a struct mathematically eq=
-uivalent to the `CNUM32_EMPTY` sentinel.
-> - [High] Unconditional use of `__int128` breaks compilation on 32-bit arc=
-hitectures.
-> - [Medium] Missing emptiness checks in `cnum64_cnum32_intersect` and `cnu=
-m32_from_cnum64` resurrect unreachable states.
+On Tue, 2026-04-21 at 18:06 +0000, sashiko-bot@kernel.org wrote:
+> Sashiko AI review found 1 potential issue(s):
+> - [High] Incorrect range constructor used for BPF_JSLT (signed less-than)=
+, causing verifier soundness issues.
 > --
->=20
-> commit 5ab536543671bb2cd6865196d88e96f87d1e7888
+>
+> commit 1fb11732c3d626f4a1777699934aa05d07b7eb56
 > Author: Eduard Zingerman <eddyz87@gmail.com>
->=20
-> bpf: representation and basic operations on circular numbers
->=20
-> This commit introduces cnum32 and cnum64 representations for unified
-> signed and unsigned numeric ranges in the BPF verifier. It includes
-> functions for intersection, multiplication, and range conversion to
-> refine bounds deductions.
->=20
-> Link: https://lore.kernel.org/all/ZTZxoDJJbX9mrQ9w@u94a/
-> Link: https://jorgenavas.github.io/papers/ACM-TOPLAS-wrapped.pdf
-> Link: https://github.com/eddyz87/cnum-verif/tree/master
->=20
-> > diff --git a/kernel/bpf/cnum.c b/kernel/bpf/cnum.c
-> > new file mode 100644
-> > index 0000000000000..38a805a6fc2a9
-> > --- /dev/null
-> > +++ b/kernel/bpf/cnum.c
+>
+> bpf: replace min/max fields with struct cnum{32,64}
+>
+> This commit replaces the independent s64, u64, s32, and u32 min/max field=
+s in
+> bpf_reg_state with two circular number fields, cnum64 and cnum32. It also
+> refactors how bounds deductions are performed and updates conditional bra=
+nch
+> refinements to use circular numbers for set intersections.
+>
+> > diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
+> > index 2e896f5d92a2d..90ed32f064650 100644
+> > --- a/kernel/bpf/verifier.c
+> > +++ b/kernel/bpf/verifier.c
+>
 > [ ... ]
-> > +struct cnum32 cnum32_from_cnum64(struct cnum64 cnum)
-> > +{
->=20
-> Are we missing a check for empty inputs here? If an empty 64-bit range is
-> passed, does this code convert it directly into an unbounded 32-bit range=
-?
->=20
-> > +	if (cnum.size > U32_MAX)
-> > +		return (struct cnum32){ .base =3D 0, .size =3D U32_MAX };
-> > +	else
-> > +		return (struct cnum32){ .base =3D (u32)cnum.base, .size =3D cnum.siz=
-e };
-> > +}
->=20
-> Could this else branch return a value mathematically identical to the
-> CNUM32_EMPTY sentinel?
-
-This is a valid point, but it won't be hit in practice:
-the function is called in reg_bounds_sync() and empty inputs are
-short-circuited there.
-
->=20
-> If a valid 64-bit range has a size of U32_MAX and a base ending in
-> 0xFFFFFFFF, this would return { .base =3D 0xFFFFFFFF, .size =3D 0xFFFFFFF=
-F }.
-> Would the verifier then incorrectly assume this code path is dead and
-> prune it?
->=20
+>
+> > @@ -15861,38 +15209,54 @@ static void regs_refine_cond_op(struct bpf_re=
+g_state *reg1, struct bpf_reg_state
+>
 > [ ... ]
-> > +struct cnum64 cnum64_cnum32_intersect(struct cnum64 a, struct cnum32 b=
-)
-> > +{
->=20
-> Does this function need to verify if the input ranges are empty before
-> operating on them? If the variable a is empty, could the arithmetic below
-> return a non-empty, garbage range, effectively resurrecting dead code pat=
-hs?
+>
+> >  	case BPF_JSLT:
+> >  		if (is_jmp32) {
+> > -			reg_set_srange32(reg1, reg_s32_min(reg1), min(reg_s32_max(reg1), re=
+g_s32_max(reg2) - 1));
+> > -			reg_set_srange32(reg2, max(reg_s32_min(reg1) + 1, reg_s32_min(reg2)=
+), reg_s32_max(reg2));
+> > +			lo32 =3D cnum32_from_urange(S32_MIN, reg_s32_max(reg2) - 1);
+> > +			hi32 =3D cnum32_from_urange(reg_s32_min(reg1) + 1, S32_MAX);
+> > +			reg1->r32 =3D cnum32_intersect(reg1->r32, lo32);
+> > +			reg2->r32 =3D cnum32_intersect(reg2->r32, hi32);
+> >  		} else {
+> > -			reg_set_srange64(reg1, reg_smin(reg1), min(reg_smax(reg1), reg_smax=
+(reg2) - 1));
+> > -			reg_set_srange64(reg2, max(reg_smin(reg1) + 1, reg_smin(reg2)), reg=
+_smax(reg2));
+> > +			lo =3D cnum64_from_urange(S64_MIN, reg_smax(reg2) - 1);
+> > +			hi =3D cnum64_from_urange(reg_smin(reg1) + 1, S64_MAX);
+> > +			reg1->r64 =3D cnum64_intersect(reg1->r64, lo);
+> > +			reg2->r64 =3D cnum64_intersect(reg2->r64, hi);
+> >  		}
+> >  		break;
+>
+> Are the unsigned range constructors cnum32_from_urange() and
+> cnum64_from_urange() correct to use here for a signed less-than compariso=
+n?
+>
+> Passing S32_MIN and S64_MIN into the unsigned constructors might cause th=
+em to
+> evaluate min > max, resulting in invalid or empty ranges being intersecte=
+d with
+> the registers. Should these use cnum32_from_srange() and cnum64_from_sran=
+ge()
+> like the BPF_JSLE case does?
 
-Here as well, a valid point, but does not happen with current verifier
-structure.
-
-> > +	/*
-> > +	 * To simplify reasoning, rotate the circles so that [virtual] a1 sta=
-rts
-> > +	 * at u32 boundary, b1 represents b in this new frame of reference.
-> > +	 */
-> > +	struct cnum32 b1 =3D { b.base - (u32)a.base, b.size };
-> [ ... ]
-> > diff --git a/kernel/bpf/cnum_defs.h b/kernel/bpf/cnum_defs.h
-> > new file mode 100644
-> > index 0000000000000..28dcb79ba6950
-> > --- /dev/null
-> > +++ b/kernel/bpf/cnum_defs.h
-> [ ... ]
-> > +#if T =3D=3D 32
-> > +#define ut2 u64
-> > +#define st2 s64
-> > +#define utt u32
-> > +#define stt s32
-> > +#define EMPTY CNUM32_EMPTY
-> > +#elif T =3D=3D 64
-> > +#define ut2 unsigned __int128
-> > +#define st2 signed __int128
->=20
-> Will the unconditional use of unsigned __int128 and signed __int128 break
-> compilation on 32-bit architectures? Since the BPF subsystem and verifier
-> are built on 32-bit kernels when CONFIG_BPF_SYSCALL is enabled, this
-> might cause widespread build failures.
->=20
-> > +#define utt u64
-> > +#define stt s64
-> > +#define EMPTY CNUM64_EMPTY
-> > +#else
-> > +#error "Unsupported T value, cannot define ut2/st2"
-> > +#endif
-> [ ... ]
-> > +static int FN(cut)(struct cnum_t a, struct cnum_t chunks[3])
-> > +{
-> > +	int ncuts =3D 0;
-> > +
-> > +	if (FN(srange_overflow)(a)) {
-> > +		chunks[ncuts++] =3D FN(from_urange)(a.base, ST_MAX);
-> > +		a =3D FN(from_urange)(ST_MIN, a.base + a.size);
-> > +	}
->=20
-> Can this splitting logic emit wrapped chunks that cause bound deductions
-> to underflow?
->=20
-> When an arc crosses both boundaries, this splits it first at ST_MAX. The
-> resulting first chunk crosses the unsigned boundary 0.
->=20
-> When passed to FN(mul_chunk) with a multiplier, it falls into the fallbac=
-k
-> branch utilizing FN(mk_mul_u):
->=20
-> static struct cnum_t FN(mk_mul_u)(utt a, utt b, utt c, utt d)
-> {
->         ut2 size =3D (ut2)c * d - (ut2)a * b;
->=20
-> Because the chunk wraps, its unsigned start is mathematically greater tha=
-n
-> its end. Does this cause the subtraction to severely underflow in unsigne=
-d
-> arithmetic, producing an artificially tight size that misses valid
-> runtime products?
-
-This might be an issue. However, it does not lead to unsound results,
-at-least in u8 domain [1,2].
-
-[1] https://github.com/eddyz87/cnum-verif/blob/arithm-ops/cbmc_helpers8.c
-[2] https://github.com/eddyz87/cnum-verif/blob/arithm-ops/main.c
-
-I'll this and post updated veristat results.
-
->=20
-> > +	if (FN(urange_overflow)(a)) {
-> > +		chunks[ncuts++] =3D FN(from_urange)(a.base, UT_MAX);
-> > +		a =3D FN(from_urange)(0, a.base + a.size);
-> > +	}
-> > +	chunks[ncuts++] =3D a;
-> > +	return ncuts;
-> > +}
-> [ ... ]
+This is a bug as well.
