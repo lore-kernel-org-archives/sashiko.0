@@ -1,139 +1,141 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54D3E331203
-	for <sashiko@lists.linux.dev>; Tue, 21 Apr 2026 08:55:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CBE4397E91
+	for <sashiko@lists.linux.dev>; Tue, 21 Apr 2026 08:55:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776761713; cv=none; b=bexL62H2cVowJ62yNNXubPYxqlJLhpMztgXPVD4szGWj0fnNZv2jgNBJyIScdoNLKMJVw1hRIATVP13a8RmcXbCSXL4RCRr3L0phdbv/5J88CaO7EIqFIwYlsTq7YmaHxNS+zMOE9OZSScHQnK66oEbaYeKDX0PXkiv4eLBll90=
+	t=1776761743; cv=none; b=sTzgBnx3BZiQEK2dpXl/HzCC6UGUmaK9UdrANOr5kU7jdwkKz6036tD6zOp2arcdBt+dCl/nA+W1G+EB2BuAZRHsPHPhFjV1TYAODST5y1MwiIasDpQ9+t81j3cluxk6fq6s4hkooEJXAOghZm7hAJCstKBYbtU08bY+JKol+gY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776761713; c=relaxed/simple;
-	bh=sjxMVwhX0uLBHov6ZrI/F9F6hKN9maMgZUi2QG+mzw0=;
+	s=arc-20240116; t=1776761743; c=relaxed/simple;
+	bh=6McYy461bijCUAFHC5l3ji/PR6N+L3vcGNyzVKEBb+o=;
 	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rjrJiF4tw37frJMV8pgTd3cg8b0CsIMnL/mVLez2pboHq+RZpVy2phRc9aIwY856tWx/8WDoc27R7kmc/jWa/OGagHWTKESVVuGCWUXHeV8FsbIlsrUr9ufO4UwotF6Zp22wWSU6uoL7LHBSPIdpmBMJxsb/I+SqsYZp8X/EN1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d5M3BIYd; arc=none smtp.client-ip=209.85.128.43
+	 Content-Type:Content-Disposition:In-Reply-To; b=jCwXUocyVUAcA7R/WCHhVH8awwR14vU38kJ7605VcBBRD82Qx6NM+cjI+auFMOIGbUXDWIXmh7njWA8B20pKPzl6neqxtke2LjjOVvOjIaja9ughRHPEIkgg6voQK1diTsMZz8jhc0IWIJmArWnOsUbk3R7z4+m0Bup0V9zPADA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qKXz90d4; arc=none smtp.client-ip=209.85.221.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d5M3BIYd"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-488a8ca4aadso54131345e9.3
-        for <sashiko@lists.linux.dev>; Tue, 21 Apr 2026 01:55:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qKXz90d4"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-441209fb77eso167604f8f.1
+        for <sashiko@lists.linux.dev>; Tue, 21 Apr 2026 01:55:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776761711; x=1777366511; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=y/ItaIqrOxq/1z3/TSoevbCzM41LSY3UwDzcgqamzWo=;
-        b=d5M3BIYdrbgOWbLlUbTkaSgkFg8ey3s2xe2lgEuUO96BNo0utjm2F4kDVt7Z4qAqBz
-         bZtvReZFiYAVPea/COW8wMIXCFmkQcm6rL5pDPcWYdS9GwC08yDuIZzwJU9ttP0/x9di
-         wRcMOwa7NLGfdJOf+IQKh4LjTt2bMys8alP7UPPh9oWfGm3el1yD62BnPo94UDARih0d
-         3V+TG02MZjFO37Wtt5nHP7m0vUzuBYirrl89WDxDoSdvdcFBRSJr2HJAO1OnSm1Dhy6Q
-         AiS6M1bERZ2QnWmn7ELdvwG/cTWySR4qV8QMpwlVK3WoAiRN6XjhUTmkUzuXrve7nUOO
-         v+3w==
+        d=gmail.com; s=20251104; t=1776761741; x=1777366541; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=+ddKnE6lkkUQV3xtljOGxMa6CIyS9sv5i2KFEzVc9Jc=;
+        b=qKXz90d4RlUf1EZMB87DQ3NdP/Za1HbBi29PZ6l5ViNmuKKN1DwHTZpmrnPgtf0SuL
+         ies7Mx086v28QF1YHisn9h6s3/y3fo99xleGyI4hKgckYWwt10AWKzNXJ6zcJ4MdLypI
+         RkOUmZBlWcdYqk7tbvoS2zF6yR8J43UkejONcsBQfl3w86c3nN434g8neziUKJwFd46G
+         wZgLWg9HQ2O/kEUK8KVgHS0onL4F7a27NLb9hdZUjaqSsIPDMUm9829dt0hU5JygrXWz
+         t9fxkmDvYNCzh1Kzmk5ZCL9EHJBsAksVOUJPWrEY7jCAvhj0FtDWoN6jPbTyzPbroR5/
+         k1nA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776761711; x=1777366511;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=y/ItaIqrOxq/1z3/TSoevbCzM41LSY3UwDzcgqamzWo=;
-        b=nfXj/nZz4PCymMIrmolZW/Gbzw4n8Nsqyu/Lu7uf8jR+0YHJfSapXM6FwjBLBw22NZ
-         VKov1e8uY1luW8HK04wfnbk/XbtAcKfvtBfssqizh4+4jBvFROUXrWfYhzPtbw1OxO7y
-         HZvPQIzu+kM4zvh2dX+2Xt0NCmFcJXkS0bJAiNHpbkfKHR2h8CFOd1+tX8s3vyLKBrqK
-         ig71+3AIQ/fXbu6owZjT7hhYv54Pm7qHsuqpvQO7Qt9r+bDytoVSypv9jW0o4U5waZQ4
-         Ci9E0ws4yO3syg1bMsUk7H4Qk8pEh7Nx+jr3tLAo8axS7zvL3OIOz13E6j8LJikhQvAy
-         6/Qw==
-X-Gm-Message-State: AOJu0Yy/9yEhAiHWo3vlifNwgpeKxJwnJ2frc6zdwwxsXGhDuacB5C2o
-	sdO1odz1/+0M2dQfP10KRvXtAJcvkzp1VcYauo0PXym5CXIcwdIcOpghYR0wuiV0
-X-Gm-Gg: AeBDieshXBvV3C4oUSuJRAYneoqzwu8+9raFCdyOKpo/ed+9In2ECsAX9BxulFnlODa
-	Kx4rsf0rmaOM/qctoZiLhOAWs4gKQr2Y/zJMBrgNFR4BFh2kr95pnca5yQl23WlEy2o9ytft3/J
-	V0PdVJiOvL3VDeO7FCIppjwEAnG6jhwObC4CYAhrM6XDB7tdUvMcf96tjryPcNMFhnjnKCwN0fK
-	yHBya5RHKih62LPhW1shQIle/FLmrIVlqpjBqlxeskKgO/5g1KiEEB/dFsNCT9V1hsuNbqgnAR4
-	v3VbzI6IePVS1JrXcZe0rZI8bE+CVVeIhcYsyM/XqTukx59dRfsYBvi3aLMROkaDHFyOt1dwwQG
-	nO2vyiqLsJq8VEv0dYjBM4fvQUF6ZebzJsdICJ3EudBn9fDQC6t/uSR0Y1WiB9JVSo8XF7mpcJa
-	U3iRDOrbA=
-X-Received: by 2002:a05:600c:890c:b0:487:1108:48af with SMTP id 5b1f17b1804b1-488fb7389a6mr192146365e9.4.1776761710590;
-        Tue, 21 Apr 2026 01:55:10 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1776761741; x=1777366541;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+ddKnE6lkkUQV3xtljOGxMa6CIyS9sv5i2KFEzVc9Jc=;
+        b=TAB8WJg+yYJ3kgICapgaALWTJth/SF2AQrcbkS54GgXy9pJJl+f9juDaMDpLDHkbtX
+         MOr6mvoUyhHrlWTvkS38bAy0RbGW+JEa6EcNGQSEBnNSg3NwPL/zHlJwZpG2eD+k4prk
+         hfIEIWIz23qHKuPXCHkyUiFr2cLEz1e6ACi8fnuYpvdmTtXu6vDBnu22811dAL+BVODz
+         dNYGh/zTSw/cCKaDqwyVs/m60pfsyf2RpuPKg+Os7KtVqAkRoYwtpD0089b+CEQ3/acS
+         Hdu9IGk+pzb3uIkQRmcu3Q5g1VijqrNUnRNGziDgfOXjNO7fkd9kohFU/A/7fSCoqXmq
+         RCQA==
+X-Gm-Message-State: AOJu0Yy0lGDQv3m3bNd2/ypxZrV0/wVLqbNdAWmZmPrH1sY4ZitCTmIP
+	Hofm0I9R+N+YynO6RzPIoqNegl9HM9jsI2sgH7uKv+viYNykmDN6+xuhM4aiD96y
+X-Gm-Gg: AeBDiese6x/ZInJ13zn2KVNEfBLQXi3ARqdjCXnGB7bEjkkb+415D8INQcUCc5b7HW1
+	P8s22MzpB+2++Asjgl5XEH2zpPVBs4/TyVNMHYFOvvWGHlfw3spqR94nV9G5x27vhghcynmB1Q8
+	Yxl3qCOCKpLQL+AukZS5bsvgpAl29PokfaomUz7t5o7mgNKlFnksnIYY9ZDch4oEZvA/0XAWTjr
+	MpMWbJ83BwWSSh8AO7lpJxI09xF2KF/TieIqdQy3UNGDmDoECFEJWIrQlmfOlaIXeKlz0DwH1kY
+	iGgoFXOV3ZBpazJIrga5V/5N/Gt1fbZNfiUcwx7t3P6KYABVSZK4KFJKLhkcC6yQa+iUXkOljpM
+	Us9TzswjTl+GlytJuN2lXZFDDpnrPyGoIADeTbSxgbj5XNQWEnKA7Z7MYYmSLlQJLthMGAM2W2V
+	KbwmA30xE=
+X-Received: by 2002:a5d:6f14:0:b0:43d:7086:b03 with SMTP id ffacd0b85a97d-43fe4032b76mr22123952f8f.1.1776761740677;
+        Tue, 21 Apr 2026 01:55:40 -0700 (PDT)
 Received: from krava ([2a02:8308:a00c:e200::d99c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a55dc9f58sm75178065e9.6.2026.04.21.01.55.10
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4c221cdsm35812714f8f.0.2026.04.21.01.55.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Apr 2026 01:55:10 -0700 (PDT)
+        Tue, 21 Apr 2026 01:55:40 -0700 (PDT)
 From: Jiri Olsa <olsajiri@gmail.com>
 X-Google-Original-From: Jiri Olsa <jolsa@kernel.org>
-Date: Tue, 21 Apr 2026 10:55:08 +0200
+Date: Tue, 21 Apr 2026 10:55:38 +0200
 To: sashiko@lists.linux.dev
 Cc: bpf@vger.kernel.org
-Subject: Re: [PATCHv5 bpf-next 04/28] bpf: Use mutex lock pool for bpf
- trampolines
-Message-ID: <aec7bAbGlnEo3R1g@krava>
-References: <20260417192502.194548-5-jolsa@kernel.org>
- <20260418035227.168AEC19424@smtp.kernel.org>
+Subject: Re: [PATCHv5 bpf-next 10/28] bpf: Add multi tracing attach types
+Message-ID: <aec7isklARy8JbqP@krava>
+References: <20260417192502.194548-11-jolsa@kernel.org>
+ <20260418040909.5F3B7C19424@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20260418035227.168AEC19424@smtp.kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260418040909.5F3B7C19424@smtp.kernel.org>
 
-On Sat, Apr 18, 2026 at 03:52:26AM +0000, sashiko-bot@kernel.org wrote:
+On Sat, Apr 18, 2026 at 04:09:08AM +0000, sashiko-bot@kernel.org wrote:
 > Sashiko AI review found 2 potential issue(s):
-> - [High] False sharing in the shared mutex pool causes spurious `mutex_trylock` failures, leading to random `-EAGAIN` errors and trampoline state corruption.
-> - [Medium] The `trampoline_locks` mutex pool is initialized in `late_initcall`, creating an uninitialized lock hazard for early boot BPF usage.
+> - [High] FENTRY_MULTI and FEXIT_MULTI programs can bypass verifier bounds checks and read out-of-bounds kernel stack memory by directly accessing the `ctx` array.
+> - [High] bpf_multi_func lacks the __used attribute, causing it to be optimized out by Clang LTO, which completely breaks the feature at runtime.
 > --
 > 
-> Note: Due to system recitation restrictions, the standard inline-quoted
-> patch format has been altered. The findings are summarized below in a
-> free-form format without direct code quotes.
+> Note: The format of this review has been altered due to system recitation
+> restrictions. Direct quoting of the patch diff has been omitted, and the
+> findings are provided as a free-form summary.
 > 
-> commit 8bee21cb8aa45a6b2275c87c16fbbd2fd1953e75
+> commit ca84efa8f86b1acb8cf0bd98e80446dbd7c92e12
 > Author: Jiri Olsa <jolsa@kernel.org>
+> Subject: bpf: Add multi tracing attach types
 > 
-> bpf: Use mutex lock pool for bpf trampolines
+> This commit introduces new multi-tracing attach types BPF_TRACE_FENTRY_MULTI
+> and BPF_TRACE_FEXIT_MULTI, along with base verifier support. It uses a dummy
+> function bpf_multi_func for initial verification before the specific link
+> attachment happens.
 > 
-> This commit replaces the per-trampoline mutex with a 32-bucket static mutex
-> pool. This allows upcoming tracing_multi features to lock all involved
-> trampolines simultaneously without exceeding the maximum lock depth.
+> Can this approach lead to out-of-bounds kernel stack memory reads? 
 > 
+> Since the initial verification is done against bpf_multi_func, which is 
+> defined with 6 arguments, the verifier will statically permit direct context 
+> accesses up to ctx[5] (and ctx[6] for the return value in FEXIT_MULTI). 
+> However, when the program is attached to a real function at runtime, the 
+> trampoline allocates the context array on the kernel stack based on the 
+> target function's actual argument count. 
 > 
-> In bpf_tramp_ftrace_ops_func(), mutex_trylock() is used on the selected
-> trampoline pool lock to avoid deadlocks with direct_mutex. Because multiple
-> trampolines now share the same lock, could this lead to spurious trylock
-> failures if an unrelated trampoline happens to hash to the same bucket?
-> 
-> If the trylock fails, the function returns -EAGAIN. Does this mean
-> concurrent ftrace or kprobe registrations might randomly fail due to false
-> sharing?
-> 
-> Also, when the upcoming tracing_multi feature locks all 32 mutexes at once,
-> wouldn't that deterministically abort any concurrent ftrace IPMODIFY
-> registrations system-wide?
-> 
-> Finally, if this trylock failure happens during unregistration, could ftrace
-> cleanup routines ignore the -EAGAIN, potentially leaving the
-> BPF_TRAMP_F_SHARE_IPMODIFY flag permanently set and corrupting the
-> trampoline state?
+> If the target function has fewer than 6 arguments, would reading ctx[5] read 
+> past the allocated context array and leak memory from the caller's stack 
+> frame? Additionally, would reading ctx[6] for the return value return 
+> unrelated stack memory instead of the actual return value, since the 
+> trampoline places the return value dynamically? Does the verifier need to 
+> explicitly reject direct memory accesses to the context array for these 
+> program types and enforce the use of bounds-checked helpers like 
+> bpf_get_func_arg()?
 
-need to process this one bit more, perhaps we could offload the
-BPF_TRAMP_F_SHARE_IPMODIFY unset update to defered work queue
-in case the trylock fails.. or something else
-
-in any case we need to make ipmodify and trampolines attach via multi
-link mutually exclusive, because we can't just update such trampolines
-with bpf_trampoline_update call
+ok, seems like we need to disable the direct access
 
 > 
+> Is it possible for Clang LTO to optimize out the bpf_multi_func function 
+> entirely? 
 > 
-> Regarding the pool initialization, the new trampoline_locks array is
-> initialized in init_trampolines(), which runs as a late_initcall.
+> The dummy function is defined without a __used or __attribute__((retain)) 
+> attribute, and the BTF_ID_LIST_GLOBAL_SINGLE macro only embeds the function 
+> name in an inline assembly section without generating a C-level reference. 
+> In kernel builds with Link Time Optimization enabled, could the compiler 
+> eliminate this function as dead code?
 > 
-> Since the static array resides in the bss section and is only zero-initialized
-> before this phase, what happens if early boot BPF components (like early BPF
-> LSM policies) try to attach or modify a trampoline before late_initcall?
-> 
-> Will this result in calling mutex_lock() on an uninitialized mutex, leading
-> to crashes or lockdep warnings when CONFIG_DEBUG_MUTEXES is enabled?
+> If this occurs, pahole would not generate BTF data for it, leaving the BTF 
+> ID as 0. Would this result in the verifier's bpf_check_attach_target() 
+> unconditionally rejecting multi-tracing program loads by throwing a missing 
+> btf_id error? Should a __used attribute be added to the function definition 
+> to prevent this?
 
-right, in that case we should register it earlier, will check
+I did not check with LTO, will check and probably add that attribute
 
 jirka
+
+> 
+> -- 
+> Sashiko AI review · https://sashiko.dev/#/patchset/20260417192502.194548-11-jolsa@kernel.org?part=1
