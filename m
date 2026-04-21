@@ -1,156 +1,165 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C74A3A0EB1
-	for <sashiko@lists.linux.dev>; Tue, 21 Apr 2026 08:57:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776761835; cv=none; b=fISowJdO9xSpN3QEI5HWuqPhL16bmhoS4dyWBHXGvFww9ZwOeHWUjvCL++zfpZHkVHu4xv6/ttxnXwyPzEwzbiOEwLE0e5S224P9ZAz05t+8XA+VGLw7WGKu9sfL8CCIXlPnroAaWxTnsfNCqyZ87adOfcihkTIaYEUu63Axx3I=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776761835; c=relaxed/simple;
-	bh=eTLzMI7yWfeA7FpJW6pduFsu39gZsW1lezkyNZLf2Tg=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cOAHPlQ4Rf+eXDG9wODoOXOE9MI6ZiEf+VzYanMSZqBhFTKofa5ULFcdW1oFphr3IZD181GW2R1rYGj9XXy7S70S/UHRr2Wzm3YAkAkQX/rU1ShpCRY65SQO9C/iRN6PmI1Sa37AEc6CcO33iAHPgFuVP3a+aFVoKAHkJxtTZSE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JRH2GLOZ; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22A5836680E
+	for <sashiko@lists.linux.dev>; Tue, 21 Apr 2026 12:40:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776775213; cv=pass; b=AjjPg8CDm2HDSCj6ErkdQzNQyluEL9hh+rrF1vSRGNhdeiZAP+HIcVAJHHvLdyzNoRTxR9huh6jjgBtXHtt1NKvLRvJ3pbxjAGDWJLgadO8F6H/9uVAqhm+GtCp52UHNd0cyhD3+XhgFVtf8ha/66bS5sg722tzoZEpkSRH0jxY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776775213; c=relaxed/simple;
+	bh=lvdgawJx0ujua+qiUXuRIWl8gU6rTNtB+COcEdCquEU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Am7KDDL9KqrjchuwniVtP60ijqnaqSnciqXKQuMs9HOFd+IQG0AWcF1XhVq465Q7EMDG7FmOy8M5dwU8IyJq3YbpFKWw+NSp53EYquYESy3yIwolorxbfwO8CG1TKLh50YAsVK3tiAyHCfITfc7nJYgKjE5F3ozJcMWyMc9TBZM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QiF5FcBt; arc=pass smtp.client-ip=209.85.167.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JRH2GLOZ"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-43fea39e066so3005265f8f.1
-        for <sashiko@lists.linux.dev>; Tue, 21 Apr 2026 01:57:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QiF5FcBt"
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5a402b2d102so4875889e87.3
+        for <sashiko@lists.linux.dev>; Tue, 21 Apr 2026 05:40:11 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776775208; cv=none;
+        d=google.com; s=arc-20240605;
+        b=AbsT9I+s/uR3q41c9MlPNHUnxWqohVysJkWUqNjTflhPbRLUJSTNagXrajRVdSUIFe
+         idzpvDWbvSETz+BITvv4COL7J0NdQhUJR4vyEpnkQLeQbyZGUFwYKFsC7HnffHBRrmuV
+         WUa9xKeJ8DHUOz1fEj+dQen7iAX3USf/fhChEmmjS/I7O1DkUVagLyRP1LWTUTvGFke4
+         nFu7kt7zEAOYJ0XrLxnO/EJdNByRYC9XEag7Hu8s/73sg7OayWf7r5PNBdo1oqCLpdzD
+         IroodyNefWspueMRMfucqSpMHOChD3SFZvwFZu0gkNCsQG17yCpZbDbJ8ZdFiGAllS/1
+         ZAyA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=APV63OegD/VBoeZuqLkoZ95g/HZtt3yngwmMzUSUz1A=;
+        fh=7pQPbM1mTaKjUbZ75iTISJbipA72wUVZwkXXTYMxzFw=;
+        b=CwtZkopyELiDgyoE/vBO7MZn7pDuCVa6EfqgLxuLB4QeZKW1VEas9Wfce8LcZ3/o09
+         5v0RIRqkccgI4aFg7YKgxZtXKEG9Miq8FQ4T+lwHooxZEPyR6B1iFEi3jK+Wcj+HTG3O
+         tjcXC5xa0G21vP/3jrS0MEVd6NfwgIuFcetCluUdoo5KrM8N8uV7bWASWn66PRT4kwIE
+         EbvCUtnWqfrqgVFyX6LNAMst3NS3U1l8RQ3Ahsf7x2mFZE8G938j6TzzlXK+MFbLCM5c
+         6MOzsACr+T0Xm1HVzxE+oJxR92c9GFaZFmFbqTzoKelV3iS2RQbmJF1IsMkjuEmwRady
+         CWPg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776761833; x=1777366633; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3MXLb7hix0ehudvrz1Mhjelpsv8ZbBwlfk6T0/b/pdk=;
-        b=JRH2GLOZTewJy9jZwTIH8QxEPPg7Gqi5xLGDeLGshuPQd9h85iTFBiNebao1SQgUEI
-         yBdLECs+0bQp7s8au7dhcXzjaLfjBLuosaI1mPzOQPeACEo1pS6W4Yq01n06bSuAjC4X
-         rBXUrEGH9L2CmJYFZYK3FRtZqEOJLc0CLDtT5SowPxzmUQ5zByhH+k3bizTEmOmEZ/AJ
-         ysaAMoFGFdrlgSay1w9ixP8wumFVj85bAgJbyZD8rhplgZTepAUPV4jiHYyd+Np9rNxb
-         gCW/hXRC1Yqbfg2Klz9zmuKJfh00X0qpi3gr+76cFYYeAwK124Q84RVV8bkA8dDi44X2
-         OWFg==
+        d=gmail.com; s=20251104; t=1776775208; x=1777380008; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=APV63OegD/VBoeZuqLkoZ95g/HZtt3yngwmMzUSUz1A=;
+        b=QiF5FcBtYt0uv3IOELemk3Zba1InUmKbk2z0glxJV9JwGGBTvwJqdzbQIK99npDZQx
+         qWLN0uIcapJLWGmUamjOeGO8XF2IUPTTeRbT4HVOPkmk+NybgEaSnMDp+PYEKnd/r2ku
+         yGoyQ8TYj6MrSurMxXcHqN68aQq6nunaY0nw7etudceR8uFghsktseu9r6PLKgemQEA+
+         dNjAWmh+zpF7QvVBR7Dm/15+GXx9jHp6gZk/EmL+YMJ8qpchwZX+MyAnrDomttlx5O9H
+         Ut95VzBwFqzNnWUgsnldcc6anTxhFGVgmVKE4eocVVRvFUmztsS12dbIoZyDHxsoRw0w
+         P5Ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776761833; x=1777366633;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3MXLb7hix0ehudvrz1Mhjelpsv8ZbBwlfk6T0/b/pdk=;
-        b=j2K+sk+c+5ru7Th2IrXeh7NOnIZxS22mCnwcaS1vUFInxTEjaCqwm3i1ZSU3+sTO3Z
-         sZwpOtU0ey2pGI0a1yckcl3MRLpWmxGdlOIRfCqo5IQm+ncSclJ9MpEtjYmI6cbc8rEx
-         KYV9kjgt/nZnP7m7SqOe5L3NX9YxBnHk/WkZ4+/daTeNo1x74gMQiGNkmbdn8ZH7X+/B
-         vxrcs9YOE25VfSAYeDBfD6Fs/40iPHZrrDo0IelsMn8BNmtGm1gWNDzPfRbD+Kx7NXYM
-         cKdhn4lh0E4yrrM605X6EPyXl2S5y1wOe2D3ZOOLi1JD036nzWFeVeAODxD1PSVrXSSe
-         ytjw==
-X-Gm-Message-State: AOJu0YypmEWViYJojtVjmSH9RAWzW+G3upzorCbyFZGP3rLtdIgjLsp6
-	Hm8K+dQsqizzk2ZfUJJTiz0OCxNbVVI9SM6UhjrPs/mCrxJ0mZDmqQqlrQ8Vg2TQ
-X-Gm-Gg: AeBDiesYVhr3DQxeIzXA3gFlNqtUxRnVLXCCQRsc8cb7HpTtmwxPBaJ6WUXixMhiGnS
-	j0jznFjDgBmxiEYp+WiEWzhO5SZ6PXbmlUHsaMMN3ZTmZFJisia+G4kK5DgqEhWRDWeT5o3PnsO
-	C/8idBLeIK5tloQcUockiTVEzufanOmT6E/9kf+OL6K9O9nYHRtHaEW7yigM0Joe3c1u2Bqy4H/
-	vD0sxE0ljOH0+7l6BIcLL0SqAZ8VoVwK7bd/p4nXpRO8qb68f+Hh3LZD9v61e+VU8X5uUNchdt4
-	XyVdwfyxeQmwHnLt60sdaWes10uSfDKDCgt1losa+bLJohGLiOsb7oVpbleUs9pd1zwRLAXglOk
-	nVj+5sID9MptGWwx9oNLbERSHNwIMg/erKt29twjpB5ds5xQZ8MwQIeHB/RQnM+5XeNvS3PIWRf
-	12W+D6JZ0=
-X-Received: by 2002:a05:6000:401f:b0:441:1e8e:d8f7 with SMTP id ffacd0b85a97d-4411e8ed9bamr3596913f8f.29.1776761832542;
-        Tue, 21 Apr 2026 01:57:12 -0700 (PDT)
-Received: from krava ([2a02:8308:a00c:e200::d99c])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4e3a166sm34965481f8f.19.2026.04.21.01.57.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Apr 2026 01:57:12 -0700 (PDT)
-From: Jiri Olsa <olsajiri@gmail.com>
-X-Google-Original-From: Jiri Olsa <jolsa@kernel.org>
-Date: Tue, 21 Apr 2026 10:57:10 +0200
-To: sashiko@lists.linux.dev
-Cc: bpf@vger.kernel.org
-Subject: Re: [PATCHv5 bpf-next 21/28] selftests/bpf: Add tracing multi
- skel/pattern/ids attach tests
-Message-ID: <aec75votcgmzrWI8@krava>
-References: <20260417192502.194548-22-jolsa@kernel.org>
- <20260418033438.03847C19424@smtp.kernel.org>
+        d=1e100.net; s=20251104; t=1776775208; x=1777380008;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=APV63OegD/VBoeZuqLkoZ95g/HZtt3yngwmMzUSUz1A=;
+        b=WaJk2NdJjmc3sN9KPeP6mVrtll0kTyneelc/emtXzEUkBS9WjAvL30IwJM6wYAoSId
+         mirVAmsCpSIgL/SLPwYqdeoaUwsNgWRV0CuyS9/oLYFPVPV8IpK9rz+7L5yNsaPT93dm
+         Ih5p49VslHLPuzv9KOuvvsj/IoveCZM2+kMZAJfESLSAaatt2edceZCiH1DR8Ao9kigX
+         SXadsrR9ex4Z2cPvRZRCd5AHP/azoBoD8Gh25AnboGkqeTVsZg0BV9UGQtEdESnoJOvQ
+         GAejOuWnxaWAeFARr2I3rOTf9VZhkJ0qJEwq5U0sVIjFO1ubw76SJ0cnIC8+rlvJEFay
+         /Y/w==
+X-Gm-Message-State: AOJu0YydeZX0srdaVcLW73fWWTyMDbty4Db2amP4TbKXHbAy0XNucFSe
+	DX5o2brsD74Q3qY9GFH2tMSpYOf4cS5glevjDdG/WuyWbFYvPmgS8PYQCC0aGInXrJbuIBMrN4v
+	7L9UYtljpjqqh19g1e3wBAnnOTO7EroOKgR8BmUU=
+X-Gm-Gg: AeBDiet7NDQHzc2iw/dMfjqKSC2DlAhrowO2oX9gTNKcy3CtqYXa5HLW7cOz2nMVTVA
+	qfHixVrtdsthuAOgy/vT0/6HYQStEihq4Mzskm9PFrBqdH6mI6Pdtm1tgpzoLj0abBXawgIAhjQ
+	XeLPZWfVNEtwwkP5uxmn2ShfmanfR5ni1IVWcQCprgZgT1aiXc2KojxJHMBDPQgyqv3bN0BIjjl
+	fnA5NRrqDqasw9ZPj+DMCeBUwuV+npjxhSdUPP3zz4TizzHgOtBKWSw5oa0e0JDFxjwUu0Iel5c
+	Dl4zPba7KwpCw2wLPQ==
+X-Received: by 2002:a05:6512:31d6:b0:5a4:6a5:9904 with SMTP id
+ 2adb3069b0e04-5a4172e4778mr6776661e87.31.1776775208122; Tue, 21 Apr 2026
+ 05:40:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260418033438.03847C19424@smtp.kernel.org>
+References: <20260420082805.14844-2-kerneljasonxing@gmail.com> <20260421094022.8D0EAC2BCB0@smtp.kernel.org>
+In-Reply-To: <20260421094022.8D0EAC2BCB0@smtp.kernel.org>
+From: Jason Xing <kerneljasonxing@gmail.com>
+Date: Tue, 21 Apr 2026 20:39:29 +0800
+X-Gm-Features: AQROBzC6v5br0D-CBK31naqRqEMmYy5gMertLuz_4WyOh5lkdmYFWJjx8l3cw5M
+Message-ID: <CAL+tcoDp2ZgO629J0fw1TBJ=fdf0KmWz3i6mWODdLnSbmLv_sA@mail.gmail.com>
+Subject: Re: [PATCH net v2 1/8] xsk: reject sw-csum UMEM binding to
+ IFF_TX_SKB_NO_LINEAR devices
+To: sashiko@lists.linux.dev
+Cc: bpf@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Apr 18, 2026 at 03:34:37AM +0000, sashiko-bot@kernel.org wrote:
-> Sashiko AI review found 2 potential issue(s):
-> - [Medium] Double free of `vmlinux_btf` in the error path of `get_ids()`.
-> - [Medium] Missing error state assignment in `get_ids()` leads to returning a partially or fully zero-initialized array instead of failing.
+On Tue, Apr 21, 2026 at 5:40=E2=80=AFPM <sashiko-bot@kernel.org> wrote:
+>
+> Sashiko AI review found 1 potential issue(s):
+> - [High] The patch unconditionally rejects pool assignment for devices wi=
+th IFF_TX_SKB_NO_LINEAR if tx_sw_csum is enabled, which incorrectly breaks =
+native Zero-Copy (ZC) setups on those devices.
 > --
-> 
-> commit 44b619347c03e0f87cfb994ba8b14346b293edcc
-> Author: Jiri Olsa <jolsa@kernel.org>
-> 
-> selftests/bpf: Add tracing multi skel/pattern/ids attach tests
-> 
-> Adding tests for tracing_multi link attachment via all possible
-> libbpf apis - skeleton, function pattern and btf ids.
-> 
-> > diff --git a/tools/testing/selftests/bpf/prog_tests/tracing_multi.c b/tools/testing/selftests/bpf/prog_tests/tracing_multi.c
-> > new file mode 100644
-> > index 0000000000000..52d3339b430a5
-> > --- /dev/null
-> > +++ b/tools/testing/selftests/bpf/prog_tests/tracing_multi.c
-> 
-> [ ... ]
-> 
-> > +static __u32 *get_ids(const char * const funcs[], int funcs_cnt, const char *mod)
-> > +{
-> > +	struct btf *btf, *vmlinux_btf = NULL;
-> > +	__u32 nr, type_id, cnt = 0;
-> > +	void *root = NULL;
-> > +	__u32 *ids = NULL;
-> > +	int i, err = 0;
+>
+> commit 5beba1aaed8c200424f98af3c07472ab4da8d451
+> Author: Jason Xing <kerneljasonxing@gmail.com>
+>
+> xsk: reject sw-csum UMEM binding to IFF_TX_SKB_NO_LINEAR devices
+>
+> This commit rejects UMEM bindings for devices that advertise
+> IFF_TX_SKB_NO_LINEAR when software checksumming (tx_sw_csum) is enabled.
+> This prevents a warning and panic in skb_checksum_help() which relies on =
+a
+> linear skb head.
+>
+> Link: https://lore.kernel.org/all/20260419045822.843BFC2BCAF@smtp.kernel.=
+org/#t
+>
+> > diff --git a/net/xdp/xsk_buff_pool.c b/net/xdp/xsk_buff_pool.c
+> > index cd7bc50872f6b..d981cfdd85357 100644
+> > --- a/net/xdp/xsk_buff_pool.c
+> > +++ b/net/xdp/xsk_buff_pool.c
+> > @@ -175,6 +175,9 @@ int xp_assign_dev(struct xsk_buff_pool *pool,
+> >       if (force_zc && force_copy)
+> >               return -EINVAL;
+> >
+> > +     if (pool->tx_sw_csum && (netdev->priv_flags & IFF_TX_SKB_NO_LINEA=
+R))
+> > +             return -EOPNOTSUPP;
 > > +
-> > +	btf = btf__load_vmlinux_btf();
-> > +	if (!ASSERT_OK_PTR(btf, "btf__load_vmlinux_btf"))
-> > +		return NULL;
-> > +
-> > +	if (mod) {
-> > +		vmlinux_btf = btf;
-> > +		btf = btf__load_module_btf(mod, vmlinux_btf);
-> > +		if (!ASSERT_OK_PTR(btf, "btf__load_module_btf")) {
-> > +			btf__free(vmlinux_btf);
-> > +			goto out;
-> 
-> Can this result in a double free of vmlinux_btf? If btf__load_module_btf()
-> fails, we call btf__free(vmlinux_btf) here, and then goto out, where
-> btf__free(vmlinux_btf) is called again.
+>
+> Does this unconditionally reject the pool assignment even for native
+> Zero-Copy (ZC) setups?
 
-replied for this one in other email
+It's weird. Nobody uses sw csum in zc mode.... If someone uses this
+and gets warned, he will surely root cause the reason and finally
+adjust the code in application.
 
-> 
-> > +		}
-> > +	}
-> > +
-> > +	ids = calloc(funcs_cnt, sizeof(ids[0]));
-> > +	if (!ids)
-> > +		goto out;
-> > +
-> > +	/*
-> > +	 * We sort function names by name and search them
-> > +	 * below for each function.
-> > +	 */
-> > +	for (i = 0; i < funcs_cnt; i++) {
-> > +		if (!tsearch(&funcs[i], &root, compare)) {
-> > +			ASSERT_FAIL("tsearch failed");
-> > +			goto out;
-> 
-> Does this code return an invalid array if tsearch() fails? When tsearch()
-> fails, we jump to out, but err is still 0. Because err is 0, the cleanup
-> block below won't free ids and will instead return the partially or fully
-> zero-initialized array.
-> 
-> Also, if the BTF type loop that follows this completes without finding all
-> expected functions (cnt < funcs_cnt), err also remains 0.
-> 
-> Should err be set to a non-zero value before the goto and when
-> cnt < funcs_cnt?
+>
+> In native XDP_ZEROCOPY mode, AF_XDP descriptors are sent directly to the
+> hardware. No sk_buff is allocated, so skb_checksum_help() is never called=
+,
+> making the tx_sw_csum flag irrelevant and safe to ignore.
+>
+> By placing this check before determining if native ZC is available, does
+> this break ZC mode on drivers like virtio_net for applications that pass
+> the XDP_UMEM_TX_SW_CSUM flag as a fallback?
+>
+> Should this check be deferred until we are certain we are using generic
+> copy mode, such as when force_copy is true or after native ZC setup fails=
+?
 
-yep, I need to set err properly
+It's more complex. I'll keep my code as-is unless someone screams at
+me to handle this trivial case.
 
-jirka
+Thanks,
+Jason
+
+>
+> >       if (xsk_get_pool_from_qid(netdev, queue_id))
+> >               return -EBUSY;
+> >
+>
+> --
+> Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260420082805.14=
+844-1-kerneljasonxing@gmail.com?part=3D1
