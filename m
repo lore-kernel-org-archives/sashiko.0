@@ -1,92 +1,93 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 747293BD641
-	for <sashiko@lists.linux.dev>; Tue, 21 Apr 2026 12:58:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 860D43D565C
+	for <sashiko@lists.linux.dev>; Tue, 21 Apr 2026 13:01:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.52
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776776324; cv=pass; b=R0CPPRxLh9UntIKOpPnCAED4C4aiHcZmgpP3L5f+DiF1vFN0uRIgKwDimMssoZOTZpOeNJMK7Ql6dlgL4FzdnbSmvygQ+MI38qk4vMD65duNtZ/n71FV9Rc3LNdDiI849rAcil0Wt3waqbMqLWXg9DhxzbF996id0Vw7U+S82xM=
+	t=1776776515; cv=pass; b=VhUpHvscqHC7Cg7MzWcGIgGlFRT97oX23btExxQ/f97tRW7c5JbrIqiJ7R1L/hfIAQIwT6V401uuD/vCZTfMuagMelbvpc0GJlCPBnJnUF8X+fEGaChZEmHo9lQzSZQRt3ChnFE4vdPY3XCBxoKlwOxthnAUzqThf4qsxEee4G0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776776324; c=relaxed/simple;
-	bh=Ypq9vbVKeYDEyJgIYjEFrwetr6tzWasuBJFqaQCWKno=;
+	s=arc-20240116; t=1776776515; c=relaxed/simple;
+	bh=GaHJWlX9w3tg5UyScKN1/yNMH01yHW+l6j4ppLF6A8A=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EmeecQE06xgXHWe7OnU9/K8o2oTSqzVIYu7riZmFLa6PXYfEJHawkNIe7+ky+IxBMUipVqVKk1irj8KLGVKg2fHi/WBKl385iekCZU2UAn149oByt4w8s6eGw94DvbuA6QNhAangGgyiMgkXsfB+oDJvrGT6qPoa6mHD5ez56PI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Oki6hfhB; arc=pass smtp.client-ip=209.85.167.45
+	 To:Cc:Content-Type; b=TurcQNgvvUvYtYSlUVl9GPZnZn9oc+GZvPfqS8Urrn8cJtKrrl0OQjvdC7S6EliY0e2Cf4Uc/Sl6ut4UneVfFu1QXVO5jnX0mGypDugDSI+2irnr1aN79TO4NJBnUVQVVjHWKxzGMIQ597Iy/2Wd6RG2CTt5z59YpIbkcmTk6Ok=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XPS9XSZh; arc=pass smtp.client-ip=209.85.167.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Oki6hfhB"
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5a402dea4a5so4803626e87.2
-        for <sashiko@lists.linux.dev>; Tue, 21 Apr 2026 05:58:42 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776776320; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XPS9XSZh"
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5a40b2d26a1so3354036e87.0
+        for <sashiko@lists.linux.dev>; Tue, 21 Apr 2026 06:01:53 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776776511; cv=none;
         d=google.com; s=arc-20240605;
-        b=GaN1h9hoE2GEqoSnx98yQl+/1ICyNNQteoBI/Txes0XDnioni1OyRtlU4HRGIsY0HS
-         v4aRcSaoDdtYmje1cPjzmG0+lEZ/q5Jw3BmJxPpSs6YMQTqIEnU1fNkH1iyyH9TJ7Ozd
-         Se8sYFrSeFGQBpfyVndxzwJts9eGh/wS/UNSk9TS0HgbARiLnjjuDrvbQ/rh5/T9KpJp
-         gXfkNYJRJpcFrNOw6IGCAPQYNgc4Sr5D+aEYJPfvU8ME081x+VntD4Ib4LvRnZssHYBr
-         z2ku1NFmkBhwEBbRBVB7813qo4UkpneN7TF4U1MJF30zJq9gOV1ENTIuBdxKRhkYoRpL
-         VBRQ==
+        b=i/gC/pkeZuYXgrG4B2aTxpPDwxdJ0QB/sMo5kJDMXus06pevx9Z4QxrUxKpsIl/Tw/
+         iJ+hVNGqfhq5rMF+3HN5xUOQJ07TGEKVQiFgL2ABQa3NSbQBA8R6dyZ3NmZgfR665l4d
+         fymI3kBlVuZfyLkwBpBpbGLRO9RD6ePiz9OkEDbk0/oAvqyXcKvuxV0U0Eo2lWPDBzY4
+         TkpGDq8+lNOMyUYk9pbtGKPiQF4a1ddRKQ2EG7HQnl2zGEPAGvcJh9PFrvHGRPA0H6cO
+         julWBMAVv2CyWexbRp9EYxYtybBMZ6/nwybHvmP8En7TD4M0iPxj5K31TxC7hFjPUvwG
+         9I0Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=h4dFEtY8RcrtaZeXUnmogrtpVC/Og8GraCdRaNwWc6g=;
+        bh=PzSfaOp3OPbvUmyrJZzWnTnI3+fy8AsLaeuFNHP8ETw=;
         fh=7pQPbM1mTaKjUbZ75iTISJbipA72wUVZwkXXTYMxzFw=;
-        b=SuCAwW+mkhtERPUKmIncVZctZMqhp548eR2ssogLjIHIgS7XjOBt9aTHi4VElWlXKQ
-         0zZmJioe7UsR+GdakZbPw0lqgkgO74jlG2yOUPEq1i4mvZrAgC3cvrmZMLcN21sqWuU6
-         VoRqE0uJN1+R9NcbSwAJkzC4bqq9Ae77nKODY7iWbytBstKxiD/blsb7k0Ud3tXU3vBF
-         y0BAdH5HxS7l/HorPpm/UlwNlTPadwNvTe9vnySCIR4zeLZlcZWJrhTzuu3yyoYmSh8G
-         KO16IGBXPazpHz8RRllgh0qt7m//KQlTaBj/FpD833HwjvP9mANAEqPQTWYfq/zCMjvL
-         mICA==;
+        b=aQdf1/O69I1qy/IFdQ9TuXJ7v67ys1n6EamgG/lLSEPpjH3SOyvWAT4d7voX2+JTDJ
+         Kd0dVreGSutS4q6dt9qgOXmLgo1BgTCYPlek8lwbGLNfmtS5+mMIQobA3T9+ssLZADEE
+         d6tOoHLsUj9NOvddWXvKrjQnIUANuLNo2QDMHGnCvvuqX/NWGzz5OpOlRu+xpNXAZqmP
+         jzXDtlF6N+80HFlvfalAjtgZFVacIdg950ZvFNveVd4PHSrBE4Llcb6R7RKkilgvKEkS
+         hp39LvY1fCkcK7bD2jOHjQzB07UJocemMa7A/w1h+fxItBBNmTfMaOnxlAOJpRoPHo/z
+         iFkA==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776776320; x=1777381120; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1776776511; x=1777381311; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=h4dFEtY8RcrtaZeXUnmogrtpVC/Og8GraCdRaNwWc6g=;
-        b=Oki6hfhBzPsL8u18OXwXjVmDbt/yl0sd/ZfzZjRhwCQtNsIzy1paLsWfz/MwR08nv4
-         N4rQJ8s8ajz0GpE5XyDf04MauQVzWasCLHS1H0GzECpIhlz3A+BfG/PUV/idHUtwJI+Q
-         ad87WD7l/VoLFKRkiV3K3JsZQ1irOpyGmehkFdO0ChFs6JLX1yrHh/q6tlq/p5LryAEc
-         KhJD1FHQPTjpkbTYW9hxTzp6N/yMrkgEwNSS3NAd6n8yiulAHNfUIaaK3jhsFeac1DVy
-         yT36BGX24gaU78ns+VVANhcZMB3m7RvXxTx3uQ7q/lVWLghK36N18PPHsoehRD2CTseV
-         91ag==
+        bh=PzSfaOp3OPbvUmyrJZzWnTnI3+fy8AsLaeuFNHP8ETw=;
+        b=XPS9XSZh81snLCrjEs24N+e2MdZ1a6E193q7QNCE07hL17JGSimN15vv8LTqNIa9/B
+         0zyLOgUZxy+uHKICxPleHaLrOfygI7b4WHw9hOcVibYYayfnfqylZafbVg3tisc3zkJM
+         CYfAcuf24OnBW2uX1BYC1/TxFRIfEqRT3m35JFdkktXeqVeK+mcoEfQ8sGxY36dc94Uy
+         Nml1Jd5h0+Bkw8wUo9GHh+c5yOw4lnpZTOsoGzxRrpou6N8mtcGD0bJ6juksBCeqrxaK
+         PAHK9YG3bcPcs/7REXjtffNXsBf5aNMYaYWvY+hMMKnzC7JRqWLCFitVjdbQjtHlmdiC
+         adlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776776320; x=1777381120;
+        d=1e100.net; s=20251104; t=1776776511; x=1777381311;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=h4dFEtY8RcrtaZeXUnmogrtpVC/Og8GraCdRaNwWc6g=;
-        b=gp6K+jTY+hgKE/HZReMALdYNYOcmVot5LWQmQsqQQg6Osyy83HyoSuvasEMU9ltCgv
-         c6lWgqJNcNYDc144lbeeUuXEqKMqe/zwZjLmFJGBVABuFAjsNxQVawCd4+MEuIJAEO36
-         QXaFaRHyUeBJNIVTOgbEnFXt58NGN0LC3ZnigXA87aElr+SAf9ahOn/s+2KaeoYJ3l/p
-         u4nmAyXXew53GBtIskahyCigb6q35xGTYGF5YKaq+Vp5GwWelooMqXw6YC5KH8VlJcXD
-         o16T21F7vp9vAbqFnic1P5FOzASJbqrDhqYR1puBAKdw8L2Lqes+VkTUoIKjZFZEoFG+
-         kdwA==
-X-Gm-Message-State: AOJu0Yz2ao6NpTqRUDGZ+ex18Y16lVGEgrr1uIGufKJbfrIkXtXKtwlT
-	BkL7c6JeeACBt4eh4ITDTaPvygDEam5oDfihqArGXd7ngvpqvVKF8DfFkD/5D/g5/k31HOaFWqh
-	m6z+LMb4s42EVQF5ufk8sjU3yLnCYOOjPTbjC
-X-Gm-Gg: AeBDiesONsAErz6FL29WiT5oFgWtSs3r9FtU0ULnERV6kiIi8agsXU8MUdas2RYKv0c
-	klmFWc+hliLcXZxhpykYch96QmXn1Gcceoi7C/W2ep2kraLBlGRnBOqhdIAGhMHWmOn/FfJp2NT
-	7UIm0AVWq3UYwj5I8LScP7HeDunzV2A9it6H1r2aVx4qHcB/98Ji8peM2hVxlIeLdQn6GL/1Udl
-	YmvuUqhqR5wNWZAxABb6gaAQMKeKwIBclYTlh5gqNrwcABdAl/9x35fFmz3EIiBeZvzGUqoPLUW
-	/zSJ0QcL/l73/HagJw==
-X-Received: by 2002:a05:6512:239d:b0:5a4:505:f62f with SMTP id
- 2adb3069b0e04-5a4172ca7fbmr5337248e87.6.1776776319287; Tue, 21 Apr 2026
- 05:58:39 -0700 (PDT)
+        bh=PzSfaOp3OPbvUmyrJZzWnTnI3+fy8AsLaeuFNHP8ETw=;
+        b=YoLuOr3s+4lO7VtL42ZTIX+bj7CXurPxPq6H5LSODxv3QUgSMctbp8zh1/st+DijmW
+         bSgPoPzkAT/6L2X5e2FOfkWKxJvlErFt4S5VEr0P/Min5b3uUtlKqqAopxtsjYtKErDR
+         2XvogsIugQtsFt6CM0G09LZuktSgJxIT2phI7Hyy80yu6i8iD/dCfW3EHYMrjQieCxeh
+         5nWHZpP81OBL6+sTRxw/eTZzEKL1gmayD8DNrXwtolQw51Uny5jEisCt8uYHCMRyj0yJ
+         SGHKUmgiSpB7c34P5u94RdCNJhHecc5l/dZsoRvbfwha9rMBY1yg8ZLLhwrAgFO7TWXC
+         de/g==
+X-Gm-Message-State: AOJu0YzkTugTvcutppx1idAb8OhuT6aByVzRh7M6GvP/ILEWzEJTVak8
+	FGgodz1276SyDuJEVEPUQK7ObnjfBVor0NoriUOCyQbgSKAVatqv4Y9OsDzoe73WIfU7OJcMTBr
+	vd4CesY5HBYKK+SNhnzSu9wJxMtQ3nhYYOfbf
+X-Gm-Gg: AeBDiesLPQA7c4XMs81cq5v2VEwICuneSIZ+cubsFSW7NaTi7rD4sirFPhjsP47R0Ne
+	meWkkZmwz2lpHmQ23rCE1rVAln1nnc4tM4x+SSXpvyISC4C+LurmmfQfsDtM8jetfCpe/0vseb3
+	P1j2DcVTI7acpWNcz8Yebld7gMYbKQjeLxOly7q//txYAfXS1f4DAKp6+ihcKKFCwIkAx714HuL
+	E1TMdKSDwUKVtwz+6YKVx6Q4zpj5ZeRzIPzMSt6kXcwL3uNdMNSF1qhD+TR+RlIK2CMsqcEul+O
+	m84u8K15NJBmZw/66Q==
+X-Received: by 2002:a05:6512:3b14:b0:5a3:cc81:eff3 with SMTP id
+ 2adb3069b0e04-5a4172de8bcmr7078744e87.26.1776776509571; Tue, 21 Apr 2026
+ 06:01:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260420082805.14844-6-kerneljasonxing@gmail.com> <20260421094025.684A0C2BCB0@smtp.kernel.org>
-In-Reply-To: <20260421094025.684A0C2BCB0@smtp.kernel.org>
+References: <20260420082805.14844-9-kerneljasonxing@gmail.com> <20260421094026.6543DC2BCB0@smtp.kernel.org>
+In-Reply-To: <20260421094026.6543DC2BCB0@smtp.kernel.org>
 From: Jason Xing <kerneljasonxing@gmail.com>
-Date: Tue, 21 Apr 2026 20:58:01 +0800
-X-Gm-Features: AQROBzDLRai2NsErGwP6JqUZsExStq91zppFmZENRMO6-KgFjDCR30CiO_K2g9M
-Message-ID: <CAL+tcoBDnrThvfP+4JdATXHs1Ti351jGCnzb9x69QEXXr=HbyQ@mail.gmail.com>
-Subject: Re: [PATCH net v2 5/8] xsk: avoid skb leak in XDP_TX_METADATA case
+Date: Tue, 21 Apr 2026 21:01:12 +0800
+X-Gm-Features: AQROBzBxpLyVgyjRklod6h-NoILWg6y-B3K75HS_oiwFefqG5VLPxmKczA37GFA
+Message-ID: <CAL+tcoBZw3jQYnuDJYciOtLmTNvwyJpNHwgo-=Rs47c155P1sg@mail.gmail.com>
+Subject: Re: [PATCH net v2 8/8] xsk: fix u64 descriptor address truncation on
+ 32-bit architectures
 To: sashiko@lists.linux.dev
 Cc: bpf@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
@@ -94,98 +95,79 @@ Content-Transfer-Encoding: quoted-printable
 
 On Tue, Apr 21, 2026 at 5:40=E2=80=AFPM <sashiko-bot@kernel.org> wrote:
 >
-> Sashiko AI review found 2 potential issue(s):
-> - [Critical] Time-of-Check to Time-of-Use (TOCTOU) vulnerability in `xsk_=
-skb_metadata` allows unprivileged users to bypass bounds checks and cause o=
-ut-of-bounds memory accesses.
-> - [High] Software checksumming calculation fails completely because `skb_=
-checksum_help()` is invoked on an incomplete and non-linear SKB.
+> Sashiko AI review found 1 potential issue(s):
+> - [High] On 32-bit systems, xsk_drop_untrans_skb() will call kmem_cache_f=
+ree() on an uninitialized destructor_arg pointer in early allocation failur=
+e paths, causing slab corruption.
 > --
 >
-> commit aef1b3344bd952f39b1181e046ab7d9ce77fbc8a
+> commit cf643670755512ad76d19d6d0707e86a2a05c671
 > Author: Jason Xing <kerneljasonxing@gmail.com>
 >
-> xsk: avoid skb leak in XDP_TX_METADATA case
+> xsk: fix u64 descriptor address truncation on 32-bit architectures
 >
-> This commit explicitly adds a call to kfree_skb() (via
-> xsk_drop_untrans_skb) when xsk_skb_metadata() returns an error, preventin=
-g
-> an skb leak if metadata processing fails.
+> This commit fixes a truncation issue of the 64-bit descriptor address
+> on 32-bit architectures by allocating an xsk_addrs struct to store the
+> full address instead of packing it into the destructor_arg pointer.
+> It also updates the related cleanup and initialization functions to
+> handle the newly allocated struct.
 >
-> Link: https://lore.kernel.org/all/20260415085204.3F87AC19424@smtp.kernel.=
+> Link: https://lore.kernel.org/all/20260419045824.D9E5EC2BCAF@smtp.kernel.=
 org/
 >
 > > diff --git a/net/xdp/xsk.c b/net/xdp/xsk.c
-> > index 55b448abb8178..fd5432fb807e1 100644
+> > index 9c06a4e868725..0232559d5348f 100644
 > > --- a/net/xdp/xsk.c
 > > +++ b/net/xdp/xsk.c
-> > @@ -829,8 +829,10 @@ static struct sk_buff *xsk_build_skb_zerocopy(stru=
-ct xdp_sock *xs,
-> >               xsk_skb_init_misc(skb, xs, desc->addr);
-> >               if (desc->options & XDP_TX_METADATA) {
-> >                       err =3D xsk_skb_metadata(skb, buffer, desc, pool,=
- hr);
+> [ ... ]
+> > @@ -799,6 +825,12 @@ static int xsk_skb_metadata(struct sk_buff *skb, v=
+oid *buffer,
+> >
+> >  static void xsk_drop_untrans_skb(struct sk_buff *skb)
+> >  {
+> > +     if (!IS_ENABLED(CONFIG_64BIT) && !xsk_skb_destructor_is_addr(skb)=
+) {
+> > +             struct xsk_addrs *xsk_addr;
+> > +
+> > +             xsk_addr =3D (struct xsk_addrs *)skb_shinfo(skb)->destruc=
+tor_arg;
+> > +             kmem_cache_free(xsk_tx_generic_cache, xsk_addr);
+> > +     }
 >
-> While looking at this metadata handling, I noticed a couple of pre-existi=
-ng
-> regressions.
+> Could this pass an uninitialized pointer to kmem_cache_free() and cause s=
+lab
+> corruption?
 >
-> Will skb_checksum_help() always fail when called here?
+> When a new socket buffer is allocated via sock_alloc_send_skb(), the
+> networking core's __alloc_skb() function only zeroes the skb_shared_info
+> struct up to the dataref field. The destructor_arg field resides after
+> dataref and contains uninitialized garbage from the slab.
 >
-> xsk_skb_metadata() is called right after allocating the SKB but before an=
-y
-> payload fragments are appended via skb_fill_page_desc() further down in
-> xsk_build_skb_zerocopy(). This means skb->len and skb_headlen(skb) are 0.
+> If an error occurs before destructor_arg is explicitly initialized, such =
+as
+> when xsk_skb_init_misc() returns -ENOMEM:
 >
-> If software checksumming is enabled, xsk_skb_metadata() calls
-> skb_checksum_help(skb). Since skb_headlen(skb) is 0, won't the check
-> offset >=3D skb_headlen(skb) in skb_checksum_help() always evaluate to tr=
-ue,
-> triggering a warning and causing the packet to be dropped?
-
-Patch 1 has already dealt with this issue.
-
->
-> Also, can a user-space program modify the checksum metadata concurrently?
->
-> In xsk_skb_metadata(), the metadata is read directly from the UMEM buffer=
-,
-> which is shared memory mapped into user-space:
->
-> net/xdp/xsk.c:xsk_skb_metadata() {
+> xsk_build_skb_zerocopy()
 >     ...
->         if (meta->flags & XDP_TXMD_FLAGS_CHECKSUM) {
->                 if (unlikely(meta->request.csum_start +
->                              meta->request.csum_offset +
->                              sizeof(__sum16) > desc->len))
->                         return -EINVAL;
->
->                 skb->csum_start =3D hr + meta->request.csum_start;
->                 skb->csum_offset =3D meta->request.csum_offset;
+>     skb =3D sock_alloc_send_skb(&xs->sk, hr, 1, &err);
 >     ...
-> }
+>     err =3D xsk_skb_init_misc(skb, xs, desc->addr);
+>     if (unlikely(err)) {
+>         xsk_drop_untrans_skb(skb);
+>         return ERR_PTR(err);
+>     }
 >
-> The bounds check does not use READ_ONCE(). Could a user-space application
-> modify meta->request.csum_start and meta->request.csum_offset between the
-> check and the assignment? If so, it might bypass the bounds check and spe=
-cify
-> arbitrarily large offsets, causing out-of-bounds writes when the hardware
-> inserts the checksum.
+> In xsk_drop_untrans_skb() on 32-bit systems, xsk_skb_destructor_is_addr(s=
+kb)
+> evaluates to !skb_shinfo(skb)->destructor_arg. Because destructor_arg
+> contains non-zero garbage, the function returns false. The check in
+> xsk_drop_untrans_skb() (!xsk_skb_destructor_is_addr(skb)) then succeeds,
+> passing the garbage pointer to kmem_cache_free().
 
-Yes, you're right about this pre-existing behavior but currently I
-don't have any interest in expanding the series. Maybe I will
-construct it as a follow-up patch.
+Yes, you're right. After I removed the untrans_skb code block as
+suggested by Stan, the problem is gone :)
 
->
-> > -                     if (unlikely(err))
-> > +                     if (unlikely(err)) {
-> > +                             xsk_drop_untrans_skb(skb);
-> >                               return ERR_PTR(err);
-> > +                     }
-> >               }
-> >       } else {
-> >               struct xsk_addrs *xsk_addr;
 >
 > --
 > Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260420082805.14=
-844-1-kerneljasonxing@gmail.com?part=3D5
+844-1-kerneljasonxing@gmail.com?part=3D8
