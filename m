@@ -1,218 +1,224 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B28E423B61B
-	for <sashiko@lists.linux.dev>; Tue, 21 Apr 2026 05:03:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776747834; cv=none; b=HvfbYOmldpcN4C0eRnQzxVwAfbCRd+i971Hx3oCodIdTxoEZvIAl/mPtBw97D0JUoDLUwy1SPf6d88gGKPlYnjnTpGwuAzKh/X56gzcSAlrVHte6OCX/jBIrVqw7yXLRCw3u319etT19wnntNU9ROeoBp2f/c0DhF9Ms9S8Cz6c=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776747834; c=relaxed/simple;
-	bh=xwMKmWiI4a6VfwuR3Q9PRfDn8JfujjN/eAGvdJrq3ew=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=WOF2DWYIKvfyNjeV7KBawERPHfBElPE0aff5rVX/L8aD2JTkH2Yo0cnDzmVqLNVodUdQH0jC+qKRJcjJ7Sx2y/eCEHq4wcuenjlNegAKPdzS+4YIGjPq2G5SHHAtOLUF4gy/wqMXYKKAp3xizY38GFb4+0Hv5uAKYUmGGF+zCBk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jr94sFhu; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D297239A818
+	for <sashiko@lists.linux.dev>; Tue, 21 Apr 2026 08:29:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.180
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776760156; cv=pass; b=aKFqVPd96vQmtroq2lprU9c2IKRr7XGwzemBbOpkiyO423CpbOttW8rDtbhSHAFUXfRB/QW22LuOlCPhDVLhy8QVtUCZnbhGZeCplj1zWdz8bBAZ31kE9FrR8IoF2NGjnsVAqLRxBOU9ab9+0r4AdJsXPqeFh71PGcwvy0YQiDU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776760156; c=relaxed/simple;
+	bh=DxweTDA1HWr3vdrk61H0Qs8so9f8NrtGRJglz2zsZwU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Ve8wWZVWDj5ifjqd23tvq2T0S9CGLv4mInthsN2INI5Li9TExCNLL6xJ6h3YQOmB4HEoliedxMO6BO4Q9gDRVbSXTv/5x8bjoNwULV9Vg9LPlbgYDPXEkkEqtKJnjzZEsP3eJGCPEMGZnHFOjy+Dsn4tk8bgqXf1Fn+EHogjmOI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PMXwfcos; arc=pass smtp.client-ip=209.85.167.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jr94sFhu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776747833; x=1808283833;
-  h=message-id:date:mime-version:subject:from:to:cc:
-   references:in-reply-to:content-transfer-encoding;
-  bh=xwMKmWiI4a6VfwuR3Q9PRfDn8JfujjN/eAGvdJrq3ew=;
-  b=Jr94sFhuwvTXediV8DMF1xErhvFzPxTlcx0x0Zbn6angx2OmSNYHIlri
-   KqF+iOUpVNACbucs2LmX8hCaMfeCmV91haOnHS1SSzkfgIQ02zRDL8tLa
-   VK3mvTEVhdDuzECJ8IGSuO3G9MUmBImbNNQRh09UqMffg3LlcnF+A40k1
-   mgqiGuvKgq0/BREoMkizNNYkghTrF7IKo69uOtih7Cy5nedb1ZzNUOuIz
-   BCSyHQ+bz4mbKACfX+Pak1vUcmf+dQhzQMle2ET6ihXV4f9NQ4c7zjEya
-   vsGHFGcwhVPuyJb6aAoSzTiaZy6w/wxHecXx4vufoeAMujOhmvE6qL9pq
-   A==;
-X-CSE-ConnectionGUID: M3UDmfrTQJaK3aR8zreNwg==
-X-CSE-MsgGUID: yWYGykyzS22mWnnEwjVXFg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11762"; a="76838113"
-X-IronPort-AV: E=Sophos;i="6.23,191,1770624000"; 
-   d="scan'208";a="76838113"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2026 22:03:52 -0700
-X-CSE-ConnectionGUID: 4HJyDC6VTLyUbswsUb1p2A==
-X-CSE-MsgGUID: YgYpZ6wTQEaRL+HcrslMUQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,191,1770624000"; 
-   d="scan'208";a="232205989"
-Received: from unknown (HELO [10.238.3.127]) ([10.238.3.127])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2026 22:03:51 -0700
-Message-ID: <3a54cbc0-a707-438f-b87e-5f608b5c26db@linux.intel.com>
-Date: Tue, 21 Apr 2026 13:03:48 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PMXwfcos"
+Received: by mail-oi1-f180.google.com with SMTP id 5614622812f47-464bba3a9easo2054556b6e.0
+        for <sashiko@lists.linux.dev>; Tue, 21 Apr 2026 01:29:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776760154; cv=none;
+        d=google.com; s=arc-20240605;
+        b=LdQO7jaVMRSS2mmZxEhl3N47AZ/zfIFjvFrQivE2+9eo8NGRY8EiF3kJI/yd8LJPKo
+         +V1PfB9GegtzFTX6vQS9ken5UmgV3lxikWPjJF4nin+NGdnDvcQkdbZUeN5vZ3TS1DuP
+         XHFQxF7cdKvn7/HP82/ZRUI9vERUPS20354k8R/umiwDEJUEXLxmkzKaCQO2j4CwiBjp
+         mPN2UQvFvLVYZ77to4vu6DCZc5PD6Ik/sFI83GN/imfN7R6ppDZOZPqT0+S/fSDU+gts
+         9zcjPjoPemrZfDj2wLOzgMgbi/DCSFWTcF9P2nUHMBFDYMbFJOhCX9L5XWS296HmYMlR
+         +DMg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=WBVIXswxrTHLxN2X8g7ZfdzVtDIvweY9RptkLep9mS8=;
+        fh=iJ/Y6mooKg8w9V941YofMm4Ar8PUH/p5dED8m8WJDcQ=;
+        b=D1NYLMBRqcnOEDyw4t0L1l+XawI//SKZJS2rX3kIclBrY8bx477yH/MPNEg5lcJsba
+         atywDhz4znvkeSW/07wN9Pa8DbNx/V/+rr/UsgOVm5Nih5BIhdHYwW9iIgnE9aZ/rIuc
+         Kf/XEq6E68/WIa1B0HSZdkIxdCctz7e9DX4Ov3EgXHZrotxw/Kd5ifAYNoL6uiLqGUke
+         wPoYAsMGoBAtvip24DsmB2+xXXVrmbAPuC5KrpAFmtPGAWhBSQDzEMIl31ZBFyoUj9lu
+         l2E2R1sHmnV9amWoC40/SDCam0QoR/zc7UaAMk8xRNpdkOdVUnqIoedXeGiK2aN7sRdT
+         L13A==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776760154; x=1777364954; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WBVIXswxrTHLxN2X8g7ZfdzVtDIvweY9RptkLep9mS8=;
+        b=PMXwfcosn8ghyT1UWHuw/E6v2U7B41XMdWtB4sUGjKH63y7HZHwkgRSdAdQ8dvLDpQ
+         8ltzcUlgKdIPqjn5ADz0kyoguSA3kYzABAqC4Zs8Q6fZnpuQ9Q/8+7Zu3mqh+nKqEgcX
+         GDD89/JWIRPHrd+a0/MjDsYM/wBt5w/UO9gmzYUhckMZl1q/5hjHDzNwOdES4wtCEJRD
+         xTEhPnS/OXV686Zv0oCUooN01+GgMoA8O1qGTQiJ5bpRw/szrc3q6PSR9UGmF6S5CVXm
+         ObLm51o23tF2aR/wHW2Qvf61asNldTaDoVRr+EapgvLpsg3U5kYEPgdqKV9Qfb7VFfnp
+         TqfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776760154; x=1777364954;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=WBVIXswxrTHLxN2X8g7ZfdzVtDIvweY9RptkLep9mS8=;
+        b=NHa6b9wSR8/u6Ev6pruVQOR3/Iudq7DyG2lMwgnd//9/qgbKd4BwHI7PN1b6Kdw1Nv
+         UOJpWoV1QBoBgNdsGZhwDuHCWKMhfvse8K9IqHbRFIApMPaXKvwfscvW/3KnQYopvTLu
+         jPX+6hW3T7kbGaOL+9tIVrME6toP/WDPZEVaz9yuI0QTbP8R7yQ2K7OpeLLp1YUomOsc
+         1mhhNKulhriOCtx3yuh89m9BwprtBpwX23Lbs5XJyJAJC/tXcCtCEYNNT7StinWHse1Z
+         HQP0+MqyRO3jX0/V6fJQXQ3Xf3A3I+ijzN4lHYORHUYldcnkUmccvmPe6oraZ6ZPshMe
+         uRMA==
+X-Gm-Message-State: AOJu0Yxb7Ez6lBQcQ27hDclYlr39EGQPE1zN6Y8x4TiP70O0pgvcVkuF
+	vw360PKcbXnYMas8GAjLXxioWEls8dkZrrbuj9mnafpC1JNXk+dThw+Qmw/yyuydSzDgyx9/au/
+	qICiMAuCkmvJm4VN6tRd0ow5dOOPOluW9a6yn
+X-Gm-Gg: AeBDieurPVsOVLTzQG9BKVAUp6lvfEf8ZYvkTiGwAtJ40jFeHQPi8vimwFBSby/E8R/
+	uzbiaG6qrWl/eiVk8jWlCAm+plJHQI2zaFihtn4mI6Jn3ajc2BKCoJ/w8tH24tYpUaXs1u1SHZo
+	j7izRW05Kt7SVE/LvuOKShiqXxJG4HLNiafymvH9teyvcGKXBbauS4Q0C9xusiilKEzRrIKZlj7
+	IL5n3xLLt4uqt2Pw1JlNnaAaxHEERjQ4cMfrxAT/lpfwrzu0oi1JtJj/+NfIVDJPcsNz/jrKKlw
+	lqtdSo94KEhlheg+q/GE
+X-Received: by 2002:a05:6808:4f21:b0:45e:69af:6bc6 with SMTP id
+ 5614622812f47-4799c8efc88mr9708304b6e.13.1776760153594; Tue, 21 Apr 2026
+ 01:29:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Patch v2 1/4] perf/x86/intel: Clear stale ACR mask before
- updating new mask
-From: "Mi, Dapeng" <dapeng1.mi@linux.intel.com>
+References: <20260420184656.331306-1-suchitkarunakaran@gmail.com> <20260421004512.CDE13C19425@smtp.kernel.org>
+In-Reply-To: <20260421004512.CDE13C19425@smtp.kernel.org>
+From: Suchit Karunakaran <suchitkarunakaran@gmail.com>
+Date: Tue, 21 Apr 2026 13:59:00 +0530
+X-Gm-Features: AQROBzB2-lB0ULwE7TD80N0d04Nl5b0rwS9pxFz-WQLDkYLwQhO5hDs3zwW6nSw
+Message-ID: <CAO9wTFiFRSRjMRSAA+vV-AF1rJQGdoCK_p6TXvQ+V1ToaqMs0w@mail.gmail.com>
+Subject: Re: [PATCH] perf/lock: enable end-timestamp accounting for cgroup aggregation
 To: sashiko@lists.linux.dev
-Cc: linux-perf-users@vger.kernel.org
-References: <20260420024528.2130065-2-dapeng1.mi@linux.intel.com>
- <20260420032402.A8971C19425@smtp.kernel.org>
- <717f00c7-be8d-4f69-88ab-5a060a6a7e65@linux.intel.com>
-Content-Language: en-US
-In-Reply-To: <717f00c7-be8d-4f69-88ab-5a060a6a7e65@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Cc: bpf@vger.kernel.org, linux-perf-users@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-
-On 4/20/2026 2:29 PM, Mi, Dapeng wrote:
-> On 4/20/2026 11:24 AM, sashiko-bot@kernel.org wrote:
->> Sashiko AI review found 1 potential issue(s):
->> - [High] Unvalidated user input in ACR setup leads to cross-user hardware state corruption and PMU DoS
->> --
->>
->> commit 67dc3d7b096879ed6418f54978bf45536496156f
->> Author: Dapeng Mi <dapeng1.mi@linux.intel.com>
->>
->> perf/x86/intel: Clear stale ACR mask before updating new mask
->>
->> This commit zeroes out the ACR mask (event->hw.config1) for all scheduled
->> events before applying a new mask. This ensures that bits from a previous
->> stale ACR mask do not persist and pollute the hardware state during event
->> rescheduling.
->>
->>> diff --git a/arch/x86/events/intel/core.c b/arch/x86/events/intel/core.c
->>> index 4768236c054bb..774ae9a4eeaf8 100644
->>> --- a/arch/x86/events/intel/core.c
->>> +++ b/arch/x86/events/intel/core.c
->>> @@ -3334,6 +3334,12 @@ static void intel_pmu_acr_late_setup(struct cpu_hw_events *cpuc)
->>>  	struct perf_event *event, *leader;
->>>  	int i, j, idx;
->>>  
->>> +	/* Clear stale ACR mask first. */
->>> +	for (i = 0; i < cpuc->n_events; i++) {
->>> +		event = cpuc->event_list[i];
->>> +		event->hw.config1 = 0;
->>> +	}
->>> +
->> Does this new clearing loop inadvertently amplify an existing regression where
->> a single user can disable Auto Counter Reload for all processes on the same CPU?
->>
->> Looking further down in the same function, the code iterates over
->> user-controlled bits from event->attr.config2:
->>
->> arch/x86/events/intel/core.c:intel_pmu_acr_late_setup() {
->>     ...
->>     for_each_set_bit(idx, (unsigned long *)&event->attr.config2, X86_PMC_IDX_MAX) {
->>         if (i + idx >= cpuc->n_events ||
->>             !is_acr_event_group(cpuc->event_list[i + idx]))
->>             return;
->>         __set_bit(cpuc->assign[i + idx], (unsigned long *)&event->hw.config1);
->>     }
->>     ...
->> }
->>
->> Because idx is derived from the user-controlled event->attr.config2 mask
->> without being validated against the actual size of the event group, a
->> user could provide an artificially large idx.
->>
->> The validation in intel_pmu_hw_config() only checks the weight of the mask
->> using hweight64(), rather than checking the actual bit indices, leaving this
->> exposed. Subsequent patches in the series do not fix this.
->>
->> If the computed index hits a non-ACR event or exceeds cpuc->n_events, the
->> loop triggers an early return. Since the newly added code zeroes out
->> event->hw.config1 for all scheduled events before this loop, wouldn't this
->> early return leave all subsequent valid ACR events with a cleared mask?
->>
->> Additionally, if the out-of-bounds idx points to another user's valid ACR
->> group, is_acr_event_group() returns true, and the code proceeds to update
->> the event->hw.config1 with the victim's hardware counter index.
->>
->> Could this also result in cross-user state corruption of event->hw.config1
->> when the event overflows and cross-reloads the victim's counter?
-> That looks a real potential issue. Current validation for the acr_mask
-> needs to be enhanced. The acr_mask from user space should not exceeds the
-> index bitmap of current ACR events group.
-> Thanks.
-
-The following changes would be done to address all current found issues.
- - Calculate the indices bitmap for each ACR events group. Any bits in
-    the user-space mask not present in the group's bitmap are now dropped.
- - Instead of an early return on invalid bits, drop only the invalid
-    portions and continue iterating through all ACR events to ensure full
-    configuration.
- - Explicitly clear the stale hardware ACR mask for each event prior to
-    writing the new configuration.
-
-diff --git a/arch/x86/events/intel/core.c b/arch/x86/events/intel/core.c
-index 4768236c054b..1a2c268018a2 100644
---- a/arch/x86/events/intel/core.c
-+++ b/arch/x86/events/intel/core.c
-@@ -3332,23 +3332,41 @@ static void intel_pmu_enable_event(struct
-perf_event *event)
- static void intel_pmu_acr_late_setup(struct cpu_hw_events *cpuc)
- {
-        struct perf_event *event, *leader;
--       int i, j, idx;
-+       int i, j, k, bit, idx;
-+       u64 group_mask;
-
-        for (i = 0; i < cpuc->n_events; i++) {
-                leader = cpuc->event_list[i];
-                if (!is_acr_event_group(leader))
-                        continue;
-
--               /* The ACR events must be contiguous. */
-+               /* Find the last event of the ACR group. */
-                for (j = i; j < cpuc->n_events; j++) {
-                        event = cpuc->event_list[j];
-                        if (event->group_leader != leader->group_leader)
-                                break;
--                       for_each_set_bit(idx, (unsigned long
-*)&event->attr.config2, X86_PMC_IDX_MAX) {
--                               if (i + idx >= cpuc->n_events ||
--                                   !is_acr_event_group(cpuc->event_list[i
-+ idx]))
--                                       return;
--                               __set_bit(cpuc->assign[i + idx], (unsigned
-long *)&event->hw.config1);
-+               }
-+
-+               /* Figure out the group indices bitmap. */
-+               group_mask = 0;
-+               for (k = i; k < j; k++)
-+                       group_mask |= BIT_ULL(cpuc->assign[k]);
-+
-+               /*
-+                * Translate the user-space ACR mask (attr.config2) into
-the physical
-+                * counter bitmask (hw.config1) for each ACR event in the
-group.
-+                * NOTE: ACR event contiguity is guaranteed by
-intel_pmu_hw_config().
-+                */
-+               for (k = i; k < j; k++) {
-+                       event = cpuc->event_list[k];
-+                       event->hw.config1 = 0;
-+                       for_each_set_bit(bit, (unsigned long
-*)&event->attr.config2, X86_PMC_IDX_MAX) {
-+                               idx = i + bit;
-+                               if (idx >= cpuc->n_events ||
-+                                   !(BIT_ULL(cpuc->assign[idx]) &
-group_mask) ||
-+                                   !is_acr_event_group(cpuc->event_list[idx]))
-+                                       continue;
-+                               __set_bit(cpuc->assign[idx], (unsigned long
-*)&event->hw.config1);
-                        }
-                }
-                i = j - 1;
-
-
+On Tue, 21 Apr 2026 at 06:15, <sashiko-bot@kernel.org> wrote:
 >
+> Sashiko AI review found 2 potential issue(s):
+> - [High] Incomplete spinlock and rwlock contentions are silently dropped =
+for LOCK_AGGR_CGROUP because account_end_timestamp() skips the per-CPU tsta=
+mp map.
+> - [Medium] Inconsistent cgroup attribution between complete and incomplet=
+e lock contentions when a task migrates cgroups.
+> --
 >
->>>  	for (i = 0; i < cpuc->n_events; i++) {
->>>  		leader = cpuc->event_list[i];
->>>  		if (!is_acr_event_group(leader))
+> commit 7ba25dc647534f97eb1ae9f34c6c8d38e7fef074
+> Author: Suchit Karunakaran <suchitkarunakaran@gmail.com>
+>
+> perf/lock: enable end-timestamp accounting for cgroup aggregation
+>
+> This commit adds a cgroup_id field to struct tstamp_data to properly acco=
+unt
+> for incomplete lock contention events when aggregating by cgroup. It reco=
+rds
+> the cgroup ID at contention_begin and uses it to build the aggregation ke=
+y
+> in userspace.
+>
+> > diff --git a/tools/perf/util/bpf_lock_contention.c b/tools/perf/util/bp=
+f_lock_contention.c
+> > index cbd7435579fea..1a5bd2ff8ee4c 100644
+> > --- a/tools/perf/util/bpf_lock_contention.c
+> > +++ b/tools/perf/util/bpf_lock_contention.c
+> > @@ -463,8 +463,8 @@ static void update_lock_stat(int map_fd, int pid, u=
+64 end_ts,
+> >               stat_key.lock_addr_or_cgroup =3D ts_data->lock;
+> >               break;
+> >       case LOCK_AGGR_CGROUP:
+> > -             /* TODO */
+> > -             return;
+> > +             stat_key.lock_addr_or_cgroup =3D ts_data->cgroup_id;
+> > +             break;
+>
+> Does this fully enable end-timestamp accounting for cgroup aggregation
+> on per-CPU locks like spinlocks and rwlocks?
+>
+> Looking at account_end_timestamp() in tools/perf/util/bpf_lock_contention=
+.c,
+> there is an early return that skips the per-CPU tstamp map:
+>
+> static void account_end_timestamp(struct lock_contention *con)
+> {
+>         ...
+>         /* Now it'll check per-cpu tstamp map which doesn't have TID. */
+>         if (aggr_mode =3D=3D LOCK_AGGR_TASK || aggr_mode =3D=3D LOCK_AGGR=
+_CGROUP)
+>                 return;
+>
+>         total_cpus =3D cpu__max_cpu().cpu;
+>         ts_fd =3D bpf_map__fd(skel->maps.tstamp_cpu);
+>         ...
+> }
+>
+> Since account_end_timestamp() skips iterating over skel->maps.tstamp_cpu
+> when aggr_mode is LOCK_AGGR_CGROUP, are all incomplete contentions for
+> spinlocks and rwlocks still silently dropped?
+>
+
+As per my understanding the tstamp_cpu map stores per-cpu entries
+without a TID, so there is no current task context available to derive
+a cgroup ID. Unlike the per-task tstamp map where cgroup_id is
+captured at contention_begin time, per-cpu entries represent
+spinlock/rwlock contentions that are inherently CPU-bound and not
+attributed to a single task at contention_end time either. The
+original LOCK_AGGR_TASK mode has the same early return for the same
+reason, cgroup attribution without a task context is not meaningful.
+This patch addresses only the per-task straggler case.
+
+> [ ... ]
+>
+> > diff --git a/tools/perf/util/bpf_skel/lock_contention.bpf.c b/tools/per=
+f/util/bpf_skel/lock_contention.bpf.c
+> > index 96e7d853b9edf..d0e2cad02fa36 100644
+> > --- a/tools/perf/util/bpf_skel/lock_contention.bpf.c
+> > +++ b/tools/perf/util/bpf_skel/lock_contention.bpf.c
+> > @@ -536,6 +536,8 @@ int contention_begin(u64 *ctx)
+> >       pelem->timestamp =3D bpf_ktime_get_ns();
+> >       pelem->lock =3D (__u64)ctx[0];
+> >       pelem->flags =3D (__u32)ctx[1];
+> > +     if (aggr_mode =3D=3D LOCK_AGGR_CGROUP)
+> > +             pelem->cgroup_id =3D get_current_cgroup_id();
+>
+> If a task migrates to a different cgroup while blocked on a lock, could t=
+his
+> lead to inconsistent attribution between complete and incomplete contenti=
+ons?
+>
+> The cgroup ID is statically recorded here at contention_begin() and used =
+by
+> userspace for incomplete events.
+>
+> However, contention_end() continues to dynamically resolve the cgroup ID:
+>
+> SEC("tp_btf/contention_end")
+> int contention_end(u64 *ctx)
+> {
+>         ...
+>         case LOCK_AGGR_CGROUP:
+>                 key.lock_addr_or_cgroup =3D get_current_cgroup_id();
+>                 break;
+>         ...
+> }
+>
+> Would it be more consistent for contention_end() to also use the statical=
+ly
+> recorded pelem->cgroup_id, ensuring that both completed and incomplete ev=
+ents
+> attribute the contention time to the exact same cgroup?
+>
+
+I think the fix should go in the opposite direction. Instead of
+calling get_current_cgroup_id() at contention_end, I think we should
+be using pelem->cgroup_id. Semantically, the cost of lock contention
+is incurred by the task that had to wait for the lock. So it makes
+more sense to attribute that cost based on the cgroup at the time the
+wait started (contention_begin), rather than whatever happens to be
+current at the end.
+I=E2=80=99m not entirely certain about this, so I=E2=80=99d really apprecia=
+te any
+input from maintainers and reviewers on whether this attribution makes
+sense.
+
+> --
+> Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260420184656.33=
+1306-1-suchitkarunakaran@gmail.com?part=3D1
