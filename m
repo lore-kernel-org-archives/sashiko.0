@@ -1,71 +1,71 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAD9635DA4A
-	for <sashiko@lists.linux.dev>; Tue, 21 Apr 2026 08:56:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C74A3A0EB1
+	for <sashiko@lists.linux.dev>; Tue, 21 Apr 2026 08:57:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776761820; cv=none; b=aUOSshjmRQ+flt4VI+BWFpwwKNhiDAAnOTrtJr1X6VqJPMbcfXb/II++urd/s0N66VgiUV3WyZBRJZss9L5WqPKZuB0KA6R5mssDJcxfcb6WVba3drWEnXkxc/DKgOBJznZwZEYWbvm0KCtjR+sDyUTRfl6oCY/TQQaeP9VHzG4=
+	t=1776761835; cv=none; b=fISowJdO9xSpN3QEI5HWuqPhL16bmhoS4dyWBHXGvFww9ZwOeHWUjvCL++zfpZHkVHu4xv6/ttxnXwyPzEwzbiOEwLE0e5S224P9ZAz05t+8XA+VGLw7WGKu9sfL8CCIXlPnroAaWxTnsfNCqyZ87adOfcihkTIaYEUu63Axx3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776761820; c=relaxed/simple;
-	bh=CIZL7UDOzIHx4kBy3bG1HxhhYIu6lC6fwaUSbwlvVis=;
+	s=arc-20240116; t=1776761835; c=relaxed/simple;
+	bh=eTLzMI7yWfeA7FpJW6pduFsu39gZsW1lezkyNZLf2Tg=;
 	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ESewEMpFM9Dzxyz4GWgYCJsRxfUEc4eYUNwfmSiJkMfk1AVQJSsO6UV73U6J8DeP6uzL4Yvd5FEPgolB7KYJLgfgRPQayYMlWkOy7M7Pv3Dv2zZ82cdUKG6xRXEk4bjAGtabNQtEUy/ac3epRiYGOOebAyjpGJimZ81Vb664+Ug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cO0RGdwF; arc=none smtp.client-ip=209.85.128.49
+	 Content-Type:Content-Disposition:In-Reply-To; b=cOAHPlQ4Rf+eXDG9wODoOXOE9MI6ZiEf+VzYanMSZqBhFTKofa5ULFcdW1oFphr3IZD181GW2R1rYGj9XXy7S70S/UHRr2Wzm3YAkAkQX/rU1ShpCRY65SQO9C/iRN6PmI1Sa37AEc6CcO33iAHPgFuVP3a+aFVoKAHkJxtTZSE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JRH2GLOZ; arc=none smtp.client-ip=209.85.221.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cO0RGdwF"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4891c00e7aeso17831675e9.2
-        for <sashiko@lists.linux.dev>; Tue, 21 Apr 2026 01:56:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JRH2GLOZ"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-43fea39e066so3005265f8f.1
+        for <sashiko@lists.linux.dev>; Tue, 21 Apr 2026 01:57:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776761817; x=1777366617; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1776761833; x=1777366633; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=PogW4mupQvvo8UZj9OhLW51Gud2lL2Fw5bDCoh6om3g=;
-        b=cO0RGdwFGGyIxT/PpLXoCaXAK0e6/W0lfTKej0ZUTPQm2wWO+VOh0tYBgQlf78tX7P
-         0diw2oyOPZDOdKPR+U3oaM3cUD4kffsYThR7R3qh1O4AiR9evtwBu+m+Hn6CWypIgREq
-         9DEDAN/Lz6wiytY+qkmgilIbRCJA3bzDeKPVZ0AtmmqTXMoHAYJe7A+vgi1uQm5oHuVE
-         JJMxtTzKrMCjYkQLtXgxp3NCR7IilLKOTSKlxkZxKqv6Rb8ZOJCMOT8imq+0d7GT3f6Q
-         AOzvOhbXUITE1D6gn3rKW+9P54noMZ/PYO6Px99FsZ583BC2geYTP6H1/zxCPgp+AykY
-         a+KQ==
+        bh=3MXLb7hix0ehudvrz1Mhjelpsv8ZbBwlfk6T0/b/pdk=;
+        b=JRH2GLOZTewJy9jZwTIH8QxEPPg7Gqi5xLGDeLGshuPQd9h85iTFBiNebao1SQgUEI
+         yBdLECs+0bQp7s8au7dhcXzjaLfjBLuosaI1mPzOQPeACEo1pS6W4Yq01n06bSuAjC4X
+         rBXUrEGH9L2CmJYFZYK3FRtZqEOJLc0CLDtT5SowPxzmUQ5zByhH+k3bizTEmOmEZ/AJ
+         ysaAMoFGFdrlgSay1w9ixP8wumFVj85bAgJbyZD8rhplgZTepAUPV4jiHYyd+Np9rNxb
+         gCW/hXRC1Yqbfg2Klz9zmuKJfh00X0qpi3gr+76cFYYeAwK124Q84RVV8bkA8dDi44X2
+         OWFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776761817; x=1777366617;
+        d=1e100.net; s=20251104; t=1776761833; x=1777366633;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=PogW4mupQvvo8UZj9OhLW51Gud2lL2Fw5bDCoh6om3g=;
-        b=UftSAw6wkrm/cwJC1wuxPjCCe3LdWoAVXeYXgkACf3q0mtSHjSRbSu7sAQpEDUi865
-         C/GSeWuG6azqO6lYmZpDq3e8cTtPzbT4E0Pp3jDGB29NsBNQc/1zXGefOoq/ygPTlz0t
-         QKV7Eg92feoIHRynhbvfVnkE5czcWZFiV4zudpJPXR5o6vPW7zHJiht3skrkTPmmge9G
-         POKAV2CFFFNk9juqar9mx8eOom77uRax2h2pDKoQ2m/6qgGQiOezhuw8mo97Bzj9B8Ie
-         LiiEcbq/5LhXEJ2KCqG3p6VK2nzTY2Wo+ZQR9InUEgldXFwdquwlB+cT9kj4YHk3xuGV
-         RioQ==
-X-Gm-Message-State: AOJu0YwefNzFWLrQmbzD1PXyqAcFXv0CjdEGCADczO1AwbLQb2AkIMGs
-	pAR681oH7mAU4RUGLIez/qkDZtEWngY93csxO7Zczg5168HB25sCXLglVSLR6I5T
-X-Gm-Gg: AeBDievwuLZQD3Ef6/co6aD8uzLFWth1h7nheZfruOIaFWdcg+e3B+fjUaM7ga3wdrC
-	QZC/g75oxpfqpO7m1IWnHNIt+ibfAQcknCUYqLjy1ZIvZUKhf3vqVwGuQ7qBLkSodIEyWPkY/e1
-	+XDjlni+F11vK4FhY3vasqfufQoJ1ONEI0lIxc8bZpjTwu2cRcdDILN5gbJ02uEQM1x09oe/j+I
-	QUjYuuUUF9wq1cEZunlA5oX7HC4Aa8QGIpu81kKvPzJ7RznrMHrRtq+ELK/udy+TG3lfCvWv12s
-	+EPArgxi9+njl3/zOYpXkyAzU4qzXEFyxBrqr9Te9tI7u5aaUAqBr4imP+XA3xFTXHzHj9GGMVZ
-	eJzKUvNrsGfQ95Nc4/46Bc749wngmV1Vg5AYCHPt/2h0PCSsLCAmr7vBbAaPvYBnKMWiRdW5Ix7
-	MYgbZ6/0Q=
-X-Received: by 2002:a05:600c:890b:b0:488:a977:8d6 with SMTP id 5b1f17b1804b1-488fb775a35mr171422315e9.19.1776761817133;
-        Tue, 21 Apr 2026 01:56:57 -0700 (PDT)
+        bh=3MXLb7hix0ehudvrz1Mhjelpsv8ZbBwlfk6T0/b/pdk=;
+        b=j2K+sk+c+5ru7Th2IrXeh7NOnIZxS22mCnwcaS1vUFInxTEjaCqwm3i1ZSU3+sTO3Z
+         sZwpOtU0ey2pGI0a1yckcl3MRLpWmxGdlOIRfCqo5IQm+ncSclJ9MpEtjYmI6cbc8rEx
+         KYV9kjgt/nZnP7m7SqOe5L3NX9YxBnHk/WkZ4+/daTeNo1x74gMQiGNkmbdn8ZH7X+/B
+         vxrcs9YOE25VfSAYeDBfD6Fs/40iPHZrrDo0IelsMn8BNmtGm1gWNDzPfRbD+Kx7NXYM
+         cKdhn4lh0E4yrrM605X6EPyXl2S5y1wOe2D3ZOOLi1JD036nzWFeVeAODxD1PSVrXSSe
+         ytjw==
+X-Gm-Message-State: AOJu0YypmEWViYJojtVjmSH9RAWzW+G3upzorCbyFZGP3rLtdIgjLsp6
+	Hm8K+dQsqizzk2ZfUJJTiz0OCxNbVVI9SM6UhjrPs/mCrxJ0mZDmqQqlrQ8Vg2TQ
+X-Gm-Gg: AeBDiesYVhr3DQxeIzXA3gFlNqtUxRnVLXCCQRsc8cb7HpTtmwxPBaJ6WUXixMhiGnS
+	j0jznFjDgBmxiEYp+WiEWzhO5SZ6PXbmlUHsaMMN3ZTmZFJisia+G4kK5DgqEhWRDWeT5o3PnsO
+	C/8idBLeIK5tloQcUockiTVEzufanOmT6E/9kf+OL6K9O9nYHRtHaEW7yigM0Joe3c1u2Bqy4H/
+	vD0sxE0ljOH0+7l6BIcLL0SqAZ8VoVwK7bd/p4nXpRO8qb68f+Hh3LZD9v61e+VU8X5uUNchdt4
+	XyVdwfyxeQmwHnLt60sdaWes10uSfDKDCgt1losa+bLJohGLiOsb7oVpbleUs9pd1zwRLAXglOk
+	nVj+5sID9MptGWwx9oNLbERSHNwIMg/erKt29twjpB5ds5xQZ8MwQIeHB/RQnM+5XeNvS3PIWRf
+	12W+D6JZ0=
+X-Received: by 2002:a05:6000:401f:b0:441:1e8e:d8f7 with SMTP id ffacd0b85a97d-4411e8ed9bamr3596913f8f.29.1776761832542;
+        Tue, 21 Apr 2026 01:57:12 -0700 (PDT)
 Received: from krava ([2a02:8308:a00c:e200::d99c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488fc0f82bbsm584707825e9.3.2026.04.21.01.56.56
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4e3a166sm34965481f8f.19.2026.04.21.01.57.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Apr 2026 01:56:56 -0700 (PDT)
+        Tue, 21 Apr 2026 01:57:12 -0700 (PDT)
 From: Jiri Olsa <olsajiri@gmail.com>
 X-Google-Original-From: Jiri Olsa <jolsa@kernel.org>
-Date: Tue, 21 Apr 2026 10:56:55 +0200
+Date: Tue, 21 Apr 2026 10:57:10 +0200
 To: sashiko@lists.linux.dev
 Cc: bpf@vger.kernel.org
-Subject: Re: [PATCHv5 bpf-next 19/28] libbpf: Add btf_type_is_traceable_func
- function
-Message-ID: <aec71yEZE8KF19Xz@krava>
-References: <20260417192502.194548-20-jolsa@kernel.org>
- <20260418034049.4F212C19424@smtp.kernel.org>
+Subject: Re: [PATCHv5 bpf-next 21/28] selftests/bpf: Add tracing multi
+ skel/pattern/ids attach tests
+Message-ID: <aec75votcgmzrWI8@krava>
+References: <20260417192502.194548-22-jolsa@kernel.org>
+ <20260418033438.03847C19424@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
@@ -74,118 +74,83 @@ List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260418034049.4F212C19424@smtp.kernel.org>
+In-Reply-To: <20260418033438.03847C19424@smtp.kernel.org>
 
-On Sat, Apr 18, 2026 at 03:40:48AM +0000, sashiko-bot@kernel.org wrote:
-> Sashiko AI review found 3 potential issue(s):
-> - [High] Unsafe BTF type resolution in `btf_type_is_traceable_func` lacks validation and bounds checking, leading to out-of-bounds read and segfault.
-> - [Medium] `btf_get_type_size` hardcodes `sizeof(void *)` for pointer sizes, breaking cross-architecture analysis.
-> - [Medium] Missing maximum resolution depth in type modifier loop allows Denial of Service via infinite loop.
+On Sat, Apr 18, 2026 at 03:34:37AM +0000, sashiko-bot@kernel.org wrote:
+> Sashiko AI review found 2 potential issue(s):
+> - [Medium] Double free of `vmlinux_btf` in the error path of `get_ids()`.
+> - [Medium] Missing error state assignment in `get_ids()` leads to returning a partially or fully zero-initialized array instead of failing.
 > --
 > 
-> commit 70d9630993310d9569ee7d038356f4a4ec3a18e9
+> commit 44b619347c03e0f87cfb994ba8b14346b293edcc
 > Author: Jiri Olsa <jolsa@kernel.org>
 > 
-> libbpf: Add btf_type_is_traceable_func function
+> selftests/bpf: Add tracing multi skel/pattern/ids attach tests
 > 
-> Adds the btf_type_is_traceable_func function to perform checks on functions
-> to prevent attachment on some functions. Exports it via libbpf_internal.h
-> for use by benchmark tests.
+> Adding tests for tracing_multi link attachment via all possible
+> libbpf apis - skeleton, function pattern and btf ids.
 > 
-> > diff --git a/tools/lib/bpf/libbpf.c b/tools/lib/bpf/libbpf.c
-> > index 3a80a018fc7d5..65a9ac10053d5 100644
-> > --- a/tools/lib/bpf/libbpf.c
-> > +++ b/tools/lib/bpf/libbpf.c
+> > diff --git a/tools/testing/selftests/bpf/prog_tests/tracing_multi.c b/tools/testing/selftests/bpf/prog_tests/tracing_multi.c
+> > new file mode 100644
+> > index 0000000000000..52d3339b430a5
+> > --- /dev/null
+> > +++ b/tools/testing/selftests/bpf/prog_tests/tracing_multi.c
 > 
 > [ ... ]
 > 
-> > @@ -12425,6 +12425,80 @@ static int attach_uprobe_multi(const struct bpf_program *prog, long cookie, stru
-> >  	return ret;
-> >  }
-> >  
-> > +#define MAX_BPF_FUNC_ARGS 12
-> > +
-> > +static bool btf_type_is_modifier(const struct btf_type *t)
+> > +static __u32 *get_ids(const char * const funcs[], int funcs_cnt, const char *mod)
 > > +{
-> > +	switch (BTF_INFO_KIND(t->info)) {
-> > +	case BTF_KIND_TYPEDEF:
-> > +	case BTF_KIND_VOLATILE:
-> > +	case BTF_KIND_CONST:
-> > +	case BTF_KIND_RESTRICT:
-> > +	case BTF_KIND_TYPE_TAG:
-> > +		return true;
-> > +	default:
-> > +		return false;
+> > +	struct btf *btf, *vmlinux_btf = NULL;
+> > +	__u32 nr, type_id, cnt = 0;
+> > +	void *root = NULL;
+> > +	__u32 *ids = NULL;
+> > +	int i, err = 0;
+> > +
+> > +	btf = btf__load_vmlinux_btf();
+> > +	if (!ASSERT_OK_PTR(btf, "btf__load_vmlinux_btf"))
+> > +		return NULL;
+> > +
+> > +	if (mod) {
+> > +		vmlinux_btf = btf;
+> > +		btf = btf__load_module_btf(mod, vmlinux_btf);
+> > +		if (!ASSERT_OK_PTR(btf, "btf__load_module_btf")) {
+> > +			btf__free(vmlinux_btf);
+> > +			goto out;
+> 
+> Can this result in a double free of vmlinux_btf? If btf__load_module_btf()
+> fails, we call btf__free(vmlinux_btf) here, and then goto out, where
+> btf__free(vmlinux_btf) is called again.
+
+replied for this one in other email
+
+> 
+> > +		}
 > > +	}
-> > +}
 > > +
-> > +static int btf_get_type_size(const struct btf *btf, __u32 type_id,
-> > +			     const struct btf_type **ret_type)
-> > +{
-> > +	const struct btf_type *t;
+> > +	ids = calloc(funcs_cnt, sizeof(ids[0]));
+> > +	if (!ids)
+> > +		goto out;
 > > +
-> > +	*ret_type = btf__type_by_id(btf, 0);
-> > +	if (!type_id)
-> > +		return 0;
-> > +	t = btf__type_by_id(btf, type_id);
-> > +	while (t && btf_type_is_modifier(t))
-> > +		t = btf__type_by_id(btf, t->type);
+> > +	/*
+> > +	 * We sort function names by name and search them
+> > +	 * below for each function.
+> > +	 */
+> > +	for (i = 0; i < funcs_cnt; i++) {
+> > +		if (!tsearch(&funcs[i], &root, compare)) {
+> > +			ASSERT_FAIL("tsearch failed");
+> > +			goto out;
 > 
-> Does this loop need a maximum resolution depth limit?
+> Does this code return an invalid array if tsearch() fails? When tsearch()
+> fails, we jump to out, but err is still 0. Because err is 0, the cleanup
+> block below won't free ids and will instead return the partially or fully
+> zero-initialized array.
 > 
-> If a malformed BTF object contains a circular modifier reference (e.g.,
-> typedef A -> const B -> typedef A), could this loop spin infinitely and
-> cause a hang?
+> Also, if the BTF type loop that follows this completes without finding all
+> expected functions (cnt < funcs_cnt), err also remains 0.
+> 
+> Should err be set to a non-zero value before the goto and when
+> cnt < funcs_cnt?
 
-I will add that, something like in btf__resolve_type
-
-> 
-> > +	if (!t)
-> > +		return -EINVAL;
-> > +	*ret_type = t;
-> > +	if (btf_is_ptr(t))
-> > +		return sizeof(void *);
-> 
-> Does this correctly calculate the pointer size for cross-architecture
-> analysis?
-> 
-> Since libbpf is a user-space library that may process BTF blobs from
-> different architectures (like a 64-bit tool processing a 32-bit BPF
-> object), will hardcoding sizeof(void *) return the host's pointer size
-> instead of the target's pointer size?
-> 
-> Would using btf__pointer_size(btf) be more appropriate here?
-
-yep, will change
-
-> 
-> > +	if (btf_is_int(t) || btf_is_any_enum(t) || btf_is_struct(t) || btf_is_union(t))
-> > +		return t->size;
-> > +	return -EINVAL;
-> > +}
-> > +
-> > +bool btf_type_is_traceable_func(const struct btf *btf, const struct btf_type *t)
-> > +{
-> > +	const struct btf_param *args;
-> > +	const struct btf_type *proto;
-> > +	__u32 i, nargs;
-> > +	int ret;
-> > +
-> > +	proto = btf_type_by_id(btf, t->type);
-> 
-> Could this cause an out-of-bounds read if t is not a function type?
-> 
-> Because the type and size fields share a union in struct btf_type, passing
-> a type like BTF_KIND_STRUCT causes its size to be misinterpreted as a type
-> ID. The internal btf_type_by_id() helper skips bounds checking.
-> 
-> If the interpreted ID exceeds the BTF type array bounds, it might read past
-> the end of the array and return a garbage pointer, which would then be
-> dereferenced in the next line.
-> 
-> Should this verify !btf_is_func(t) first, and use the bounds-checked public
-> API btf__type_by_id() along with a NULL check for proto?
-
-will add the check
+yep, I need to set err properly
 
 jirka
