@@ -1,32 +1,50 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C681F26F47C
-	for <sashiko@lists.linux.dev>; Tue, 21 Apr 2026 03:21:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B28E423B61B
+	for <sashiko@lists.linux.dev>; Tue, 21 Apr 2026 05:03:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776741714; cv=none; b=qWW6GU2GspEZbduJmiI8VVDcXpI8Nt6BRdRm5NTX3FcFRkRYmvLfmxVQ0mz3OLhfWuc7px3Rw0pfO+j1u+9W98lCvmHiERNjnRxNgldPku602Z+Y8Ugz4J2sUp67Gogfad1n/NQdAf+x9xl4I2W1WqlfDmSw4rnRl2aH3wCdyhc=
+	t=1776747834; cv=none; b=HvfbYOmldpcN4C0eRnQzxVwAfbCRd+i971Hx3oCodIdTxoEZvIAl/mPtBw97D0JUoDLUwy1SPf6d88gGKPlYnjnTpGwuAzKh/X56gzcSAlrVHte6OCX/jBIrVqw7yXLRCw3u319etT19wnntNU9ROeoBp2f/c0DhF9Ms9S8Cz6c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776741714; c=relaxed/simple;
-	bh=J73dGupcaQh+HDl/V7HHrcCZFL1QupSS256ZdmyF88Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=A4eU8d0Kl98gblJ8Q3ls3rt3KhSVTK93ria1E2NPA9/asRIbo8Yv4WuwWL/+E9vT9Qq4eyi2thJJt1SpDSolK86MsvBEZIHOd3UYYINnPdXpwqm/BCfIoaBXxmfZlt7KRhPGdRTwV/TYWLBSyVyCKMTU97V+fWO3B17jzjmnPfU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=AI1x65Af; arc=none smtp.client-ip=220.197.31.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1776747834; c=relaxed/simple;
+	bh=xwMKmWiI4a6VfwuR3Q9PRfDn8JfujjN/eAGvdJrq3ew=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=WOF2DWYIKvfyNjeV7KBawERPHfBElPE0aff5rVX/L8aD2JTkH2Yo0cnDzmVqLNVodUdQH0jC+qKRJcjJ7Sx2y/eCEHq4wcuenjlNegAKPdzS+4YIGjPq2G5SHHAtOLUF4gy/wqMXYKKAp3xizY38GFb4+0Hv5uAKYUmGGF+zCBk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jr94sFhu; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="AI1x65Af"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Message-ID:Date:MIME-Version:Subject:To:From:
-	Content-Type; bh=+i3S30UCECDHFf2aWiyav3l9pWVUeZbRoGfN5HJrahM=;
-	b=AI1x65AfX6umX4/+sj2enxgXJ8bnwDq8fNU7LCS4bw6OCOmrXeabDXSVeK+HAD
-	68YeaZIvXfOXxWwfQ1On3o6GHiipFUglO7KDNvhpze2sAySj13bHGdKijiSkbUTh
-	RSuKNUSCx1atJ1qYJeQSmOHp3eQC1mUunnCjPBf7TP9Ow=
-Received: from [10.54.24.32] (unknown [])
-	by gzsmtp3 (Coremail) with SMTP id PigvCgCXRaw47eZpTzwXAw--.74S2;
-	Tue, 21 Apr 2026 11:21:31 +0800 (CST)
-Message-ID: <062b1b3b-dedd-422b-83a6-1ca78d7270f7@163.com>
-Date: Tue, 21 Apr 2026 11:21:27 +0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jr94sFhu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1776747833; x=1808283833;
+  h=message-id:date:mime-version:subject:from:to:cc:
+   references:in-reply-to:content-transfer-encoding;
+  bh=xwMKmWiI4a6VfwuR3Q9PRfDn8JfujjN/eAGvdJrq3ew=;
+  b=Jr94sFhuwvTXediV8DMF1xErhvFzPxTlcx0x0Zbn6angx2OmSNYHIlri
+   KqF+iOUpVNACbucs2LmX8hCaMfeCmV91haOnHS1SSzkfgIQ02zRDL8tLa
+   VK3mvTEVhdDuzECJ8IGSuO3G9MUmBImbNNQRh09UqMffg3LlcnF+A40k1
+   mgqiGuvKgq0/BREoMkizNNYkghTrF7IKo69uOtih7Cy5nedb1ZzNUOuIz
+   BCSyHQ+bz4mbKACfX+Pak1vUcmf+dQhzQMle2ET6ihXV4f9NQ4c7zjEya
+   vsGHFGcwhVPuyJb6aAoSzTiaZy6w/wxHecXx4vufoeAMujOhmvE6qL9pq
+   A==;
+X-CSE-ConnectionGUID: M3UDmfrTQJaK3aR8zreNwg==
+X-CSE-MsgGUID: yWYGykyzS22mWnnEwjVXFg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11762"; a="76838113"
+X-IronPort-AV: E=Sophos;i="6.23,191,1770624000"; 
+   d="scan'208";a="76838113"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2026 22:03:52 -0700
+X-CSE-ConnectionGUID: 4HJyDC6VTLyUbswsUb1p2A==
+X-CSE-MsgGUID: YgYpZ6wTQEaRL+HcrslMUQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,191,1770624000"; 
+   d="scan'208";a="232205989"
+Received: from unknown (HELO [10.238.3.127]) ([10.238.3.127])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2026 22:03:51 -0700
+Message-ID: <3a54cbc0-a707-438f-b87e-5f608b5c26db@linux.intel.com>
+Date: Tue, 21 Apr 2026 13:03:48 +0800
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
@@ -34,95 +52,167 @@ List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 bpf] sockmap: Fix sk_psock_drop() race vs
- sock_map_{unhash,close,destroy}().
-To: sashiko@lists.linux.dev, Kuniyuki Iwashima <kuniyu@google.com>
-Cc: bpf@vger.kernel.org
-References: <20260420194846.1089595-1-kuniyu@google.com>
- <20260421011357.70974C19425@smtp.kernel.org>
-From: Jiayuan Chen <mrpre@163.com>
-In-Reply-To: <20260421011357.70974C19425@smtp.kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [Patch v2 1/4] perf/x86/intel: Clear stale ACR mask before
+ updating new mask
+From: "Mi, Dapeng" <dapeng1.mi@linux.intel.com>
+To: sashiko@lists.linux.dev
+Cc: linux-perf-users@vger.kernel.org
+References: <20260420024528.2130065-2-dapeng1.mi@linux.intel.com>
+ <20260420032402.A8971C19425@smtp.kernel.org>
+ <717f00c7-be8d-4f69-88ab-5a060a6a7e65@linux.intel.com>
+Content-Language: en-US
+In-Reply-To: <717f00c7-be8d-4f69-88ab-5a060a6a7e65@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:PigvCgCXRaw47eZpTzwXAw--.74S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxCw4xKF1fGw1kXF1fXFW5KFg_yoW5ZFyfpr
-	n5CayUK3W8JFy2qws5Za1UXr18ta1rJF1Yk3WUua4rZr1fGw4S9FW3XFyYy3WI9rs7Ca1U
-	XrnxWrykC39xuaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zi22NtUUUUU=
-X-CM-SenderInfo: xpus2vi6rwjhhfrp/xtbC7BudRWnm7TvU2wAA35
 
 
-On 4/21/26 9:13 AM, sashiko-bot@kernel.org wrote:
-> Sashiko AI review found 1 potential issue(s):
-> - [High] The newly introduced unbounded `goto retry;` loops in `sock_map_unhash()`, `sock_map_destroy()`, and `sock_map_close()` can cause a hard lockup (deadlock) due to softirq preemption or priority inversion.
-> --
->
-> commit 08b24da207c576eef44ad9d88356dbd6600ab733
-> Author: Kuniyuki Iwashima <kuniyu@google.com>
-> sockmap: Fix sk_psock_drop() race vs sock_map_{unhash,close,destroy}().
->
-> This commit fixes a race condition where sk_psock_drop() might not have
-> finished restoring sk->sk_prot even if sk_psock_get() fails to bump the
-> refcount. It adds a retry loop to sock_map_unhash(), sock_map_destroy(),
-> and sock_map_close() when sk_psock_get() returns NULL but the protocol
-> hooks haven't been restored yet.
->
-> Closes: https://lore.kernel.org/bpf/69cec5ef.050a0220.2dbe29.0009.GAE@google.com/
->
->> diff --git a/net/core/sock_map.c b/net/core/sock_map.c
->> index 02a68be3002a2..99e3789492a09 100644
->> --- a/net/core/sock_map.c
->> +++ b/net/core/sock_map.c
-> [ ... ]
->> @@ -1652,20 +1657,25 @@ void sock_map_destroy(struct sock *sk)
->>   	void (*saved_destroy)(struct sock *sk);
->>   	struct sk_psock *psock;
->>   
->> +retry:
->>   	rcu_read_lock();
->>   	psock = sk_psock_get(sk);
->>   	if (unlikely(!psock)) {
->>   		rcu_read_unlock();
->>   		saved_destroy = READ_ONCE(sk->sk_prot)->destroy;
->> +		if (unlikely(saved_destroy == sock_map_destroy))
->> +			goto retry;
-> Can this unbounded retry loop cause a hard lockup due to softirq preemption
-> or priority inversion?
->
-> If sk_psock_put() is called from process context with bottom-halves enabled
-> (such as from sock_map_close() after release_sock()), an interrupt could
-> preempt the thread immediately after refcount_dec_and_test(&psock->refcnt)
-> drops to 0 but before sk_psock_drop() disables BH.
->
-> If a network interrupt fires on the same CPU, NET_RX_SOFTIRQ may process a
-> packet (such as an RST) that triggers socket destruction via:
-> tcp_done() -> inet_csk_destroy_sock() -> sk->sk_prot->destroy()
->
-> Since sk_psock_drop() has not yet restored the protocol, sk->sk_prot->destroy
-> is still sock_map_destroy().
->
-> When sock_map_destroy() calls sk_psock_get(), it returns NULL because the
-> refcount is exactly 0. The code then falls into the !psock branch, sees that
-> sk->sk_prot->destroy is still sock_map_destroy(), and jumps to retry.
->
-> Because the softirq spins infinitely in this tight loop and never yields the
-> CPU, the preempted process context can never execute sk_psock_drop(),
-> resulting in a permanent hard lockup.
+On 4/20/2026 2:29 PM, Mi, Dapeng wrote:
+> On 4/20/2026 11:24 AM, sashiko-bot@kernel.org wrote:
+>> Sashiko AI review found 1 potential issue(s):
+>> - [High] Unvalidated user input in ACR setup leads to cross-user hardware state corruption and PMU DoS
+>> --
+>>
+>> commit 67dc3d7b096879ed6418f54978bf45536496156f
+>> Author: Dapeng Mi <dapeng1.mi@linux.intel.com>
+>>
+>> perf/x86/intel: Clear stale ACR mask before updating new mask
+>>
+>> This commit zeroes out the ACR mask (event->hw.config1) for all scheduled
+>> events before applying a new mask. This ensures that bits from a previous
+>> stale ACR mask do not persist and pollute the hardware state during event
+>> rescheduling.
+>>
+>>> diff --git a/arch/x86/events/intel/core.c b/arch/x86/events/intel/core.c
+>>> index 4768236c054bb..774ae9a4eeaf8 100644
+>>> --- a/arch/x86/events/intel/core.c
+>>> +++ b/arch/x86/events/intel/core.c
+>>> @@ -3334,6 +3334,12 @@ static void intel_pmu_acr_late_setup(struct cpu_hw_events *cpuc)
+>>>  	struct perf_event *event, *leader;
+>>>  	int i, j, idx;
+>>>  
+>>> +	/* Clear stale ACR mask first. */
+>>> +	for (i = 0; i < cpuc->n_events; i++) {
+>>> +		event = cpuc->event_list[i];
+>>> +		event->hw.config1 = 0;
+>>> +	}
+>>> +
+>> Does this new clearing loop inadvertently amplify an existing regression where
+>> a single user can disable Auto Counter Reload for all processes on the same CPU?
+>>
+>> Looking further down in the same function, the code iterates over
+>> user-controlled bits from event->attr.config2:
+>>
+>> arch/x86/events/intel/core.c:intel_pmu_acr_late_setup() {
+>>     ...
+>>     for_each_set_bit(idx, (unsigned long *)&event->attr.config2, X86_PMC_IDX_MAX) {
+>>         if (i + idx >= cpuc->n_events ||
+>>             !is_acr_event_group(cpuc->event_list[i + idx]))
+>>             return;
+>>         __set_bit(cpuc->assign[i + idx], (unsigned long *)&event->hw.config1);
+>>     }
+>>     ...
+>> }
+>>
+>> Because idx is derived from the user-controlled event->attr.config2 mask
+>> without being validated against the actual size of the event group, a
+>> user could provide an artificially large idx.
+>>
+>> The validation in intel_pmu_hw_config() only checks the weight of the mask
+>> using hweight64(), rather than checking the actual bit indices, leaving this
+>> exposed. Subsequent patches in the series do not fix this.
+>>
+>> If the computed index hits a non-ACR event or exceeds cpuc->n_events, the
+>> loop triggers an early return. Since the newly added code zeroes out
+>> event->hw.config1 for all scheduled events before this loop, wouldn't this
+>> early return leave all subsequent valid ACR events with a cleared mask?
+>>
+>> Additionally, if the out-of-bounds idx points to another user's valid ACR
+>> group, is_acr_event_group() returns true, and the code proceeds to update
+>> the event->hw.config1 with the victim's hardware counter index.
+>>
+>> Could this also result in cross-user state corruption of event->hw.config1
+>> when the event overflows and cross-reloads the victim's counter?
+> That looks a real potential issue. Current validation for the acr_mask
+> needs to be enhanced. The acr_mask from user space should not exceeds the
+> index bitmap of current ACR events group.
+> Thanks.
+
+The following changes would be done to address all current found issues.
+ - Calculate the indices bitmap for each ACR events group. Any bits in
+    the user-space mask not present in the group's bitmap are now dropped.
+ - Instead of an early return on invalid bits, drop only the invalid
+    portions and continue iterating through all ACR events to ensure full
+    configuration.
+ - Explicitly clear the stale hardware ACR mask for each event prior to
+    writing the new configuration.
+
+diff --git a/arch/x86/events/intel/core.c b/arch/x86/events/intel/core.c
+index 4768236c054b..1a2c268018a2 100644
+--- a/arch/x86/events/intel/core.c
++++ b/arch/x86/events/intel/core.c
+@@ -3332,23 +3332,41 @@ static void intel_pmu_enable_event(struct
+perf_event *event)
+ static void intel_pmu_acr_late_setup(struct cpu_hw_events *cpuc)
+ {
+        struct perf_event *event, *leader;
+-       int i, j, idx;
++       int i, j, k, bit, idx;
++       u64 group_mask;
+
+        for (i = 0; i < cpuc->n_events; i++) {
+                leader = cpuc->event_list[i];
+                if (!is_acr_event_group(leader))
+                        continue;
+
+-               /* The ACR events must be contiguous. */
++               /* Find the last event of the ACR group. */
+                for (j = i; j < cpuc->n_events; j++) {
+                        event = cpuc->event_list[j];
+                        if (event->group_leader != leader->group_leader)
+                                break;
+-                       for_each_set_bit(idx, (unsigned long
+*)&event->attr.config2, X86_PMC_IDX_MAX) {
+-                               if (i + idx >= cpuc->n_events ||
+-                                   !is_acr_event_group(cpuc->event_list[i
++ idx]))
+-                                       return;
+-                               __set_bit(cpuc->assign[i + idx], (unsigned
+long *)&event->hw.config1);
++               }
++
++               /* Figure out the group indices bitmap. */
++               group_mask = 0;
++               for (k = i; k < j; k++)
++                       group_mask |= BIT_ULL(cpuc->assign[k]);
++
++               /*
++                * Translate the user-space ACR mask (attr.config2) into
+the physical
++                * counter bitmask (hw.config1) for each ACR event in the
+group.
++                * NOTE: ACR event contiguity is guaranteed by
+intel_pmu_hw_config().
++                */
++               for (k = i; k < j; k++) {
++                       event = cpuc->event_list[k];
++                       event->hw.config1 = 0;
++                       for_each_set_bit(bit, (unsigned long
+*)&event->attr.config2, X86_PMC_IDX_MAX) {
++                               idx = i + bit;
++                               if (idx >= cpuc->n_events ||
++                                   !(BIT_ULL(cpuc->assign[idx]) &
+group_mask) ||
++                                   !is_acr_event_group(cpuc->event_list[idx]))
++                                       continue;
++                               __set_bit(cpuc->assign[idx], (unsigned long
+*)&event->hw.config1);
+                        }
+                }
+                i = j - 1;
 
 
-sock_map_close(sk)
-|___ sk_psock_put(sk, psock)   <- refcnt-hits-0 window lives here
-|___ saved_close == tcp_close
-       |__tcp_close
-             |____ sock_orphan   <- SOCK_DEAD set here
-             |____(later) inet_csk_destroy_sock
-
-At the exact instant the refcnt can be observed at 0 with
-sk_prot not yet restored, SOCK_DEAD is guaranteed not to be set.
-
-So I think AI is not correct.
-
-> A similar priority inversion deadlock could also occur on PREEMPT_RT if the
-> thread calling sk_psock_drop() is preempted by a higher-priority task.
 >
-
+>
+>>>  	for (i = 0; i < cpuc->n_events; i++) {
+>>>  		leader = cpuc->event_list[i];
+>>>  		if (!is_acr_event_group(leader))
