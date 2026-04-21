@@ -1,141 +1,148 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CBE4397E91
-	for <sashiko@lists.linux.dev>; Tue, 21 Apr 2026 08:55:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 761CA39F165
+	for <sashiko@lists.linux.dev>; Tue, 21 Apr 2026 08:56:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776761743; cv=none; b=sTzgBnx3BZiQEK2dpXl/HzCC6UGUmaK9UdrANOr5kU7jdwkKz6036tD6zOp2arcdBt+dCl/nA+W1G+EB2BuAZRHsPHPhFjV1TYAODST5y1MwiIasDpQ9+t81j3cluxk6fq6s4hkooEJXAOghZm7hAJCstKBYbtU08bY+JKol+gY=
+	t=1776761799; cv=none; b=CDEz9WPMzx/x9Gkh1JB/0RYvJk+KcwneTVFh6pR9VHwA0ufT+8JwqbXS1UJWfVkredmQWWSKewsfzdE7MWdaSz4alJLtLL9f71hDdVukjxrqaXGyIWdiw6nbaIIyuB1Tdqd0cSqjUvyZmQVgLxu8rgcijImBGTYCAAEBg4II81o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776761743; c=relaxed/simple;
-	bh=6McYy461bijCUAFHC5l3ji/PR6N+L3vcGNyzVKEBb+o=;
+	s=arc-20240116; t=1776761799; c=relaxed/simple;
+	bh=xFe6GTxk5OpjI0bwR0p4DbCifJm1OGLBMKQ/rkuKQB4=;
 	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jCwXUocyVUAcA7R/WCHhVH8awwR14vU38kJ7605VcBBRD82Qx6NM+cjI+auFMOIGbUXDWIXmh7njWA8B20pKPzl6neqxtke2LjjOVvOjIaja9ughRHPEIkgg6voQK1diTsMZz8jhc0IWIJmArWnOsUbk3R7z4+m0Bup0V9zPADA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qKXz90d4; arc=none smtp.client-ip=209.85.221.42
+	 Content-Type:Content-Disposition:In-Reply-To; b=dBYmmNIu/qaW5avGoAmG4Y1TzjLE3QXGZL4qWJHWRNAZ7gfEUsIxEpyxZrpjxxDppmV5ewNxcItigYsyOBwb4fuojEjx1ZxzqWClmdTX/zDnSZ+befKyQ7R2duK2Tze3tknlPCK9M+w3UBjlOpB1o1KPOqsK0nZRfHJXEcCxhjw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I1RZvvs1; arc=none smtp.client-ip=209.85.128.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qKXz90d4"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-441209fb77eso167604f8f.1
-        for <sashiko@lists.linux.dev>; Tue, 21 Apr 2026 01:55:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I1RZvvs1"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4852b81c73aso33790025e9.3
+        for <sashiko@lists.linux.dev>; Tue, 21 Apr 2026 01:56:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776761741; x=1777366541; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:date:from:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=+ddKnE6lkkUQV3xtljOGxMa6CIyS9sv5i2KFEzVc9Jc=;
-        b=qKXz90d4RlUf1EZMB87DQ3NdP/Za1HbBi29PZ6l5ViNmuKKN1DwHTZpmrnPgtf0SuL
-         ies7Mx086v28QF1YHisn9h6s3/y3fo99xleGyI4hKgckYWwt10AWKzNXJ6zcJ4MdLypI
-         RkOUmZBlWcdYqk7tbvoS2zF6yR8J43UkejONcsBQfl3w86c3nN434g8neziUKJwFd46G
-         wZgLWg9HQ2O/kEUK8KVgHS0onL4F7a27NLb9hdZUjaqSsIPDMUm9829dt0hU5JygrXWz
-         t9fxkmDvYNCzh1Kzmk5ZCL9EHJBsAksVOUJPWrEY7jCAvhj0FtDWoN6jPbTyzPbroR5/
-         k1nA==
+        d=gmail.com; s=20251104; t=1776761797; x=1777366597; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=fJGTnZ/i4iiKDQkhhblybqqq0JPrJTq68F+X2OSciiY=;
+        b=I1RZvvs1E8FpFxflHjLi3gKArDQirjiIkQpTWMNZ8tn0OaUYj+eOIBekI3L8t2byx6
+         zMqcqjJ8DTRy+oVRJGRghUduZ8VmXcLfNXaDUlXca5Mz+E/sVPErEXw+4QNvMpEybaFc
+         4/Pas9GA09/5y4458drlDbnz2S4Q6kx1Ql66REztRDlBOz6Fjdwn0Pft+7Ujx+jLnH02
+         +sCuafHqmet/EZaAFS+zpk6SdtweArI524WsASZq2YSR0B25DIykEN1FOMHGVuI+K+IV
+         Dw2mHbQem87bkNtiYAI4iCmXq9ZowKvjwt/ZNdUfHutnTqTuRolLX1u2tPOC+qbn0bAM
+         Vm2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776761741; x=1777366541;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+ddKnE6lkkUQV3xtljOGxMa6CIyS9sv5i2KFEzVc9Jc=;
-        b=TAB8WJg+yYJ3kgICapgaALWTJth/SF2AQrcbkS54GgXy9pJJl+f9juDaMDpLDHkbtX
-         MOr6mvoUyhHrlWTvkS38bAy0RbGW+JEa6EcNGQSEBnNSg3NwPL/zHlJwZpG2eD+k4prk
-         hfIEIWIz23qHKuPXCHkyUiFr2cLEz1e6ACi8fnuYpvdmTtXu6vDBnu22811dAL+BVODz
-         dNYGh/zTSw/cCKaDqwyVs/m60pfsyf2RpuPKg+Os7KtVqAkRoYwtpD0089b+CEQ3/acS
-         Hdu9IGk+pzb3uIkQRmcu3Q5g1VijqrNUnRNGziDgfOXjNO7fkd9kohFU/A/7fSCoqXmq
-         RCQA==
-X-Gm-Message-State: AOJu0Yy0lGDQv3m3bNd2/ypxZrV0/wVLqbNdAWmZmPrH1sY4ZitCTmIP
-	Hofm0I9R+N+YynO6RzPIoqNegl9HM9jsI2sgH7uKv+viYNykmDN6+xuhM4aiD96y
-X-Gm-Gg: AeBDiese6x/ZInJ13zn2KVNEfBLQXi3ARqdjCXnGB7bEjkkb+415D8INQcUCc5b7HW1
-	P8s22MzpB+2++Asjgl5XEH2zpPVBs4/TyVNMHYFOvvWGHlfw3spqR94nV9G5x27vhghcynmB1Q8
-	Yxl3qCOCKpLQL+AukZS5bsvgpAl29PokfaomUz7t5o7mgNKlFnksnIYY9ZDch4oEZvA/0XAWTjr
-	MpMWbJ83BwWSSh8AO7lpJxI09xF2KF/TieIqdQy3UNGDmDoECFEJWIrQlmfOlaIXeKlz0DwH1kY
-	iGgoFXOV3ZBpazJIrga5V/5N/Gt1fbZNfiUcwx7t3P6KYABVSZK4KFJKLhkcC6yQa+iUXkOljpM
-	Us9TzswjTl+GlytJuN2lXZFDDpnrPyGoIADeTbSxgbj5XNQWEnKA7Z7MYYmSLlQJLthMGAM2W2V
-	KbwmA30xE=
-X-Received: by 2002:a5d:6f14:0:b0:43d:7086:b03 with SMTP id ffacd0b85a97d-43fe4032b76mr22123952f8f.1.1776761740677;
-        Tue, 21 Apr 2026 01:55:40 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1776761797; x=1777366597;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fJGTnZ/i4iiKDQkhhblybqqq0JPrJTq68F+X2OSciiY=;
+        b=fKRprJdEMlE7dVa2DodpL1dDRhIez+8rsisJaj7jOzj2sAlmDmaYUpy1RW47fWWt8m
+         qERxFXSkWk2eklJEa43KnUl3CxGGyuLwteQM2jeb3KauAuIBnYFsYfsDhZ9iOptpBPs/
+         E3N0R2nRvNck0Kv1hyMSOak6kyjy2DnJKSpfvTlCS935fE20h+EU0qjYxmeOKQFyGGlw
+         77UINZ6KIT9Hr/AWl+KCrNF7HYmD1UwPrUo91YNyZ/W58T+O03vXh3j6tBwvad7eCHhG
+         gzIDqltcpiZfxaAiq1xfF8ZseRyOqhW3byznZ8G4wWR8n8QiZVUwo6yk9uZjPBqFnMWx
+         5M2A==
+X-Gm-Message-State: AOJu0YxM/qt8+vbGoVALk/4Xbs7tZqy8FU7J7+vGoHVLMT6KLBcjfkkq
+	r7SXdwR5AIzZ+iEZ4EMwvqsiOjkuzWaq1R8OmGujopRNHfjB3Oxu24Xi5I3MN/kn
+X-Gm-Gg: AeBDies5Y8Fya1KYDlGrX/zKK261Z1ADICjS68Q6gMzpWwn3Sv42jilEn2tpCIVfGDv
+	f0Fpafyskbkk/to/77VFBLjLBpHiRxxv1i8DRpHvz1PqDOH99Q4dGB8SeAvBHliiY+f8hkopSuH
+	1YRHC73o4AKiDJNkXL22EbWmaHElc7vt0Es8uvL/SxS6lV66r0fVOIW1Bq6ajsOR+Q+yUWjn4Cw
+	SWHYC5IOBSUui+BA83OpT6UwstOhPO1ph8IxLK2bkZDoP59uyooyEOOER3onktWVC6J/lTvEh2g
+	M1ShrCwYT6x5MT+QP6StYlLjdvmd0ZAAzNeIxr3xXWO6vInXFpjXufyN7V1bg0QziKwVeOyA9JQ
+	on8RGfubHVgL+W4oe4e396kXXyANE5WoTuLbwhpHeIHFwu2Qm4jZtdJiqKdhtlJ+y7q4MKq+Ojo
+	RcDcyGRagfyl+/Sj8rnA==
+X-Received: by 2002:a05:600c:1da1:b0:488:79a3:f04c with SMTP id 5b1f17b1804b1-488fb7863femr258215435e9.27.1776761796740;
+        Tue, 21 Apr 2026 01:56:36 -0700 (PDT)
 Received: from krava ([2a02:8308:a00c:e200::d99c])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4c221cdsm35812714f8f.0.2026.04.21.01.55.40
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488fb77b001sm160916955e9.3.2026.04.21.01.56.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Apr 2026 01:55:40 -0700 (PDT)
+        Tue, 21 Apr 2026 01:56:36 -0700 (PDT)
 From: Jiri Olsa <olsajiri@gmail.com>
 X-Google-Original-From: Jiri Olsa <jolsa@kernel.org>
-Date: Tue, 21 Apr 2026 10:55:38 +0200
+Date: Tue, 21 Apr 2026 10:56:34 +0200
 To: sashiko@lists.linux.dev
 Cc: bpf@vger.kernel.org
-Subject: Re: [PATCHv5 bpf-next 10/28] bpf: Add multi tracing attach types
-Message-ID: <aec7isklARy8JbqP@krava>
-References: <20260417192502.194548-11-jolsa@kernel.org>
- <20260418040909.5F3B7C19424@smtp.kernel.org>
+Subject: Re: [PATCHv5 bpf-next 13/28] bpf: Add support for tracing multi link
+Message-ID: <aec7woEWsDxnDvqv@krava>
+References: <20260417192502.194548-14-jolsa@kernel.org>
+ <20260418085839.ADC19C19424@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260418040909.5F3B7C19424@smtp.kernel.org>
+In-Reply-To: <20260418085839.ADC19C19424@smtp.kernel.org>
 
-On Sat, Apr 18, 2026 at 04:09:08AM +0000, sashiko-bot@kernel.org wrote:
-> Sashiko AI review found 2 potential issue(s):
-> - [High] FENTRY_MULTI and FEXIT_MULTI programs can bypass verifier bounds checks and read out-of-bounds kernel stack memory by directly accessing the `ctx` array.
-> - [High] bpf_multi_func lacks the __used attribute, causing it to be optimized out by Clang LTO, which completely breaks the feature at runtime.
+On Sat, Apr 18, 2026 at 08:58:39AM +0000, sashiko-bot@kernel.org wrote:
+> Sashiko AI review found 1 potential issue(s):
+> - [Low] The patch references several undeclared identifiers and incomplete types, causing compilation failures.
 > --
 > 
-> Note: The format of this review has been altered due to system recitation
-> restrictions. Direct quoting of the patch diff has been omitted, and the
-> findings are provided as a free-form summary.
-> 
-> commit ca84efa8f86b1acb8cf0bd98e80446dbd7c92e12
+> commit fc7697083b71bebef41d2da3a91ca2a0741ad6f0
 > Author: Jiri Olsa <jolsa@kernel.org>
-> Subject: bpf: Add multi tracing attach types
 > 
-> This commit introduces new multi-tracing attach types BPF_TRACE_FENTRY_MULTI
-> and BPF_TRACE_FEXIT_MULTI, along with base verifier support. It uses a dummy
-> function bpf_multi_func for initial verification before the specific link
-> attachment happens.
+> bpf: Add support for tracing multi link
 > 
-> Can this approach lead to out-of-bounds kernel stack memory reads? 
+> Adding a new link to allow attaching a BPF program to multiple function
+> BTF IDs, represented by struct bpf_tracing_multi_link.
 > 
-> Since the initial verification is done against bpf_multi_func, which is 
-> defined with 6 arguments, the verifier will statically permit direct context 
-> accesses up to ctx[5] (and ctx[6] for the return value in FEXIT_MULTI). 
-> However, when the program is attached to a real function at runtime, the 
-> trampoline allocates the context array on the kernel stack based on the 
-> target function's actual argument count. 
+> > diff --git a/kernel/bpf/syscall.c b/kernel/bpf/syscall.c
+> > index a3c0214ca9341..da3e01dd7ee9a 100644
+> > --- a/kernel/bpf/syscall.c
+> > +++ b/kernel/bpf/syscall.c
+> [ ... ]
+> > @@ -5748,6 +5748,8 @@ static int link_create(union bpf_attr *attr, bpfptr_t uattr)
+> >  			ret = bpf_iter_link_attach(attr, uattr, prog);
+> >  		else if (prog->expected_attach_type == BPF_LSM_CGROUP)
+> >  			ret = cgroup_bpf_link_attach(attr, prog);
+> > +		else if (is_tracing_multi(prog->expected_attach_type))
+> > +			ret = bpf_tracing_multi_attach(prog, attr);
 > 
-> If the target function has fewer than 6 arguments, would reading ctx[5] read 
-> past the allocated context array and leak memory from the caller's stack 
-> frame? Additionally, would reading ctx[6] for the return value return 
-> unrelated stack memory instead of the actual return value, since the 
-> trampoline places the return value dynamically? Does the verifier need to 
-> explicitly reject direct memory accesses to the context array for these 
-> program types and enforce the use of bounds-checked helpers like 
-> bpf_get_func_arg()?
+> Is is_tracing_multi() defined anywhere? It doesn't appear to be declared
+> in this patch or the existing kernel tree, which could lead to a build
+> failure.
 
-ok, seems like we need to disable the direct access
+it's added in "bpf: Add multi tracing attach types"
 
 > 
-> Is it possible for Clang LTO to optimize out the bpf_multi_func function 
-> entirely? 
+> > diff --git a/kernel/trace/bpf_trace.c b/kernel/trace/bpf_trace.c
+> > index af7079aa0f36d..df06a733a2e71 100644
+> > --- a/kernel/trace/bpf_trace.c
+> > +++ b/kernel/trace/bpf_trace.c
+> [ ... ]
+> > +static void bpf_tracing_multi_link_release(struct bpf_link *link)
+> > +{
+> > +	struct bpf_tracing_multi_link *tr_link =
+> > +		container_of(link, struct bpf_tracing_multi_link, link);
+> > +
+> > +	WARN_ON_ONCE(bpf_trampoline_multi_detach(link->prog, tr_link));
+> > +}
 > 
-> The dummy function is defined without a __used or __attribute__((retain)) 
-> attribute, and the BTF_ID_LIST_GLOBAL_SINGLE macro only embeds the function 
-> name in an inline assembly section without generating a C-level reference. 
-> In kernel builds with Link Time Optimization enabled, could the compiler 
-> eliminate this function as dead code?
+> Where is struct bpf_tracing_multi_link defined? It seems to be an
+> incomplete type here. 
 > 
-> If this occurs, pahole would not generate BTF data for it, leaving the BTF 
-> ID as 0. Would this result in the verifier's bpf_check_attach_target() 
-> unconditionally rejecting multi-tracing program loads by throwing a missing 
-> btf_id error? Should a __used attribute be added to the function definition 
-> to prevent this?
+> Similarly, bpf_trampoline_multi_detach() doesn't appear to be declared in
+> this patch. Will this cause compilation errors when dereferencing or
+> calling these?
 
-I did not check with LTO, will check and probably add that attribute
+defined in previous patch "bpf: Add bpf_trampoline_multi_attach/detach functions"
+
+> 
+> [ ... ]
+> > +	err = bpf_link_prime(&link->link, &link_primer);
+> > +	if (err)
+> > +		goto error;
+> > +
+> > +	link->nodes_cnt = cnt;
+> > +
+> > +	err = bpf_trampoline_multi_attach(prog, ids, link);
+> 
+> Does bpf_trampoline_multi_attach() also miss a declaration?
+
+defined in previous patch "bpf: Add bpf_trampoline_multi_attach/detach functions"
+
+what do I miss? ;-)
 
 jirka
-
-> 
-> -- 
-> Sashiko AI review · https://sashiko.dev/#/patchset/20260417192502.194548-11-jolsa@kernel.org?part=1
