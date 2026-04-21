@@ -1,125 +1,234 @@
-Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com [95.215.58.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EDD081732
-	for <sashiko@lists.linux.dev>; Tue, 21 Apr 2026 15:50:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CDC1288C96
+	for <sashiko@lists.linux.dev>; Tue, 21 Apr 2026 17:45:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776786649; cv=none; b=bWyrsnQw8PU8WrjYslEbHu7IqBgEzD5XfXZLsyfJLymtPp6APE9oeb533kG/y1jzUXcYGWOX8DMTeeJCnK771MlzXzvW7Drx0qWKHYmJmMBRA8FQl42/58NDMAEngGTocOpNPspza72oDB02szpnjV4tCYHl7dG3LF4BBvazHX4=
+	t=1776793526; cv=none; b=uJo2g7xEcswXykYnpRlRZJ1lJp8x8OtLmntkGiGBFaLSG/LhA4HYUzRKmVMCGsZYWb3DB6MAlLMFOFESDtQNx1Y4Ki2RnTDE3I4mORAFLlaM5lrzGBAZjWfDwjHuCVjFW5bjUSlA0YupKOS5HrCjIegL4KsnGsI9E+VMMJEhYOE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776786649; c=relaxed/simple;
-	bh=uIaX7HJkeRZprlQHOw3IBZih3XmAWm21aNzyECQgp3M=;
+	s=arc-20240116; t=1776793526; c=relaxed/simple;
+	bh=07D5qQ3MlVLPTytT7je/PastuYKfwOSM10P5ukGmRlw=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=YaafcZK7y9VAWSHq4ujblm9veCKyy4ziFZBB4LQsM5lqgn6MTECbUPVh7MGBtDPDHa/qrlH/retweIgJTNRj0lu75Sty4KMFWcn+oj9/cHpBaOaiWrtU63kOb24E1ikQfi6rE7Z7SOLY5wvNidBQQ0WLyMDzeQdxGguNPNwDMsE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=r2ujUNBs; arc=none smtp.client-ip=95.215.58.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	 Content-Type:MIME-Version; b=gRu6dXCZ4AX3gl5xgsqB2SX/pVBg7i5TOvXzQI11CoaWpkVSFVjvEz4SikjasuRAQnzEnqYmcVil9UoJH3OXCxoxPrAPqy2MzD/Mp/1YDcES29sH3Ix8z2w/585YXQpfAmw9i2hq9w7Wk/3+J3ulset9IFMyqyD9VyaoPp++hw4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FaTMB/Se; arc=none smtp.client-ip=209.85.216.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="r2ujUNBs"
-Message-ID: <b546fbe2c2e8bc3783b18944df01d2e15171ed70.camel@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1776786646;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uIaX7HJkeRZprlQHOw3IBZih3XmAWm21aNzyECQgp3M=;
-	b=r2ujUNBs+3CIblj8FgVvBGRJxRoKdYOUIaj6NiwbjuvKX5t0Q8nbcSNSaqHeoGR25DibjT
-	qScfJ26gg/rbpWhrIoobAX7RLuPhseeN58RfNigZjspJSFu5hXxmCbtxeMn8rX/GDE229b
-	e1L4DGg2rDGB5Yh/j+/Di90hN1rGKkw=
-Subject: Re: [PATCH bpf v3 1/2] bpf: Reject TCP_NODELAY in TCP header option
- callbacks
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: KaFai Wan <kafai.wan@linux.dev>
-To: Martin KaFai Lau <martin.lau@linux.dev>
-Cc: sashiko@lists.linux.dev, bpf@vger.kernel.org
-Date: Tue, 21 Apr 2026 23:50:29 +0800
-In-Reply-To: <2026420174537.e2om.martin.lau@linux.dev>
-References: <20260417092035.2299913-2-kafai.wan@linux.dev>
-	 <20260418092235.98444C19424@smtp.kernel.org>
-	 <0e5602f1ca92074cbef0554a7a399ff8b1cc8a1c.camel@linux.dev>
-	 <2026420174537.e2om.martin.lau@linux.dev>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FaTMB/Se"
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-35fbca04006so2410642a91.1
+        for <sashiko@lists.linux.dev>; Tue, 21 Apr 2026 10:45:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776793523; x=1777398323; darn=lists.linux.dev;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=NwpF8t+abMZj+EQm51CmZvoY6FlIKBZ/iPBcnwzM688=;
+        b=FaTMB/SeHCPODVC5mq1YWz+VHVJf9Vwb5Al45puoBEg0nYsxUy4+6yKUHG5/2us61U
+         XaxoEuTxycBvlVvL4TpyIEaZ5zvveJXGXr59HggXzOs126tIkcCYhajfNIJ+r6h0nJ8t
+         fYfea4zCCYEH9nisjwUBAWeDFNu9iwsjSGTXoldKz7nSwryUqT/pqZeqwrayuyzbNbvE
+         7fFoB0PKvqq+sXG+836Utu/epa6C1SkNqTwMp2/if6ionU1kqFYvW0IbhZnk1ITA6Qrt
+         QDT7AlOF8sZyXNjsjusZtAuutbyrGltHIh5Uq/poV5RqeXibL71hYNsYh1PMNDJRVgsL
+         Z7fw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776793523; x=1777398323;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=NwpF8t+abMZj+EQm51CmZvoY6FlIKBZ/iPBcnwzM688=;
+        b=Mt2mXByVijrx0rNmfUj9D8t1yF4kKr6lmiXEIa/ta9LVC2bjrR+9/s7scoT3gcGVRH
+         zzshYjs8eRcavxBFkOAZmQipHo7fTfTZPv5rXsMytLVHOZr2p58NX5Ccrvj8C6h/vN70
+         VFr2aiShhte8A6Yo4olLmi1GRVzRtdjie/4fsOhAz1mj0/2zcuQHJp2wtaFm8wJ78dwp
+         rM6BEnWq4jbpZuL6+OUQ4+L3nso9NHbHY4XZ4gCruVe7WnfWWMWpUJeY1i0HvHp/1g04
+         EtECEDoqRzXhDlKBBomlD4qmC6j/YXl4QlLW+0xB1azEvh9CZPauvG22SnD1yluSUqLC
+         Jgmw==
+X-Gm-Message-State: AOJu0YxjS3LcpVhxD01It7AiidQVL/+LloxaIQRdF37EdRL3fl7rWTFd
+	0cBfywGxgH4Qdp0AYYPZdz5GoeIOpFrwoIb8qFkJz0BSSJY0cwBZd9UDlE975/8S
+X-Gm-Gg: AeBDievvSmD+RNHJyqD6dylgUfH0GrMHNnG9mSOgUrj2nxYs4Wm+YykKJaQwi4rH9Px
+	onTnkpMHWym8LSE1WRPjasoAnu9btE35XUbJFEmQg7hv9SYeL/mnyn0HL1ZmITu6LYvrggOsZwY
+	Yewj6PSx8mS+sulkhQH1PbRg/zCtHXbKuGwrG3hgelYCJGPak1IZqkqP6QfMcZzftdopJlNFBtd
+	XtW3Xo0I/rcIV5H0QRik8tGBrxbqCi3OoKCDkRkQXbJnAMLuV0aVcRB0D0SJNQ8CWSN9a1AktWq
+	ka75SqVhL3Ax8xup6wSFHWnlF7WwKsNeodogOhnHk32HfVFBJxvACIf3xiyZZ9xASxRvt/SUqvE
+	RzdNKe7oTMxhZw5865xwuZtViFQA8vl/I/JxL3xXrqkZljO1sBJ5vTV7BuURIUgPMAfNV/Tcu/a
+	HQPOX7k1plYWa9NFWzds/wrEv2xX/hdQmu1yOnwQUSc6XinRvkdmoQc6zMpEKK0Gs=
+X-Received: by 2002:a17:90a:da8c:b0:35e:581c:6bca with SMTP id 98e67ed59e1d1-361403ca597mr19610737a91.3.1776793522488;
+        Tue, 21 Apr 2026 10:45:22 -0700 (PDT)
+Received: from [192.168.0.226] ([38.34.87.7])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-36140fc575bsm14409277a91.4.2026.04.21.10.45.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Apr 2026 10:45:22 -0700 (PDT)
+Message-ID: <c8eca067d7cc8a3c514d41591a5ff2ab766cbe1e.camel@gmail.com>
+Subject: Re: [PATCH RFC bpf-next 1/4] bpf: representation and basic
+ operations on circular numbers
+From: Eduard Zingerman <eddyz87@gmail.com>
+To: sashiko@lists.linux.dev
+Cc: bpf@vger.kernel.org
+Date: Tue, 21 Apr 2026 10:45:19 -0700
+In-Reply-To: <20260421171830.3881BC2BCB5@smtp.kernel.org>
+References: <20260421-cnums-everywhere-rfc-v1-v1-1-8f8e98537f48@gmail.com>
+	 <20260421171830.3881BC2BCB5@smtp.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Migadu-Flow: FLOW_OUT
 
-On Mon, 2026-04-20 at 11:12 -0700, Martin KaFai Lau wrote:
-> On Mon, Apr 20, 2026 at 09:41:06PM +0800, KaFai Wan wrote:
-> > > Does this same recursion vulnerability exist for BPF TCP congestion c=
-ontrol
-> > > algorithms using BPF_PROG_TYPE_STRUCT_OPS?
-> > >=20
-> > > If a BPF congestion control algorithm invokes bpf_setsockopt(TCP_NODE=
-LAY)
-> > > from its cwnd_event callback when handling CA_EVENT_TX_START, could i=
-t
-> > > trigger the same unbounded recursion?
-> > >=20
-> > > When the kernel transmits the first packet of a data train via
-> > > tcp_transmit_skb(), it invokes tcp_event_data_sent(). Because
-> > > tp->packets_out is not incremented until later, tcp_packets_in_flight=
-(tp)
-> > > evaluates to 0, triggering tcp_ca_event(sk, CA_EVENT_TX_START).
-> > >=20
-> > > If the BPF program then calls bpf_setsockopt(TCP_NODELAY), it would r=
-esult
-> > > in this call chain:
-> > >=20
-> > > tcp_transmit_skb()
-> > > =C2=A0 tcp_event_data_sent() -> invokes CA_EVENT_TX_START
-> > > =C2=A0=C2=A0=C2=A0 cwnd_event()
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bpf_setsockopt(TCP_NODELAY)
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tcp_push_pending_frames()
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tcp_write_xmit=
-()
-> > >=20
-> > > Since the outer tcp_transmit_skb() hasn't finished, the send head has=
-n't
-> > > advanced. Wouldn't tcp_write_xmit() see the same SKB, attempt to tran=
-smit
-> > > it again, and re-enter tcp_transmit_skb() causing an infinite recursi=
-on?
-> > >=20
-> > You are right.=C2=A0I can reproduce this.=20
-> > =C2=A0
-> > > Should the restriction on TCP_NODELAY be enforced at a broader level,=
- such
-> > > as inside _bpf_setsockopt(), to protect contexts holding the socket l=
-ock
-> > > during TX paths?
-> > >=20
-> > We can check in sol_tcp_sockopt().
+On Tue, 2026-04-21 at 17:18 +0000, sashiko-bot@kernel.org wrote:
+> Sashiko AI review found 4 potential issue(s):
+> - [Critical] `FN(cut)` emits wrapped chunks causing `FN(mk_mul_u)` to com=
+pute unsound narrow bounds.
+> - [Critical] `cnum32_from_cnum64()` can return a struct mathematically eq=
+uivalent to the `CNUM32_EMPTY` sentinel.
+> - [High] Unconditional use of `__int128` breaks compilation on 32-bit arc=
+hitectures.
+> - [Medium] Missing emptiness checks in `cnum64_cnum32_intersect` and `cnu=
+m32_from_cnum64` resurrect unreachable states.
+> --
 >=20
-> I don't know how it can use the socket lock to single out this case.
-> All bpf programs that are allowed to call bpf_setsockopt should
-> have the sock lock held. Maybe I am missing something obvious.
+> commit 5ab536543671bb2cd6865196d88e96f87d1e7888
+> Author: Eduard Zingerman <eddyz87@gmail.com>
+>=20
+> bpf: representation and basic operations on circular numbers
+>=20
+> This commit introduces cnum32 and cnum64 representations for unified
+> signed and unsigned numeric ranges in the BPF verifier. It includes
+> functions for intersection, multiplication, and range conversion to
+> refine bounds deductions.
+>=20
+> Link: https://lore.kernel.org/all/ZTZxoDJJbX9mrQ9w@u94a/
+> Link: https://jorgenavas.github.io/papers/ACM-TOPLAS-wrapped.pdf
+> Link: https://github.com/eddyz87/cnum-verif/tree/master
+>=20
+> > diff --git a/kernel/bpf/cnum.c b/kernel/bpf/cnum.c
+> > new file mode 100644
+> > index 0000000000000..38a805a6fc2a9
+> > --- /dev/null
+> > +++ b/kernel/bpf/cnum.c
+> [ ... ]
+> > +struct cnum32 cnum32_from_cnum64(struct cnum64 cnum)
+> > +{
+>=20
+> Are we missing a check for empty inputs here? If an empty 64-bit range is
+> passed, does this code convert it directly into an unbounded 32-bit range=
+?
+>=20
+> > +	if (cnum.size > U32_MAX)
+> > +		return (struct cnum32){ .base =3D 0, .size =3D U32_MAX };
+> > +	else
+> > +		return (struct cnum32){ .base =3D (u32)cnum.base, .size =3D cnum.siz=
+e };
+> > +}
+>=20
+> Could this else branch return a value mathematically identical to the
+> CNUM32_EMPTY sentinel?
 
-I tried to find a way to determine if the sk is in tx state in tcp_transmit=
-_skb(),
-but didn't succeed.
+This is a valid point, but it won't be hit in practice:
+the function is called in reg_bounds_sync() and empty inputs are
+short-circuited there.
 
 >=20
-> In bpf_tcp_ca_get_func_proto, it checks what ops can do bpf_sk_setsockopt=
-_proto.
-> Right now, it rejects the "release" ops. One option is to create a new
-> func_proto, bpf_sk_setsockopt_nodelay_proto, to reject TCP_NODELAY.
-> Instead of checking cwnd_event[_tx_start] in bpf_tcp_ca_get_func_proto,
-> I would return bpf_sk_setsockopt_nodelay_proto for all ops. We can revisi=
-t
-> and be more selective in the future if the hammer turns out to be too big=
-.
-> "release" ops will remain disallowed from calling bpf_setsockopt.
+> If a valid 64-bit range has a size of U32_MAX and a base ending in
+> 0xFFFFFFFF, this would return { .base =3D 0xFFFFFFFF, .size =3D 0xFFFFFFF=
+F }.
+> Would the verifier then incorrectly assume this code path is dead and
+> prune it?
+>=20
+> [ ... ]
+> > +struct cnum64 cnum64_cnum32_intersect(struct cnum64 a, struct cnum32 b=
+)
+> > +{
+>=20
+> Does this function need to verify if the input ranges are empty before
+> operating on them? If the variable a is empty, could the arithmetic below
+> return a non-empty, garbage range, effectively resurrecting dead code pat=
+hs?
 
-Great, I'll try this one. bpf_getsockopt(TCP_NODELAY) will not trigger=C2=
-=A0
-infinite recursion, I will keep it as is.
+Here as well, a valid point, but does not happen with current verifier
+structure.
 
---=20
-Thanks,
-KaFai
+> > +	/*
+> > +	 * To simplify reasoning, rotate the circles so that [virtual] a1 sta=
+rts
+> > +	 * at u32 boundary, b1 represents b in this new frame of reference.
+> > +	 */
+> > +	struct cnum32 b1 =3D { b.base - (u32)a.base, b.size };
+> [ ... ]
+> > diff --git a/kernel/bpf/cnum_defs.h b/kernel/bpf/cnum_defs.h
+> > new file mode 100644
+> > index 0000000000000..28dcb79ba6950
+> > --- /dev/null
+> > +++ b/kernel/bpf/cnum_defs.h
+> [ ... ]
+> > +#if T =3D=3D 32
+> > +#define ut2 u64
+> > +#define st2 s64
+> > +#define utt u32
+> > +#define stt s32
+> > +#define EMPTY CNUM32_EMPTY
+> > +#elif T =3D=3D 64
+> > +#define ut2 unsigned __int128
+> > +#define st2 signed __int128
+>=20
+> Will the unconditional use of unsigned __int128 and signed __int128 break
+> compilation on 32-bit architectures? Since the BPF subsystem and verifier
+> are built on 32-bit kernels when CONFIG_BPF_SYSCALL is enabled, this
+> might cause widespread build failures.
+>=20
+> > +#define utt u64
+> > +#define stt s64
+> > +#define EMPTY CNUM64_EMPTY
+> > +#else
+> > +#error "Unsupported T value, cannot define ut2/st2"
+> > +#endif
+> [ ... ]
+> > +static int FN(cut)(struct cnum_t a, struct cnum_t chunks[3])
+> > +{
+> > +	int ncuts =3D 0;
+> > +
+> > +	if (FN(srange_overflow)(a)) {
+> > +		chunks[ncuts++] =3D FN(from_urange)(a.base, ST_MAX);
+> > +		a =3D FN(from_urange)(ST_MIN, a.base + a.size);
+> > +	}
+>=20
+> Can this splitting logic emit wrapped chunks that cause bound deductions
+> to underflow?
+>=20
+> When an arc crosses both boundaries, this splits it first at ST_MAX. The
+> resulting first chunk crosses the unsigned boundary 0.
+>=20
+> When passed to FN(mul_chunk) with a multiplier, it falls into the fallbac=
+k
+> branch utilizing FN(mk_mul_u):
+>=20
+> static struct cnum_t FN(mk_mul_u)(utt a, utt b, utt c, utt d)
+> {
+>         ut2 size =3D (ut2)c * d - (ut2)a * b;
+>=20
+> Because the chunk wraps, its unsigned start is mathematically greater tha=
+n
+> its end. Does this cause the subtraction to severely underflow in unsigne=
+d
+> arithmetic, producing an artificially tight size that misses valid
+> runtime products?
+
+This might be an issue. However, it does not lead to unsound results,
+at-least in u8 domain [1,2].
+
+[1] https://github.com/eddyz87/cnum-verif/blob/arithm-ops/cbmc_helpers8.c
+[2] https://github.com/eddyz87/cnum-verif/blob/arithm-ops/main.c
+
+I'll this and post updated veristat results.
+
+>=20
+> > +	if (FN(urange_overflow)(a)) {
+> > +		chunks[ncuts++] =3D FN(from_urange)(a.base, UT_MAX);
+> > +		a =3D FN(from_urange)(0, a.base + a.size);
+> > +	}
+> > +	chunks[ncuts++] =3D a;
+> > +	return ncuts;
+> > +}
+> [ ... ]
