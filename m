@@ -1,97 +1,105 @@
-Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com [91.218.175.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 607DD38737D
-	for <sashiko@lists.linux.dev>; Mon, 20 Apr 2026 18:12:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.170
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17B676FC5
+	for <sashiko@lists.linux.dev>; Tue, 21 Apr 2026 00:47:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776708767; cv=none; b=TNW2LqwcOQYQlh2dWC5c75xTMR+zlOEEM/cTe64mKdvnf7V05zwRHxxUNgwPkpDXP6SXQzYX/tWnMI38IioBFnT35W+pHqdEnTumpVkYJsA784jUbBdGfBNwblFkrVt7psCjoSfeIAt6c3ko+1mS1/aq1BLl/jCp+y951wqaEs4=
+	t=1776732444; cv=none; b=QKcc0DxhNexlmRFAuEjbOgvSMRyjPPR9ZbQHfvAIO7V/E3u20cF1aHgWOk8kM3FISvpem/AcyNmLZvHtyMATmwgrc3j+mLhRnZ7CXflKJM+ft9NiiQPVsOYrMBcw6yW24tN1IzmbbV/wDReU+8oj66mEr2JD02/8I+b7YyO5RCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776708767; c=relaxed/simple;
-	bh=KdMLvFF62T8w+rP0pIWodgECrAbY0fE5MU19Z5O6gVQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o4anqhsS+qyIBiCEG2fkFUezqxVSKonfVkq4Zrxd6I+acp5qNV4P2ys/KSBfPuNu5wdwlVxmNMSN/PEU9ZCtLbPU10X6eEHc14peTBhXTxZ/Ttqdb+4hYlWqz1wTP4DQ89XRNzGFSyjyrJA5PDRanoERNd/ebFotIisVvsyvzOk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=COKSeVUy; arc=none smtp.client-ip=91.218.175.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="COKSeVUy"
-Date: Mon, 20 Apr 2026 11:12:32 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1776708763;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ix7/zhoRL3r2Dqp79NoWxKpttMDWSed3uFUeVh5uGCE=;
-	b=COKSeVUygLQul+0PeIfiKpNkjZsb+sokS5/W0sk9kETlA3RXnNc7N5eydZzZgzu3P5X6lk
-	IqiDDJBNhNcltXl/lI9WRF5T4/weOosp/Qs8EwRE4r+7vUSYjLjywwJwwle+meoSDp2XcR
-	AtPrLRlC36Mr1yrskhtunH3sKNVwu3k=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Martin KaFai Lau <martin.lau@linux.dev>
-To: KaFai Wan <kafai.wan@linux.dev>
-Cc: sashiko@lists.linux.dev, bpf@vger.kernel.org
-Subject: Re: [PATCH bpf v3 1/2] bpf: Reject TCP_NODELAY in TCP header option
- callbacks
-Message-ID: <2026420174537.e2om.martin.lau@linux.dev>
-References: <20260417092035.2299913-2-kafai.wan@linux.dev>
- <20260418092235.98444C19424@smtp.kernel.org>
- <0e5602f1ca92074cbef0554a7a399ff8b1cc8a1c.camel@linux.dev>
+	s=arc-20240116; t=1776732444; c=relaxed/simple;
+	bh=f1a2hvGWC9ppM0mCrlz6TeECsoZUfQy9vgXC2YKYcXA=;
+	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=VoSmumLJw1v35fGL5JkKQv6u6KuR7kQrpCQ7M0d609cfY8Dz39xlsH9r6ez0XtPU/g7WVfxX2hFw+pHg3TUDFJwHYhT0WxODcuwkucd68i4wGxB8TgpQMl+u+4hIosmukkhF73MveUcHleS8kIhYLORVkcYBD/4XvDpYwQ5xHF8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [113.200.148.30])
+	by gateway (Coremail) with SMTP id _____8BxNegXyeZpck8CAA--.2783S3;
+	Tue, 21 Apr 2026 08:47:19 +0800 (CST)
+Received: from [10.130.40.83] (unknown [113.200.148.30])
+	by front1 (Coremail) with SMTP id qMiowJBxSeAVyeZpvJ1xAA--.19499S3;
+	Tue, 21 Apr 2026 08:47:17 +0800 (CST)
+Subject: Re: [PATCH RFC bpf-next 2/2] selftests/bpf: Add LoongArch support for
+ get_preempt_count()
+To: sashiko@lists.linux.dev
+Cc: bpf@vger.kernel.org
+References: <20260420111516.19982-3-yangtiezhu@loongson.cn>
+ <20260420133532.4973DC2BCB4@smtp.kernel.org>
+From: Tiezhu Yang <yangtiezhu@loongson.cn>
+Message-ID: <800726d7-7f09-40ee-a3ae-faf879364bdf@loongson.cn>
+Date: Tue, 21 Apr 2026 08:47:17 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+In-Reply-To: <20260420133532.4973DC2BCB4@smtp.kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <0e5602f1ca92074cbef0554a7a399ff8b1cc8a1c.camel@linux.dev>
-X-Migadu-Flow: FLOW_OUT
+X-CM-TRANSID:qMiowJBxSeAVyeZpvJ1xAA--.19499S3
+X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
+X-Coremail-Antispam: 1Uk129KBj93XoW7ur1UGrWDur1xGrWUWFW3urX_yoW8ur47pF
+	yfCayqyr48Jay2gw17Jws5uF1ftw1kWa95Gr95K3y2kw15trWrWrWxWrWayw13Z34Fgr40
+	v3s2gw4avF4DAagCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUvjb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVWUJVW8JwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
+	Jr0_Gr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4
+	xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v2
+	6r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1cAE67
+	vIY487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAF
+	wI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUXVWUAwCIc4
+	0Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AK
+	xVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr
+	1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxU25EfUUUU
+	U
 
-On Mon, Apr 20, 2026 at 09:41:06PM +0800, KaFai Wan wrote:
-> > Does this same recursion vulnerability exist for BPF TCP congestion control
-> > algorithms using BPF_PROG_TYPE_STRUCT_OPS?
-> > 
-> > If a BPF congestion control algorithm invokes bpf_setsockopt(TCP_NODELAY)
-> > from its cwnd_event callback when handling CA_EVENT_TX_START, could it
-> > trigger the same unbounded recursion?
-> > 
-> > When the kernel transmits the first packet of a data train via
-> > tcp_transmit_skb(), it invokes tcp_event_data_sent(). Because
-> > tp->packets_out is not incremented until later, tcp_packets_in_flight(tp)
-> > evaluates to 0, triggering tcp_ca_event(sk, CA_EVENT_TX_START).
-> > 
-> > If the BPF program then calls bpf_setsockopt(TCP_NODELAY), it would result
-> > in this call chain:
-> > 
-> > tcp_transmit_skb()
-> >   tcp_event_data_sent() -> invokes CA_EVENT_TX_START
-> >     cwnd_event()
-> >       bpf_setsockopt(TCP_NODELAY)
-> >         tcp_push_pending_frames()
-> >           tcp_write_xmit()
-> > 
-> > Since the outer tcp_transmit_skb() hasn't finished, the send head hasn't
-> > advanced. Wouldn't tcp_write_xmit() see the same SKB, attempt to transmit
-> > it again, and re-enter tcp_transmit_skb() causing an infinite recursion?
-> > 
-> You are right. I can reproduce this. 
->  
-> > Should the restriction on TCP_NODELAY be enforced at a broader level, such
-> > as inside _bpf_setsockopt(), to protect contexts holding the socket lock
-> > during TX paths?
-> > 
-> We can check in sol_tcp_sockopt().
+On 2026/4/20 ä¸‹åˆ9:35, sashiko-bot@kernel.org wrote:
+> Sashiko AI review found 1 potential issue(s):
+> - [High] BPF programs including `bpf_experimental.h` will fail to compile on LoongArch due to a non-existent `thread_info` field in `struct task_struct`.
+> --
+> 
+> commit 82453686fe5eacd9f219e2a050dc016b297cfc79
+> Author: Tiezhu Yang <yangtiezhu@loongson.cn>
+> 
+> selftests/bpf: Add LoongArch support for get_preempt_count()
+> 
+> This commit adds LoongArch support for get_preempt_count() in the BPF
+> experimental helpers. It enables bpf_in_interrupt() and related macros to
+> work properly on LoongArch systems.
+> 
+>> diff --git a/tools/testing/selftests/bpf/bpf_experimental.h b/tools/testing/selftests/bpf/bpf_experimental.h
+>> index e5c039bc44cb4..5847bbf12d240 100644
+>> --- a/tools/testing/selftests/bpf/bpf_experimental.h
+>> +++ b/tools/testing/selftests/bpf/bpf_experimental.h
+>> @@ -507,6 +507,8 @@ static inline int get_preempt_count(void)
+>>   	return bpf_get_lowcore()->preempt_count;
+>>   #elif defined(bpf_target_riscv)
+>>   	return bpf_get_current_task_btf()->thread_info.preempt_count;
+>> +#elif defined(bpf_target_loongarch)
+>> +	return bpf_get_current_task_btf()->thread_info.preempt_count;
+> 
+> Will this compile successfully on LoongArch?
+> 
+> Since LoongArch does not select CONFIG_THREAD_INFO_IN_TASK, struct
+> thread_info is allocated on the kernel stack rather than being embedded
+> within struct task_struct. Because of this, the generated BTF and vmlinux.h
+> for LoongArch will not contain a thread_info field in task_struct.
+> 
+> Could this lead to a compiler error indicating that there is no member named
+> thread_info in struct task_struct when building BPF selftests?
 
-I don't know how it can use the socket lock to single out this case.
-All bpf programs that are allowed to call bpf_setsockopt should
-have the sock lock held. Maybe I am missing something obvious.
+As mentioned in the cover letter, it needs to apply the kernel patch
+"LoongArch: Implement CONFIG_THREAD_INFO_IN_TASK" [1] before testing.
 
-In bpf_tcp_ca_get_func_proto, it checks what ops can do bpf_sk_setsockopt_proto.
-Right now, it rejects the "release" ops. One option is to create a new
-func_proto, bpf_sk_setsockopt_nodelay_proto, to reject TCP_NODELAY.
-Instead of checking cwnd_event[_tx_start] in bpf_tcp_ca_get_func_proto,
-I would return bpf_sk_setsockopt_nodelay_proto for all ops. We can revisit
-and be more selective in the future if the hammer turns out to be too big.
-"release" ops will remain disallowed from calling bpf_setsockopt.
+[1] 
+https://lore.kernel.org/loongarch/20260420102907.4617-1-yangtiezhu@loongson.cn/
+
+Thanks,
+Tiezhu
+
