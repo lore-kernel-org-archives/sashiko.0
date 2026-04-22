@@ -1,25 +1,25 @@
-Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [52.237.72.81])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F226F30F938
-	for <sashiko@lists.linux.dev>; Wed, 22 Apr 2026 15:33:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.237.72.81
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [207.46.229.174])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4DE12737E3
+	for <sashiko@lists.linux.dev>; Wed, 22 Apr 2026 15:47:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.46.229.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776872007; cv=none; b=gcUeSUPEC8QNdnMINfCrERv0mlwFRx/izKZDzQxOI6vntXVeqG2h9AxWQJUV5wadldim5ep0bGYXp3DK9SOvDQeK7smbmsCW+mwB8QyrG5yqLJt+NxLXgHk55ALUc5CZ8SX5jubYJrDvTdsgU00JLwME2fc5kXJe3V75uLcocQQ=
+	t=1776872854; cv=none; b=JnpsChRDt2ZW78BCF6xECzwdB4S2sLZsro/KwWNcARC1fuaubuJf4p7fMbr0BBFV3hwCgUJeXCfpMt/zLgZG/ibn6pCSaUSQihQIwBa+fTZyIy1+G7HTZtwsJVI6dAyev3OLJROqQPIXRSL44dYYuTY3GOU69W9hf9TubuQYpUc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776872007; c=relaxed/simple;
-	bh=XlFSrGpKRZwx64dhnng+IMVZAFgvoncijSqVCiEKHH0=;
+	s=arc-20240116; t=1776872854; c=relaxed/simple;
+	bh=Peitl/EGooQwjNnqWzbr3bdufGA8nKEFapG62eF0qzw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fLs8JsfJAyH9sYRukf3vK1OfVO2fcCtNBGdEZ+pcJEOQ+C3AVmlEk0xx52hCLep27w7gmMj1EyGGifTK9vJBfML+ilwQpHUAliDPuaqFR+HwwltITnmeed/y4bsnbYS97FuVQkQbIguvKYg5/aQkRblOpCpS568yjP5sKH1CQV8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=52.237.72.81
+	 In-Reply-To:Content-Type; b=TCBhVjdb2OHO0b7K+IBP+ZCckoK6Gll/swSw9TcuG9XPQ7eFz5x8jtlkUepV4lHiseuTFIaJP+GnSBb27KbTsNmYyGAHKa5nL+avVKMof1qqTvbrCmMrfzaklAvWXLowr9endDa7tg0MmGRxd4OYKrnvjDA3kOvzakdzmAmohDk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=207.46.229.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
 Received: from zju.edu.cn (unknown [10.162.163.215])
-	by mtasvr (Coremail) with SMTP id _____wD3dTw46uhplYCmAA--.3137S3;
-	Wed, 22 Apr 2026 23:33:12 +0800 (CST)
+	by mtasvr (Coremail) with SMTP id _____wBHbKZ_7ehpV5amAA--.3356S3;
+	Wed, 22 Apr 2026 23:47:12 +0800 (CST)
 Received: from [10.162.163.215] (unknown [10.162.163.215])
-	by mail-app1 (Coremail) with SMTP id yy_KCgB3eaM46uhpK1SkAA--.350S3;
-	Wed, 22 Apr 2026 23:33:12 +0800 (CST)
-Message-ID: <5c172edc-3323-4fbc-ad16-24c1109e4b05@zju.edu.cn>
-Date: Wed, 22 Apr 2026 23:33:12 +0800
+	by mail-app2 (Coremail) with SMTP id zC_KCgBn18x_7ehp_efPAA--.63533S3;
+	Wed, 22 Apr 2026 23:47:11 +0800 (CST)
+Message-ID: <ac3fda86-909b-420c-9d80-282554669371@zju.edu.cn>
+Date: Wed, 22 Apr 2026 23:47:11 +0800
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
@@ -27,25 +27,25 @@ List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH bpf-next v7 2/3] bpf: Fix s16 truncation for large
- bpf-to-bpf call offsets
+Subject: Re: [PATCH bpf-next v7 3/3] selftests/bpf: Add test for large offset
+ bpf-to-bpf call
 To: sashiko@lists.linux.dev
 Cc: bpf@vger.kernel.org
-References: <20260421144504.823756-3-tangyazhou@zju.edu.cn>
- <20260421204648.B573FC2BCB0@smtp.kernel.org>
+References: <20260421144504.823756-4-tangyazhou@zju.edu.cn>
+ <20260421210253.5AB2AC2BCB0@smtp.kernel.org>
 Content-Language: en-US
 From: Yazhou Tang <tangyazhou@zju.edu.cn>
-In-Reply-To: <20260421204648.B573FC2BCB0@smtp.kernel.org>
+In-Reply-To: <20260421210253.5AB2AC2BCB0@smtp.kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:yy_KCgB3eaM46uhpK1SkAA--.350S3
-X-CM-SenderInfo: qssvjiasrsq6lmxovvfxof0/1tbiAg4JCmnn0w6TGgAAsV
-X-CM-DELIVERINFO: =?B?a0VR8wXKKxbFmtjJiESix3B1w3vD7IpoGYuur0o+r46DyAi5OfOO+T4vrW4FyUBIyu
-	9q9HJ05lIkNOUgLnhdlL20wRVRCJvYJlrQNF5F0uKdCau5Py86DXEXw9fD3iArbkeiAUPI
-	RoGwRXmqtSOBY1rJNqSM6002mYEWZq3xZZB6jvj4wutqzY4mz7p39tDa1d/Qrw==
-X-Coremail-Antispam: 1Uk129KBj93XoW7WF17XFWkWFy8Zr1rAr4UKFX_yoW8tFy8pa
-	y5Ga4Ikr4UXr4aka47tF4DCay5trZrC3WjgF15try3tr42grnrKr17KF4Sga43Jr1q9F1v
-	qr4jvwna9w1DZrXCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
+X-CM-TRANSID:zC_KCgBn18x_7ehp_efPAA--.63533S3
+X-CM-SenderInfo: qssvjiasrsq6lmxovvfxof0/1tbiBgsJCmnn0w2TlAAAsZ
+X-CM-DELIVERINFO: =?B?1daGiwXKKxbFmtjJiESix3B1w3vD7IpoGYuur0o+r46DyAi5OfOO+T4vrW4FyUBIyu
+	9q9LL0UKc+KPB+cdozqO9FXghDKs6RqwUMWuNE/GkeA1S3GRTHctHm9be4OCXM9WHNS/V6
+	Ory4tMEQEqlP18yZxIfUY2x6B7umbjykKbFJmiPRZG8c+brQvM0+232J8bbLjQ==
+X-Coremail-Antispam: 1Uk129KBj93XoWxZr15ZF17Wr13XryUJw48KrX_yoW5WrW8pF
+	yfta45KF4xGFW7Krn7Z3yDWFySvwsrAa4jkFn5Jr98A3s8Xr1Ikrs3Kw4Uua42kr4ku3WS
+	vF4jgasI9w1kAFXCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
 	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
 	0xBIdaVrnRJUUUyEb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
 	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
@@ -62,63 +62,79 @@ X-Coremail-Antispam: 1Uk129KBj93XoW7WF17XFWkWFy8Zr1rAr4UKFX_yoW8tFy8pa
 
 
 
-On 4/22/26 4:46 AM, sashiko-bot@kernel.org wrote:
+On 4/22/26 5:02 AM, sashiko-bot@kernel.org wrote:
 > Sashiko AI review found 1 potential issue(s):
-> - [Medium] bpftool's control-flow graph generator (cfg.c) was not updated to reflect the `insn->off` and `insn->imm` swap for BPF_PSEUDO_CALL, which will break visual dumps.
+> - [Medium] The selftest causes a kernel panic on unfixed kernels (when JIT is disabled), which disrupts CI pipelines and bisection workflows.
 > --
 > 
-> commit bbf026d16d77a3e1debc60ea3a7b2fef7d7def5e
+> commit c0593c5f6291ee1a846f9c17858890ded3cd8ea4
 > Author: Yazhou Tang <tangyazhou518@outlook.com>
 > 
-> bpf: Fix s16 truncation for large bpf-to-bpf call offsets
+> selftests/bpf: Add test for large offset bpf-to-bpf call
 > 
-> This commit fixes an s16 truncation issue for large bpf-to-bpf call
-> offsets when JIT is disabled or falls back to the interpreter.
-> It does this by using the off field to store the interpreter function
-> index and the imm field to pass the original offset.
-> The related dumper code was also updated to adapt to this change.
+> This commit adds a BPF selftest to verify that the verifier and JIT correctly
+> handle bpf-to-bpf calls with relative jump offsets exceeding the s16 boundary.
+> It uses a large inline assembly block to force the verifier to process a jump
+> exceeding the standard limit.
 > 
->> diff --git a/kernel/bpf/fixups.c b/kernel/bpf/fixups.c
->> index 300e4e2519318..8947ef74f6a88 100644
->> --- a/kernel/bpf/fixups.c
->> +++ b/kernel/bpf/fixups.c
->> @@ -1250,9 +1250,9 @@ static int jit_subprogs(struct bpf_verifier_env *env)
->>   		}
->>   		if (!bpf_pseudo_call(insn))
->>   			continue;
->> -		insn->off = env->insn_aux_data[i].call_imm;
->> -		subprog = bpf_find_subprog(env, i + insn->off + 1);
->> -		insn->imm = subprog;
->> +		insn->imm = env->insn_aux_data[i].call_imm;
->> +		subprog = bpf_find_subprog(env, i + insn->imm + 1);
->> +		insn->off = subprog;
->>   	}
+>> - Before the fix, the verifier rewrites the call instruction with a truncated
+>>    offset (here 32768 -> -32768) and lets it pass. When the program is executed,
+>>    the call instruction causes a kernel panic due to an invalid jump target.
 > 
-> Since insn->imm and insn->off are now swapped for exported translated
-> programs, should tools/bpf/bpftool/cfg.c also be updated?
+> Is it safe to introduce a test that causes a kernel panic on unpatched kernels?
 > 
-> It looks like cfg_partition_funcs() currently relies on cur->off to
-> calculate the target subprogram start when generating the control-flow
-> graph:
+> While reproducing the bug is the test's goal, crashing the kernel is highly
+> disruptive for CI systems and git bisect workflows that run the testsuite on
+> older or unpatched kernel trees.
+
+This point is valid. Although the upstream CI typically runs with JIT enabled,
+causing a kernel panic when JIT is disabled is definitely something we should avoid.
+
+>> diff --git a/tools/testing/selftests/bpf/progs/call_large_imm.c b/tools/testing/selftests/bpf/progs/call_large_imm.c
+>> new file mode 100644
+>> index 0000000000000..7cdf1e6d80d8d
+>> --- /dev/null
+>> +++ b/tools/testing/selftests/bpf/progs/call_large_imm.c
 > 
-> tools/bpf/bpftool/cfg.c:cfg_partition_funcs() {
->          ...
-> 	for (; cur < end; cur++) {
-> 		if (cur->code != (BPF_JMP | BPF_CALL))
-> 			continue;
-> 		if (cur->src_reg != BPF_PSEUDO_CALL)
-> 			continue;
-> 		func = cfg_append_func(cfg, cur + cur->off + 1);
-> 		if (!func)
-> 			return true;
-> 	}
->          ...
-> }
+> [ ... ]
 > 
-> Because cur->off now holds the subprogram index instead of the jump offset,
-> could this point to the wrong instruction and cause a corrupted graph or
-> out-of-bounds memory access during bpftool prog dump xlated visual?
+>> +static __attribute__((noinline)) void padding_subprog(void)
+>> +{
+>> +	asm volatile ("					\
+>> +		r0 = 0;					\
+>> +		.rept 32765;				\
+>> +		r0 += 0;				\
+>> +		.endr;					\
+>> +	" ::: "r0");
+>> +}
+>> +
+>> +static __attribute__((noinline)) int target_subprog(void)
+>> +{
+>> +	/* A volatile variable is used here to prevent optimization. */
+>> +	volatile int magic_ret = 3;
+>> +	return magic_ret;
+>> +}
+>> +
+>> +SEC("syscall")
+>> +int call_large_imm_test(void *ctx)
+>> +{
+>> +	if (zero)
+>> +		padding_subprog();
+>> +	return target_subprog();
+>> +}
+> 
+> Could the test be redesigned to fail gracefully?
+> 
+> If the large padding block were placed before the call instruction, the
+> call site would be at a large positive offset. A truncated negative jump
+> (-32768) would then land safely inside the valid padding instructions instead
+> of jumping out of bounds of the program.
+> 
+> The execution would then fall through and return an incorrect value, causing
+> ASSERT_EQ(opts.retval, 3) in the runner to cleanly fail without bringing down
+> the system.
 > 
 
-This is a valid point. I will fix this issue in next version.
+This approach is indeed more elegant and safer. I will redesign the selftest
+as suggested for next version.
 
