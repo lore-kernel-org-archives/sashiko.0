@@ -1,178 +1,143 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE0801D63F0;
-	Thu, 23 Apr 2026 01:12:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81FBA1E89C
+	for <sashiko@lists.linux.dev>; Thu, 23 Apr 2026 02:05:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776906721; cv=none; b=rtRBXXDW26N0e1TmrwXUE5tpeHA/WTZzdraeaei+KIxjqnPIx60RyBKiLwAuX5qjitp8iuP8Sjw/440KIwwCKIPyW/hMQfs/KEW6CzSiK87CETusqPSPIowYzi/Sf+xo6In/3dkL2/l4Z+zl1i8ZbZ0eg3nLfgWHfI3Muunc+Zk=
+	t=1776909953; cv=none; b=JZsE90GrYcAoZ2cUVZoYrpQ/MCvWUCdgNb815+01uKmiitpTLJCd6uBZFyV9R6n6Z9BdIhMSrhgA1MMqAfnUPUbsmP6XKueUe4tVQ1Kg+uK0IpC7BSqXjRLYuhZ82tpxKTpaLo5H33FinRlwLAEZh/+9LgMyxhzG4vMgiVXmWLE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776906721; c=relaxed/simple;
-	bh=S7lOtiK0ny4Q7zCLC45kW8aw23HtqZxs1qHhF0KBIJ0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Bwsq+klCARpVcTD+9U2doZZm+D2k4OmtJOJtGEMiMU47tEhtLh6TeRihgHRVMoQbWaso8qzlNc1vLSh3TLPjKLNxoflc+czqvIKzwU7QFPP0Dqbj/45dQlTSIGOGyQeeShEvtTopw1aG3vX/omqCwaaTXE1Q05aZvztlFyIOiag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T0z6z9lF; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776909953; c=relaxed/simple;
+	bh=Tb3P+t2T8KQ7G57rTRrkgAaqvUEf0PZfxlH7fZ2B4gc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jhwPfrshsQTtndHDvA0sHtiwM12Np92p2be1UOq65/nwlbpLXls/sSqLqbYB2lVhXtDrXfDvtahZMn/1xENrku+T1TkF/HPG4++XmL4MxdNBbZMRuIAdwl2HcBPtpMXjjIv460DP6BqTFp19nVEuIC3QSdxmidBASIj3BzqKglA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Wyncgp4l; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T0z6z9lF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21205C19425;
-	Thu, 23 Apr 2026 01:12:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776906721;
-	bh=S7lOtiK0ny4Q7zCLC45kW8aw23HtqZxs1qHhF0KBIJ0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=T0z6z9lFxtdV+V69oNN3V3Wb8Tf2WQ2vY7z17mnxmQhIwVxK0DoSGvOEiXohWhrp/
-	 rwHdpuTlSlnQmGY5ahuNYtZS6C9f/pkLpqDfsrm3txShr5khAcOVX75jQq2me7yzso
-	 ibr59Pf+AeLGEgINWw+cOPlufD/Wwnhn9CQHfauknB2MAdACJl1ImXLh0pCDJJcRX3
-	 MYFMj3Pf32s2hTKBSvAVUkl7lo2uB3ORuruUL5hgvArFpUesd72psIZjKszrH/yY+5
-	 vd6xbe1NC6hWXRQ+PMZj4OtILye7q3H21KbYDewad7bLLmM/hPb8bf6vfZAUq2k9a6
-	 TQ7M2B5k0+14Q==
-Date: Wed, 22 Apr 2026 18:11:59 -0700
-From: Namhyung Kim <namhyung@kernel.org>
-To: Suchit Karunakaran <suchitkarunakaran@gmail.com>
-Cc: sashiko@lists.linux.dev, bpf@vger.kernel.org,
-	linux-perf-users@vger.kernel.org
-Subject: Re: [PATCH] perf/lock: enable end-timestamp accounting for cgroup
- aggregation
-Message-ID: <aelx3_VdT_PfsNjd@google.com>
-References: <20260420184656.331306-1-suchitkarunakaran@gmail.com>
- <20260421004512.CDE13C19425@smtp.kernel.org>
- <CAO9wTFiFRSRjMRSAA+vV-AF1rJQGdoCK_p6TXvQ+V1ToaqMs0w@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Wyncgp4l"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1776909951;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Vl69fnGMCWF0TcipYSEju5cXinWC+MmiZcTtQ5ZWnos=;
+	b=Wyncgp4lACR7fG8quftYOk3E5FEemZn6WUftTWcm/4f55AxPgxG9i1iFYc64Spdf5YwcxJ
+	aeXLB1lrf4KnPWC9XsW/RnNIHz51Gyjg8aHG6kGCdVSoE8R8bPWGHjcbPA8/h/UpoC1ISX
+	vb1lOrPV20rUeebafxZTBTgwWDzF0Z0=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-453-RrjzcX0vMIedDoXYiQyoKA-1; Wed,
+ 22 Apr 2026 22:05:45 -0400
+X-MC-Unique: RrjzcX0vMIedDoXYiQyoKA-1
+X-Mimecast-MFC-AGG-ID: RrjzcX0vMIedDoXYiQyoKA_1776909944
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 699971956061;
+	Thu, 23 Apr 2026 02:05:44 +0000 (UTC)
+Received: from [10.22.89.141] (unknown [10.22.89.141])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 6810D30001A1;
+	Thu, 23 Apr 2026 02:05:43 +0000 (UTC)
+Message-ID: <9b164822-b4f3-4a97-b602-e49c495b54b8@redhat.com>
+Date: Wed, 22 Apr 2026 22:05:42 -0400
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAO9wTFiFRSRjMRSAA+vV-AF1rJQGdoCK_p6TXvQ+V1ToaqMs0w@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 06/23] rcu/nocbs: Allow runtime changes in RCU NOCBS
+ cpumask
+To: sashiko@lists.linux.dev
+Cc: mkoutny@suse.com, tj@kernel.org, hannes@cmpxchg.org,
+ linux-hwmon@vger.kernel.org
+References: <20260421030351.281436-7-longman@redhat.com>
+ <20260422030856.4C8BEC2BCB0@smtp.kernel.org>
+From: Waiman Long <longman@redhat.com>
+In-Reply-To: <20260422030856.4C8BEC2BCB0@smtp.kernel.org>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+X-Mimecast-MFC-PROC-ID: ftVO2sdLyPpSpayR_GAX_vdZqwlqPZk60yH13du4qJA_1776909944
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Apr 21, 2026 at 01:59:00PM +0530, Suchit Karunakaran wrote:
-> On Tue, 21 Apr 2026 at 06:15, <sashiko-bot@kernel.org> wrote:
-> >
-> > Sashiko AI review found 2 potential issue(s):
-> > - [High] Incomplete spinlock and rwlock contentions are silently dropped for LOCK_AGGR_CGROUP because account_end_timestamp() skips the per-CPU tstamp map.
-> > - [Medium] Inconsistent cgroup attribution between complete and incomplete lock contentions when a task migrates cgroups.
-> > --
-> >
-> > commit 7ba25dc647534f97eb1ae9f34c6c8d38e7fef074
-> > Author: Suchit Karunakaran <suchitkarunakaran@gmail.com>
-> >
-> > perf/lock: enable end-timestamp accounting for cgroup aggregation
-> >
-> > This commit adds a cgroup_id field to struct tstamp_data to properly account
-> > for incomplete lock contention events when aggregating by cgroup. It records
-> > the cgroup ID at contention_begin and uses it to build the aggregation key
-> > in userspace.
-> >
-> > > diff --git a/tools/perf/util/bpf_lock_contention.c b/tools/perf/util/bpf_lock_contention.c
-> > > index cbd7435579fea..1a5bd2ff8ee4c 100644
-> > > --- a/tools/perf/util/bpf_lock_contention.c
-> > > +++ b/tools/perf/util/bpf_lock_contention.c
-> > > @@ -463,8 +463,8 @@ static void update_lock_stat(int map_fd, int pid, u64 end_ts,
-> > >               stat_key.lock_addr_or_cgroup = ts_data->lock;
-> > >               break;
-> > >       case LOCK_AGGR_CGROUP:
-> > > -             /* TODO */
-> > > -             return;
-> > > +             stat_key.lock_addr_or_cgroup = ts_data->cgroup_id;
-> > > +             break;
-> >
-> > Does this fully enable end-timestamp accounting for cgroup aggregation
-> > on per-CPU locks like spinlocks and rwlocks?
-> >
-> > Looking at account_end_timestamp() in tools/perf/util/bpf_lock_contention.c,
-> > there is an early return that skips the per-CPU tstamp map:
-> >
-> > static void account_end_timestamp(struct lock_contention *con)
-> > {
-> >         ...
-> >         /* Now it'll check per-cpu tstamp map which doesn't have TID. */
-> >         if (aggr_mode == LOCK_AGGR_TASK || aggr_mode == LOCK_AGGR_CGROUP)
-> >                 return;
-> >
-> >         total_cpus = cpu__max_cpu().cpu;
-> >         ts_fd = bpf_map__fd(skel->maps.tstamp_cpu);
-> >         ...
-> > }
-> >
-> > Since account_end_timestamp() skips iterating over skel->maps.tstamp_cpu
-> > when aggr_mode is LOCK_AGGR_CGROUP, are all incomplete contentions for
-> > spinlocks and rwlocks still silently dropped?
-> >
-> 
-> As per my understanding the tstamp_cpu map stores per-cpu entries
-> without a TID, so there is no current task context available to derive
-> a cgroup ID. Unlike the per-task tstamp map where cgroup_id is
-> captured at contention_begin time, per-cpu entries represent
-> spinlock/rwlock contentions that are inherently CPU-bound and not
-> attributed to a single task at contention_end time either. The
-> original LOCK_AGGR_TASK mode has the same early return for the same
-> reason, cgroup attribution without a task context is not meaningful.
-> This patch addresses only the per-task straggler case.
+On 4/21/26 11:08 PM, sashiko-bot@kernel.org wrote:
+> Sashiko AI review found 1 potential issue(s):
+> - [High] Dynamic RCU NOCB update attempts to de-offload online `rcu_nocbs=` CPUs, triggering a WARN_ON_ONCE and leaving isolation state inconsistent.
+> --
+>
+> commit a58a92fdc96e43de871fd44a78e4e6da373179d5
+> Author: Waiman Long <longman@redhat.com>
+>
+> rcu/nocbs: Allow runtime changes in RCU NOCBS cpumask
+>
+> This commit enables dynamic runtime updates to the RCU NO-CB CPU offloading
+> state when isolated CPUs are added or removed. It introduces a new helper,
+> rcu_nocb_update_cpus(), which is called directly from housekeeping_update()
+> to synchronize the offloaded CPUs with the HK_TYPE_KERNEL_NOISE cpumask.
+>
+>> diff --git a/kernel/rcu/tree_nocb.h b/kernel/rcu/tree_nocb.h
+>> index 2d06dcb61f379..b2daba1e5cb98 100644
+>> --- a/kernel/rcu/tree_nocb.h
+>> +++ b/kernel/rcu/tree_nocb.h
+> [ ... ]
+>> +void rcu_nocb_update_cpus(struct cpumask *cpumask)
+>> +{
+>> +	int cpu, ret;
+>> +
+>> +	if (!rcu_state.nocb_is_setup) {
+>> +		pr_warn_once("Dynamic RCU NOCB cannot be enabled without nohz_full/rcu_nocbs kernel boot parameter!\n");
+>> +		return;
+>> +	}
+>> +
+>> +	for_each_cpu_andnot(cpu, cpumask, rcu_nocb_mask) {
+>> +		ret = rcu_nocb_cpu_offload(cpu);
+>> +		if (WARN_ON_ONCE(ret))
+>> +			return;
+>> +	}
+>> +
+>> +	for_each_cpu_andnot(cpu, rcu_nocb_mask, cpumask) {
+>> +		ret = rcu_nocb_cpu_deoffload(cpu);
+> What happens here if a system booted with explicit rcu_nocbs= CPUs, and
+> later a user dynamically updates an isolated cpuset?
+>
+> It looks like this loop assumes the active rcu_nocb_mask should identically
+> match the new isol_mask. If the boot-time rcu_nocbs= CPUs are not included
+> in the new isolation mask, this loop will attempt to de-offload them.
+>
+> Because the cpuset subsystem is unaware of the independent rcu_nocbs= mask,
+> wouldn't those original CPUs likely remain online?
+>
+Yes, the code should properly handle a pre-existing "rcu_nocbs" boot 
+option with a different CPU list. I will update the patch to add a boot 
+version of rcu_nocb_mask and make sure that CPUs that are in 
+rcu_nocb_mask_boot will not be de-offloaded.
+>> +		if (WARN_ON_ONCE(ret))
+>> +			return;
+> If rcu_nocb_cpu_deoffload() is called on an online CPU, it returns -EINVAL.
+> Could this unconditionally trigger this WARN_ON_ONCE and abort the rest of
+> the update loop?
+It should only be called for an offline CPU. The WARN_ON_ONCE() is there 
+to just catch unexpected bug in the code.
+>
+> If the loop aborts early, since housekeeping_update() already committed the
+> new mask to housekeeping.cpumasks[], does this leave the system in a
+> desynchronized state where the scheduler assumes CPUs are isolated but
+> RCU callback offloading is not properly updated?
 
-Right, it'll miss spinlocks and rwlocks but I think it's ok.
+Any triggered WARN_ON_ONCE() is a bug that needs to be investigated and 
+fixed.
 
-> 
-> > [ ... ]
-> >
-> > > diff --git a/tools/perf/util/bpf_skel/lock_contention.bpf.c b/tools/perf/util/bpf_skel/lock_contention.bpf.c
-> > > index 96e7d853b9edf..d0e2cad02fa36 100644
-> > > --- a/tools/perf/util/bpf_skel/lock_contention.bpf.c
-> > > +++ b/tools/perf/util/bpf_skel/lock_contention.bpf.c
-> > > @@ -536,6 +536,8 @@ int contention_begin(u64 *ctx)
-> > >       pelem->timestamp = bpf_ktime_get_ns();
-> > >       pelem->lock = (__u64)ctx[0];
-> > >       pelem->flags = (__u32)ctx[1];
-> > > +     if (aggr_mode == LOCK_AGGR_CGROUP)
-> > > +             pelem->cgroup_id = get_current_cgroup_id();
-> >
-> > If a task migrates to a different cgroup while blocked on a lock, could this
-> > lead to inconsistent attribution between complete and incomplete contentions?
-> >
-> > The cgroup ID is statically recorded here at contention_begin() and used by
-> > userspace for incomplete events.
-> >
-> > However, contention_end() continues to dynamically resolve the cgroup ID:
-> >
-> > SEC("tp_btf/contention_end")
-> > int contention_end(u64 *ctx)
-> > {
-> >         ...
-> >         case LOCK_AGGR_CGROUP:
-> >                 key.lock_addr_or_cgroup = get_current_cgroup_id();
-> >                 break;
-> >         ...
-> > }
-> >
-> > Would it be more consistent for contention_end() to also use the statically
-> > recorded pelem->cgroup_id, ensuring that both completed and incomplete events
-> > attribute the contention time to the exact same cgroup?
-> >
-> 
-> I think the fix should go in the opposite direction. Instead of
-> calling get_current_cgroup_id() at contention_end, I think we should
-> be using pelem->cgroup_id. Semantically, the cost of lock contention
-> is incurred by the task that had to wait for the lock. So it makes
-> more sense to attribute that cost based on the cgroup at the time the
-> wait started (contention_begin), rather than whatever happens to be
-> current at the end.
-> I’m not entirely certain about this, so I’d really appreciate any
-> input from maintainers and reviewers on whether this attribution makes
-> sense.
+Cheers,
+Longman
 
-Agreed, as I replied earlier we should use pelem->cgroup_id.
-
-The tstamp_data is saved per-thread so it doesn't matter which thread is
-calling this.  I think the concern is when - IIRC I put it at _end()
-because it may reduce the overhead when we have some filters.
-
-But it seems it's already after checking the filters.  Then it should be
-ok to do in _begin().  Maybe it's a better choice doing it in _begin()
-since the thread is about to go to wait for the lock and doing nothing
-critical.  While at the _end(), it'll start the critical section soon.
-
-Thanks,
-Namhyung
+>
+>> +	}
+>> +}
 
