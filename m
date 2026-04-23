@@ -1,66 +1,49 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5224A2236FD
-	for <sashiko@lists.linux.dev>; Thu, 23 Apr 2026 13:38:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5380725A359
+	for <sashiko@lists.linux.dev>; Thu, 23 Apr 2026 14:37:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776951493; cv=none; b=qKHUZp/+qG2I78MfsiEheD0QKmLljUluUqZiletbcLS0E60Pkmi+IYnq9d797DqQQ4XTxT5U0g5gW+leP7uEFlBvSUA/p/Qq300lVBzwRTtpArRFQ72ORbuPXNkVdXIv9fB6dIo3VbUxrAyWluy6Tw8IKvO83dZSNvgQl848VyA=
+	t=1776955080; cv=none; b=Me1yJbTwo74/JRA1zWczbQcDwnDKrF0j4VGoVACOVGlsN9zuvTWXiktXJWYZaW6ReOHlSBrNxoRtulQRteDFKwKIujEiGX3JKTA/i16/QdtRIcJ7LJV9D5mqUCe17CmTa6sVH/np6KofPWg0I1vVBefJjtZ6tweM/Ry/954Dx3k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776951493; c=relaxed/simple;
-	bh=sbNf/G/I5AJPBRK4ugaKll32yta07GLU+QAjmmMjSik=;
+	s=arc-20240116; t=1776955080; c=relaxed/simple;
+	bh=bmpCH+66TNgDUiHXoRESq8ZYVgfmqmiUobEbMKtiOTA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ISLiVHxsDIzNHShOH6yYft13RTBy3mZHeqXhaXnkJIXUoOQk76NnbOHBV9ARy/tU3bVGtca/lMkf1nV9OEqkDVV0QwzTk+dMnWy8oLdrTbk888wOgMJAU5CGFl25Q1NRoHnFi4nQhDUjJwN+V/A94o5xeH80F1BV38HeINRofHo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Nc8YiIyt; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=hn+lTCLDh7c/usurtNQK5vXJVuLSRtDPLxWM6jfnL0QDAYw55VdAZYGjMBsQwRkQt0nRGG9qaQ+IQMKirowzht1JxdyI6p7hBUmDqusFvqiBnU45snkMiL7pmG73SiCmoEOXBVpsSyzRUmtuT/AIfkza+DOr7u0SMs+qGTAKhng=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=RXqPgS7z; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Nc8YiIyt"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-43d03db7f87so4565908f8f.3
-        for <sashiko@lists.linux.dev>; Thu, 23 Apr 2026 06:38:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776951491; x=1777556291; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=q/6jS/VxySWNSRvgZrFCB7o6gonIpEVYD2xvNKd2N9U=;
-        b=Nc8YiIytPlUqsehH4SjhuyQv/L9MPn0wt+f3xk+OTXNS0QYjXY/CIHFDW09jnkVqav
-         /gnRjs7pErCPqQV2f32/IDp5zQ/tMepoNL5+uyI6oParkPkn76SUW7feT/UfFlzZIAXc
-         u0ANt1o5j0b+mZhpw2NrN+ad9R4kr/0VqH32156uQ5F86aZvyTDGMynaMMlNecMU2f/H
-         xTxasgmuRVUCbaC9QD0bxuUgo6pRkeC3KtCD1zv3ID4DMX90Xuc+OdcPpF7UQcZx4puw
-         z1YVodG97v/pwl7FH3Qs93Ntc7tCKOdwh2rsXneRJjpP0zo9JhUfJtpVnMiH34kpkEoz
-         1wbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776951491; x=1777556291;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=q/6jS/VxySWNSRvgZrFCB7o6gonIpEVYD2xvNKd2N9U=;
-        b=aakeKGFwFi7Gu93Wnhko3oO6rbo5l3hvDRqdGULENqL895rWJBw3NJ30BTGW84qAy7
-         PjZ6TTmlqTQGzg9agpCGHvbmSnIqLwOnbBgjHm9a4onZXXsL85rEA3N4Jx/qGrCpuzRy
-         or0+u9kMNlzNsx+TLvniXnWUnGdiDH2Q/yGUaUlMlsAWaIInoYtg6D9GF2i/56Ki8Nem
-         bxZmb3vEyB4qpjmu/pUErHlQ2kQZp0rSb2E5R2FQuS0eWzrkC+qQTxLu1ysTb+vyJDUV
-         l0hPbc/BOjzOLunS3UFg3++VfhsfIJWUE8MGHPkahYWhws9SThonqp7qNGST50xZ2b0K
-         MItg==
-X-Gm-Message-State: AOJu0YzoDkRZRKQQ4j9bTRmWSOjXQQgpB7MUkt8h6CM6HCiGkKwhUg4m
-	/DoQkJUvMi6MLArL8naQqGk9Nbc5fcNdt8SUo/hrFs+JmhM4HahUSCvpofOR5/Em
-X-Gm-Gg: AeBDieu8dB4Zc+ZyPQk6q1ydcPbwriCW5blr+08+mXNA8CXzoUEHINuLYHe8m9boume
-	JBspOgDgCaxjiI2ZcMpog9ckdshZXWfeRyXZY2nGx076PxKAUAPdO+HOnAfAHEwXoJYYdallG4a
-	yZfRJ/S3sCo42G13jvCkLlOQiUl2pXRbqv9S8BX0FnQEYGsp/APKL/IKVPdDh5xDGIMKXiJdi3t
-	IzE6Utn5HW/5HqVWSfNn+lXoBb7S4w0oFo+7ulOIpZ3WgXjNDRykD6e2DwhPEGi9xs91PuSh+yl
-	7Rn8Wy0NHiKPfgHlr2thWBpfppLFPBjxPb2tKw032wVz1ptlRvmbdwEnB8p+PUyj2iBqbfYDEER
-	1FoUoEbCd3WBPGkeqQhGgKNHhRyawHG46iywYP/nhvEHrwhpgYQVVagHbvh+uuSpPL4fO+ThrDa
-	MNCV9D2QCYH07XxmfV9+19mzJKR/qWWLsV8nKbwyaz3pQkFjtQZHDBtpPnCXLMNkssFY0QG7TS4
-	sAw2L18lw==
-X-Received: by 2002:a05:6000:4283:b0:43f:e211:1090 with SMTP id ffacd0b85a97d-43fe3db3c62mr40696234f8f.1.1776951490472;
-        Thu, 23 Apr 2026 06:38:10 -0700 (PDT)
-Received: from ?IPV6:2a03:83e0:1126:4:2371:97f6:67a4:5909? ([2620:10d:c092:500::7:a503])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4e4d525sm50911375f8f.31.2026.04.23.06.38.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Apr 2026 06:38:09 -0700 (PDT)
-Message-ID: <e669be1f-6d0b-42e0-b6c3-1db12f98b7a9@gmail.com>
-Date: Thu, 23 Apr 2026 14:38:09 +0100
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="RXqPgS7z"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1776955076;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bmpCH+66TNgDUiHXoRESq8ZYVgfmqmiUobEbMKtiOTA=;
+	b=RXqPgS7zuBM6Diu0es6kOITnraM9M02b0JE/6jkLbMn9VCxF+tQn9ejS4IFkVQT9xApZzw
+	PKg7CEGhTVewnprmYYWzq7GwNGCrmbc7aHLtKy2JnXDpIU4DP9CdkO8lfOjtnXaJAxk+RB
+	eonh/tVgYDYCOq7TX5pI91QZrT9CPO4=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-352-Ba1ZSD-IOBSsAfQaosmL7g-1; Thu,
+ 23 Apr 2026 10:37:47 -0400
+X-MC-Unique: Ba1ZSD-IOBSsAfQaosmL7g-1
+X-Mimecast-MFC-AGG-ID: Ba1ZSD-IOBSsAfQaosmL7g_1776955064
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 2BED819560A2;
+	Thu, 23 Apr 2026 14:37:44 +0000 (UTC)
+Received: from [10.22.64.201] (unknown [10.22.64.201])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 22F5A196B8F6;
+	Thu, 23 Apr 2026 14:37:42 +0000 (UTC)
+Message-ID: <dbad8115-2f39-4a03-8eaf-6651d5507a8f@redhat.com>
+Date: Thu, 23 Apr 2026 10:37:42 -0400
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
@@ -68,132 +51,81 @@ List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH bpf-next v13 3/6] bpf: Add sleepable support for classic
- tracepoint programs
+Subject: Re: [PATCH 13/23] sched/core: Use RCU to protect access of
+ HK_TYPE_KERNEL_NOISE cpumask
 To: sashiko@lists.linux.dev
-Cc: bpf@vger.kernel.org
-References: <20260422-sleepable_tracepoints-v13-3-99005dff21ef@meta.com>
- <20260422233556.1AE5CC19425@smtp.kernel.org>
+Cc: mkoutny@suse.com, tj@kernel.org, linux-hwmon@vger.kernel.org,
+ hannes@cmpxchg.org
+References: <20260421030351.281436-14-longman@redhat.com>
+ <20260422030902.4F95FC2BCB0@smtp.kernel.org>
+From: Waiman Long <longman@redhat.com>
+In-Reply-To: <20260422030902.4F95FC2BCB0@smtp.kernel.org>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+X-Mimecast-MFC-PROC-ID: 0AF0I0oMZmEaW-izqjvn23KtMS-dOM-QWWpzNRjHFfE_1776955064
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-From: Mykyta Yatsenko <mykyta.yatsenko5@gmail.com>
-In-Reply-To: <20260422233556.1AE5CC19425@smtp.kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
 
-
-
-On 4/23/26 12:35 AM, sashiko-bot@kernel.org wrote:
-> Sashiko AI review found 2 potential issue(s):
-> - [High] Uninitialized kernel stack memory leaked to BPF programs via `param` structure.
-> - [High] Moving BPF program execution before `syscall_get_data()` breaks `bpf_probe_read_user()` for non-sleepable programs by removing implicit page faulting.
-> --
-> 
-> commit 6d42174eb2c9a4cc877bdf6b63e5b37b8017a109
-> Author: Mykyta Yatsenko <yatsenko@meta.com>
-> 
-> bpf: Add sleepable support for classic tracepoint programs
-> 
-> This commit adds support for sleepable BPF programs on syscall tracepoints
-> by moving the BPF program execution out of the non-preemptible ring buffer
-> allocation path. It introduces trace_call_bpf_faultable() and restructures
-> perf_syscall_enter() and perf_syscall_exit().
-> 
->> diff --git a/kernel/trace/trace_syscalls.c b/kernel/trace/trace_syscalls.c
->> index 8ad72e17d8eb9..e98ee7e1e66f4 100644
->> --- a/kernel/trace/trace_syscalls.c
->> +++ b/kernel/trace/trace_syscalls.c
->> @@ -1371,33 +1371,33 @@ static DECLARE_BITMAP(enabled_perf_exit_syscalls, NR_syscalls);
->>   static int sys_perf_refcount_enter;
->>   static int sys_perf_refcount_exit;
->>   
->> -static int perf_call_bpf_enter(struct trace_event_call *call, struct pt_regs *regs,
->> +static int perf_call_bpf_enter(struct trace_event_call *call,
->>   			       struct syscall_metadata *sys_data,
->> -			       struct syscall_trace_enter *rec)
->> +			       int syscall_nr, unsigned long *args)
->>   {
->>   	struct syscall_tp_t {
->>   		struct trace_entry ent;
->>   		int syscall_nr;
->>   		unsigned long args[SYSCALL_DEFINE_MAXARGS];
->>   	} __aligned(8) param;
->> +	struct pt_regs regs = {};
-> 
-> Could param be zero-initialized here?
-> 
-> Because param is allocated on the kernel stack without zero-initialization,
-> there is a 4-byte padding between syscall_nr and args. Additionally, only
-> sys_data->nb_args elements of the args array are initialized, leaving the
-> remaining elements uninitialized.
-> 
-> Since the BPF verifier allows tracing programs to read the full context size,
-> this padding and uninitialized array elements can be read by BPF programs,
-> leaking kernel stack memory. Zero-initializing param (e.g., param = {})
-> would prevent this.
-> 
-
-This is pre-existing, I'm not sure what is our stance on this problem in 
-general. If I had to guess, leaking kernel stack memory to BPF is not an 
-issue, because we can do bpf_probe_read_kernel() if we need it anyway.
-
-> [ ... ]
-> 
->> @@ -1429,6 +1424,26 @@ static void perf_syscall_enter(void *ignore, struct pt_regs *regs, long id)
->>   
->>   	syscall_get_arguments(current, regs, args);
->>   
->> +	/*
->> +	 * Run BPF program in faultable context before per-cpu buffer
->> +	 * allocation, allowing sleepable BPF programs to execute.
->> +	 */
->> +	valid_prog_array = bpf_prog_array_valid(sys_data->enter_event);
->> +	if (valid_prog_array &&
->> +	    !perf_call_bpf_enter(sys_data->enter_event, sys_data,
->> +				 syscall_nr, args))
->> +		return;
->> +
-> 
-> Does moving BPF program execution here break bpf_probe_read_user() for
-> existing non-sleepable BPF programs?
-> 
-> Previously, BPF programs ran after syscall_get_data() was called, which
-> explicitly faulted in user memory for string arguments. Because the memory
-> became resident, non-sleepable BPF programs could use bpf_probe_read_user()
-> to reliably read those arguments without taking page faults.
-> 
-> Now that the BPF program runs before syscall_get_data(), if the user memory
-> is paged out, bpf_probe_read_user() in non-sleepable programs might fail
-> with -EFAULT.
-> 
-
-Not sure if previous behaviour was purposful. bpf_probe_read_user() is
-best-effort no guarantee that the data is paged in. This patch set
-unlocks sleepable tracepoints, which should be used in these scenarios 
-when user data needs to be read reliably.
-
-> [ ... ]
-> 
->> -static int perf_call_bpf_exit(struct trace_event_call *call, struct pt_regs *regs,
->> -			      struct syscall_trace_exit *rec)
->> +static int perf_call_bpf_exit(struct trace_event_call *call,
->> +			      int syscall_nr, long ret_val)
->>   {
->>   	struct syscall_tp_t {
->>   		struct trace_entry ent;
->>   		int syscall_nr;
->>   		unsigned long ret;
->>   	} __aligned(8) param;
->> -
->> -	/* bpf prog requires 'regs' to be the first member in the ctx (a.k.a. &param) */
->> -	perf_fetch_caller_regs(regs);
->> -	*(struct pt_regs **)&param = regs;
->> -	param.syscall_nr = rec->nr;
->> -	param.ret = rec->ret;
->> -	return trace_call_bpf(call, &param);
->> +	struct pt_regs regs = {};
-> 
-> Similarly to perf_call_bpf_enter(), could param be zero-initialized here
-> to avoid leaking kernel stack memory through the padding between syscall_nr
-> and ret?
-> 
+DQpPbiA0LzIxLzI2IDExOjA5IFBNLCBzYXNoaWtvLWJvdEBrZXJuZWwub3JnIHdyb3RlOg0KPiBT
+YXNoaWtvIEFJIHJldmlldyBmb3VuZCAxIHBvdGVudGlhbCBpc3N1ZShzKToNCj4gLSBbSGlnaF0g
+VGhlIGNvbW1pdCBtZXNzYWdlIGluY29ycmVjdGx5IGNsYWltcyB0aGF0IGBob3VzZWtlZXBpbmdf
+Y3B1bWFzaygpYCB3aWxsIHdhcm4gaWYgdXNlZCBpbiBhbiBpbnZhbGlkIGNvbnRleHQsIG1hc2tp
+bmcgcG90ZW50aWFsIFJDVSBzYWZldHkgdmlvbGF0aW9ucyBlbHNld2hlcmUgaW4gdGhlIGtlcm5l
+bC4gU3BlY2lmaWNhbGx5LCBgaG91c2VrZWVwaW5nX2RlcmVmZXJlbmNlX2NoZWNrKHR5cGUpYCBy
+ZXR1cm5zIGB0cnVlYCBmb3IgYEhLX1RZUEVfS0VSTkVMX05PSVNFYCwgY2F1c2luZyBgcmN1X2Rl
+cmVmZXJlbmNlX2FsbF9jaGVjaygpYCB0byBieXBhc3MgdGhlIGByY3VfcmVhZF9sb2NrX2hlbGQo
+KWAgdmFsaWRhdGlvbi4gVGhpcyBmYWxzZSBhc3N1bXB0aW9uIG9mIGEgc2FmZXR5IG5ldCBsZWQg
+dGhlIGF1dGhvciB0byBtaXNzIHVucHJvdGVjdGVkIGFjY2Vzc2VzLCBzdWNoIGFzIHRoZSBgaG91
+c2VrZWVwaW5nX3Nob3dgIHN5c2ZzIGhhbmRsZXIgaW4gYGRyaXZlcnMvYmFzZS9jcHUuY2Agd2hp
+Y2ggZG9lcyBub3QgaG9sZCBgcmN1X3JlYWRfbG9jaygpYC4gQmVjYXVzZSBgaG91c2VrZWVwaW5n
+X3VwZGF0ZSgpYCByZXBsYWNlcyBhbmQgZnJlZXMgdGhlIG9sZCBtYXNrIHZpYSBga2ZyZWUoKWAg
+YWZ0ZXIgYHN5bmNocm9uaXplX3JjdSgpYCwgY29uY3VycmVudCBleGVjdXRpb24gb2YgYGhvdXNl
+a2VlcGluZ19zaG93KClgIHJlc3VsdHMgaW4gYSBVc2UtQWZ0ZXItRnJlZS4gV2hpbGUgdGhlIGxv
+Y2tkZXAgb21pc3Npb24gaXMgcGF0Y2hlZCBsYXRlciBpbiB0aGUgc2VyaWVzIGJ5IGNvbW1pdCAi
+c2NoZWQvaXNvbGF0aW9uOiBFeHRlbmQgaG91c2VrZWVwaW5nX2RlcmVmZXJlbmNlX2NoZWNrKCkg
+dG8gY292ZXIgY2hhbmdlcyBpbiBub2h6X2Z1bGwgb3IgbWFuZ2VkX2lycXMgY3B1bWFza3MiLCB0
+aGUgdW5kZXJseWluZyBVc2UtQWZ0ZXItRnJlZSB2dWxuZXJhYmlsaXR5IGluIGBkcml2ZXJzL2Jh
+c2UvY3B1LmNgIHJlbWFpbnMgdW5maXhlZCB0aHJvdWdob3V0IHRoZSBlbnRpcmUgc2VyaWVzLg0K
+PiAtLQ0KPg0KPiBjb21taXQgN2E3NzRiMzZmOWQ5YjQzMGJmNzE3MTUzNGI1M2Y2MTQ1NTU2ZjQ4
+Mw0KPiBBdXRob3I6IFdhaW1hbiBMb25nIDxsb25nbWFuQHJlZGhhdC5jb20+DQo+DQo+IHNjaGVk
+L2NvcmU6IFVzZSBSQ1UgdG8gcHJvdGVjdCBhY2Nlc3Mgb2YgSEtfVFlQRV9LRVJORUxfTk9JU0Ug
+Y3B1bWFzaw0KPg0KPiBUaGlzIGNvbW1pdCBhZGRzIFJDVSBwcm90ZWN0aW9uIHRvIHRoZSBIS19U
+WVBFX0tFUk5FTF9OT0lTRSBjcHVtYXNrIGluDQo+IGdldF9ub2h6X3RpbWVyX3RhcmdldCgpLCBh
+cyB0aGUgbWFzayBjYW4gbm93IGJlIGNoYW5nZWQgYXQgcnVudGltZS4gSXQNCj4gYWxzbyBub3Rl
+cyB0aGF0IGhvdXNla2VlcGluZ19jcHVtYXNrKCkgd2lsbCB3YXJuIGlmIHVzZWQgaW4gYW4gaW52
+YWxpZA0KPiBjb250ZXh0Lg0KPg0KPj4gQXMgSEtfVFlQRV9LRVJORUxfTk9JU0UgaXMgZ29pbmcg
+dG8gYmUgY2hhbmdlYWJsZSBhdCBydW4gdGltZSwgdXNlDQo+PiBSQ1UgdG8gcHJvdGVjdCBhY2Nl
+c3MgdG8gdGhlIGNwdW1hc2sgd2hlbiBuZWVkZWQuIFNvbWUgYWNjZXNzIG9mIHRoZQ0KPj4gSEtf
+VFlQRV9LRVJORUxfTk9JU0UgY3B1bWFzayBpcyBkb25lIGluc2lkZSB0aGUgdGljayBjb2RlIHRo
+YXQgaGFzDQo+PiBpbnRlcnJ1cHQgZGlzYWJsZWQgd2hpY2ggaXMgYSByY3VfcmVhZF9sb2NrKCkg
+Y3JpdGljYWwgc2VjdGlvbi4gQW55d2F5LA0KPj4gaG91c2VrZWVwaW5nX2NwdW1hc2soKSB3aWxs
+IHdhcm4gaWYgdGhleSBhcmUgdXNlZCBpbiBpbnZhbGlkIGNvbnRleHQuDQo+IElzIHRoaXMgZGVz
+Y3JpcHRpb24gYWNjdXJhdGU/IExvb2tpbmcgYXQgaG91c2VrZWVwaW5nX2RlcmVmZXJlbmNlX2No
+ZWNrKCksDQo+IGl0IHJldHVybnMgdHJ1ZSBmb3IgSEtfVFlQRV9LRVJORUxfTk9JU0UsIHdoaWNo
+IGNhdXNlcw0KPiByY3VfZGVyZWZlcmVuY2VfYWxsX2NoZWNrKCkgdG8gYnlwYXNzIHRoZSByY3Vf
+cmVhZF9sb2NrX2hlbGQoKSB2YWxpZGF0aW9uLg0KPiBUaGlzIG1lYW5zIGxvY2tkZXAgd2lsbCBu
+b3Qgd2FybiBhYm91dCBtaXNzaW5nIFJDVSByZWFkIGxvY2tzIGZvciB0aGlzDQo+IHNwZWNpZmlj
+IG1hc2suDQoNClRoZSBjaGFuZ2UgdG8gZW5hYmxlIHByb3BlciBsb2NrIHByb3RlY3Rpb24gY2hl
+Y2tpbmcgZm9yIA0KSEtfVFlQRV9LRVJORUxfTk9JU0UgaXMgbWFkZSBpbiBhIGxhdGVyIHBhdGNo
+IGFmdGVyIGFsbCB0aGUgUkNVIGd1YXJkcyANCmFyZSBwcm9wZXJseSBhZGRlZC4NCg0KPg0KPiBC
+ZWNhdXNlIHRoZSBtYXNrIGNhbiBub3cgYmUgcmVwbGFjZWQgYW5kIGZyZWVkIGR5bmFtaWNhbGx5
+IGFmdGVyDQo+IHN5bmNocm9uaXplX3JjdSgpLCBkb2VzIHRoaXMgaW50cm9kdWNlIGEgdXNlLWFm
+dGVyLWZyZWUgaW4gb3RoZXIgcmVhZGVycw0KPiB0aGF0IGRvbid0IGhvbGQgdGhlIFJDVSByZWFk
+IGxvY2s/DQo+DQo+IEZvciBleGFtcGxlLCBob3VzZWtlZXBpbmdfc2hvdygpIGluIGRyaXZlcnMv
+YmFzZS9jcHUuYyByZWFkcyB0aGlzIG1hc2sgdG8NCj4gcHJpbnQgaXQgdG8gc3lzZnM6DQo+DQo+
+IGRyaXZlcnMvYmFzZS9jcHUuYzpob3VzZWtlZXBpbmdfc2hvdygpIHsNCj4gICAgICAuLi4NCj4g
+ICAgICByZXR1cm4gc3lzZnNfZW1pdChidWYsICIlKnBibFxuIiwNCj4gICAgICAgICAgICAgICAg
+ICAgICAgICBjcHVtYXNrX3ByX2FyZ3MoaG91c2VrZWVwaW5nX2NwdW1hc2sodHlwZSkpKTsNCj4g
+fQ0KPg0KPiBTaW5jZSBob3VzZWtlZXBpbmdfc2hvdygpIGRvZXNuJ3QgaG9sZCByY3VfcmVhZF9s
+b2NrKCksIGNvdWxkIGEgY29uY3VycmVudA0KPiB1cGRhdGUgb2YgdGhlIGNwdW1hc2sgY2F1c2Ug
+Y3B1bWFza19wcl9hcmdzKCkgdG8gYWNjZXNzIGZyZWVkIG1lbW9yeT8NCj4NCj4gV2hpbGUgdGhl
+IGxvY2tkZXAgb21pc3Npb24gaXMgcGF0Y2hlZCBsYXRlciBpbiB0aGlzIHNlcmllcyBieSB0aGUg
+Y29tbWl0DQo+ICJzY2hlZC9pc29sYXRpb246IEV4dGVuZCBob3VzZWtlZXBpbmdfZGVyZWZlcmVu
+Y2VfY2hlY2soKSB0byBjb3ZlciBjaGFuZ2VzDQo+IGluIG5vaHpfZnVsbCBvciBtYW5nZWRfaXJx
+cyBjcHVtYXNrcyIsIHRoZSB1bmRlcmx5aW5nIHVzZS1hZnRlci1mcmVlDQo+IHJlZ3Jlc3Npb24g
+aW4gZHJpdmVycy9iYXNlL2NwdS5jIGFwcGVhcnMgdG8gcmVtYWluIHVuZml4ZWQgdGhyb3VnaG91
+dCB0aGUNCj4gc2VyaWVzLg0KPg0KVGhhdCBpcyBtaXNzZWQgaW4gdGhlIGN1cnJlbnQgc2VyaWVz
+LiBXaWxsIGZpeCB0aGF0IGluIHRoZSBuZXh0IHZlcnNpb24uDQoNCkNoZWVycywNCkxvbmdtYW4N
+Cg0K
 
