@@ -1,145 +1,106 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com [91.218.175.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0E13387346
-	for <sashiko@lists.linux.dev>; Thu, 23 Apr 2026 17:30:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85C5A3469F4
+	for <sashiko@lists.linux.dev>; Thu, 23 Apr 2026 21:17:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776965450; cv=none; b=QxTlAFHbKLgwI9AwXuKOrYaoKAzHn/9Su03RjyG8KhZ+C1/jGRxWM92SrJ3zDHU7GZJ8bTElwHnzQuwBhNGdsoLPEZ4ZVI9UBgfJ9kCCP8CsHQnjTxScl+CpWIFL86HUP+7XMdL7GEfWaDwzDpFevw5SjlJ7pxgtABaogeVg+8o=
+	t=1776979046; cv=none; b=cg06uWMEr99w1ANAQE/w+rrAuNrFKcffdbKa7f9BkSk4tN4Af+LeW6ODkPTd0z2SwfuXToHi5l3WJMPCjkSifiI7v0mAho5a2crcSBsN0xH0PT+UGiDhuithm5yfxQoMeoaMgWXFSPdA9MhsYOU/gsUz5LiqchkwBH7rOl8lPVk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776965450; c=relaxed/simple;
-	bh=djkoPQae8b+Z0ubtONe6+OTINj17bhWrWR28PNbm8TM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TT9ikjgSpvsaUsNBlEOuxSe9Izfhi8BMTfQAsQsdXKUmb8j8+TWhMTXz2xOCDMEYIM6sYvBaqCWJTsjw62kdtc+apz5iNIDL8+cw3hi028cAldRuFQai/L+QwjafnASfgqpL483OsHl4CQXa/mXlR3RZxhNy2Bdvtm08xcy/Fl8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=IiGSZnAp; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1776979046; c=relaxed/simple;
+	bh=Fm+nVNuY1ICShxZpqYu3gn/9FyyvPWnPJiEmEWUvGqg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Gkx+wKs7gb1YKW2dGrvSymjxDM4zdPXA/++bAH4SPTdz5cd3G6bMjWV8DatyherZlsdBhBz+KlvZuybmYIpg2e5PSPUlaYse+tSqQYzwB3D2RLzSg9kNZMF6tSwisHDBVDy4NnbBK4X5mOSDZDxRybEMlaMBL20MsmlF8oYSBjo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=TpePQHCh; arc=none smtp.client-ip=91.218.175.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="IiGSZnAp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1776965447;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="TpePQHCh"
+Date: Thu, 23 Apr 2026 14:17:15 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1776979041;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=RLM7qF/8vrK39Ahe4/9w+UgSzffIhkUoXP/F3ILUvx0=;
-	b=IiGSZnApax7NGUIsdP0klDxojMy12EM4nZFxn5GuE7BOPt+vvJNwQSXq4bE+OpF9zO/unZ
-	WRr7zqmmbGGvossBL6ozjPCxZwTM4WGwZDiaTzYa9bl8jiePwn9GDjBCPa178P+Wr2JoyS
-	eJISzyrmc2oSbUvU2SBYyRLopV8XUzE=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-414-fk82J3ShOYKYQABIkvtcbA-1; Thu,
- 23 Apr 2026 13:30:44 -0400
-X-MC-Unique: fk82J3ShOYKYQABIkvtcbA-1
-X-Mimecast-MFC-AGG-ID: fk82J3ShOYKYQABIkvtcbA_1776965440
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 9B6481800464;
-	Thu, 23 Apr 2026 17:30:39 +0000 (UTC)
-Received: from [10.22.64.201] (unknown [10.22.64.201])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 91F3D3007572;
-	Thu, 23 Apr 2026 17:30:38 +0000 (UTC)
-Message-ID: <cf54839b-9327-4f24-a62b-e3e02ce5d7ad@redhat.com>
-Date: Thu, 23 Apr 2026 13:30:37 -0400
+	bh=fUMBWdlBMRxG9o6UGmYTayD38WvO153ApS6uDqmipjA=;
+	b=TpePQHCh/WFoM5nAQ6lAMwrBudMwNmoQvmnzZxCj3O1Qc/KZfBTO6/1JMQhR3aT5F5K9Yh
+	KbxsD8OWSlAFh9G0mug18eLK7fWSBj1+0ZtoRotGYz8PUxPnJI02D9OiVYgPHEDjVjR2If
+	zNsD1/jKKPB8JDr0N6Btdjn8BEY7vRk=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Martin KaFai Lau <martin.lau@linux.dev>
+To: Kuniyuki Iwashima <kuniyu@google.com>, Jiayuan Chen <mrpre@163.com>
+Cc: sashiko@lists.linux.dev, bpf@vger.kernel.org
+Subject: Re: [PATCH v2 bpf] sockmap: Fix sk_psock_drop() race vs
+ sock_map_{unhash,close,destroy}().
+Message-ID: <202642321855.Yu6v.martin.lau@linux.dev>
+References: <20260420194846.1089595-1-kuniyu@google.com>
+ <20260421011357.70974C19425@smtp.kernel.org>
+ <062b1b3b-dedd-422b-83a6-1ca78d7270f7@163.com>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 17/23] sched/isolation: Extend
- housekeeping_dereference_check() to cover changes in nohz_full or manged_irqs
- cpumasks
-To: sashiko@lists.linux.dev
-Cc: hannes@cmpxchg.org, linux-hwmon@vger.kernel.org, mkoutny@suse.com,
- tj@kernel.org
-References: <20260421030351.281436-18-longman@redhat.com>
- <20260422030904.B1CEFC2BCB5@smtp.kernel.org>
-From: Waiman Long <longman@redhat.com>
-In-Reply-To: <20260422030904.B1CEFC2BCB5@smtp.kernel.org>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
-X-Mimecast-MFC-PROC-ID: poYf9oS1xw1k5M6OxnHECeR_6RXwvuz7kVinOu12zTk_1776965440
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <062b1b3b-dedd-422b-83a6-1ca78d7270f7@163.com>
+X-Migadu-Flow: FLOW_OUT
+
+On Tue, Apr 21, 2026 at 11:21:27AM +0800, Jiayuan Chen wrote:
+> > > @@ -1652,20 +1657,25 @@ void sock_map_destroy(struct sock *sk)
+> > >   	void (*saved_destroy)(struct sock *sk);
+> > >   	struct sk_psock *psock;
+> > > +retry:
+> > >   	rcu_read_lock();
+> > >   	psock = sk_psock_get(sk);
+> > >   	if (unlikely(!psock)) {
+> > >   		rcu_read_unlock();
+> > >   		saved_destroy = READ_ONCE(sk->sk_prot)->destroy;
+> > > +		if (unlikely(saved_destroy == sock_map_destroy))
+> > > +			goto retry;
+> > Can this unbounded retry loop cause a hard lockup due to softirq preemption
+> > or priority inversion?
+> > 
+> > If sk_psock_put() is called from process context with bottom-halves enabled
+> > (such as from sock_map_close() after release_sock()), an interrupt could
+> > preempt the thread immediately after refcount_dec_and_test(&psock->refcnt)
+> > drops to 0 but before sk_psock_drop() disables BH.
+> > 
+> > If a network interrupt fires on the same CPU, NET_RX_SOFTIRQ may process a
+> > packet (such as an RST) that triggers socket destruction via:
+> > tcp_done() -> inet_csk_destroy_sock() -> sk->sk_prot->destroy()
+> > 
+> > Since sk_psock_drop() has not yet restored the protocol, sk->sk_prot->destroy
+> > is still sock_map_destroy().
+> > 
+> > When sock_map_destroy() calls sk_psock_get(), it returns NULL because the
+> > refcount is exactly 0. The code then falls into the !psock branch, sees that
+> > sk->sk_prot->destroy is still sock_map_destroy(), and jumps to retry.
+> > 
+> > Because the softirq spins infinitely in this tight loop and never yields the
+> > CPU, the preempted process context can never execute sk_psock_drop(),
+> > resulting in a permanent hard lockup.
+> 
+> 
+> sock_map_close(sk)
+> |___ sk_psock_put(sk, psock)   <- refcnt-hits-0 window lives here
+> |___ saved_close == tcp_close
+>       |__tcp_close
+>             |____ sock_orphan   <- SOCK_DEAD set here
+>             |____(later) inet_csk_destroy_sock
+> 
+> At the exact instant the refcnt can be observed at 0 with
+> sk_prot not yet restored, SOCK_DEAD is guaranteed not to be set.
 
 
-On 4/21/26 11:09 PM, sashiko-bot@kernel.org wrote:
-> Sashiko AI review found 2 potential issue(s):
-> - [Critical] Unprotected access to newly dynamic HK_TYPE_KERNEL_NOISE causes lockdep splats and Use-After-Free.
-> - [Critical] Flawed lockdep exemptions mask genuine Use-After-Free vulnerabilities.
-> --
->
-> commit 7b12dcd17d401c6b135ee53ba4e8384a7bd3d867
-> Author: Waiman Long <longman@redhat.com>
->
-> sched/isolation: Extend housekeeping_dereference_check() to cover changes in nohz_full or manged_irqs cpumasks
->
-> This commit extends housekeeping_dereference_check() to apply the same
-> lockdep exemptions used by HK_TYPE_DOMAIN to HK_TYPE_KERNEL_NOISE and
-> HK_TYPE_MANAGED_IRQ, preparing them to be runtime changeable.
->
->> diff --git a/kernel/sched/isolation.c b/kernel/sched/isolation.c
->> --- a/kernel/sched/isolation.c
->> +++ b/kernel/sched/isolation.c
->> @@ -38,7 +38,8 @@ EXPORT_SYMBOL_GPL(housekeeping_enabled);
->>   
->>   static bool housekeeping_dereference_check(enum hk_type type)
->>   {
->> -	if (IS_ENABLED(CONFIG_LOCKDEP) && type == HK_TYPE_DOMAIN) {
->> +	if (IS_ENABLED(CONFIG_LOCKDEP) &&
->> +	   (BIT(type) & (HK_FLAG_DOMAIN | HK_FLAG_KERNEL_NOISE | HK_FLAG_MANAGED_IRQ))) {
-> Because HK_TYPE_KERNEL_NOISE is becoming runtime changeable, does this
-> expose existing readers to concurrent updates and use-after-free?
->
-> For example, housekeeping_show() reads this mask without holding
-> rcu_read_lock(). Similarly, tmigr_isolated_exclude_cpumask() reads it
-> holding only cpus_read_lock(), not the write lock.
+> > A similar priority inversion deadlock could also occur on PREEMPT_RT if the
+> > thread calling sk_psock_drop() is preempted by a higher-priority task.
 
-The housekeeping_show() function is a known issue and will be fixed in 
-the next version. tmigr_isolated_exclude_cpumask() will only be called 
-from housekeeping_update() where the top_cpuset mutex will be held. So 
-it is the same process that modifies the housekeeping cpumasks and call 
-tmigr_isolated_exclude_cpumask() before freeing the old cpumasks. There 
-is no use-after-free problem here.
+The same SOCK_DEAD reasoning applies to PREEMPT_RT?
 
->
-> If housekeeping_update() allocates a new mask, calls synchronize_rcu(),
-> and frees the old mask while these functions are accessing the pointer,
-> could this result in a use-after-free?
->
-> Additionally, does extending this lockdep exemption mask genuine
-> use-after-free vulnerabilities?
->
-> The exemptions below assume that holding cpuset_mutex or cpus_write_lock()
-> protects the pointer:
->
->>   		/* Cpuset isn't even writable yet? */
->>   		if (system_state <= SYSTEM_SCHEDULING)
->>   			return true;
->>
->>   		/* CPU hotplug write locked, so cpuset partition can't be overwritten */
->>   		if (IS_ENABLED(CONFIG_HOTPLUG_CPU) && lockdep_is_cpus_write_held())
->>   			return true;
->>
->>   		/* Cpuset lock held, partitions not writable */
->>   		if (IS_ENABLED(CONFIG_CPUSETS) && lockdep_is_cpuset_held())
->>   			return true;
-> However, housekeeping_update() explicitly drops cpuset_mutex and
-> cpus_read_lock() before updating masks and calling synchronize_rcu().
->
-> This means housekeeping_update() can run in parallel with readers
-> holding cpuset_mutex or CPU hotplug callbacks holding cpus_write_lock().
+It is useful to have some explanation in the commit message for this case.
 
-housekeeping_update() must be run with the top_cpuset mutex held. So it 
-is not possible for 2 different processes to run housekeeping_update() 
-concurrently. I will add a lockdep assertion to clarify that.
-
-Cheers,
-Longman
-
+Kuniyuki, does the above make sense? I can fold it in before landing.
