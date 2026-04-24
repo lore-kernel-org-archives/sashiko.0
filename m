@@ -1,92 +1,105 @@
-Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com [95.215.58.189])
+Received: from out-177.mta1.migadu.com (out-177.mta1.migadu.com [95.215.58.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10F70332EC8
-	for <sashiko@lists.linux.dev>; Fri, 24 Apr 2026 06:04:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49A2B33C194
+	for <sashiko@lists.linux.dev>; Fri, 24 Apr 2026 06:53:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777010686; cv=none; b=WxAwJ6EpKXFRvFTgLAKGUIAmbXnRbCaRNSf6EhXtRfRnp4Th5tAnmkNxenHbznUO6Z6R4p+bRSNA0ooMA6WYT8sXWPBkyly4tEVUKE6wU2NFOLsRsn/oKc++epMwZj3B+iK3+cOGBZJXaToYnUb5QF8cLVeX2WG2xfvjuvvYxIw=
+	t=1777013622; cv=none; b=njHzD3uHwGoWulfSuedtELJGpyO2GNsOD8knFRzvmg0bVf2gIflqgL9V5S+8e3tJfcDb4qKq6UK2flqoWT1cXg601ZEXII+T4xUFeW4nvwx+5DWj5GsO4M94i2sekwUcT6O+NXem5N3ChORfF5eLIiTYofSp04+iFsG6xmB0Is0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777010686; c=relaxed/simple;
-	bh=EAXjdfZDHQ98rbsEJyN+PupMSIpecj0poQom31vLekg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dXWImyhjI7C73PZoKATqkmFm7u015CztEo3Lb70T8YrzcP5phhs1Z2bVGpfZHa1kTq/RdRWLW6HfR8j4UnETb9lh95LAt1iXxSd++AWj0CzhxoizqiQpqTAEezdeyDilP4MugtkyZsd5fm/E7eogXSfoU3V1EJ1U4Kq6p3oBSD8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=rXpdPVDB; arc=none smtp.client-ip=95.215.58.189
+	s=arc-20240116; t=1777013622; c=relaxed/simple;
+	bh=CmLN8wf0K3pyC15x2NJrtsv5bFYbEcltLiizr2/7yHg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=sjqoBsjiZlhdxKC1DI9sXQMgQIU0u7Bj6z1Tgyy+Z85lq3UfUzORu8q1me7XUNt2uGiLS5uLLOVBrNAlzcoqIFgVK1SbBypqxfxCMTfhvhZ6ssrsBzLoh8v6sLIPp+W5UEwws2fqvuQ/lbxJkQNnKfVrk5NuXe+NAzkc8MiiXjU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=H0GB0wxY; arc=none smtp.client-ip=95.215.58.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="rXpdPVDB"
-Date: Fri, 24 Apr 2026 14:04:08 +0800
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="H0GB0wxY"
+Message-ID: <84b9cd8e-1d9e-4773-9f52-5a9eac42d7d6@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1777010681;
+	t=1777013618;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=D10ap4XpDiIu/2c3K/xfDj0EulPvd+d1ezH9J9JaJG0=;
-	b=rXpdPVDBTbnhE6CMFw1LqGBiBgn2VLRBFo3avglIZny08PHPjNUpbqwgaixqnXIMt6Fgzj
-	Bfw6GQVRpoVuREhmYcFev1CmhBUU1cMrkoIjQZzElJd72esOmKnVj/TK3/N8ajtTIrn5az
-	G3lvYsAd8N/jCawgAqegZi8cxicuY6E=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Li Wang <li.wang@linux.dev>
-To: sashiko@lists.linux.dev
-Cc: mkoutny@suse.com, tj@kernel.org, hannes@cmpxchg.org
-Subject: Re: [PATCH v7 4/8] selftests/cgroup: rename PAGE_SIZE to BUF_SIZE in
- cgroup_util
-Message-ID: <aesH2Epoi-HHSyH0@linux.dev>
-References: <20260424040059.12940-5-li.wang@linux.dev>
- <20260424051557.8AA6AC19425@smtp.kernel.org>
+	bh=T2w2VGhCXjLH2tCb0+Xl6iCJ2Gtyo0My4f0pPV/1z0k=;
+	b=H0GB0wxYQhaQrIzUn00gAsa02/5QfDWyRbWgg5L1YT3k6NO5KpznTVmd/6YUPO25hH0RpD
+	eGW16SGlDBNLEzJDw94ZCCmCDuTJ3JzjCzkZ2XqzEu5wel5t3R+OIIdpsLMSuD6BsnZXp4
+	JZizfatF4ofhrAWDKJ1h89OCb9FG3So=
+Date: Fri, 24 Apr 2026 14:53:29 +0800
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260424051557.8AA6AC19425@smtp.kernel.org>
+Subject: Re: [PATCH bpf 2/2] bpf, netkit: reject offloaded programs on attach
+To: sashiko@lists.linux.dev
+Cc: bpf@vger.kernel.org
+References: <20260423033609.252464-3-jiayuan.chen@linux.dev>
+ <20260424033752.1F76BC19425@smtp.kernel.org>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Jiayuan Chen <jiayuan.chen@linux.dev>
+In-Reply-To: <20260424033752.1F76BC19425@smtp.kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Migadu-Flow: FLOW_OUT
 
-On Fri, Apr 24, 2026 at 05:15:56AM +0000, sashiko-bot@kernel.org wrote:
+
+On 4/24/26 11:37 AM, sashiko-bot@kernel.org wrote:
 > Sashiko AI review found 1 potential issue(s):
-> - [Low] The patch breaks the compilation of `test_zswap.c` by removing `PAGE_SIZE` without updating its usage.
+> - [High] The patch prevents attaching offloaded programs during link creation and program attach, but fails to secure the link update path, allowing a complete bypass of the fix.
 > --
-> 
-> commit f89f779468515400be3a3b17ce623322ceceeb45
-> Author: Li Wang <li.wang@linux.dev>
-> 
-> selftests/cgroup: rename PAGE_SIZE to BUF_SIZE in cgroup_util
-> 
-> This commit renames the hardcoded PAGE_SIZE macro to BUF_SIZE to accurately
-> reflect its purpose as an I/O buffer size. It also updates test_memcontrol
-> to dynamically determine the system page size instead of relying on the
-> hardcoded 4K value.
-> 
-> > diff --git a/tools/testing/selftests/cgroup/lib/include/cgroup_util.h b/tools/testing/selftests/cgroup/lib/include/cgroup_util.h
-> > index 567b1082974c53..febc1723d09038 100644
-> > --- a/tools/testing/selftests/cgroup/lib/include/cgroup_util.h
-> > +++ b/tools/testing/selftests/cgroup/lib/include/cgroup_util.h
-> > @@ -2,8 +2,8 @@
-> >  #include <stdbool.h>
-> >  #include <stdlib.h>
-> >  
-> > -#ifndef PAGE_SIZE
-> > -#define PAGE_SIZE 4096
-> > +#ifndef BUF_SIZE
-> > +#define BUF_SIZE 4096
-> 
-> Does renaming this macro cause test_zswap.c to fail to compile with an
-> undeclared identifier error?
-> 
-> It appears test_zswap.c still relies on PAGE_SIZE being defined by this
-> header for loops iterating over memory, such as:
-> 
-> for (size_t i = 0; i < size; i += PAGE_SIZE)
+>
+> commit 4b4a6a3785c138df3a0a76f92652aa68a0ea77d6
+> Author: Jiayuan Chen <jiayuan.chen@linux.dev>
+>
+> bpf, netkit: reject offloaded programs on attach
+>
+> This commit rejects offloaded BPF programs in netkit_prog_attach() and
+> netkit_link_attach() to prevent them from triggering a WARN in
+> bpf_prog_warn_on_exec() when executed on the software path.
+>
+>> diff --git a/drivers/net/netkit.c b/drivers/net/netkit.c
+>> index 7b56a7ad7a496..d845a24c5915d 100644
+>> --- a/drivers/net/netkit.c
+>> +++ b/drivers/net/netkit.c
+> [ ... ]
+>
+>> @@ -1000,6 +1003,9 @@ int netkit_link_attach(const union bpf_attr *attr, struct bpf_prog *prog)
+>>   	struct net_device *dev;
+>>   	int ret;
+>>   
+>> +	if (bpf_prog_is_offloaded(prog->aux))
+>> +		return -EINVAL;
+>> +
+> Is it also necessary to reject offloaded programs in netkit_link_update()?
+>
+> It looks like a user could bypass this fix by creating a netkit link with a
+> non-offloaded program, and then using BPF_LINK_UPDATE to replace it with an
+> offloaded program.
+>
+> The netkit_link_update() callback directly passes the new program to
+> bpf_mprog_attach() without checking bpf_prog_is_offloaded():
+>
+> static int netkit_link_update(struct bpf_link *link, struct bpf_prog *nprog,
+> 			      struct bpf_prog *oprog)
+> {
+> 	...
+> 	ret = bpf_mprog_attach(entry, &entry_new, nprog, link, oprog,
+> 			       BPF_F_REPLACE | BPF_F_ID,
+> 			       link->prog->aux->id, 0);
+> 	...
+> }
+>
+> Note that tcx_link_update() in the earlier tcx fix appears to suffer from
+> the exact same omission.
+>
 
-This newline was introduced by a new commit:
-      4e89004ee ("selftests/cgroup: add test for zswap incompressible pages")
+You're right, will fix netkit_link_update() in v2.
 
-After rebase, I have resolved it in patch 5/8.
 
--- 
-Regards,
-Li Wang
+>>   	rtnl_lock();
+>>   	dev = netkit_dev_fetch(current->nsproxy->net_ns,
+>>   			       attr->link_create.target_ifindex,
