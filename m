@@ -1,71 +1,71 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C2913E7169
-	for <sashiko@lists.linux.dev>; Fri, 24 Apr 2026 19:21:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 418B33E3150
+	for <sashiko@lists.linux.dev>; Fri, 24 Apr 2026 20:12:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777058508; cv=none; b=aN1AxhVOu1HKn4EjNipcqw6vlwtYSn2M0AstS6BocgmgXIZH1LrrLfQ8WF65ufh8orbTCgE5RAIeX34gI50fawXzu8p8nT0yBZ1d1eLTPfdbzD5Wj83vBpTQYW6qkL7fksyO5h5oT3gjMxIaNOL7FLMYeTO00s1J2/oTJErUiSU=
+	t=1777061559; cv=none; b=FM+nhP1gH8ezi2IBj9F2eZSUfMWSVtrkKkVeacTmjOoCmJ0d1UwJqzLDbRCehbz3FGiz+o1TW4PinW8H0VnGXpr4kXGJq6J1dv8bsVE9zYlNpCFeCxzqVLC1b5/xfqxxKOrCcvn9mPD8WfD7hLm8JvT7Mwml7XgHB5ATX5x4WF4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777058508; c=relaxed/simple;
-	bh=+vPpUWsYwpvZDuiQ+l6q7qOqmkavzTvyl/AbD1vaAoM=;
+	s=arc-20240116; t=1777061559; c=relaxed/simple;
+	bh=EDDonT/gV6kNf+AmN6XTlKHonw2AGAiFQ6rygvGJi48=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=n55ALOKQdl8IJvtZWXWV2mcSw6uL7j+eWVdJFjv7iZ70Bry2dUdWCwyBO5psg39/XR0HKSfau+g3hjluc7fHXiUd6cpTF+3AbmVQ01C6nxYB8td0b8B8l29DcUoduiHGY1++pkdKeDSRIgsXVtK8XSBtTNVEoRwoiC9kIsCfD+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Dmy28EE7; arc=none smtp.client-ip=209.85.210.170
+	 Content-Type:Content-Disposition:In-Reply-To; b=Khengts/EVDvrHJbtHyU2oxH+48TDILMqWIGAzfXhEPBtHKq5zKsyC5v8GX6VByjICvS13CRlle4lJYUp+X+PWtkCdwEFpFnBGLsEnJJAWxmiiv3RLhv7dvL1UgIew4nrEYQHUc90Sv+n1OtrW7Jl3a589PRuiwayBH8xmPEeoM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YgdN2Tjs; arc=none smtp.client-ip=209.85.128.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dmy28EE7"
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-82f943870baso3367219b3a.1
-        for <sashiko@lists.linux.dev>; Fri, 24 Apr 2026 12:21:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YgdN2Tjs"
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-7a469383e0bso66793267b3.2
+        for <sashiko@lists.linux.dev>; Fri, 24 Apr 2026 13:12:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777058505; x=1777663305; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1777061556; x=1777666356; darn=lists.linux.dev;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=QjJdUnid8SU6MMGKvZIycfLCz20mR4Vbg4ZJjRQz0no=;
-        b=Dmy28EE7XUCDyblNpLZMy8rVGpF4cusJjaEGNMJUgJqijkZOGINWSIwGIg0EQucRpw
-         NdKZHjzpA16TCQLOotf/zAYO0BYWKN2T9JvTvgBPolVw3JlriI2FPgCEgfjf283+18wD
-         Ds6nHBG7ioxEGzYoqwKsmMwSX3GMQs1Rr9YBOoMZfwDJwfyyGFFzc28s+dDIncXXGlG5
-         QwPVb23LznSTb9jh0PgSpZD4tLeYlVkRvDDfJsbofsRP39a7wBNHQuC1Myj6yi4poHvB
-         BzJ9GT2LzldC9P6NERyINQgM0HycC4NOXizOvAnfFbdJhWMa+YU+d0t2f+HXXzQ4AfUy
-         VRlA==
+        bh=54deu6wo5n8tEL/vkpg6EDb5n7YLGB8ILix5XPcjPNc=;
+        b=YgdN2TjseDvZFyGvabcCn8IoTgN7Svn7sv5VNGEjz0moZu8Eg52d4wfg7WtLtSXf7w
+         03VXyCwKvlHa0641kAR44OOOGEWb7aqDhgZHBopyw5N36sUJUlN0Uv0hi8sb0YGKNi05
+         Jt+mHQgO6d8GoixxOLXRtRiNWyAmx+3T6cJ0+ZJmZU3inV9h3ulzbL9IaIVppNzPosb9
+         zzRSfL3sHgdxmI/GCuQODaHSljWh1GDtTfmQZw3tELIxWH+GilODOCd9TuQGZS8oVVBC
+         QE67Rhpm98fDn+nAFFcRjpMWF0n9/VeH/jaw0BiVo2rk/pSZHNPPloBpRITVYeO/i5Ag
+         smNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777058505; x=1777663305;
+        d=1e100.net; s=20251104; t=1777061556; x=1777666356;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QjJdUnid8SU6MMGKvZIycfLCz20mR4Vbg4ZJjRQz0no=;
-        b=ppfTDDhwJ/Av+RyrhKxYt9sEa3EEldWv2wBwRuF8le00dU6FzNormgk/KWot4Qq4IO
-         urI2qXMdEkRv6/rSke6hIPT0qX60TdInWZE24lA2V4lVsOl5MucnyAnZeSpwT0BQmMmm
-         8/fjxrSoxSGcbXrobmM3tsg7Lh44YFcmAug6qfUfbdPgOaK88SVJAGMkPEk6Cfc5C+mG
-         23CKdYKZjkVoQZkMnemjnNi6qyNO0n8+fHyNuZfaX7VEjf+fEMeV3Rwi50UCU+El+WhI
-         FQZs0h5O1QqXBQXeJ0KLcSpqnxmhO0IIWjXLa8DHZOM4MLPNeTm1+nh6+Sh4H9zMhcSG
-         HwZg==
-X-Gm-Message-State: AOJu0YwYQkOAT576z5b5urBAVCy+QGtVtkSQ/RNGEb79pjgzCvFxSZYA
-	Zgfuh7kB+ANWglcMidd8Ks8Igei2thJ2wy3sFWaPOwzwFauCxOuZgQUFH+QYGFginKQi4Q==
-X-Gm-Gg: AeBDievVeIvJIwywDhh2ib4aV9PcC8cZKiPrOCKg4fT5ud0JFLDuMRS3LbgT2Obn1rW
-	+htWtcC52i02rycZj4/KwhPFiRvYreQEh0OaYQQB9ROvCfl4m5EyeHSqZ7FkqTnANHsziAOYBV8
-	1mbZnBNDqT3Dznehn183b+00G+99qYq2II9k35YBnWlRz+m8PZTgD8rDjXOeGRXBkPK/juHd1CH
-	vlNIaDTMCeb+1TMJ9wSubFHc838wAX5wiyALFQe+3l4ZoRj0UL0ZugRreLENVU+uh+SE7lAmk+p
-	WCOBt1MbhlfxeEzk3faJYwpWquqgUnVFN7fTABkHA8thJ+QpwYMDWZvO6h2ri3a5/moLi36a942
-	Q9kGtMK3i1wZRxHLHUTZrPqnNUBOkef5FKwuuwn3+pTkSEiCPD0Tp8hnK1WRJBEM8vspscIZlQO
-	sxNOKt7i3Enn7CRSasm0HqBcoNE/cZps2laA6RXWvV6nAj48omUdCAejX3iQMGsg==
-X-Received: by 2002:a05:6a00:bc90:b0:82f:1e5d:db62 with SMTP id d2e1a72fcca58-82f8c885af2mr35569108b3a.12.1777058505272;
-        Fri, 24 Apr 2026 12:21:45 -0700 (PDT)
-Received: from Air.local ([198.176.50.157])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f8e9819fesm24451492b3a.4.2026.04.24.12.21.43
+        bh=54deu6wo5n8tEL/vkpg6EDb5n7YLGB8ILix5XPcjPNc=;
+        b=tUUpQORW1PRSpDE6RO7Tyc9HSA9XoO5ZSjpZsmvB5kSuS5CdpCVl+js7KO5JHICfif
+         P4rXl1SBgz3zA+DWoM2Hx/Tjxg44nEfMMrjcrJ8+Aa1WwGR1HW62OI7wuzlQkBT0D7A6
+         UyoZIQuz10GoLqZrpfbxEgbVjC7UmmRt4oGBNf4DYSd8Kxovu0fFoo6cSJ2BDS/zfeMO
+         CCcuthVDmnEUV1ce39N5Gj0niLf1zVA+xDGsMWabN3OaW+RQPvCa1eUuGmJd0E5eSfJ+
+         U8/DJAXYdP9cMv6lXjSo2EG0Ov/AUdToPPqapMCFE1V/FRoVkuXkKTETdtHmgr3RBOXh
+         dAYw==
+X-Gm-Message-State: AOJu0Ywgej6BbTZWLAmzi/8ESzv3pokVprFTKJ6vheoSQv9wnjBM7C5D
+	jxs8CPBMykRdu7YL24oRTvGXRgFBsuNBBiWmsLG7hRVCMl1aLfwOYXCyj6lHaA==
+X-Gm-Gg: AeBDiesZBqigPDiAIJukv3RLRgRQqR02xpN1mbV4g1/ODitxw1/zdBuwHIye24XtZ/U
+	/S/tpnjFd28oSqrJYrmvvI6N12jdoMjIVvTuxXQCHmrEniuG78jQGaUUkO3JcnL9llnlAFio8c4
+	uuqg2Mvt2ZuKhGKzLkkwi3kLiG2gI1JMq6OZw1MafcBZWKgyYPAzrqHJelSf/33QtBtYgIgN2mq
+	CMpBjXO7jcXYZYZRKOzW4cb4VDQ301DJR8gzGWrjqI/2gXnozHxaMciRUN2JkGnPXAueGZwCVCl
+	ujFEgwFCozfEOjX4vBmXs1zhPkfVeIzcw8xYzWfNdGTJ8OxAUFklfzfWjvg+WcHA/Yq0wsOiRD6
+	gWUSm6VHF4q8t3BrmxBvRhDVLThC7vPSJJokXXxEDzNJbpuUmED5wUCj7y8NAHsS//lrmA7VYOW
+	pPWvDnJceWobdblbm3wx6tmzaPjJ8Kg0P9wKCwRuJ3dnA6qzrLZ5h3Qs+cDZriTx+2OdM=
+X-Received: by 2002:a05:690c:11:b0:79b:d56a:a7c2 with SMTP id 00721157ae682-7b9ed0108ccmr339263157b3.48.1777061555791;
+        Fri, 24 Apr 2026 13:12:35 -0700 (PDT)
+Received: from zenbox ([2600:1700:18fb:6011:cc96:e003:f6cc:4ed])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7b9ee8c2083sm95503157b3.17.2026.04.24.13.12.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Apr 2026 12:21:44 -0700 (PDT)
-Date: Sat, 25 Apr 2026 03:21:39 +0800
-From: Weiming Shi <bestswngs@gmail.com>
+        Fri, 24 Apr 2026 13:12:35 -0700 (PDT)
+Date: Fri, 24 Apr 2026 16:12:34 -0400
+From: Justin Suess <utilityemal77@gmail.com>
 To: sashiko@lists.linux.dev
 Cc: bpf@vger.kernel.org
-Subject: Re: [PATCH bpf] bpf, sockmap: Fix wrong rsge offset in
- bpf_msg_push_data()
-Message-ID: <aevCw8YFsFdjyjRh@Air.local>
-References: <20260423155807.1245644-2-bestswngs@gmail.com>
- <20260424155913.A19FDC19425@smtp.kernel.org>
+Subject: Re: [PATCH bpf-next v3 1/2] bpf: Implement dtor for struct file BTF
+ ID
+Message-ID: <aevOssMWH_Vm9CPG@zenbox>
+References: <20260424192252.695240-2-utilityemal77@gmail.com>
+ <20260424195958.AED4EC19425@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
@@ -75,119 +75,81 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260424155913.A19FDC19425@smtp.kernel.org>
+In-Reply-To: <20260424195958.AED4EC19425@smtp.kernel.org>
 
-On 26-04-24 15:59, sashiko-bot@kernel.org wrote:
-> Sashiko AI review found 4 potential issue(s):
-> - [Critical] When appending data to a full or nearly full sk_msg, bpf_msg_push_data() reads the length of the wrong scatterlist element, leading to a buffer overflow or ring corruption.
-> - [Critical] Missing bounds check on the 'len' parameter causes an integer overflow and a massive Out-Of-Bounds write.
-> - [Critical] Scatterlist shifts fail to update the msg->sg.copy bitmap, allowing unauthorized modification of shared pages.
-> - [High] Uninitialized kernel memory allocation in bpf_msg_push_data() leads to an Information Leak.
+On Fri, Apr 24, 2026 at 07:59:57PM +0000, sashiko-bot@kernel.org wrote:
+> Sashiko AI review found 1 potential issue(s):
+> - [High] Calling `fput()` directly from `bpf_file_release_dtor` can lead to a hard deadlock when invoked from NMI context.
 > --
 > 
-> commit 15a0d48ce1bdcc5941167a3e0c2a258bb5038277
-> Author: Weiming Shi <bestswngs@gmail.com>
+> commit 6368f91be1fd91bc9cb38d3498f35d279bad04c9
+> Author: Justin Suess <utilityemal77@gmail.com>
 > 
-> bpf, sockmap: Fix wrong rsge offset in bpf_msg_push_data()
+> bpf: Implement dtor for struct file BTF ID
 > 
-> When bpf_msg_push_data() splits a scatterlist element into head and
-> tail, the tail's page offset is advanced by start instead of
-> start - offset. This overshoot points to the wrong location within
-> the page or beyond its boundary.
+> This commit implements a destructor for struct file, allowing it to be
+> stored in a map as a referenced kptr. The destructor calls fput to
+> release the reference.
 > 
-> > diff --git a/net/core/filter.c b/net/core/filter.c
-> > index 5fa9189eb772b2..a7a9ea4cb2f9a4 100644
-> > --- a/net/core/filter.c
-> > +++ b/net/core/filter.c
-> > @@ -2860,7 +2860,7 @@ BPF_CALL_4(bpf_msg_push_data, struct sk_msg *, msg, u32, start,
+> > diff --git a/kernel/bpf/helpers.c b/kernel/bpf/helpers.c
+> > index 2bb60200c2665e..ee5ceb82e4f812 100644
+> > --- a/kernel/bpf/helpers.c
+> > +++ b/kernel/bpf/helpers.c
+> [ ... ]
+> > @@ -2752,6 +2753,13 @@ __bpf_kfunc void bpf_task_release_dtor(void *p)
+> >  }
+> >  CFI_NOSEAL(bpf_task_release_dtor);
 > >  
-> >  		psge->length = start - offset;
-> >  		rsge.length -= psge->length;
-> > -		rsge.offset += start;
-> > +		rsge.offset += start - offset;
-> >  
-> >  		sk_msg_iter_var_next(i);
-> >  		sg_unmark_end(psge);
+> > +__bpf_kfunc void bpf_file_release_dtor(void *file)
+> > +{
+> > +	fput((struct file *)file);
+> > +}
 > 
-> This isn't a bug introduced by this patch, but looking at the earlier part
-> of bpf_msg_push_data(), is the len parameter bounds-checked?
+> Can this cause a deadlock if the destructor is invoked from NMI context?
 > 
-> net/core/filter.c:bpf_msg_push_data() {
-> ...
-> 	if (!space || (space == 1 && start != offset))
-> 		copy = msg->sg.data[i].length;
+> If an NMI-context BPF program (such as a perf event tracing program)
+> updates or deletes a map element containing a struct file kptr, the BPF
+> framework will synchronously invoke this destructor to clean up the old
+> kptr.
 > 
-> 	page = alloc_pages(__GFP_NOWARN | GFP_ATOMIC | __GFP_COMP,
-> 			   get_order(copy + len));
-> ...
-> 		if (back) {
-> 			from += front;
-> 			to = raw + front + len;
+> When fput() drops the reference count to zero, it calls
+> __fput_deferred(). Since in_interrupt() evaluates to true in NMI
+> context, __fput_deferred() bypasses task_work_add() and instead calls
+> schedule_delayed_work().
 > 
-> 			memcpy(to, from, back);
-> 		}
-> ...
-> }
+> This leads to the following call chain:
 > 
-> If a large value is provided for len (e.g., 0xFFFFFFFF), could copy + len
-> overflow 32-bit arithmetic, resulting in a very small allocation?
+> bpf_file_release_dtor()
+>    fput()
+>       __fput_deferred()
+>          schedule_delayed_work()
+>             add_timer()
 > 
-> Later, when calculating to = raw + front + len, does the zero-extended len
-> advance the destination pointer out-of-bounds, causing a massive memory
-> corruption during memcpy()?
+> The add_timer() function attempts to acquire the timer_base->lock raw
+> spinlock. If the NMI interrupted a thread that was already holding this
+> lock, the NMI handler will spin indefinitely waiting for it, resulting
+> in a hard deadlock.
 > 
-> Additionally, bpf_msg_push_data() uses alloc_pages() without the
-> __GFP_ZERO flag. After copying the split element's front and back parts,
-> do the middle len bytes remain uninitialized?
-> 
-> Could this allow uninitialized kernel heap data to be added to the sk_msg
-> and leaked over the network when the message is transmitted?
-> 
-> Also, when appending data (start == msg->sg.size), the search loop terminates
-> with i == msg->sg.end. If space <= 1, the code executes
-> copy = msg->sg.data[i].length.
-> 
-> Does this read from an unused slot?
-> 
-> If the slot has a garbage length from a previous pop or shift, could copy
-> take that value, causing alloc_pages() to allocate a smaller size and
-> leading to a kernel heap buffer overflow during the subsequent
-> memcpy(raw, from, front)?
-> 
-> And if the garbage length is 0, could it skip the if (copy) block and
-> increment msg->sg.end without space, corrupting the scatterlist ring array?
-> 
-> Finally, when scatterlist elements are shifted in bpf_msg_pop_data():
-> 
-> net/core/filter.c:sk_msg_shift_left() {
-> ...
-> 	do {
-> 		prev = i;
-> 		sk_msg_iter_var_next(i);
-> 		msg->sg.data[prev] = msg->sg.data[i];
-> 	} while (i != msg->sg.end);
-> ...
-> }
-> 
-> Should the msg->sg.copy bitmap also be shifted?
-> 
-> If a shared page (where the copy bit is 1) is shifted into a slot where
-> the bit is 0, will it be falsely identified as a private page?
-> 
-> Could a subsequent bpf_msg_pull_data() then pass the
-> !test_bit(i, msg->sg.copy) check and return a direct writable pointer to
-> the shared page, enabling unauthorized modification of read-only memory?
+> Would it be safer to defer the fput() operation using an explicitly
+> NMI-safe mechanism like irq_work_queue() to handle arbitrary BPF
+> contexts?
+>
+For (human) reviewer context: The NMI stuff needs to be addressed separately. [1]
+
+I guess the AI isn't gonna understand but just doing irq_work wouldn't
+be right either as it would break operation ordering for maps and
+fixing it here wouldn't fix the other dtors broken in NMI.
+(cgroup/task_struct)
+
+Anyways I think the AI didn't find any other problems and the test issue
+is fixed so this should be ready for another look.
+
+[1] : https://lore.kernel.org/bpf/20260421201035.1729473-1-utilityemal77@gmail.com/
+> > +
+> > +CFI_NOSEAL(bpf_file_release_dtor);
+> > +
+> >  #ifdef CONFIG_CGROUPS
+> [ ... ]
 > 
 > -- 
-> Sashiko AI review · https://sashiko.dev/#/patchset/20260423155807.1245644-2-bestswngs@gmail.com?part=1
-
-We verified the findings locally with QEMU. Two of the four issues are
-confirmed with reproducers:
-
-- copy + len integer overflow leading to heap buffer overflow [1]
-- uninitialized memory leak via alloc_pages without __GFP_ZERO [2]
-
-Patches sent for both.
-[1] https://lore.kernel.org/all/20260424191602.1522411-3-bestswngs@gmail.com/
-[2] https://lore.kernel.org/all/20260424190310.1520555-2-bestswngs@gmail.com/
-
+> Sashiko AI review · https://sashiko.dev/#/patchset/20260424192252.695240-1-utilityemal77@gmail.com?part=1
