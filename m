@@ -1,184 +1,135 @@
-Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 527253C278B
-	for <sashiko@lists.linux.dev>; Fri, 24 Apr 2026 12:11:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BBBA36DA03
+	for <sashiko@lists.linux.dev>; Fri, 24 Apr 2026 15:41:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777032709; cv=none; b=aVmMxqIkkMXIe6I+LQ5S2F3TuT9mb5r9YtMK0JwA/fQMaCo2v71TQRcc0MPOynsZNRDmroj/Jfj1f6jHKbdfXqbhypfx9hxJq7qu7se3OPk9/JmoiUEimfwMjVVQa0s8dg5Gq0bI6AE2BjLLGRAmv5Ps5W+RI05RlLi8DB+2S98=
+	t=1777045296; cv=none; b=NoLp+QdhVR4oIeY6eyhrdDH34cK4YJjjo2gJjBcPvahE/btEMm2QaA9s/7gA/vONmvevHIZBeDMqTUfONwDjGoucS3GNlphb7IN+ho1U9Ti0T1FPvL6tVN2uRZxtrlWQfAYW/vZ2d6uEEFjXocS9Zu12pWSI9KrqQ/AEBAZRiVE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777032709; c=relaxed/simple;
-	bh=H1Xu3zKY89TMSsOpK6Ebgx7PlkZVHmWf8eOHyxkrg2s=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=POB+KvXaPPtAfdFTaJEUqjtwJTY9rGqiDvEQrd70Tg3/u7/zTMSnifLTTKJTE0Mzudcqg9MYeRjtEY0wT76yFlzZqPxW5OEISA810mJJb6UqeHMHzoKirzAO9T/S8Tx/w/rTw6ASjOmB6gPJhgauhS2CdqvBkQ+n9CYJZIDW2N4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=H4HJ/F5D; arc=none smtp.client-ip=185.67.36.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
+	s=arc-20240116; t=1777045296; c=relaxed/simple;
+	bh=XyyowZEhKG0U41QPGPJbu/O3ow/qW79v3btHxkT2kQs=;
+	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=OHovpt3Ymiv+C7kmlguC7eeOmP6KV+iMXnk4LRpJemZFOmrDpZkt/wjbgzAcQw6bBbQ9KcJ8qi66RaFUAlUaqujyRB7VqTJLEIg8PWFYNpNDYGYRn6y+2rmKTLdoWhnkGYe5prg1yOL+ADQ7qMJOA3vWechsOAa/bghKgYl0MZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=MGIXx9S6; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Y736jOaP; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="H4HJ/F5D"
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout02.posteo.de (Postfix) with ESMTPS id DC1B7240101
-	for <sashiko@lists.linux.dev>; Fri, 24 Apr 2026 14:11:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de; s=2017;
-	t=1777032702; bh=EKHZoi9C/109rsMiJOevzF0MnzkPV2PFiBDqecZ6RqU=;
-	h=Message-ID:Subject:From:To:Cc:Date:Autocrypt:Content-Type:
-	 MIME-Version:OpenPGP:From;
-	b=H4HJ/F5Djl8WyK/frZL+U8uzKk2yUv7kbCDCFauyUFQ+1KCRXBOcXB5fwDrq+wIPH
-	 MM5QHfQXa2pgC2UUzjLsb7KgJOR6jU98M2WJdGa1sAZj/kTcGpuSqgFaXS7wGt1tVp
-	 Kq18GH0hVS/W3rJ0cxbp2MTOw1Yh8HpZ2Vm4E9z3MieXp/XkUfxQTGu6AN8YqbDnzc
-	 xIDEvl85Di0+aidy+foIqWDktCoqgAMyUBIPiEiG4HCfWgThSX4sjmuybY+HJhGBdM
-	 PrROS8bPmn9vfYeYF16VeAMj7XXS9HHDkrUd62K6eYKojmGi7gNdI+rc9xcR8dwrPj
-	 EG165/XkwA/Qw==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4g2Bdp1cP6z9rxF;
-	Fri, 24 Apr 2026 14:11:42 +0200 (CEST)
-Message-ID: <963486d61696e1f9f46e47b685a83e936aa05004.camel@posteo.de>
-Subject: Re: [PATCH v9 1/2] dt-bindings: embedded-controller: Add synology
- microp devices
-From: Markus Probst <markus.probst@posteo.de>
-To: sashiko@lists.linux.dev
-Cc: ojeda@kernel.org
-Date: Fri, 24 Apr 2026 12:11:42 +0000
-In-Reply-To: <20260423201251.7E7D4C2BCAF@smtp.kernel.org>
-References: <20260423-synology_microp_initial-v9-1-4a8533f87e07@posteo.de>
-	 <20260423201251.7E7D4C2BCAF@smtp.kernel.org>
-Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
- keydata=mQINBGiDvXgBEADAXUceKafpl46S35UmDh2wRvvx+UfZbcTjeQOlSwKP7YVJ4JOZrVs93
- qReNLkOWguIqPBxR9blQ4nyYrqSCV+MMw/3ifyXIm6Pw2YRUDg+WTEOjTixRCoWDgUj1nOsvJ9tVA
- m76Ww+/pAnepVRafMID0rqEfD9oGv1YrfpeFJhyE2zUw3SyyNLIKWD6QeLRhKQRbSnsXhGLFBXCqt
- 9k5JARhgQof9zvztcCVlT5KVvuyfC4H+HzeGmu9201BVyihJwKdcKPq+n/aY5FUVxNTgtI9f8wIbm
- fAjaoT1pjXSp+dszakA98fhONM98pOq723o/1ZGMZukyXFfsDGtA3BB79HoopHKujLGWAGskzClwT
- jRQxBqxh/U/lL1pc+0xPWikTNCmtziCOvv0KA0arDOMQlyFvImzX6oGVgE4ksKQYbMZ3Ikw6L1Rv1
- J+FvN0aNwOKgL2ztBRYscUGcQvA0Zo1fGCAn/BLEJvQYShWKeKqjyncVGoXFsz2AcuFKe1pwETSsN
- 6OZncjy32e4ktgs07cWBfx0v62b8md36jau+B6RVnnodaA8++oXl3FRwiEW8XfXWIjy4umIv93tb8
- 8ekYsfOfWkTSewZYXGoqe4RtK80ulMHb/dh2FZQIFyRdN4HOmB4FYO5sEYFr9YjHLmDkrUgNodJCX
- CeMe4BO4iaxUQARAQABtCdNYXJrdXMgUHJvYnN0IDxtYXJrdXMucHJvYnN0QHBvc3Rlby5kZT6JAl
- QEEwEIAD4CGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AWIQSCdBjE9KxY53IwxHM0dh/4561
- D0gUCaIZ9HQIZAQAKCRA0dh/4561D0pKmD/92zsCfbD+SrvBpNWtbit7J9wFBNr9qSFFm2n/65qen
- NNWKDrCzDsjRbALMHSO8nigMWzjofbVjj8Nf7SDcdapRjrMCnidS0DuW3pZBo6W0sZqV/fLx+AzgQ
- 7PAr6jtBbUoKW/GCGHLLtb6Hv+zjL17KGVO0DdQeoHEXMa48mJh8rS7VlUzVtpbxsWbb1wRZJTD88
- ALDOLTWGqMbCTFDKFfGcqBLdUT13vx706Q29wrDiogmQhLGYKc6fQzpHhCLNhHTl8ZVLuKVY3wTT+
- f9TzW1BDzFTAe3ZXsKhrzF+ud7vr6ff9p1Zl+Nujz94EDYHi/5Yrtp//+N/ZjDGDmqZOEA86/Gybu
- 6XE/v4S85ls0cAe37WTqsMCJjVRMP52r7Y1AuOONJDe3sIsDge++XFhwfGPbZwBnwd4gEVcdrKhnO
- ntuP9TvBMFWeTvtLqlWJUt7n8f/ELCcGoO5acai1iZ59GC81GLl2izObOLNjyv3G6hia/w50Mw9MU
- dAdZQ2MxM6k+x4L5XeysdcR/2AydVLtu2LGFOrKyEe0M9XmlE6OvziWXvVVwomvTN3LaNUmaINhr7
- pHTFwDiZCSWKnwnvD2+jA1trKq1xKUQY1uGW9XgSj98pKyixHWoeEpydr+alSTB43c3m0351/9rYT
- TTi4KSk73wtapPKtaoIR3rOFHLQXbWFya3VzLnByb2JzdEBwb3N0ZW8uZGWJAlEEEwEIADsWIQSCd
- BjE9KxY53IwxHM0dh/4561D0gUCaIO9eAIbAwULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIXgAAKCR
- A0dh/4561D0oHZEACEmk5Ng9+OXoVxJJ+c9slBI2lYxyBO84qkWjoJ/0GpwoHk1IpyL+i+kF1Bb7y
- Hx9Tiz8ENYX7xIPTZzS8hXs1ksuo76FQUyD6onA/69xZIrYZ0NSA5HUo62qzzMSZL7od5e12R6OPR
- lR0PIuc4ecOGCEq3BLRPfZSYrL54tiase8HubXsvb6EBQ8jPI8ZUlr96ZqFEwrQZF/3ihyV6LILLk
- geExgwlTzo5Wv3piOXPTITBuzuFhBJqEnT25q2j8OumGQ+ri8oVeAzx24g1kc11pwpR0sowfa5MvZ
- WrrBcaIL7uJfR/ig7FyGnTQ1nS3btf3p0v8A3fc4eUu/K2No3l2huJp3+LHhCmpmeykOhSB63Mj3s
- 3Q87LD0HE0HBkTEMwp+sD97ZRpO67H5shzJRanUaDTb/mREfzpJmRT1uuec0X2zItL7a6itgMJvYI
- KG29aJLX3fTzzVzFGPgzVZYEdhu4y53p0qEGrrC1JtKR6DRPE1hb/OdWOkjmJ75+PPLD9U5IuRd6y
- sHJWsEBR1F0wkMPkEofWsvMYJzWXx/rvTWO8N4D6HigTgBXAXNgbc3IHpHlkvKoBJptv6DRVRtIrz
- 0G0cfBY0Sm7he4N2IYDWWdGnPBZ3rlLSdj5EiBU2YWgIgtLrb8ZNJ3ZlhYluGnBJDGRqy2jC9s1jY
- 66sLA9rQZMHhJTzMyIDwweGlvMzJAcG9zdGVvLmV1PokCbQQTAQgAVxYhBIJ0GMT0rFjncjDEczR2
- H/jnrUPSBQJpa71VGxSAAAAAAAQADm1hbnUyLDIuNSsxLjExLDIsMgIbAwULCQgHAgIiAgYVCgkIC
- wIEFgIDAQIeBwIXgAAKCRA0dh/4561D0gKJD/9uOQKYlsDoQX65Gd0LiMT0C+5vXgr3VI0PHDOwcv
- 51fJ3A1vNyPZRFPGrz8+mDEXUQOF/INfnz5Tu1QHwf+iYcWcTGAN/FHgVR6ET6VBNU2hJaKhu+Ggo
- kjYyJTOvyX+3yNRUfSny0GjTjIPuPTErjqmHF+BtjXslpgwqnNMznf3lRIuUjRORupos6p3k1DndE
- 5vzUTmXSvMyXyOD2KhBl/kL76k0bHYyAQytZPag12pltrtFbA/r2phDGN2si8PooDT99bSTJjaM45
- MTAAHbHKJfvgfK41bNFD5mMtpWpL195XRtS0Nrxdg3PaYBxN5gtTG0RyZfpYRlkdEhm+jj/8RxuSG
- i/qdhRdbiI7K2IELWeQVHSNDi9JabR/UzlR4NSnhfAjRIVlRM+eFbUl8XwxwVrAkojF5IraH2qRvg
- VCmuFsHUW07FUlrDrzpjXsD73cKppoFGDCdDR0BHJepXbFLS9+AqkT+guRJlnCTg2p+TQtnbwPgKp
- Vj98JixovCl99zRYTsL2bRNU5+q8iET65VMJ1ydyNanvLd5vI/NqDkXhlXLsGmdaDTtu4R21PkToX
- dQNGrZ91M9nlIBKw8Y7c7xZ4098qX2b8JX/CxD+gC1r4C8vuA3GkhFLx+KlkON7LyiJPkrePp6Qky
- jfGillcaQOqFZ3WwVqyzG1BUfTow==
-Content-Type: multipart/signed; micalg="pgp-sha256";
-	protocol="application/pgp-signature"; boundary="=-7a+w3c/76MLIC1M/HggS"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="MGIXx9S6";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Y736jOaP"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63OFY6ng518589
+	for <sashiko@lists.linux.dev>; Fri, 24 Apr 2026 15:41:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=XNduXhuSyT+pRL1sLWWBeC
+	GxFgsm+BJta0iLcD9TfvE=; b=MGIXx9S6gP5gKLq6IV+TiHAU/wUsoMDHnOti74
+	aZpCpsGNEnay+aYmGaM7/dEnV0yFs37VEQiusZapTzr4e8QM0hAHJkLBb9OOgyK8
+	GXjt7hZ2PXsnqjpQGnL1F4Qg9VpSqVMtHeOc/dSayP1qRMm3Fn5OZDjK62a3lsaX
+	0HAfRhJOtjy1dUvXfNXvAE86pDkvd4JC59FvEE7ZrCfhHNZ/+rzmTIiGjK5aBjNS
+	FmuaDSHicnY2zFunqZDZM+DDk6dtK1kc4I+c0BBtpi/xovfVUSHZFnp5snkR+xWE
+	3aF8IO2VXdAyayB8vevkZ5L4TNFZ5IQd8dSnyab2ypNEVTpw==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dr0fnjuwc-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <sashiko@lists.linux.dev>; Fri, 24 Apr 2026 15:41:25 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-50df4c130dbso114308691cf.1
+        for <sashiko@lists.linux.dev>; Fri, 24 Apr 2026 08:41:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1777045284; x=1777650084; darn=lists.linux.dev;
+        h=content-transfer-encoding:subject:from:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XNduXhuSyT+pRL1sLWWBeCGxFgsm+BJta0iLcD9TfvE=;
+        b=Y736jOaPr2jEtGTaOyHG+s6l9J8NTp3NcUfZPh2MA0Q9Na4DkTQhmANSRQurVDUSz0
+         ZOwUNijJaaKzxQdbuMn0WJPQKNT6Q7BGuupoP2rrc5Z2px2/S8x8oHrqlBg+z5fJnLsC
+         YGYGQJ88C0UdxjORAwebFrFCPL5+eSbrrwNvRsnHg6aFHR7djR+nH+a/R2QiTTM5fOm4
+         BzBmPG5d7YQAquGakJX/wzNqgGAHqKVNDAezmBz+CbdMeXELP2XB2fmA3oFqrqQ0VlUw
+         /TiLQdp/9jr7hALTfp0/5bmNJHqLUDURa/RH3LczzmmTBNkhut5Q6A9eySKxQnCtbcgA
+         4aFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777045284; x=1777650084;
+        h=content-transfer-encoding:subject:from:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=XNduXhuSyT+pRL1sLWWBeCGxFgsm+BJta0iLcD9TfvE=;
+        b=jQMd/18sEXvIU6hQJJ3M62iRlJxhC9rrHJKkw+rRVCRZM16IeKZQxG9+OHL/be7UHi
+         KFsA72Ip8lxRJSXuL7nU8d6MJg9pH0032iiC0a2c5raQQMzUzDrPaNQbhdYeu0Hu4SAm
+         N7h3Js2fKgyON8XvJc5xxrqlCDz+YmI6qNb2dNc8P0Bwd526vmVWFYX+EmQlfFtU6jAJ
+         4apjHkuIl9tiKjZ+QCv6U8L+uddozPdyGh8N74sLI2VttXLLeM/Mb00YeUaUnnCP030m
+         5zttTdnOiJKTZLrLyWfc5G5xMFsCelz2y4o42qbLBglYvFZiu377Qzsn5jOQSYqNXkW7
+         GDOw==
+X-Gm-Message-State: AOJu0Yyoa666vTgug0+RrwhN9uz4P545gqcxSlWQWCeJyQG/5iez9gdR
+	K9T0G/aZCdNWv8UyhNcwkzNvGPU/auNQI+2ClJ07AV2k8w50/Zj2uIF0cZETLKfwMuXVbpzgaIR
+	WyB+qkjEHNWXMqovtCo0PiT5BwkozMNjV78y8KMkKthkHeu81mbbejg/IEHBNK+RpPa5Vmm4=
+X-Gm-Gg: AeBDieug/1fvURWXKbKQOXusl2/H2XztW6LvTQLwMB11ulLubfvu1Ng9KK33XjCciqU
+	zlVnfVvy+St9zMBzobqAKmWQcPIzFx+JgdQlisNSKs5Tcu77lNYYvLJ+FRg7mZo9zZclOCeZNND
+	l1nLmWVpsOwOCYSFzhx///57/sFrwLVdF6Idba+M9gU6/Ipa4x75i9ryaw6PSl74QjK17P2gyGX
+	HDmnUJb2joATHCmdBBD4Oqg/JRmc6EGb1MrgKWeSkfDYO6pvdGnYg15+aOi0Z47q1Ngix1US/ya
+	qt5XGY+8ynrO7DunqvNSE87EB+h8eMsPfGhNsytfkKqS3/4A364LvTYXbJW2T7euo8NlDdi3EbU
+	1TFKG/e00aRW0zckF6QIZDGg8nkLN08aapwXJlvVH0FMJb+bH2I9TPMxxRlQAdmII2B5oeysDY+
+	0dsliBTGmuEyNtriC/gwY=
+X-Received: by 2002:ac8:5a0f:0:b0:50d:7a0f:faef with SMTP id d75a77b69052e-50e3673792amr406127451cf.22.1777045283925;
+        Fri, 24 Apr 2026 08:41:23 -0700 (PDT)
+X-Received: by 2002:ac8:5a0f:0:b0:50d:7a0f:faef with SMTP id d75a77b69052e-50e3673792amr406126971cf.22.1777045283361;
+        Fri, 24 Apr 2026 08:41:23 -0700 (PDT)
+Received: from ?IPV6:2a05:6e02:1041:c10:1ab3:98b0:9e96:47bd? ([2a05:6e02:1041:c10:1ab3:98b0:9e96:47bd])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488fc177dafsm727331105e9.4.2026.04.24.08.41.22
+        for <sashiko@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 Apr 2026 08:41:22 -0700 (PDT)
+Message-ID: <ecb65bde-3d85-40fd-8c6c-782071bfd5be@oss.qualcomm.com>
+Date: Fri, 24 Apr 2026 17:41:22 +0200
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-OpenPGP: url=https://posteo.de/keys/markus.probst@posteo.de.asc; preference=encrypt
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: sashiko@lists.linux.dev
+From: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
+Subject: sashiko racing with maintainer for the review (duplicate work ?)
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=LfYMLDfi c=1 sm=1 tr=0 ts=69eb8f25 cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22 a=lnV3wAflhyng2QR73OYA:9
+ a=QEXdDO2ut3YA:10 a=uxP6HrT_eTzRwkO_Te1X:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDI0MDE1MiBTYWx0ZWRfX9JnPBBqe1GjO
+ 0NkqdB+ebjyT3WwWWLKpdMhm0SkCr7pswcRcBNYA/rBR2hg5+x3Vla6r/1Ykuo5XnPLFZuooJ81
+ RAX/TrPoQmtImA6MWEVW93Yfv1E7W9c5N28pKQZmOw6TLpRLFojxlC2ZVZgjswUm7+oqg084o4H
+ ExN773QIsMJ36DjdRZfjOdw2BiFCRSWEZZDV7sYNMVlNW+7RlWQrP0erpAM87QpH+anPTIa/BL2
+ HCIjiU3J0nTckFZ252XDGTyc4WhZ8moQ143EmXfbZTKFkYKpYeYfZrPEN5lxCZ/mxqIfpWvZ6F7
+ wrFxmTqWY7rhUqx06r8Sz5IqJKtzRTk9oaI51nQgiee6GqqU/G5cxM+M1BN4BkY4cemjN73iHUz
+ rItanalRNJP7ivKdoXv2eSMA/EfM42nUR4AvdQ1gVzjLoEDB9CDCRYeSsYyM76Sud1TWeRFfFv+
+ 8ydpgqZuSR7yj6APwVA==
+X-Proofpoint-ORIG-GUID: 9XKephvyeEW_uJdbVX9dXhsroBpbx-8o
+X-Proofpoint-GUID: 9XKephvyeEW_uJdbVX9dXhsroBpbx-8o
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-24_01,2026-04-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 lowpriorityscore=0 adultscore=0 priorityscore=1501
+ malwarescore=0 clxscore=1011 spamscore=0 impostorscore=0 bulkscore=0
+ suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2604200000
+ definitions=main-2604240152
 
 
---=-7a+w3c/76MLIC1M/HggS
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-On Thu, 2026-04-23 at 20:12 +0000, sashiko-bot@kernel.org wrote:
-> Sashiko AI review found 1 potential issue(s):
-> - [Low] Unused `#include <dt-bindings/leds/common.h>` in the device tree =
-example snippet.
-> --
->=20
-> commit 64a5fa0da12674dff6fa2aa515d134709ad0a024
-> Author: Markus Probst <markus.probst@posteo.de>
->=20
-> dt-bindings: embedded-controller: Add synology microp devices
->=20
-> This commit adds the devicetree bindings for the Synology Microp
-> microcontroller found on Synology NAS devices. The device is connected
-> over a serial port and provides functionality for fans, LEDs, beepers,
-> buttons, and system power management.
->=20
-> > diff --git a/Documentation/devicetree/bindings/embedded-controller/syno=
-logy,ds918p-microp.yaml b/Documentation/devicetree/bindings/embedded-contro=
-ller/synology,ds918p-microp.yaml
-> > new file mode 100644
-> > index 0000000000000..b87034691885d
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/embedded-controller/synology,ds=
-918p-microp.yaml
->=20
-> [ ... ]
->=20
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/leds/common.h>
->=20
-> This isn't a bug, but is this include needed here?
->=20
-> Neither the example nor the schema defines or uses any LED-related macros=
-,
-> properties, or child nodes. It appears the driver handles LED configurati=
-ons
-> internally based on the compatible string rather than parsing them from t=
-he
-> device tree, which leaves this include unused.
-Will be removed in next revision.
+as a maintainer, I don't know if I should spend time on reviewing series 
+while sashiko is may be doing the same review in parallel.
 
-Thanks
-- Markus Probst
+Is it possible to have sashiko sending an email to the maintainer(s), 
+reviewer(s) telling it began to review, cc'ing the submitter and send 
+another email to the same recipients, telling the review is finished and 
+is ok/nak ?
 
->=20
-> > +    #include <dt-bindings/gpio/gpio.h>
-> > +
-> > +    embedded-controller {
-> > +      compatible =3D "synology,ds923p-microp", "synology,ds918p-microp=
-";
-> > +
-> > +      fan-failure-gpios =3D <&gpio 68 GPIO_ACTIVE_HIGH>, <&gpio 69 GPI=
-O_ACTIVE_HIGH>;
-> > +    };
+That would let me know I should wait while the submitter takes into 
+accounts the sashiko reviews. When sashiko review is ok, then I can 
+review the series
 
---=-7a+w3c/76MLIC1M/HggS
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iQJPBAABCAA5FiEEgnQYxPSsWOdyMMRzNHYf+OetQ9IFAmnrXf0bFIAAAAAABAAO
-bWFudTIsMi41KzEuMTIsMiwyAAoJEDR2H/jnrUPSNBsP/Az2PiULce0afYB8XatU
-4nzlHOCmgWZbyV93QXG0tqaJ0i9tDf6w6QHcynJQfABvKW2BRxZ0qlrVI6swx0IL
-RehnIGqo0BZNs/4cnYyVsBQxacTYq3KCwW/JreH10FQwx/m/yaiDgIguJZ29pmx6
-exxGe2yCBDR1LMhkPHb3WPgctfcSS6a47BpV1PNI4+XOQL/6rv37w9VBbbzKp3nF
-9xfo3jAwBSXf2S7AusX+eZPA8TWdf6ZB4h9ExjSXLLZ263F8zle4kmfX5LOQ5AFW
-D6mXinuR/JAj2bo2mXXZRdJzVIhUrGiaptXONMLEsGmYlY5FIZr+g5ajKOsvp85R
-QZnU4KvetvwATP2a28gMT+hSDpbydI8EImmbgjHyA80pDN2IVbgUxUjhyFyosTN3
-woR4CbW3CakGYmYi1C2gxb5kUN+o753Di4lYu8wuhqgZb3hAsLCKWcrMIbDBRNHr
-R9k7hl4DN4NMWm81tv0dF/wOtyPV4KDKLXLDCvO8EF2KwMElvqf6LT8sI6wn9WgI
-vOPrkhff0M35st4n7HTC9arqAuVWZLXEnDrxE9Jd5N3kAvE1Kbo1Qf9/aO/Rg9wI
-cOICuM8ltfcr/xA4TyqAEWE0+s06sgyUUxd/uxdTaAgZorCdTZMjWnXDcRAN3A8D
-gK+pd1vkpBI395+Rxge7wcxW
-=c9x4
------END PGP SIGNATURE-----
-
---=-7a+w3c/76MLIC1M/HggS--
+Does it make sense ?
