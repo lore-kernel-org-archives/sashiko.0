@@ -1,46 +1,47 @@
-Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
+Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4537C3C13F1
-	for <sashiko@lists.linux.dev>; Fri, 24 Apr 2026 11:58:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 527253C278B
+	for <sashiko@lists.linux.dev>; Fri, 24 Apr 2026 12:11:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777031940; cv=none; b=lyN8YUZPObzrJjrBjkQdBzac54llh1me3rGa8Luda7GlBYNl+KFj+EJ/VjwVRlJcuT+kGYK9H9F9W2bJX6/C4AsvEEOyf32j7mAZP+jaAWvGQTJ+5BeC7y+M8bApbfITdI2rSuuUQhQZN7Zwp7Op9hqAwZxpUyAg9Wf7innhh54=
+	t=1777032709; cv=none; b=aVmMxqIkkMXIe6I+LQ5S2F3TuT9mb5r9YtMK0JwA/fQMaCo2v71TQRcc0MPOynsZNRDmroj/Jfj1f6jHKbdfXqbhypfx9hxJq7qu7se3OPk9/JmoiUEimfwMjVVQa0s8dg5Gq0bI6AE2BjLLGRAmv5Ps5W+RI05RlLi8DB+2S98=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777031940; c=relaxed/simple;
-	bh=WrywqqSHucZYIAKlSOs8uKu8f4vTIp0zqoVC7ES0CIw=;
+	s=arc-20240116; t=1777032709; c=relaxed/simple;
+	bh=H1Xu3zKY89TMSsOpK6Ebgx7PlkZVHmWf8eOHyxkrg2s=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Awtkf7AsEGefFmxCvsa3+YBxHOSN08WBUrhbQ06IJgRL6O2vEwRj3dPfIZINSb66yLKOZpYCVSqPq8n8LMi+qLrCuAPZRu1PsiO67S9//+nignn5COsan+YQpMsGXQS21IWfW7TeTZOwWqpa7hfTyUXMxSSU4K/D89sz7T8t/xA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=J3ZkJoxB; arc=none smtp.client-ip=185.67.36.65
+	 Content-Type:MIME-Version; b=POB+KvXaPPtAfdFTaJEUqjtwJTY9rGqiDvEQrd70Tg3/u7/zTMSnifLTTKJTE0Mzudcqg9MYeRjtEY0wT76yFlzZqPxW5OEISA810mJJb6UqeHMHzoKirzAO9T/S8Tx/w/rTw6ASjOmB6gPJhgauhS2CdqvBkQ+n9CYJZIDW2N4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=H4HJ/F5D; arc=none smtp.client-ip=185.67.36.66
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="J3ZkJoxB"
+	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="H4HJ/F5D"
 Received: from submission (posteo.de [185.67.36.169]) 
-	by mout01.posteo.de (Postfix) with ESMTPS id 1B8CA240027
-	for <sashiko@lists.linux.dev>; Fri, 24 Apr 2026 13:58:56 +0200 (CEST)
+	by mout02.posteo.de (Postfix) with ESMTPS id DC1B7240101
+	for <sashiko@lists.linux.dev>; Fri, 24 Apr 2026 14:11:42 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de; s=2017;
-	t=1777031936; bh=oa7+6Zl6wb77qgkMK4WK+HiHaWnbiRYgVR/MsfcTKxQ=;
+	t=1777032702; bh=EKHZoi9C/109rsMiJOevzF0MnzkPV2PFiBDqecZ6RqU=;
 	h=Message-ID:Subject:From:To:Cc:Date:Autocrypt:Content-Type:
 	 MIME-Version:OpenPGP:From;
-	b=J3ZkJoxBVwdOaN8lXnKnUJPWtIuxJM/LRMDS+VZ2EQITv3YB9QpuMOyXrwJg+8Xsx
-	 UwBBJ8p0k7DfLjQLeoX8bDJNSim9aoy/WUyoIN102GETdgU9QvXjB2q3kjgV0H16Nh
-	 RLUlxOCUQaHaqrdkFwl+XSwt2sFBjwCWSOv9VKiOqm6fEPyFBZ2dOrTuWsLJWmKmGW
-	 ALxl9NU87xhgi4E07V+zCSJAZu5AqXWbxvNCfcWakR9Q7y0JMDgijNsaGhhuq4odiw
-	 X32MqrcLVGEsGyq+64SPFwgEJopUtxA4IFPh7g2rgamTbgf7IKYuUsq4Kox6KvfGFC
-	 2kOQDImOVI+Ng==
+	b=H4HJ/F5Djl8WyK/frZL+U8uzKk2yUv7kbCDCFauyUFQ+1KCRXBOcXB5fwDrq+wIPH
+	 MM5QHfQXa2pgC2UUzjLsb7KgJOR6jU98M2WJdGa1sAZj/kTcGpuSqgFaXS7wGt1tVp
+	 Kq18GH0hVS/W3rJ0cxbp2MTOw1Yh8HpZ2Vm4E9z3MieXp/XkUfxQTGu6AN8YqbDnzc
+	 xIDEvl85Di0+aidy+foIqWDktCoqgAMyUBIPiEiG4HCfWgThSX4sjmuybY+HJhGBdM
+	 PrROS8bPmn9vfYeYF16VeAMj7XXS9HHDkrUd62K6eYKojmGi7gNdI+rc9xcR8dwrPj
+	 EG165/XkwA/Qw==
 Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4g2BM343cyz6tvm;
-	Fri, 24 Apr 2026 13:58:55 +0200 (CEST)
-Message-ID: <9c4cd34c8ba47f1cb432dff521382c0dc4717476.camel@posteo.de>
-Subject: Re: [PATCH v9 2/2] platform: Add initial synology microp driver
+	by submission (posteo.de) with ESMTPSA id 4g2Bdp1cP6z9rxF;
+	Fri, 24 Apr 2026 14:11:42 +0200 (CEST)
+Message-ID: <963486d61696e1f9f46e47b685a83e936aa05004.camel@posteo.de>
+Subject: Re: [PATCH v9 1/2] dt-bindings: embedded-controller: Add synology
+ microp devices
 From: Markus Probst <markus.probst@posteo.de>
 To: sashiko@lists.linux.dev
 Cc: ojeda@kernel.org
-Date: Fri, 24 Apr 2026 11:58:55 +0000
-In-Reply-To: <20260423215810.3516CC2BCB2@smtp.kernel.org>
-References: <20260423-synology_microp_initial-v9-2-4a8533f87e07@posteo.de>
-	 <20260423215810.3516CC2BCB2@smtp.kernel.org>
+Date: Fri, 24 Apr 2026 12:11:42 +0000
+In-Reply-To: <20260423201251.7E7D4C2BCAF@smtp.kernel.org>
+References: <20260423-synology_microp_initial-v9-1-4a8533f87e07@posteo.de>
+	 <20260423201251.7E7D4C2BCAF@smtp.kernel.org>
 Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
  keydata=mQINBGiDvXgBEADAXUceKafpl46S35UmDh2wRvvx+UfZbcTjeQOlSwKP7YVJ4JOZrVs93
  qReNLkOWguIqPBxR9blQ4nyYrqSCV+MMw/3ifyXIm6Pw2YRUDg+WTEOjTixRCoWDgUj1nOsvJ9tVA
@@ -86,7 +87,7 @@ Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
  dQNGrZ91M9nlIBKw8Y7c7xZ4098qX2b8JX/CxD+gC1r4C8vuA3GkhFLx+KlkON7LyiJPkrePp6Qky
  jfGillcaQOqFZ3WwVqyzG1BUfTow==
 Content-Type: multipart/signed; micalg="pgp-sha256";
-	protocol="application/pgp-signature"; boundary="=-rdg0awbzci57GpcLO7KK"
+	protocol="application/pgp-signature"; boundary="=-7a+w3c/76MLIC1M/HggS"
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
@@ -96,271 +97,88 @@ MIME-Version: 1.0
 OpenPGP: url=https://posteo.de/keys/markus.probst@posteo.de.asc; preference=encrypt
 
 
---=-rdg0awbzci57GpcLO7KK
+--=-7a+w3c/76MLIC1M/HggS
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2026-04-23 at 21:58 +0000, sashiko-bot@kernel.org wrote:
-> Sashiko AI review found 7 potential issue(s):
-> - [Critical] Use-After-Free of the dynamically allocated Alert LED CStrin=
-g.
-> - [High] Logic errors in LED brightness control prevent clearing the hard=
-ware blink state.
-> - [High] Use-After-Free of `power_name` during teardown due to incorrect =
-struct field declaration order.
-> - [High] Concurrent accesses to the shared serdev bus are not serialized,=
- leading to corrupted command sequences.
-> - [Medium] The SYNOLOGY_MICROP config depends on a non-existent symbol RU=
-ST_SERIAL_DEV_BUS_ABSTRACTIONS.
-> - [Medium] Typo in the compatible string for the DS223 model prevents dri=
-ver binding.
-> - [Low] Missing Device Tree Binding YAML file referenced in MAINTAINERS.
+On Thu, 2026-04-23 at 20:12 +0000, sashiko-bot@kernel.org wrote:
+> Sashiko AI review found 1 potential issue(s):
+> - [Low] Unused `#include <dt-bindings/leds/common.h>` in the device tree =
+example snippet.
 > --
-Since this is an AI reply, I am not sure if I am supposed to reply to
-it. Anyway, the answers:
-
 >=20
-> commit 47c26ce6bffc3c75c3df285181d595c18b827e6e
+> commit 64a5fa0da12674dff6fa2aa515d134709ad0a024
 > Author: Markus Probst <markus.probst@posteo.de>
 >=20
-> platform: Add initial synology microp driver
+> dt-bindings: embedded-controller: Add synology microp devices
 >=20
-> Add a initial synology microp driver, written in Rust. The driver targets
-> a microcontroller found in Synology NAS devices.
+> This commit adds the devicetree bindings for the Synology Microp
+> microcontroller found on Synology NAS devices. The device is connected
+> over a serial port and provides functionality for fans, LEDs, beepers,
+> buttons, and system power management.
 >=20
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -25546,6 +25546,13 @@ F:	drivers/dma-buf/sync_*
-> >  F:	include/linux/sync_file.h
-> >  F:	include/uapi/linux/sync_file.h
-> > =20
-> > +SYNOLOGY MICROP DRIVER
-> > +M:	Markus Probst <markus.probst@posteo.de>
-> > +L:	platform-driver-x86@vger.kernel.org
-> > +S:	Maintained
-> > +F:	Documentation/devicetree/bindings/embedded-controller/synology,ds91=
-8p-microp.yaml
->=20
-> Is this YAML file missing from the patch? It doesn't appear to be include=
-d
-> in the commit, which will cause Device Tree binding checks to miss the ne=
-w
-> schema.
-It was added in the previous patch.
-
->=20
-> > diff --git a/drivers/platform/synology_microp/Kconfig b/drivers/platfor=
-m/synology_microp/Kconfig
+> > diff --git a/Documentation/devicetree/bindings/embedded-controller/syno=
+logy,ds918p-microp.yaml b/Documentation/devicetree/bindings/embedded-contro=
+ller/synology,ds918p-microp.yaml
+> > new file mode 100644
+> > index 0000000000000..b87034691885d
 > > --- /dev/null
-> > +++ b/drivers/platform/synology_microp/Kconfig
-> > @@ -0,0 +1,13 @@
-> > +# SPDX-License-Identifier: GPL-2.0
+> > +++ b/Documentation/devicetree/bindings/embedded-controller/synology,ds=
+918p-microp.yaml
+>=20
+> [ ... ]
+>=20
+> > +additionalProperties: false
 > > +
-> > +config SYNOLOGY_MICROP
-> > +	tristate "Synology Microp driver"
-> > +	depends on LEDS_CLASS && LEDS_CLASS_MULTICOLOR
-> > +	depends on RUST_SERIAL_DEV_BUS_ABSTRACTIONS
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/leds/common.h>
 >=20
-> Does RUST_SERIAL_DEV_BUS_ABSTRACTIONS exist anywhere in the tree?
+> This isn't a bug, but is this include needed here?
 >=20
-> Depending on a non-existent symbol causes a silent build failure where th=
-e
-> dependency can never be satisfied, rendering the driver unbuildable.
-Its in the serdev dependency of the patch.
-
->=20
-> > diff --git a/drivers/platform/synology_microp/command.rs b/drivers/plat=
-form/synology_microp/command.rs
-> > --- /dev/null
-> > +++ b/drivers/platform/synology_microp/command.rs
-> [ ... ]
-> > +impl Command {
-> > +    pub(crate) fn write(self, dev: &serdev::Device<Bound>) -> Result {
-> > +        dev.write_all(
->=20
-> Does this code prevent concurrent writes to the serial bus?
->=20
-> If user space modifies the state of multiple LEDs concurrently, the LED
-> subsystem will invoke their callbacks simultaneously. Without a shared lo=
-ck
-> protecting the single serdev::Device instance, the multi-byte command
-> sequences can become interleaved and corrupt the serial protocol.
-If I send it as one buffer, I expect it to be sent in this order, even
-if another thread trys to do the same.
-
-Even if the whole buffer is not accepted at once. serdev internally
-locks a mutex.
-
->=20
-> > diff --git a/drivers/platform/synology_microp/led.rs b/drivers/platform=
-/synology_microp/led.rs
-> > --- /dev/null
-> > +++ b/drivers/platform/synology_microp/led.rs
-> [ ... ]
-> > +#[pin_data]
-> > +pub(crate) struct Data {
-> > +    #[pin]
-> > +    status: Devres<led::MultiColorDevice<StatusLedHandler>>,
-> > +    power_name: CString,
-> > +    #[pin]
-> > +    power: Devres<led::Device<LedHandler>>,
-> > +}
->=20
-> Does this struct declaration order create a use-after-free during driver
-> unbind?
->=20
-> In Rust, struct fields are dropped strictly in declaration order. Because
-> power_name is declared before power, its backing string buffer is freed
-> before the Devres destructor unregisters the LED from the C subsystem.
->=20
-> This creates a time window where the active led_classdev holds a dangling
-> pointer to its name.
-The CString is only ever used on register and is copied by the led
-subsystem. The field does not have to outlive the `led::Device`.
-
->=20
-> [ ... ]
-> > +impl Data {
-> > +    pub(super) fn register<'a>(
-> > +        dev: &'a serdev::Device<Bound>,
-> > +        model: &'a Model,
-> > +    ) -> impl PinInit<Self, Error> + 'a {
-> > +        pin_init_scope(move || {
-> > +            if let Some(color) =3D model.led_alert {
-> > +                let name =3D CString::try_from_fmt(fmt!("{}:alarm", co=
-lor.as_c_str().to_str()?))?;
-> > +                devres::register(
-> > +                    dev.as_ref(),
-> > +                    led::DeviceBuilder::new().color(color).name(&name)=
-.build(
->=20
-> Could this leak a dangling pointer to the LED subsystem?
->=20
-> The name variable is strictly local to this if let block. When the block
-> ends, the string is dropped and its backing memory is freed, but the kern=
-el's
-> LED framework expects the name string pointer to remain valid for the
-> lifetime of the device.
-The CString is only ever used on register and is copied by the led
-subsystem. The field does not have to outlive the `led::Device`.
-
->=20
-> [ ... ]
-> > +    fn brightness_set(
-> > +        &self,
-> > +        dev: &Self::Bus,
-> > +        _classdev: &led::Device<Self>,
-> > +        brightness: u32,
-> > +    ) -> Result<()> {
-> > +        let mut blink =3D self.blink.lock();
-> > +        (self.command)(if brightness =3D=3D 0 {
-> > +            *blink =3D false;
-> > +            State::Off
-> > +        } else if *blink {
-> > +            State::Blink
-> > +        } else {
-> > +            State::On
-> > +        })
->=20
-> If brightness is non-zero, shouldn't this disable any active blinking and=
- set
-> the LED solidly ON?
->=20
-> Evaluating else if *blink when brightness > 0 means the LED continues to
-> blink and the internal boolean flag is never cleared.
-No, only brightness =3D 0 disables blinking.
->=20
-> [ ... ]
-> > +    fn blink_set(
-> > +        &self,
-> > +        dev: &Self::Bus,
-> > +        _classdev: &led::Device<Self>,
-> > +        delay_on: &mut usize,
-> > +        delay_off: &mut usize,
-> > +    ) -> Result<()> {
-> > +        let mut blink =3D self.blink.lock();
-> > +
-> > +        (self.command)(if *delay_on =3D=3D 0 && *delay_off !=3D 0 {
-> > +            State::Off
->=20
-> Should this path also reset *blink to false when blinking is explicitly
-> stopped?
-You are right on this one.
-
->=20
-> [ ... ]
-> > +    fn brightness_set(
-> > +        &self,
-> > +        dev: &Self::Bus,
-> > +        classdev: &led::MultiColorDevice<Self>,
-> > +        brightness: u32,
-> > +    ) -> Result<()> {
-> > +        let mut blink =3D self.blink.lock();
-> > +        if brightness =3D=3D 0 {
-> > +            *blink =3D false;
-> > +        }
-> > +
-> > +        let (color, subled_brightness) =3D if classdev.subleds()[1].in=
-tensity =3D=3D 0 {
-> > +            (StatusLedColor::Green, classdev.subleds()[0].brightness)
-> > +        } else {
-> > +            (StatusLedColor::Orange, classdev.subleds()[1].brightness)
-> > +        };
-> > +
-> > +        Command::StatusLed(
-> > +            color,
-> > +            if subled_brightness =3D=3D 0 {
-> > +                State::Off
-> > +            } else if *blink {
-> > +                State::Blink
-> > +            } else {
-> > +                State::On
-> > +            },
->=20
-> Similarly, does this fail to turn a blinking LED solidly ON when the
-> brightness is non-zero? It looks like it will just keep blinking because =
-the
-> blink state isn't cleared.
-No, only brightness =3D 0 disables blinking.
->=20
-> > diff --git a/drivers/platform/synology_microp/synology_microp.rs b/driv=
-ers/platform/synology_microp/synology_microp.rs
-> > --- /dev/null
-> > +++ b/drivers/platform/synology_microp/synology_microp.rs
-> [ ... ]
-> > +        // rtd1619b
-> > +        (DeviceId::new(c"synolody,ds223-microp"), Model::new().led_usb=
-_copy()),
->=20
-> This isn't a bug, but there's a typo in the vendor prefix ("synolody"). T=
-his
-> will prevent the driver from matching the device tree node for the ds223.
-Yes, that is not supposed to be there.
+> Neither the example nor the schema defines or uses any LED-related macros=
+,
+> properties, or child nodes. It appears the driver handles LED configurati=
+ons
+> internally based on the compatible string rather than parsing them from t=
+he
+> device tree, which leaves this include unused.
+Will be removed in next revision.
 
 Thanks
 - Markus Probst
 
---=-rdg0awbzci57GpcLO7KK
+>=20
+> > +    #include <dt-bindings/gpio/gpio.h>
+> > +
+> > +    embedded-controller {
+> > +      compatible =3D "synology,ds923p-microp", "synology,ds918p-microp=
+";
+> > +
+> > +      fan-failure-gpios =3D <&gpio 68 GPIO_ACTIVE_HIGH>, <&gpio 69 GPI=
+O_ACTIVE_HIGH>;
+> > +    };
+
+--=-7a+w3c/76MLIC1M/HggS
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 
-iQJPBAABCAA5FiEEgnQYxPSsWOdyMMRzNHYf+OetQ9IFAmnrWvQbFIAAAAAABAAO
-bWFudTIsMi41KzEuMTIsMiwyAAoJEDR2H/jnrUPS0wMP/i5ZzCynEx69I1+I8tNa
-GmU/6JgfjGQIS8VTEjeZPnhlScj+XTtZpMZZA3sOahsDpjR2hMWXHdhy4MHtI/81
-kMErwVgTMZx8LP26t/4TI06dHcyalgYRcp4h5lSUP9Nfp9LASNL5phAURdys++4p
-Kw5xQgb2pGYCKlPlX5QG2hd1iOvUdarBAVTtIZT1y0SlUgG1SSR7DIDkBQixHgnT
-AJthCJQ+BRRP+sxMBquqAvyEU87Z9PpoPyiZf4CcOrFnDmLdMI6+Wf6cLRtAK655
-NSky73ADQVps7CVMz54qFbFioUHwNUZstM0+/tr8rshdhl5crofqfxVvzqzDRUwx
-tIY+miLEtR56w2V/wj7guxzs3VCC0NnLdI4IncYoaUg0vKN0kOPtPHyF/YLFCQzw
-tbO7zrRFdTRYYQX8/ldTV6fbHQ44qw1leMe/lI4/JPRT9AYA4PTBHm8zNrDAyByA
-vk6y2OICfbyeuXFgqLafyl5JW02s6P2VYs2zCIYb7t1szKwc99yGSPOhNzWN8Nn3
-X+w5ZpGmW3O1FxNjdJZjuSenjvK5U5KCXMNJ5M5SaJfCjYH+jhppNCEBYopjM7Ov
-W01aIaiDv2vC1nfzXgEiRcWP8U5isAx1uP7U79ah3jjmL0FIfntyhKC5hG82CfiC
-abdzONaptTqcjlob2b/0BRmh
-=ffPI
+iQJPBAABCAA5FiEEgnQYxPSsWOdyMMRzNHYf+OetQ9IFAmnrXf0bFIAAAAAABAAO
+bWFudTIsMi41KzEuMTIsMiwyAAoJEDR2H/jnrUPSNBsP/Az2PiULce0afYB8XatU
+4nzlHOCmgWZbyV93QXG0tqaJ0i9tDf6w6QHcynJQfABvKW2BRxZ0qlrVI6swx0IL
+RehnIGqo0BZNs/4cnYyVsBQxacTYq3KCwW/JreH10FQwx/m/yaiDgIguJZ29pmx6
+exxGe2yCBDR1LMhkPHb3WPgctfcSS6a47BpV1PNI4+XOQL/6rv37w9VBbbzKp3nF
+9xfo3jAwBSXf2S7AusX+eZPA8TWdf6ZB4h9ExjSXLLZ263F8zle4kmfX5LOQ5AFW
+D6mXinuR/JAj2bo2mXXZRdJzVIhUrGiaptXONMLEsGmYlY5FIZr+g5ajKOsvp85R
+QZnU4KvetvwATP2a28gMT+hSDpbydI8EImmbgjHyA80pDN2IVbgUxUjhyFyosTN3
+woR4CbW3CakGYmYi1C2gxb5kUN+o753Di4lYu8wuhqgZb3hAsLCKWcrMIbDBRNHr
+R9k7hl4DN4NMWm81tv0dF/wOtyPV4KDKLXLDCvO8EF2KwMElvqf6LT8sI6wn9WgI
+vOPrkhff0M35st4n7HTC9arqAuVWZLXEnDrxE9Jd5N3kAvE1Kbo1Qf9/aO/Rg9wI
+cOICuM8ltfcr/xA4TyqAEWE0+s06sgyUUxd/uxdTaAgZorCdTZMjWnXDcRAN3A8D
+gK+pd1vkpBI395+Rxge7wcxW
+=c9x4
 -----END PGP SIGNATURE-----
 
---=-rdg0awbzci57GpcLO7KK--
+--=-7a+w3c/76MLIC1M/HggS--
