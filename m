@@ -1,135 +1,193 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BBBA36DA03
-	for <sashiko@lists.linux.dev>; Fri, 24 Apr 2026 15:41:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C2913E7169
+	for <sashiko@lists.linux.dev>; Fri, 24 Apr 2026 19:21:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777045296; cv=none; b=NoLp+QdhVR4oIeY6eyhrdDH34cK4YJjjo2gJjBcPvahE/btEMm2QaA9s/7gA/vONmvevHIZBeDMqTUfONwDjGoucS3GNlphb7IN+ho1U9Ti0T1FPvL6tVN2uRZxtrlWQfAYW/vZ2d6uEEFjXocS9Zu12pWSI9KrqQ/AEBAZRiVE=
+	t=1777058508; cv=none; b=aN1AxhVOu1HKn4EjNipcqw6vlwtYSn2M0AstS6BocgmgXIZH1LrrLfQ8WF65ufh8orbTCgE5RAIeX34gI50fawXzu8p8nT0yBZ1d1eLTPfdbzD5Wj83vBpTQYW6qkL7fksyO5h5oT3gjMxIaNOL7FLMYeTO00s1J2/oTJErUiSU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777045296; c=relaxed/simple;
-	bh=XyyowZEhKG0U41QPGPJbu/O3ow/qW79v3btHxkT2kQs=;
-	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=OHovpt3Ymiv+C7kmlguC7eeOmP6KV+iMXnk4LRpJemZFOmrDpZkt/wjbgzAcQw6bBbQ9KcJ8qi66RaFUAlUaqujyRB7VqTJLEIg8PWFYNpNDYGYRn6y+2rmKTLdoWhnkGYe5prg1yOL+ADQ7qMJOA3vWechsOAa/bghKgYl0MZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=MGIXx9S6; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Y736jOaP; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1777058508; c=relaxed/simple;
+	bh=+vPpUWsYwpvZDuiQ+l6q7qOqmkavzTvyl/AbD1vaAoM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=n55ALOKQdl8IJvtZWXWV2mcSw6uL7j+eWVdJFjv7iZ70Bry2dUdWCwyBO5psg39/XR0HKSfau+g3hjluc7fHXiUd6cpTF+3AbmVQ01C6nxYB8td0b8B8l29DcUoduiHGY1++pkdKeDSRIgsXVtK8XSBtTNVEoRwoiC9kIsCfD+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Dmy28EE7; arc=none smtp.client-ip=209.85.210.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="MGIXx9S6";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Y736jOaP"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63OFY6ng518589
-	for <sashiko@lists.linux.dev>; Fri, 24 Apr 2026 15:41:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=XNduXhuSyT+pRL1sLWWBeC
-	GxFgsm+BJta0iLcD9TfvE=; b=MGIXx9S6gP5gKLq6IV+TiHAU/wUsoMDHnOti74
-	aZpCpsGNEnay+aYmGaM7/dEnV0yFs37VEQiusZapTzr4e8QM0hAHJkLBb9OOgyK8
-	GXjt7hZ2PXsnqjpQGnL1F4Qg9VpSqVMtHeOc/dSayP1qRMm3Fn5OZDjK62a3lsaX
-	0HAfRhJOtjy1dUvXfNXvAE86pDkvd4JC59FvEE7ZrCfhHNZ/+rzmTIiGjK5aBjNS
-	FmuaDSHicnY2zFunqZDZM+DDk6dtK1kc4I+c0BBtpi/xovfVUSHZFnp5snkR+xWE
-	3aF8IO2VXdAyayB8vevkZ5L4TNFZ5IQd8dSnyab2ypNEVTpw==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dr0fnjuwc-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <sashiko@lists.linux.dev>; Fri, 24 Apr 2026 15:41:25 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-50df4c130dbso114308691cf.1
-        for <sashiko@lists.linux.dev>; Fri, 24 Apr 2026 08:41:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dmy28EE7"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-82f943870baso3367219b3a.1
+        for <sashiko@lists.linux.dev>; Fri, 24 Apr 2026 12:21:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1777045284; x=1777650084; darn=lists.linux.dev;
-        h=content-transfer-encoding:subject:from:to:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XNduXhuSyT+pRL1sLWWBeCGxFgsm+BJta0iLcD9TfvE=;
-        b=Y736jOaPr2jEtGTaOyHG+s6l9J8NTp3NcUfZPh2MA0Q9Na4DkTQhmANSRQurVDUSz0
-         ZOwUNijJaaKzxQdbuMn0WJPQKNT6Q7BGuupoP2rrc5Z2px2/S8x8oHrqlBg+z5fJnLsC
-         YGYGQJ88C0UdxjORAwebFrFCPL5+eSbrrwNvRsnHg6aFHR7djR+nH+a/R2QiTTM5fOm4
-         BzBmPG5d7YQAquGakJX/wzNqgGAHqKVNDAezmBz+CbdMeXELP2XB2fmA3oFqrqQ0VlUw
-         /TiLQdp/9jr7hALTfp0/5bmNJHqLUDURa/RH3LczzmmTBNkhut5Q6A9eySKxQnCtbcgA
-         4aFg==
+        d=gmail.com; s=20251104; t=1777058505; x=1777663305; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=QjJdUnid8SU6MMGKvZIycfLCz20mR4Vbg4ZJjRQz0no=;
+        b=Dmy28EE7XUCDyblNpLZMy8rVGpF4cusJjaEGNMJUgJqijkZOGINWSIwGIg0EQucRpw
+         NdKZHjzpA16TCQLOotf/zAYO0BYWKN2T9JvTvgBPolVw3JlriI2FPgCEgfjf283+18wD
+         Ds6nHBG7ioxEGzYoqwKsmMwSX3GMQs1Rr9YBOoMZfwDJwfyyGFFzc28s+dDIncXXGlG5
+         QwPVb23LznSTb9jh0PgSpZD4tLeYlVkRvDDfJsbofsRP39a7wBNHQuC1Myj6yi4poHvB
+         BzJ9GT2LzldC9P6NERyINQgM0HycC4NOXizOvAnfFbdJhWMa+YU+d0t2f+HXXzQ4AfUy
+         VRlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777045284; x=1777650084;
-        h=content-transfer-encoding:subject:from:to:content-language
-         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=XNduXhuSyT+pRL1sLWWBeCGxFgsm+BJta0iLcD9TfvE=;
-        b=jQMd/18sEXvIU6hQJJ3M62iRlJxhC9rrHJKkw+rRVCRZM16IeKZQxG9+OHL/be7UHi
-         KFsA72Ip8lxRJSXuL7nU8d6MJg9pH0032iiC0a2c5raQQMzUzDrPaNQbhdYeu0Hu4SAm
-         N7h3Js2fKgyON8XvJc5xxrqlCDz+YmI6qNb2dNc8P0Bwd526vmVWFYX+EmQlfFtU6jAJ
-         4apjHkuIl9tiKjZ+QCv6U8L+uddozPdyGh8N74sLI2VttXLLeM/Mb00YeUaUnnCP030m
-         5zttTdnOiJKTZLrLyWfc5G5xMFsCelz2y4o42qbLBglYvFZiu377Qzsn5jOQSYqNXkW7
-         GDOw==
-X-Gm-Message-State: AOJu0Yyoa666vTgug0+RrwhN9uz4P545gqcxSlWQWCeJyQG/5iez9gdR
-	K9T0G/aZCdNWv8UyhNcwkzNvGPU/auNQI+2ClJ07AV2k8w50/Zj2uIF0cZETLKfwMuXVbpzgaIR
-	WyB+qkjEHNWXMqovtCo0PiT5BwkozMNjV78y8KMkKthkHeu81mbbejg/IEHBNK+RpPa5Vmm4=
-X-Gm-Gg: AeBDieug/1fvURWXKbKQOXusl2/H2XztW6LvTQLwMB11ulLubfvu1Ng9KK33XjCciqU
-	zlVnfVvy+St9zMBzobqAKmWQcPIzFx+JgdQlisNSKs5Tcu77lNYYvLJ+FRg7mZo9zZclOCeZNND
-	l1nLmWVpsOwOCYSFzhx///57/sFrwLVdF6Idba+M9gU6/Ipa4x75i9ryaw6PSl74QjK17P2gyGX
-	HDmnUJb2joATHCmdBBD4Oqg/JRmc6EGb1MrgKWeSkfDYO6pvdGnYg15+aOi0Z47q1Ngix1US/ya
-	qt5XGY+8ynrO7DunqvNSE87EB+h8eMsPfGhNsytfkKqS3/4A364LvTYXbJW2T7euo8NlDdi3EbU
-	1TFKG/e00aRW0zckF6QIZDGg8nkLN08aapwXJlvVH0FMJb+bH2I9TPMxxRlQAdmII2B5oeysDY+
-	0dsliBTGmuEyNtriC/gwY=
-X-Received: by 2002:ac8:5a0f:0:b0:50d:7a0f:faef with SMTP id d75a77b69052e-50e3673792amr406127451cf.22.1777045283925;
-        Fri, 24 Apr 2026 08:41:23 -0700 (PDT)
-X-Received: by 2002:ac8:5a0f:0:b0:50d:7a0f:faef with SMTP id d75a77b69052e-50e3673792amr406126971cf.22.1777045283361;
-        Fri, 24 Apr 2026 08:41:23 -0700 (PDT)
-Received: from ?IPV6:2a05:6e02:1041:c10:1ab3:98b0:9e96:47bd? ([2a05:6e02:1041:c10:1ab3:98b0:9e96:47bd])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488fc177dafsm727331105e9.4.2026.04.24.08.41.22
-        for <sashiko@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 24 Apr 2026 08:41:22 -0700 (PDT)
-Message-ID: <ecb65bde-3d85-40fd-8c6c-782071bfd5be@oss.qualcomm.com>
-Date: Fri, 24 Apr 2026 17:41:22 +0200
+        d=1e100.net; s=20251104; t=1777058505; x=1777663305;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=QjJdUnid8SU6MMGKvZIycfLCz20mR4Vbg4ZJjRQz0no=;
+        b=ppfTDDhwJ/Av+RyrhKxYt9sEa3EEldWv2wBwRuF8le00dU6FzNormgk/KWot4Qq4IO
+         urI2qXMdEkRv6/rSke6hIPT0qX60TdInWZE24lA2V4lVsOl5MucnyAnZeSpwT0BQmMmm
+         8/fjxrSoxSGcbXrobmM3tsg7Lh44YFcmAug6qfUfbdPgOaK88SVJAGMkPEk6Cfc5C+mG
+         23CKdYKZjkVoQZkMnemjnNi6qyNO0n8+fHyNuZfaX7VEjf+fEMeV3Rwi50UCU+El+WhI
+         FQZs0h5O1QqXBQXeJ0KLcSpqnxmhO0IIWjXLa8DHZOM4MLPNeTm1+nh6+Sh4H9zMhcSG
+         HwZg==
+X-Gm-Message-State: AOJu0YwYQkOAT576z5b5urBAVCy+QGtVtkSQ/RNGEb79pjgzCvFxSZYA
+	Zgfuh7kB+ANWglcMidd8Ks8Igei2thJ2wy3sFWaPOwzwFauCxOuZgQUFH+QYGFginKQi4Q==
+X-Gm-Gg: AeBDievVeIvJIwywDhh2ib4aV9PcC8cZKiPrOCKg4fT5ud0JFLDuMRS3LbgT2Obn1rW
+	+htWtcC52i02rycZj4/KwhPFiRvYreQEh0OaYQQB9ROvCfl4m5EyeHSqZ7FkqTnANHsziAOYBV8
+	1mbZnBNDqT3Dznehn183b+00G+99qYq2II9k35YBnWlRz+m8PZTgD8rDjXOeGRXBkPK/juHd1CH
+	vlNIaDTMCeb+1TMJ9wSubFHc838wAX5wiyALFQe+3l4ZoRj0UL0ZugRreLENVU+uh+SE7lAmk+p
+	WCOBt1MbhlfxeEzk3faJYwpWquqgUnVFN7fTABkHA8thJ+QpwYMDWZvO6h2ri3a5/moLi36a942
+	Q9kGtMK3i1wZRxHLHUTZrPqnNUBOkef5FKwuuwn3+pTkSEiCPD0Tp8hnK1WRJBEM8vspscIZlQO
+	sxNOKt7i3Enn7CRSasm0HqBcoNE/cZps2laA6RXWvV6nAj48omUdCAejX3iQMGsg==
+X-Received: by 2002:a05:6a00:bc90:b0:82f:1e5d:db62 with SMTP id d2e1a72fcca58-82f8c885af2mr35569108b3a.12.1777058505272;
+        Fri, 24 Apr 2026 12:21:45 -0700 (PDT)
+Received: from Air.local ([198.176.50.157])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f8e9819fesm24451492b3a.4.2026.04.24.12.21.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Apr 2026 12:21:44 -0700 (PDT)
+Date: Sat, 25 Apr 2026 03:21:39 +0800
+From: Weiming Shi <bestswngs@gmail.com>
+To: sashiko@lists.linux.dev
+Cc: bpf@vger.kernel.org
+Subject: Re: [PATCH bpf] bpf, sockmap: Fix wrong rsge offset in
+ bpf_msg_push_data()
+Message-ID: <aevCw8YFsFdjyjRh@Air.local>
+References: <20260423155807.1245644-2-bestswngs@gmail.com>
+ <20260424155913.A19FDC19425@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: sashiko@lists.linux.dev
-From: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
-Subject: sashiko racing with maintainer for the review (duplicate work ?)
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=LfYMLDfi c=1 sm=1 tr=0 ts=69eb8f25 cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22 a=lnV3wAflhyng2QR73OYA:9
- a=QEXdDO2ut3YA:10 a=uxP6HrT_eTzRwkO_Te1X:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDI0MDE1MiBTYWx0ZWRfX9JnPBBqe1GjO
- 0NkqdB+ebjyT3WwWWLKpdMhm0SkCr7pswcRcBNYA/rBR2hg5+x3Vla6r/1Ykuo5XnPLFZuooJ81
- RAX/TrPoQmtImA6MWEVW93Yfv1E7W9c5N28pKQZmOw6TLpRLFojxlC2ZVZgjswUm7+oqg084o4H
- ExN773QIsMJ36DjdRZfjOdw2BiFCRSWEZZDV7sYNMVlNW+7RlWQrP0erpAM87QpH+anPTIa/BL2
- HCIjiU3J0nTckFZ252XDGTyc4WhZ8moQ143EmXfbZTKFkYKpYeYfZrPEN5lxCZ/mxqIfpWvZ6F7
- wrFxmTqWY7rhUqx06r8Sz5IqJKtzRTk9oaI51nQgiee6GqqU/G5cxM+M1BN4BkY4cemjN73iHUz
- rItanalRNJP7ivKdoXv2eSMA/EfM42nUR4AvdQ1gVzjLoEDB9CDCRYeSsYyM76Sud1TWeRFfFv+
- 8ydpgqZuSR7yj6APwVA==
-X-Proofpoint-ORIG-GUID: 9XKephvyeEW_uJdbVX9dXhsroBpbx-8o
-X-Proofpoint-GUID: 9XKephvyeEW_uJdbVX9dXhsroBpbx-8o
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-04-24_01,2026-04-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 lowpriorityscore=0 adultscore=0 priorityscore=1501
- malwarescore=0 clxscore=1011 spamscore=0 impostorscore=0 bulkscore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2604200000
- definitions=main-2604240152
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260424155913.A19FDC19425@smtp.kernel.org>
 
+On 26-04-24 15:59, sashiko-bot@kernel.org wrote:
+> Sashiko AI review found 4 potential issue(s):
+> - [Critical] When appending data to a full or nearly full sk_msg, bpf_msg_push_data() reads the length of the wrong scatterlist element, leading to a buffer overflow or ring corruption.
+> - [Critical] Missing bounds check on the 'len' parameter causes an integer overflow and a massive Out-Of-Bounds write.
+> - [Critical] Scatterlist shifts fail to update the msg->sg.copy bitmap, allowing unauthorized modification of shared pages.
+> - [High] Uninitialized kernel memory allocation in bpf_msg_push_data() leads to an Information Leak.
+> --
+> 
+> commit 15a0d48ce1bdcc5941167a3e0c2a258bb5038277
+> Author: Weiming Shi <bestswngs@gmail.com>
+> 
+> bpf, sockmap: Fix wrong rsge offset in bpf_msg_push_data()
+> 
+> When bpf_msg_push_data() splits a scatterlist element into head and
+> tail, the tail's page offset is advanced by start instead of
+> start - offset. This overshoot points to the wrong location within
+> the page or beyond its boundary.
+> 
+> > diff --git a/net/core/filter.c b/net/core/filter.c
+> > index 5fa9189eb772b2..a7a9ea4cb2f9a4 100644
+> > --- a/net/core/filter.c
+> > +++ b/net/core/filter.c
+> > @@ -2860,7 +2860,7 @@ BPF_CALL_4(bpf_msg_push_data, struct sk_msg *, msg, u32, start,
+> >  
+> >  		psge->length = start - offset;
+> >  		rsge.length -= psge->length;
+> > -		rsge.offset += start;
+> > +		rsge.offset += start - offset;
+> >  
+> >  		sk_msg_iter_var_next(i);
+> >  		sg_unmark_end(psge);
+> 
+> This isn't a bug introduced by this patch, but looking at the earlier part
+> of bpf_msg_push_data(), is the len parameter bounds-checked?
+> 
+> net/core/filter.c:bpf_msg_push_data() {
+> ...
+> 	if (!space || (space == 1 && start != offset))
+> 		copy = msg->sg.data[i].length;
+> 
+> 	page = alloc_pages(__GFP_NOWARN | GFP_ATOMIC | __GFP_COMP,
+> 			   get_order(copy + len));
+> ...
+> 		if (back) {
+> 			from += front;
+> 			to = raw + front + len;
+> 
+> 			memcpy(to, from, back);
+> 		}
+> ...
+> }
+> 
+> If a large value is provided for len (e.g., 0xFFFFFFFF), could copy + len
+> overflow 32-bit arithmetic, resulting in a very small allocation?
+> 
+> Later, when calculating to = raw + front + len, does the zero-extended len
+> advance the destination pointer out-of-bounds, causing a massive memory
+> corruption during memcpy()?
+> 
+> Additionally, bpf_msg_push_data() uses alloc_pages() without the
+> __GFP_ZERO flag. After copying the split element's front and back parts,
+> do the middle len bytes remain uninitialized?
+> 
+> Could this allow uninitialized kernel heap data to be added to the sk_msg
+> and leaked over the network when the message is transmitted?
+> 
+> Also, when appending data (start == msg->sg.size), the search loop terminates
+> with i == msg->sg.end. If space <= 1, the code executes
+> copy = msg->sg.data[i].length.
+> 
+> Does this read from an unused slot?
+> 
+> If the slot has a garbage length from a previous pop or shift, could copy
+> take that value, causing alloc_pages() to allocate a smaller size and
+> leading to a kernel heap buffer overflow during the subsequent
+> memcpy(raw, from, front)?
+> 
+> And if the garbage length is 0, could it skip the if (copy) block and
+> increment msg->sg.end without space, corrupting the scatterlist ring array?
+> 
+> Finally, when scatterlist elements are shifted in bpf_msg_pop_data():
+> 
+> net/core/filter.c:sk_msg_shift_left() {
+> ...
+> 	do {
+> 		prev = i;
+> 		sk_msg_iter_var_next(i);
+> 		msg->sg.data[prev] = msg->sg.data[i];
+> 	} while (i != msg->sg.end);
+> ...
+> }
+> 
+> Should the msg->sg.copy bitmap also be shifted?
+> 
+> If a shared page (where the copy bit is 1) is shifted into a slot where
+> the bit is 0, will it be falsely identified as a private page?
+> 
+> Could a subsequent bpf_msg_pull_data() then pass the
+> !test_bit(i, msg->sg.copy) check and return a direct writable pointer to
+> the shared page, enabling unauthorized modification of read-only memory?
+> 
+> -- 
+> Sashiko AI review · https://sashiko.dev/#/patchset/20260423155807.1245644-2-bestswngs@gmail.com?part=1
 
-Hi,
+We verified the findings locally with QEMU. Two of the four issues are
+confirmed with reproducers:
 
-as a maintainer, I don't know if I should spend time on reviewing series 
-while sashiko is may be doing the same review in parallel.
+- copy + len integer overflow leading to heap buffer overflow [1]
+- uninitialized memory leak via alloc_pages without __GFP_ZERO [2]
 
-Is it possible to have sashiko sending an email to the maintainer(s), 
-reviewer(s) telling it began to review, cc'ing the submitter and send 
-another email to the same recipients, telling the review is finished and 
-is ok/nak ?
+Patches sent for both.
+[1] https://lore.kernel.org/all/20260424191602.1522411-3-bestswngs@gmail.com/
+[2] https://lore.kernel.org/all/20260424190310.1520555-2-bestswngs@gmail.com/
 
-That would let me know I should wait while the submitter takes into 
-accounts the sashiko reviews. When sashiko review is ok, then I can 
-review the series
-
-Does it make sense ?
