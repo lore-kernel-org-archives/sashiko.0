@@ -1,244 +1,288 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 108313B6348
-	for <sashiko@lists.linux.dev>; Mon, 27 Apr 2026 12:09:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777291794; cv=pass; b=t4PMbNqmwM0xSHE9ZMy6UfU08CDd85akospwQflrslUNQkPJ3DizwtZ8hGRAArgIOCtzBzKebSysnThJUvx+4VTom0K6IM8bQgzIhvfNcPSJ9HUCfKZBuXzymtD6wwzxJt9ktuq+dxbQP3CjgXG6/bPgtLJ2OJ+HKeor7aSNzAE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777291794; c=relaxed/simple;
-	bh=7ou4NuehRA3k1EdFM5tKEMdVpfctBHvyJJ8DBaw1rjo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Te0gq5LgWR9D7dPCtrOmf2BuBGzlASTCeCyY4GFWWWT93YS6S0MASBGnzbbpKdgA31wk104wTXm819ZDxPjJl0YvgKUseQhHBKFM+cEPn81saB4e3tF1BJxlZFH4yl0eOMYhIHbDj/XMgzLh1sPXOI1wufhMTLE3N/9NncGo5KQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bpYSCim0; arc=pass smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C92A3B52FF
+	for <sashiko@lists.linux.dev>; Mon, 27 Apr 2026 13:37:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777297024; cv=none; b=UTKFLejNczGzph2B0WsscOFVwM4buRwnz2omYMr1jX4ck5crqwOUkHbUXQXsEcbRkrLO4x3HbqX2k13S09j+5KVA3CgoAgbC2kpXPoTU05Tqo7SNolNO63+1QiZGdBAiML7BFzeZ46j2fn201ROlrgg3w41eSrHUibmslKdwjqY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777297024; c=relaxed/simple;
+	bh=A2kEZA/mUAX+IKe4bxE9lYGihE46+gDIYGkZlLhFZVM=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=fcWMP1NkYwBIsAXwn5mf9Z9RXVfjdH9EAijq3rOxvIq9V6+IjdIkKtRfEGWsL3CmzKf45CapbOweK10+UMsns6Ib5IEq5BWC90GsCMCi3ZkHBBVvuWcF5mjFdDpQYtA1HWmHx6YzSNmFjGpzrQ3A6Fi+jcX2tpzLEggDfv//DiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=q0UxIA4I; arc=none smtp.client-ip=209.85.221.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bpYSCim0"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-65c4152313fso13829693a12.1
-        for <sashiko@lists.linux.dev>; Mon, 27 Apr 2026 05:09:51 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777291789; cv=none;
-        d=google.com; s=arc-20240605;
-        b=PZmstafDD8avQHBDKBj+YPF4sd/5xPNyl8An0N+Lgj2dxcow1d+3aL70U51bnnzu1m
-         zPfyqX4h3WdgmL6dt4FIArP4T33AtpcFtDwgmNtNdcl3bSFhX/DxJPMIdzzyavJ3qQWL
-         awd8nJg37fkseZSWsXCGchFyNd+VyMRfeDy80TTNkPUVj3dIiCBrIwsFXYFlgd+IjYIQ
-         co9awuw4Kme0+ZRTaQY8FTlEyk0f4uvwv2iZsfBj5mGzQY1pdrD39lyHA/HAVxGnjEve
-         tDN6Xawdpwwe8yWBJhETxSL+S1cfSXHWg1YyATWP24ZcOhkh+4C3g5tah6kFqzLEmy19
-         +Rhg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=J4ME7vf7epyDcp3Ddjtmm3VoK4g15VbKSQsr+1vhcdc=;
-        fh=7h0izHys8KHgVwAHFbDqh8DXgNjj235aXcN4iZY+6bA=;
-        b=L7uRqyMkfJ8xBxiq0NIctprSc5+YfvwnmAZ5BlY+4lyOMJdmXideJB3S2UA4rIx3cY
-         jVv0DKvQuRYURp7t8aiw1XKPiKxQlxtD6ksloo+brcKVjLgcRGU8J0WkWNNlSg088IgU
-         C2Cpr1Q3WX44MaRvkbq48gXgsCKxmFF/LrurY9asBkaX04bFEFlPBJtZ99oqukUx4/Yj
-         wl2kDxFdxt1IpliaTjAX5H3NAYN4NgOvpFQwivP11DYkOS9E9pfwjgWBEnTqnipK6Jv+
-         boNmT0On/pTXwp2oIcn1Rx8wzpw5Q7tTay5SGh4z8EjiSDvTCHN9LWEP/d+9H17D3gbX
-         JJxQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="q0UxIA4I"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-43fe608cb92so6978953f8f.2
+        for <sashiko@lists.linux.dev>; Mon, 27 Apr 2026 06:37:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777291789; x=1777896589; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=J4ME7vf7epyDcp3Ddjtmm3VoK4g15VbKSQsr+1vhcdc=;
-        b=bpYSCim0yvV4Wfyzz5adGqSt4uwbzdaOH5411ggxZmbnjyy6zz2JVuKUh+FlRSajc4
-         yRFY+Hv5mCMtjwlBHvkUTMeqKkPS8gP6jJx6tBhEhj1qNC7zEVz1TGKpBvhGsjje//An
-         l0v0O7DfGvyIfkXmH7jPlHBtPslN0Jzy4RAbBpPR1EN1X6bCQam3k4w0YrE61oRR0Exq
-         3P3qBMhfaYjNtJShySAJJVwpAg8Ll7qT+haj+FwyPsPcE2slvgFnc7E++C5qtIQ4lYbq
-         R21N5JGuzFrBzidhu1rpot9wk9gxLMCtSRRfRWnNCHu/74w8liiZIqvMNkeT4DCbm+B/
-         HHig==
+        d=gmail.com; s=20251104; t=1777297021; x=1777901821; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=iO+oY1egBOAvuRjfbGOHHFDWrDQrN8K7iEqFSlKJEq4=;
+        b=q0UxIA4IIqcUzSjy5N590RFaKPzLsEoTz+FvgRiD7GTL2fLCPk/DHTHpIcwvsd3OAg
+         UXD4sPHjQxMLb1JBLhLgGgXhgCySKlGDuKr4HqH/13polvuLMg/zQOF+7bI8M+yYl13q
+         sQCuIF4AfVapAwpbhI9GbNit0Twdk89wLVzVWVsFCgrM3LkH/Gj1mUOyeE4k5cqe2DCU
+         A/QGDyO7hdqeMO40LlDP4TDRLL44ZQrATd69XGDrdvRruOY3sZVrE7BO1zYMxNutRz0R
+         soApybMi1XIGsTlXcs81ASsPdbexEyqCyvDKElu4jetxH9tITtlrXhX+igyvnd91KZVB
+         CzNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777291789; x=1777896589;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=J4ME7vf7epyDcp3Ddjtmm3VoK4g15VbKSQsr+1vhcdc=;
-        b=DJ5RGX3nJ1l7yPLiLQO3YKkYJLDL5Tew3iVZBAf4a2abOVoDGq+vPpGWGMPAycJCnw
-         hl1jc6bjqE2awDgKNx6MwatiqJ28H3mMLhBmm+IzS5GP/dwYFf7teOLyd5Yusg/lGhVf
-         ceUzBMY8LD1qHvW9CNF7o5ZPlpoWCF8HbzhdysrhOjvoNa8HHzh5wovysEa7Fdv1BVXQ
-         JkuRWFgSdKmtZNtp4Oivramv9hkZFJXfab+W88rlgnQZm5zdiYGI+aF75kHHnBsXgX7x
-         f6KfuZdSnnxaZPtbo8oPX9e1IWcNTLnnbZIwfs7duya71/I5V17PLiQyg40TKQG2E46X
-         HMiw==
-X-Gm-Message-State: AOJu0YxiCXAh/eCMaGkUpuZhqf2zBI7JOXowxgF4ErwI7ny3RarOK43H
-	B5MwHJuj87NipwizQuavCjMRIrHVxgBPADseqZPGEmg+SwJUNn8IlxWdf9DSOLHP+htNYFMmsml
-	k414J0N1o/WKuwlrvjDHB7pjSbMyAvDc0ltPn
-X-Gm-Gg: AeBDieuUz8sIDI5yue10NRcK+WkppDJXqJb/V0KUjghIFFy5KRfmkMDU7qzEBngTLml
-	K1Xi8BBs2o+ZCsXAXsrG+etXzarpLV2/SwHkdhSdXK5o5qUsUGVuhMgCge2LFBk+fD+84sFy+WK
-	hZKKES0bWAlnMjAURJKOsFlqP2bSwP2fidt7behTNGA0uKmz3szucYw1hHuXVYB6K7udgg3/w0+
-	9dqYwSqpfJNq34cJeRh9Q9F1+OphGW9xsnvGo4w0KWggBcadpFRSur4e5mnEN2YOPiXgn34n53u
-	HMK2mr4bM3D3lAVh5ZN+5SNnPvRWRyL6vXDaRHblkeGR
-X-Received: by 2002:a05:6402:90b:b0:66a:8002:fe17 with SMTP id
- 4fb4d7f45d1cf-672bfdc964cmr18132483a12.13.1777291789297; Mon, 27 Apr 2026
- 05:09:49 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1777297021; x=1777901821;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=iO+oY1egBOAvuRjfbGOHHFDWrDQrN8K7iEqFSlKJEq4=;
+        b=QoovC1nxWYYcsYIbrf3pnOvrPR/PIz60h6wCx2X4+5PwWP7RaDXtnEVDyNgr8pahs7
+         s0mj33GQ9mtmSL8xYBZX5pFSZQxdntDgp8ookWLEkV6ylD+AhGF/mq+fE/Af03nK1YfZ
+         jr92wnDQ4Q0Y6FvBMtOltk0Ue8ga2pg9LoZbHD+e55UFfA44WnvGP6xcwp7sI8ScbuJt
+         cMZTLwIEqCRnzhkv+0UZ5Pe3vj9KBPSM46B3hI7D84z2armzKwIdkq2cFJvGVcrJKzw/
+         EDgC+389zgwqvys7vGhcpLjhYKd3f82n1CcxFmpKB7mzb8c6MHMkS7Kv/DHM8H+BeCg5
+         8Qtw==
+X-Gm-Message-State: AOJu0YwYFaVwlk2UjBQiqs8zVDojNcPEi0Qr0B1Xc7mvGS/ymHdyhr2a
+	0IQmigdjEuRXOLnBCAOqHwpLTV/TOwpuUZ6SivsZkCTjkdtSkZlxMFw7PZ2/XoPaCDg=
+X-Gm-Gg: AeBDieulL63k5CCc8fnqOiDtlTJjzuGFRlY6kBpHSIUNeQ07HyXYa7Uk+jo93UAN7wi
+	a6tqQ/cb7dZgfPp+zkJ+E2byliqKl1xq7O8qwXdrUW9LG4fGKwLIJFyE3vo+ic2PXX/s15Qlqhe
+	4IfwJgGRX2/htafS5vsYo32+X30934/kA3v8iQWlAfpEV/vFB2YOOGbfASKz0yGkbhBx628Gi7t
+	ihaGtd3yXqu0xDsmhxLjTIPp3fOHoCHBydEDpt38AtQPM/xiy/HGY4DTA7yCl4kcLfajOOL0BTU
+	MCvTOdzqU79ZSLjqNZzgiWuiHFEmgNXXKrIGp0eLfZAA3GZ6FcHb7vnFmcVN1klpncUTUGL6Yuz
+	zyuCnzefTtYHAyWs2m8UzR9eBI2X+0LarkeX1F8mrUdd3+WXdL9V5HK58OgYTmJFXHVbjuIDrml
+	7A1ptRu5W5WC2g34MhDStLEYaRXg0tfdGedBPhxZqhpARmVjSKnZYAFn5gIj1KYk8K5DqD2w==
+X-Received: by 2002:a05:6000:2dc2:b0:441:2473:c30a with SMTP id ffacd0b85a97d-4412473c325mr36907508f8f.31.1777297020570;
+        Mon, 27 Apr 2026 06:37:00 -0700 (PDT)
+Received: from ?IPV6:2a03:83e0:1126:4:41c:7d40:6eb8:2571? ([2620:10d:c092:500::4:d898])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4e4daf2sm78164747f8f.33.2026.04.27.06.36.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 Apr 2026 06:37:00 -0700 (PDT)
+Message-ID: <f884c8f3-8516-4852-9460-57fbf806fc86@gmail.com>
+Date: Mon, 27 Apr 2026 14:36:59 +0100
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260413185740.3286146-4-puranjay@kernel.org> <20260413203144.EA85BC2BCAF@smtp.kernel.org>
-In-Reply-To: <20260413203144.EA85BC2BCAF@smtp.kernel.org>
-From: Puranjay Mohan <puranjay12@gmail.com>
-Date: Mon, 27 Apr 2026 13:09:35 +0100
-X-Gm-Features: AVHnY4IAGYvtHVIU7hTjO364ldbCcFwSbQm2aFRg9p1ZdindgBj_OF_5KAAxkP4
-Message-ID: <CANk7y0hHok1WBKmxr=bm7U+Ya0NGNZ+AL2cdGtJbxWU71huSvg@mail.gmail.com>
-Subject: Re: [PATCH v3 3/4] perf/arm64: Add BRBE support for bpf_get_branch_snapshot()
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH bpf-next v3 04/10] bpf: Implement batch ops and iterators
+ for resizable hashtab
+From: Mykyta Yatsenko <mykyta.yatsenko5@gmail.com>
 To: sashiko@lists.linux.dev
-Cc: linux-perf-users@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Cc: bpf@vger.kernel.org
+References: <20260424-rhash-v3-4-d0fa0ce4379b@meta.com>
+ <20260424202858.7DD0FC19425@smtp.kernel.org>
+ <dd0057c1-e0b2-4559-afe9-2bf19760f68b@gmail.com>
+Content-Language: en-US
+In-Reply-To: <dd0057c1-e0b2-4559-afe9-2bf19760f68b@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Apr 13, 2026 at 9:31=E2=80=AFPM <sashiko-bot@kernel.org> wrote:
->
-> Sashiko AI review found 4 potential issue(s):
-> - [High] arm_brbe_snapshot_branch_stack executes BRBE system register rea=
-ds without validating CPU support, leading to an Undefined Instruction kern=
-el panic on asymmetric systems.
-> - [High] arm_brbe_snapshot_branch_stack destructively clears the hardware=
- branch buffer, corrupting data for concurrent perf sessions.
-> - [High] A TOCTOU race can unintentionally re-enable BRBE after it was ex=
-plicitly disabled by a PMU interrupt, corrupting hardware state.
-> - [Medium] Missing isb() context synchronization after unpausing BRBE cau=
-ses missed branch records.
-> --
->
-> commit ce06705327b522bc73c923ff4219c198fe71f3b4
-> Author: Puranjay Mohan <puranjay@kernel.org>
-> Subject: perf/arm64: Add BRBE support for bpf_get_branch_snapshot()
->
-> This commit enables bpf_get_branch_snapshot() on ARM64 by implementing th=
-e
-> perf_snapshot_branch_stack static call for BRBE. It pauses BRBE, masks
-> exceptions, reads branch records, and then invalidates the buffer.
->
-> > diff --git a/drivers/perf/arm_brbe.c b/drivers/perf/arm_brbe.c
-> > index ba554e0c846c4..fd62019ddc839 100644
-> > --- a/drivers/perf/arm_brbe.c
-> > +++ b/drivers/perf/arm_brbe.c
->
-> [ ... ]
->
-> > +/*
-> > + * Best-effort BRBE snapshot for BPF tracing. Pause BRBE to avoid
-> > + * self-recording and return 0 if the snapshot state appears disturbed=
-.
-> > + */
-> > +int arm_brbe_snapshot_branch_stack(struct perf_branch_entry *entries, =
-unsigned int cnt)
-> > +{
-> > +     unsigned long flags;
-> > +     int nr_hw, nr_copied =3D 0;
-> > +     u64 brbfcr, brbcr;
-> > +
-> > +     if (!cnt)
-> > +             return 0;
-> > +
-> > +     /*
-> > +      * Pause BRBE first to avoid recording our own branches. The
-> > +      * sysreg read/write and ISB are branchless, so pausing before
-> > +      * checking BRBCR avoids polluting the buffer with our own
-> > +      * conditional branches.
-> > +      */
-> > +     brbfcr =3D read_sysreg_s(SYS_BRBFCR_EL1);
->
-> On asymmetric systems (like big.LITTLE) where only a subset of CPU cores
-> implement BRBE, the perf_snapshot_branch_stack static call is enabled
-> globally. If a BPF program invokes this snapshot on a CPU lacking BRBE,
-> will this unconditionally execute read_sysreg_s(SYS_BRBFCR_EL1) and
-> trigger an Undefined Instruction exception kernel panic?
->
-> Does this need a local CPU feature check before accessing these registers=
-?
 
-I had this in the previous version, but Rob explained that this
-doesn't happen in practice so I removed it.
 
->
-> > +     brbcr =3D read_sysreg_s(SYS_BRBCR_EL1);
-> > +     write_sysreg_s(brbfcr | BRBFCR_EL1_PAUSED, SYS_BRBFCR_EL1);
-> > +     isb();
-> > +
-> > +     /* Bail out if BRBE is not enabled (BRBCR_EL1 =3D=3D 0). */
-> > +     if (!brbcr) {
-> > +             write_sysreg_s(brbfcr, SYS_BRBFCR_EL1);
-> > +             return 0;
-> > +     }
-> > +
-> > +     /* Block local exception delivery while reading the buffer. */
-> > +     flags =3D local_daif_save();
-> > +
-> > +     /*
-> > +      * A PMU overflow before local_daif_save() could have re-enabled
-> > +      * BRBE, clearing the PAUSED bit. The overflow handler already
-> > +      * restored BRBE to its correct state, so just bail out.
-> > +      */
-> > +     if (!(read_sysreg_s(SYS_BRBFCR_EL1) & BRBFCR_EL1_PAUSED)) {
->
-> Can a TOCTOU race unintentionally re-enable BRBE if a PMU interrupt fires
-> before exceptions are masked?
->
-> If the PMU overflow interrupt decides to stop the event, it calls
-> brbe_disable(), which sets SYS_BRBCR_EL1 to 0 and sets the PAUSED bit in
-> SYS_BRBFCR_EL1.
->
-> Upon returning from the interrupt, the PAUSED bit would still be set, so
-> this check evaluates to false and proceeds. At the end of the function,
-> the cached brbcr (which was > 0) and brbfcr are written back, which would
-> unintentionally re-enable BRBE in hardware without an active perf event.
->
-> > +             local_daif_restore(flags);
-> > +             return 0;
-> > +     }
-> > +
-> > +     nr_hw =3D FIELD_GET(BRBIDR0_EL1_NUMREC_MASK,
-> > +                       read_sysreg_s(SYS_BRBIDR0_EL1));
-> > +
-> > +     for_each_brbe_entry(i, nr_hw) {
-> > +             if (nr_copied >=3D cnt)
-> > +                     break;
-> > +
-> > +             if (!perf_entry_from_brbe_regset(i, &entries[nr_copied], =
-NULL))
-> > +                     break;
-> > +
-> > +             nr_copied++;
-> > +     }
-> > +
-> > +     brbe_invalidate();
->
-> Does calling brbe_invalidate() here destructively clear the hardware bran=
-ch
-> buffer?
->
-> Since BPF branch snapshots are intended to be non-destructive observation=
-s,
-> wiping out the hardware branch buffer could permanently destroy the branc=
-h
-> history for a concurrently active perf session.
->
-> > +
-> > +     /* Restore BRBCR before unpausing via BRBFCR, matching brbe_enabl=
-e(). */
-> > +     write_sysreg_s(brbcr, SYS_BRBCR_EL1);
-> > +     isb();
-> > +     write_sysreg_s(brbfcr, SYS_BRBFCR_EL1);
->
-> Is an explicit isb() missing after writing to SYS_BRBFCR_EL1?
->
-> Since MSR instructions to system registers are not context synchronizing,
-> the processor may delay unpausing BRBE. Could this result in missed
-> branch records until the next context synchronization event naturally occ=
-urs?
->
-> > +     local_daif_restore(flags);
-> > +
-> > +     return nr_copied;
-> > +}
->
-> --
-> Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260413185740.32=
-86146-1-puranjay@kernel.org?part=3D3
+On 4/25/26 10:24 PM, Mykyta Yatsenko wrote:
+> 
+> 
+> On 4/24/26 9:28 PM, sashiko-bot@kernel.org wrote:
+>> Sashiko AI review found 4 potential issue(s):
+>> - [High] Cursor invalidation in batch and seq_file iterators causes O(N^2) complexity and infinite loops.
+>> - [High] Unbounded RCU read lock duration in batch operations allows user-triggered RCU stalls.
+>> - [High] Map iterators and seq_file dumps spuriously abort during normal background resizes.
+>> - [High] Deadlock risk in `bpf_each_rhash_elem` due to acquiring `spin_lock` from atomic contexts.
+>> --
+>>
+>> commit 9f7ce51619eb27e8a4a65df12f862e12e34bc285
+>> Author: Mykyta Yatsenko <yatsenko@meta.com>
+>>
+>> bpf: Implement batch ops and iterators for resizable hashtab
+>>
+>> This commit adds batch operations for resizable hashtab maps, using
+>> rhashtable_walk_enter_from() to resume iteration. It also wires up
+>> seq_file BPF iterators and implements rhtab_map_mem_usage().
+>>
+>>> diff --git a/kernel/bpf/hashtab.c b/kernel/bpf/hashtab.c
+>>> index d37f3d548d3658..000caa2c7f4cd9 100644
+>>> --- a/kernel/bpf/hashtab.c
+>>> +++ b/kernel/bpf/hashtab.c
+>>
+>> [ ... ]
+>>
+>>> @@ -3066,64 +3066,330 @@ static int rhtab_map_get_next_key(struct bpf_map *map, void *key, void *next_key
+>>> +static long bpf_each_rhash_elem(struct bpf_map *map, bpf_callback_t callback_fn,
+>>> +				void *callback_ctx, u64 flags)
+>>> +{
+>>
+>> [ ... ]
+>>
+>>> +	/*
+>>> +	 * The rhashtable walk API uses spin_lock in rhashtable_walk_start/stop,
+>>> +	 * which is not safe in NMI or soft/hard IRQ context.
+>>> +	 */
+>>> +	if (in_nmi() || in_hardirq() || in_softirq())
+>>> +		return -EOPNOTSUPP;
+>>> +
+>>> +	rhashtable_walk_enter(&rhtab->ht, &iter);
+>>
+>> Does this adequately protect against deadlocks when called from kprobes or
+>> tracepoints in process context with preemption disabled?
+>>
+>> If a thread currently holding ht->lock (e.g., during map insertion) is
+>> interrupted by a kprobe that runs this BPF program, attempting to acquire
+>> the same spin_lock inside rhashtable_walk_enter() might cause a deadlock.
+>>
+>>> +	rhashtable_walk_start(&iter);
+>>> +
+>>> +	while ((elem = rhashtable_walk_next(&iter))) {
+>>> +		/* rhashtable_walk_next returns -EAGAIN on resize, abort */
+>>> +		if (IS_ERR(elem)) {
+>>> +			num_elems = -EBUSY;
+>>> +			break;
+>>> +		}
+>>
+>> Is it expected to abort the entire iteration if a background map resize
+>> occurs? 
+>>
+>> rhashtable_walk_next() returns -EAGAIN to indicate the table was resized and
+>> the iterator was rewound. Since resizable hashtabs automatically resize
+>> during normal workloads, returning -EBUSY here could cause
+>> bpf_for_each_map_elem() and bpftool map dumps to randomly fail.
+>>
+>> Should this handle -EAGAIN by retrying or continuing the walk instead?
+> 
+> No, resize is not handled automatically.
+> 
+>>
+>> [ ... ]
+>>
+>>> +static int __rhtab_map_lookup_and_delete_batch(struct bpf_map *map,
+>>> +					       const union bpf_attr *attr,
+>>> +					       union bpf_attr __user *uattr,
+>>> +					       bool do_delete)
+>>> +{
+>>
+>> [ ... ]
+>>
+>>> +	/*
+>>> +	 * Use the last key from the previous batch as cursor.
+>>> +	 * enter_from positions at that key's bucket, walk_next
+>>> +	 * returns the successor in O(1).
+>>> +	 * First call (ubatch == NULL): starts from bucket 0.
+>>> +	 */
+>>> +	if (ubatch) {
+>>> +		buf = kmalloc(key_size, GFP_USER | __GFP_NOWARN);
+>>> +		if (!buf) {
+>>> +			ret = -ENOMEM;
+>>> +			goto free;
+>>> +		}
+>>> +		if (copy_from_user(buf, ubatch, key_size)) {
+>>> +			ret = -EFAULT;
+>>> +			goto free;
+>>> +		}
+>>> +	}
+>>> +
+>>> +	scoped_guard(rcu) {
+>>> +		rhashtable_walk_enter_from(&rhtab->ht, &iter, buf, rhtab->params);
+>>> +		rhashtable_walk_start(&iter);
+>>> +	}
+>>
+>> If the key stored in buf was already deleted, will this iteration restart
+>> from the beginning of the map?
+>>
+> 
+>  
+> yes, if cursor is deleted, iteration is restarted.
+> 
+>> Looking at rhashtable_walk_enter_from(), if it fails to find the key, it
+>> leaves iter->slot at 0. Then rhashtable_walk_start() and walk_next() will
+>> start from bucket 0 instead of where the previous batch left off.
+>>
+>> Since lookup_and_delete_batch deletes the elements returned in the previous
+>> batch, the cursor key will always be deleted. Could this cause the iterator
+>> to repeatedly scan over all emptied buckets, resulting in an expensive
+>> traversal?
+>>
+> 
+> If too many elements are deleted, the table will be resized, so the
+> number of empty buckets traversed should not be very big. But this is a
+> good point, we may not need to store the cursor at all.
+
+Probably a safer fix would be just to use the next element as a cursor.
+
+> 
+>> Similarly, for lookup_batch and seq_file dumps, if the cursor is
+>> concurrently deleted, could this trap userspace in an infinite loop of
+>> duplicate elements?
+>>
+> 
+> This should not cause infinite loop, if cursor is deleted every time,
+> we'll run out of elements. Table resize exposes any iterators to the risk
+> of duplicate elements, it's up to user to make sure table is in steady
+> state when iterating.
+> 
+>>> +
+>>> +	dst_key = keys;
+>>> +	dst_val = values;
+>>> +	total = 0;
+>>> +
+>>> +	while (total < max_count) {
+>>> +		elem = rhtab_iter_next(&iter);
+>>> +		if (!elem)
+>>> +			break;
+>>
+>> Can this loop cause RCU stalls or soft lockups if max_count is very large? 
+>>
+>> The max_count parameter is controlled by userspace. Since
+>> rhashtable_walk_start() acquires the RCU read-side critical section, this
+>> loop might iterate, copy memory, and process millions of elements without
+>> ever dropping the RCU lock or calling cond_resched().
+>>
+>  
+> Existing htab does handle this situation; maybe splitting big batch into
+> smaller chunks with 
+> ```
+> rcu_read_unlock();
+> bpf_enable_instrumentation();
+> ```
+> in between will help.
+> 
+>> [ ... ]
+>>
+>>> +static void *bpf_rhash_map_seq_start(struct seq_file *seq, loff_t *pos)
+>>> +	__acquires(RCU)
+>>> +{
+>>
+>> [ ... ]
+>>
+>>> +	elem = rhashtable_walk_next(&info->iter);
+>>> +	/* rhashtable_walk_next returns -EAGAIN on resize, abort */
+>>> +	if (IS_ERR(elem))
+>>> +		return ERR_PTR(-EBUSY);
+>>
+>> Similar to bpf_each_rhash_elem, will returning -EBUSY here on normal hash
+>> table resizes cause userspace map dumps to fail spuriously?
+>>
+>  
+> This is by design.
+> 
+>> [ ... ]
+>>
+>>> +static void *bpf_rhash_map_seq_next(struct seq_file *seq, void *v, loff_t *pos)
+>>> +{
+>>
+>> [ ... ]
+>>
+>>> +	elem = rhashtable_walk_next(&info->iter);
+>>> +	/* rhashtable_walk_next returns -EAGAIN on resize, abort */
+>>> +	if (IS_ERR(elem))
+>>> +		return ERR_PTR(-EBUSY);
+>>> +
+>>> +	return elem;
+>>> +}
+>>
+>> Again, aborting on -EAGAIN here might interrupt the map dump when a resize
+>> happens in the background. Is there a way to handle -EAGAIN without failing
+>> the entire sequence?
+>>
+> 
+
