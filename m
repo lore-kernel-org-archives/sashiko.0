@@ -1,38 +1,38 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5711359A6C
-	for <sashiko@lists.linux.dev>; Wed, 29 Apr 2026 21:31:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7BDC375F96
+	for <sashiko@lists.linux.dev>; Wed, 29 Apr 2026 21:59:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777498292; cv=none; b=hCUDXS25wTPhA98jhvwNb1HCE9lnZOINLpwyJbSmrT5faeyeBrzlS57s/yc1Aj88zODXMDOKGgah6NxED7Y0DyeoKDQIgNuvQFm55piq/GAGFIS7Sh7nNmJlIfF8DuLHjkgpZ42kY+eFmLamVeiSKHbdW9pn5lSe1EDS0FY+tpE=
+	t=1777499987; cv=none; b=UhesrrXBtEpTkT9YE1qhg7x0i2vc+HuvjDgPFLtAlZIyFH25iB2A87IwJ7TTrXZWI8OLwcI0FAO1ateNxiN6NLLhgxBwniUTD4huShnthAhcaEeqpf4Rm7c6XRj09BXU6WnZnLWgX8G4REE3fd2mFpAdqqDKa1P+PCkhoyBpgTo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777498292; c=relaxed/simple;
-	bh=+My9DTjOCuWyhF3CS8RgMFRbM0cHQ68Q7W+MomrR2dI=;
+	s=arc-20240116; t=1777499987; c=relaxed/simple;
+	bh=BORUCfMcLwQFjc0MMtWSijymVIr2LiRqqs8Jf4GbivM=;
 	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:From:To:
-	 References:In-Reply-To; b=IsEjah9RN35z6aLi3vjGw7F/G4RprcCm7WRV8im0oiHIjdLKWEpq5cCB5EQynzjsrCXt20F4FQViwZbewstMnrSsra4yyBZm9VtWGvHZzVpWWgWvD9Hy6T2LwdG2vLKXYJzp8cEwW+HRvsS1ppSFwH+hi2FvkCwHycKbOEN8qM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=S7JyE9z0; arc=none smtp.client-ip=185.246.84.56
+	 References:In-Reply-To; b=LY7sS4VpdgPeyovD1hC66fK89hVD0ixqv3h06b6+BXsZU9NobYr3+en9lHIpMcdO9DGiTUZH7I2q9s8mnmsKESWpSjk7MKANV92g0PXKdM5YhdiRzooFy2V6/8CJ3qpT/kLqmFLmMHQ+I/P3VcooIaZa+VVXsw5fKhFCnK/430o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=zYM1R7x9; arc=none smtp.client-ip=185.171.202.116
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="S7JyE9z0"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="zYM1R7x9"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 3CA1F1A347A
-	for <sashiko@lists.linux.dev>; Wed, 29 Apr 2026 21:31:28 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 53050C5CD5D
+	for <sashiko@lists.linux.dev>; Wed, 29 Apr 2026 22:00:26 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id F142A5FD43;
-	Wed, 29 Apr 2026 21:31:27 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 076EF1072B383;
-	Wed, 29 Apr 2026 23:31:26 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 065E95FD43;
+	Wed, 29 Apr 2026 21:59:42 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 39CA01072B29B;
+	Wed, 29 Apr 2026 23:59:40 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1777498287; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1777499981; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=lCWh6tcZi9k3OV9RSuqq38Tvxh/sTNtCBC/zukANFHM=;
-	b=S7JyE9z0P7UerB5WFHq+rvcwzKIuIAcvzzH1TlWgzRp61FPF8OAr2I/0UnM0Qg+WRluGcC
-	vhxlHfZYENDs+eT6XTme7hlhWaB7lOVp4H6mBPHhE/v5nDcOwDK0pIDXw1hsz/h1/Xmz8c
-	9CY/7jHgNKBYWWdcAAyxqZsiIrsjAWAoTxNBDFPOzij/5EVGEGYn7G8/o1tDhHdM15hUV9
-	4JoGt1EApZM2oBezHhcnUuYBuP2iNNiYmLaXMGwYGkreetROLgxvTYLYCIlc5FILtGxgei
-	AuSpYKI355vYAVsSNyyzCwLgznw3l+0xgUb28RWGlRoJWdUR0vmicDZ9dFziDA==
+	bh=17Ieqez20ddO86cLwBFV5a8flr66siV3U2xPZKWlp+o=;
+	b=zYM1R7x9u4BLYQE5+g+7evwKDjVzryGFfpudLNzIwU/4FBVrv4HBp0wUmykVMa4OWC6ARm
+	D24/8TIEms88f7xDjNyamTHAVDKoXBV7QKomJNwRPGx6sxxbU9SeaP0w5ESn2mBwSnoCZC
+	S+Qg6hxGaeHqVV8RCXRaB53Ii/I+ceW4QqThCNuu0bZDIy1YHhDropUcPM+xtXPvSdTnha
+	YQtpW2v1xLCZRLDMd8POwiFxjh5nuBCkt/kM1ZHrSmczcD2lK1yGPV4XARTjQU39zHESqB
+	DLfIlcqoTWVDrdVpGIsZd3F0SWw7VPjKvlUVMUpdRuhj79xT11n2yDV6x1oaBg==
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
@@ -41,133 +41,160 @@ List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Wed, 29 Apr 2026 23:31:26 +0200
-Message-Id: <DI5YJZV8HWWA.2Y1YLSO42IH4D@bootlin.com>
-Subject: Re: [PATCH RFC bpf-next 4/8] bpf, x86: add helper to emit kasan
- checks in x86 JITed programs
+Date: Wed, 29 Apr 2026 23:59:40 +0200
+Message-Id: <DI5Z5M5V99JY.3JRWFJY5MLVZS@bootlin.com>
+Subject: Re: [PATCH RFC bpf-next 5/8] bpf, x86: emit KASAN checks into x86
+ JITed programs
 Cc: <bpf@vger.kernel.org>
 From: =?utf-8?q?Alexis_Lothor=C3=A9?= <alexis.lothore@bootlin.com>
 To: <sashiko@lists.linux.dev>,
  =?utf-8?b?QWxleGlzIExvdGhvcsOpIChlQlBGIEZvdW5kYXRpb24p?=
  <alexis.lothore@bootlin.com>
 X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260413-kasan-v1-4-1a5831230821@bootlin.com>
- <20260425054606.612E9C2BCB0@smtp.kernel.org>
-In-Reply-To: <20260425054606.612E9C2BCB0@smtp.kernel.org>
+References: <20260413-kasan-v1-5-1a5831230821@bootlin.com>
+ <20260425060828.1DAF8C2BCB0@smtp.kernel.org>
+In-Reply-To: <20260425060828.1DAF8C2BCB0@smtp.kernel.org>
 X-Last-TLS-Session-Version: TLSv1.3
 
-On Sat Apr 25, 2026 at 7:46 AM CEST, sashiko-bot wrote:
+On Sat Apr 25, 2026 at 8:08 AM CEST, sashiko-bot wrote:
 > Sashiko AI review found 3 potential issue(s):
-> - [High] Missing call depth accounting for Retbleed mitigations leads to =
-call depth counter underflow.
-> - [Medium] BPF_ST instructions are incorrectly classified as memory reads=
- instead of writes.
-> - [Low] Flawed stack realignment logic wastes stack space.
+> - [High] Missing KASAN instrumentation for immediate-based memory stores =
+(BPF_ST | BPF_MEM) and incorrect write detection.
+> - [High] Missing KASAN instrumentation for standard atomic memory operati=
+ons (BPF_STX | BPF_ATOMIC).
+> - [High] Incorrect IP calculation in emit_kasan_check() leads to wrong ju=
+mp offsets and kernel crashes when IBT is enabled.
 > --
-
-[...]
-
->> @@ -1301,6 +1305,95 @@ static void emit_store_stack_imm64(u8 **pprog, in=
-t reg, int stack_off, u64 imm64
->>  	emit_stx(pprog, BPF_DW, BPF_REG_FP, reg, stack_off);
->>  }
->> =20
->> +static int emit_kasan_check(u8 **pprog, u32 addr_reg, struct bpf_insn *=
-insn,
->> +			    u8 *ip, bool accesses_stack)
->> +{
->> +#ifdef CONFIG_BPF_JIT_KASAN
->> +	bool is_write =3D BPF_CLASS(insn->code) =3D=3D BPF_STX;
 >
-> Does this code incorrectly classify BPF_ST instructions as memory reads?
+> commit bdea14177f5d099598de93e92ea9aecf3714ba64
+> Author: Alexis Lothor=C3=A9 (eBPF Foundation) <alexis.lothore@bootlin.com=
 >
-> The BPF instruction set includes the BPF_ST class for storing immediate
-> values into memory. Because BPF_CLASS(insn->code) for BPF_ST evaluates to
-> 0x02, the is_write condition evaluates to false. This causes the helper t=
-o
-> inject KASAN load checks instead of store checks, leading to inaccurate
-> error reporting.
+>
+> bpf, x86: emit KASAN checks into x86 JITed programs
+>
+> This commit inserts KASAN shadow memory checks before load and store
+> operations in JIT-compiled BPF programs. It aims to detect memory safety =
+bugs
+> while explicitly skipping stack accesses and faulting PROBE instructions.
+>
+>> diff --git a/arch/x86/net/bpf_jit_comp.c b/arch/x86/net/bpf_jit_comp.c
+>> index b90103bd00809..111fe1d551219 100644
+>> --- a/arch/x86/net/bpf_jit_comp.c
+>> +++ b/arch/x86/net/bpf_jit_comp.c
+> [ ... ]
+>> @@ -2242,6 +2244,11 @@ st:			if (is_imm8(insn->off))
+>>  		case BPF_STX | BPF_MEM | BPF_H:
+>>  		case BPF_STX | BPF_MEM | BPF_W:
+>>  		case BPF_STX | BPF_MEM | BPF_DW:
+>> +			err =3D emit_kasan_check(&prog, dst_reg, insn,
+>> +					       image + addrs[i - 1],
+>> +					       accesses_stack);
+>> +			if (err)
+>> +				return err;
+>>  			emit_stx(&prog, BPF_SIZE(insn->code), dst_reg, src_reg, insn->off);
+>>  			break;
+>
+> Is the correct instruction pointer being passed to emit_kasan_check() her=
+e?
+>
+> Earlier in do_jit(), the local ip variable is updated to account for
+> conditionally emitted prefixes:
+>
+>     if (bpf_insn_is_indirect_target(env, bpf_prog, i - 1))
+>         EMIT_ENDBR();
+>
+>     ip =3D image + addrs[i - 1] + (prog - temp);
+>
+> Passing image + addrs[i - 1] directly ignores the size of the ENDBR prefi=
+x.
+> Could this cause the relative jump offset in emit_call() to be off by 4
+> bytes, leading to a kernel crash when branching to the KASAN function?
 
-This helper is called in do_jit only for BPF_STX and BPF_LDX insns in the n=
-ext
-commit, so it will never wrongly classify wrongly a BPF_ST insn. But I
-can add a comment, or even enforce a stricter check to make it
-future-proof.
+I have CONFIG_X86_KERNEL_IBT=3Dy in my testing kernel, so if that's indeed
+a valid scenario, I may have been lucky (or rather, unlucky) to not see the
+corresponding crash while running the full selftests set. I'll dig into
+that.
 
->> +	u32 bpf_size =3D BPF_SIZE(insn->code);
->> +	s32 off =3D insn->off;
->> +	u8 *prog =3D *pprog;
->> +	void *kasan_func;
->> +
->> +	if (accesses_stack)
->> +		return 0;
->> +
->> +	/* Derive KASAN check function from access type and size */
->> +	switch (bpf_size) {
+> Additionally, looking at the code surrounding this hunk:
+>
+>         /* ST: *(u8*)(dst_reg + off) =3D imm */
+>     case BPF_ST | BPF_MEM | BPF_B:
+>         if (is_ereg(dst_reg))
+>             EMIT2(0x41, 0xC6);
+>         else
+>             EMIT1(0xC6);
+>         goto st;
+> [ ... ]
+>     case BPF_ST | BPF_MEM | BPF_DW:
+>         EMIT2(add_1mod(0x48, dst_reg), 0xC7);
+>
+> st:     if (is_imm8(insn->off))
+>             EMIT2(add_1reg(0x40, dst_reg), insn->off);
+>         else
+>             EMIT1_off32(add_1reg(0x80, dst_reg), insn->off);
+>
+>         EMIT(imm32, bpf_size_to_x86_bytes(BPF_SIZE(insn->code)));
+>         break;
+>
+> Are immediate-based memory stores (BPF_ST | BPF_MEM) meant to be skipped?
+
+As mentioned in the previous comments, BPF_ST/BPF_LD are indeed meant to
+be skipped.
+
+> Unlike BPF_STX, there is no emit_kasan_check() added here, which seems to
+> allow uninstrumented writes to kernel memory.
+>
+> If instrumentation is added here, there might be a second issue. Looking =
+at
+> the helper:
+>
+> static int emit_kasan_check(..., struct bpf_insn *insn, ...)
+> {
+>     bool is_write =3D BPF_CLASS(insn->code) =3D=3D BPF_STX;
+>     ...
+> }
+>
+> Since BPF_ST has a different class, would this evaluate to false and
+> incorrectly emit a read check instead of a write check?
 >
 > [ ... ]
+>> @@ -2390,6 +2397,12 @@ st:			if (is_imm8(insn->off))
+>>  				/* populate jmp_offset for JAE above to jump to start_of_ldx */
+>>  				start_of_ldx =3D prog;
+>>  				end_of_jmp[-1] =3D start_of_ldx - end_of_jmp;
+>> +			} else {
+>> +				err =3D emit_kasan_check(&prog, src_reg, insn,
+>> +						       image + addrs[i - 1],
+>> +						       accesses_stack);
+>> +				if (err)
+>> +					return err;
+>>  			}
+>>  			if (BPF_MODE(insn->code) =3D=3D BPF_PROBE_MEMSX ||
+>>  			    BPF_MODE(insn->code) =3D=3D BPF_MEMSX)
 >
->> +	/* Save r10 */
->> +	EMIT2(0x41, 0x52);
->> +	/* Save r11 */
->> +	EMIT2(0x41, 0x53);
->> +	/* We have pushed 72 bytes, realign stack to 16 bytes: sub rsp, 8 */
->> +	EMIT4(0x48, 0x83, 0xEC, 8);
+> Further down in the function, atomic operations are handled:
 >
-> Is this stack realignment logic correct?
+>     case BPF_STX | BPF_ATOMIC | BPF_W:
+>     case BPF_STX | BPF_ATOMIC | BPF_DW:
+>         if (insn->imm =3D=3D (BPF_AND | BPF_FETCH) ||
+>             insn->imm =3D=3D (BPF_OR | BPF_FETCH) ||
+>             insn->imm =3D=3D (BPF_XOR | BPF_FETCH)) {
+>             bool is64 =3D BPF_SIZE(insn->code) =3D=3D BPF_DW;
 >
-> The x86 BPF JIT prologue pushes a variable number of callee-saved registe=
-rs
-> and subtracts an 8-byte aligned stack_depth, meaning the stack pointer ca=
-n
-> be 8-byte misaligned prior to the check. If the stack is initially 8-byte
-> misaligned, pushing 72 bytes and subtracting 8 preserves the 8-byte
-> misalignment. Because the Linux kernel is compiled with 8-byte stack
-> alignment, the sub rsp, 8 instruction seems unnecessary and wastes 8 byte=
-s
-> of stack space.
+> Should standard atomic memory operations be instrumented as well?
+>
+> While the commit message notes that BPF_PROBE_ATOMIC instructions are ski=
+pped
+> because they handle faults, standard BPF_STX | BPF_ATOMIC operations perf=
+orm
+> memory modifications without fault-handling semantics.
+>
+> Since emit_kasan_check() is omitted here, could an invalid base pointer u=
+sed
+> in an atomic operation bypass KASAN and corrupt memory?
 
-Hmmm, I have been assuming that stack was aligned when reaching the
-emit_kasan_check, but indeed, as we could be anywhere in the prog, rsp
-can already be misaligned. However, I understand for SytemV ABI, sec
-3.2.2 that the stack must systematically be aligned on 16 bytes before
-any function call. So I'll have to find a way to make this part a bit
-smarter and add the alignment only if needed.
-
->> +
->> +	/* mov rdi, addr_reg */
->> +	EMIT_mov(BPF_REG_1, addr_reg);
->> +
->> +	/* add rdi, off (if offset is non-zero) */
->> +	if (off) {
->
-> [ ... ]
->
->> +	/* Adjust ip to account for the instrumentation generated so far */
->> +	ip +=3D (prog - *pprog);
->> +	/* call kasan_func */
->> +	if (emit_call(&prog, kasan_func, ip))
->> +		return -ERANGE;
->
-> Does this call need call depth accounting for Retbleed mitigations?
->
-> When CONFIG_CALL_DEPTH_TRACKING is enabled, every call instruction execut=
-ed
-> in the kernel must be properly accounted for to increment the call depth
-> counter. Other dynamically emitted calls in the BPF JIT explicitly emit
-> this tracking via x86_call_depth_emit_accounting() prior to emitting the
-> actual call.
->
-> By omitting this accounting, the call to the KASAN function will not
-> increment the call depth counter. When the KASAN function returns, its
-> return thunk will decrement the counter, causing it to underflow. This
-> causes the return thunks to assume the Return Stack Buffer is empty and
-> trigger expensive RSB stuffing on subsequent returns.
-
-I completely missed out this (and that's likely not the only one). I'll
-take a look into it.
-
-Alexis
+Atomics were skipped for the RFC, but that's a point I want to tackle
+in the next revision.
 
 --=20
 Alexis Lothor=C3=A9, Bootlin
