@@ -1,46 +1,46 @@
 Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADC8735FF6E
-	for <sashiko@lists.linux.dev>; Wed, 29 Apr 2026 14:36:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2850A37BE6C
+	for <sashiko@lists.linux.dev>; Wed, 29 Apr 2026 15:25:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777473397; cv=none; b=UdDGa8pM9kh/Z+Q+u3gf8guQFRmIs1i21ez2HymbwAg4KnIf0xLXW0dA4ec2SRY4psIXxiswERqi0ZwKu9Yjfl0iNmVBNooHlkKt/HkuZRegVW8l1deG62tRAA2CHIjrnLYSsh2rBbI5bFvhGgBvZc31KeNN3RDezKnVXWsrx6o=
+	t=1777476306; cv=none; b=H4pECxtWCTqZ7lCwLiRaSyVDZ7WaM49wjLZ8RyYUTmJMa49MmlBs6EgoXhXY+G+3OXmuqIvdG4ubYkfL1CHgf/IWsZELBIWWHGQ1ROShcG0q4ooTPw4Hhr9l/JUpReqZ4FdD3IaKyxH8f7Rpg0o78QJJPlkTZfWUrQoMhQE9a98=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777473397; c=relaxed/simple;
-	bh=1gT2TV7Z4aA8N9HstVOUFmlM4XOgUeKS78HrFjJRw8M=;
+	s=arc-20240116; t=1777476306; c=relaxed/simple;
+	bh=WSTX0XtVoz4uUkvUcRjoFUD5IKyK0I2C1Xy5EfyObcY=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=QDqnLqzSebJezXjAVv9pQamG1PN4aXIHPHKMETwj2x01C+amdCbWjJ2xVhJtlhTVSA5G6QYKxrlnzLkrb5W/WC2XTfdMDdppEN2Ky4Crny1mQFWWbT0IXZ1hgIAJurLOcPaGXRZjYjp/cF1f+7hJL4cMCCY03ixy3bXbDxNxKKU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=O4XXXMf+; arc=none smtp.client-ip=185.67.36.66
+	 Content-Type:MIME-Version; b=BO+4+0y7LcSjHxV0kIpma9/7zkng/W9PVIFTaSNG2bQ1PCG31fATiP1rN6qrXZeCkdKizanI0/RmbmetrvEIknTzUJ1M6Z5cvgHRghaJ67H4Grb6b/F8MkJOGXFJFQsB4BAgCWAZ4kkfj8b7jJ60VRwh7P4dRaEFI+Yqvr+HgR0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=MFSyuLIN; arc=none smtp.client-ip=185.67.36.66
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="O4XXXMf+"
+	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="MFSyuLIN"
 Received: from submission (posteo.de [185.67.36.169]) 
-	by mout02.posteo.de (Postfix) with ESMTPS id AB849240101
-	for <sashiko@lists.linux.dev>; Wed, 29 Apr 2026 16:36:25 +0200 (CEST)
+	by mout02.posteo.de (Postfix) with ESMTPS id 06D60240104
+	for <sashiko@lists.linux.dev>; Wed, 29 Apr 2026 17:25:00 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de; s=2017;
-	t=1777473385; bh=dEsFfF+ayMOv0tBU40vlbsr4W2BC3eDF6C3v/4HKk0c=;
+	t=1777476301; bh=acI2PySx4uRdQ10ByrSnwjfjqsVdE7Ysn+Wwo/tH9Ns=;
 	h=Message-ID:Subject:From:To:Cc:Date:Autocrypt:Content-Type:
 	 MIME-Version:OpenPGP:From;
-	b=O4XXXMf+Ga08m2G1rDtMhSHwUYVVECXzHAhNBuLfsyrmU1Hp92LTqiZeu3SbsJ06l
-	 qazG9WfksCI6idrSDz7NDFd3BYmn7URpMoy/Il3SjdFx+sd1Pync8Olvbj/iHET5pR
-	 q33Jg4srbpHQKfIQpHuB+2b+tpHSYCA7GS7LzmbYeH3FXOWVietXAP2R2vRN/oc7EP
-	 ExQ/aT2DZmTmopelnv524ypM9FMQlZ+WDK7R0rpyPiG7rY8WX3N5v9F1YGKp0pafmz
-	 xS6Kl9sj3lEjSIiqGhxTkQYJqDbbYBm8fEL3EOeY6k5h0VZbD1lha2LChaL0a5OJ2+
-	 SF/C+s2af7rTg==
+	b=MFSyuLIN/bhiuBobpDAEP2aXQipccbUSmsGi6Es4YcOrK/hfp2j3rXSutBCtFdACC
+	 1iZEzUAlNt7Rf3K2uAFG8Dw31kc1ExtmKpNMHJNuUtdmB4lpdwzYCvcOCUzPvOjQzA
+	 s3Yff51sdu2eF4RxWuL18SjXGmwIvJIimQueP/KMQ82gYGOHwKilixFLyfV2DahX7E
+	 HNIJwC7ZOEW+HaW4H6nnvmwvfKGtQJ6whwuckGo6VE9A4NqQxWrUriUBhY+7IvKpxv
+	 oz2cIEX0S7jPkrDbNLhx3iALg9UiqznwwClFGPGLKR802NfIuY2//dmSfyx1gCUKcq
+	 qgfr5IF/RkCUw==
 Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4g5KcT00PVz9rxB;
-	Wed, 29 Apr 2026 16:36:24 +0200 (CEST)
-Message-ID: <e450383a9721d8a12eb51190595c854a67af5d45.camel@posteo.de>
-Subject: Re: [PATCH v14 1/3] rust: leds: add basic led classdev abstractions
+	by submission (posteo.de) with ESMTPSA id 4g5LhX24rQz6tw2;
+	Wed, 29 Apr 2026 17:25:00 +0200 (CEST)
+Message-ID: <9f8a02ff0bf1096e468770eb5d1cd411a29fdef9.camel@posteo.de>
+Subject: Re: [PATCH v14 3/3] rust: leds: add multicolor classdev abstractions
 From: Markus Probst <markus.probst@posteo.de>
 To: sashiko@lists.linux.dev
 Cc: ojeda@kernel.org
-Date: Wed, 29 Apr 2026 14:36:25 +0000
-In-Reply-To: <20260427212050.EDA40C2BCB6@smtp.kernel.org>
-References: <20260427-rust_leds-v14-1-4f4b17e5d516@posteo.de>
-	 <20260427212050.EDA40C2BCB6@smtp.kernel.org>
+Date: Wed, 29 Apr 2026 15:25:00 +0000
+In-Reply-To: <20260427220110.AEAFDC19425@smtp.kernel.org>
+References: <20260427-rust_leds-v14-3-4f4b17e5d516@posteo.de>
+	 <20260427220110.AEAFDC19425@smtp.kernel.org>
 Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
  keydata=mQINBGiDvXgBEADAXUceKafpl46S35UmDh2wRvvx+UfZbcTjeQOlSwKP7YVJ4JOZrVs93
  qReNLkOWguIqPBxR9blQ4nyYrqSCV+MMw/3ifyXIm6Pw2YRUDg+WTEOjTixRCoWDgUj1nOsvJ9tVA
@@ -86,7 +86,7 @@ Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
  dQNGrZ91M9nlIBKw8Y7c7xZ4098qX2b8JX/CxD+gC1r4C8vuA3GkhFLx+KlkON7LyiJPkrePp6Qky
  jfGillcaQOqFZ3WwVqyzG1BUfTow==
 Content-Type: multipart/signed; micalg="pgp-sha256";
-	protocol="application/pgp-signature"; boundary="=-V7jHl0ra9W1uEdFigrgL"
+	protocol="application/pgp-signature"; boundary="=-YaSZT5GF7sihG1sqYXbh"
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
@@ -96,204 +96,225 @@ MIME-Version: 1.0
 OpenPGP: url=https://posteo.de/keys/markus.probst@posteo.de.asc; preference=encrypt
 
 
---=-V7jHl0ra9W1uEdFigrgL
+--=-YaSZT5GF7sihG1sqYXbh
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2026-04-27 at 21:20 +0000, sashiko-bot@kernel.org wrote:
-> Sashiko AI review found 4 potential issue(s):
-> - [Critical] Unsound fwnode reference count management leads to refcount =
-underflow and Use-After-Free.
-> - [Critical] Lifetime erasure in `DeviceBuilder` allows dangling string p=
-ointers in the C structure (Use-After-Free).
-> - [High] Missing `Sync` bound on `LedOps` allows data races and undefined=
- behavior.
-> - [Low] Missing `#[inline]` annotations on small forwarding abstraction f=
-unctions.
+On Mon, 2026-04-27 at 22:01 +0000, sashiko-bot@kernel.org wrote:
+> Sashiko AI review found 5 potential issue(s):
+> - [Critical] `MultiColorDevice::subleds` returns an immutable slice to pl=
+ain data concurrently mutated by C code, causing an aliasing violation and =
+Undefined Behavior.
+> - [High] Incorrect `KVec` capacity tracking causes Undefined Behavior, an=
+d an early return causes a memory leak.
+> - [High] The `fwnode` reference is permanently leaked (and may cause unde=
+rflow on a different node) if a device name is explicitly set.
+> - [High] Creating exclusive mutable references to `delay_on` and `delay_o=
+ff` in `blink_set_callback` violates mutable aliasing rules.
+> - [Low] Subsystem guidelines regarding `#[inline]` annotations and import=
+ formatting are violated.
 > --
 >=20
-> commit 919a1118f74d7259424462187e0643f2925bb6d6
+> commit c95f500a2f1b623bcca663aa0589f4b833fe42ae
 > Author: Markus Probst <markus.probst@posteo.de>
 >=20
-> rust: leds: add basic led classdev abstractions
+> rust: leds: add multicolor classdev abstractions
 >=20
-> Implement the core abstractions needed for led class devices. This includ=
-es
-> the LedOps trait for handling LEDs, the DeviceBuilder to construct the
-> device, and a safe wrapper around led_classdev.
+> Implement the abstractions needed for multicolor led class devices,
+> including led::MultiColor and safe wrappers around led_classdev_mc
+> and mc_subled.
 >=20
 > > diff --git a/rust/kernel/led.rs b/rust/kernel/led.rs
-> > new file mode 100644
-> > index 000000000000..f371ba48ef12
-> > --- /dev/null
+> > index e8a69efd3066..8ec95c4f230c 100644
+> > --- a/rust/kernel/led.rs
 > > +++ b/rust/kernel/led.rs
->=20
 > [ ... ]
+> >  #[cfg(CONFIG_LEDS_CLASS_MULTICOLOR)]
+> >  pub use multicolor::{MultiColor, MultiColorDevice, MultiColorSubLed};
 >=20
-> > +#[vtable]
-> > +pub trait LedOps: Send + 'static + Sized {
-> > +    /// The bus device required by the implementation.
->=20
-> The LED subsystem frequently invokes led_classdev callbacks concurrently =
-from
-> multiple threads without locks. For example, led_trigger_event() calls
-> led_set_brightness() locklessly within an RCU read-side critical section.
->=20
-> If LedOps only requires Send and lacks a Sync bound, could a driver
-> implement this trait using types with non-thread-safe interior mutability
-> (like core::cell::Cell), resulting in data races?
-If BLOCKING is false, concurrent access to `LedOps` is indeed possible.
+> This isn't a bug, but does this import follow the vertical import style
+> mandated by the Rust subsystem coding guidelines?
+It is a public export, so it may be special. I will add fix it anyways.
 
 >=20
-> [ ... ]
->=20
-> > +impl Color {
-> > +    /// Name of the color.
-> > +    pub fn as_c_str(self) -> &'static CStr {
-> > +        // SAFETY:
->=20
-> This isn't a bug, but the Rust subsystem coding guidelines require small
-> forwarding abstraction functions to be annotated with #[inline]. Could th=
-is
-> attribute be added here?
-I suppose yes.
-
->=20
-> > diff --git a/rust/kernel/led/normal.rs b/rust/kernel/led/normal.rs
+> > diff --git a/rust/kernel/led/multicolor.rs b/rust/kernel/led/multicolor=
+.rs
 > > new file mode 100644
-> > index 000000000000..bd239f186c64
+> > index 000000000000..726fdaf068cb
 > > --- /dev/null
-> > +++ b/rust/kernel/led/normal.rs
+> > +++ b/rust/kernel/led/multicolor.rs
+> [ ... ]
+> > +impl MultiColorSubLed {
+> > +    /// Create a new multicolor sub led info.
+> > +    pub const fn new(color: Color) -> Self {
+>=20
+> This isn't a bug, but shouldn't small abstraction functions like new(),
+> channel(), and initial_intensity() be annotated with #[inline] to comply
+> with the subsystem guidelines?
+Yes.
+
 >=20
 > [ ... ]
->=20
-> > +/// The led class device representation.
-> > +///
-> > +/// This structure represents the Rust abstraction for a led class dev=
-ice.
-> > +#[pin_data(PinnedDrop)]
-> > +pub struct Device<T: LedOps> {
-> > +    #[pin]
-> > +    ops: T,
-> > +    #[pin]
-> > +    classdev: Opaque<bindings::led_classdev>,
-> > +}
+> > +                    let mut subleds_vec =3D KVec::new();
+> > +                    subleds_vec.extend_from_slice(subleds, GFP_KERNEL)=
+?;
+> > +                    let (subled_info, num_colors, capacity) =3D subled=
+s_vec.into_raw_parts();
+> > +                    debug_assert_eq!(num_colors, capacity);
 > > +
-> > +impl<'a, S: DeviceBuilderState> DeviceBuilder<'a, S> {
-> > +    /// Registers a new [`Device`].
-> > +    pub fn build<T: LedOps>(
-> > +        self,
-> > +        parent: &'a T::Bus,
-> > +        ops: impl PinInit<T, Error> + 'a,
-> > +    ) -> impl PinInit<Devres<Device<T>>, Error> + 'a {
+> > +                    // SAFETY: `try_ffi_init` guarantees that `ptr` is=
+ valid for write.
+> > +                    // `led_classdev_mc` gets fully initialized in-pla=
+ce by
+> > +                    // `led_classdev_multicolor_register_ext` includin=
+g `mutex` and `list_head`.
+> > +                    unsafe {
+> > +                        ptr.write(bindings::led_classdev_mc {
+> > +                            led_cdev: bindings::led_classdev {
+> [ ... ]
+> > +                            num_colors: u32::try_from(num_colors)?,
 >=20
-> Since the Device struct does not carry a lifetime parameter, does the ret=
-urn
-> type impl PinInit<Devres<Device<T>>, Error> + 'a fail to prevent the call=
-er
-> from dropping the strings provided for the name and default_trigger field=
-s?
->=20
-> The C subsystem retains these pointers indefinitely. If a caller passes a
-> dynamically allocated string (like a CString), registers the LED, and
-> drops the string, couldn't this lead to a use-after-free when the kernel
-> later accesses led_cdev->name or led_cdev->default_trigger?
-This is true for `default_trigger`, but not for `name`.
-
-led_cdev->name will be copied on register and only has to be valid
-until the registration finishes.
-
-I will remove `default_trigger` as I don't see a use for it at the
-current moment.
+> If u32::try_from(num_colors) fails, does this early return leak the memor=
+y
+> allocated for subled_info?
+Very unlikely event, but yes. In the case that it is greater than
+`u32::MAX`, there is a memory leak.
 
 >=20
-> [ ... ]
->=20
-> > +impl<T: LedOps> Device<T> {
-> > +    /// # Safety
-> > +    /// `led_cdev` must be a valid pointer to a `led_classdev` embedde=
-d within a
-> > +    /// `led::Device`.
-> > +    unsafe fn from_raw<'a>(led_cdev: *mut bindings::led_classdev) -> &=
-'a Self {
->=20
-> This isn't a bug, but the Rust subsystem coding guidelines require small
-> forwarding abstraction functions to be annotated with #[inline]. Could th=
-is
-> attribute be added here?
+> The inspect_err closure responsible for cleaning up the allocation is
+> attached to the register_ext call further down, which wouldn't be reached
+> if the try_from conversion evaluates to an error.
 >=20
 > [ ... ]
+> > +                    to_result(unsafe {
+> > +                        bindings::led_classdev_multicolor_register_ext=
+(
+> > +                            parent.as_ref().as_raw(),
+> > +                            ptr,
+> > +                            if self.name.is_none() {
+> > +                                &raw mut init_data
+> > +                            } else {
+> > +                                core::ptr::null_mut()
+> > +                            },
+> > +                        )
+> > +                    })
+> > +                    .inspect_err(|_err| {
+> > +                        // SAFETY: `subled_info` is guaranteed to be a=
+ valid array pointer to
+> > +                        // `mc_subled` with the length and capacity of=
+ `num_colors`.
+> > +                        drop(unsafe { KVec::from_raw_parts(subled_info=
+, num_colors, num_colors) });
+> > +                    })?;
 >=20
-> > +    fn parent(&self) -> &device::Device<Bound> {
-> > +        // SAFETY: `self.classdev.get()` is guaranteed to be a valid p=
-ointer to `led_classdev`.
+> Could reconstructing the vector this way cause undefined behavior?
 >=20
-> This isn't a bug, but could the #[inline] attribute be added here as well=
-?
+> The capacity returned by into_raw_parts() is discarded earlier, and the
+> vector is rebuilt here with a hardcoded capacity of num_colors. Since
+> extend_from_slice() can over-allocate, passing an incorrect capacity back
+> to the allocator violates safety contracts.
+On the first allocation, length always equals capacity. But I agree it
+isn't a perfect solution.
+
 >=20
-> [ ... ]
->=20
-> > +#[pinned_drop]
-> > +impl<T: LedOps> PinnedDrop for Device<T> {
-> > +    fn drop(self: Pin<&mut Self>) {
-> > +        let raw =3D self.classdev.get();
-> > +        // SAFETY: The existence of `self` guarantees that `self.class=
-dev.get()` is a pointer to a
-> > +        // valid `led_classdev`.
-> > +        let dev: &device::Device =3D unsafe { device::Device::from_raw=
-((*raw).dev) };
 > > +
-> > +        let _fwnode =3D dev
-> > +            .fwnode()
-> > +            // SAFETY: the reference count of `fwnode` has previously =
-been
-> > +            // incremented in `led::Device::new`.
-> > +            .map(|fwnode| unsafe { ARef::from_raw(NonNull::from(fwnode=
-)) });
+> > +                    core::mem::forget(self.fwnode); // keep the refere=
+nce count incremented
 >=20
-> In DeviceBuilder::build(), core::mem::forget(self.fwnode) is called, whic=
-h
-> transfers ownership of the reference count if a node was explicitly
-> provided.
->=20
-> However, the core kernel can automatically assign a fwnode to the device
-> during registration (for example, device_platform_notify() may assign an
-> ACPI companion node).
->=20
-> If self.fwnode was None but the kernel assigned a node automatically, won=
-'t
-> this unconditional ARef::from_raw() incorrectly decrement a reference cou=
-nt
-> the driver never incremented, resulting in an underflow and use-after-fre=
-e?
-false positive.
+> Does this leak the fwnode reference if self.name is explicitly set?
+No, because it happens on an Option type.
 
-`device_platform_notify` calls 2 functions:
-  - `acpi_device_notify`:
-    only assigns fwnode to *bus devices*. This is a led class device.
-  - `software_node_notify`:
-    does not change the fwnode
+>=20
+> When self.name.is_some(), core::ptr::null_mut() is passed to register_ext
+> above, so the C device never associates with the fwnode. However,
+> core::mem::forget(self.fwnode) is called here unconditionally.
+>=20
+> During PinnedDrop, the code attempts to drop the reference by calling
+> dev.fwnode(). Since the device was never given the fwnode, this might
+> return None and leak the reference, or return an inherited fwnode, which
+> would cause a reference count underflow on the wrong node.
+>=20
+> [ ... ]
+> > +    pub fn subleds(&self) -> &[MultiColorSubLed] {
+>=20
+> This isn't a bug, but shouldn't this small abstraction function also be
+> annotated with #[inline]?
+Yes.
+>=20
+> Additionally, can returning an immutable slice of plain data here lead to
+> undefined behavior?
+>=20
+> The C subsystem can concurrently modify the underlying brightness and
+> intensity fields (for example, led_mc_calc_color_components modifies
+> brightness, and multi_intensity_store modifies intensity).
+>=20
+> Because MultiColorSubLed defines these as plain u32 fields rather than
+> wrapping them in UnsafeCell or Opaque, the Rust compiler assumes they
+> will never change while the immutable reference exists. This violates str=
+ict
+> aliasing rules and could lead to data races.
+I don't think there is any quick way to avoid this.
 
---=-V7jHl0ra9W1uEdFigrgL
+>=20
+> [ ... ]
+> > +    unsafe extern "C" fn blink_set_callback(
+> > +        led_cdev: *mut bindings::led_classdev,
+> > +        delay_on: *mut usize,
+> > +        delay_off: *mut usize,
+> > +    ) -> i32 {
+> > +        from_result(|| {
+> [ ... ]
+> > +            classdev.ops.blink_set(
+> > +                parent,
+> > +                classdev,
+> > +                // SAFETY: The function's contract guarantees that `de=
+lay_on` points to a `usize`
+> > +                // and is exclusive for the period of this function.
+> > +                unsafe { &mut *delay_on },
+> > +                // SAFETY: The function's contract guarantees that `de=
+lay_off` points to a `usize`
+> > +                // and is exclusive for the period of this function.
+> > +                unsafe { &mut *delay_off },
+> > +            )?;
+>=20
+> Is it safe to create exclusive mutable references to delay_on and delay_o=
+ff
+> in this context?
+Yes.
+>=20
+> These pointers point directly to the shared led_cdev->blink_delay_on and
+> led_cdev->blink_delay_off fields in the C struct.
+Only with the timer trigger and the timer trigger only sets it directly
+on the pointer if it is happening on a sysfs store call.
+
+>=20
+> If the sysfs interface reads these fields concurrently, such as through
+> delay_on_show, it would violate Rust's strict mutable exclusivity guarant=
+ees
+> and result in undefined behavior.
+Afaik sysfs blocks any "show" function calls during this time.
+
+
+--=-YaSZT5GF7sihG1sqYXbh
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 
-iQJPBAABCAA5FiEEgnQYxPSsWOdyMMRzNHYf+OetQ9IFAmnyF2cbFIAAAAAABAAO
-bWFudTIsMi41KzEuMTIsMiwyAAoJEDR2H/jnrUPSj+0QAL3VaO4VARLwkRvKr3yW
-FrcDBynOJiLAeBiLS4UWhO5vNiwXN/KG0r5fgr6zyaxhyBgXSuESwFG7Sc5y3cTe
-Xzeqw/j4QEBKlHqmdA1u4ha4QyOdlj+dibjtHhootHiEahj4dMZDlhRQwSbinzJq
-XKM5vKlfO1v30eWyfZhLtMSfcaY5T6Yx5QXteRbNWSCMqZBe+bdFQkPDGwY3KFnF
-n6h5xmMDWzqDnkyy3wMsTMeXqTQdUTOlUeDLlI0DgTE4fQzmLSI6kqCEe6IM2IK3
-/Kf3YJwso2THJR+9ydLAM/Q2eEtaxhak969b0PjYZRibvNM/rYT16xjtrJIBxeAS
-m3c2Y0hvJ1c00Egdq/aRjUi9xygrf/lFZQ7d3xP7M86x+jBqTFEMrBDaV0F/Gxoz
-kTUHpC/51dMPHF8tVyTcyNjVi2AAHMxgfuu6/gZfkzxtUTg9ABzCB+tx40z7jz1w
-RNoZi3EVm4iDpEIk7PV2w9nne8bPEMwUfgN66xuXvw6fk9zXbPnGS1ujAoTaSTto
-B6KSzbsmfAyA2KT7dPS1/GFad28AhlGY4S9yMX7sZIcpozjj+jbIihkUt+Q2S+/r
-x0AQPBIR/dZ0p7xhq4ltYzwfdOSrhDyyAltCrOVumZta21hGc/2mZ4auh+92pr0O
-uYGLQZs9T1WuSJbdBAGfT+fV
-=R3kr
+iQJPBAABCAA5FiEEgnQYxPSsWOdyMMRzNHYf+OetQ9IFAmnyIssbFIAAAAAABAAO
+bWFudTIsMi41KzEuMTIsMiwyAAoJEDR2H/jnrUPSN60QAJ14e3UKIz3/UYQVevqs
+esPmtCwfxR/1MtrCSBdeqIFvArzzd09Xk5j7QS+q8CeJRX64pW17nbC8gRuDoKwN
+jvwnThVNEPVmUVpOqmwATQNjYP/RYgAr0D6y++dxqwk6FSaf8xS5/Ixxr1bs8N3W
+ueF/BtmVWEQpWGtQYPjJnZPBFAwf5gG8ornafwpJ13Yvhop9QXH19pFfiYX64ZVf
+9qytNprpVb0tWaPIVLWTLXQcRm9em0uQiMepyJh+AW8M533w2YmfqLSGiHmw51tk
+XKsvLBv1oNwLnj1yEmna6Ypnxp5ePfQQ+T++EkBFR3gMKhImMSKSizs1sZjSmVWz
+yhMLTDxZDHJt/GtqvRtMQCkjc+D4RCAOSJD/0CWchJdtVlfqyns6xIHzMHaKL40c
+PAFtV+jR6dC8QXydWt0yqWZvyehRemd7VGs9CLixQCCQMhIWEt13LUjCLaOjqii9
+UNFRzLjKuabuayObABpJVP03TQOXK3Py/jyHB9mJpupgTNHsakxz4j431Oxw2eFM
+eBDtlyF807baEEQoky5ObKdnG1k5p7Fs2mG4FZXmf1rhawzD8p8JYcXC+hnuM+T7
+eD7EQpxohWAoOmWXqP8FKrYxJ41JE5HYhd8HIOhAsKE1J2ZH1FZdkPmzidWGLJjC
+fQxOLu+QZxqFc1bNQ79HLJGa
+=yymD
 -----END PGP SIGNATURE-----
 
---=-V7jHl0ra9W1uEdFigrgL--
+--=-YaSZT5GF7sihG1sqYXbh--
