@@ -1,320 +1,167 @@
-Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2850A37BE6C
-	for <sashiko@lists.linux.dev>; Wed, 29 Apr 2026 15:25:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF844347506
+	for <sashiko@lists.linux.dev>; Wed, 29 Apr 2026 15:53:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777476306; cv=none; b=H4pECxtWCTqZ7lCwLiRaSyVDZ7WaM49wjLZ8RyYUTmJMa49MmlBs6EgoXhXY+G+3OXmuqIvdG4ubYkfL1CHgf/IWsZELBIWWHGQ1ROShcG0q4ooTPw4Hhr9l/JUpReqZ4FdD3IaKyxH8f7Rpg0o78QJJPlkTZfWUrQoMhQE9a98=
+	t=1777478027; cv=none; b=RoE7Xaq3/QsGd/uenYZxJ24pCbQkPtpMqPuKbc0CkA5t1HGwkFwLys2NYZWtsdupWQ+Ac/C+awXAHtEl6qBoKVQLjcS5KMY/bJrmwRMxsXqqFprZ+hQximLTkPk8BBnaw5Omf+oUD67cWYTFraVKDkvrmXIkp2av6iN8KGgDdJA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777476306; c=relaxed/simple;
-	bh=WSTX0XtVoz4uUkvUcRjoFUD5IKyK0I2C1Xy5EfyObcY=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=BO+4+0y7LcSjHxV0kIpma9/7zkng/W9PVIFTaSNG2bQ1PCG31fATiP1rN6qrXZeCkdKizanI0/RmbmetrvEIknTzUJ1M6Z5cvgHRghaJ67H4Grb6b/F8MkJOGXFJFQsB4BAgCWAZ4kkfj8b7jJ60VRwh7P4dRaEFI+Yqvr+HgR0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=MFSyuLIN; arc=none smtp.client-ip=185.67.36.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
+	s=arc-20240116; t=1777478027; c=relaxed/simple;
+	bh=eVx1TolgAGWFBedQA7EDI6P6A+a2g3ZNcyQ9mIxFl0I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nOnYzfz2uHp1+4X0MG9jXj4P+FYP68b7xmjRPNN4wKDRTi62+HnslH8h6ToLqCv6fJADb1M8SNEf/N9kp8aBdQMMdklNLsjCC2/05WMGll0KxziEjvtqwiYHeh4J2C2w2PN9kWomDd3qs2fFjuRTKKd6AMQK12Lh58SelPQHITQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e36yygX7; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="MFSyuLIN"
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout02.posteo.de (Postfix) with ESMTPS id 06D60240104
-	for <sashiko@lists.linux.dev>; Wed, 29 Apr 2026 17:25:00 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de; s=2017;
-	t=1777476301; bh=acI2PySx4uRdQ10ByrSnwjfjqsVdE7Ysn+Wwo/tH9Ns=;
-	h=Message-ID:Subject:From:To:Cc:Date:Autocrypt:Content-Type:
-	 MIME-Version:OpenPGP:From;
-	b=MFSyuLIN/bhiuBobpDAEP2aXQipccbUSmsGi6Es4YcOrK/hfp2j3rXSutBCtFdACC
-	 1iZEzUAlNt7Rf3K2uAFG8Dw31kc1ExtmKpNMHJNuUtdmB4lpdwzYCvcOCUzPvOjQzA
-	 s3Yff51sdu2eF4RxWuL18SjXGmwIvJIimQueP/KMQ82gYGOHwKilixFLyfV2DahX7E
-	 HNIJwC7ZOEW+HaW4H6nnvmwvfKGtQJ6whwuckGo6VE9A4NqQxWrUriUBhY+7IvKpxv
-	 oz2cIEX0S7jPkrDbNLhx3iALg9UiqznwwClFGPGLKR802NfIuY2//dmSfyx1gCUKcq
-	 qgfr5IF/RkCUw==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4g5LhX24rQz6tw2;
-	Wed, 29 Apr 2026 17:25:00 +0200 (CEST)
-Message-ID: <9f8a02ff0bf1096e468770eb5d1cd411a29fdef9.camel@posteo.de>
-Subject: Re: [PATCH v14 3/3] rust: leds: add multicolor classdev abstractions
-From: Markus Probst <markus.probst@posteo.de>
-To: sashiko@lists.linux.dev
-Cc: ojeda@kernel.org
-Date: Wed, 29 Apr 2026 15:25:00 +0000
-In-Reply-To: <20260427220110.AEAFDC19425@smtp.kernel.org>
-References: <20260427-rust_leds-v14-3-4f4b17e5d516@posteo.de>
-	 <20260427220110.AEAFDC19425@smtp.kernel.org>
-Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
- keydata=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
- jfGillcaQOqFZ3WwVqyzG1BUfTow==
-Content-Type: multipart/signed; micalg="pgp-sha256";
-	protocol="application/pgp-signature"; boundary="=-YaSZT5GF7sihG1sqYXbh"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e36yygX7"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-488b3f8fa2bso10520075e9.1
+        for <sashiko@lists.linux.dev>; Wed, 29 Apr 2026 08:53:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777478024; x=1778082824; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=x3d45FYs/u15o3gONdNkXWFSDj83L1ojAg9+bYGvTgM=;
+        b=e36yygX7jFC8LKp2uT173JtdXlQv1vKjB0nwrEIrrqbsPZDiPr0FIWvb0OI2yp+WYU
+         P1VHLMm+h6zApWqu4kRTaYIIo6v9ujMFqMMG7v03WMRSKWj3X2y4HI0FrFaAPSQhGk3y
+         mzRHvXjPFyEuN1q68RNDRHr6GwbirCfHQ6OHPEpicklJZrFU6MEF9auZy+4nHC7MbaXG
+         sNkcbi6x3/dJTTLOVhDwDD3zPb3k65v4eHZT4ktnHXgxyO/nb9/YsX65kUbg+sDHpXgB
+         sd0Kxf31Mo/jpNIsb718IWPfD8OyvqyGeYq3P8dgvHBMqUC2s5cL4Q5NBEgBoI1tQ2dJ
+         Z36g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777478024; x=1778082824;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=x3d45FYs/u15o3gONdNkXWFSDj83L1ojAg9+bYGvTgM=;
+        b=JlauGkfTZvWOAfKWxyZAnn/oCT4iH49G2DEAftIFEL8MHx8jKSutCjWyR55sSa0sl8
+         809EP1lSGT7E6nZfA6czFZ2sQkCPOO31x6hdKDDgtWgAsyNcmYzZ23QKBA6oA1e0Df8j
+         mff4YEK1txMQH5zdEWm9Ft43JVlXytFDCJrzcVkoRxVgCvqOmj62IqrjEymzKvI2aEz8
+         Q+PlITpFE0ZrapN03fyNn/sYPjku3zpn8ZNoXY7mpZZiBP1l2SY/BBOGIFJwADyeUYaO
+         byX3UxEbLklO7tf7Q7ExcM6jxeIMQ4jvID0h1YrotfQC67+IRrrEzYldfq3nM7G2X1eQ
+         0UYg==
+X-Gm-Message-State: AOJu0Yz77KAwjWoPfCMfABDAr93I4ZpK8fG9W1OjxG1HOD2S62vdBknR
+	sZLIAiTWmLfnj0ug8ZkgjieqJhRYao2eQb60h0hKm45pL2usLHH/bYEx
+X-Gm-Gg: AeBDievJvF0cV55j4MDoIWEZuBKL0T1h78WZtyWebhpgs5v1Vs1JxEKrCLtgTI7SQo+
+	r652SRSO9kbNHaHcCvOcCmVX7xPVaNGUQHuFXHVla3+UHaU+qj8ty/wwjqzyAnQ8KhYZdNfbL7E
+	D4aRVhWgxm206cfi8XoeRFTR90HiwrJRObR/a2NBNYNbuUEgz7VQ767hQ2cTZnk3PbadHkmWA3R
+	5t0aZZapARSoTVBCTt5bWuUiprHfPD4+mGrgrSmFC+7uc8f2e/cho4tH52lDbryj5KMHLejTunw
+	4jE6nr5/nrFWHK0HBfie7TmbccMC42ocYeDL/aQa+diISju/apMGX+NX1v41ZYIKGvu1IP+luEt
+	5K3CC7Z3JNAXYrtEDxRZ9ud60zDrh1WdKZaaKd2xTA0/qA/m7xvKRjyBDNFHXOhu0S9mi8gkDqb
+	8KczAWPOQMtpfSrCS+Vy1CMUV1KkybhMH8IX6okOpy8xOnAhALTxZh1tY8N4sqbRRwCKcH8eqZu
+	wvYpmBzxBnnfr3bCaEgArn2ijTqY0SYcAe0Y8iArtrrAvTJrtZ+6ziLwxlpzU9s+SDJj0OIpHpX
+	LGq9Hkd1KYRb/n1mTS4agVEx2my2WGCkbiNLalCEydMfikZVA9vvTQ==
+X-Received: by 2002:a05:600c:a10d:b0:489:1abb:5559 with SMTP id 5b1f17b1804b1-48a7bf9956fmr42135605e9.5.1777478022928;
+        Wed, 29 Apr 2026 08:53:42 -0700 (PDT)
+Received: from mail.gmail.com (2a01cb0889497e00fb2d91b6f941d667.ipv6.abo.wanadoo.fr. [2a01:cb08:8949:7e00:fb2d:91b6:f941:d667])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a824f9f0dsm383695e9.15.2026.04.29.08.53.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Apr 2026 08:53:42 -0700 (PDT)
+Date: Wed, 29 Apr 2026 17:53:40 +0200
+From: Paul Chaignon <paul.chaignon@gmail.com>
+To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+Cc: sashiko@lists.linux.dev, bpf@vger.kernel.org
+Subject: Re: [PATCH bpf-next 1/2] bpf: Print breakdown of insns processed by
+ subprogs
+Message-ID: <afIphKy2138OC5GR@mail.gmail.com>
+References: <5c3514dbc879f22ba3f9eff8a2c730e13bd0572c.1777388107.git.paul.chaignon@gmail.com>
+ <20260428230844.EFA64C2BCAF@smtp.kernel.org>
+ <DI56ZVH6HKDK.1L8J5HPA37J09@gmail.com>
+ <DI578ZDDKR6K.QH52KXPV1CLN@gmail.com>
+ <afIPMllq5VI-bJLY@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-OpenPGP: url=https://posteo.de/keys/markus.probst@posteo.de.asc; preference=encrypt
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <afIPMllq5VI-bJLY@mail.gmail.com>
 
+On Wed, Apr 29, 2026 at 04:01:25PM +0200, Paul Chaignon wrote:
+> On Wed, Apr 29, 2026 at 02:07:33AM +0200, Kumar Kartikeya Dwivedi wrote:
+> > On Wed Apr 29, 2026 at 1:55 AM CEST, Kumar Kartikeya Dwivedi wrote:
+> > > On Wed Apr 29, 2026 at 1:08 AM CEST, sashiko-bot wrote:
+> > >> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
+> > >> - [High] Out-of-bounds read in `bpf_subprog_is_global()` when printing verification stats for programs with hidden subprograms.
+> > >> --
+> > >>
+> > >> commit 08128f883e58301e0f97b1d4a94656be63b8f790
+> > >> Author: Paul Chaignon <paul.chaignon@gmail.com>
+> > >>
+> > >> bpf: Print breakdown of insns processed by subprogs
+> > >>
+> > >> This patch tracks the number of instructions processed by each global
+> > >> function (subprog) during BPF verification. It then reports this
+> > >> breakdown in the verifier logs under BPF_LOG_STATS.
+> > >>
+> > >>> diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
+> > >>> index 03f9e16c2abe..b48389b48eb6 100644
+> > >>> --- a/kernel/bpf/verifier.c
+> > >>> +++ b/kernel/bpf/verifier.c
+> > >>
+> > >> [ ... ]
+> > >>
+> > >>> @@ -18288,6 +18295,13 @@ static void print_verification_stats(struct bpf_verifier_env *env)
+> > >>>  				verbose(env, "+");
+> > >>>  		}
+> > >>>  		verbose(env, "\n");
+> > >>> +		verbose(env, "insns processed %d", env->subprog_info[0].insn_processed);
+> > >>> +		for (i = 1; i < env->subprog_cnt; i++) {
+> > >>> +			if (!bpf_subprog_is_global(env, i))
+> > >>
+> > >> Could this introduce a regression due to an out-of-bounds read on the
+> > >> func_info_aux array if there are hidden subprograms?
+> > >>
+> > >> At load time, if BTF is present, env->prog->aux->func_info_aux is allocated
+> > >> with exactly func_info_cnt elements, and env->subprog_cnt initially matches
+> > >> func_info_cnt.
+> > >>
+> > >> During verification, if a feature like bpf_throw is used without an explicit
+> > >> callback, add_hidden_subprog() is called which increments env->subprog_cnt
+> > >> but does not resize the func_info_aux array.
+> > >>
+> > >> Since this loop iterates up to the updated env->subprog_cnt, when i reaches
+> > >> the index of a hidden subprogram, bpf_subprog_is_global() will access
+> > >> aux[i].linkage where i >= func_info_cnt:
+> > >>
+> > >> kernel/bpf/verifier.c:bpf_subprog_is_global() {
+> > >> 	struct bpf_func_info_aux *aux = env->prog->aux->func_info_aux;
+> > >>
+> > >> 	return aux && aux[subprog].linkage == BTF_FUNC_GLOBAL;
+> > >> }
+> > >>
+> > >> Is it possible to skip hidden subprograms here, or limit the check to
+> > >> func_info_cnt?
+> > >
+> > > Don't see it happening, since hidden subprogs never get verified, so we won't
+> > > invoke bpf_subprog_is_global() with such a subprog index.
+> > 
+> > Ah, no, stupid me. We get here after fixing up and adding the hidden subprog. So
+> > we can still do OOB since subprog_cnt includes the hidden_subprog_cnt. How about
+> > the following as a fix? I checked over other places where we iterate over all of
+> > the subprogs and those look fine, so instead of changing bpf_subprog_is_global()
+> > we can adjust this function to only consider real subprogs. Didn't compile test.
+> 
+> That's a nice find! I also doubted it initially as we have that pattern
+> everywhere.
+> 
+> It looks like this would be a fix for commit 335d1c5b5452 ("bpf:
+> Implement support for adding hidden subprogs") (or technically, the next
+> commit as 335d1c5b5452 didn't have any user). So maybe I can resend as a
+> first patch (with you as a co-author) and the following diff (took the
+> opportunity to simplify the logic on the assumption that we always have
+> the main "subprog").
 
---=-YaSZT5GF7sihG1sqYXbh
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Just saw that subprog_info is statically allocated (contrary to
+func_info_aux) so we wouldn't get an OOB on the existing code, just
+some garbage "+0" on the stack depths.
 
-On Mon, 2026-04-27 at 22:01 +0000, sashiko-bot@kernel.org wrote:
-> Sashiko AI review found 5 potential issue(s):
-> - [Critical] `MultiColorDevice::subleds` returns an immutable slice to pl=
-ain data concurrently mutated by C code, causing an aliasing violation and =
-Undefined Behavior.
-> - [High] Incorrect `KVec` capacity tracking causes Undefined Behavior, an=
-d an early return causes a memory leak.
-> - [High] The `fwnode` reference is permanently leaked (and may cause unde=
-rflow on a different node) if a device name is explicitly set.
-> - [High] Creating exclusive mutable references to `delay_on` and `delay_o=
-ff` in `blink_set_callback` violates mutable aliasing rules.
-> - [Low] Subsystem guidelines regarding `#[inline]` annotations and import=
- formatting are violated.
-> --
->=20
-> commit c95f500a2f1b623bcca663aa0589f4b833fe42ae
-> Author: Markus Probst <markus.probst@posteo.de>
->=20
-> rust: leds: add multicolor classdev abstractions
->=20
-> Implement the abstractions needed for multicolor led class devices,
-> including led::MultiColor and safe wrappers around led_classdev_mc
-> and mc_subled.
->=20
-> > diff --git a/rust/kernel/led.rs b/rust/kernel/led.rs
-> > index e8a69efd3066..8ec95c4f230c 100644
-> > --- a/rust/kernel/led.rs
-> > +++ b/rust/kernel/led.rs
-> [ ... ]
-> >  #[cfg(CONFIG_LEDS_CLASS_MULTICOLOR)]
-> >  pub use multicolor::{MultiColor, MultiColorDevice, MultiColorSubLed};
->=20
-> This isn't a bug, but does this import follow the vertical import style
-> mandated by the Rust subsystem coding guidelines?
-It is a public export, so it may be special. I will add fix it anyways.
+> 
+> Not sure if it would need to be sent to bpf instead of bpf-next. Maybe
+> keep the patchset on bpf-next, but add "Cc: stable@vger.kernel.org"?
 
->=20
-> > diff --git a/rust/kernel/led/multicolor.rs b/rust/kernel/led/multicolor=
-.rs
-> > new file mode 100644
-> > index 000000000000..726fdaf068cb
-> > --- /dev/null
-> > +++ b/rust/kernel/led/multicolor.rs
-> [ ... ]
-> > +impl MultiColorSubLed {
-> > +    /// Create a new multicolor sub led info.
-> > +    pub const fn new(color: Color) -> Self {
->=20
-> This isn't a bug, but shouldn't small abstraction functions like new(),
-> channel(), and initial_intensity() be annotated with #[inline] to comply
-> with the subsystem guidelines?
-Yes.
+[...]
 
->=20
-> [ ... ]
-> > +                    let mut subleds_vec =3D KVec::new();
-> > +                    subleds_vec.extend_from_slice(subleds, GFP_KERNEL)=
-?;
-> > +                    let (subled_info, num_colors, capacity) =3D subled=
-s_vec.into_raw_parts();
-> > +                    debug_assert_eq!(num_colors, capacity);
-> > +
-> > +                    // SAFETY: `try_ffi_init` guarantees that `ptr` is=
- valid for write.
-> > +                    // `led_classdev_mc` gets fully initialized in-pla=
-ce by
-> > +                    // `led_classdev_multicolor_register_ext` includin=
-g `mutex` and `list_head`.
-> > +                    unsafe {
-> > +                        ptr.write(bindings::led_classdev_mc {
-> > +                            led_cdev: bindings::led_classdev {
-> [ ... ]
-> > +                            num_colors: u32::try_from(num_colors)?,
->=20
-> If u32::try_from(num_colors) fails, does this early return leak the memor=
-y
-> allocated for subled_info?
-Very unlikely event, but yes. In the case that it is greater than
-`u32::MAX`, there is a memory leak.
-
->=20
-> The inspect_err closure responsible for cleaning up the allocation is
-> attached to the register_ext call further down, which wouldn't be reached
-> if the try_from conversion evaluates to an error.
->=20
-> [ ... ]
-> > +                    to_result(unsafe {
-> > +                        bindings::led_classdev_multicolor_register_ext=
-(
-> > +                            parent.as_ref().as_raw(),
-> > +                            ptr,
-> > +                            if self.name.is_none() {
-> > +                                &raw mut init_data
-> > +                            } else {
-> > +                                core::ptr::null_mut()
-> > +                            },
-> > +                        )
-> > +                    })
-> > +                    .inspect_err(|_err| {
-> > +                        // SAFETY: `subled_info` is guaranteed to be a=
- valid array pointer to
-> > +                        // `mc_subled` with the length and capacity of=
- `num_colors`.
-> > +                        drop(unsafe { KVec::from_raw_parts(subled_info=
-, num_colors, num_colors) });
-> > +                    })?;
->=20
-> Could reconstructing the vector this way cause undefined behavior?
->=20
-> The capacity returned by into_raw_parts() is discarded earlier, and the
-> vector is rebuilt here with a hardcoded capacity of num_colors. Since
-> extend_from_slice() can over-allocate, passing an incorrect capacity back
-> to the allocator violates safety contracts.
-On the first allocation, length always equals capacity. But I agree it
-isn't a perfect solution.
-
->=20
-> > +
-> > +                    core::mem::forget(self.fwnode); // keep the refere=
-nce count incremented
->=20
-> Does this leak the fwnode reference if self.name is explicitly set?
-No, because it happens on an Option type.
-
->=20
-> When self.name.is_some(), core::ptr::null_mut() is passed to register_ext
-> above, so the C device never associates with the fwnode. However,
-> core::mem::forget(self.fwnode) is called here unconditionally.
->=20
-> During PinnedDrop, the code attempts to drop the reference by calling
-> dev.fwnode(). Since the device was never given the fwnode, this might
-> return None and leak the reference, or return an inherited fwnode, which
-> would cause a reference count underflow on the wrong node.
->=20
-> [ ... ]
-> > +    pub fn subleds(&self) -> &[MultiColorSubLed] {
->=20
-> This isn't a bug, but shouldn't this small abstraction function also be
-> annotated with #[inline]?
-Yes.
->=20
-> Additionally, can returning an immutable slice of plain data here lead to
-> undefined behavior?
->=20
-> The C subsystem can concurrently modify the underlying brightness and
-> intensity fields (for example, led_mc_calc_color_components modifies
-> brightness, and multi_intensity_store modifies intensity).
->=20
-> Because MultiColorSubLed defines these as plain u32 fields rather than
-> wrapping them in UnsafeCell or Opaque, the Rust compiler assumes they
-> will never change while the immutable reference exists. This violates str=
-ict
-> aliasing rules and could lead to data races.
-I don't think there is any quick way to avoid this.
-
->=20
-> [ ... ]
-> > +    unsafe extern "C" fn blink_set_callback(
-> > +        led_cdev: *mut bindings::led_classdev,
-> > +        delay_on: *mut usize,
-> > +        delay_off: *mut usize,
-> > +    ) -> i32 {
-> > +        from_result(|| {
-> [ ... ]
-> > +            classdev.ops.blink_set(
-> > +                parent,
-> > +                classdev,
-> > +                // SAFETY: The function's contract guarantees that `de=
-lay_on` points to a `usize`
-> > +                // and is exclusive for the period of this function.
-> > +                unsafe { &mut *delay_on },
-> > +                // SAFETY: The function's contract guarantees that `de=
-lay_off` points to a `usize`
-> > +                // and is exclusive for the period of this function.
-> > +                unsafe { &mut *delay_off },
-> > +            )?;
->=20
-> Is it safe to create exclusive mutable references to delay_on and delay_o=
-ff
-> in this context?
-Yes.
->=20
-> These pointers point directly to the shared led_cdev->blink_delay_on and
-> led_cdev->blink_delay_off fields in the C struct.
-Only with the timer trigger and the timer trigger only sets it directly
-on the pointer if it is happening on a sysfs store call.
-
->=20
-> If the sysfs interface reads these fields concurrently, such as through
-> delay_on_show, it would violate Rust's strict mutable exclusivity guarant=
-ees
-> and result in undefined behavior.
-Afaik sysfs blocks any "show" function calls during this time.
-
-
---=-YaSZT5GF7sihG1sqYXbh
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iQJPBAABCAA5FiEEgnQYxPSsWOdyMMRzNHYf+OetQ9IFAmnyIssbFIAAAAAABAAO
-bWFudTIsMi41KzEuMTIsMiwyAAoJEDR2H/jnrUPSN60QAJ14e3UKIz3/UYQVevqs
-esPmtCwfxR/1MtrCSBdeqIFvArzzd09Xk5j7QS+q8CeJRX64pW17nbC8gRuDoKwN
-jvwnThVNEPVmUVpOqmwATQNjYP/RYgAr0D6y++dxqwk6FSaf8xS5/Ixxr1bs8N3W
-ueF/BtmVWEQpWGtQYPjJnZPBFAwf5gG8ornafwpJ13Yvhop9QXH19pFfiYX64ZVf
-9qytNprpVb0tWaPIVLWTLXQcRm9em0uQiMepyJh+AW8M533w2YmfqLSGiHmw51tk
-XKsvLBv1oNwLnj1yEmna6Ypnxp5ePfQQ+T++EkBFR3gMKhImMSKSizs1sZjSmVWz
-yhMLTDxZDHJt/GtqvRtMQCkjc+D4RCAOSJD/0CWchJdtVlfqyns6xIHzMHaKL40c
-PAFtV+jR6dC8QXydWt0yqWZvyehRemd7VGs9CLixQCCQMhIWEt13LUjCLaOjqii9
-UNFRzLjKuabuayObABpJVP03TQOXK3Py/jyHB9mJpupgTNHsakxz4j431Oxw2eFM
-eBDtlyF807baEEQoky5ObKdnG1k5p7Fs2mG4FZXmf1rhawzD8p8JYcXC+hnuM+T7
-eD7EQpxohWAoOmWXqP8FKrYxJ41JE5HYhd8HIOhAsKE1J2ZH1FZdkPmzidWGLJjC
-fQxOLu+QZxqFc1bNQ79HLJGa
-=yymD
------END PGP SIGNATURE-----
-
---=-YaSZT5GF7sihG1sqYXbh--
