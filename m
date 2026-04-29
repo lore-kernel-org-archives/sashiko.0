@@ -1,132 +1,188 @@
-Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02C0D3C5544
-	for <sashiko@lists.linux.dev>; Wed, 29 Apr 2026 09:30:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFEED3F166E
+	for <sashiko@lists.linux.dev>; Wed, 29 Apr 2026 14:01:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777455041; cv=none; b=brSiqTCvBmbRG3UQtilOSCOY7Qjoa495JrRps/kxH3Ig76I6bKnnM4WQeik4p6TUY9LVny+t+cNRpsf05HJCG6XwjbWAO0uYV6g9jJHm/RtbX0CaFvQ0sJaLDDyceKNFOJh6uTuiuVl7NPRTuQTj2dqQADSwbxx8xA2re8Cw39M=
+	t=1777471290; cv=none; b=M/dBvqEXSUvyrvwQvPOL04s509d+V7/YhmNX87cm38VinFq/9YBDLFca1sMmQ8kC2yMdOGip8YLBPJ88SBCXo2A7GkT8oRh1w9tuXdSPTQOmmnz9P9xyX8NRMJsdiXmC5XoWWEEnu4v1GjzTklmfwGaNb31zX3/sLjBlrPrejNs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777455041; c=relaxed/simple;
-	bh=/ZVUCZTuUO6JyUM1f8oeaLbyLX0NLCT9d7HVIVgYyrk=;
-	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
-	 References:In-Reply-To; b=E7IzXl1eENEnqRYZs3Rqa5BsY+KGH/oPFh/r/nfi01j4ZT5OhcAk5+xjztJE9K/+xBOcqrdMPMuMYH1iaMUG2vW/MIh0nyy0j1d59ukigt8BEmzfxomDnPZIp67FmC6Pt8scqOtRZNXbb22l5BzJdp8RAuL2Tlr/jk6DAA7XbG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gtxtxpRn; arc=none smtp.client-ip=209.85.210.43
+	s=arc-20240116; t=1777471290; c=relaxed/simple;
+	bh=YkYM51GL/E0EPxztF09dalzXcDlZuXCPZe2oicp13x8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=h5PpmtA1OL/22w+BBh8KsLcBZ4BMc0jcI9pQBR+/yQUWkntkHe/PxcODDsE7fdhIPELflkDBp5m5KTTgk/ewz9h3xNTmfX7bP7Y0+mULUFtxHc22KDB1hdqks7e/y7HOgMZiJzFwhB5LjhWFPRwx6Rga6pSyxzAKzYWTbHMnss4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HRz4Hv0K; arc=none smtp.client-ip=209.85.221.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gtxtxpRn"
-Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-7d1872504cbso601284a34.0
-        for <sashiko@lists.linux.dev>; Wed, 29 Apr 2026 02:30:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HRz4Hv0K"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-43cfbd17589so9837662f8f.0
+        for <sashiko@lists.linux.dev>; Wed, 29 Apr 2026 07:01:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777455037; x=1778059837; darn=lists.linux.dev;
-        h=in-reply-to:references:from:subject:cc:to:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/OAY6vDE7Cb8hHo4kVY+rLYAoTItqF2Are9/Z3tjiQ0=;
-        b=gtxtxpRnc+fS2Shf0qryx0Xx7b8H+hoI0lj1wRZZOhm7o8bUKzz5VcGg3LJUflfxN1
-         tam3roFzWunTkiQKKIWmzs6cqr5xpshyVumy7jROBytP6fnlP46TtVohveBfMlFV9eWp
-         GU0DQzLkWY9GMKJQ7Z2rsOb5aVYTtc8fOJo/THMIL7JrJluACpIrZuDUEiX3lyBOWBg5
-         LbP5qOijMUeH6S34xKNfPr4iVRiVu8OnFp+2aBBOTV4WZZcjAhl11ZLgWzfEoxk1WSid
-         88pA2uZt6jXOtW4hOaJCQu9wIjLbBz0ZADdGr8SRVC/QX68YeNN6tsEK5jn0o++wgOEW
-         lEPw==
+        d=gmail.com; s=20251104; t=1777471286; x=1778076086; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=4VAWCSrGbt/D1GbLISgkV4OM6Tch3UUmiA5VC/PVL/I=;
+        b=HRz4Hv0KKcIAYauMPhXvNp9wiJ7xwuZAc9jp7WZfs7ehW9/7l1a2+kOE5sOfYYKjHG
+         GslkM0F50fkIthu2Z3sq5fhqcDC/uHmBnqbPC+5OE3OnBIWEscl0PSgzxn7GOgtKPJEO
+         VG91w9kP/XWNI4xugWZpXP6YVjyA7NldjyRCibJM1p4S3UcEPByGwJGe9ceBTqlgykw2
+         HuJDNK+BUxqthu5lWT0Eawpigqg9j1vqQN0Ikq31T8b/jteLQ1lVwFhK4SnJU4N+rUh+
+         ++BnEhEJr/6If0feBD/UcYGRjvNBdIEe2tmkzqOQ+sg7p9s9y/IqkQyu9tfkUpz1N57h
+         MYfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777455037; x=1778059837;
-        h=in-reply-to:references:from:subject:cc:to:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/OAY6vDE7Cb8hHo4kVY+rLYAoTItqF2Are9/Z3tjiQ0=;
-        b=RWkr94c01s9kBwdf4ZtKTrVXPzV/48dbrm61Vd8KLzIi2jYT3f4Aic1uLVqJ94aVs1
-         YDqcjNXJRX0NkJ9iw0Qn0w5g1QJJMMVxlkeD3xO8VgxhXzHXreGJPIud0uAlpzfOPHW8
-         Je9W873vsbXNKikLGi8tMXjUERmcKkYggpfjl7wggpFG/BFD8Oq8Uw/YkOo8S4mT8vHX
-         /ze+We52COFeZ1bBk39lj6YHm2s+56v23o550g9fnCiO5FPvLnimVBepFjtf6dtzYO2T
-         jIbVsW+dnmwFtH5qzGhKcryH+IQ1MQnytfLDGwH/XA8kjkAf1LEtEckKdWPik9UsIwuj
-         QtWQ==
-X-Gm-Message-State: AOJu0Ywj4KzPVapuTVN4JtSrgtvSL+tNfvhNNlWI0xiFVZcRmHZcnbQG
-	vzixxoJKCzSfitoW0xFwmPd+YsalC0WBSp7bDRiRzfkxSZyK4cv/zCz0BsnqHaM4c4E=
-X-Gm-Gg: AeBDieuBDdQKC/A5hajTDQW5JMQPYc+TC7yPY+iJKBJ7J8ybhKN+gUjzUujXDM0w4N2
-	C2mVSCxMqM3BZ0CKhmx6hhYvMA3tyAptW9cady1wPJCKEPkjm/lHKg0WOvMtdeE2SUun1/0soxV
-	XdD/lR6TJFuMptSJcyGnXYoCI10tPJyYkQDvwIJYGCzJjY1N0ozF38IbF0+iy1TLLvcXz16jx4n
-	fYXq91WrxKu/VRPS5fbd9ezUG4vAexIktWaDYvZhnV5KRuUcnUhLWZwldQPH4MroRPVEvf8YeG5
-	2n7UzevGs2PcGDKAWPULWkl3AozuTEmb+Bt+sOEvlFhJgbAQcV99Gfql1wKnq7tKhFfOjgSbpc1
-	8XlSUQDwquMu8d4MXPfG951WTED2x0Ky9iJAJIJ3Dh+M0pMqqlmM+GlaoTU3TLwm6IcybTU5r9k
-	dO91ULjYd1LYRgISyNXnP7mIMRP5EOJTxqp2L9zO0U44/PCQsjjj9aEZSVTXyl1EFSAm0U2l0cP
-	ERcyAiTJB7U7l5S8nh5WFkuHa4S
-X-Received: by 2002:a05:6830:6d16:b0:7d7:e3d7:e200 with SMTP id 46e09a7af769-7dea9537f20mr1192393a34.6.1777455037484;
-        Wed, 29 Apr 2026 02:30:37 -0700 (PDT)
-Received: from localhost ([2a03:2880:10ff:59::])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7deab80e9e6sm940505a34.10.2026.04.29.02.30.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Apr 2026 02:30:36 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1777471286; x=1778076086;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4VAWCSrGbt/D1GbLISgkV4OM6Tch3UUmiA5VC/PVL/I=;
+        b=Gw0Mhb501S00U+Y89Id8InYFUK8OK+09f85rKQrzcV5yt/GSQyqYxdgKna8593V206
+         5/TnRAod/GRmk/l4GxDKiesli5o9h7VNaGaLUcSxS03LKhyEHwaa3cIUiMLCMcu+c7Q0
+         YRG5QfWbH4mu/bQDo6SORHE2ksyFYhTBrMbUK3yzUrRst9DRhvDOSlDtLgeWmFTEauHX
+         WQohL9kZAGYbQdJIF13Qo9nOvIXwHhYvkFohw16i+9zORyQXReLWs6xr2JBfQ+EzdATw
+         qpxMMPMD/H0fiuLHyOB3eWaIjpOhRx2zsvi6ZIccQgODn/LzabV3xCKx2vEN+C/K0kkY
+         yuOA==
+X-Gm-Message-State: AOJu0YxNisl+iilEe715dAkebfSU1BphwgZL0bFWBx2rcV7+I6J3OFOu
+	FYEUekQn49sfNz/vydfy7hxbZc1FTR1IBdflgtdzxGWkzDQ8Yf36XIoz
+X-Gm-Gg: AeBDiesDo/q+B3dU+TdMgeYQR7VhaoKhfmy136oIVl2w/ZG0Zvlip93iYxOmGyFMVwo
+	dMGw823HR7Txq+XwbW3iI46Pv3B0JhGa0lBUHvZAqeNBQJJQM3ECg/VB4iANyQ6dNPGkiFwX3KO
+	X8L2qlx1Me2PLD0A1etwLG5NXVoISe5DmAAoT0YRGu5KhUudpmwjWhzf01iOHrj4UpEnUKsScuw
+	nKnLlROUMFwnWyZeANAttVHYSae4mp9Vm4pazaLiy26XVlnjAT+qKZkJjotadpuJhlNNrh53y8a
+	4199esQvJ5owJwU5L+G0IOuJKdmAyXaYr5H/Yp+tKG4oKsDizlU8iNkmRLKTSHtjyQKXFOIex4R
+	IAlMhDnejENiIqvvfvD+pu8h1kOQn3mdRic7oR5WGKRrG5wJ53eMA+Hb9AaVX9aIXrg9IcOeHni
+	0aBLBSAlZiX3Ob91YbS0vNgp2LIG9z2/mVQA7V/uSatr7UEsOy8837Gj+VrXXz+mfuuLxw6e6aA
+	mj0/29aeuBRSYC4iK3O4vkrAQE5aydlcVBkOgUifPQ8Qk/o7C2WkTWzPwrGWfMlbm6tpZfz4KK2
+	UPCvRHRglISQP9cjAhZXL8iZMaaZx1IHrn38L935wy3pQaCUinAX4EU76+Q+0Skl
+X-Received: by 2002:a05:6000:2089:b0:43c:f66e:f31 with SMTP id ffacd0b85a97d-446494ebaf2mr14548292f8f.27.1777471285475;
+        Wed, 29 Apr 2026 07:01:25 -0700 (PDT)
+Received: from mail.gmail.com (2a01cb0889497e00fb2d91b6f941d667.ipv6.abo.wanadoo.fr. [2a01:cb08:8949:7e00:fb2d:91b6:f941:d667])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-447b4216604sm7038590f8f.10.2026.04.29.07.01.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Apr 2026 07:01:24 -0700 (PDT)
+Date: Wed, 29 Apr 2026 16:01:22 +0200
+From: Paul Chaignon <paul.chaignon@gmail.com>
+To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+Cc: sashiko@lists.linux.dev, bpf@vger.kernel.org
+Subject: Re: [PATCH bpf-next 1/2] bpf: Print breakdown of insns processed by
+ subprogs
+Message-ID: <afIPMllq5VI-bJLY@mail.gmail.com>
+References: <5c3514dbc879f22ba3f9eff8a2c730e13bd0572c.1777388107.git.paul.chaignon@gmail.com>
+ <20260428230844.EFA64C2BCAF@smtp.kernel.org>
+ <DI56ZVH6HKDK.1L8J5HPA37J09@gmail.com>
+ <DI578ZDDKR6K.QH52KXPV1CLN@gmail.com>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 29 Apr 2026 02:30:35 -0700
-Message-Id: <DI5J82SMQFQL.2O53NRWH4QSH8@gmail.com>
-To: <sashiko@lists.linux.dev>, "Paul Chaignon" <paul.chaignon@gmail.com>
-Cc: <bpf@vger.kernel.org>
-Subject: Re: [PATCH bpf-next v2 2/2] selftests/bpf: Test insns processed
- breakdown
-From: "Alexei Starovoitov" <alexei.starovoitov@gmail.com>
-X-Mailer: aerc
-References: <24f2a5b5f8e3041d03d78305ca0e2277f684d588.1777398528.git.paul.chaignon@gmail.com> <20260429023623.73482C2BCB7@smtp.kernel.org>
-In-Reply-To: <20260429023623.73482C2BCB7@smtp.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DI578ZDDKR6K.QH52KXPV1CLN@gmail.com>
 
-On Tue Apr 28, 2026 at 7:36 PM PDT, sashiko-bot wrote:
-> Thank you for your contribution! Sashiko AI review found 2 potential issu=
-e(s) to consider:
-> - [Medium] Asserting exact verifier instruction counts in C-based BPF sel=
-ftests causes test flakiness.
-> - [Low] Unused test configuration from blindly elevating log levels to 6 =
-without corresponding assertions.
-> --
->
-> commit c4e03a953efa7cd8cf2e1a288a0c55c4f73cace2
-> Author: Paul Chaignon <paul.chaignon@gmail.com>
->
-> selftests/bpf: Test insns processed breakdown
->
-> This patch updates global subprog selftests to verify the new verifier
-> log breakdown of instructions processed by global subprogs. It does this
-> by increasing log levels and adding new message assertions.
->
->> diff --git a/tools/testing/selftests/bpf/progs/verifier_global_subprogs.=
-c b/tools/testing/selftests/bpf/progs/verifier_global_subprogs.c
->> index 1e08aff7532e..7092a046c018 100644
->> --- a/tools/testing/selftests/bpf/progs/verifier_global_subprogs.c
->> +++ b/tools/testing/selftests/bpf/progs/verifier_global_subprogs.c
->
-> [ ... ]
->
->> @@ -186,21 +187,24 @@ __weak int raw_tp_u64_array(u64 *ctx __arg_ctx)
->>  }
->> =20
->>  SEC("?raw_tp")
->> -__success __log_level(2)
->> +__success __log_level(6)
->> +__msg("insns processed 12+5+2+2")
->>  int arg_tag_ctx_raw_tp(void *ctx)
->
-> Will hardcoding exact instruction counts cause the tests to become flaky =
-across
-> different LLVM/Clang versions or optimization levels?
->
-> Since test_loader.c natively supports regex matching within __msg using t=
-he
-> {{...}} syntax, would it be more reliable to use a pattern to validate th=
-e
-> log format?
->
-> For example, __msg("insns processed {{[0-9]+(\+[0-9]+)*}}") might prevent
-> failures when the compiler generates slightly different assembly.
+On Wed, Apr 29, 2026 at 02:07:33AM +0200, Kumar Kartikeya Dwivedi wrote:
+> On Wed Apr 29, 2026 at 1:55 AM CEST, Kumar Kartikeya Dwivedi wrote:
+> > On Wed Apr 29, 2026 at 1:08 AM CEST, sashiko-bot wrote:
+> >> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
+> >> - [High] Out-of-bounds read in `bpf_subprog_is_global()` when printing verification stats for programs with hidden subprograms.
+> >> --
+> >>
+> >> commit 08128f883e58301e0f97b1d4a94656be63b8f790
+> >> Author: Paul Chaignon <paul.chaignon@gmail.com>
+> >>
+> >> bpf: Print breakdown of insns processed by subprogs
+> >>
+> >> This patch tracks the number of instructions processed by each global
+> >> function (subprog) during BPF verification. It then reports this
+> >> breakdown in the verifier logs under BPF_LOG_STATS.
+> >>
+> >>> diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
+> >>> index 03f9e16c2abe..b48389b48eb6 100644
+> >>> --- a/kernel/bpf/verifier.c
+> >>> +++ b/kernel/bpf/verifier.c
+> >>
+> >> [ ... ]
+> >>
+> >>> @@ -18288,6 +18295,13 @@ static void print_verification_stats(struct bpf_verifier_env *env)
+> >>>  				verbose(env, "+");
+> >>>  		}
+> >>>  		verbose(env, "\n");
+> >>> +		verbose(env, "insns processed %d", env->subprog_info[0].insn_processed);
+> >>> +		for (i = 1; i < env->subprog_cnt; i++) {
+> >>> +			if (!bpf_subprog_is_global(env, i))
+> >>
+> >> Could this introduce a regression due to an out-of-bounds read on the
+> >> func_info_aux array if there are hidden subprograms?
+> >>
+> >> At load time, if BTF is present, env->prog->aux->func_info_aux is allocated
+> >> with exactly func_info_cnt elements, and env->subprog_cnt initially matches
+> >> func_info_cnt.
+> >>
+> >> During verification, if a feature like bpf_throw is used without an explicit
+> >> callback, add_hidden_subprog() is called which increments env->subprog_cnt
+> >> but does not resize the func_info_aux array.
+> >>
+> >> Since this loop iterates up to the updated env->subprog_cnt, when i reaches
+> >> the index of a hidden subprogram, bpf_subprog_is_global() will access
+> >> aux[i].linkage where i >= func_info_cnt:
+> >>
+> >> kernel/bpf/verifier.c:bpf_subprog_is_global() {
+> >> 	struct bpf_func_info_aux *aux = env->prog->aux->func_info_aux;
+> >>
+> >> 	return aux && aux[subprog].linkage == BTF_FUNC_GLOBAL;
+> >> }
+> >>
+> >> Is it possible to skip hidden subprograms here, or limit the check to
+> >> func_info_cnt?
+> >
+> > Don't see it happening, since hidden subprogs never get verified, so we won't
+> > invoke bpf_subprog_is_global() with such a subprog index.
+> 
+> Ah, no, stupid me. We get here after fixing up and adding the hidden subprog. So
+> we can still do OOB since subprog_cnt includes the hidden_subprog_cnt. How about
+> the following as a fix? I checked over other places where we iterate over all of
+> the subprogs and those look fine, so instead of changing bpf_subprog_is_global()
+> we can adjust this function to only consider real subprogs. Didn't compile test.
 
-I have to agree with sashk here.
-It's way too many tests with hard coded insn counts.
-Just one test with above regex is plenty.
+That's a nice find! I also doubted it initially as we have that pattern
+everywhere.
 
-pw-bot: cr
+It looks like this would be a fix for commit 335d1c5b5452 ("bpf:
+Implement support for adding hidden subprogs") (or technically, the next
+commit as 335d1c5b5452 didn't have any user). So maybe I can resend as a
+first patch (with you as a co-author) and the following diff (took the
+opportunity to simplify the logic on the assumption that we always have
+the main "subprog").
+
+Not sure if it would need to be sent to bpf instead of bpf-next. Maybe
+keep the patchset on bpf-next, but add "Cc: stable@vger.kernel.org"?
+
+diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
+index 03f9e16c2abe..8dfe7da76258 100644
+--- a/kernel/bpf/verifier.c
++++ b/kernel/bpf/verifier.c
+@@ -18274,19 +18274,15 @@ static int do_check_main(struct bpf_verifier_env *env)
+ 
+ static void print_verification_stats(struct bpf_verifier_env *env)
+ {
+-       int i;
++       /* Skip over hidden subprogs which are not verified. */
++       int i, subprog_cnt = env->subprog_cnt - env->hidden_subprog_cnt;
+ 
+        if (env->log.level & BPF_LOG_STATS) {
+                verbose(env, "verification time %lld usec\n",
+                        div_u64(env->verification_time, 1000));
+-               verbose(env, "stack depth ");
+-               for (i = 0; i < env->subprog_cnt; i++) {
+-                       u32 depth = env->subprog_info[i].stack_depth;
+-
+-                       verbose(env, "%d", depth);
+-                       if (i + 1 < env->subprog_cnt)
+-                               verbose(env, "+");
+-               }
++               verbose(env, "stack depth %d", env->subprog_info[0].stack_depth);
++               for (i = 1; i < subprog_cnt; i++)
++                       verbose(env, "+%d", env->subprog_info[i].stack_depth);
+                verbose(env, "\n");
+        }
+        verbose(env, "processed %d insns (limit %d) max_states_per_insn %d "
+
