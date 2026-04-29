@@ -1,140 +1,114 @@
-Received: from zg8tmtyylji0my4xnjeumjiw.icoremail.net (zg8tmtyylji0my4xnjeumjiw.icoremail.net [162.243.161.220])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23CD034E75C
-	for <sashiko@lists.linux.dev>; Wed, 29 Apr 2026 15:58:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.161.220
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5D723A7852
+	for <sashiko@lists.linux.dev>; Wed, 29 Apr 2026 21:04:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777478333; cv=none; b=RkB8DRdjWLhm7q8QUACk3/p2fD0a3tQaz1CcNkuZOejThl3UOzveVqA/RS84su/G0NqtutcppbyuQURDWie5Aey+0Kt173SnhUHB7VCqiz/zHf0M5KxQ595P1xNOprINkpeDKquQfQrKaWUadWiHwgrWQyUq4CRr2lrQtmgzAYE=
+	t=1777496673; cv=none; b=BLQ3yCwHw21cACAwnBFMLCfRlkgh86GWrhELECwGKIBovsY/GTuiPay8+65hsgQVd5dmsuqeD1MOp4prIL9hstfUF2UmK5USpTISVbQV2qgUFerAMpHDCBS78wEXVlOGIIi/R7r/NOJ9dQIJRYUxj6cECJecRbK4tU7WCYqCZ9s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777478333; c=relaxed/simple;
-	bh=XEqBbcz2WitoWZ1ZscyguSEKCfVUkHLgH02Rw9uunT4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XAuSNlidsVtjHdlJZjcIh8ttoeDIqhjfopIxTJQCW3RK3cJuyjFILyG14NHSqpeeyHdjz2K1H5b6KR4IY7zpCSHc1w5UCj/E3uveLuKBeKIoRD3E8gJi3AELPlJg2iQBCEx4u5kgCPBXLBkios7sfdqLFFdkjsPWhNpTcS394o8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=162.243.161.220
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zju.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
-Received: from zju.edu.cn (unknown [112.10.248.232])
-	by mtasvr (Coremail) with SMTP id _____wDHGAyuKvJpqyriAA--.4301S3;
-	Wed, 29 Apr 2026 23:58:39 +0800 (CST)
-Received: from [192.168.0.108] (unknown [112.10.248.232])
-	by mail-app3 (Coremail) with SMTP id zS_KCgC3YHOqKvJpiTTHAA--.7276S3;
-	Wed, 29 Apr 2026 23:58:37 +0800 (CST)
-Message-ID: <0fda2248-18a4-4b24-a400-96e177084151@zju.edu.cn>
-Date: Wed, 29 Apr 2026 23:58:33 +0800
+	s=arc-20240116; t=1777496673; c=relaxed/simple;
+	bh=PUv/wtdAaCDxWTSqwMEnMtq40S4x3X73v2jPSv0r6w4=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:From:To:
+	 References:In-Reply-To; b=IUgPp95L9Z/khc6fty6vxhTIhmCHSHXwNzg5lZ8h8smqxI6PcoOF88KX4Y2uJFa7ysoGvSuvDJtD/Wtw5TMI9kh+tqcDS3WYtYskRGx880Q4zgPnf607bcG8Xgw4/j3YV23h6kYMJ4BJ0tVFG0EmHVJsieADEoNUjuBGrPc7XOs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=r9GKvN5f; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="r9GKvN5f"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 24A50C5EF31;
+	Wed, 29 Apr 2026 21:05:11 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id C9ABC5FD43;
+	Wed, 29 Apr 2026 21:04:26 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id E461E1072B31D;
+	Wed, 29 Apr 2026 23:04:25 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1777496666; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=vZB3xOONBlzwTld0/b/9vkSKWE1hI2mPZDQMBd4wIO0=;
+	b=r9GKvN5f/LCZsgVMuxe4ogTRntwEaB81/uuSDp6sckQm4YzHfqhQfZC1shdX6/JxDZGNfy
+	AgkzDeMhl7Xfg0shl/vQO5SO5OvysfEwo2Qrb6SgaWj3RyPWw9jUf0UF0gmFErPW3jwy+l
+	+1DcHSJpPRoxqDeFkX3cLLMsU2WivuTZATX8+vMpS7ow5vSaDxrN1XU3QHsZ93IuzEl/AG
+	H62OS547wYcYrYZSa79e1KNqN/ILxEkMfK3Qg30Xtcc/g+wk/24+a5VLT0GESly19Q0WrC
+	DIyeoB34o+Z6bKCF3I6seRMlLZzglj7gdIfssoPYG14X9xW85exm889oev04eg==
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH bpf-next v8 3/3] selftests/bpf: Add test for large offset
- bpf-to-bpf call
-To: sashiko@lists.linux.dev
-Cc: bpf@vger.kernel.org
-References: <20260429105608.92741-4-tangyazhou@zju.edu.cn>
- <20260429124936.69BA6C19425@smtp.kernel.org>
-Content-Language: en-US
-From: Yazhou Tang <tangyazhou@zju.edu.cn>
-In-Reply-To: <20260429124936.69BA6C19425@smtp.kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:zS_KCgC3YHOqKvJpiTTHAA--.7276S3
-X-CM-SenderInfo: qssvjiasrsq6lmxovvfxof0/1tbiAgQQCmnxDY5GcwAAsy
-X-CM-DELIVERINFO: =?B?yD1euAXKKxbFmtjJiESix3B1w3vD7IpoGYuur0o+r46DyAi5OfOO+T4vrW4FyUBIyu
-	9q9PBiw24NM1oavoRE5xsGAPQtrmzz65JsiqxlGLeAvUxJRfwVpbFy3HR5pjEVwrwKiMAV
-	bq8BGy5xoI+fDA2oVgPXEFtDFbvtVQXJqhjaNJsme6LrgY8qc9QLKJt0I4sQIQ==
-X-Coremail-Antispam: 1Uk129KBj93XoWxurykWF47Cr4fJF47XFWrJFc_yoW5GF4UpF
-	y8Ka4kKF1kWFyIkw1Ikr4DWF1Sq3yxXFyjyr4xXr98AFn8Zrn7GrsIgrW5WFyxCrs2v3W2
-	vrsF934ak3W8AFXCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUyEb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AK
-	xVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc
-	02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAF
-	wI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxAIw28IcxkI7VAKI4
-	8JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xv
-	wVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUXVWUAwCIc40Y0x0EwIxGrwCI42IY6xIIjx
-	v20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20E
-	Y4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267
-	AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU1CPfJUUUUU==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 29 Apr 2026 23:04:24 +0200
+Message-Id: <DI5XZAYSH081.1FI819ZYQZW8L@bootlin.com>
+Subject: Re: [PATCH RFC bpf-next 3/8] bpf: add BPF_JIT_KASAN for KASAN
+ instrumentation of JITed programs
+Cc: <bpf@vger.kernel.org>
+From: =?utf-8?q?Alexis_Lothor=C3=A9?= <alexis.lothore@bootlin.com>
+To: <sashiko@lists.linux.dev>,
+ =?utf-8?b?QWxleGlzIExvdGhvcsOpIChlQlBGIEZvdW5kYXRpb24p?=
+ <alexis.lothore@bootlin.com>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260413-kasan-v1-3-1a5831230821@bootlin.com>
+ <20260425051840.1E7C1C2BCB2@smtp.kernel.org>
+In-Reply-To: <20260425051840.1E7C1C2BCB2@smtp.kernel.org>
+X-Last-TLS-Session-Version: TLSv1.3
 
-
-
-On 4/29/26 20:49, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
-> - [High] Missing compiler barrier in the inline assembly landing pad allows LLVM to hoist the 'call_happened' load, leading to an infinite recursion loop and kernel panic.
+On Sat Apr 25, 2026 at 7:18 AM CEST, sashiko-bot wrote:
+> Sashiko AI review found 2 potential issue(s):
+> - [Medium] BPF_JIT_KASAN is defined as a hidden config, preventing users =
+from disabling it.
+> - [Medium] Mismatch between commit message claims and Kconfig implementat=
+ion regarding KASAN modes.
 > --
-> 
-> commit 7a012e4a738e7d37b40994fe21bcf400bb1dd252
-> Author: Yazhou Tang <tangyazhou518@outlook.com>
-> 
-> selftests/bpf: Add test for large offset bpf-to-bpf call
-> 
-> This commit adds a selftest to verify verifier and JIT behavior when handling
-> bpf-to-bpf calls with relative jump offsets exceeding the s16 boundary. It uses
-> an inline assembly block with a .rept directive to generate a large dummy
-> subprogram, forcing the verifier to process a jump exceeding the s16 range.
-> 
->> diff --git a/tools/testing/selftests/bpf/progs/verifier_call_large_imm.c b/tools/testing/selftests/bpf/progs/verifier_call_large_imm.c
->> new file mode 100644
->> index 000000000000..da52a1c16d05
->> --- /dev/null
->> +++ b/tools/testing/selftests/bpf/progs/verifier_call_large_imm.c
-> 
-> [ ... ]
-> 
->> +SEC("syscall")
->> +__success __retval(3)
->> +int call_large_imm_test(void *ctx)
->> +{
->> +	/*
->> +	 * Landing pad to handle call error on kernel without the fix,
->> +	 * preventing kernel panic.
->> +	 */
->> +	asm volatile (
->> +	"r0 = 0;"
->> +	".rept 32768;"
->> +	"r0 += 0;"
->> +	".endr;"
->> +	::: "r0");
->> +
->> +	/*
->> +	 * The call_happened variable is 1 only when the call insn wrongly
->> +	 * go back to the landing pad above.
->> +	 */
->> +	if (call_happened == 1) {
-> 
-> Could this lack of a memory clobber in the inline assembly allow the compiler
-> to hoist the load of call_happened to before the inline assembly block?
-> 
-> Because call_happened is a plain global variable and the asm volatile block
-> does not include a "memory" clobber, LLVM is structurally permitted to optimize
-> the code by hoisting the load.
-> 
-> If the load is hoisted and a truncated backwards jump lands inside the
-> assembly block on an unpatched kernel, the if condition would evaluate a stale
-> register value (0) instead of re-reading memory.
-> 
-> Will this bypass the termination check, re-execute the target_subprog call,
-> and create an infinite recursion loop that overflows the kernel stack?
 
-Yes. I should use __clobber_all in the inline asm.
+[...]
 
-I will send v9 asap.
+>> @@ -101,4 +105,9 @@ config BPF_LSM
+>> =20
+>>  	  If you are unsure how to answer this question, answer N.
+>> =20
+>> +config BPF_JIT_KASAN
+>> +	bool
+>> +	depends on HAVE_EBPF_JIT_KASAN
+>> +	default y if BPF_JIT && KASAN_GENERIC
+>> +
+>>  endmenu # "BPF subsystem"
+>
+> Since this config is defined as a bool without a prompt string, it acts a=
+s a
+> hidden symbol that is forcefully enabled whenever its dependencies are me=
+t.
+>
+> Because KASAN instrumentation emits shadow memory checks, it can signific=
+antly
+> inflate the size of generated JIT code.
+>
+> Could this code expansion cause large BPF programs to exceed the strict B=
+PF
+> JIT memory limits (bpf_jit_limit) and break BPF functionality?
 
-> 
->> +		/* A volatile variable is used here to prevent optimization. */
->> +		volatile int flag = -1;
->> +		return flag;
->> +	}
->> +
->> +	call_happened = 1;
->> +
->> +	padding_subprog();
->> +
->> +	return target_subprog();
->> +}
-> 
+It likely can, indeed, but...
+
+> If so, would it make sense to provide a prompt text so users and automate=
+d
+> testing systems have a mechanism to manually disable CONFIG_BPF_JIT_KASAN
+> to work around JIT limits or isolate bugs without having to entirely disa=
+ble
+> KASAN_GENERIC?
+
+... the discussions around this RFC rather tend make the series go in
+the opposite direction ([1]) and keep it systematically enabled if KASAN
+is enabled (I'll even drop this patch in the next revision and just make
+the KASAN code in JIT directly depend on KASAN_GENERIC).
+
+[1] https://lore.kernel.org/bpf/CAADnVQLj=3DUosnsC-4V2+mN92Fe0-kW++U+m-O9c9=
+3kk6BwiXgw@mail.gmail.com/
+
+--=20
+Alexis Lothor=C3=A9, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
