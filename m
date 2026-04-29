@@ -1,203 +1,188 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7BDC375F96
-	for <sashiko@lists.linux.dev>; Wed, 29 Apr 2026 21:59:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777499987; cv=none; b=UhesrrXBtEpTkT9YE1qhg7x0i2vc+HuvjDgPFLtAlZIyFH25iB2A87IwJ7TTrXZWI8OLwcI0FAO1ateNxiN6NLLhgxBwniUTD4huShnthAhcaEeqpf4Rm7c6XRj09BXU6WnZnLWgX8G4REE3fd2mFpAdqqDKa1P+PCkhoyBpgTo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777499987; c=relaxed/simple;
-	bh=BORUCfMcLwQFjc0MMtWSijymVIr2LiRqqs8Jf4GbivM=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:From:To:
-	 References:In-Reply-To; b=LY7sS4VpdgPeyovD1hC66fK89hVD0ixqv3h06b6+BXsZU9NobYr3+en9lHIpMcdO9DGiTUZH7I2q9s8mnmsKESWpSjk7MKANV92g0PXKdM5YhdiRzooFy2V6/8CJ3qpT/kLqmFLmMHQ+I/P3VcooIaZa+VVXsw5fKhFCnK/430o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=zYM1R7x9; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDE8443E483
+	for <sashiko@lists.linux.dev>; Wed, 29 Apr 2026 22:18:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.68
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777501113; cv=pass; b=SrZH2+0AQOwMonnMhUgkM7QRgWA5HoRdaugHCWSuvRihRcWY15urV2KluuU3w31D2c7pHpofG1uuxsVEVpYj/aTy53xk0jGVGyjhuuSFxBAJTW+m5ko7NfFzGN2MJcvvypli3gBmk0uxXZ5GS3QDyqINrPxVyQR9jRJrDl53D6M=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777501113; c=relaxed/simple;
+	bh=tYF5ImeKfH0MhfqFqALg1UhDM4+qKe5D6LzI6Qrw3sI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UyNtEputwyzmGr/ggUF+wdorKIykicadT0PH5hY7tFCAxCtz8mSKwkaGwNrEwFKUKQqcwKR92oiNG2tXjnbj52MCqaJJuRVm2PtTCe7ZA/Q/51vZp6r6a5P6UStUOTYxbaqa4v+4m75SLEHt9AMIM2DPG7sVnYB2DuPxXJBWzKw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ufiss0om; arc=pass smtp.client-ip=209.85.221.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="zYM1R7x9"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 53050C5CD5D
-	for <sashiko@lists.linux.dev>; Wed, 29 Apr 2026 22:00:26 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 065E95FD43;
-	Wed, 29 Apr 2026 21:59:42 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 39CA01072B29B;
-	Wed, 29 Apr 2026 23:59:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1777499981; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=17Ieqez20ddO86cLwBFV5a8flr66siV3U2xPZKWlp+o=;
-	b=zYM1R7x9u4BLYQE5+g+7evwKDjVzryGFfpudLNzIwU/4FBVrv4HBp0wUmykVMa4OWC6ARm
-	D24/8TIEms88f7xDjNyamTHAVDKoXBV7QKomJNwRPGx6sxxbU9SeaP0w5ESn2mBwSnoCZC
-	S+Qg6hxGaeHqVV8RCXRaB53Ii/I+ceW4QqThCNuu0bZDIy1YHhDropUcPM+xtXPvSdTnha
-	YQtpW2v1xLCZRLDMd8POwiFxjh5nuBCkt/kM1ZHrSmczcD2lK1yGPV4XARTjQU39zHESqB
-	DLfIlcqoTWVDrdVpGIsZd3F0SWw7VPjKvlUVMUpdRuhj79xT11n2yDV6x1oaBg==
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ufiss0om"
+Received: by mail-wr1-f68.google.com with SMTP id ffacd0b85a97d-43cf8d550bdso254833f8f.0
+        for <sashiko@lists.linux.dev>; Wed, 29 Apr 2026 15:18:06 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777501079; cv=none;
+        d=google.com; s=arc-20240605;
+        b=KUyWEKjIbMV45hpImeWCdtnEgrMYeDO7iNXvbdq66R7OPJf2kNgpxclTMcNEAwRVNs
+         cqfyZODafEk7fqsL431HfiwFKjb2RsBwCgLlT0wcHSY5m3HRKS+WPPrQCL9gEjWuQ48L
+         7jqiCX6/fOtqCtBiMeHIENlLRe+zEyTRS7Lu7/8PSW2wYSfcOsM74OvSBb+jm/HesBCp
+         lPiKBcaeVdfHxKeJnr7jgoDCevSs/UZMrMq8ri895xZBfPkt7gXi46ibR3hwjC1TmBm4
+         Ec/4pvOwwJT2cpqDZaYOdWGIj4ZSJtOw/zV99UHDl0X/NOfqC3wLbOlUkgiNV6J0DqyE
+         cuuw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=U2h3VezLsp5DKwP85IUlxsYIWmkmTvnb6c5O+N8gFCw=;
+        fh=LoD9UWPGP7y1DlatwJoYobykvN8P8/KNFynZv0yv/3E=;
+        b=hKpT34ZpsOJ4qIZFqLgIgfriCTx1+GuHs1ytFmtOgkRMj2SqOdHnaXpXpKqgPVSABU
+         xnjL2IaVZtnQbVpVBD9dqGE4NwoZX9NdVLNFenOIUgykrV7rWKzeTDoefm2zY0tJ9NtR
+         Pl+VFhTXbSeYlJhf5vQaZEb/lg33DnHN5yvi/txdl0JSzLM90Ea5SVTQHGsuVWtzImPq
+         8WE0WdlaGQ+oOHg9EaN5coYO1m0n0XRvOprX5Az3EWuS7GSPe4btBL71KGJoJxEzWsLa
+         S519MruQkfcTjGtmI45X1FXUj2AGc6ajHgphIMBa6e8ECh2a774PSCPXYUb2a1OEZpxf
+         bN+Q==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777501079; x=1778105879; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=U2h3VezLsp5DKwP85IUlxsYIWmkmTvnb6c5O+N8gFCw=;
+        b=Ufiss0omd39ZGxJpGIap81AO3Vw5gy44QRmRzfIA1Ld2jRZBJLyyCMwQCO52uUuSeH
+         YDp0D1+GrgoT9EmvgLGJqlH0d8nTHhOD069h7uyJk2sx9HKj7VQgXf5Il9Nq9GQRwdiv
+         vbXXCNEcujHOYXPGb6fkBxZ1i/IvOTpZuKO0UPnnhmmm98nZ4PE9Zu1YKOAZQydMB5kq
+         D/9tyFVcL5ppcWshMVJDi5GSbh7nuoPPgzw3zBc8MWB58YCIPJKUNYPY+NFjkIWoGpXK
+         cs60Z96KTc3Yl9ncN07NF3yqWFtHgNXFq425COni1PmIH38oyHBQqUu/Y1jRkDL8a4xq
+         PeMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777501079; x=1778105879;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=U2h3VezLsp5DKwP85IUlxsYIWmkmTvnb6c5O+N8gFCw=;
+        b=owGSAyMSBCeToYcjk+VRh1Hq0EZ9E6OqbNAzLgWkPyNhG+j/s1i3xofGeNV0sHi7cr
+         8fvq7Ybtidd2OD7JIk3Oh+2omPevZlskNwchRVo7EVy1/x7ittMhMKUGaawsPO6ciuzL
+         DF3bZhGeVh+gR56digIBNkmRPHP9gnxF+yLOYLYAkU5VEFaabXqM2wekbgJX4mQlyECf
+         UFCjU9lat/WPWkbaKwdLavPf3eEtbgX9NMbsBVgxleHrXFhxhIb4nQ97Rdy4mDXYL07Y
+         MKw7cBe/OhBlM9g4qfUfA9uUxrhzKOYSLk64iBwxygFZKlW49wikey3AmdQP7Leiorz5
+         w8oQ==
+X-Gm-Message-State: AOJu0Yx2suXUlKEkr2UFQfRaXOMlIqWbpX2iBL5wmImsuQMfOqXqrnRj
+	Bp+ji6IifeIQRvIWhYNe8q7IxJedShKzGmaP1zyBCcUKl1YNRK5ScqHShcB/FqZeZ4k+Q7OULoN
+	gv+BA5ZLhQv+hoxRSF2sIExjTUZ+M1VfC6Ory
+X-Gm-Gg: AeBDietzVjd6KdjDWWwFDk14IE8A4ogQf9sE2su6B0G27GQfyixUf3ZqVuI4npvAmH2
+	Y+GcF47y0ImXkHZXN+XosxIzqsM8/48+Slpz2oBIebxDgfX6FQwR2SIQR6AvTaR7DVhULcWQFA6
+	+2Fn2qiFZhlsKO3vOLlwfjOHrtzdc9JCtDmGMKF6HJ/wsGVM27xhm0bAnX/PYfsZcKW5uElkBN1
+	36sf24Jmb+MP0two4DU15GX/7x8lYo5g0em8sQcK7XKE02p0ws/hbkwu+tiseUjFaGIEfbwea7x
+	4KWjOz357MRBpnup8eMfz1qS+qOnkx6zZiQtVwclE/OM0MXfFCBlg7BWSA5PtnMEuqFOQzm7/tQ
+	Z//flPqJy7wS7ddrDBETGSSvB9lHMXNAwtqJ25FyEVktFYQlOz54YZA5+xydWIwPK2FV2
+X-Received: by 2002:a05:6000:1869:b0:43d:69ff:6898 with SMTP id
+ ffacd0b85a97d-4493d7fa267mr276743f8f.9.1777501079154; Wed, 29 Apr 2026
+ 15:17:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 29 Apr 2026 23:59:40 +0200
-Message-Id: <DI5Z5M5V99JY.3JRWFJY5MLVZS@bootlin.com>
-Subject: Re: [PATCH RFC bpf-next 5/8] bpf, x86: emit KASAN checks into x86
- JITed programs
-Cc: <bpf@vger.kernel.org>
-From: =?utf-8?q?Alexis_Lothor=C3=A9?= <alexis.lothore@bootlin.com>
-To: <sashiko@lists.linux.dev>,
- =?utf-8?b?QWxleGlzIExvdGhvcsOpIChlQlBGIEZvdW5kYXRpb24p?=
- <alexis.lothore@bootlin.com>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260413-kasan-v1-5-1a5831230821@bootlin.com>
- <20260425060828.1DAF8C2BCB0@smtp.kernel.org>
-In-Reply-To: <20260425060828.1DAF8C2BCB0@smtp.kernel.org>
-X-Last-TLS-Session-Version: TLSv1.3
+MIME-Version: 1.0
+References: <5c3514dbc879f22ba3f9eff8a2c730e13bd0572c.1777388107.git.paul.chaignon@gmail.com>
+ <20260428230844.EFA64C2BCAF@smtp.kernel.org> <DI56ZVH6HKDK.1L8J5HPA37J09@gmail.com>
+ <DI578ZDDKR6K.QH52KXPV1CLN@gmail.com> <afIPMllq5VI-bJLY@mail.gmail.com> <afIphKy2138OC5GR@mail.gmail.com>
+In-Reply-To: <afIphKy2138OC5GR@mail.gmail.com>
+From: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+Date: Thu, 30 Apr 2026 00:17:22 +0200
+X-Gm-Features: AVHnY4KrtM4V07tNGQMH1e-9IWZnb87S9yAPWfWBWf463BF_kxL9uAQjccpYRzs
+Message-ID: <CAP01T74Vk3+udUbt5scHNuudje9ArOatSARQdkbhtFw7E7nJLg@mail.gmail.com>
+Subject: Re: [PATCH bpf-next 1/2] bpf: Print breakdown of insns processed by subprogs
+To: Paul Chaignon <paul.chaignon@gmail.com>
+Cc: sashiko@lists.linux.dev, bpf@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Sat Apr 25, 2026 at 8:08 AM CEST, sashiko-bot wrote:
-> Sashiko AI review found 3 potential issue(s):
-> - [High] Missing KASAN instrumentation for immediate-based memory stores =
-(BPF_ST | BPF_MEM) and incorrect write detection.
-> - [High] Missing KASAN instrumentation for standard atomic memory operati=
-ons (BPF_STX | BPF_ATOMIC).
-> - [High] Incorrect IP calculation in emit_kasan_check() leads to wrong ju=
-mp offsets and kernel crashes when IBT is enabled.
-> --
+On Wed, 29 Apr 2026 at 17:53, Paul Chaignon <paul.chaignon@gmail.com> wrote:
 >
-> commit bdea14177f5d099598de93e92ea9aecf3714ba64
-> Author: Alexis Lothor=C3=A9 (eBPF Foundation) <alexis.lothore@bootlin.com=
+> On Wed, Apr 29, 2026 at 04:01:25PM +0200, Paul Chaignon wrote:
+> > On Wed, Apr 29, 2026 at 02:07:33AM +0200, Kumar Kartikeya Dwivedi wrote:
+> > > On Wed Apr 29, 2026 at 1:55 AM CEST, Kumar Kartikeya Dwivedi wrote:
+> > > > On Wed Apr 29, 2026 at 1:08 AM CEST, sashiko-bot wrote:
+> > > >> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
+> > > >> - [High] Out-of-bounds read in `bpf_subprog_is_global()` when printing verification stats for programs with hidden subprograms.
+> > > >> --
+> > > >>
+> > > >> commit 08128f883e58301e0f97b1d4a94656be63b8f790
+> > > >> Author: Paul Chaignon <paul.chaignon@gmail.com>
+> > > >>
+> > > >> bpf: Print breakdown of insns processed by subprogs
+> > > >>
+> > > >> This patch tracks the number of instructions processed by each global
+> > > >> function (subprog) during BPF verification. It then reports this
+> > > >> breakdown in the verifier logs under BPF_LOG_STATS.
+> > > >>
+> > > >>> diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
+> > > >>> index 03f9e16c2abe..b48389b48eb6 100644
+> > > >>> --- a/kernel/bpf/verifier.c
+> > > >>> +++ b/kernel/bpf/verifier.c
+> > > >>
+> > > >> [ ... ]
+> > > >>
+> > > >>> @@ -18288,6 +18295,13 @@ static void print_verification_stats(struct bpf_verifier_env *env)
+> > > >>>                                 verbose(env, "+");
+> > > >>>                 }
+> > > >>>                 verbose(env, "\n");
+> > > >>> +               verbose(env, "insns processed %d", env->subprog_info[0].insn_processed);
+> > > >>> +               for (i = 1; i < env->subprog_cnt; i++) {
+> > > >>> +                       if (!bpf_subprog_is_global(env, i))
+> > > >>
+> > > >> Could this introduce a regression due to an out-of-bounds read on the
+> > > >> func_info_aux array if there are hidden subprograms?
+> > > >>
+> > > >> At load time, if BTF is present, env->prog->aux->func_info_aux is allocated
+> > > >> with exactly func_info_cnt elements, and env->subprog_cnt initially matches
+> > > >> func_info_cnt.
+> > > >>
+> > > >> During verification, if a feature like bpf_throw is used without an explicit
+> > > >> callback, add_hidden_subprog() is called which increments env->subprog_cnt
+> > > >> but does not resize the func_info_aux array.
+> > > >>
+> > > >> Since this loop iterates up to the updated env->subprog_cnt, when i reaches
+> > > >> the index of a hidden subprogram, bpf_subprog_is_global() will access
+> > > >> aux[i].linkage where i >= func_info_cnt:
+> > > >>
+> > > >> kernel/bpf/verifier.c:bpf_subprog_is_global() {
+> > > >>  struct bpf_func_info_aux *aux = env->prog->aux->func_info_aux;
+> > > >>
+> > > >>  return aux && aux[subprog].linkage == BTF_FUNC_GLOBAL;
+> > > >> }
+> > > >>
+> > > >> Is it possible to skip hidden subprograms here, or limit the check to
+> > > >> func_info_cnt?
+> > > >
+> > > > Don't see it happening, since hidden subprogs never get verified, so we won't
+> > > > invoke bpf_subprog_is_global() with such a subprog index.
+> > >
+> > > Ah, no, stupid me. We get here after fixing up and adding the hidden subprog. So
+> > > we can still do OOB since subprog_cnt includes the hidden_subprog_cnt. How about
+> > > the following as a fix? I checked over other places where we iterate over all of
+> > > the subprogs and those look fine, so instead of changing bpf_subprog_is_global()
+> > > we can adjust this function to only consider real subprogs. Didn't compile test.
+> >
+> > That's a nice find! I also doubted it initially as we have that pattern
+> > everywhere.
+> >
+> > It looks like this would be a fix for commit 335d1c5b5452 ("bpf:
+> > Implement support for adding hidden subprogs") (or technically, the next
+> > commit as 335d1c5b5452 didn't have any user). So maybe I can resend as a
+> > first patch (with you as a co-author) and the following diff (took the
+> > opportunity to simplify the logic on the assumption that we always have
+> > the main "subprog").
 >
->
-> bpf, x86: emit KASAN checks into x86 JITed programs
->
-> This commit inserts KASAN shadow memory checks before load and store
-> operations in JIT-compiled BPF programs. It aims to detect memory safety =
-bugs
-> while explicitly skipping stack accesses and faulting PROBE instructions.
->
->> diff --git a/arch/x86/net/bpf_jit_comp.c b/arch/x86/net/bpf_jit_comp.c
->> index b90103bd00809..111fe1d551219 100644
->> --- a/arch/x86/net/bpf_jit_comp.c
->> +++ b/arch/x86/net/bpf_jit_comp.c
-> [ ... ]
->> @@ -2242,6 +2244,11 @@ st:			if (is_imm8(insn->off))
->>  		case BPF_STX | BPF_MEM | BPF_H:
->>  		case BPF_STX | BPF_MEM | BPF_W:
->>  		case BPF_STX | BPF_MEM | BPF_DW:
->> +			err =3D emit_kasan_check(&prog, dst_reg, insn,
->> +					       image + addrs[i - 1],
->> +					       accesses_stack);
->> +			if (err)
->> +				return err;
->>  			emit_stx(&prog, BPF_SIZE(insn->code), dst_reg, src_reg, insn->off);
->>  			break;
->
-> Is the correct instruction pointer being passed to emit_kasan_check() her=
-e?
->
-> Earlier in do_jit(), the local ip variable is updated to account for
-> conditionally emitted prefixes:
->
->     if (bpf_insn_is_indirect_target(env, bpf_prog, i - 1))
->         EMIT_ENDBR();
->
->     ip =3D image + addrs[i - 1] + (prog - temp);
->
-> Passing image + addrs[i - 1] directly ignores the size of the ENDBR prefi=
-x.
-> Could this cause the relative jump offset in emit_call() to be off by 4
-> bytes, leading to a kernel crash when branching to the KASAN function?
+> Just saw that subprog_info is statically allocated (contrary to
+> func_info_aux) so we wouldn't get an OOB on the existing code, just
+> some garbage "+0" on the stack depths.
 
-I have CONFIG_X86_KERNEL_IBT=3Dy in my testing kernel, so if that's indeed
-a valid scenario, I may have been lucky (or rather, unlucky) to not see the
-corresponding crash while running the full selftests set. I'll dig into
-that.
+Yeah, I don't think it was buggy before this, e.g. adjust_btf_func()
+explicitly avoids touching func_info for this reason.
+Just feel free to fold the diff into your commit and resend, no need
+to send a separate change or make me co author.
 
-> Additionally, looking at the code surrounding this hunk:
 >
->         /* ST: *(u8*)(dst_reg + off) =3D imm */
->     case BPF_ST | BPF_MEM | BPF_B:
->         if (is_ereg(dst_reg))
->             EMIT2(0x41, 0xC6);
->         else
->             EMIT1(0xC6);
->         goto st;
-> [ ... ]
->     case BPF_ST | BPF_MEM | BPF_DW:
->         EMIT2(add_1mod(0x48, dst_reg), 0xC7);
+> >
+> > Not sure if it would need to be sent to bpf instead of bpf-next. Maybe
+> > keep the patchset on bpf-next, but add "Cc: stable@vger.kernel.org"?
 >
-> st:     if (is_imm8(insn->off))
->             EMIT2(add_1reg(0x40, dst_reg), insn->off);
->         else
->             EMIT1_off32(add_1reg(0x80, dst_reg), insn->off);
+> [...]
 >
->         EMIT(imm32, bpf_size_to_x86_bytes(BPF_SIZE(insn->code)));
->         break;
->
-> Are immediate-based memory stores (BPF_ST | BPF_MEM) meant to be skipped?
-
-As mentioned in the previous comments, BPF_ST/BPF_LD are indeed meant to
-be skipped.
-
-> Unlike BPF_STX, there is no emit_kasan_check() added here, which seems to
-> allow uninstrumented writes to kernel memory.
->
-> If instrumentation is added here, there might be a second issue. Looking =
-at
-> the helper:
->
-> static int emit_kasan_check(..., struct bpf_insn *insn, ...)
-> {
->     bool is_write =3D BPF_CLASS(insn->code) =3D=3D BPF_STX;
->     ...
-> }
->
-> Since BPF_ST has a different class, would this evaluate to false and
-> incorrectly emit a read check instead of a write check?
->
-> [ ... ]
->> @@ -2390,6 +2397,12 @@ st:			if (is_imm8(insn->off))
->>  				/* populate jmp_offset for JAE above to jump to start_of_ldx */
->>  				start_of_ldx =3D prog;
->>  				end_of_jmp[-1] =3D start_of_ldx - end_of_jmp;
->> +			} else {
->> +				err =3D emit_kasan_check(&prog, src_reg, insn,
->> +						       image + addrs[i - 1],
->> +						       accesses_stack);
->> +				if (err)
->> +					return err;
->>  			}
->>  			if (BPF_MODE(insn->code) =3D=3D BPF_PROBE_MEMSX ||
->>  			    BPF_MODE(insn->code) =3D=3D BPF_MEMSX)
->
-> Further down in the function, atomic operations are handled:
->
->     case BPF_STX | BPF_ATOMIC | BPF_W:
->     case BPF_STX | BPF_ATOMIC | BPF_DW:
->         if (insn->imm =3D=3D (BPF_AND | BPF_FETCH) ||
->             insn->imm =3D=3D (BPF_OR | BPF_FETCH) ||
->             insn->imm =3D=3D (BPF_XOR | BPF_FETCH)) {
->             bool is64 =3D BPF_SIZE(insn->code) =3D=3D BPF_DW;
->
-> Should standard atomic memory operations be instrumented as well?
->
-> While the commit message notes that BPF_PROBE_ATOMIC instructions are ski=
-pped
-> because they handle faults, standard BPF_STX | BPF_ATOMIC operations perf=
-orm
-> memory modifications without fault-handling semantics.
->
-> Since emit_kasan_check() is omitted here, could an invalid base pointer u=
-sed
-> in an atomic operation bypass KASAN and corrupt memory?
-
-Atomics were skipped for the RFC, but that's a point I want to tackle
-in the next revision.
-
---=20
-Alexis Lothor=C3=A9, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
