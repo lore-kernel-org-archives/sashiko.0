@@ -1,38 +1,38 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5D723A7852
-	for <sashiko@lists.linux.dev>; Wed, 29 Apr 2026 21:04:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5711359A6C
+	for <sashiko@lists.linux.dev>; Wed, 29 Apr 2026 21:31:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777496673; cv=none; b=BLQ3yCwHw21cACAwnBFMLCfRlkgh86GWrhELECwGKIBovsY/GTuiPay8+65hsgQVd5dmsuqeD1MOp4prIL9hstfUF2UmK5USpTISVbQV2qgUFerAMpHDCBS78wEXVlOGIIi/R7r/NOJ9dQIJRYUxj6cECJecRbK4tU7WCYqCZ9s=
+	t=1777498292; cv=none; b=hCUDXS25wTPhA98jhvwNb1HCE9lnZOINLpwyJbSmrT5faeyeBrzlS57s/yc1Aj88zODXMDOKGgah6NxED7Y0DyeoKDQIgNuvQFm55piq/GAGFIS7Sh7nNmJlIfF8DuLHjkgpZ42kY+eFmLamVeiSKHbdW9pn5lSe1EDS0FY+tpE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777496673; c=relaxed/simple;
-	bh=PUv/wtdAaCDxWTSqwMEnMtq40S4x3X73v2jPSv0r6w4=;
+	s=arc-20240116; t=1777498292; c=relaxed/simple;
+	bh=+My9DTjOCuWyhF3CS8RgMFRbM0cHQ68Q7W+MomrR2dI=;
 	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:From:To:
-	 References:In-Reply-To; b=IUgPp95L9Z/khc6fty6vxhTIhmCHSHXwNzg5lZ8h8smqxI6PcoOF88KX4Y2uJFa7ysoGvSuvDJtD/Wtw5TMI9kh+tqcDS3WYtYskRGx880Q4zgPnf607bcG8Xgw4/j3YV23h6kYMJ4BJ0tVFG0EmHVJsieADEoNUjuBGrPc7XOs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=r9GKvN5f; arc=none smtp.client-ip=185.171.202.116
+	 References:In-Reply-To; b=IsEjah9RN35z6aLi3vjGw7F/G4RprcCm7WRV8im0oiHIjdLKWEpq5cCB5EQynzjsrCXt20F4FQViwZbewstMnrSsra4yyBZm9VtWGvHZzVpWWgWvD9Hy6T2LwdG2vLKXYJzp8cEwW+HRvsS1ppSFwH+hi2FvkCwHycKbOEN8qM0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=S7JyE9z0; arc=none smtp.client-ip=185.246.84.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="r9GKvN5f"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="S7JyE9z0"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 24A50C5EF31;
-	Wed, 29 Apr 2026 21:05:11 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 3CA1F1A347A
+	for <sashiko@lists.linux.dev>; Wed, 29 Apr 2026 21:31:28 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id C9ABC5FD43;
-	Wed, 29 Apr 2026 21:04:26 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id E461E1072B31D;
-	Wed, 29 Apr 2026 23:04:25 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id F142A5FD43;
+	Wed, 29 Apr 2026 21:31:27 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 076EF1072B383;
+	Wed, 29 Apr 2026 23:31:26 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1777496666; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1777498287; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=vZB3xOONBlzwTld0/b/9vkSKWE1hI2mPZDQMBd4wIO0=;
-	b=r9GKvN5f/LCZsgVMuxe4ogTRntwEaB81/uuSDp6sckQm4YzHfqhQfZC1shdX6/JxDZGNfy
-	AgkzDeMhl7Xfg0shl/vQO5SO5OvysfEwo2Qrb6SgaWj3RyPWw9jUf0UF0gmFErPW3jwy+l
-	+1DcHSJpPRoxqDeFkX3cLLMsU2WivuTZATX8+vMpS7ow5vSaDxrN1XU3QHsZ93IuzEl/AG
-	H62OS547wYcYrYZSa79e1KNqN/ILxEkMfK3Qg30Xtcc/g+wk/24+a5VLT0GESly19Q0WrC
-	DIyeoB34o+Z6bKCF3I6seRMlLZzglj7gdIfssoPYG14X9xW85exm889oev04eg==
+	bh=lCWh6tcZi9k3OV9RSuqq38Tvxh/sTNtCBC/zukANFHM=;
+	b=S7JyE9z0P7UerB5WFHq+rvcwzKIuIAcvzzH1TlWgzRp61FPF8OAr2I/0UnM0Qg+WRluGcC
+	vhxlHfZYENDs+eT6XTme7hlhWaB7lOVp4H6mBPHhE/v5nDcOwDK0pIDXw1hsz/h1/Xmz8c
+	9CY/7jHgNKBYWWdcAAyxqZsiIrsjAWAoTxNBDFPOzij/5EVGEGYn7G8/o1tDhHdM15hUV9
+	4JoGt1EApZM2oBezHhcnUuYBuP2iNNiYmLaXMGwYGkreetROLgxvTYLYCIlc5FILtGxgei
+	AuSpYKI355vYAVsSNyyzCwLgznw3l+0xgUb28RWGlRoJWdUR0vmicDZ9dFziDA==
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
@@ -41,71 +41,133 @@ List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Wed, 29 Apr 2026 23:04:24 +0200
-Message-Id: <DI5XZAYSH081.1FI819ZYQZW8L@bootlin.com>
-Subject: Re: [PATCH RFC bpf-next 3/8] bpf: add BPF_JIT_KASAN for KASAN
- instrumentation of JITed programs
+Date: Wed, 29 Apr 2026 23:31:26 +0200
+Message-Id: <DI5YJZV8HWWA.2Y1YLSO42IH4D@bootlin.com>
+Subject: Re: [PATCH RFC bpf-next 4/8] bpf, x86: add helper to emit kasan
+ checks in x86 JITed programs
 Cc: <bpf@vger.kernel.org>
 From: =?utf-8?q?Alexis_Lothor=C3=A9?= <alexis.lothore@bootlin.com>
 To: <sashiko@lists.linux.dev>,
  =?utf-8?b?QWxleGlzIExvdGhvcsOpIChlQlBGIEZvdW5kYXRpb24p?=
  <alexis.lothore@bootlin.com>
 X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260413-kasan-v1-3-1a5831230821@bootlin.com>
- <20260425051840.1E7C1C2BCB2@smtp.kernel.org>
-In-Reply-To: <20260425051840.1E7C1C2BCB2@smtp.kernel.org>
+References: <20260413-kasan-v1-4-1a5831230821@bootlin.com>
+ <20260425054606.612E9C2BCB0@smtp.kernel.org>
+In-Reply-To: <20260425054606.612E9C2BCB0@smtp.kernel.org>
 X-Last-TLS-Session-Version: TLSv1.3
 
-On Sat Apr 25, 2026 at 7:18 AM CEST, sashiko-bot wrote:
-> Sashiko AI review found 2 potential issue(s):
-> - [Medium] BPF_JIT_KASAN is defined as a hidden config, preventing users =
-from disabling it.
-> - [Medium] Mismatch between commit message claims and Kconfig implementat=
-ion regarding KASAN modes.
+On Sat Apr 25, 2026 at 7:46 AM CEST, sashiko-bot wrote:
+> Sashiko AI review found 3 potential issue(s):
+> - [High] Missing call depth accounting for Retbleed mitigations leads to =
+call depth counter underflow.
+> - [Medium] BPF_ST instructions are incorrectly classified as memory reads=
+ instead of writes.
+> - [Low] Flawed stack realignment logic wastes stack space.
 > --
 
 [...]
 
->> @@ -101,4 +105,9 @@ config BPF_LSM
+>> @@ -1301,6 +1305,95 @@ static void emit_store_stack_imm64(u8 **pprog, in=
+t reg, int stack_off, u64 imm64
+>>  	emit_stx(pprog, BPF_DW, BPF_REG_FP, reg, stack_off);
+>>  }
 >> =20
->>  	  If you are unsure how to answer this question, answer N.
->> =20
->> +config BPF_JIT_KASAN
->> +	bool
->> +	depends on HAVE_EBPF_JIT_KASAN
->> +	default y if BPF_JIT && KASAN_GENERIC
+>> +static int emit_kasan_check(u8 **pprog, u32 addr_reg, struct bpf_insn *=
+insn,
+>> +			    u8 *ip, bool accesses_stack)
+>> +{
+>> +#ifdef CONFIG_BPF_JIT_KASAN
+>> +	bool is_write =3D BPF_CLASS(insn->code) =3D=3D BPF_STX;
+>
+> Does this code incorrectly classify BPF_ST instructions as memory reads?
+>
+> The BPF instruction set includes the BPF_ST class for storing immediate
+> values into memory. Because BPF_CLASS(insn->code) for BPF_ST evaluates to
+> 0x02, the is_write condition evaluates to false. This causes the helper t=
+o
+> inject KASAN load checks instead of store checks, leading to inaccurate
+> error reporting.
+
+This helper is called in do_jit only for BPF_STX and BPF_LDX insns in the n=
+ext
+commit, so it will never wrongly classify wrongly a BPF_ST insn. But I
+can add a comment, or even enforce a stricter check to make it
+future-proof.
+
+>> +	u32 bpf_size =3D BPF_SIZE(insn->code);
+>> +	s32 off =3D insn->off;
+>> +	u8 *prog =3D *pprog;
+>> +	void *kasan_func;
 >> +
->>  endmenu # "BPF subsystem"
+>> +	if (accesses_stack)
+>> +		return 0;
+>> +
+>> +	/* Derive KASAN check function from access type and size */
+>> +	switch (bpf_size) {
 >
-> Since this config is defined as a bool without a prompt string, it acts a=
-s a
-> hidden symbol that is forcefully enabled whenever its dependencies are me=
-t.
+> [ ... ]
 >
-> Because KASAN instrumentation emits shadow memory checks, it can signific=
-antly
-> inflate the size of generated JIT code.
+>> +	/* Save r10 */
+>> +	EMIT2(0x41, 0x52);
+>> +	/* Save r11 */
+>> +	EMIT2(0x41, 0x53);
+>> +	/* We have pushed 72 bytes, realign stack to 16 bytes: sub rsp, 8 */
+>> +	EMIT4(0x48, 0x83, 0xEC, 8);
 >
-> Could this code expansion cause large BPF programs to exceed the strict B=
-PF
-> JIT memory limits (bpf_jit_limit) and break BPF functionality?
+> Is this stack realignment logic correct?
+>
+> The x86 BPF JIT prologue pushes a variable number of callee-saved registe=
+rs
+> and subtracts an 8-byte aligned stack_depth, meaning the stack pointer ca=
+n
+> be 8-byte misaligned prior to the check. If the stack is initially 8-byte
+> misaligned, pushing 72 bytes and subtracting 8 preserves the 8-byte
+> misalignment. Because the Linux kernel is compiled with 8-byte stack
+> alignment, the sub rsp, 8 instruction seems unnecessary and wastes 8 byte=
+s
+> of stack space.
 
-It likely can, indeed, but...
+Hmmm, I have been assuming that stack was aligned when reaching the
+emit_kasan_check, but indeed, as we could be anywhere in the prog, rsp
+can already be misaligned. However, I understand for SytemV ABI, sec
+3.2.2 that the stack must systematically be aligned on 16 bytes before
+any function call. So I'll have to find a way to make this part a bit
+smarter and add the alignment only if needed.
 
-> If so, would it make sense to provide a prompt text so users and automate=
-d
-> testing systems have a mechanism to manually disable CONFIG_BPF_JIT_KASAN
-> to work around JIT limits or isolate bugs without having to entirely disa=
-ble
-> KASAN_GENERIC?
+>> +
+>> +	/* mov rdi, addr_reg */
+>> +	EMIT_mov(BPF_REG_1, addr_reg);
+>> +
+>> +	/* add rdi, off (if offset is non-zero) */
+>> +	if (off) {
+>
+> [ ... ]
+>
+>> +	/* Adjust ip to account for the instrumentation generated so far */
+>> +	ip +=3D (prog - *pprog);
+>> +	/* call kasan_func */
+>> +	if (emit_call(&prog, kasan_func, ip))
+>> +		return -ERANGE;
+>
+> Does this call need call depth accounting for Retbleed mitigations?
+>
+> When CONFIG_CALL_DEPTH_TRACKING is enabled, every call instruction execut=
+ed
+> in the kernel must be properly accounted for to increment the call depth
+> counter. Other dynamically emitted calls in the BPF JIT explicitly emit
+> this tracking via x86_call_depth_emit_accounting() prior to emitting the
+> actual call.
+>
+> By omitting this accounting, the call to the KASAN function will not
+> increment the call depth counter. When the KASAN function returns, its
+> return thunk will decrement the counter, causing it to underflow. This
+> causes the return thunks to assume the Return Stack Buffer is empty and
+> trigger expensive RSB stuffing on subsequent returns.
 
-... the discussions around this RFC rather tend make the series go in
-the opposite direction ([1]) and keep it systematically enabled if KASAN
-is enabled (I'll even drop this patch in the next revision and just make
-the KASAN code in JIT directly depend on KASAN_GENERIC).
+I completely missed out this (and that's likely not the only one). I'll
+take a look into it.
 
-[1] https://lore.kernel.org/bpf/CAADnVQLj=3DUosnsC-4V2+mN92Fe0-kW++U+m-O9c9=
-3kk6BwiXgw@mail.gmail.com/
+Alexis
 
 --=20
 Alexis Lothor=C3=A9, Bootlin
