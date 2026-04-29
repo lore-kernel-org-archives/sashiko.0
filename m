@@ -1,47 +1,49 @@
 Received: from mail.tipi-net.de (mail.tipi-net.de [194.13.80.246])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49CCE3F7892
-	for <sashiko@lists.linux.dev>; Wed, 29 Apr 2026 22:28:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2F4D372EED
+	for <sashiko@lists.linux.dev>; Wed, 29 Apr 2026 22:35:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.13.80.246
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777501714; cv=none; b=NxzJRBjSUrx/4ue6lZLyADT1DfnymIr31SOAz74/JV93y9eP0MVvYkwJu+I4AT6UJj/1uVuTJs3tnehRJ9Uc9bPVJqioPHcNFtHPZb6KR3NjxoVbl+UBkOHvtvhVb48wOzZXyzbhNFRJIZqk2ERMVhn89K2fmnZk+nEWmM41fSQ=
+	t=1777502136; cv=none; b=loP849JPl8tVf5uCCkjP+iqxFAuy74V9TnO1HkWsPacD+4Rkz04aTxvdmZZRYitxMECRh7xqhcJWBWyx8qD3g4X79i3I0fMPuQ2fStPU2LG+PFrgMhsJGUji2w5+WQjB3LRWw3x33YTHaqQWzzyMecPIqtBFpxiG4NgVfwveRsU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777501714; c=relaxed/simple;
-	bh=aNm+s0txs9FKI9MwjARfAGhmgLZ1ncukDcZzugZgzoI=;
+	s=arc-20240116; t=1777502136; c=relaxed/simple;
+	bh=h06udCUDn+9Q5G420B9KW0bzGQn5oXrfqfXqUQ5y1k0=;
 	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=Jh5pPj9z+yTBU7GRE9nUnuzX4ERauxsxLnaExov2zJPO672edOrGKsJaiKaO2mYbpJPC82rgpCBZnx2f36USLQG4MLclKX+SCCmgnq8btAq9HtBzQHuS0x2uGW0LU+d1vNbMugh+RQ1iMxb8CVPe127lxqSQeWZEpxceUPSaZPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tipi-net.de; spf=pass smtp.mailfrom=tipi-net.de; dkim=pass (2048-bit key) header.d=tipi-net.de header.i=@tipi-net.de header.b=hVE8HD3y; arc=none smtp.client-ip=194.13.80.246
+	 Message-ID:Content-Type; b=my1RAyEoGs01gNqXLvU0fmt1jKUpknWVRc+6sKx31a/tmqCFrq6v3oWu6I0OWZfUnEYEMFe8d8Bv9UhzGoDWstPG+f2ctGX/nkrzjrqlK4OWOBpP05SgLx+7GDHTU+//TluXsjA5RC0SlMZIP5iRmYbZWVIoP9JoWvjz2KSkDfc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tipi-net.de; spf=pass smtp.mailfrom=tipi-net.de; dkim=pass (2048-bit key) header.d=tipi-net.de header.i=@tipi-net.de header.b=iwWk70g/; arc=none smtp.client-ip=194.13.80.246
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tipi-net.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tipi-net.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tipi-net.de header.i=@tipi-net.de header.b="hVE8HD3y"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C4EC4A5338;
-	Thu, 30 Apr 2026 00:28:27 +0200 (CEST)
+	dkim=pass (2048-bit key) header.d=tipi-net.de header.i=@tipi-net.de header.b="iwWk70g/"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 30972A5394;
+	Thu, 30 Apr 2026 00:35:32 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tipi-net.de; s=dkim;
-	t=1777501707; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1777502132; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=hDckQNXjFAqW+Wij25qyaXDy5zQYlGqCmZLO5d2LLeY=;
-	b=hVE8HD3y1DD8v5oVGykHzYiYM2oEaRSgROr14+0PqAMPZGPWCUtVmxCaYyEmEqWyZDHxk7
-	LFQHA1fHaWGFfgEXPv/9sTDn1KFumdOpE0UqSPRZSpB6lVupgXvpQ0SbMrz70vWr+jHC8a
-	T0xphsCxpBc3K7rctDU7PY9jdAmDAM4sKm1SYHOXfe/5kvgK2ol5K0KZ5bYamm86Le0ZtL
-	jbOF4xb7K6kuh4uGl3i5iilr3giqygcb2vOal9GRihUUoeBBZF7QBrGofeP49j3KbirFiS
-	Gnzi380z1nID68GxZX1fLjhUvXqfdWOJbdMAf473XlG2SGrOs8H52jIllUsNeA==
+	bh=lw8pE8HXZGjbhwX5wkdKsxcNjQDChDyqyQazSon870c=;
+	b=iwWk70g/vRLnu4dCwVpAO+b6Gmd9Sdveb6F1nR1x3/HFNJdECjDCnNIuO7nOnvT/kfvl0M
+	giZhPzacuPCZ38Lg59Rz4Pt23KX1hBURuoQ6Lbe4VThdWre3KGeKcorkSVifT3P3M/Uh7e
+	svpv5VAnYEDsBVGgQCk6exQ5dPO51F4XvEI5na6HAPTg7esZZ2x+DCzxj/vGAQVKnsBIhd
+	c6o/Pc97OkVFRFTekSKjyP3Aiw33zPc+twvq7ujwBSb3Clnxy801Hcu9zmxRMMPlHtogv7
+	2g+cZ7/yWnO/NnHqVyXk/9KlIsOTF5W92CzIzGH88/ftZuj1KzjQxtLtjO4arQ==
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Thu, 30 Apr 2026 00:28:27 +0200
+Date: Thu, 30 Apr 2026 00:35:32 +0200
 From: Nicolai Buchwitz <nb@tipi-net.de>
 To: sashiko@lists.linux.dev
-Cc: bpf@vger.kernel.org
-Subject: Re: [PATCH net-next v8 4/7] net: bcmgenet: add XDP_TX support
-In-Reply-To: <20260429211702.42E86C2BCB4@smtp.kernel.org>
-References: <20260428205846.2625550-5-nb@tipi-net.de>
- <20260429211702.42E86C2BCB4@smtp.kernel.org>
-Message-ID: <362a57c57af4eecd5214ea49070811f8@tipi-net.de>
+Cc: bpf@vger.kernel.org, Florian Fainelli <florian.fainelli@broadcom.com>,
+ Mohsin Bashir <mohsin.bashr@gmail.com>
+Subject: Re: [PATCH net-next v8 7/7] net: bcmgenet: reject MTU changes
+ incompatible with XDP
+In-Reply-To: <20260429211705.4CF4CC19425@smtp.kernel.org>
+References: <20260428205846.2625550-8-nb@tipi-net.de>
+ <20260429211705.4CF4CC19425@smtp.kernel.org>
+Message-ID: <3a01466edcd2b49e2d513951f78605ba@tipi-net.de>
 X-Sender: nb@tipi-net.de
 Content-Type: text/plain; charset=US-ASCII;
  format=flowed
@@ -49,180 +51,92 @@ Content-Transfer-Encoding: 7bit
 X-Last-TLS-Session-Version: TLSv1.3
 
 On 29.4.2026 23:17, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 4 potential 
+> Thank you for your contribution! Sashiko AI review found 1 potential 
 > issue(s) to consider:
-> - [High] Out-of-bounds array access in `bcmgenet_tx_reclaim` during 
-> interface teardown
-> - [High] Incorrect DMA address calculation for local XDP_TX causes 
-> information leak and packet corruption
-> - [High] Prepending `status_64` block overwrites XDP metadata and 
-> causes memory corruption
-> - [Medium] XDP TX ring size is smaller than standard NAPI budget
+> - [Medium] The XDP MTU validation logic contains a mathematical error 
+> (ignoring L2 headers) and is structurally unreachable (dead code) 
+> because the device's maximum MTU is fixed at 1500.
 > --
 > 
-> commit 9add891fa4e7cf62ec26683116338b5877c21662
+> commit b8018c0a123b4927db5ca8c39c8395c751532069
 > Author: Nicolai Buchwitz <nb@tipi-net.de>
 > 
-> net: bcmgenet: add XDP_TX support
+> net: bcmgenet: reject MTU changes incompatible with XDP
 > 
-> Implement XDP_TX using ring 16 (DESC_INDEX), the hardware default
-> descriptor ring, dedicated to XDP TX for isolation from SKB TX queues.
+> This commit introduces a minimal ndo_change_mtu function to the 
+> bcmgenet
+> driver. It checks if an XDP program is attached and rejects MTU values 
+> that
+> would exceed the capacity of a single-page XDP buffer.
 > 
 >> diff --git a/drivers/net/ethernet/broadcom/genet/bcmgenet.c 
 >> b/drivers/net/ethernet/broadcom/genet/bcmgenet.c
->> index 1b60571446e1..3c3b0c44ea8a 100644
+>> index 02ad2f410d6c..4d1ec68ec0c5 100644
 >> --- a/drivers/net/ethernet/broadcom/genet/bcmgenet.c
 >> +++ b/drivers/net/ethernet/broadcom/genet/bcmgenet.c
->> @@ -48,8 +48,10 @@
->> 
->>  #define GENET_Q0_RX_BD_CNT	\
->>  	(TOTAL_DESC - priv->hw_params->rx_queues * 
->> priv->hw_params->rx_bds_per_q)
->> +#define GENET_Q16_TX_BD_CNT	32
-> 
-> Is it possible to drop packets here during bursts since this TX ring is 
-> smaller
-> than the standard NAPI budget?
-
-Yes, by design. If the ring fills, frames are dropped, which is standard
-XDP backpressure. Same approach as bnxt, mvneta, and other drivers.
-
-> 
-> The standard RX NAPI budget is 64, and TX completions are reclaimed 
-> only once
-> before the RX loop. If the RX loop processes a full budget of 64 
-> packets and
-> they all result in an XDP_TX action, the first 32 will fill the TX 
-> ring.
-> 
-> The remaining 32 packets would fail in bcmgenet_xdp_xmit_frame() 
-> because
-> ring->free_bds < 1, and be dropped.
-> 
+>> @@ -4085,6 +4085,20 @@ static int bcmgenet_xdp_xmit(struct net_device 
+>> *dev, int num_frames,
 > [ ... ]
->> @@ -2043,6 +2069,9 @@ static void bcmgenet_tx_reclaim_all(struct 
->> net_device *dev)
->>  	do {
->>  		bcmgenet_tx_reclaim(dev, &priv->tx_rings[i++], true);
->>  	} while (i <= priv->hw_params->tx_queues && 
->> netif_is_multiqueue(dev));
->> +
->> +	/* Also reclaim XDP TX ring */
->> +	bcmgenet_tx_reclaim(dev, &priv->xdp_tx_ring, true);
->>  }
-> 
-> Can this cause an out-of-bounds array access during interface teardown?
-> 
-> When bcmgenet_tx_reclaim_all() calls bcmgenet_tx_reclaim() with all == 
-> true,
-> it unconditionally calls netdev_tx_reset_queue(netdev_get_tx_queue(dev, 
-> ring->index)).
-
-bcmgenet_tx_reclaim() does not call netdev_tx_reset_queue() or
-netdev_get_tx_queue(). The only netdev_get_tx_queue() in the reclaim
-path (in __bcmgenet_tx_reclaim, for BQL) is guarded by
-"if (ring->index != DESC_INDEX)". The netdev_tx_reset_queue() loop in
-bcmgenet_fini_dma() iterates indices 0..tx_queues only.
-
-> 
-> The XDP TX ring has an index of 16 (DESC_INDEX), but the network device 
-> is
-> allocated with only GENET_MAX_MQ_CNT + 1 TX queues (typically 5). 
-> Accessing
-> index 16 of dev->_tx is out-of-bounds, and netdev_tx_reset_queue() will 
-> write
-> to this invalid memory.
-> 
-> [ ... ]
->> @@ -2299,11 +2328,96 @@ static struct sk_buff 
->> *bcmgenet_xdp_build_skb(struct bcmgenet_rx_ring *ring,
->>  	return skb;
->>  }
->> 
->> +static bool bcmgenet_xdp_xmit_frame(struct bcmgenet_priv *priv,
->> +				     struct xdp_frame *xdpf, bool dma_map)
+>> +static int bcmgenet_change_mtu(struct net_device *dev, int new_mtu)
 >> +{
-> [ ... ]
->> +	if (dma_map) {
-> [ ... ]
->> +	} else {
->> +		struct page *page = virt_to_page(xdpf->data);
+>> +	struct bcmgenet_priv *priv = netdev_priv(dev);
 >> +
->> +		/* For local XDP_TX the caller already prepended the TSB
->> +		 * into xdpf->data/len, so dma_len == xdpf->len.
->> +		 */
->> +		dma_len = xdpf->len;
->> +		mapping = page_pool_get_dma_addr(page) +
->> +			  sizeof(*xdpf) + xdpf->headroom;
+>> +	if (priv->xdp_prog && new_mtu > PAGE_SIZE - GENET_RX_HEADROOM -
+>> +	    SKB_DATA_ALIGN(sizeof(struct skb_shared_info))) {
 > 
-> Does this calculation result in an incorrect DMA address?
+> Is this condition actually reachable, and does it correctly account for 
+> L2
+> headers?
 > 
-> The calculation implicitly assumes that xdpf resides exactly at the 
-> beginning
-> of the page. However, the driver configures the RX page pool with
-> offset = XDP_PACKET_HEADROOM (typically 256 bytes).
+> The bcmgenet driver does not appear to override dev->max_mtu, which
+> defaults to ETH_DATA_LEN (1500). Because dev_validate_mtu() in the core
+> networking stack checks that new_mtu <= dev->max_mtu before calling
+> ndo_change_mtu, new_mtu will never exceed 1500.
 > 
-> By omitting the distance from the start of the page to xdpf, the 
-> calculated
-> DMA address points XDP_PACKET_HEADROOM bytes before the actual packet 
-> data,
-> which could lead to transmitting uninitialized memory.
+> Given that PAGE_SIZE (typically 4096) minus GENET_RX_HEADROOM and the
+> skb_shared_info alignment is roughly 3454 bytes, the check new_mtu > 
+> 3454
+> will always evaluate to false.
+> 
+> Also, new_mtu represents the L3 payload size. Shouldn't the check add 
+> the
+> L2 header overhead when comparing against the L2 buffer capacity?
+> 
+> Furthermore, is it possible for an MTU change to corrupt the XDP buffer
+> layout as the commit message claims?
 
-Correct, xdpf does reside at the start of the page. 
-xdp_convert_buff_to_frame()
-stores the xdp_frame at xdp->data_hard_start, which equals 
-page_address(page)
-for our page_pool layout. page_pool_get_dma_addr() returns the DMA 
-address
-of the page start (not offset by .offset). sizeof(*xdpf) + 
-xdpf->headroom
-equals xdpf->data - data_hard_start, pointing to the prepended TSB.
+Correct, the check is currently unreachable since dev->max_mtu defaults
+to 1500. It is a safety guard for the planned follow-up series adding
+full ndo_change_mtu support. L2 overhead handling will be part of that
+follow-up.
+
+The commit message wording is slightly misleading; today no MTU change
+can corrupt the layout, but once jumbo MTU support is added, this guard
+prevents misconfiguration while an XDP program is attached.
+
+The original discussion with Mohsin and Florian on the rationale for
+adding this in the XDP series rather than deferring to the MTU
+follow-up is here:
+https://lore.kernel.org/netdev/1d551008-3c42-4b7b-9507-03072740a54a@gmail.com/
+https://lore.kernel.org/netdev/99062602-05a3-418f-9182-f60a83fdbe3b@broadcom.com/
 
 > 
->> +		dma_sync_single_for_device(kdev, mapping, dma_len,
->> +					   DMA_BIDIRECTIONAL);
+> The hardware DMA appears to be statically configured to write a maximum 
+> of
+> RX_BUF_LENGTH (2048) bytes per buffer, and bcmgenet_desc_rx() 
+> explicitly
+> drops any packet larger than 2048 bytes. It seems structurally 
+> impossible
+> to overflow the 4096-byte page and corrupt skb_shared_info.
+> 
+>> +		netdev_warn(dev, "MTU too large for single-page XDP buffer\n");
+>> +		return -EINVAL;
 >> +	}
-> [ ... ]
->> +	case XDP_TX:
->> +		/* Prepend a zeroed TSB (Transmit Status Block).  The GENET
->> +		 * MAC has TBUF_64B_EN set globally, so hardware expects every
->> +		 * TX buffer to begin with a 64-byte struct status_64.  Back
->> +		 * up xdp->data into the RSB area (which is no longer needed
->> +		 * after the BPF program ran) and zero it.
->> +		 */
->> +		if (xdp->data - xdp->data_hard_start <
->> +		    sizeof(struct status_64) + sizeof(struct xdp_frame)) {
->> +			page_pool_put_full_page(ring->page_pool, rx_page,
->> +						true);
->> +			return XDP_DROP;
->> +		}
->> +		xdp->data -= sizeof(struct status_64);
->> +		xdp->data_meta -= sizeof(struct status_64);
->> +		memset(xdp->data, 0, sizeof(struct status_64));
-> 
-> Could this overwrite XDP metadata and cause memory corruption?
+>> +
+>> +	WRITE_ONCE(dev->mtu, new_mtu);
+>> +	return 0;
+>> +}
 
-xdp_convert_buff_to_frame() validates (headroom - metasize) >=
-sizeof(struct xdp_frame) and returns NULL otherwise; we drop the frame
-in that case. The memset writes to [xdp->data - 64, xdp->data] before
-the data shift, which was previously the RSB area, not the metadata
-area. Both data and data_meta are shifted equally, preserving the
-metasize gap.
-
-> 
-> The space check does not account for metasize (xdp->data - 
-> xdp->data_meta).
-> If the BPF program appended metadata, the memset() here completely 
-> overwrites
-> it.
-> 
-> Furthermore, if metasize is > 0, the shifted xdp->data_meta pointer 
-> could
-> underflow and point exactly to or before xdp->data_hard_start. When
-> xdp_convert_buff_to_frame() is subsequently called, it writes the 
-> xdp_frame
-> structure at data_hard_start, which would overlap with the shifted 
-> data_meta.
 
 Thanks
 Nicolai
