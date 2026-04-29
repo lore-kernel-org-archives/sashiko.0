@@ -1,180 +1,132 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1C923A1D0F
-	for <sashiko@lists.linux.dev>; Wed, 29 Apr 2026 07:04:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02C0D3C5544
+	for <sashiko@lists.linux.dev>; Wed, 29 Apr 2026 09:30:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777446264; cv=none; b=nofX2c74ZwPyYIRibxUvaYVcal6coP0S810IE/6by0CKvzgeK3vMdF4LnxI6Th4zUJpuoDoO2TI/Rbvw0F55Ojb5J/BuFKiMQugJ8nxrMBIPf3uygG3pEH64VVdp6WhTAU5s93feT0spiltIqhvW70f6p7dLzJFDfg5XqOgJJxs=
+	t=1777455041; cv=none; b=brSiqTCvBmbRG3UQtilOSCOY7Qjoa495JrRps/kxH3Ig76I6bKnnM4WQeik4p6TUY9LVny+t+cNRpsf05HJCG6XwjbWAO0uYV6g9jJHm/RtbX0CaFvQ0sJaLDDyceKNFOJh6uTuiuVl7NPRTuQTj2dqQADSwbxx8xA2re8Cw39M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777446264; c=relaxed/simple;
-	bh=bv+Z3QFv3pHBYsV+l2AEQGKyO/PlBsIS2nYdIqT7+rw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YMO0EO49HIcnzgk8B1ercF+xnhjJzo/6S1YIqTDe8Qtd9YgpNwKrah0JK2AKHSudXkPtgr893Aib3zHNMJHUIHJuifRdphOOVvy64A9zDMkGLiSf2Se5v2xvHH8dqdEeBgBHUINU7tIl3JyoyKYFFPRBKZkyXvnZm5XT6GHnUgE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iIfPEf48; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1777455041; c=relaxed/simple;
+	bh=/ZVUCZTuUO6JyUM1f8oeaLbyLX0NLCT9d7HVIVgYyrk=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
+	 References:In-Reply-To; b=E7IzXl1eENEnqRYZs3Rqa5BsY+KGH/oPFh/r/nfi01j4ZT5OhcAk5+xjztJE9K/+xBOcqrdMPMuMYH1iaMUG2vW/MIh0nyy0j1d59ukigt8BEmzfxomDnPZIp67FmC6Pt8scqOtRZNXbb22l5BzJdp8RAuL2Tlr/jk6DAA7XbG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gtxtxpRn; arc=none smtp.client-ip=209.85.210.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iIfPEf48"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777446262; x=1808982262;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=bv+Z3QFv3pHBYsV+l2AEQGKyO/PlBsIS2nYdIqT7+rw=;
-  b=iIfPEf48R4KBz+f/sWTdLzOiXqXaejhVXM4GZQByl0MLBnsWZQy8Hhwp
-   Qu8/zay5FIIn/2nFcRzJoq+3dPGStXA5+FSj67bkUj8RM4zK8LQUG2ycx
-   wBq5sYfuvCJ98Y6vBVad3+BGEBqRbRD+5gFV2V/BDx9QQfjV4BUoPXV7j
-   AkDT/KSOimRIG1nBQOHXLkjZ6pTW80fDo0HtGnIhvHm2pKZQjLo1mOvEJ
-   j90pz0jiiF8rJE4+gcTWSUwRM+h9OYUsTpN7iwjcvIrnvLa8Yx/SpUcDF
-   elfYUClKZQA4I/ccxb67C6FpTBA/KG6sUt5NuNPR0JwTo8NPfGl9fKxJ2
-   A==;
-X-CSE-ConnectionGUID: SsflJUIRQZ+EN/R9Fb+C5A==
-X-CSE-MsgGUID: J2oX9CahRYmIQkHK81znuQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11770"; a="78245549"
-X-IronPort-AV: E=Sophos;i="6.23,205,1770624000"; 
-   d="scan'208";a="78245549"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 00:04:21 -0700
-X-CSE-ConnectionGUID: 6/qvTXIKR+ypo/ZxFnVnlw==
-X-CSE-MsgGUID: S8cYbLv9Rzuk1cpz0oOeYA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,205,1770624000"; 
-   d="scan'208";a="231046395"
-Received: from dapengmi-mobl1.ccr.corp.intel.com (HELO [10.124.241.147]) ([10.124.241.147])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 00:04:20 -0700
-Message-ID: <fdb06f4b-d6d4-4bbe-9861-e8aa52e7b053@linux.intel.com>
-Date: Wed, 29 Apr 2026 15:04:16 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gtxtxpRn"
+Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-7d1872504cbso601284a34.0
+        for <sashiko@lists.linux.dev>; Wed, 29 Apr 2026 02:30:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777455037; x=1778059837; darn=lists.linux.dev;
+        h=in-reply-to:references:from:subject:cc:to:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/OAY6vDE7Cb8hHo4kVY+rLYAoTItqF2Are9/Z3tjiQ0=;
+        b=gtxtxpRnc+fS2Shf0qryx0Xx7b8H+hoI0lj1wRZZOhm7o8bUKzz5VcGg3LJUflfxN1
+         tam3roFzWunTkiQKKIWmzs6cqr5xpshyVumy7jROBytP6fnlP46TtVohveBfMlFV9eWp
+         GU0DQzLkWY9GMKJQ7Z2rsOb5aVYTtc8fOJo/THMIL7JrJluACpIrZuDUEiX3lyBOWBg5
+         LbP5qOijMUeH6S34xKNfPr4iVRiVu8OnFp+2aBBOTV4WZZcjAhl11ZLgWzfEoxk1WSid
+         88pA2uZt6jXOtW4hOaJCQu9wIjLbBz0ZADdGr8SRVC/QX68YeNN6tsEK5jn0o++wgOEW
+         lEPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777455037; x=1778059837;
+        h=in-reply-to:references:from:subject:cc:to:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=/OAY6vDE7Cb8hHo4kVY+rLYAoTItqF2Are9/Z3tjiQ0=;
+        b=RWkr94c01s9kBwdf4ZtKTrVXPzV/48dbrm61Vd8KLzIi2jYT3f4Aic1uLVqJ94aVs1
+         YDqcjNXJRX0NkJ9iw0Qn0w5g1QJJMMVxlkeD3xO8VgxhXzHXreGJPIud0uAlpzfOPHW8
+         Je9W873vsbXNKikLGi8tMXjUERmcKkYggpfjl7wggpFG/BFD8Oq8Uw/YkOo8S4mT8vHX
+         /ze+We52COFeZ1bBk39lj6YHm2s+56v23o550g9fnCiO5FPvLnimVBepFjtf6dtzYO2T
+         jIbVsW+dnmwFtH5qzGhKcryH+IQ1MQnytfLDGwH/XA8kjkAf1LEtEckKdWPik9UsIwuj
+         QtWQ==
+X-Gm-Message-State: AOJu0Ywj4KzPVapuTVN4JtSrgtvSL+tNfvhNNlWI0xiFVZcRmHZcnbQG
+	vzixxoJKCzSfitoW0xFwmPd+YsalC0WBSp7bDRiRzfkxSZyK4cv/zCz0BsnqHaM4c4E=
+X-Gm-Gg: AeBDieuBDdQKC/A5hajTDQW5JMQPYc+TC7yPY+iJKBJ7J8ybhKN+gUjzUujXDM0w4N2
+	C2mVSCxMqM3BZ0CKhmx6hhYvMA3tyAptW9cady1wPJCKEPkjm/lHKg0WOvMtdeE2SUun1/0soxV
+	XdD/lR6TJFuMptSJcyGnXYoCI10tPJyYkQDvwIJYGCzJjY1N0ozF38IbF0+iy1TLLvcXz16jx4n
+	fYXq91WrxKu/VRPS5fbd9ezUG4vAexIktWaDYvZhnV5KRuUcnUhLWZwldQPH4MroRPVEvf8YeG5
+	2n7UzevGs2PcGDKAWPULWkl3AozuTEmb+Bt+sOEvlFhJgbAQcV99Gfql1wKnq7tKhFfOjgSbpc1
+	8XlSUQDwquMu8d4MXPfG951WTED2x0Ky9iJAJIJ3Dh+M0pMqqlmM+GlaoTU3TLwm6IcybTU5r9k
+	dO91ULjYd1LYRgISyNXnP7mIMRP5EOJTxqp2L9zO0U44/PCQsjjj9aEZSVTXyl1EFSAm0U2l0cP
+	ERcyAiTJB7U7l5S8nh5WFkuHa4S
+X-Received: by 2002:a05:6830:6d16:b0:7d7:e3d7:e200 with SMTP id 46e09a7af769-7dea9537f20mr1192393a34.6.1777455037484;
+        Wed, 29 Apr 2026 02:30:37 -0700 (PDT)
+Received: from localhost ([2a03:2880:10ff:59::])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7deab80e9e6sm940505a34.10.2026.04.29.02.30.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Apr 2026 02:30:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Patch v7 24/24] perf/x86/intel: Add sanity check for PEBS
- fragment size
-To: sashiko@lists.linux.dev
-Cc: linux-perf-users@vger.kernel.org
-References: <20260324004118.3772171-25-dapeng1.mi@linux.intel.com>
- <20260425035339.8032DC2BCB2@smtp.kernel.org>
-Content-Language: en-US
-From: "Mi, Dapeng" <dapeng1.mi@linux.intel.com>
-In-Reply-To: <20260425035339.8032DC2BCB2@smtp.kernel.org>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Date: Wed, 29 Apr 2026 02:30:35 -0700
+Message-Id: <DI5J82SMQFQL.2O53NRWH4QSH8@gmail.com>
+To: <sashiko@lists.linux.dev>, "Paul Chaignon" <paul.chaignon@gmail.com>
+Cc: <bpf@vger.kernel.org>
+Subject: Re: [PATCH bpf-next v2 2/2] selftests/bpf: Test insns processed
+ breakdown
+From: "Alexei Starovoitov" <alexei.starovoitov@gmail.com>
+X-Mailer: aerc
+References: <24f2a5b5f8e3041d03d78305ca0e2277f684d588.1777398528.git.paul.chaignon@gmail.com> <20260429023623.73482C2BCB7@smtp.kernel.org>
+In-Reply-To: <20260429023623.73482C2BCB7@smtp.kernel.org>
 
-
-On 4/25/2026 11:53 AM, sashiko-bot@kernel.org wrote:
-> Sashiko AI review found 3 potential issue(s):
-> - [Critical] Skipping setup_sample() for corrupted records does not discard the record, but instead leaks stale register states to userspace.
-> - [High] The global `corrupted` flag falsely invalidates valid pending samples for unrelated PMU counters.
-> - [Medium] The corruption checks fail to flag records with out-of-bounds final fragments or zero-sized fragments as corrupted.
+On Tue Apr 28, 2026 at 7:36 PM PDT, sashiko-bot wrote:
+> Thank you for your contribution! Sashiko AI review found 2 potential issu=
+e(s) to consider:
+> - [Medium] Asserting exact verifier instruction counts in C-based BPF sel=
+ftests causes test flakiness.
+> - [Low] Unused test configuration from blindly elevating log levels to 6 =
+without corresponding assertions.
 > --
 >
-> commit ed1fa3eb36814252a303cf5b2e6f3f4bfd3ed81e
-> Author: Dapeng Mi <dapeng1.mi@linux.intel.com>
+> commit c4e03a953efa7cd8cf2e1a288a0c55c4f73cace2
+> Author: Paul Chaignon <paul.chaignon@gmail.com>
 >
-> perf/x86/intel: Add sanity check for PEBS fragment size
+> selftests/bpf: Test insns processed breakdown
 >
-> This commit adds a sanity check to prevent potential infinite loops
-> caused by corrupted PEBS fragment sizes. It intends to discard
-> corrupted PEBS records and all subsequent records.
+> This patch updates global subprog selftests to verify the new verifier
+> log breakdown of instructions processed by global subprogs. It does this
+> by increasing log levels and adding new message assertions.
 >
->> diff --git a/arch/x86/events/intel/ds.c b/arch/x86/events/intel/ds.c
->> index 19f96d9ae04b5..e7bc6a37a3575 100644
->> --- a/arch/x86/events/intel/ds.c
->> +++ b/arch/x86/events/intel/ds.c
->> @@ -2951,13 +2951,17 @@ __intel_pmu_pebs_last_event(struct perf_event *event,
->>  			    struct pt_regs *iregs,
->>  			    struct pt_regs *regs,
->>  			    struct perf_sample_data *data,
->> -			    void *at,
->> -			    int count,
->> +			    void *at, int count, bool corrupted,
->>  			    setup_fn setup_sample)
->>  {
->>  	struct hw_perf_event *hwc = &event->hw;
->>  
->> -	setup_sample(event, iregs, at, data, regs);
->> +	/* Skip parsing corrupted PEBS record. */
->> +	if (corrupted)
->> +		perf_sample_data_init(data, 0, event->hw.last_period);
->> +	else
->> +		setup_sample(event, iregs, at, data, regs);
->> +
-> The commit message states that corrupted PEBS records will be discarded, but
-> skipping setup_sample() still allows the execution to continue to
-> perf_event_output() or perf_event_overflow() located further down in this
-> function.
->
-> Since regs points to a per-CPU x86_pebs_regs, and it is not updated with
-> the current hardware context when setup_sample() is skipped, does this emit
-> stale register states from previously processed PEBS records into the
-> userspace ring buffer?
-
-Yes, need to call x86_pmu_clear_perf_regs() for the corrupted case.
-
-
+>> diff --git a/tools/testing/selftests/bpf/progs/verifier_global_subprogs.=
+c b/tools/testing/selftests/bpf/progs/verifier_global_subprogs.c
+>> index 1e08aff7532e..7092a046c018 100644
+>> --- a/tools/testing/selftests/bpf/progs/verifier_global_subprogs.c
+>> +++ b/tools/testing/selftests/bpf/progs/verifier_global_subprogs.c
 >
 > [ ... ]
 >
->> @@ -3391,6 +3399,10 @@ static int intel_pmu_drain_arch_pebs(struct pt_regs *iregs,
->>  			if (!header->size)
->>  				break;
-> If a fragment has header->size == 0, the loop breaks and reaches done: with
-> corrupted == false.
+>> @@ -186,21 +187,24 @@ __weak int raw_tp_u64_array(u64 *ctx __arg_ctx)
+>>  }
+>> =20
+>>  SEC("?raw_tp")
+>> -__success __log_level(2)
+>> +__success __log_level(6)
+>> +__msg("insns processed 12+5+2+2")
+>>  int arg_tag_ctx_raw_tp(void *ctx)
 >
-> Does this miss flagging malformed zero-sized fragments as corrupted, allowing
-> them to be parsed and potentially causing out-of-bounds reads?
-
-No,  if the size is 0, then setup_arch_pebs_sample_data() would break the
-loop and there should be no out-of-bound reads.
-
-
+> Will hardcoding exact instruction counts cause the tests to become flaky =
+across
+> different LLVM/Clang versions or optimization levels?
 >
->>  			at += header->size;
->> +			if (WARN_ON_ONCE(at >= top)) {
->> +				corrupted = true;
->> +				goto done;
->> +			}
->>  			header = at;
->>  		}
->>  
->>  		/* Skip last fragment or the single record */
->>  		at += header->size;
->>  	}
-> If the final fragment of a record (where arch_pebs_record_continued()
-> is false) has an out-of-bounds size, at += header->size; is executed
-> and the loop terminates naturally with corrupted == false.
+> Since test_loader.c natively supports regex matching within __msg using t=
+he
+> {{...}} syntax, would it be more reliable to use a pattern to validate th=
+e
+> log format?
 >
-> Could this allow out-of-bounds reads past ds->pebs_index when the unflagged
-> malformed record is parsed by setup_arch_pebs_sample_data()?
+> For example, __msg("insns processed {{[0-9]+(\+[0-9]+)*}}") might prevent
+> failures when the compiler generates slightly different assembly.
 
-Yes, it's a bug. Need to set corrupted to true if the final fragment is
-corrupted.
+I have to agree with sashk here.
+It's way too many tests with hard coded insn counts.
+Just one test with above regex is plenty.
 
-
->
->> +done:
->>  	__intel_pmu_handle_last_pebs_record(iregs, regs, data, mask,
->> -					    counts, last,
->> +					    counts, last, corrupted,
->>  					    setup_arch_pebs_sample_data);
-> Here a single corrupted flag is passed for the entire PEBS buffer drain
-> operation.
->
-> If one PMU counter encounters a corrupted record and jumps to done:, this
-> global flag is applied to the last events of all active counters.
->
-> Does this falsely invalidate perfectly valid pending samples for unrelated
-> PMU counters, and subject them to the stale register leak described above?
-
-If a record or fragment is corrupted, all fragments and records after it
-have no way to be accessed and further passed. If we clear the stale
-register info, there would be no leak issue.
-
-Thanks.
-
-
->
+pw-bot: cr
