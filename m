@@ -1,50 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BB70154425
-	for <sashiko@lists.linux.dev>; Wed, 29 Apr 2026 05:36:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01D0033031C
+	for <sashiko@lists.linux.dev>; Wed, 29 Apr 2026 06:00:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777440993; cv=none; b=TY/9eFb58XlZsBWG4krbsWuAZUssfkqlWDVq+iuKJo66Af5FFNLtvQeV4hOwPhh7xHoOWTTmhCZolsMXPoPqtmTq/GkeeEKyVYGLQz/jqvzZpW3SNJJWVQrhgoiKM5EmWGU7I6hoDmU9H7R5wDNCr7LoD1/dz2Gy2BOjPhsL1r4=
+	t=1777442417; cv=none; b=Y8+Svoj7qHPkf7MVDGMgS6jr+8ddK3V8NIMYR8nQrhI6kWZYRN74QwnNCYIYPXkB3O/kZCEveHLkGDOqIMs3BI9i/UiVDGXFMFFXn2Mtl0ZmGcBulSBFF3mKS6veV9ugHE5PDbmSlmid/t3Z/7Wg94abvKKhdioRB6Uu4Rb7EDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777440993; c=relaxed/simple;
-	bh=SqyMeX9JV/ofwBMaurcldICAgiiO8yha7Tj3V8wI91Y=;
+	s=arc-20240116; t=1777442417; c=relaxed/simple;
+	bh=BkQ+ycFN9fP9M3cFVnTDaCMWDWWYU5TuhluCTCWkctI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nPuVmRL3Tw2cxW+S1EzrsbBFzfKR8QDjCEFQEzhOFk/wfwJqoQ7yyXco9UL7t+QxzvmbgW3vfOjFVIg2HcrLHJdTybPYlnfjDIyBz63pf9Jj7RGTWyrqv/oh43MOgEeoes5PYjEdvRFXICiBpTizMKF9cdNN7G6vAuC7CShlq8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nlFgFxgS; arc=none smtp.client-ip=192.198.163.16
+	 In-Reply-To:Content-Type; b=dOvpXUnVimUj0kSGulm4vumd1QqCK2Ng9CoHnVhySRx1+2Gnl0rRvlmLzlsURQu5FcZj9nRgtB59hdIAoxwJqLSOfFlXWcbOa1LAEBOEqWIblz3teeC2+rPFCpl23Yvm//3vmkDXuQsbHVSNABLGiqSd8z7r7UtRBbv/sjPiZ1w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VDbqrCsf; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nlFgFxgS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VDbqrCsf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777440992; x=1808976992;
+  t=1777442414; x=1808978414;
   h=message-id:date:mime-version:subject:to:cc:references:
    from:in-reply-to:content-transfer-encoding;
-  bh=SqyMeX9JV/ofwBMaurcldICAgiiO8yha7Tj3V8wI91Y=;
-  b=nlFgFxgS+P2sVKsdwa4FWcfeU2Xs1WTbDPZXGram+oXmsSVBSsqHcbgm
-   kBOtRK2mn45F3H0vV9vViZ1bx1EOFCnn/dRzVlvv4ODaNWCkPEWBvqXF4
-   cV9sOCfoQbnHoIB4UUaBUIpfn1aiERZLrdg1UHCnf+pqsdRsBPUlAGKTx
-   /SPblrU8zsioLyhT3WeN3J7RFHlXvzpPrNUlj2IGiB+JolYYmr/SqX5xG
-   vTRUYNJn5WoKec3Me/8fR8maiTEiISJmYwt3/VRgy9IfJPW994NYa/Aq7
-   m3XHq16gHYby6BTl4jklu6IgsfqQqVZ/yL6l1J8BKweYIkuS52t4V9kUP
-   A==;
-X-CSE-ConnectionGUID: FRNfCLBeQuK+gp5wL7FmXQ==
-X-CSE-MsgGUID: BKOIn+XSRzSk5MwboB3t/Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11770"; a="65892523"
+  bh=BkQ+ycFN9fP9M3cFVnTDaCMWDWWYU5TuhluCTCWkctI=;
+  b=VDbqrCsf7SDwTr7WEJkry1GiAWZup0GB8J1lWYEhSB/Mhb5eYneKF88k
+   A9byc5ep4TuQuFJH8hYmiIlz1urQ7MQE5wrHiemNBJ2XOaGCgCEYVnqA3
+   5UhM3L+hP+0R0+fD4kY9+6Op+SdXzgm/esVoEIfP+pzO5MejM4LIKtV8N
+   EjkodDla/pITCXmnXjhJ2vTmEuociKNIr1h8j4Fq4+jlyrhBAOFAnqLkx
+   MSwE7x4SwAj9E+q13ZHEuVZxKQ9fqY71ZsEs41UmA897LMb5Y2cL7Wg3o
+   ceFB7Z+9DE6PP7xIATQlP4sAB+JCYyv8LY24VL3w4k3rsowv6F0fJJUHT
+   Q==;
+X-CSE-ConnectionGUID: gMvjDoUWRAePuL+Ue0S5xA==
+X-CSE-MsgGUID: naLzPgT6SHCJzD4mHkp5Mg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11770"; a="78257765"
 X-IronPort-AV: E=Sophos;i="6.23,205,1770624000"; 
-   d="scan'208";a="65892523"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2026 22:36:31 -0700
-X-CSE-ConnectionGUID: 7I8cyHf1QCSTMIyPhZtMtg==
-X-CSE-MsgGUID: YN9cSXD3SUKOKa1SruofBQ==
+   d="scan'208";a="78257765"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2026 23:00:13 -0700
+X-CSE-ConnectionGUID: qMrBcwtBScSwPwwMk7okQw==
+X-CSE-MsgGUID: 8OF/jeC2R5mHqdzVuITMNw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,205,1770624000"; 
-   d="scan'208";a="234144458"
+   d="scan'208";a="231028290"
 Received: from dapengmi-mobl1.ccr.corp.intel.com (HELO [10.124.241.147]) ([10.124.241.147])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2026 22:36:30 -0700
-Message-ID: <9bd99db1-9761-4b15-9f6d-d7bd45723255@linux.intel.com>
-Date: Wed, 29 Apr 2026 13:36:28 +0800
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2026 23:00:12 -0700
+Message-ID: <6818d74c-7fe9-4cdb-9123-65683f60a5ed@linux.intel.com>
+Date: Wed, 29 Apr 2026 14:00:10 +0800
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
@@ -52,129 +52,109 @@ List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [Patch v7 22/24] perf/x86/intel: Enable arch-PEBS based
- SIMD/eGPRs/SSP sampling
+Subject: Re: [Patch v7 23/24] perf/x86: Activate back-to-back NMI detection
+ for arch-PEBS induced NMIs
 To: sashiko@lists.linux.dev
 Cc: linux-perf-users@vger.kernel.org
-References: <20260324004118.3772171-23-dapeng1.mi@linux.intel.com>
- <20260425030814.0A75EC19425@smtp.kernel.org>
+References: <20260324004118.3772171-24-dapeng1.mi@linux.intel.com>
+ <20260425033158.D3A29C19425@smtp.kernel.org>
 Content-Language: en-US
 From: "Mi, Dapeng" <dapeng1.mi@linux.intel.com>
-In-Reply-To: <20260425030814.0A75EC19425@smtp.kernel.org>
+In-Reply-To: <20260425033158.D3A29C19425@smtp.kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
-On 4/25/2026 11:08 AM, sashiko-bot@kernel.org wrote:
+On 4/25/2026 11:31 AM, sashiko-bot@kernel.org wrote:
 > Sashiko AI review found 2 potential issue(s):
-> - [Critical] Leaking stale per-CPU FPU/extended register state to user space when a PEBS event triggers in kernel mode and requests PERF_SAMPLE_REGS_USER.
-> - [High] Incorrect bitwise AND with a raw u64 bitmask in `intel_pebs_support_regs` permanently disables large PEBS for XMM registers on arch-PEBS platforms.
+> - [High] Incorrect bitwise operation in intel_pmu_drain_pebs_nhm() corrupts the processed events count.
+> - [High] Removing the unconditional `handled` increment causes valid PMIs to be reported as unhandled when `drain_pebs()` returns 0.
 > --
 >
-> commit 7ad07fe08e2e0b394952e6f0ccf5f040f99870e3
+> commit 0317f48597bdef9b4d93c696bde043840ac1fc6b
 > Author: Dapeng Mi <dapeng1.mi@linux.intel.com>
 >
-> perf/x86/intel: Enable arch-PEBS based SIMD/eGPRs/SSP sampling
+> perf/x86: Activate back-to-back NMI detection for arch-PEBS induced NMIs
 >
-> This patch enables arch-PEBS based SIMD/eGPRs/SSP registers sampling
-> using the XSAVE-Enabled Registers (XER) group.
+> This patch modifies the PEBS handlers to return the count of actually
+> processed events instead of void. This count is used in the PMI handler
+> to activate back-to-back NMI detection and avoid "suspicious NMI" warnings.
 >
 >> diff --git a/arch/x86/events/intel/core.c b/arch/x86/events/intel/core.c
->> index 3d64f28b7e9ac..b280a39f68bca 100644
 >> --- a/arch/x86/events/intel/core.c
 >> +++ b/arch/x86/events/intel/core.c
 > [ ... ]
 >
->> @@ -4416,6 +4431,34 @@ static void intel_pebs_aliases_skl(struct perf_event *event)
->>  	return intel_pebs_aliases_precdist(event);
->>  }
+>> @@ -3558,9 +3558,8 @@ static int handle_pmi_common(struct pt_regs *regs, u64 status)
+>>  	if (__test_and_clear_bit(GLOBAL_STATUS_BUFFER_OVF_BIT, (unsigned long *)&status)) {
+>>  		u64 pebs_enabled = cpuc->pebs_enabled;
 >>  
->> +static inline bool intel_pebs_support_regs(struct perf_event *event, u64 regs)
->> +{
->> +	struct arch_pebs_cap cap = hybrid(event->pmu, arch_pebs_cap);
->> +	int pebs_format = x86_pmu.intel_cap.pebs_format;
->> +	bool supported = true;
->> +
->> +	/* SSP */
->> +	if (regs & PEBS_DATACFG_GP)
->> +		supported &= x86_pmu.arch_pebs && (ARCH_PEBS_GPR & cap.caps);
->> +	if (regs & PEBS_DATACFG_XMMS) {
->> +		supported &= x86_pmu.arch_pebs ?
->> +			     ARCH_PEBS_VECR_XMM & cap.caps :
->> +			     pebs_format > 3 && x86_pmu.intel_cap.pebs_baseline;
->> +	}
-> Will this permanently disable large PEBS for XMM registers?
+>> -		handled++;
+>>  		x86_pmu_handle_guest_pebs(regs, &data);
+>> -		static_call(x86_pmu_drain_pebs)(regs, &data);
+>> +		handled += static_call(x86_pmu_drain_pebs)(regs, &data);
+> If x86_pmu_drain_pebs() returns 0, will handled fail to increment even though
+> the hardware asserted an NMI and set the MSR status bit?
 >
-> Because supported is a boolean (initially 1), ARCH_PEBS_VECR_XMM & cap.caps
-> evaluates to BIT_ULL(49). The bitwise AND operation 1 &= 0x2000000000000ULL
-> strictly yields 0.
+> This might happen if the host PEBS buffer is empty, such as when a guest PEBS
+> event triggers the PMI and is handled by x86_pmu_handle_guest_pebs() right
+> above it. 
 >
-> Should this bitmask be normalized to a boolean value, perhaps using
-> !!(ARCH_PEBS_VECR_XMM & cap.caps) inside the ternary operator?
+> Could this cause the core NMI framework to treat the interrupt as unhandled
+> and trigger an unknown NMI warning? Is it necessary to ensure handled
+> increments by at least 1 when the status bit is explicitly acknowledged?
 
-Yes, it's a bug. would fix it in next version.
+It's indeed an issue of the guest PEBS event. But for other host events, if
+x86_pmu_drain_pebs() returns 0, then it means there must be something
+wrong, we should not hide the issue.
+
+I would add an exception for the guest PEBS event.
+
+
+>
+>>  		/*
+>>  		 * PMI throttle may be triggered, which stops the PEBS event.
+> [ ... ]
+>
+>> @@ -3587,8 +3586,7 @@ static int handle_pmi_common(struct pt_regs *regs, u64 status)
+>>  	 */
+>>  	if (__test_and_clear_bit(GLOBAL_STATUS_ARCH_PEBS_THRESHOLD_BIT,
+>>  				 (unsigned long *)&status)) {
+>> -		handled++;
+>> -		static_call(x86_pmu_drain_pebs)(regs, &data);
+>> +		handled += static_call(x86_pmu_drain_pebs)(regs, &data);
+> Does this share the same issue as above, where a return value of 0 from
+> drain_pebs() would result in handled not being incremented for a valid PMI?
+
+As the above mentioned, we should expose the issue if there are something
+wrong.
 
 
 >
 > [ ... ]
 >
 >> diff --git a/arch/x86/events/intel/ds.c b/arch/x86/events/intel/ds.c
->> index 560f178d7ac92..61d72c58f9a25 100644
 >> --- a/arch/x86/events/intel/ds.c
 >> +++ b/arch/x86/events/intel/ds.c
 > [ ... ]
 >
->> @@ -2708,15 +2719,69 @@ static void setup_arch_pebs_sample_data(struct perf_event *event,
->>  					   meminfo->tsx_tuning, ax);
->>  	}
+>> @@ -3189,6 +3192,7 @@ static void intel_pmu_drain_pebs_nhm(struct pt_regs *iregs, struct perf_sample_d
+>>  		if ((counts[bit] == 0) && (error[bit] == 0))
+>>  			continue;
 >>  
->> -	if (header->xmm) {
->> +	if (header->xmm || header->ymmh || header->egpr ||
->> +	    header->opmask || header->zmmh || header->h16zmm) {
->> +		struct arch_pebs_xer_header *xer_header = next_record;
->>  		struct pebs_xmm *xmm;
->> +		struct ymmh_struct *ymmh;
->> +		struct avx_512_zmm_uppers_state *zmmh;
->> +		struct avx_512_hi16_state *h16zmm;
->> +		struct avx_512_opmask_state *opmask;
->> +		struct apx_state *egpr;
->>  
->>  		next_record += sizeof(struct arch_pebs_xer_header);
->>  
->> -		ignore_mask |= XFEATURE_MASK_SSE;
->> -		xmm = next_record;
->> -		perf_regs->xmm_regs = xmm->xmm;
->> -		next_record = xmm + 1;
->> +		if (header->xmm) {
->> +			ignore_mask |= XFEATURE_MASK_SSE;
->> +			xmm = next_record;
->> +			/*
->> +			 * Only output XMM regs to user space when arch-PEBS
->> +			 * really writes data into xstate area.
->> +			 */
->> +			if (xer_header->xstate & XFEATURE_MASK_SSE)
->> +				perf_regs->xmm_regs = xmm->xmm;
->> +			next_record = xmm + 1;
->> +		}
-> Is it possible for this code to leak stale per-CPU FPU/extended register
-> state to user space?
+>> +		events_bitmap |= bit;
+>>  		event = cpuc->events[bit];
+> Will this perform a bitwise OR with the integer index itself rather than
+> the expected bitmask?
 >
-> When a PEBS event triggers in kernel mode and requests PERF_SAMPLE_REGS_USER,
-> this code processes the PEBS data and sets the corresponding bits
-> (e.g., XFEATURE_MASK_SSE) in ignore_mask. It then calls
-> x86_pmu_setup_regs_data(), which assigns data->regs_user.regs to the
-> static per-CPU x86_user_regs.
+> Because bit is an integer index (e.g., 0 for PMC0, 3 for PMC3), if only PMC3
+> overflows, events_bitmap |= 3 (binary 011) results in hweight64(3) returning
+> 2. If PMC0 overflows, events_bitmap |= 0 leaves the bitmap at 0.
 >
-> If x86_user_regs is never fully cleared, its extended register pointers
-> (like xmm_regs) still point to the per-CPU ext_regs_buf from prior samples.
-> Because XFEATURE_MASK_SSE is excluded via ignore_mask, xsaves_nmi() and
-> x86_pmu_update_xregs() skip updating x86_user_regs.xmm_regs.
->
-> Consequently, the xmm_regs pointer remains pointing to the stale data in
-> ext_regs_buf. When the perf core outputs the user registers, could it
-> read the stale FPU state from ext_regs_buf and leak it across processes?
+> Should this be events_bitmap |= BIT_ULL(bit) or 1ULL << bit to correctly
+> record the processed events?
 
-Yes, it's a known issue. Would be fixed in next version.
+Yes, we also found this issue locally. Would fix it in next version.
 
 Thanks.
 
