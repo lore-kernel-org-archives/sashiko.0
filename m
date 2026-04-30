@@ -1,154 +1,119 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26715421886
-	for <sashiko@lists.linux.dev>; Thu, 30 Apr 2026 13:13:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [207.46.229.174])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32E2534E746
+	for <sashiko@lists.linux.dev>; Thu, 30 Apr 2026 14:48:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.46.229.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777554840; cv=none; b=Ya93CLr9YxNVv+6lg/VqO1im+ugyhKlKAi0k1RCRKuYrlIupCtLHYoOymRZw7enulGmIJZAiVFYW0LtXCIMRL1Kw+GL5A3TGLwXq5/P6ZZFeMEnkZDT1pol9/1urCRAbH7grsCgLOepTXI+U15RQxrJLmVL4FIl2CWb8aoqhwGo=
+	t=1777560486; cv=none; b=J0dagTrU3iEl5xQDVwzaiPDQn4W0RufDStadAky5JrVRG9Ct4bG/NOEiaQTrkbYVoj/JBGM/YkE3HCkdYskUPTSO9ke2qRsv2qjAmrcHexebqkOzeDHZPzIrzgclLx+DRAG6NB90ZPGh1qDdeFFO7xsdvyodVqhRAnh612sksb0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777554840; c=relaxed/simple;
-	bh=xJjJzowTCghhIo1M1BBoQR1p6lnqeUhBs3J9/RR1jz0=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=rsgTrLZ90zBf6iyhYRwsnk6fpaDm6VwaUEw1OX90cixx5SEz1TCpoMII89WmNbO9fbjr1YpjNYqO4wQgHGEdKUMkXhOpwphgaYO6Pwm/vqDtr7r/1V22RUhmsIjjK0Y07FAPxhgeaprhWIpc3vw7upcXgLL11SZkaK/jpLmDCMA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=gKv35gUt; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="gKv35gUt"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-488a8ca4aadso10235875e9.3
-        for <sashiko@lists.linux.dev>; Thu, 30 Apr 2026 06:13:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1777554835; x=1778159635; darn=lists.linux.dev;
-        h=in-reply-to:references:from:to:cc:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zRe/Of4HXhlzR8gGS5doxSOHHPYhsd1Ia0Z7yzBuFU4=;
-        b=gKv35gUt//MZDxjk6VWwX3Ngas4POgnhPn9KclBDX43O9rVq1fvvAVGuWIoEzWjxH3
-         vl7Gwr34axL3f2qkFSZQSoAmcHMUZFPFQOD7ZZ0BTzT1mw5fN8f8Fq0A46L+GSttFFCJ
-         uziijcDm9pY0EMFXy/hpLJrA355tMFtEwQ7T8FIf/pvNhOUVwh1v9vAHDXHfMYRfi7oZ
-         s2Uc2DbMUjX0ynbtWIw+kxI5c+uA9/iN5gjBKykmLv66adwkHB/SiYQsYG/23T4B0sBF
-         oM8/loMez+678ANNf+SxfLQkxAntkXx/XTGQC8VwNCO/8h1Yv5X0kBCGect4x53kBg5X
-         D7cg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777554835; x=1778159635;
-        h=in-reply-to:references:from:to:cc:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=zRe/Of4HXhlzR8gGS5doxSOHHPYhsd1Ia0Z7yzBuFU4=;
-        b=KXA6cbqV+Co40JgaLKx1TdDfYhpvuWlOCwdXqoIpDey6+kAuOac9iqL5B9iucKWPQv
-         UObwSOPEuSs2hAVBcInxuNOH/ppBS8po3JOWwea8SIyyig4bQYXMPpt0dtAnZvrbud69
-         a04Kl2ByyUTMpNQpnQA6mvwab5qf9Dxz8jsOfEP8tN5lC0tBq1gfFx1ZBFK+v/9DGh1H
-         mQoGRKzf/lYvLPXx+l74CELeH1kmUJhIIJ+6UC+IvYImmqHUE6R2qbE3xWQ4p4yPzfHb
-         M3UdnMkiiFaDojtxxhc6S30AIuOGJ7eBLC48tDWtID6v0R/E09ZddF5Xa5RA3PmO3Mon
-         v21g==
-X-Gm-Message-State: AOJu0YxqVjaDpH20IuTDPJ/ScZE1HtHeWSGQFVFISV2F7r8JdHrpQSVR
-	dRWXzNfaYwEJyXKOToenKh0OkXF93MHZUz7k3JR65fMu0yQL/9i1quDocZ14J00fVzRPeVQsTRL
-	TJQJjmco=
-X-Gm-Gg: AeBDieuTUq1gQ9IzrEWwDjWmSCxVfxZlJyzQJaRZ4+G/yWaBHo+NIO1+esIa7wBw0Lw
-	5ejxp0tyMnzWLSwArJgOoUGLjpcv4luuchn/xVhwqtytnOBLIEJqC8jiKMT67VXfaMeX7nrLGgV
-	OgKNlsVoL267xLcSXx1UN/FSxJLIJacDPOg6JHeypl6f7kmmwTH18bWGpznIlOZe4pUmJstsszF
-	DbjZ5Wi6FlbePjCR+Ru7wc53OKFzbCXoZBBYDV6hCMqNrfRt808KI7bDNyG0oE4LeRaopSYc7VL
-	wAcY9/xALrXGqLiIzxIibJlekjAUtondjelEoxJ0uKwJf+TJvpWOo0EfXEWa+fpVM4JJATQZCLd
-	XS3fRw45SUxZYgKstoJCdH8WPt8oFlLnbP/717xqV4greoelMiVgCk1UApLiL2P2co3vvV2dWX7
-	ytU+VcH52rhF1C+jeTl9CXDk76iZDq6QIxPQ==
-X-Received: by 2002:a05:600c:3e8d:b0:48a:53ea:140b with SMTP id 5b1f17b1804b1-48a844a4728mr48868965e9.28.1777554834909;
-        Thu, 30 Apr 2026 06:13:54 -0700 (PDT)
-Received: from localhost ([2804:7f0:b765:105d:2ecf:67ff:fe81:9da0])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ed46afda3fsm3707956eec.30.2026.04.30.06.13.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Apr 2026 06:13:53 -0700 (PDT)
+	s=arc-20240116; t=1777560486; c=relaxed/simple;
+	bh=jIIa8o1+xEycbsW+1IiK92t3XOyyMjwSuQ4peuVayZc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PAxXpy020N87FYsbQlhkOja/RaGb5kEn1iKHJH8oUo8EgYDxD2FCxMqbcnYe3bwjqkpPxj9mVOBH/0z+v+qBBxCbsGLN/jDZLm1q0uudgzkSHuwPUm87RE+OHwR4cosj7qsxwh+Ue2q5G86gHFqgp/60k3RwWZpSseiNxXgA10Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=207.46.229.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zju.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
+Received: from zju.edu.cn (unknown [10.162.175.228])
+	by mtasvr (Coremail) with SMTP id _____wA3HQCca_Np7NDrAA--.9698S3;
+	Thu, 30 Apr 2026 22:47:57 +0800 (CST)
+Received: from [10.162.175.228] (unknown [10.162.175.228])
+	by mail-app3 (Coremail) with SMTP id zS_KCgCXQHOca_NpkMXMAA--.4148S3;
+	Thu, 30 Apr 2026 22:47:56 +0800 (CST)
+Message-ID: <c8fd766b-3704-4a8a-9366-1dcdcd84aed8@zju.edu.cn>
+Date: Thu, 30 Apr 2026 22:47:56 +0800
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 30 Apr 2026 10:13:51 -0300
-Message-Id: <DI6ILKHKXCTR.2TAXUY0YUC5DS@suse.com>
-Subject: Re: [PATCH bpf-next v10 06/11] selftests/bpf: Tolerate test file
- compilation failures
-Cc: <bpf@vger.kernel.org>
-To: <sashiko@lists.linux.dev>, =?utf-8?b?UmljYXJkbyBCLiBNYXJsacOocmU=?=
- <rbm@suse.com>
-From: =?utf-8?b?UmljYXJkbyBCLiBNYXJsacOocmU=?= <rbm@suse.com>
-X-Mailer: aerc 0.21.0-120-g22b95d38161f
-References: <20260430-selftests-bpf_misconfig-v10-6-cd302a31af16@suse.com>
- <20260430131052.3E683C2BCB3@smtp.kernel.org>
-In-Reply-To: <20260430131052.3E683C2BCB3@smtp.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH bpf-next v9 2/3] bpf: Fix s16 truncation for large
+ bpf-to-bpf call offsets
+To: sashiko@lists.linux.dev
+Cc: bpf@vger.kernel.org
+References: <20260429171904.107244-3-tangyazhou@zju.edu.cn>
+ <20260429211006.E55AAC19425@smtp.kernel.org>
+Content-Language: en-US
+From: Yazhou Tang <tangyazhou@zju.edu.cn>
+In-Reply-To: <20260429211006.E55AAC19425@smtp.kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:zS_KCgCXQHOca_NpkMXMAA--.4148S3
+X-CM-SenderInfo: qssvjiasrsq6lmxovvfxof0/1tbiBgwRCmnyXw4YuAABs6
+X-CM-DELIVERINFO: =?B?fM21QQXKKxbFmtjJiESix3B1w3vD7IpoGYuur0o+r46DyAi5OfOO+T4vrW4FyUBIyu
+	9q9HMx7PSTORDyc/TnL254NCvEQ4HKagyW4wNawHHVf9D0sc3egDOVdyhRfKRL9XbKRZhM
+	iDNorCyij0ZSoN9++CYLhTEUnFd3SGa6TKvPMQn3HhIIVyLVLAXKP3S6prXyWw==
+X-Coremail-Antispam: 1Uk129KBj93XoW7tw1DKrWxCF1xKw13KFyDJwc_yoW8tF4DpF
+	WrtFy7Cr4DXr1SkFy7Ars5Gw45Kw4xCr4UWFn8JryFvw4aqryvkF4kKr4Fgay3Cr1Iyr4F
+	vFsFv3Zavw1DAFXCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUyKb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AK
+	xVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc
+	02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAF
+	wI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxAIw28IcxkI7VAKI4
+	8JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xv
+	wVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUXVWUAwCIc40Y0x0EwIxGrwCI42IY6xIIjx
+	v20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20E
+	Y4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267
+	AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxUzsqWUUUUU
 
-On Thu Apr 30, 2026 at 10:10 AM -03, sashiko-bot wrote:
-> Thank you for your contribution! Sashiko AI review found 1 potential issu=
-e(s) to consider:
-> - [Low] The inline condition `$(if $(V))` incorrectly suppresses the `BTF=
-IDS` pretty output when `V=3D0` or `V=3D2`.
+
+
+On 4/30/26 05:10, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
+> - [Medium] Unprivileged users will see broken control flow graphs and `call pc+0` in BPF-to-BPF pseudo calls.
 > --
->
-> commit 0d69d461adbd02ed2bb765aad81f923aeaf2a8da
-> Author: Ricardo B. Marli=C3=A8re <rbm@suse.com>
->
-> selftests/bpf: Tolerate test file compilation failures
->
-> This commit makes per-test compilation non-fatal for test_progs, skipping
-> missing objects during linking. It adjusts the BTFIDS step to use standar=
-d
-> printf instead of the msg macro within the shell conditionals.
->
->> diff --git a/tools/testing/selftests/bpf/Makefile b/tools/testing/selfte=
-sts/bpf/Makefile
->> index 608e6dff03926..9becc077eb231 100644
->> --- a/tools/testing/selftests/bpf/Makefile
->> +++ b/tools/testing/selftests/bpf/Makefile
->
-> [ ... ]
->
->> @@ -717,11 +723,14 @@ $(TRUNNER_TEST_OBJS): $(TRUNNER_OUTPUT)/%.test.o:	=
-		\
->>  		      $(TRUNNER_TESTS_DIR)/%.c				\
->>  		      | $(TRUNNER_OUTPUT)/%.test.d
->>  	$$(call msg,TEST-OBJ,$(TRUNNER_BINARY),$$@)
->> -	$(Q)cd $$(@D) && $$(CC) -I. $$(CFLAGS) -MMD -MT $$@ -c $(CURDIR)/$$< $=
-$(LDLIBS) -o $$(@F)
->> +	$(Q)(cd $$(@D) && $$(CC) -I. $$(CFLAGS) -MMD -MT $$@ -c $(CURDIR)/$$< =
-$$(LDLIBS) -o $$(@F)) $(if $(filter test_progs%,$1),$(if $(PERMISSIVE),|| \
->> +		($(RM) $$@; printf '  %-12s %s\n' 'SKIP-TEST' '$$(notdir $$@)' 1>&2))=
-)
->>  	$$(if $$(TEST_NEEDS_BTFIDS),						\
->> -		$$(call msg,BTFIDS,$(TRUNNER_BINARY),$$@)			\
->> +		$(Q)if [ -f $$@ ]; then						\
->> +		$(if $(V),true,printf '  %-8s%s %s\n' "BTFIDS" " [$(TRUNNER_BINARY)]"=
- "$$(notdir $$@)"); \
->
-> Does this condition correctly handle V=3D0 or V=3D2?
->
-> In GNU Make, the $(if) function evaluates to true if the condition expand=
-s to
-> any non-empty string. If a user sets make V=3D0, $(V) expands to the stri=
-ng "0",
-> which Make considers true.
->
-> Consequently, `$(if $(V),true,printf ...)` will execute `true;`, silencin=
-g the
-> BTFIDS output entirely. The standard msg macro used for other compilation=
- steps
-> explicitly checks `ifeq ($(V),1)`.
->
-> This results in inconsistent behavior where V=3D0 correctly prints brief =
-messages
-> like TEST-OBJ but silently skips BTFIDS.
->
-> Could this explicitly check for "1", such as using
-> `$(if $(filter 1,$(V)),true,printf ...)` to accurately match the behavior=
- of
-> the msg macro?
+> 
+> commit c7ae76817147356f188b1975260698d1d9dcd44a
+> Author: Yazhou Tang <tangyazhou518@outlook.com>
+> 
+> bpf: Fix s16 truncation for large bpf-to-bpf call offsets
+> 
+> This commit fixes s16 truncation for large BPF-to-BPF call offsets by keeping
+> the relative offset in the 32-bit imm field instead of downcasting it to the
+> 16-bit off field. It updates the JIT, interpreter, and related dumper code to
+> swap the usages of imm and off for BPF pseudo calls.
+> 
+>> diff --git a/kernel/bpf/fixups.c b/kernel/bpf/fixups.c
+>> index 300e4e251931..8947ef74f6a8 100644
+>> --- a/kernel/bpf/fixups.c
+>> +++ b/kernel/bpf/fixups.c
+>> @@ -1250,9 +1250,9 @@ static int jit_subprogs(struct bpf_verifier_env *env)
+>>   		}
+>>   		if (!bpf_pseudo_call(insn))
+>>   			continue;
+>> -		insn->off = env->insn_aux_data[i].call_imm;
+>> -		subprog = bpf_find_subprog(env, i + insn->off + 1);
+>> -		insn->imm = subprog;
+>> +		insn->imm = env->insn_aux_data[i].call_imm;
+>> +		subprog = bpf_find_subprog(env, i + insn->imm + 1);
+>> +		insn->off = subprog;
+>>   	}
+> 
+> Because this patch swaps the usage of insn->imm and insn->off for BPF pseudo
+> calls, will this cause a regression for unprivileged users dumping programs?
+> 
+> In kernel/bpf/syscall.c:bpf_insn_prepare_dump(), the kernel zeroes insn->imm
+> for all BPF_CALL instructions when the user lacks privileges:
+> 
+>      if (code == (BPF_JMP | BPF_CALL)) {
+>          insns[i].imm = 0;
+>          ...
+> 
+> Previously, this only hid the subprogram index. Now that insn->imm holds the
+> actual relative offset, zeroing it means tools like bpftool will receive an
+> offset of 0.
+> 
+> Could this regression cause bpftool prog dump xlated to output call pc+0 and
+> break the control flow graph generation for unprivileged users?
+> 
 
-ugh I forgot about this one
+OK, this problem is confirmed.
 
->
->>  		$(RESOLVE_BTFIDS) --btf $(TRUNNER_OUTPUT)/btf_data.bpf.o $$@;	\
->> -		$(RESOLVE_BTFIDS) --patch_btfids $$@.BTF_ids $$@)
->> +		$(RESOLVE_BTFIDS) --patch_btfids $$@.BTF_ids $$@;		\
->> +		fi)
+As root user, executing "sysctl -w kernel.kptr_restrict=2" before "bpftool
+prog dump xlated" will indeed demonstrate the bug. I will change the
+bpf_insn_prepare_dump() function in v10.
 
