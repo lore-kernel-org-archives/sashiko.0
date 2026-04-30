@@ -1,50 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0452D2741B5
-	for <sashiko@lists.linux.dev>; Thu, 30 Apr 2026 03:02:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A9D21C695
+	for <sashiko@lists.linux.dev>; Thu, 30 Apr 2026 06:33:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777518150; cv=none; b=W5JdcABG9blvo/HaKw8XnXoAxTxI+GnM2QEGksSxRKqix1hyo2gJW6ldv0fiYyq4BxkAoapymdZLvMbGdq9/tsBes1LoDmcCTLLEsOoCG+EvhMYtRtuHb6QaY0FfqoNW+c7af2uBjOpXPtgGfiPcpVIYyovqg3MQ6dTJ0TSzDC0=
+	t=1777530811; cv=none; b=Du1kq0PZ6hMvWyFRERuJeuXM3suejV7BCFqsgYBt9Uf8RYEsMe7ZrkJ6qs/FZZx61TIWFd2jIcaIXqwAALJF0FHtu6jRphpar+zW7zHoyBqovhxibpoRXBGOtmOzio5Rz3MMnJRqILE7R1BZXDTBxNX4op1spYo48uw6k4Z93Ow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777518150; c=relaxed/simple;
-	bh=BYmwJD7zo2NtQ1WyZhGzr4eG9Y110Jdrf/bIfOutAIM=;
+	s=arc-20240116; t=1777530811; c=relaxed/simple;
+	bh=sDpmAsvNqvSmAgGNpriWcHiHSu8IdvNaeqsC4Im+dus=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Oj6ZgBZcrO09JBo9ZSHkSIxuJTSwdytTaWxLO460m6MEOREMq7LIrQTqHIpTacU0ziZ+ljNVvdcIJsqaeU3eiHnuqQnC9QnqQBaEdTzu6E0sM1b/7Jer8GdCXUfhZh52Y4KuSiuJurOcpuUEuY0w3w9//GUOwb4bLxWm8Gm9IDs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ubq8cul4; arc=none smtp.client-ip=192.198.163.7
+	 In-Reply-To:Content-Type; b=d8tccJPZfstLQAcrlP8J2JGzaZm2W7t6HjpYj7XyC7Akh9QkECOQjknyEDRi6xRNmhSQIN2X+3wd6bkszAcar7k2jrm7Z+N1YsDpVeslSoTie8finbZnERXisdyB80xSYzH3GzZIReLenpbOsuUYp/06zCQrr9bf5GoWlDR8BUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a/PILmAe; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ubq8cul4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a/PILmAe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777518149; x=1809054149;
+  t=1777530810; x=1809066810;
   h=message-id:date:mime-version:subject:to:cc:references:
    from:in-reply-to:content-transfer-encoding;
-  bh=BYmwJD7zo2NtQ1WyZhGzr4eG9Y110Jdrf/bIfOutAIM=;
-  b=Ubq8cul4qBmdnCMJrRH29ackCjvMCsNO1TlYvXyU/JLeuCeDurpxuEGq
-   GLrQrn6whB/69378XP1Ym0y5pAaoW7rPgvo6j1hj44m54DYJSnxcu4O3N
-   RW8NtOwVzXvfTbZNj+MX+9PqWXwFZZUADidjmi1ZeK4WykB8ZQsMcG/xe
-   q5OWP8eZo89zNFKnIhO5xn3OtPno/13r3JdURwiUD4GK9grhlmZX5xUHc
-   YUjMbPW7tfrwUB3ieamFKfvtewWNysWF2S4xcH+Xt8RVKN4ZjwA8+rkil
-   L3WFG9vVI5d9FF6D2NUYXMJcpRLjMgOXXbjcEP1WgNCHuqvULHHfi6iBI
-   w==;
-X-CSE-ConnectionGUID: Icl5/r8pS761tijQ9eICPw==
-X-CSE-MsgGUID: oXam32NcS5+E4B8FEv0b6w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="103914525"
+  bh=sDpmAsvNqvSmAgGNpriWcHiHSu8IdvNaeqsC4Im+dus=;
+  b=a/PILmAe7ca5/4MU4zscx31RPzMicHv26/3Dbgrm3OD2/5xTQ3tAv1Tz
+   cjgx/p4a3+TTMazNuewKXn3s3SxhKBL15MoLAAnDFo32RPPh/nzX2fgql
+   3cwgukgNWhGFj7OrK2fazLGh4iov20njaYN8KNP+tysKQSQfR7VTtIF0H
+   MPAWSfWnS1CTBRAX+uth2Cqt/bNXT3sW+iwAx724c5tr1xGiW879Dbh0K
+   nGSKEvgQL4Xk8EGZdlOw3ToY4/PnJeNp7zIeIHxGmu2UWCjVI21zQe6LG
+   IhForArWZfo85IyC1d3hRLt/fWFiZ3phCxkEAhdzKRaBdRJXcxVJ5ezph
+   A==;
+X-CSE-ConnectionGUID: Qg7ymE9YQQC2YmkEr4lOsg==
+X-CSE-MsgGUID: PVNKDFYSS1Ki8PgG4W0PtQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="95894011"
 X-IronPort-AV: E=Sophos;i="6.23,207,1770624000"; 
-   d="scan'208";a="103914525"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 20:02:28 -0700
-X-CSE-ConnectionGUID: QTooCQFPTb65As+qb6ZO4Q==
-X-CSE-MsgGUID: 3bogxQt6QwamZjLpaQyDnA==
+   d="scan'208";a="95894011"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 23:33:30 -0700
+X-CSE-ConnectionGUID: XUq8BrW+TPOw/JbI4X/s6w==
+X-CSE-MsgGUID: Os2bmA49TMq2CcG/3X0Pqw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,207,1770624000"; 
-   d="scan'208";a="264831302"
-Received: from unknown (HELO [10.238.2.250]) ([10.238.2.250])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 20:02:27 -0700
-Message-ID: <b97fb2be-fa3a-42d9-9aa6-e87afc85a6a9@linux.intel.com>
-Date: Thu, 30 Apr 2026 11:02:24 +0800
+   d="scan'208";a="236257797"
+Received: from dapengmi-mobl1.ccr.corp.intel.com (HELO [10.124.241.147]) ([10.124.241.147])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 23:33:29 -0700
+Message-ID: <ceeae017-1fb7-4290-9df2-27d45b6de750@linux.intel.com>
+Date: Thu, 30 Apr 2026 14:33:26 +0800
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
@@ -52,82 +52,83 @@ List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [Patch v4 2/5] perf/x86/intel: Always reprogram ACR events to
- prevent stale masks
+Subject: Re: [Patch v4 3/5] perf/x86/intel: Disable PMI for self-reloaded ACR
+ events
 To: sashiko@lists.linux.dev
 Cc: linux-perf-users@vger.kernel.org
-References: <20260430002558.712334-3-dapeng1.mi@linux.intel.com>
- <20260430020402.60C32C19425@smtp.kernel.org>
+References: <20260430002558.712334-4-dapeng1.mi@linux.intel.com>
+ <20260430023637.37B6AC19425@smtp.kernel.org>
 Content-Language: en-US
 From: "Mi, Dapeng" <dapeng1.mi@linux.intel.com>
-In-Reply-To: <20260430020402.60C32C19425@smtp.kernel.org>
+In-Reply-To: <20260430023637.37B6AC19425@smtp.kernel.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
 
-On 4/30/2026 10:04 AM, sashiko-bot@kernel.org wrote:
+On 4/30/2026 10:36 AM, sashiko-bot@kernel.org wrote:
 > Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
-> - [Medium] Unconditional hardware MSR reprogramming for ACR events introduces performance regression and increases measurement blind spots.
+> - [High] Event PMIs can be permanently disabled due to a stale `hw.config1` state when an ACR group is broken up.
 > --
 >
-> commit a8f30026401c4d7de00c3f1a7543204056d7235c
+> commit cfc30b699ff51679e8ae587b226916cfd6fbe7bc
 > Author: Dapeng Mi <dapeng1.mi@linux.intel.com>
-> perf/x86/intel: Always reprogram ACR events to prevent stale masks
 >
-> This commit modifies PMU event scheduling to force reprogramming of all ACR
-> events during rescheduling. It does this by making match_prev_assignment()
-> always return false for ACR events.
+> perf/x86/intel: Disable PMI for self-reloaded ACR events
 >
->> diff --git a/arch/x86/events/core.c b/arch/x86/events/core.c
->> index 810ab21ffd99..4b9e105309c6 100644
->> --- a/arch/x86/events/core.c
->> +++ b/arch/x86/events/core.c
->> @@ -1294,13 +1294,16 @@ int x86_perf_rdpmc_index(struct perf_event *event)
->>  	return event->hw.event_base_rdpmc;
+> This commit disables Performance Monitoring Interrupts (PMI) for all events
+> configured with Auto Counter Reload (ACR) self-reload to prevent spurious
+> "unknown reason" NMI warnings.
+>
+> [ ... ]
+>
+>> diff --git a/arch/x86/events/perf_event.h b/arch/x86/events/perf_event.h
+>> index fad87d3c8b2c..524668dcf4cc 100644
+>> --- a/arch/x86/events/perf_event.h
+>> +++ b/arch/x86/events/perf_event.h
+>> @@ -137,6 +137,16 @@ static inline bool is_acr_event_group(struct perf_event *event)
+>>  	return check_leader_group(event->group_leader, PERF_X86_EVENT_ACR);
 >>  }
 >>  
->> -static inline int match_prev_assignment(struct hw_perf_event *hwc,
->> +static inline int match_prev_assignment(struct perf_event *event,
->>  					struct cpu_hw_events *cpuc,
->>  					int i)
->>  {
+>> +static inline bool is_acr_self_reload_event(struct perf_event *event)
+>> +{
 >> +	struct hw_perf_event *hwc = &event->hw;
 >> +
->>  	return hwc->idx == cpuc->assign[i] &&
->> -		hwc->last_cpu == smp_processor_id() &&
->> -		hwc->last_tag == cpuc->tags[i];
->> +	       hwc->last_cpu == smp_processor_id() &&
->> +	       hwc->last_tag == cpuc->tags[i] &&
->> +	       !is_acr_event_group(event);
->>  }
-> Does this unconditional hardware MSR reprogramming for ACR events introduce a
-> performance regression and increase measurement blind spots?
+>> +	if (hwc->idx < 0)
+>> +		return false;
+>> +
+>> +	return test_bit(hwc->idx, (unsigned long *)&hwc->config1);
+>> +}
+> Can this cause PMIs to be permanently disabled if an ACR group is broken up?
 >
-> By unconditionally returning false for all ACR events, every active ACR event
-> will undergo a full x86_pmu_stop() and x86_pmu_start() cycle during PMU
-> re-enablement (e.g., in x86_pmu_enable() when cpuc->n_added > 0).
+> If the original group leader is closed, perf_group_detach() promotes the
+> siblings to standalone events, making them their own leaders. These new
+> standalone events no longer have the PERF_X86_EVENT_ACR flag (as it was only
+> set on the original leader).
 >
-> These full stop/start cycles invoke multiple wrmsr and rdpmc instructions,
-> adding significant cycle overhead to the hot scheduling path. Since this
-> occurs while the PMU is globally disabled, the added latency extends the
-> global PMU off-time, unnecessarily increasing the measurement blind spot
-> where events are not counted across the CPU.
+> Because they lack the flag, intel_pmu_acr_late_setup() skips them, and
+> their hw.config1 field retains the stale physical counter bitmask from when
+> they were in the ACR group.
 >
-> Could this overhead be avoided by checking if the mask actually changed?
+> Since is_acr_self_reload_event() checks hw.config1 without validating if the
+> event is still in an ACR group via is_acr_event_group(), could a detached
+> event that gets assigned to a counter matching the stale bitmask incorrectly
+> return true here?
 >
-> x86_pmu_late_setup() calculates the new physical mask and stores it in
-> event->hw.config1 before match_prev_assignment() is evaluated. Would it be
-> better to compare event->hw.config1 against the previously programmed mask
-> stored in cpuc->acr_cfg_b[hwc->idx] and only force a reprogram when they
-> differ?
+> This would cause intel_pmu_enable_event() to incorrectly clear the
+> ARCH_PERFMON_EVENTSEL_INT bit, breaking PMI generation and sampling for a
+> now-normal event.
 
-Nice idea. This can be further optimized. I'm not sure if it's worth to
-post a new patchset for this single optimization.  If not, I would post a
-single optimization patch for this.
+I'm not sure if the issue could really happen in reality. If the group
+leader is disabled (I'm not fully understand the what does the "closed"
+mean, I suppose it means disable), all ACR events would be disabled as well.
+
+But it's fine to add a sanity check whether the event is an ACR event in
+the is_acr_self_reload_event().
 
 Thanks.
 
 
 >
-> [ ... ]
->
+>>  struct amd_nb {
+>>  	int nb_id;  /* NorthBridge id */
+>>  	int refcnt; /* reference count */
