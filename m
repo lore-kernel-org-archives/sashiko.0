@@ -1,175 +1,154 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CF5F39BFF2
-	for <sashiko@lists.linux.dev>; Thu, 30 Apr 2026 07:22:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26715421886
+	for <sashiko@lists.linux.dev>; Thu, 30 Apr 2026 13:13:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777533780; cv=none; b=n7yKpJ5rMf9roc63uhbVh+LNj0FYrOEWtEJ5p0V4BVzDyNtKMbCCud+jvUZfGzaVIAuNKjLp3jtK5If0UfU/0eSRg0XcyGKUshz4gmPkyxi/C7LNzED+sQHCbp3IGw1rW+bu/MDjAM81JpEFAx+UIgoBr4ORadT7kk90sKfDdl8=
+	t=1777554840; cv=none; b=Ya93CLr9YxNVv+6lg/VqO1im+ugyhKlKAi0k1RCRKuYrlIupCtLHYoOymRZw7enulGmIJZAiVFYW0LtXCIMRL1Kw+GL5A3TGLwXq5/P6ZZFeMEnkZDT1pol9/1urCRAbH7grsCgLOepTXI+U15RQxrJLmVL4FIl2CWb8aoqhwGo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777533780; c=relaxed/simple;
-	bh=+IWkKAkXV84a6l7FgFmgeCWP8H8DV7Tk1DD5krGrjgQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kd1vqd3QsHtaL4DefIofGZS8xRU6vMd8NphKJhBlY8FXT//OCT+8Xry98Hi1aDfS+RHe2lu32yWOKL4JmuXQImbRMPbETaXVTORO3uOfObeDgcTGkbqQPwjUR2VeTiSl5MlP8a/cAn1OMu6niQtbS4tLfBMEl3xZvO6gYnJkh18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=UDnNEV1f; arc=none smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1777554840; c=relaxed/simple;
+	bh=xJjJzowTCghhIo1M1BBoQR1p6lnqeUhBs3J9/RR1jz0=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=rsgTrLZ90zBf6iyhYRwsnk6fpaDm6VwaUEw1OX90cixx5SEz1TCpoMII89WmNbO9fbjr1YpjNYqO4wQgHGEdKUMkXhOpwphgaYO6Pwm/vqDtr7r/1V22RUhmsIjjK0Y07FAPxhgeaprhWIpc3vw7upcXgLL11SZkaK/jpLmDCMA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=gKv35gUt; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="UDnNEV1f"
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-b93698bb57aso126254866b.0
-        for <sashiko@lists.linux.dev>; Thu, 30 Apr 2026 00:22:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="gKv35gUt"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-488a8ca4aadso10235875e9.3
+        for <sashiko@lists.linux.dev>; Thu, 30 Apr 2026 06:13:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1777533776; x=1778138576; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=jSug2YRE1SrykhAI0zwsGiM0QCuGCDO5eNghgh5RXQI=;
-        b=UDnNEV1feaaku9H87W7q/tnfK8wPuVsGcMZOdl/61wmooMJkAM7r28iRIejSXGzFO7
-         REWmvNA03u2q5Crcdot8bVSyTagils4CZrmdoWTV1LrarQ3x/AuN90eYEiZY6zEz/XWK
-         mpvshF6EVu6I/4HXpTJLfQ+Pp5+iPf9CDHFbYasZjxd9E/6940VJXbfBm9x79/x7m1IP
-         J2JxyN26ghKQjGRO/xShAA8JPWaMBrIh8FuDePNt/8X/VUyW/uMzLoMNIPf3fUWAOIfA
-         U24RCFXBqKbk/XOAZ7oySx0jfrvp6HMT3hxNgC2dwLamQq1hudzj0ROWgJVOsJXNdgzy
-         Zj5w==
+        d=suse.com; s=google; t=1777554835; x=1778159635; darn=lists.linux.dev;
+        h=in-reply-to:references:from:to:cc:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zRe/Of4HXhlzR8gGS5doxSOHHPYhsd1Ia0Z7yzBuFU4=;
+        b=gKv35gUt//MZDxjk6VWwX3Ngas4POgnhPn9KclBDX43O9rVq1fvvAVGuWIoEzWjxH3
+         vl7Gwr34axL3f2qkFSZQSoAmcHMUZFPFQOD7ZZ0BTzT1mw5fN8f8Fq0A46L+GSttFFCJ
+         uziijcDm9pY0EMFXy/hpLJrA355tMFtEwQ7T8FIf/pvNhOUVwh1v9vAHDXHfMYRfi7oZ
+         s2Uc2DbMUjX0ynbtWIw+kxI5c+uA9/iN5gjBKykmLv66adwkHB/SiYQsYG/23T4B0sBF
+         oM8/loMez+678ANNf+SxfLQkxAntkXx/XTGQC8VwNCO/8h1Yv5X0kBCGect4x53kBg5X
+         D7cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777533776; x=1778138576;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jSug2YRE1SrykhAI0zwsGiM0QCuGCDO5eNghgh5RXQI=;
-        b=Itj0p5pK2cDDJa6qY0rVo9vDSoNVDNW6AdZX1T962Y41YOd/B1uXPCY7l/04JAR5M6
-         4NaKHdSwmLtuMEGb7O64WvHr+2t0Z4Da2dKuX0wt9jynWKJjZN/8QqZOBqWBquqIBFBT
-         0fOJzU/x6VnVVHwjmSd2SMIxNoi3nfGb2Kl7vaCJEuwBpjJlsP31GEhsV4LqYZ43Tgup
-         pd5FjoFR8Hn04VMEA9g8C84AKhT1yxHZhPtPPoe0gp55yNMzHckgOlwuY6POMtKZRRzX
-         X2/HEKkwGcuVA9F+9M8gMYXFWWU+RF4Pibe8gSKUDwNXLd2SmvrKU4mdaIqdWfrlSk0c
-         KTJg==
-X-Gm-Message-State: AOJu0Ywz3m20U4tTyceXER2MxBwKQ+xXAF8kayzuy67HTkcE3eBljc1I
-	3H5LgjBFkP55jcVbHTwceAactWM9dwDh9+Q+ObxZT5uzySgoopT1gfqGAgeWlDC3S/yZtqTMuI4
-	A8e+W/A==
-X-Gm-Gg: AeBDieuxF/XB6Clb9CF7CxQcwPDLJ2e8TFp2kYsOkDHdyf7FI4ID2hxYzppxahES2gv
-	8xk1b2HzFEdIe8grdv1EVNsriXkO8FeVi03M15YLxABCwXtUNC5eazVnZrLjzbuGpLCf6yQgIlY
-	Nhwhd1G9Oyw0ysCsTbpTli5I8pUmYv1AU1Ikh5+VymemyaV2SwFS8WMH9dmvFomcEb0o+8RegR2
-	55bC9MHBTbXcskyqCMpfWIbfRT7mrw2wJW9utNUXvxxfUnD/J5Aav4V2RMOBJVjNtoqmM5pkF3y
-	N/lX3BqgaMlvoYv7NPj16xFJsoLRaBCTlo+nBpgWu5c9xPhgZfl8kzXSDKxJ9HVOvUDaGjZOFyF
-	Hbgf7QW8FXpHs3lJOMu0VTPLPHRm/eR2RR+2NEasv2zylxln/0GqsthaBLA8AVQNsl71W1sBPFd
-	1PTGrD12UuubbmAMrTFqcTrWW168zBxEhMMt3HyhwOWb4+ACzgD9iygOUlfgiGWJrMARfrdQMxg
-	ArCT7S1ScLV
-X-Received: by 2002:a17:907:9494:b0:ba3:a8ef:67d8 with SMTP id a640c23a62f3a-bbb8891bd41mr65661466b.2.1777533775878;
-        Thu, 30 Apr 2026 00:22:55 -0700 (PDT)
-Received: from google.com (57.35.34.34.bc.googleusercontent.com. [34.34.35.57])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bb980a6fcbbsm192952466b.3.2026.04.30.00.22.55
+        d=1e100.net; s=20251104; t=1777554835; x=1778159635;
+        h=in-reply-to:references:from:to:cc:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=zRe/Of4HXhlzR8gGS5doxSOHHPYhsd1Ia0Z7yzBuFU4=;
+        b=KXA6cbqV+Co40JgaLKx1TdDfYhpvuWlOCwdXqoIpDey6+kAuOac9iqL5B9iucKWPQv
+         UObwSOPEuSs2hAVBcInxuNOH/ppBS8po3JOWwea8SIyyig4bQYXMPpt0dtAnZvrbud69
+         a04Kl2ByyUTMpNQpnQA6mvwab5qf9Dxz8jsOfEP8tN5lC0tBq1gfFx1ZBFK+v/9DGh1H
+         mQoGRKzf/lYvLPXx+l74CELeH1kmUJhIIJ+6UC+IvYImmqHUE6R2qbE3xWQ4p4yPzfHb
+         M3UdnMkiiFaDojtxxhc6S30AIuOGJ7eBLC48tDWtID6v0R/E09ZddF5Xa5RA3PmO3Mon
+         v21g==
+X-Gm-Message-State: AOJu0YxqVjaDpH20IuTDPJ/ScZE1HtHeWSGQFVFISV2F7r8JdHrpQSVR
+	dRWXzNfaYwEJyXKOToenKh0OkXF93MHZUz7k3JR65fMu0yQL/9i1quDocZ14J00fVzRPeVQsTRL
+	TJQJjmco=
+X-Gm-Gg: AeBDieuTUq1gQ9IzrEWwDjWmSCxVfxZlJyzQJaRZ4+G/yWaBHo+NIO1+esIa7wBw0Lw
+	5ejxp0tyMnzWLSwArJgOoUGLjpcv4luuchn/xVhwqtytnOBLIEJqC8jiKMT67VXfaMeX7nrLGgV
+	OgKNlsVoL267xLcSXx1UN/FSxJLIJacDPOg6JHeypl6f7kmmwTH18bWGpznIlOZe4pUmJstsszF
+	DbjZ5Wi6FlbePjCR+Ru7wc53OKFzbCXoZBBYDV6hCMqNrfRt808KI7bDNyG0oE4LeRaopSYc7VL
+	wAcY9/xALrXGqLiIzxIibJlekjAUtondjelEoxJ0uKwJf+TJvpWOo0EfXEWa+fpVM4JJATQZCLd
+	XS3fRw45SUxZYgKstoJCdH8WPt8oFlLnbP/717xqV4greoelMiVgCk1UApLiL2P2co3vvV2dWX7
+	ytU+VcH52rhF1C+jeTl9CXDk76iZDq6QIxPQ==
+X-Received: by 2002:a05:600c:3e8d:b0:48a:53ea:140b with SMTP id 5b1f17b1804b1-48a844a4728mr48868965e9.28.1777554834909;
+        Thu, 30 Apr 2026 06:13:54 -0700 (PDT)
+Received: from localhost ([2804:7f0:b765:105d:2ecf:67ff:fe81:9da0])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ed46afda3fsm3707956eec.30.2026.04.30.06.13.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Apr 2026 00:22:55 -0700 (PDT)
-Date: Thu, 30 Apr 2026 07:22:51 +0000
-From: Matt Bobrowski <mattbobrowski@google.com>
-To: sashiko@lists.linux.dev
-Cc: bpf@vger.kernel.org
-Subject: Re: [PATCH bpf-next] bpf: fix crash in bpf_[set|remove]_dentry_xattr
- for negative dentries
-Message-ID: <afMDSyrki9A1TzVK@google.com>
-References: <20260429205438.2601592-1-mattbobrowski@google.com>
- <20260429221005.6D1C6C19425@smtp.kernel.org>
+        Thu, 30 Apr 2026 06:13:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260429221005.6D1C6C19425@smtp.kernel.org>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 30 Apr 2026 10:13:51 -0300
+Message-Id: <DI6ILKHKXCTR.2TAXUY0YUC5DS@suse.com>
+Subject: Re: [PATCH bpf-next v10 06/11] selftests/bpf: Tolerate test file
+ compilation failures
+Cc: <bpf@vger.kernel.org>
+To: <sashiko@lists.linux.dev>, =?utf-8?b?UmljYXJkbyBCLiBNYXJsacOocmU=?=
+ <rbm@suse.com>
+From: =?utf-8?b?UmljYXJkbyBCLiBNYXJsacOocmU=?= <rbm@suse.com>
+X-Mailer: aerc 0.21.0-120-g22b95d38161f
+References: <20260430-selftests-bpf_misconfig-v10-6-cd302a31af16@suse.com>
+ <20260430131052.3E683C2BCB3@smtp.kernel.org>
+In-Reply-To: <20260430131052.3E683C2BCB3@smtp.kernel.org>
 
-On Wed, Apr 29, 2026 at 10:10:00PM +0000, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 3 potential issue(s) to consider:
-> - [High] Incomplete Fix: Negative dentries still trigger WARN_ON splats in bpf_get_dentry_xattr and _locked variants
-> - [High] BPF verifier blindly substitutes locked kfuncs, allowing arbitrary VFS lock bypass
-> - [High] Missing VFS parameter sanitization allows out-of-bounds xattr sizes and arbitrary flags
+On Thu Apr 30, 2026 at 10:10 AM -03, sashiko-bot wrote:
+> Thank you for your contribution! Sashiko AI review found 1 potential issu=
+e(s) to consider:
+> - [Low] The inline condition `$(if $(V))` incorrectly suppresses the `BTF=
+IDS` pretty output when `V=3D0` or `V=3D2`.
 > --
-> 
-> commit 07ec989f2fe3141fcb87e29833232a3f0591690d
-> Author: Matt Bobrowski <mattbobrowski@google.com>
-> 
-> bpf: fix crash in bpf_[set|remove]_dentry_xattr for negative dentries
-> 
-> This commit adds a NULL check for the inode in bpf_set_dentry_xattr() and
-> bpf_remove_dentry_xattr() to prevent a NULL pointer dereference when a
-> negative dentry is passed. If the inode is NULL, the functions now return
-> -EINVAL instead of attempting to lock it.
-> 
-> Closes: https://lore.kernel.org/bpf/1587cbf4-1293-4e25-ad24-c970836a1686@std.uestc.edu.cn/
-> 
-> > diff --git a/fs/bpf_fs_kfuncs.c b/fs/bpf_fs_kfuncs.c
-> > index 9d27be058494..a0d58d5e3022 100644
-> > --- a/fs/bpf_fs_kfuncs.c
-> > +++ b/fs/bpf_fs_kfuncs.c
-> > @@ -289,6 +289,9 @@ __bpf_kfunc int bpf_set_dentry_xattr(struct dentry *dentry, const char *name__st
-> >  	struct inode *inode = d_inode(dentry);
-> >  	int ret;
-> >  
-> > +	if (!inode)
-> > +		return -EINVAL;
-> 
-> Are similar checks needed for bpf_get_dentry_xattr() and the _locked variants
-> (bpf_set_dentry_xattr_locked() and bpf_remove_dentry_xattr_locked())?
-> 
-> If a negative dentry is passed to those functions, they will extract a NULL
-> inode and pass it to bpf_xattr_write_permission() or
-> bpf_xattr_read_permission(), which will trigger a WARN_ON(!inode) splat:
-> 
-> fs/bpf_fs_kfuncs.c:bpf_set_dentry_xattr_locked() {
-> 	...
-> 	struct inode *inode = d_inode(dentry);
-> 	...
-> 	ret = bpf_xattr_write_permission(name__str, inode);
-> 	...
-> }
-> 
-> Could a user-controlled BPF program intentionally pass a negative dentry to
-> trigger this warning, causing a denial of service on systems with
-> panic_on_warn enabled?
+>
+> commit 0d69d461adbd02ed2bb765aad81f923aeaf2a8da
+> Author: Ricardo B. Marli=C3=A8re <rbm@suse.com>
+>
+> selftests/bpf: Tolerate test file compilation failures
+>
+> This commit makes per-test compilation non-fatal for test_progs, skipping
+> missing objects during linking. It adjusts the BTFIDS step to use standar=
+d
+> printf instead of the msg macro within the shell conditionals.
+>
+>> diff --git a/tools/testing/selftests/bpf/Makefile b/tools/testing/selfte=
+sts/bpf/Makefile
+>> index 608e6dff03926..9becc077eb231 100644
+>> --- a/tools/testing/selftests/bpf/Makefile
+>> +++ b/tools/testing/selftests/bpf/Makefile
+>
+> [ ... ]
+>
+>> @@ -717,11 +723,14 @@ $(TRUNNER_TEST_OBJS): $(TRUNNER_OUTPUT)/%.test.o:	=
+		\
+>>  		      $(TRUNNER_TESTS_DIR)/%.c				\
+>>  		      | $(TRUNNER_OUTPUT)/%.test.d
+>>  	$$(call msg,TEST-OBJ,$(TRUNNER_BINARY),$$@)
+>> -	$(Q)cd $$(@D) && $$(CC) -I. $$(CFLAGS) -MMD -MT $$@ -c $(CURDIR)/$$< $=
+$(LDLIBS) -o $$(@F)
+>> +	$(Q)(cd $$(@D) && $$(CC) -I. $$(CFLAGS) -MMD -MT $$@ -c $(CURDIR)/$$< =
+$$(LDLIBS) -o $$(@F)) $(if $(filter test_progs%,$1),$(if $(PERMISSIVE),|| \
+>> +		($(RM) $$@; printf '  %-12s %s\n' 'SKIP-TEST' '$$(notdir $$@)' 1>&2))=
+)
+>>  	$$(if $$(TEST_NEEDS_BTFIDS),						\
+>> -		$$(call msg,BTFIDS,$(TRUNNER_BINARY),$$@)			\
+>> +		$(Q)if [ -f $$@ ]; then						\
+>> +		$(if $(V),true,printf '  %-8s%s %s\n' "BTFIDS" " [$(TRUNNER_BINARY)]"=
+ "$$(notdir $$@)"); \
+>
+> Does this condition correctly handle V=3D0 or V=3D2?
+>
+> In GNU Make, the $(if) function evaluates to true if the condition expand=
+s to
+> any non-empty string. If a user sets make V=3D0, $(V) expands to the stri=
+ng "0",
+> which Make considers true.
+>
+> Consequently, `$(if $(V),true,printf ...)` will execute `true;`, silencin=
+g the
+> BTFIDS output entirely. The standard msg macro used for other compilation=
+ steps
+> explicitly checks `ifeq ($(V),1)`.
+>
+> This results in inconsistent behavior where V=3D0 correctly prints brief =
+messages
+> like TEST-OBJ but silently skips BTFIDS.
+>
+> Could this explicitly check for "1", such as using
+> `$(if $(filter 1,$(V)),true,printf ...)` to accurately match the behavior=
+ of
+> the msg macro?
 
-Yes, dropping the WARN_ON(!inode) makes sense to me. By definition,
-attempting to set an extended attribute on a negative dentry is
-considered as an invalid operation, so it should be handled
-gracefully.
+ugh I forgot about this one
 
-> > +
-> >  	inode_lock(inode);
-> >  	ret = bpf_set_dentry_xattr_locked(dentry, name__str, value_p, flags);
-> 
-> This isn't a regression from this patch, but does the BPF verifier safely
-> handle the substitution of these locked kfuncs?
-> 
-> If a program is attached to an LSM hook that holds an inode lock, the
-> verifier unconditionally rewrites calls to bpf_set_dentry_xattr() to
-> bpf_set_dentry_xattr_locked(). The verifier doesn't check if the dentry
-> argument provided to the kfunc is the specific context argument that the
-> VFS already locked.
-> 
-> Can a BPF program obtain a trusted pointer to an unrelated, unlocked dentry
-> and pass it to the kfunc, causing the substituted _locked variant to execute
-> __vfs_setxattr() without acquiring the proper VFS locks?
+>
+>>  		$(RESOLVE_BTFIDS) --btf $(TRUNNER_OUTPUT)/btf_data.bpf.o $$@;	\
+>> -		$(RESOLVE_BTFIDS) --patch_btfids $$@.BTF_ids $$@)
+>> +		$(RESOLVE_BTFIDS) --patch_btfids $$@.BTF_ids $$@;		\
+>> +		fi)
 
-Probably a valid concern and the current approach does seem a little
-fragile. This too should be reviewed in further depth separately
-though.
-
-> Additionally, do these kfuncs bypass necessary VFS parameter sanitization?
-> 
-> The standard setxattr system call sanitizes inputs in setxattr_copy(),
-> rejecting sizes larger than XATTR_SIZE_MAX and masking flags. Since
-> bpf_set_dentry_xattr() and its _locked variant directly invoke __vfs_setxattr(),
-> a BPF program can supply arbitrary unvalidated flags and massive values up
-> to 4GB.
-> 
-> Could this bypass lead to huge allocations, integer overflows, or
-> out-of-bounds accesses in drivers that assume VFS-enforced bounds?
-
-I believe this is a valid concern and should be addressed separately
-in a follow up patch. Thank you for bringing this to our attention.
-
-> >  	inode_unlock(inode);
-> >  	return ret;
-> 
-> -- 
-> Sashiko AI review · https://sashiko.dev/#/patchset/20260429205438.2601592-1-mattbobrowski@google.com?part=1
