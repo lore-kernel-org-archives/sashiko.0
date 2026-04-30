@@ -1,134 +1,175 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A9D21C695
-	for <sashiko@lists.linux.dev>; Thu, 30 Apr 2026 06:33:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CF5F39BFF2
+	for <sashiko@lists.linux.dev>; Thu, 30 Apr 2026 07:22:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777530811; cv=none; b=Du1kq0PZ6hMvWyFRERuJeuXM3suejV7BCFqsgYBt9Uf8RYEsMe7ZrkJ6qs/FZZx61TIWFd2jIcaIXqwAALJF0FHtu6jRphpar+zW7zHoyBqovhxibpoRXBGOtmOzio5Rz3MMnJRqILE7R1BZXDTBxNX4op1spYo48uw6k4Z93Ow=
+	t=1777533780; cv=none; b=n7yKpJ5rMf9roc63uhbVh+LNj0FYrOEWtEJ5p0V4BVzDyNtKMbCCud+jvUZfGzaVIAuNKjLp3jtK5If0UfU/0eSRg0XcyGKUshz4gmPkyxi/C7LNzED+sQHCbp3IGw1rW+bu/MDjAM81JpEFAx+UIgoBr4ORadT7kk90sKfDdl8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777530811; c=relaxed/simple;
-	bh=sDpmAsvNqvSmAgGNpriWcHiHSu8IdvNaeqsC4Im+dus=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=d8tccJPZfstLQAcrlP8J2JGzaZm2W7t6HjpYj7XyC7Akh9QkECOQjknyEDRi6xRNmhSQIN2X+3wd6bkszAcar7k2jrm7Z+N1YsDpVeslSoTie8finbZnERXisdyB80xSYzH3GzZIReLenpbOsuUYp/06zCQrr9bf5GoWlDR8BUE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a/PILmAe; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1777533780; c=relaxed/simple;
+	bh=+IWkKAkXV84a6l7FgFmgeCWP8H8DV7Tk1DD5krGrjgQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kd1vqd3QsHtaL4DefIofGZS8xRU6vMd8NphKJhBlY8FXT//OCT+8Xry98Hi1aDfS+RHe2lu32yWOKL4JmuXQImbRMPbETaXVTORO3uOfObeDgcTGkbqQPwjUR2VeTiSl5MlP8a/cAn1OMu6niQtbS4tLfBMEl3xZvO6gYnJkh18=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=UDnNEV1f; arc=none smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a/PILmAe"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777530810; x=1809066810;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=sDpmAsvNqvSmAgGNpriWcHiHSu8IdvNaeqsC4Im+dus=;
-  b=a/PILmAe7ca5/4MU4zscx31RPzMicHv26/3Dbgrm3OD2/5xTQ3tAv1Tz
-   cjgx/p4a3+TTMazNuewKXn3s3SxhKBL15MoLAAnDFo32RPPh/nzX2fgql
-   3cwgukgNWhGFj7OrK2fazLGh4iov20njaYN8KNP+tysKQSQfR7VTtIF0H
-   MPAWSfWnS1CTBRAX+uth2Cqt/bNXT3sW+iwAx724c5tr1xGiW879Dbh0K
-   nGSKEvgQL4Xk8EGZdlOw3ToY4/PnJeNp7zIeIHxGmu2UWCjVI21zQe6LG
-   IhForArWZfo85IyC1d3hRLt/fWFiZ3phCxkEAhdzKRaBdRJXcxVJ5ezph
-   A==;
-X-CSE-ConnectionGUID: Qg7ymE9YQQC2YmkEr4lOsg==
-X-CSE-MsgGUID: PVNKDFYSS1Ki8PgG4W0PtQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="95894011"
-X-IronPort-AV: E=Sophos;i="6.23,207,1770624000"; 
-   d="scan'208";a="95894011"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 23:33:30 -0700
-X-CSE-ConnectionGUID: XUq8BrW+TPOw/JbI4X/s6w==
-X-CSE-MsgGUID: Os2bmA49TMq2CcG/3X0Pqw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,207,1770624000"; 
-   d="scan'208";a="236257797"
-Received: from dapengmi-mobl1.ccr.corp.intel.com (HELO [10.124.241.147]) ([10.124.241.147])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 23:33:29 -0700
-Message-ID: <ceeae017-1fb7-4290-9df2-27d45b6de750@linux.intel.com>
-Date: Thu, 30 Apr 2026 14:33:26 +0800
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="UDnNEV1f"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-b93698bb57aso126254866b.0
+        for <sashiko@lists.linux.dev>; Thu, 30 Apr 2026 00:22:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1777533776; x=1778138576; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=jSug2YRE1SrykhAI0zwsGiM0QCuGCDO5eNghgh5RXQI=;
+        b=UDnNEV1feaaku9H87W7q/tnfK8wPuVsGcMZOdl/61wmooMJkAM7r28iRIejSXGzFO7
+         REWmvNA03u2q5Crcdot8bVSyTagils4CZrmdoWTV1LrarQ3x/AuN90eYEiZY6zEz/XWK
+         mpvshF6EVu6I/4HXpTJLfQ+Pp5+iPf9CDHFbYasZjxd9E/6940VJXbfBm9x79/x7m1IP
+         J2JxyN26ghKQjGRO/xShAA8JPWaMBrIh8FuDePNt/8X/VUyW/uMzLoMNIPf3fUWAOIfA
+         U24RCFXBqKbk/XOAZ7oySx0jfrvp6HMT3hxNgC2dwLamQq1hudzj0ROWgJVOsJXNdgzy
+         Zj5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777533776; x=1778138576;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=jSug2YRE1SrykhAI0zwsGiM0QCuGCDO5eNghgh5RXQI=;
+        b=Itj0p5pK2cDDJa6qY0rVo9vDSoNVDNW6AdZX1T962Y41YOd/B1uXPCY7l/04JAR5M6
+         4NaKHdSwmLtuMEGb7O64WvHr+2t0Z4Da2dKuX0wt9jynWKJjZN/8QqZOBqWBquqIBFBT
+         0fOJzU/x6VnVVHwjmSd2SMIxNoi3nfGb2Kl7vaCJEuwBpjJlsP31GEhsV4LqYZ43Tgup
+         pd5FjoFR8Hn04VMEA9g8C84AKhT1yxHZhPtPPoe0gp55yNMzHckgOlwuY6POMtKZRRzX
+         X2/HEKkwGcuVA9F+9M8gMYXFWWU+RF4Pibe8gSKUDwNXLd2SmvrKU4mdaIqdWfrlSk0c
+         KTJg==
+X-Gm-Message-State: AOJu0Ywz3m20U4tTyceXER2MxBwKQ+xXAF8kayzuy67HTkcE3eBljc1I
+	3H5LgjBFkP55jcVbHTwceAactWM9dwDh9+Q+ObxZT5uzySgoopT1gfqGAgeWlDC3S/yZtqTMuI4
+	A8e+W/A==
+X-Gm-Gg: AeBDieuxF/XB6Clb9CF7CxQcwPDLJ2e8TFp2kYsOkDHdyf7FI4ID2hxYzppxahES2gv
+	8xk1b2HzFEdIe8grdv1EVNsriXkO8FeVi03M15YLxABCwXtUNC5eazVnZrLjzbuGpLCf6yQgIlY
+	Nhwhd1G9Oyw0ysCsTbpTli5I8pUmYv1AU1Ikh5+VymemyaV2SwFS8WMH9dmvFomcEb0o+8RegR2
+	55bC9MHBTbXcskyqCMpfWIbfRT7mrw2wJW9utNUXvxxfUnD/J5Aav4V2RMOBJVjNtoqmM5pkF3y
+	N/lX3BqgaMlvoYv7NPj16xFJsoLRaBCTlo+nBpgWu5c9xPhgZfl8kzXSDKxJ9HVOvUDaGjZOFyF
+	Hbgf7QW8FXpHs3lJOMu0VTPLPHRm/eR2RR+2NEasv2zylxln/0GqsthaBLA8AVQNsl71W1sBPFd
+	1PTGrD12UuubbmAMrTFqcTrWW168zBxEhMMt3HyhwOWb4+ACzgD9iygOUlfgiGWJrMARfrdQMxg
+	ArCT7S1ScLV
+X-Received: by 2002:a17:907:9494:b0:ba3:a8ef:67d8 with SMTP id a640c23a62f3a-bbb8891bd41mr65661466b.2.1777533775878;
+        Thu, 30 Apr 2026 00:22:55 -0700 (PDT)
+Received: from google.com (57.35.34.34.bc.googleusercontent.com. [34.34.35.57])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bb980a6fcbbsm192952466b.3.2026.04.30.00.22.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Apr 2026 00:22:55 -0700 (PDT)
+Date: Thu, 30 Apr 2026 07:22:51 +0000
+From: Matt Bobrowski <mattbobrowski@google.com>
+To: sashiko@lists.linux.dev
+Cc: bpf@vger.kernel.org
+Subject: Re: [PATCH bpf-next] bpf: fix crash in bpf_[set|remove]_dentry_xattr
+ for negative dentries
+Message-ID: <afMDSyrki9A1TzVK@google.com>
+References: <20260429205438.2601592-1-mattbobrowski@google.com>
+ <20260429221005.6D1C6C19425@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Patch v4 3/5] perf/x86/intel: Disable PMI for self-reloaded ACR
- events
-To: sashiko@lists.linux.dev
-Cc: linux-perf-users@vger.kernel.org
-References: <20260430002558.712334-4-dapeng1.mi@linux.intel.com>
- <20260430023637.37B6AC19425@smtp.kernel.org>
-Content-Language: en-US
-From: "Mi, Dapeng" <dapeng1.mi@linux.intel.com>
-In-Reply-To: <20260430023637.37B6AC19425@smtp.kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260429221005.6D1C6C19425@smtp.kernel.org>
 
-
-On 4/30/2026 10:36 AM, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
-> - [High] Event PMIs can be permanently disabled due to a stale `hw.config1` state when an ACR group is broken up.
+On Wed, Apr 29, 2026 at 10:10:00PM +0000, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 3 potential issue(s) to consider:
+> - [High] Incomplete Fix: Negative dentries still trigger WARN_ON splats in bpf_get_dentry_xattr and _locked variants
+> - [High] BPF verifier blindly substitutes locked kfuncs, allowing arbitrary VFS lock bypass
+> - [High] Missing VFS parameter sanitization allows out-of-bounds xattr sizes and arbitrary flags
 > --
->
-> commit cfc30b699ff51679e8ae587b226916cfd6fbe7bc
-> Author: Dapeng Mi <dapeng1.mi@linux.intel.com>
->
-> perf/x86/intel: Disable PMI for self-reloaded ACR events
->
-> This commit disables Performance Monitoring Interrupts (PMI) for all events
-> configured with Auto Counter Reload (ACR) self-reload to prevent spurious
-> "unknown reason" NMI warnings.
->
-> [ ... ]
->
->> diff --git a/arch/x86/events/perf_event.h b/arch/x86/events/perf_event.h
->> index fad87d3c8b2c..524668dcf4cc 100644
->> --- a/arch/x86/events/perf_event.h
->> +++ b/arch/x86/events/perf_event.h
->> @@ -137,6 +137,16 @@ static inline bool is_acr_event_group(struct perf_event *event)
->>  	return check_leader_group(event->group_leader, PERF_X86_EVENT_ACR);
->>  }
->>  
->> +static inline bool is_acr_self_reload_event(struct perf_event *event)
->> +{
->> +	struct hw_perf_event *hwc = &event->hw;
->> +
->> +	if (hwc->idx < 0)
->> +		return false;
->> +
->> +	return test_bit(hwc->idx, (unsigned long *)&hwc->config1);
->> +}
-> Can this cause PMIs to be permanently disabled if an ACR group is broken up?
->
-> If the original group leader is closed, perf_group_detach() promotes the
-> siblings to standalone events, making them their own leaders. These new
-> standalone events no longer have the PERF_X86_EVENT_ACR flag (as it was only
-> set on the original leader).
->
-> Because they lack the flag, intel_pmu_acr_late_setup() skips them, and
-> their hw.config1 field retains the stale physical counter bitmask from when
-> they were in the ACR group.
->
-> Since is_acr_self_reload_event() checks hw.config1 without validating if the
-> event is still in an ACR group via is_acr_event_group(), could a detached
-> event that gets assigned to a counter matching the stale bitmask incorrectly
-> return true here?
->
-> This would cause intel_pmu_enable_event() to incorrectly clear the
-> ARCH_PERFMON_EVENTSEL_INT bit, breaking PMI generation and sampling for a
-> now-normal event.
+> 
+> commit 07ec989f2fe3141fcb87e29833232a3f0591690d
+> Author: Matt Bobrowski <mattbobrowski@google.com>
+> 
+> bpf: fix crash in bpf_[set|remove]_dentry_xattr for negative dentries
+> 
+> This commit adds a NULL check for the inode in bpf_set_dentry_xattr() and
+> bpf_remove_dentry_xattr() to prevent a NULL pointer dereference when a
+> negative dentry is passed. If the inode is NULL, the functions now return
+> -EINVAL instead of attempting to lock it.
+> 
+> Closes: https://lore.kernel.org/bpf/1587cbf4-1293-4e25-ad24-c970836a1686@std.uestc.edu.cn/
+> 
+> > diff --git a/fs/bpf_fs_kfuncs.c b/fs/bpf_fs_kfuncs.c
+> > index 9d27be058494..a0d58d5e3022 100644
+> > --- a/fs/bpf_fs_kfuncs.c
+> > +++ b/fs/bpf_fs_kfuncs.c
+> > @@ -289,6 +289,9 @@ __bpf_kfunc int bpf_set_dentry_xattr(struct dentry *dentry, const char *name__st
+> >  	struct inode *inode = d_inode(dentry);
+> >  	int ret;
+> >  
+> > +	if (!inode)
+> > +		return -EINVAL;
+> 
+> Are similar checks needed for bpf_get_dentry_xattr() and the _locked variants
+> (bpf_set_dentry_xattr_locked() and bpf_remove_dentry_xattr_locked())?
+> 
+> If a negative dentry is passed to those functions, they will extract a NULL
+> inode and pass it to bpf_xattr_write_permission() or
+> bpf_xattr_read_permission(), which will trigger a WARN_ON(!inode) splat:
+> 
+> fs/bpf_fs_kfuncs.c:bpf_set_dentry_xattr_locked() {
+> 	...
+> 	struct inode *inode = d_inode(dentry);
+> 	...
+> 	ret = bpf_xattr_write_permission(name__str, inode);
+> 	...
+> }
+> 
+> Could a user-controlled BPF program intentionally pass a negative dentry to
+> trigger this warning, causing a denial of service on systems with
+> panic_on_warn enabled?
 
-I'm not sure if the issue could really happen in reality. If the group
-leader is disabled (I'm not fully understand the what does the "closed"
-mean, I suppose it means disable), all ACR events would be disabled as well.
+Yes, dropping the WARN_ON(!inode) makes sense to me. By definition,
+attempting to set an extended attribute on a negative dentry is
+considered as an invalid operation, so it should be handled
+gracefully.
 
-But it's fine to add a sanity check whether the event is an ACR event in
-the is_acr_self_reload_event().
+> > +
+> >  	inode_lock(inode);
+> >  	ret = bpf_set_dentry_xattr_locked(dentry, name__str, value_p, flags);
+> 
+> This isn't a regression from this patch, but does the BPF verifier safely
+> handle the substitution of these locked kfuncs?
+> 
+> If a program is attached to an LSM hook that holds an inode lock, the
+> verifier unconditionally rewrites calls to bpf_set_dentry_xattr() to
+> bpf_set_dentry_xattr_locked(). The verifier doesn't check if the dentry
+> argument provided to the kfunc is the specific context argument that the
+> VFS already locked.
+> 
+> Can a BPF program obtain a trusted pointer to an unrelated, unlocked dentry
+> and pass it to the kfunc, causing the substituted _locked variant to execute
+> __vfs_setxattr() without acquiring the proper VFS locks?
 
-Thanks.
+Probably a valid concern and the current approach does seem a little
+fragile. This too should be reviewed in further depth separately
+though.
 
+> Additionally, do these kfuncs bypass necessary VFS parameter sanitization?
+> 
+> The standard setxattr system call sanitizes inputs in setxattr_copy(),
+> rejecting sizes larger than XATTR_SIZE_MAX and masking flags. Since
+> bpf_set_dentry_xattr() and its _locked variant directly invoke __vfs_setxattr(),
+> a BPF program can supply arbitrary unvalidated flags and massive values up
+> to 4GB.
+> 
+> Could this bypass lead to huge allocations, integer overflows, or
+> out-of-bounds accesses in drivers that assume VFS-enforced bounds?
 
->
->>  struct amd_nb {
->>  	int nb_id;  /* NorthBridge id */
->>  	int refcnt; /* reference count */
+I believe this is a valid concern and should be addressed separately
+in a follow up patch. Thank you for bringing this to our attention.
+
+> >  	inode_unlock(inode);
+> >  	return ret;
+> 
+> -- 
+> Sashiko AI review · https://sashiko.dev/#/patchset/20260429205438.2601592-1-mattbobrowski@google.com?part=1
