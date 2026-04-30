@@ -1,67 +1,67 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 547C7382367
-	for <sashiko@lists.linux.dev>; Thu, 30 Apr 2026 20:20:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A66B936D506
+	for <sashiko@lists.linux.dev>; Thu, 30 Apr 2026 23:33:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777580405; cv=none; b=ozfCEnaw1qLtlSDU1eksIE0onWEkFz7RU6r0v4A7MO+py9cD8sztM4mOAw2qxru9LDDiT9jKTAkncJ5kEMKCmghhvMKmsJOX43gO2ZzsJDBarLmaY8N6tOcSdPg/kmisBlwIcfVVl9qjp58e0tLc22ySyfuJ4ribTf+na4GeG7c=
+	t=1777592022; cv=none; b=B9pU4Uiczlf0e/YBO7TlmTm7LbHVuZmlb2lax8nKLKZCCGSxYWVe8yWPJUqKUtE3P0eKjQQp2sg1grLG1Mf2yK98/MYyTrgZPE3BdnfBNRHPYcwAJV4JwRVewn9GrMetQL3SHnl/YoDwhTfF0jOhs47MpZZ6DcE5I1xngPJN/XQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777580405; c=relaxed/simple;
-	bh=5xDdPHwOPg1/+xEc48LhJjGaJZxT2Wy/Kj8wbOXVP5Q=;
+	s=arc-20240116; t=1777592022; c=relaxed/simple;
+	bh=W3/nqH6qHD72ixUWUP6ZBPNnt4XLF5MqlML1KUC9Prs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jSl3aTHOCDK5f3K5RWSLj4defxWLcm6NRJx/T746nWyeIYtXAaUvQuARJBEj2jtP+Iw+icwgBJMARY7xFDw2kXzWpEfZye+Bp7kNlyLPfMgLQ3XYDoIQ0JGInZpftMgsTZctgenZaEoY7wMeOB7Vx9ZbWf5eYvTWzp7TRqK24i8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EyM3H5Y9; arc=none smtp.client-ip=209.85.210.178
+	 In-Reply-To:Content-Type; b=Z5e87+fxWiES+y7Ybajdlz9T6sGATGzFenACA56NfsmYyGMrKA4j1SF91RO6r1+NcH/rXt5YtgxxF1lgKzkGqeVDoWvEqbyQlo5EY+ZQYGANMxh2dv7bh0W945dEAmQpCJ0kUxqs5mH8K0XO5duRpUosNtXei+fhuxEx+lb19x8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H44V5n6f; arc=none smtp.client-ip=209.85.215.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EyM3H5Y9"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-82fbf5d4dc2so984235b3a.1
-        for <sashiko@lists.linux.dev>; Thu, 30 Apr 2026 13:20:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H44V5n6f"
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-c7963df6f17so904748a12.0
+        for <sashiko@lists.linux.dev>; Thu, 30 Apr 2026 16:33:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777580403; x=1778185203; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1777592021; x=1778196821; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=vftSRvAvRX8nlWWNeiHY+Q4q7N388epoMGmpzJDaRr0=;
-        b=EyM3H5Y95519QqR35fK2Jl/CC8BNf1uB+pIGMsusYYyD2adpDAYhC6LveKSaFeRJl3
-         F+0VxdWMYmY8Gt0grybrj/kLDrnwQVqPuC1QCAyInIz/BlZvAustZlf5BuCID2hUAzF0
-         MDQnfEDCaOHjJEnA29woXhni6BBZlbn0C8VO5R2/p/Ao48CUwusBxTaD/m44A/xbTol2
-         wr6HPuw1azWo8Py64mmPZM4sQSd/yvCDnP+IFDQx8tKhpXA0Hegp07atRD3VyjNcCHJn
-         1Xy/aN2ujSGwYKJtt5PPztlZSCKBxE6HpAZq1z0tSxr3QfiO/fHKdEyZsrR9OG5HZKR5
-         rZTA==
+        bh=w6VnsbGdv+KHh/HAecW9JiTSqaqoPveVkbPqxbnPh/A=;
+        b=H44V5n6fL+ukqQJdnaIwGBv/R1cTIRfapox2czNNyOKpaqZQElu7z0BoT86y8Y0PMf
+         akfw4UERf9yH9nmFx2h0vkNpu+wTPkc88FQNKY5w3VW2Cr19dqOqv17UX54FvDU4rKrJ
+         PtWbs/B+lZUvorMKEIpmb+CN9pmTNiuLPqVJCfo+rXVHoC/0G8vgPPSCCaQgA1t6WthC
+         bQjqK0/da752tG6wa157PShnFp9YoO2PARKYxslNb2WeUJauqiEoQ3TyhaMEJP/2KRKx
+         BjFGWqSE8IZPg+k2fbaDIHZVvzZIaLzSoLsW9s5/2KJea6ZGImXaT7gjsqQadFZZt+11
+         b7lQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777580403; x=1778185203;
+        d=1e100.net; s=20251104; t=1777592021; x=1778196821;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=vftSRvAvRX8nlWWNeiHY+Q4q7N388epoMGmpzJDaRr0=;
-        b=M9ZS6skPaXcL66DCTPMq+qYVxHWqUXjpvbDJNI0O4fcpq0S+WhrdvCmh7HFpw7mGsl
-         XqwWJMp+W+5/y2tO57yI0E8UWfN5lHvYYDrEEkJEs72yppy7DJX4mhWm8ZlS9SjtSN7G
-         m66PcXIT1yaBK/mtcixUa+bZxQJn5s2AQ+Dhny4aGnnZnxSxfNjSlnsKMUBPOCCE4A1X
-         ah7N6sZhk1jG4RoqPknTMJMprzgKiLGLXwHplIInfDsSeeiy0RxM3MuB9pC7njiK6VEG
-         XGVKgxWq7mMYZPwIDXJ7pNyyxbAqZMBR+StzEKVgHapwH8zkVBLh5wSuYFxpFOzJmcQn
-         uynA==
-X-Gm-Message-State: AOJu0YylKD4Eh9vMGhZd/e+R5MXRs4x2sbRYCQ19CVX2QDEK5cUUK/oD
-	Tioq/NFZOZhTAFgJRhmwsrQ87UOcAkhLFaQTCvqKm9jiUOmOyG/MW1mc1qkZ0Q==
-X-Gm-Gg: AeBDietTAuDPht71xL1r8EMncBUrOTr3Fut2dtzhXAuuCmAoX97Sn0o+r1VU9AfsXcJ
-	CGEqBMFb71FGRxh0J8P8onNmSVkfRpcHjjAq37UDiB59gsobt0dGfAK40sNIdi7Rp4kFbk3aH6L
-	qaceQm8YDfoPoQ6IdnRmc3bB4Uxlwsuz+lxRfWzvqrEFhOFQ8Ef9B2ejlr6Ps2+F60Gof5YqpJf
-	tzvGLoGmGb0n/jaG322/gW/m5masFl35zhfrZ737VoaiQPMapqi3q//o9kyRLjiERk3h3nRcEGp
-	/Qqhb7T6vUBTgRh4WqMG7PZseSrcVK75gYkTF0HKs+UOJ66XCWGZtNgLR5F/j4of5z3oRSkW7Ft
-	i/ua8Ea1j+6airhaLw9l2djBSAt8SKQP8I+mAWf+esEdUeMU6j4LL4WhLEzuaffTCkW6piyT9EU
-	yYWqnm4UHjPKVUxBItkV8+tfJuIQf96mWd1gfDf6GNFkKOBft80pa9IvR7eAdALOxDGNus53JZQ
-	cC2mEPiL1s=
-X-Received: by 2002:a05:6a00:a586:b0:82f:4628:4198 with SMTP id d2e1a72fcca58-834fdbd3e88mr5451384b3a.31.1777580403523;
-        Thu, 30 Apr 2026 13:20:03 -0700 (PDT)
+        bh=w6VnsbGdv+KHh/HAecW9JiTSqaqoPveVkbPqxbnPh/A=;
+        b=MM8xG1Rj7ikRDb6phlyOYvh2ph16VobDZcwThef27k4mLF5Gb5ZXVcCICczWlT9aoi
+         1psguyJrhNTt6wZ0uZdEePxrRtiHqRlUx/lishVJqxDB5I3vKrVr3sZPL3zuGy5Ppt/F
+         umY/c/XB/ipiZ+FMpeGpnyBVscQBJekLP501lbGdrQYyWuMCXkgouYEMk3PW0e9BRQ/6
+         rCjh+5410tLSMLwAj4ZE5NU6dcpb6wms6ZHwuy5OcI/F1X1r4vxf7OEh13eGX0ckXPXn
+         qjDNab/qe9xI8GdSxMjZs7YUimWRGA9rGqZPCpxqKn8xnXPQXci93ieuTkPWhK2rX4xM
+         kLvA==
+X-Gm-Message-State: AOJu0YxADb0VhN5CPVBuBy96Vb8Lgje7E1JygRjFy4eRPZU+i6stDHtD
+	S6CU/mBs0dpNnt6qeHBqz6sIB6VHzKMBCuW7War1wfWOhgbale8c3o2gnIO+Ag==
+X-Gm-Gg: AeBDiess9DzirVK9ZBKv+NJPA1By8FUo4YmVso/ZfPhOWEkeCkmoNHk/esHzQxXn4Bn
+	dApUhoF/TgOksPQqwYBOOwfrixyzp16zOMzmm/bJzLdowEslG/A3i1GXDINCV3hHmbteLGKH7Bd
+	PdsxcejilShWdVfKAJqbG5DCXajALL56zt5EZCgCDAfK3VtRMvKWQbSsLZiKAEtppcsAd7M9uZf
+	17RN60Ul5S0JpY3Mp8aoK/q64cyA9g7KWmcHpFVmQb+6Urjb6Edi6QrTWvLVuNewpmLZEFumKud
+	ofyv2lXNIrTeNCuO2DgYK/AYKKogxIjxZ3DQ6RLNZVzpEe4qZJKwi3F1LXbMcxgPM8YJnhbf1eb
+	9CRI5zlNiV2/ziIDFeErQqMWVvznXF/dE93+d8PO/LQHNUS4LI1ina/blZT3cNRduJ+Z0Goxmrw
+	SCY7nf3mk8MlCGIGZufE+NrBmtT5sKNW6WdUlLMIXwmttcnVD/u3p8/Ehdp9AiIYp5ttWege/ky
+	MRl0et5FrU=
+X-Received: by 2002:a05:6a20:3ca5:b0:3a0:129a:9747 with SMTP id adf61e73a8af0-3a46fc16e95mr948681637.53.1777592020785;
+        Thu, 30 Apr 2026 16:33:40 -0700 (PDT)
 Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83515b8500dsm521749b3a.58.2026.04.30.13.20.02
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c7ffbc6f66dsm646948a12.15.2026.04.30.16.33.39
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Apr 2026 13:20:03 -0700 (PDT)
+        Thu, 30 Apr 2026 16:33:39 -0700 (PDT)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <3ca6fa91-e338-48bf-9262-e5dc9e22d228@roeck-us.net>
-Date: Thu, 30 Apr 2026 13:20:02 -0700
+Message-ID: <ac017f26-9af6-4cf9-bb76-f1257f96a1e7@roeck-us.net>
+Date: Thu, 30 Apr 2026 16:33:39 -0700
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
@@ -69,13 +69,11 @@ List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/3] dt-bindings: hwmon: pmbus: add Delta E50SN12051
- binding
-To: sashiko@lists.linux.dev,
- Colin Huang via B4 Relay <devnull+u8813345.gmail.com@kernel.org>
+Subject: Re: [PATCH v10 2/2] hwmon: temperature: add support for EMC1812
+To: sashiko@lists.linux.dev, Marius Cristea <marius.cristea@microchip.com>
 Cc: linux-hwmon@vger.kernel.org
-References: <20260430-add-e50sn12051-v3-1-f6d4e043ec7c@gmail.com>
- <20260430065909.981EAC4AF09@smtp.kernel.org>
+References: <20260429-hw_mon-emc1812-v10-2-a8ca1d779502@microchip.com>
+ <20260429183534.B9A77C19425@smtp.kernel.org>
 Content-Language: en-US
 From: Guenter Roeck <linux@roeck-us.net>
 Autocrypt: addr=linux@roeck-us.net; keydata=
@@ -121,59 +119,136 @@ Autocrypt: addr=linux@roeck-us.net; keydata=
  F0WaMvQMNrk9UAUziVcUkLU52NS9SXqpVg8vgrO0JKx97IXFPcNh0DWsSj/0Y8HO/RDkGXYn
  FDMj7fZSPKyPQPmEHg+W/KzxSSfdgWIHF2QaQ0b2q1wOSec4Rti52ohmNSY+KNIW/zODhugJ
  np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20260430065909.981EAC4AF09@smtp.kernel.org>
+In-Reply-To: <20260429183534.B9A77C19425@smtp.kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 4/29/26 23:59, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 2 potential issue(s) to consider:
-> - [Low] The binding description violates Devicetree principles by describing software instead of hardware. It explicitly states 'The driver supports...', which is an OS-specific software description.
-> - [Low] The Devicetree example uses the Linux-specific subsystem name 'hwmon@40' for the node name instead of a generic functional name.
+On 4/29/26 11:35, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 3 potential issue(s) to consider:
+> - [Medium] `emc1812_is_visible()` returns `-EOPNOTSUPP` instead of `0` to hide unsupported channels, exposing them with garbage sysfs permissions.
+> - [Medium] Incorrect bit indices are used when checking the active channels to configure the ideality factors, leading to an off-by-one error.
+> - [Low] Variables of type `int` are passed to `regmap_read()`, which expects an `unsigned int *`, causing `-Wpointer-sign` compiler warnings.
 > --
 > 
-> commit 8f686eaa80cf8986d09fe9ea7dca7debf1c51cb1
-> Author: Colin Huang <u8813345@gmail.com>
+> commit 334894f6ed5a53fe9f4a36ce3c196060e9967729
+> Author: Marius Cristea <marius.cristea@microchip.com>
 > 
-> dt-bindings: hwmon: pmbus: add Delta E50SN12051 binding
+> hwmon: temperature: add support for EMC1812
 > 
-> This commit introduces the devicetree binding schema for the Delta E50SN12051
-> PMBus-compliant sensor.
+> This commit introduces the hardware monitoring driver for the Microchip
+> EMC1812/13/14/15/33 family of remote diode temperature sensors.
 > 
->> diff --git a/Documentation/devicetree/bindings/hwmon/pmbus/delta,e50sn12051.yaml b/Documentation/devicetree/bindings/hwmon/pmbus/delta,e50sn12051.yaml
+>> diff --git a/drivers/hwmon/emc1812.c b/drivers/hwmon/emc1812.c
+>> index 000000000000..94e2709a566f
 >> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/hwmon/pmbus/delta,e50sn12051.yaml
-> [ ... ]
->> +description: |
->> +  This binding describes the Delta E50SN12051 PMBus sensor.
->> +  The driver supports reading voltage, current, and temperature
->> +  using the PMBus interface.
-> 
-> This isn't a bug, but should the description focus purely on the hardware
-> rather than mentioning what the driver supports? Devicetree bindings are
-> generally expected to be OS-agnostic hardware descriptions.
-
-I am not a devicetree maintainer, but I agree.
-
-Guenter
-
+>> +++ b/drivers/hwmon/emc1812.c
 > 
 > [ ... ]
->> +examples:
->> +  - |
->> +    i2c {
->> +        #address-cells = <1>;
->> +        #size-cells = <0>;
+> 
+>> +static umode_t emc1812_is_visible(const void *_data, enum hwmon_sensor_types type,
+>> +				  u32 attr, int channel)
+>> +{
+>> +	const struct emc1812_data *data = _data;
 >> +
->> +        hwmon@40 {
+>> +	switch (type) {
+>> +	case hwmon_temp:
+>> +		/* Don't show channels which are not physically available */
+>> +		if (channel >= data->chip->phys_channels)
+>> +			return -EOPNOTSUPP;
 > 
-> Is hwmon@40 the most appropriate node name here? The devicetree specification
-> usually recommends using generic names that reflect the function of the
-> hardware, such as sensor@40, rather than OS-specific subsystem names like
-> hwmon.
+> Does this correctly hide the unsupported channels?
 > 
->> +            compatible = "delta,e50sn12051";
->> +            reg = <0x40>;
->> +        };
->> +    };
+
+This is most definitely wrong. Please fix. Just remove that check.
+It is unnecessary.
+
+> The hwmon core interprets the returned umode_t value as file permissions.
+> Returning a negative error code like -EOPNOTSUPP results in a large
+> positive non-zero value, which unintentionally creates sysfs attributes
+> with malformed permissions instead of hiding them. It seems returning 0
+> would properly hide the attributes.
 > 
+> [ ... ]
+> 
+>> +static int emc1812_read_reg(struct device *dev, struct emc1812_data *data, u32 attr,
+>> +			    int channel, long *val)
+>> +{
+>> +	int hyst, ret;
+>> +
+>> +	switch (attr) {
+> 
+> [ ... ]
+> 
+>> +	case hwmon_temp_max_hyst:
+>> +		ret = emc1812_get_limit_temp(data, channel, temp_max, val);
+>> +		if (ret < 0)
+>> +			return ret;
+>> +
+>> +		ret = regmap_read(data->regmap, EMC1812_THRM_HYS_ADDR, &hyst);
+> 
+> Does this trigger a -Wpointer-sign compiler warning? The regmap_read API
+> expects an unsigned int pointer, but the hyst variable is declared as a signed
+> int.
+> 
+> [ ... ]
+> 
+>> +static int emc1812_set_hyst(struct emc1812_data *data, int channel, int val)
+>> +{
+>> +	int hyst, ret;
+>> +	int limit;
+>> +
+>> +	/* Critical register is 8bits long and keeps only integer part of temperature */
+>> +	ret = regmap_read(data->regmap, emc1812_temp_crit_regs[channel], &limit);
+> 
+> Similar to the above, limit is declared as a signed int. Does passing it
+> here cause a pointer signedness mismatch warning?
+> 
+> [ ... ]
+> 
+>> +static int emc1812_init(struct emc1812_data *priv)
+>> +{
+>> +	int i, ret;
+>> +	u8 val;
+> 
+> [ ... ]
+> 
+>> +	/* Set the ideality factor only for the channels enabled on the chip */
+>> +	if (test_bit(2, &priv->active_ch_mask)) {
+>> +		ret = regmap_write(priv->regmap, EMC1812_EXT1_IDEALITY_FACTOR_ADDR,
+>> +				   EMC1812_DEFAULT_IDEALITY_FACTOR);
+> 
+> Since channel 0 corresponds to the internal diode, shouldn't EXT1 correspond
+> to bit 1, EXT2 to bit 2, and so on?
+> 
+> If so, checking bit 2 for EXT1 (and continuing up to bit 5 for EXT4) will result
+> in an off-by-one misalignment. This means EXT1 won't be configured if only
+> channel 1 is active, and the out-of-bounds bit 5 will be checked for EXT4 since
+> the bitmask has a maximum of 5 channels.
+> 
+
+I agree with Sashiko; I don't immediately see why it would make sense to check
+for bit 2..5 instead of bit 1 .. 4.
+
+FWIW, it might be easier to program this in a loop and declare a static array
+for the registers, similar to how it is done for the other registers.
+
+> [ ... ]
+> 
+>> +static int emc1812_chip_identify(struct emc1812_data *data, struct i2c_client *client)
+>> +{
+>> +	const struct emc1812_features *chip;
+>> +	struct device *dev = &client->dev;
+>> +	int ret, tmp;
+>> +
+>> +	ret = regmap_read(data->regmap, EMC1812_PRODUCT_ID_ADDR, &tmp);
+> 
+> This also passes a signed int pointer to regmap_read. Can tmp be declared
+> as an unsigned int to avoid compiler warnings?
+> 
+
+The code is a bit inconsistent in this regard: Sometimes it uses int,
+sometimes unsigned int. Please use unsigned int consistently.
+
+Thanks,
+Guenter
 
