@@ -1,67 +1,67 @@
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+Received: from mail-dl1-f46.google.com (mail-dl1-f46.google.com [74.125.82.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A66B936D506
-	for <sashiko@lists.linux.dev>; Thu, 30 Apr 2026 23:33:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A10DF34EF0F
+	for <sashiko@lists.linux.dev>; Fri,  1 May 2026 06:10:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777592022; cv=none; b=B9pU4Uiczlf0e/YBO7TlmTm7LbHVuZmlb2lax8nKLKZCCGSxYWVe8yWPJUqKUtE3P0eKjQQp2sg1grLG1Mf2yK98/MYyTrgZPE3BdnfBNRHPYcwAJV4JwRVewn9GrMetQL3SHnl/YoDwhTfF0jOhs47MpZZ6DcE5I1xngPJN/XQ=
+	t=1777615813; cv=none; b=snsA5pbotgPya/f/vD7gqI8irkETmAre/b9eBl0/AxmJgVSxZWY0U382xyFTx3znTcIXiwG0V4dxZiNAr8HfXtHG99XE7+gkq8fJIEfzPRRdlc2e03QPkgiwy3B1Ne0sTDPsIgWL40Xmmte05oSQxQTogfW92+fNK9QzmV90Jqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777592022; c=relaxed/simple;
-	bh=W3/nqH6qHD72ixUWUP6ZBPNnt4XLF5MqlML1KUC9Prs=;
+	s=arc-20240116; t=1777615813; c=relaxed/simple;
+	bh=0IEGdnMyXloVDYwY7JeZH7JaeWxKh5toccHc/9uu6n4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Z5e87+fxWiES+y7Ybajdlz9T6sGATGzFenACA56NfsmYyGMrKA4j1SF91RO6r1+NcH/rXt5YtgxxF1lgKzkGqeVDoWvEqbyQlo5EY+ZQYGANMxh2dv7bh0W945dEAmQpCJ0kUxqs5mH8K0XO5duRpUosNtXei+fhuxEx+lb19x8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H44V5n6f; arc=none smtp.client-ip=209.85.215.182
+	 In-Reply-To:Content-Type; b=Zr9d9OgHRlo+Ft5X0NAbAc0OWpQK/LNlv52J44JC+43fE/9VXTN/CYOCRaWS/p9UC0o89WXVCBsMzeSxDnme2kF47KzFOhFbhfQoddYvPxe+K70/GNE3ciTNOk9baCZ+W4pg+ZG1CKV4pc3wUYhrU+020I/Sbnh2uaEe+j15TkU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L6tIy5ON; arc=none smtp.client-ip=74.125.82.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H44V5n6f"
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-c7963df6f17so904748a12.0
-        for <sashiko@lists.linux.dev>; Thu, 30 Apr 2026 16:33:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L6tIy5ON"
+Received: by mail-dl1-f46.google.com with SMTP id a92af1059eb24-12c726f46baso2741949c88.1
+        for <sashiko@lists.linux.dev>; Thu, 30 Apr 2026 23:10:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777592021; x=1778196821; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1777615812; x=1778220612; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=w6VnsbGdv+KHh/HAecW9JiTSqaqoPveVkbPqxbnPh/A=;
-        b=H44V5n6fL+ukqQJdnaIwGBv/R1cTIRfapox2czNNyOKpaqZQElu7z0BoT86y8Y0PMf
-         akfw4UERf9yH9nmFx2h0vkNpu+wTPkc88FQNKY5w3VW2Cr19dqOqv17UX54FvDU4rKrJ
-         PtWbs/B+lZUvorMKEIpmb+CN9pmTNiuLPqVJCfo+rXVHoC/0G8vgPPSCCaQgA1t6WthC
-         bQjqK0/da752tG6wa157PShnFp9YoO2PARKYxslNb2WeUJauqiEoQ3TyhaMEJP/2KRKx
-         BjFGWqSE8IZPg+k2fbaDIHZVvzZIaLzSoLsW9s5/2KJea6ZGImXaT7gjsqQadFZZt+11
-         b7lQ==
+        bh=2796HLH4hTEiV4bO0wRpxpNZp2wuKSRdSVogoyw9+qA=;
+        b=L6tIy5ONfK55YmKKa6HxRw4XU4DGwU4ONcnK5H3/geHT03EaNpQ/vPdN4OCxto30vZ
+         n6e8jgs7r+mbkgGfu3RCQkEIXmjM2GAvJqbzyemDKROPx7Ij09cPGAzY1MCC6iwxfU1R
+         /bze4SVQPt2hjo+37l3u4u3EJGJt+yoK+ODiRduHUTbcGhO8nNziw8f+O0pZJdHj2ED/
+         edPdSLrGYHs2h5auP4aIMvdSFGFfL48bgyoNu8RYJQGRkLxw+Jgdr/IlDKAXqDAry2kR
+         lGFn9qvb92I3FbiI8w9I54doCW3sS1vacOYOQIgcsRJWxIH6ZG70Pvrtwj74vNQwKQBy
+         pujA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777592021; x=1778196821;
+        d=1e100.net; s=20251104; t=1777615812; x=1778220612;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=w6VnsbGdv+KHh/HAecW9JiTSqaqoPveVkbPqxbnPh/A=;
-        b=MM8xG1Rj7ikRDb6phlyOYvh2ph16VobDZcwThef27k4mLF5Gb5ZXVcCICczWlT9aoi
-         1psguyJrhNTt6wZ0uZdEePxrRtiHqRlUx/lishVJqxDB5I3vKrVr3sZPL3zuGy5Ppt/F
-         umY/c/XB/ipiZ+FMpeGpnyBVscQBJekLP501lbGdrQYyWuMCXkgouYEMk3PW0e9BRQ/6
-         rCjh+5410tLSMLwAj4ZE5NU6dcpb6wms6ZHwuy5OcI/F1X1r4vxf7OEh13eGX0ckXPXn
-         qjDNab/qe9xI8GdSxMjZs7YUimWRGA9rGqZPCpxqKn8xnXPQXci93ieuTkPWhK2rX4xM
-         kLvA==
-X-Gm-Message-State: AOJu0YxADb0VhN5CPVBuBy96Vb8Lgje7E1JygRjFy4eRPZU+i6stDHtD
-	S6CU/mBs0dpNnt6qeHBqz6sIB6VHzKMBCuW7War1wfWOhgbale8c3o2gnIO+Ag==
-X-Gm-Gg: AeBDiess9DzirVK9ZBKv+NJPA1By8FUo4YmVso/ZfPhOWEkeCkmoNHk/esHzQxXn4Bn
-	dApUhoF/TgOksPQqwYBOOwfrixyzp16zOMzmm/bJzLdowEslG/A3i1GXDINCV3hHmbteLGKH7Bd
-	PdsxcejilShWdVfKAJqbG5DCXajALL56zt5EZCgCDAfK3VtRMvKWQbSsLZiKAEtppcsAd7M9uZf
-	17RN60Ul5S0JpY3Mp8aoK/q64cyA9g7KWmcHpFVmQb+6Urjb6Edi6QrTWvLVuNewpmLZEFumKud
-	ofyv2lXNIrTeNCuO2DgYK/AYKKogxIjxZ3DQ6RLNZVzpEe4qZJKwi3F1LXbMcxgPM8YJnhbf1eb
-	9CRI5zlNiV2/ziIDFeErQqMWVvznXF/dE93+d8PO/LQHNUS4LI1ina/blZT3cNRduJ+Z0Goxmrw
-	SCY7nf3mk8MlCGIGZufE+NrBmtT5sKNW6WdUlLMIXwmttcnVD/u3p8/Ehdp9AiIYp5ttWege/ky
-	MRl0et5FrU=
-X-Received: by 2002:a05:6a20:3ca5:b0:3a0:129a:9747 with SMTP id adf61e73a8af0-3a46fc16e95mr948681637.53.1777592020785;
-        Thu, 30 Apr 2026 16:33:40 -0700 (PDT)
+        bh=2796HLH4hTEiV4bO0wRpxpNZp2wuKSRdSVogoyw9+qA=;
+        b=dS3qBKkc7GWGvgjEfTXII3pSfmLxaeZBYez/u8dboMyfCqeTdrOudqxy6mqV1Xbaa5
+         iyDjhoA3sSL3TMfutfTt8brA5CSUaEjsuDXCaPrTFD5b7ApRZvemJi01V+reZoCxHwhf
+         p8XnL1dhFZ0FmJei1XDskNeHHJGd56X0vlCSCzrR5DE936Js5JlVubz6mdlIzgUDxP1I
+         wD8nQSB6kuAr8jVrsTswzVaq3Iad+bBoGGdf4qS6PFvZjurcYKrXsFRGCjwnh5+wB/0i
+         j50uGxlQFSCMMntg0vVfSzm65Ucxb6ltZJu/Sanhc0fzEHdsB8GOfCepug+rBFfZoCZI
+         48Iw==
+X-Gm-Message-State: AOJu0YycWUOd0tKuQwPHHJzYc3BwrIdBIJogiFJfG2AboFex4eYcrAf1
+	UZ770oa5Fr/rQAwgeYXesqCsDmtYIEIBUp1RQoPYRqqqCAXMGnDORJcE
+X-Gm-Gg: AeBDievFp8GzZN3RbIbfpQs+yp7ceI2Lc/e3SCuLF8OBGqS8S3OYuHsvbTuxk/ON8OG
+	W4tDkYpVE5r5XY2igpuN+6JNNnGLQDKWwrtpyw6US0ZadTk4yqh1ZJf4EbJivqWOUAjR74Zsctw
+	yAkxN6P3GlUsecsWRfc9ObOY5j05CJJRlcEjMepLqkrjhUG0Nh7Qabxf65gRIo9xGQCGi/si7rg
+	KAf4Vt8dflur67tJgOl3s1eMGPfCnY1f+nJLv94xGSOLNtcgMCmQcnVKxkJq/b66lJXd2MOKeZg
+	KjwLPYCEQXCW8ybSg7hXfAVsaaM4S3zPjlWdi+LcxGmdvuyncWdDZK1u2MDA8VF3sneD+IkAIUD
+	lPEqse/OPqPgoTEHf+Wo1Dqt3+Y65+lFrgBy26/E+6WwuQN2k/nWf9x8206P7UALEx0sz+pBGoN
+	HiSfqdCTUBu8o63YIV8GNZoOrpMPWZuEHU67x7J01YGsautZgHyiZe58SYLq0nnO2HQMUZVZ/LW
+	PwC5UApxTE=
+X-Received: by 2002:a05:7022:f103:b0:12a:7181:2f1a with SMTP id a92af1059eb24-12df820966emr693688c88.5.1777615811721;
+        Thu, 30 Apr 2026 23:10:11 -0700 (PDT)
 Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c7ffbc6f66dsm646948a12.15.2026.04.30.16.33.39
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12df81ec067sm2169548c88.0.2026.04.30.23.10.10
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Apr 2026 16:33:39 -0700 (PDT)
+        Thu, 30 Apr 2026 23:10:10 -0700 (PDT)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <ac017f26-9af6-4cf9-bb76-f1257f96a1e7@roeck-us.net>
-Date: Thu, 30 Apr 2026 16:33:39 -0700
+Message-ID: <190bf39b-172d-4852-be86-1d7379d7d4aa@roeck-us.net>
+Date: Thu, 30 Apr 2026 23:10:09 -0700
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
@@ -69,11 +69,15 @@ List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 2/2] hwmon: temperature: add support for EMC1812
-To: sashiko@lists.linux.dev, Marius Cristea <marius.cristea@microchip.com>
-Cc: linux-hwmon@vger.kernel.org
-References: <20260429-hw_mon-emc1812-v10-2-a8ca1d779502@microchip.com>
- <20260429183534.B9A77C19425@smtp.kernel.org>
+Subject: Re: [PATCH v12 2/3] hwmon: ltc4283: Add support for the LTC4283 Swap
+ Controller
+To: =?UTF-8?Q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>
+Cc: sashiko@lists.linux.dev,
+ =?UTF-8?Q?Nuno_S=C3=A1_via_B4_Relay?=
+ <devnull+nuno.sa.analog.com@kernel.org>, linux-hwmon@vger.kernel.org
+References: <20260430-ltc4283-support-v12-2-5dc9901f2567@analog.com>
+ <20260430100343.45D31C2BCB3@smtp.kernel.org>
+ <e2d14b68-7f3f-4bcb-8687-857e9335deb8@roeck-us.net> <afOH5xx29LGJ9yKH@nsa>
 Content-Language: en-US
 From: Guenter Roeck <linux@roeck-us.net>
 Autocrypt: addr=linux@roeck-us.net; keydata=
@@ -119,136 +123,43 @@ Autocrypt: addr=linux@roeck-us.net; keydata=
  F0WaMvQMNrk9UAUziVcUkLU52NS9SXqpVg8vgrO0JKx97IXFPcNh0DWsSj/0Y8HO/RDkGXYn
  FDMj7fZSPKyPQPmEHg+W/KzxSSfdgWIHF2QaQ0b2q1wOSec4Rti52ohmNSY+KNIW/zODhugJ
  np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20260429183534.B9A77C19425@smtp.kernel.org>
+In-Reply-To: <afOH5xx29LGJ9yKH@nsa>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 4/29/26 11:35, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 3 potential issue(s) to consider:
-> - [Medium] `emc1812_is_visible()` returns `-EOPNOTSUPP` instead of `0` to hide unsupported channels, exposing them with garbage sysfs permissions.
-> - [Medium] Incorrect bit indices are used when checking the active channels to configure the ideality factors, leading to an off-by-one error.
-> - [Low] Variables of type `int` are passed to `regmap_read()`, which expects an `unsigned int *`, causing `-Wpointer-sign` compiler warnings.
-> --
+On 4/30/26 09:50, Nuno Sá wrote:
+> On Thu, Apr 30, 2026 at 07:52:55AM -0700, Guenter Roeck wrote:
+>> On 4/30/26 03:03, sashiko-bot@kernel.org wrote:
+>> ...
+>>>> +	id = (client->adapter->nr << 10) | client->addr;
+>>>> +	adev = __devm_auxiliary_device_create(dev, KBUILD_MODNAME, "gpio",
+>>>> +					      &st->gpio_mask, id);
+>>>> +	if (!adev)
+>>>> +		return dev_err_probe(dev, -ENODEV, "Failed to add GPIO device\n");
+>>>
+>>> Can this error path lead to a use-after-free?
+>>>
+>>> According to the I2C subsystem rules, debugfs entries attached to the
+>>> client debugfs directory are only cleaned up during the client device
+>>> removal function on driver unbind.
+>>>
+>>> If __devm_auxiliary_device_create() fails, the probe function aborts and
+>>> the devres subsystem frees the st pointer. However, the debugfs files
+>>> persist and retain operations that operate on the freed st pointer.
+>>>
+>>
+>> AI taking everything literally :-(. I'll have to reword that guidance again
+>> to include the probe error path.
+>>
 > 
-> commit 334894f6ed5a53fe9f4a36ce3c196060e9967729
-> Author: Marius Cristea <marius.cristea@microchip.com>
-> 
-> hwmon: temperature: add support for EMC1812
-> 
-> This commit introduces the hardware monitoring driver for the Microchip
-> EMC1812/13/14/15/33 family of remote diode temperature sensors.
-> 
->> diff --git a/drivers/hwmon/emc1812.c b/drivers/hwmon/emc1812.c
->> index 000000000000..94e2709a566f
->> --- /dev/null
->> +++ b/drivers/hwmon/emc1812.c
-> 
-> [ ... ]
-> 
->> +static umode_t emc1812_is_visible(const void *_data, enum hwmon_sensor_types type,
->> +				  u32 attr, int channel)
->> +{
->> +	const struct emc1812_data *data = _data;
->> +
->> +	switch (type) {
->> +	case hwmon_temp:
->> +		/* Don't show channels which are not physically available */
->> +		if (channel >= data->chip->phys_channels)
->> +			return -EOPNOTSUPP;
-> 
-> Does this correctly hide the unsupported channels?
+> Yeah and it is annoying it always comes up with something that could
+> have been said before. Even more annoying some of are legit issues :)
 > 
 
-This is most definitely wrong. Please fix. Just remove that check.
-It is unnecessary.
+Agreed, but I think it it is better that it finds the issues in multiple
+rounds than not finding them at all. And I have to say it is very human -
+the same happens to me as well when I do code reviews of complex patches.
+A major difference is that, unlike me, AI doesn't get tired.
 
-> The hwmon core interprets the returned umode_t value as file permissions.
-> Returning a negative error code like -EOPNOTSUPP results in a large
-> positive non-zero value, which unintentionally creates sysfs attributes
-> with malformed permissions instead of hiding them. It seems returning 0
-> would properly hide the attributes.
-> 
-> [ ... ]
-> 
->> +static int emc1812_read_reg(struct device *dev, struct emc1812_data *data, u32 attr,
->> +			    int channel, long *val)
->> +{
->> +	int hyst, ret;
->> +
->> +	switch (attr) {
-> 
-> [ ... ]
-> 
->> +	case hwmon_temp_max_hyst:
->> +		ret = emc1812_get_limit_temp(data, channel, temp_max, val);
->> +		if (ret < 0)
->> +			return ret;
->> +
->> +		ret = regmap_read(data->regmap, EMC1812_THRM_HYS_ADDR, &hyst);
-> 
-> Does this trigger a -Wpointer-sign compiler warning? The regmap_read API
-> expects an unsigned int pointer, but the hyst variable is declared as a signed
-> int.
-> 
-> [ ... ]
-> 
->> +static int emc1812_set_hyst(struct emc1812_data *data, int channel, int val)
->> +{
->> +	int hyst, ret;
->> +	int limit;
->> +
->> +	/* Critical register is 8bits long and keeps only integer part of temperature */
->> +	ret = regmap_read(data->regmap, emc1812_temp_crit_regs[channel], &limit);
-> 
-> Similar to the above, limit is declared as a signed int. Does passing it
-> here cause a pointer signedness mismatch warning?
-> 
-> [ ... ]
-> 
->> +static int emc1812_init(struct emc1812_data *priv)
->> +{
->> +	int i, ret;
->> +	u8 val;
-> 
-> [ ... ]
-> 
->> +	/* Set the ideality factor only for the channels enabled on the chip */
->> +	if (test_bit(2, &priv->active_ch_mask)) {
->> +		ret = regmap_write(priv->regmap, EMC1812_EXT1_IDEALITY_FACTOR_ADDR,
->> +				   EMC1812_DEFAULT_IDEALITY_FACTOR);
-> 
-> Since channel 0 corresponds to the internal diode, shouldn't EXT1 correspond
-> to bit 1, EXT2 to bit 2, and so on?
-> 
-> If so, checking bit 2 for EXT1 (and continuing up to bit 5 for EXT4) will result
-> in an off-by-one misalignment. This means EXT1 won't be configured if only
-> channel 1 is active, and the out-of-bounds bit 5 will be checked for EXT4 since
-> the bitmask has a maximum of 5 channels.
-> 
-
-I agree with Sashiko; I don't immediately see why it would make sense to check
-for bit 2..5 instead of bit 1 .. 4.
-
-FWIW, it might be easier to program this in a loop and declare a static array
-for the registers, similar to how it is done for the other registers.
-
-> [ ... ]
-> 
->> +static int emc1812_chip_identify(struct emc1812_data *data, struct i2c_client *client)
->> +{
->> +	const struct emc1812_features *chip;
->> +	struct device *dev = &client->dev;
->> +	int ret, tmp;
->> +
->> +	ret = regmap_read(data->regmap, EMC1812_PRODUCT_ID_ADDR, &tmp);
-> 
-> This also passes a signed int pointer to regmap_read. Can tmp be declared
-> as an unsigned int to avoid compiler warnings?
-> 
-
-The code is a bit inconsistent in this regard: Sometimes it uses int,
-sometimes unsigned int. Please use unsigned int consistently.
-
-Thanks,
 Guenter
 
