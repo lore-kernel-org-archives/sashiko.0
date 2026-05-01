@@ -1,68 +1,68 @@
-Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
+Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4713135AC18
-	for <sashiko@lists.linux.dev>; Fri,  1 May 2026 19:24:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C55B410D19
+	for <sashiko@lists.linux.dev>; Fri,  1 May 2026 20:14:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777663460; cv=none; b=P2GfZNxDJrM/sIAhEtJeUI+7HdcPSf1gUY6Z1euccBOpp6vCP/bzSg/ZR3ENWBxgRY8OHpC7tsZKeQYCTBtd6qeU1CnC4q80R+VmB5Nuh6H6kDO6qe7UK1HLx4boUzVhdwa4ENI3CmbLUuc/5fuxZOc23VjCfSKJ7vAtmn+AZJ0=
+	t=1777666459; cv=none; b=MAUkiOQip/VZX4V1yfojuss3lj9sfR9hJjqst3Ndu1mh1BlDQi5cfQnSz+uW3rWz3orcpKsXRqjIWv5nitU4S2xQClQAqnctqSg3ajb/dupwJU6TkbIdPlnecOl7OxPFU9TLT4xyMiEXArH0nUDMCESIqOJ2wCopIHGQB2AR06o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777663460; c=relaxed/simple;
-	bh=cEcG3VQBM8nbo9bJ8p/ewg7U5K1ZTe8NS7he9BrVrKo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rZZA0LNQfSbSX5Vbv6q1Z8GuKzipHS3mFY5kzKnZgxZRc2mTTC0FsHyqFiq0xvbslAbCCyBDvqphLakMMSjvbY0pK6/46h79GivZ8JM5BKcqTqQwSstSrLWejFNkuI9UrJzEjTYsstXmFN9qURtxVHfXez2Zh6DvNz1O81U7p9s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=p2OMcqd9; arc=none smtp.client-ip=74.125.82.175
+	s=arc-20240116; t=1777666459; c=relaxed/simple;
+	bh=uuvLsLWGR5q7nyZYvnkjWumDlhXNso2O/+PPF8+kmTw=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=OymDz+amFnsdXoC34NlpYaH4XrVhmRNdVNyx2904CX0LjeAjdMq3prQ7GQfgaeaZIgDQYWtUkftsJjJsGOhqcYnuMflH79EEmGQhDuv0pCSTf4nd5o7+4asyFqLOwEZs/kCoYR+m8Yy5rdH+zkWlz/h5zUJNAF+fO+ipHRZHINA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=piVrmZiw; arc=none smtp.client-ip=74.125.82.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="p2OMcqd9"
-Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-2ecf9e398f4so3921451eec.1
-        for <sashiko@lists.linux.dev>; Fri, 01 May 2026 12:24:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="piVrmZiw"
+Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-2ef2a1cc06dso1604601eec.0
+        for <sashiko@lists.linux.dev>; Fri, 01 May 2026 13:14:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777663458; x=1778268258; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=ofuvEJ00U/5aMZ2kxFF2KYD6htgNhM1ok9BsCcMpiVc=;
-        b=p2OMcqd9i70NIncFpa/ysM5tIF2Mj8D3zIs51vYiMjS5HteJQWzdCcj7llnrSor59w
-         i7OcevvjTf03/py3X+ndYmiyRpIBXm0OFbf0RivwtWH94IaWnlM5v1NyhF2m72YAn5wO
-         y7IAJ4JNSIgb9Grf+/lWPyrOqIMtdzAA+xcYhXQmNurRoenLV8JZRm/QQ8xikzSOPwmM
-         4RoquSMTKkTAmld/ECtCx6lFMuGIGeFGnKmBSDO+PI4Ppthr6IDTFtFK0rdhLzznchCQ
-         /DdYtq0FQga7ohJb+OoZ5fIb4+avPX4TzxWApyj7M27djvGbyS1XFz2/CK3UTbIQiuRJ
-         Ljzw==
+        d=gmail.com; s=20251104; t=1777666457; x=1778271257; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :references:cc:to:from:subject:user-agent:mime-version:date
+         :message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=n2SSH3vS97MZdCvp0tglDYBZWuXG5RkG+igKiDZHuRU=;
+        b=piVrmZiwpioW627Maizti9J6GKrqGRIIVHqDfhu/LMGMKdn3PUhqZsRu4Kvssfcjk8
+         8baYo/pv3iO9AkwfDm2r23UmkCYsiHjFO5r8zu1othM76yhe2ou3dWsSBco/R/KtFFdP
+         Vqm1t0WMLSHAyqo1tJtnEhzVOIIquAQlxGtFqkttBzEmF/K1C7xFyPsEkoons3HGqGKx
+         8KKz/BKkDJc92UfVowatCRoEuQ1XNRiFVxyjR/Gd8XWNUOxNgd/asjDDtHfweUz99XWr
+         nN9/3asi0cw96RLuay8IPqDJoD9meFQvD+VQtb+SM+coy6MDNRlyCYkxK9decO+DOB+c
+         rU1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777663458; x=1778268258;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ofuvEJ00U/5aMZ2kxFF2KYD6htgNhM1ok9BsCcMpiVc=;
-        b=tAmk5m7IfYy7JmPPhHOes99Ij0I0VOqvhC/siEs+4kDUJuJBWxOsWruj1W7WHUa2Kt
-         VFrpe0RkFgUUvkbhUmYqja3gaFUt/+F2l/ByCacBE/fupldVDib5OollAVquoJ/YTADk
-         Rry2UaPKsRL/6Yt4psegEpdjToM4rxq5vYBj3uHx1zYlchiN5PH47s2IyMxJp1Tj3mu+
-         m+9RAICvI8klkE6/rvo9KRmme92K8daSVI/nHV2l9MwjZ59gPpaoO+v86hkw8W6x06pU
-         VwW/7p1YIFK2RsELSEfqpz7J68fK5XiSM+bHDUzmValz/oypP6JJxkE/34+IyYAIPThN
-         Is3Q==
-X-Forwarded-Encrypted: i=1; AFNElJ8xEoVi1KlEVbZeo5c4yhsjAjKW+WjC98RQXaX3BHZCHau1SSz7Disw845bXxwdZPBwPDF8zXDr@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy6zs2DFdJJvS/iQk3CbJ79+fBYZT3ewkQ3nj+8ttWPk3aZ6LMQ
-	7Ct3y8jDnTX4hXwJiGIFMUBMALwa14iFWuWMqxDQfSz1lFUGg+irjR5v
-X-Gm-Gg: AeBDietTT0N4dmvc3Gdx1UFtRImW2ra8/F7c6aNXFkvPTstzaNSZQNBgRQwgD8r47nG
-	OtEo2vkBS99xwm1o9bl4kNU/StsSL3Ya14Dn+qF58zjR0chpoqCeMIrPj9qmoLik4eJn4QElSoM
-	QzmzxnnMz8/aCboJht+NsJ9Byl3pixNvXoHXVFu/yxC6OOPqf+jhzhiRf9BsQxWERT3ggiyaSku
-	A/4ex9Qk8GbgG78y2qJ3TZESbJwrHDrB2fpOT08omN9c/KwnZ0bO/jXYtI3DnrrYDKxhzUWhpSd
-	8vbVM0ehVrx/oPKwDw6i8dfAM+NU4Q+B3Jm/tiZamSH6Vjd/tEn+izQwrv7d9lhr48do0k4xEh5
-	F5pfLSiqIaZTI9mOk8L9iawQEUJ2WGK9KrpXSwfvIJUxnbaNU66KBXY/v9y58UaPEG0wHYCLZcC
-	Ft4go9D9D7R3j+Y7X5lPjLjVnh5x1FBj5R/W0c6KKBTJRZHpzs37CFqvQ/SsGyt+TkNyxGLEN4j
-	mGOkoko98kes7XS04xoxg==
-X-Received: by 2002:a05:7300:5b9e:b0:2e5:5bf4:8869 with SMTP id 5a478bee46e88-2efb9a97fbdmr337172eec.21.1777663458124;
-        Fri, 01 May 2026 12:24:18 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1777666457; x=1778271257;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :references:cc:to:from:subject:user-agent:mime-version:date
+         :message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=n2SSH3vS97MZdCvp0tglDYBZWuXG5RkG+igKiDZHuRU=;
+        b=pVInFUmDzf5Pcq9R9DP+nBgkEzU3DTjFZzdC4wWs9QKwY9S6p6JrbIJuk6OV3KsWef
+         ms3pnxDErxtng0ZiS6lsqEYB7NAViDlkEmhQ72pDqamgUEpXHsAqM+IQ9qhvQ+QTZJyU
+         R9a4VIdwuhneI1RAYugbL5R77wpNDDvphHGCsnTtMLHmFIZjNWJWbJ2Fi7A0GZcG/rrY
+         M3cnPJno1Fhp/dT7sO89DODlGVwpA4y4Id+hjMg95pXOfbCKrR8onFFzEtU/eq0LpEuP
+         t5z103EB1m9xsAvnUih4q4lgfoNdGVEOpe/UOpJdfxVcCro828miHoQrD80xSbd2SWCq
+         ZCtQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9Jm3zua04m0yJL/2iEBiFMtUskdJHPEmlH2HTSJ2U/tE6fHZFQw6utkus1BDG1DIcX5wzlUsUk@lists.linux.dev
+X-Gm-Message-State: AOJu0YyMmB8s3WFCNukYm3QIZ6Jq2ONL7CKheLWnDIwPxMnerjOeSTBw
+	T4dEmw0rYbSUY5lmtaiA2jB9M/BJbbR1I3JAPCJc/7pRr7ypGfQppidK
+X-Gm-Gg: AeBDietroX2XUb9vPVLEBX0G+uDoovtKtROB16XXWGIJGgSXc8GbOZloKcXJwEuLWFL
+	2Ww+ZYsui/EyLYviDNpY/TrxXUcqOd0BAwvTXYEmSTA3ScjSNisVbOY727h0kYgSPxvEjMLjhni
+	diztEY4jZs/sudljtbEdXjZHRf6FuIFLJzGyqvyUxMByL1fzWWZlEYVLVXkeybynxTvDI9wnKKA
+	E9DMLWowD8LTpwwOgTiNEvOaEN3dF0MNNCWwoe2mgIkSMXIlPET18HU6I3XOwPn2PeMY7d78Fe5
+	2O0akGFkO09XyUA5+9ORZGXJ/qkhLJNlLIeCwSYU8WhZKNE0w8txEzIsFgFzlcR3P2FNszcMtz7
+	3g4Dj30GeaM2YNhfkXWR8CCI2iwRPC7SZYglfGFZkzNAksI5oOFqRBJZAtYYX0/zz1BgJ+9oXoc
+	UCJ/YcBWc6sTHmvahGCanRAImbvsbjLj8Xgn1byEWsju5F2eRj1KFPIDlqK+xZHuA1LiTLCmNrZ
+	EL9IEYjiks=
+X-Received: by 2002:a05:7300:8c28:b0:2ed:6f94:9d94 with SMTP id 5a478bee46e88-2efb9e807aamr355887eec.19.1777666457205;
+        Fri, 01 May 2026 13:14:17 -0700 (PDT)
 Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ee38e71cedsm6786676eec.9.2026.05.01.12.24.14
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ee3b29b1a4sm5728277eec.18.2026.05.01.13.14.15
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 01 May 2026 12:24:16 -0700 (PDT)
+        Fri, 01 May 2026 13:14:16 -0700 (PDT)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <1cea4944-4433-4762-9072-1e595ca3f452@roeck-us.net>
-Date: Fri, 1 May 2026 12:24:07 -0700
+Message-ID: <b9e2db74-d2c7-4ca6-911d-0b59c68cd187@roeck-us.net>
+Date: Fri, 1 May 2026 13:14:14 -0700
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
@@ -70,17 +70,15 @@ List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: AW: AW: [PATCH 2/2] hwmon: (lm75) Support active-high alert
- polarity
+Subject: Re: AW: [PATCH 2/2] hwmon: (lm75) Support active-high alert polarity
+From: Guenter Roeck <linux@roeck-us.net>
 To: markus.stockhausen@gmx.de, sashiko@lists.linux.dev
 Cc: linux-hwmon@vger.kernel.org
 References: <20260501120518.3085501-3-markus.stockhausen@gmx.de>
  <20260501124540.0C11CC2BCB4@smtp.kernel.org>
  <039601dcd973$bf191230$3d4b3690$@gmx.de>
  <8776fc88-364e-4ac5-b30c-8a706716d8ff@roeck-us.net>
- <004101dcd99c$c0ade660$4209b320$@gmx.de>
 Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
 Autocrypt: addr=linux@roeck-us.net; keydata=
  xsFNBE6H1WcBEACu6jIcw5kZ5dGeJ7E7B2uweQR/4FGxH10/H1O1+ApmcQ9i87XdZQiB9cpN
  RYHA7RCEK2dh6dDccykQk3bC90xXMPg+O3R+C/SkwcnUak1UZaeK/SwQbq/t0tkMzYDRxfJ7
@@ -124,37 +122,75 @@ Autocrypt: addr=linux@roeck-us.net; keydata=
  F0WaMvQMNrk9UAUziVcUkLU52NS9SXqpVg8vgrO0JKx97IXFPcNh0DWsSj/0Y8HO/RDkGXYn
  FDMj7fZSPKyPQPmEHg+W/KzxSSfdgWIHF2QaQ0b2q1wOSec4Rti52ohmNSY+KNIW/zODhugJ
  np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <004101dcd99c$c0ade660$4209b320$@gmx.de>
+In-Reply-To: <8776fc88-364e-4ac5-b30c-8a706716d8ff@roeck-us.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 5/1/26 12:00, markus.stockhausen@gmx.de wrote:
->> Von: Guenter Roeck <groeck7@gmail.com> Im Auftrag von Guenter Roeck
->> Gesendet: Freitag, 1. Mai 2026 19:38
->> Betreff: Re: AW: [PATCH 2/2] hwmon: (lm75) Support active-high alert polarity
->> ...
->>>> - [High] The active-high alert polarity configuration is completely ignored by the hardware because it is not added to the register update mask.
->>>> - [High] LM75_ALERT_POLARITY_HIGH_16_BIT targets the wrong byte of the configuration register.
->>>> - [High] Changing the AS6200 default from active-high to active-low breaks devicetree backward compatibility.
->>>
->>> unsure if answering to you helps both of us further. So my 2 cents only shortly:
->>>
->>> - Issue 1: Existing definitions for tmp1XX devices do not not obey "clr_mask is superset of set_mask".
+On 5/1/26 10:37, Guenter Roeck wrote:
+> On 5/1/26 07:06, markus.stockhausen@gmx.de wrote:
+>> Hi bot,
 >>
->> I think you are saying that this is a pre-existing bug and that set_mask is effectively
->> ignored. Is that a reason not to fix the problem ?
->> ...
->> 2) Fix lm75_write_config() to add set_mask to clr_mask to ensure
->>      that the bits which are supposed to be set are actually set.
+>>> Von: sashiko-bot@kernel.org <sashiko-bot@kernel.org>
+>>> Gesendet: Freitag, 1. Mai 2026 14:46
+>>> An: Markus Stockhausen <markus.stockhausen@gmx.de>
+>>> Cc: linux-hwmon@vger.kernel.org
+>>> Betreff: Re: [PATCH 2/2] hwmon: (lm75) Support active-high alert polarity
+>>>
+>>> Thank you for your contribution! Sashiko AI review found 3 potential issue(s) to consider:
+>>> - [High] The active-high alert polarity configuration is completely ignored by the hardware because it is not added to the register update mask.
+>>> - [High] LM75_ALERT_POLARITY_HIGH_16_BIT targets the wrong byte of the configuration register.
+>>> - [High] Changing the AS6200 default from active-high to active-low breaks devicetree backward compatibility.
+>>
+>> unsure if answering to you helps both of us further. So my 2 cents only shortly:
+>>
+>> - Issue 1: Existing definitions for tmp1XX devices do not not obey "clr_mask is superset of set_mask".
 > 
-> I did not expect a bug in the current driver and was baffled by the bots
-> response. From your feedback that qualifies a "Fixes" tag. Am I right to
-> assume that 6da24a2 ("hwmon: (lm75) Hide register size differences in
-> regmap access functions") is the commit to blame?
+> I think you are saying that this is a pre-existing bug and that set_mask is effectively
+> ignored. Is that a reason not to fix the problem ?
+> 
+>> - Issue 2: AS6200 datasheet states BIT(10) is polarity. Thus .set_mask = 0x94C0 can only align one way.
+> 
+> The reverse bit order of that register _is_ a bit confusing.
+> 
+>> - Issue 3: Please advise.
+> 
+> Above you are saying that the set mask is for all practical purposes
+> ignored. As far as I can say this is correct, meaning as6200 (and TMP112)
+> will default to its chip default, meaning the bit will be 0 anyway.
+> 
+> Looking into the AS6200 datasheet, changing this is not straightforward:
+> Setting the polarity bit to high also changes the value of the "alert"
+> bit, meaning the bit will be 1 if there is _no_ alarm. In other words,
+> this only works accidentally right now, and it does not really matter
+> if the default is changed. On the contrary, changing the default would result
+> in unexpected behavior since the alarm attribute would report alarms when
+> there is none.
+> 
+> So this will need separate patches:
+> 1) Fix set_mask and alert handling for AS6200 to be low active
+>     and to report the alarm correctly even if it is high active
+>     (xor config register bit 5 and 10 (translated to 2 and 13)
+>     when reporting the alarm).
+> 2) Fix lm75_write_config() to add set_mask to clr_mask to ensure
+>     that the bits which are supposed to be set are actually set.
 > 
 
-Correct.
+Turns out the default value for AS6200 has more problems. It is set to
+0x94c0 which claims to be "8 sample/s, 4 CF, positive polarity".
+
+0xc0 reflects the samples/s. So far so good. However, 0x94 is wrong.
+It sets the single shot bit, effectively disabling the sensor, and
+it does not set the CF bits as advertised. Please change the default
+to 0x10c0 which reflects the intent more closely, except for the
+negative polarity.
 
 Thanks,
 Guenter
+
+> Then add this series on top of it.
+> 
+> Thanks,
+> Guenter
+> 
+> 
 
