@@ -1,334 +1,179 @@
-Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D1D53D3483
-	for <sashiko@lists.linux.dev>; Fri,  1 May 2026 16:08:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C9BA3148C9
+	for <sashiko@lists.linux.dev>; Fri,  1 May 2026 17:37:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777651700; cv=none; b=i/MMk1zfDoct3z/cyBLCc/oZgGKHjXeZOkyGWyBeDD2c01qGW84V8y4pdQexYgayDts5zhtrmrb7TUWqsiYfbwfUj/XUf9PZfYF1/F6+QrbBx/ptdT5XSgBq+fIMluTzE2BDwcDQd013ma09ibdTXzmuGH0Ah2QdYmgVZI/rpHs=
+	t=1777657077; cv=none; b=RMHwdbh3xof/NVwA92lUUwPHBrD+JG/KjGVBiNl6iD6bd0l/s/7a5M1MQRmEjR5LXkdoONaf6SjtOg3E510knmX7tNgrIrmxARDktD8U7Vlx9aUkxOhAjG8T6Afy1KqzgY+IUukLUfCtZTfgRiBRrmHdBhOHWo6sNa1Jw1xt4/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777651700; c=relaxed/simple;
-	bh=6aaomQ+OhQPay+pISROTUBdJ+jJ6hlPZCjy9FC9FD0I=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=LayQTd14dUte2aPiGv33sJgI8aR6NySr82XauEOPCuQLccGnyWI8LAuPf6mICQRDVObMkLfRNPcqJgQfR76XKN15zKOZLGJvDSoT6eBNzbsyD1ymizc9lQjXq5WUZocQH3/XMBuQCDU98N+uljZR9YKTGYNToCEBYl+jFtRZEts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=DAaG2oqJ; arc=none smtp.client-ip=185.67.36.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
+	s=arc-20240116; t=1777657077; c=relaxed/simple;
+	bh=55f0XTaEcUYvbV46eGtKyMKRQHTgYsf++ddcEQGID1w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=juxB1LE4kLuDuU+F5MKTUQVnSsx/MOSrzXzzBUzzMON41pV5uRtKZDVUs+exj4m+kMeFv8FOtUcY+knF4dAuTH2HiRfxSe8WOe5XapMUjOYAzqiY+7WKvwKsYSZndW8ipRhEGIsbtftNh/u7Mit1RHcGuuVEp05nRpk+tfu9Z4g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E5Pwfuas; arc=none smtp.client-ip=74.125.82.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="DAaG2oqJ"
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout02.posteo.de (Postfix) with ESMTPS id 95CD2240101
-	for <sashiko@lists.linux.dev>; Fri,  1 May 2026 18:08:05 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de; s=2017;
-	t=1777651685; bh=m6EvApq+7JWSREfrJSag81VNnvo91Ggn88JaREfrJ3Y=;
-	h=Message-ID:Subject:From:To:Cc:Date:Autocrypt:Content-Type:
-	 MIME-Version:OpenPGP:From;
-	b=DAaG2oqJ4mjnCNIXbOdanfTxsOuBjbGb6s0d/lHHbbtCq7wkDKdjnqEMxJ2Q1/CMJ
-	 xEGOLO2CGmtCR/cfzoPT5+Lz9oMF4YGohpNFUGQ9hcaNI/OHW/Z+b1S2/BTbZwE4nZ
-	 svN31HOYy4ydvMuML4GHQqoZsbi4aO3R0CDE0lZLd94X7WrfZyksttdiNnu/vgqXZj
-	 DOugvlvf2im+yVkMxvB39uhv62LRrpMY3v+uw2RzaYk7rUtNz8LvrpHD4lHGMyBkp8
-	 O37z8shsxeYO0H4Cr4OKVtyQv3s3vFymo6PHWK6DTWAW1quLdC1XpNhd62krTRKlAH
-	 Kx+pxn2ntjLog==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4g6bYJ6mPsz6tw2;
-	Fri,  1 May 2026 18:08:04 +0200 (CEST)
-Message-ID: <5acf05eef36d1e521b65afdcbd27c1657ff6f88c.camel@posteo.de>
-Subject: Re: [PATCH v16 3/3] rust: leds: add multicolor classdev abstractions
-From: Markus Probst <markus.probst@posteo.de>
-To: sashiko@lists.linux.dev
-Cc: ojeda@kernel.org
-Date: Fri, 01 May 2026 16:08:05 +0000
-In-Reply-To: <20260501160050.A0206C2BCB4@smtp.kernel.org>
-References: <20260501-rust_leds-v16-3-9f329fdedcd9@posteo.de>
-	 <20260501160050.A0206C2BCB4@smtp.kernel.org>
-Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
- keydata=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
- jfGillcaQOqFZ3WwVqyzG1BUfTow==
-Content-Type: multipart/signed; micalg="pgp-sha256";
-	protocol="application/pgp-signature"; boundary="=-qc91zvvIoVsiXqUv+dvB"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E5Pwfuas"
+Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-2d868d014a5so2256781eec.1
+        for <sashiko@lists.linux.dev>; Fri, 01 May 2026 10:37:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777657075; x=1778261875; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=wh91aHuFnLl6fZoLKlk3y8hjcpZZMkPYf5xmcPWl7GI=;
+        b=E5PwfuasfqnTJYziCwqMxcWPUJyt1y5jan7OY7ZNRvzr0W00A/NKGzE/8mUhr4sl7C
+         PlgoKAAPCpmubc6N6v7WEUJVIjul2fWKCU5r3Vo5SMa/K2jpi551MRGK/m8GIqyWpDwX
+         G0JbIJNf393lWH6viUFQ0XyS0zDL2SAU2xVUDdihljMYRiqqpYPJbKCj9KodYoEO/HkH
+         EqRB5FSJUd5ow14229tNWCFbRNbavc9IiEc8WIZR5b2ZiGUZ3tMHs7SNFY3/4jbSa26j
+         ObxObEoABVxtEEh5FqbNxRB7Q5jub31GKkUYuUFVhTUUaE1jqfjDm/btg9aM+ViLYbKs
+         eEDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777657075; x=1778261875;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=wh91aHuFnLl6fZoLKlk3y8hjcpZZMkPYf5xmcPWl7GI=;
+        b=R/Cw8QlH35CMC/PYnQ9azpPj7kE+o+1kHIuvHb5mrQRqoM9HoeAvnV1uUt3XmBxXVA
+         wJxh+2FnTXkfRbEu0UQd7IhvXmSl2Z8u/4QaWURlIWLu5fzwwpWSr+iaQR+cEx1tSHxr
+         9AHEd0nrpz3zFukaeGTumuOu/kFU/8Z3NbLoOlPf8CyobCBFTCkQmuTZ8lQq0UjogtVx
+         d328AesE5Rn3Gal940TqNIwXnpD/3oNlUnk6xTchEozc1CoLgoWTPerbfyHr8eQ91DVk
+         OsuXwXfYqTirV7UsnZy+k9a+yWGrBsIbTlg+jttOd27PBWHBgJrbDsF+03OLJZ8lRx+g
+         PsFw==
+X-Forwarded-Encrypted: i=1; AFNElJ8B91SqpyOIpiKKaAque3ieScYU6/j7B4DfYrpmow7ZoW0i0VCa/9YBXQfmViemS/Ht3HnTceXR@lists.linux.dev
+X-Gm-Message-State: AOJu0YxMe8lWYiBo2xxDZbL3uhQeq/kChxezxvKcGYQhOj58KbJ5mAt9
+	H1Ga1h9VoxpeoAJFzYVzDCk/XVRf/CBoEc3WgNILaEYAf0MwMHpYe+Li
+X-Gm-Gg: AeBDievV2tnxR3VObzRwYLI/vUI/rACSZ8pgct1D1bpg5oQ/sZDKuhq8bqWAuaD+ZdU
+	omDbVOhoMOQieufc1mf8X1R1pH8CQbv1H1QCq51ZGcBT6AQaRkOjlNURl6khirRNwwAB4OtOBSz
+	8Am2XfLdApgRF5Mz1vMvRiz+zg7yYFV04uKsQXS8Skcg4qorxze0WSht7p18Dy31dWE9W56ATNl
+	h6S7wh5O7s78Q/GAaGUqSQE+81DvhUOg3W+duKAgwvfVve3UnjFm31GTcCzsjrq2zMutFkeD6Ga
+	Qt+gdOzYiSW+9Ke1KyLIAWwsJ0D31uIcqT55eYF626YcK98jo0fNIfUW6GB1JXg8ZDWFKs7ATaX
+	efHFWkYkKxz6v80HzlXuZyVcLq1sZG968IC5kTrn1ui4jgfuPig6LQiLTytSgCxk03gi4r48fQi
+	XKL09BdEVJTLGnMLO7L3ndogpaqoNfwWiruPQ7dHUuaz0wRID/KyGdR8hzmD21IJLsvl08BaVET
+	zt/1yFY3aM=
+X-Received: by 2002:a05:7300:a49a:b0:2d2:129a:1694 with SMTP id 5a478bee46e88-2efb9e7bb88mr133147eec.18.1777657075098;
+        Fri, 01 May 2026 10:37:55 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ee393578f1sm5509746eec.13.2026.05.01.10.37.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 01 May 2026 10:37:53 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <8776fc88-364e-4ac5-b30c-8a706716d8ff@roeck-us.net>
+Date: Fri, 1 May 2026 10:37:51 -0700
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-OpenPGP: url=https://posteo.de/keys/markus.probst@posteo.de.asc; preference=encrypt
+User-Agent: Mozilla Thunderbird
+Subject: Re: AW: [PATCH 2/2] hwmon: (lm75) Support active-high alert polarity
+To: markus.stockhausen@gmx.de, sashiko@lists.linux.dev
+Cc: linux-hwmon@vger.kernel.org
+References: <20260501120518.3085501-3-markus.stockhausen@gmx.de>
+ <20260501124540.0C11CC2BCB4@smtp.kernel.org>
+ <039601dcd973$bf191230$3d4b3690$@gmx.de>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <039601dcd973$bf191230$3d4b3690$@gmx.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 5/1/26 07:06, markus.stockhausen@gmx.de wrote:
+> Hi bot,
+> 
+>> Von: sashiko-bot@kernel.org <sashiko-bot@kernel.org>
+>> Gesendet: Freitag, 1. Mai 2026 14:46
+>> An: Markus Stockhausen <markus.stockhausen@gmx.de>
+>> Cc: linux-hwmon@vger.kernel.org
+>> Betreff: Re: [PATCH 2/2] hwmon: (lm75) Support active-high alert polarity
+>>
+>> Thank you for your contribution! Sashiko AI review found 3 potential issue(s) to consider:
+>> - [High] The active-high alert polarity configuration is completely ignored by the hardware because it is not added to the register update mask.
+>> - [High] LM75_ALERT_POLARITY_HIGH_16_BIT targets the wrong byte of the configuration register.
+>> - [High] Changing the AS6200 default from active-high to active-low breaks devicetree backward compatibility.
+> 
+> unsure if answering to you helps both of us further. So my 2 cents only shortly:
+> 
+> - Issue 1: Existing definitions for tmp1XX devices do not not obey "clr_mask is superset of set_mask".
 
---=-qc91zvvIoVsiXqUv+dvB
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+I think you are saying that this is a pre-existing bug and that set_mask is effectively
+ignored. Is that a reason not to fix the problem ?
 
-On Fri, 2026-05-01 at 16:00 +0000, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 5 potential issu=
-e(s) to consider:
-> - [Critical] Information Leak and Array Out-of-Bounds via FFI Layout Mism=
-atch
-> - [High] Data Race and Undefined Behavior via Aliasing Violation on suble=
-d fields
-> - [High] Memory Leak and Use-After-Free via FwNode Reference Mismanagemen=
-t
-> - [High] Undefined Behavior and Memory Corruption via `KVec` Capacity Mis=
-match
-> - [Low] Missing `#[inline]` attribute on `MultiColorDevice::from_raw`
-> --
->=20
-> commit 519046430edb434e8aa4a9b617987bbaa0db6c71
-> Author: Markus Probst <markus.probst@posteo.de>
-> Subject: rust: leds: add multicolor classdev abstractions
->=20
-> This commit implements the abstractions needed for multicolor led class
-> devices. It provides types for the multicolor led mode, the subleds, and
-> the device builder to register a new multicolor led class device.
->=20
-> > diff --git a/rust/kernel/led/multicolor.rs b/rust/kernel/led/multicolor=
-.rs
-> > new file mode 100644
-> > index 000000000000..900ef050d2d3
-> > --- /dev/null
-> > +++ b/rust/kernel/led/multicolor.rs
-> > @@ -0,0 +1,405 @@
->=20
-> [ ... ]
->=20
-> > +#[repr(C)]
-> > +#[derive(Copy, Clone, Debug)]
-> > +#[non_exhaustive]
-> > +pub struct MultiColorSubLed {
-> > +    /// the color of the sub led
-> > +    pub color: Color,
->=20
-> Does this structure have an identical memory layout to the C mc_subled
-> struct? The Color enum doesn't have a #[repr(u32)] or #[repr(C)]
-> attribute, so the Rust compiler will likely size it as 1 byte.
->=20
-> To align the subsequent brightness field, the compiler would insert 3 byt=
-es
-> of uninitialized padding.
->=20
-> When the C LED core accesses mc_led_cdev->subled_info[i].color_index (whi=
-ch
-> is 4 bytes), could it read the 1-byte color value combined with the
-> uninitialized padding? This might produce a large index on little-endian
-> architectures, potentially leading to out-of-bounds reads when the C
-> subsystem indexes arrays like led_colors.
-Thats a new one.
+> - Issue 2: AS6200 datasheet states BIT(10) is polarity. Thus .set_mask = 0x94C0 can only align one way.
 
-false positive.
-`Color` does have a #[repr(u32)].
+The reverse bit order of that register _is_ a bit confusing.
 
-Thanks
-- Markus Probst
+> - Issue 3: Please advise.
 
->=20
-> [ ... ]
->=20
-> > +    pub fn build_multicolor<T: LedOps<Mode =3D MultiColor>>(
-> [ ... ]
-> > +                    let mut subleds_vec =3D KVec::new();
-> > +                    subleds_vec.extend_from_slice(subleds, GFP_KERNEL)=
-?;
-> > +                    let (subled_info, num_colors, capacity) =3D subled=
-s_vec.into_raw_parts();
-> > +                    debug_assert_eq!(num_colors, capacity);
->=20
-> Could this assertion fail if the allocator sizes the allocation larger th=
-an
-> num_colors? extend_from_slice can yield a capacity strictly larger than
-> the requested size.
->=20
-> > +
-> > +                    let subled_guard =3D ScopeGuard::new(|| {
-> > +                        // SAFETY: `subled_info` is guaranteed to be a=
- valid array pointer to
-> > +                        // `mc_subled` with the length and capacity of=
- `num_colors`.
-> > +                        drop(unsafe { KVec::from_raw_parts(subled_info=
-, num_colors, num_colors) });
-> > +                    });
->=20
-> Is it safe to reconstruct the vector with num_colors as the capacity?
->=20
-> If extend_from_slice originally allocated a capacity greater than
-> num_colors, passing a mismatched capacity back to the allocator during
-> cleanup could lead to memory corruption.
->=20
-> [ ... ]
->=20
-> > +                    // SAFETY:
-> > +                    // - `parent.as_ref().as_raw()` is guaranteed to b=
-e a pointer to a valid
-> > +                    //    `device`.
-> > +                    // - `ptr` is guaranteed to be a pointer to an ini=
-tialized `led_classdev_mc`.
-> > +                    to_result(unsafe {
-> > +                        bindings::led_classdev_multicolor_register_ext=
-(
-> > +                            parent.as_ref().as_raw(),
-> > +                            ptr,
-> > +                            if self.name.is_none() {
-> > +                                &raw mut init_data
-> > +                            } else {
-> > +                                core::ptr::null_mut()
-> > +                            },
-> > +                        )
-> > +                    })?;
-> > +
-> > +                    subled_guard.dismiss();
-> > +
-> > +                    core::mem::forget(self.fwnode); // keep the refere=
-nce count incremented
->=20
-> Does this reliably transfer the reference count to the C subsystem?
->=20
-> If self.name.is_some(), the init_data pointer is explicitly passed as
-> NULL to led_classdev_multicolor_register_ext. This means the C device is
-> never associated with the fwnode, and the reference count leaked here mig=
-ht
-> never be recovered since PinnedDrop uses dev.fwnode() to clean it up.
->=20
-> Conversely, if self.fwnode was None initially, but the C device inherited
-> an fwnode from its parent, would the PinnedDrop implementation reconstruc=
-t
-> an ARef from it and erroneously decrement a reference count it never owne=
-d?
->=20
-> [ ... ]
->=20
-> > +impl<T: LedOps<Mode =3D MultiColor>> MultiColorDevice<T> {
-> > +    /// # Safety
-> > +    /// `led_cdev` must be a valid pointer to a `led_classdev` embedde=
-d within a
-> > +    /// `led::MultiColorDevice`.
-> > +    unsafe fn from_raw<'a>(led_cdev: *mut bindings::led_classdev) -> &=
-'a Self {
->=20
-> This isn't a bug, but functions that are small or forwarding to a binding
-> call should be annotated with #[inline].
->=20
-> [ ... ]
->=20
-> > +    /// Returns the subleds passed to [`Device::new_multicolor`].
-> > +    #[inline]
-> > +    pub fn subleds(&self) -> &[MultiColorSubLed] {
-> > +        // SAFETY: The existence of `self` guarantees that `self.class=
-dev.get()` is a pointer to a
-> > +        // valid `led_classdev_mc`.
-> > +        let raw =3D unsafe { &*self.classdev.get() };
-> > +        // SAFETY: `raw.subled_info` is a valid pointer to `mc_subled[=
-num_colors]`.
-> > +        // CAST: The safeguards in the const block ensure that `MultiC=
-olorSubLed` has an identical
-> > +        // layout to `mc_subled`.
-> > +        unsafe {
-> > +            core::slice::from_raw_parts(
-> > +                raw.subled_info.cast::<MultiColorSubLed>(),
-> > +                // CAST: It is guaranteed that `num_colors` fits into =
-an `usize`.
-> > +                raw.num_colors as usize,
-> > +            )
-> > +        }
-> > +    }
->=20
-> Does returning a shared reference &[MultiColorSubLed] violate Rust's
-> aliasing rules?
->=20
-> The C LED subsystem can concurrently mutate the brightness and intensity
-> fields of these subleds (e.g., in led_mc_calc_color_components or during
-> sysfs writes).
->=20
-> Mutating memory from C code while a Rust driver holds a shared reference
-> could result in undefined behavior. Should these mutable fields be wrappe=
-d in
-> an Opaque<u32> to permit interior mutability?
->=20
-> [ ... ]
->=20
-> > +#[pinned_drop]
-> > +impl<T: LedOps<Mode =3D MultiColor>> PinnedDrop for MultiColorDevice<T=
-> {
-> > +    fn drop(self: Pin<&mut Self>) {
-> [ ... ]
-> > +        // SAFETY: `subled_info` is guaranteed to be a valid array poi=
-nter to `mc_subled` with the
-> > +        // length and capacity of `led_cdev.num_colors`. See `led::Mul=
-ticolorDevice::new`.
-> > +        drop(unsafe {
-> > +            KVec::from_raw_parts(
-> > +                led_cdev.subled_info,
-> > +                led_cdev.num_colors as usize,
-> > +                led_cdev.num_colors as usize,
-> > +            )
-> > +        });
-> > +    }
-> > +}
->=20
-> Similar to the error path above, could reconstructing this vector with
-> led_cdev.num_colors as the capacity cause memory corruption if the origin=
-al
-> allocation capacity was larger?
+Above you are saying that the set mask is for all practical purposes
+ignored. As far as I can say this is correct, meaning as6200 (and TMP112)
+will default to its chip default, meaning the bit will be 0 anyway.
 
---=-qc91zvvIoVsiXqUv+dvB
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
+Looking into the AS6200 datasheet, changing this is not straightforward:
+Setting the polarity bit to high also changes the value of the "alert"
+bit, meaning the bit will be 1 if there is _no_ alarm. In other words,
+this only works accidentally right now, and it does not really matter
+if the default is changed. On the contrary, changing the default would result
+in unexpected behavior since the alarm attribute would report alarms when
+there is none.
 
------BEGIN PGP SIGNATURE-----
+So this will need separate patches:
+1) Fix set_mask and alert handling for AS6200 to be low active
+    and to report the alarm correctly even if it is high active
+    (xor config register bit 5 and 10 (translated to 2 and 13)
+    when reporting the alarm).
+2) Fix lm75_write_config() to add set_mask to clr_mask to ensure
+    that the bits which are supposed to be set are actually set.
 
-iQJPBAABCAA5FiEEgnQYxPSsWOdyMMRzNHYf+OetQ9IFAmn0z+QbFIAAAAAABAAO
-bWFudTIsMi41KzEuMTIsMiwyAAoJEDR2H/jnrUPSWUwQAI/ZRGNalqCwSZeD+/zT
-dpnsS+LMW5LPNo5FMctpBpXfwTBa3uGtjYirO2tiR/jdRf4Pn6UcA53MdJgGaeAy
-Sf8zsYUUbIuIu0CiBHzsDJsvxwEPOVvq6jlh9SlOoWvofkUgqOWpkQa9aLtFeewX
-SA0qZifkYj0CAACgvOT+f/aaszkzvvGBud9vtn3PLW7OQP+dV3UN4EWwtfc1+dol
-ZwC0wcJZtzwncjKnD3TcXoEE9pvVUsZNbYI0FndtJmGmpQ/yYPmgb70NvSPeNeNq
-uMKjysI1cBgrdXP3Y/VHcQ4dfiDyPC7WicEpgDQVFevHJYrXVVuLXVLqZYb+M86l
-zh3QgAps/PHnfkfTZj3CkXlNo/J0/ZzpqxDk1OtrUDdA6p7Q/ceeycBctAvo5Kd+
-YT/ztfwryj8tdlF5gJNmpKnJT5b+K+WA9LcmpisLmYyQYYdg6rI6S1jZWWYQ2tMq
-hCp4T3yOrjZCf0Kl5lX6o6ChQqPenmnHvetPLsgZ1exZ2UfbbVhXUEtGLsM1Bnas
-aFr9ZcRxCR4fc+prvPMo9eGjcbSpb3DY5eQo6YcLP2d+BRKRjvAqCbgWSB3B0icx
-R3ujFxMf/LZ+l6RjSbulXGNyJlpphfvZf+AqIpINd0lpAaOhTJ3Iwvkdrcw2nglO
-aS+IVhP9W32tZ6sWlW3rCxzM
-=H468
------END PGP SIGNATURE-----
+Then add this series on top of it.
 
---=-qc91zvvIoVsiXqUv+dvB--
+Thanks,
+Guenter
+
