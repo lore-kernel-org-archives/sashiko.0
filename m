@@ -1,67 +1,67 @@
-Received: from mail-dy1-f182.google.com (mail-dy1-f182.google.com [74.125.82.182])
+Received: from mail-dl1-f50.google.com (mail-dl1-f50.google.com [74.125.82.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CA2C3803C2
-	for <sashiko@lists.linux.dev>; Sat,  2 May 2026 14:45:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C94738550C
+	for <sashiko@lists.linux.dev>; Sat,  2 May 2026 16:43:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777733119; cv=none; b=cP1pxu7D5dY+km2lhu3JLBK1U5lJOf6uo8EpzDvt7My4XElLUQEmUvy2W64RJszBH0wNx521PLHIofVwmCOK06r3QqOR3Hy0FEYT5jsT6PQMafn/Dl+FlMJhtwotXYk/rzT9jjbsPS4iZxrF7W3j+5ESU9Xk89uG+LgvkAZR3M4=
+	t=1777740218; cv=none; b=JFRFfiPTMT2ilD20rm/zlLsdLe/BBybnUoh2eFVkbChoqPKH0CksCHIXah4RKUV/c+ROoSX8gx738VDBBTiRTQQB5EfiVMGGNwf5VuB3wDhGEH/+692OKHGIxMZaEUgxmRpt6CkwfMD/6P10skL+yJwFqn/X865c571meF4GspA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777733119; c=relaxed/simple;
-	bh=iUtmapK7QV5nJmIfvVrcUOFHur8U2L6UftUm2xkVzI0=;
+	s=arc-20240116; t=1777740218; c=relaxed/simple;
+	bh=eU2W+QBaJscU1JZXn/8gMqfqkkbCpD5Lh71qSITbbBc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HCohrKseOOah/epcnSF5yAQ2LZRs2qMZAADBzFWqPg0SmuRNOJevpx2+3IkachCeyBGDi00HyeXF8h3PSXx4qkCXvr8yUwS6ukQnBjuTCixAyM9VJBP6c63pNnP5b2gjYIg1f5wQlwq4ZSmL+yECyxioszY/Rr0+999izIt+sB8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BLa7UypM; arc=none smtp.client-ip=74.125.82.182
+	 In-Reply-To:Content-Type; b=KsqZtgx+zGDj2NYLIcOZ7oqEmRdNlYUHy3zQH7DY7YnwwvbYmaq7iLwojvS7OUjxiAjE966ZENm1eDV6HGMqQU9bNhaDIbMjIPDoKJAX04MZxQUBDXspUanWtRKYkAVwIp/EXTQt1xVt9HiFgPInqNQD8gPN6L/8snPFYVznWR8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B5nonnaS; arc=none smtp.client-ip=74.125.82.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BLa7UypM"
-Received: by mail-dy1-f182.google.com with SMTP id 5a478bee46e88-2d832f2f44cso2619031eec.0
-        for <sashiko@lists.linux.dev>; Sat, 02 May 2026 07:45:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B5nonnaS"
+Received: by mail-dl1-f50.google.com with SMTP id a92af1059eb24-12c45281a06so4414572c88.1
+        for <sashiko@lists.linux.dev>; Sat, 02 May 2026 09:43:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777733115; x=1778337915; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1777740215; x=1778345015; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=FyNr5N1YI1qjFmBeSOebvm0biXvEYdfui3Rfp9RSI5o=;
-        b=BLa7UypM8oh9ZtdC91AhQPeH9G8g01WHN3jluTBh5dTqmV/RNkxjo2f/RCvr1gwcGZ
-         MHTkoksq7geU3q5IXlNHwjR+kOiuyTkdRRXI6VDaUwEI4ugmqe1G8RgckjIG7zrx6c/D
-         tX/Mra55bIdn0wZbxUB8EKq49DP2GxSvUk78Pnh4N7EWCCR/qpVX+MqWye/M8vqQGLN7
-         LOilVja3otOeXxklJxcgpvSCP4e7S+zVxSR4tcpDh//9XYOHKfoV82aQhiXmd1hzd9Gw
-         lq24J+zIJ5CG54dijHFZFp5s5vkd74M/vs3dH0bw8Ku+BsylWN4RLQEHgXzd7d5+incF
-         HYig==
+        bh=rJAvfJpV1fB53OjMJYuf7C1FJhyAiiYFszvx8mK36BE=;
+        b=B5nonnaSnAo941tSA+hYlSIefnlxyul0czk4BNt2DoR9hHTL28RuZyT7Nhh68Bvzs3
+         yDt48oT9NGWSRVcvUkUTm3CsxP3UjAesQigjnmhuBPp0cFiD5by6VMvPuuTCf9gS+uss
+         Rh0SVxAABLcDP3wnwqhCqDJbJofK+HSqjkzN1wf0RnNG+M4msfqp22njSxjgt3jfptxc
+         Ygpov3B+xV96I7dLB3uvY4HecxF5huZ6zVjBBayaesSq8lw0Llt8RMZt9eF8rjyJPgag
+         TVT5PCMfC5BaQrWjaH8H97xRAEVO7u3yXhjzJTN4+Ft8y89n3EQFXAyl6ezPh+r+cOoT
+         VTkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777733115; x=1778337915;
+        d=1e100.net; s=20251104; t=1777740215; x=1778345015;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=FyNr5N1YI1qjFmBeSOebvm0biXvEYdfui3Rfp9RSI5o=;
-        b=fSGBO0kJUT2ooyshpmVqz4t5ciJTmlJ5yLLxQ2FjOiKJpctqh/qAZIaoQTJl5O0c2v
-         Ryh3sFfkJu0XHHUyzEP/jR45/9q6YnmAsfvK1ftAp2oCtMl9ahmg+XTyo+XOtaXKhSdv
-         ZbcT6SwN2nb9hu3YHqyJ9VHI6yFdzNzAlWI2VCoVSwtWrxRLPJWJf4kI5LnyS6qH3P/d
-         gwOt3186lUuSqp3haURwKcwKtI7GgihcHEwVOxJEExyy1mIGTBmV3MKU+rLeQzO3PXKt
-         UnzH7jBfh8oowUqe9/qyW2yQi/rSxsahvdOmVpMWkJLejXOGOAtKNMPvpyHZxzpZcdou
-         /BNQ==
-X-Gm-Message-State: AOJu0YzsgOx6k0glkxFcfF47Xf1nTUXP6UltRmPwdVu9bDYg6gNpjln+
-	ZBGcqN1YvPY5Ua5R1Tj9AcPrkr2wT/UabruV/HLu1PEkO7OTx1f8eKB9QM8JsQ==
-X-Gm-Gg: AeBDiev1NiGTe7GfzsjPCxWlislqSz4SSqc8+WL3tooqy95grKNYAbFWWJX+UIB0yBR
-	KXBDm99aCA3S/S0Ac9Rra0b1e7bZSGNTCxBJdwHARg17GOJnHaatqUlrzUDxtpN49Zg4LDsWUMG
-	bW+6WJ4Mc6ArygWQVj5yXXeBxnVAyqKzD8bsAGi2vbgaTAamY2no1Tl8YXmCdxjgDj1ar5uEjo9
-	RpWlUw+YFoBqnQiMKDSFpKZEEExVe8H51eUL0CzyPd+byNEYKgESzZv1SCGRjifD49jdbOspPvu
-	nhhYv0dM+SAy43zx5wa0qxP/n/AF3JBTHwiFuw3ZDqJmDlWXmb3y+kT/bcNn8gISvCTFliYAYqr
-	ecUPgmLdiWsdC6hRld6LkiIEg4rBz5fB4+9d4sg2cmWe2Pny8DEdjx6aKLfuDEkQ4NllTx+DPNN
-	29TPu2Ts3XpvTN1LcnuCUbkNvetvgYAvFQ5JCoNf8wTeb+TvghXzGH2c7rfyetWi8Mhgpmq7mva
-	/I340iS1K8=
-X-Received: by 2002:a05:7300:6c2b:b0:2ed:a64:a457 with SMTP id 5a478bee46e88-2efb9c85886mr1618540eec.20.1777733115325;
-        Sat, 02 May 2026 07:45:15 -0700 (PDT)
+        bh=rJAvfJpV1fB53OjMJYuf7C1FJhyAiiYFszvx8mK36BE=;
+        b=kg15R/gCil5ongGLrsfqynVM3kmEzFZxqjnkW6VyVQg+jp5uZGpeCWMXNKF2Oga7f+
+         s7Z0RSXv8m5gmkTdgJh/r8Za343MO3tAheoGkgnP+KZoFZ1i7pjZUoHx+0LldMXGZDoZ
+         0G3DEC0aeds9NxqRRImaacgqivkSGqvFznuMDOphg54UFBipYgcDvQ/sOzUyU9MDWhGu
+         xzWy2tz3ONsq7Sx6h5lAqzHAdlRSD5DnLrXMUJDI6YB3/3Ssb6glWdTQyXywL6WAbMLL
+         Sc0JYocc50Ad54eY4I6yxZCELvzDF7Twt+V8B0kUfpEC0mWlHKM9dO9TwVEjsnXZBcbS
+         Wouw==
+X-Gm-Message-State: AOJu0YwsdCbPkS3ZzjQOJYEskz5b9OWFHz1FQLcxe2sQfcqicgt4C9V7
+	CStVlaiigSDsrXX5ILL1lk22OlXphL95RLLc6YRQnUQUhiVpho5LE8G4QY0b8A==
+X-Gm-Gg: AeBDieu9qd3QVse0+A7ErXNjB2EVzHc5x36hL/Xppw5TrcuKvgSYX8ef/uvjWT7XPSg
+	v2AMyHi8Wtdf+uChZqHmmj/75dpBFvTwkDg74HCR2yb2Cc0BBOsPhfDJ8PW1S4+ffqbO5yFXBr7
+	ra5/KYkzGdvL+j92QLTIHQ1/M/8W18lLxa8NwwjnDdV+OSUcsQU+Lytbf1/abCBNU80m9Hfztwq
+	30d6XUrA7AGgnni3Koz2Djhw/Lb5i89OaAy5XqeVT34zQ96aVkxpbRfZ9eOrrolIM8MbKmcuVwA
+	bSFh09dDAjkODrNg1mHKOWlDssM+LvI7ksgpMcOzxLSdsrahsj6sJy4aHx73/mjKyWfpGkOWtEf
+	rPWKv0mY9PGtE/JaWyiPtaKJ2K19chC8euJoL2+ryor3s5xOVxaTK3gQjpNVr752bAzmlXDBA+G
+	RVYlBsp3aYqmfaYZ7FJETtB66IjnVZ00Oj4mkE1SRKacC/cG57jJ6y7Jq0QtXD6GcBIaYC8tdlZ
+	FCqmJNwWZh9pBjD8opMRw==
+X-Received: by 2002:a05:7022:6286:b0:12b:f8d6:d4bc with SMTP id a92af1059eb24-12dfd8199a7mr1653231c88.34.1777740215187;
+        Sat, 02 May 2026 09:43:35 -0700 (PDT)
 Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ee38e71cedsm10308108eec.9.2026.05.02.07.45.13
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12df82a141asm9510094c88.8.2026.05.02.09.43.34
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 02 May 2026 07:45:14 -0700 (PDT)
+        Sat, 02 May 2026 09:43:34 -0700 (PDT)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <8928c046-69fa-4578-9a7d-87b98fc7c5a2@roeck-us.net>
-Date: Sat, 2 May 2026 07:45:12 -0700
+Message-ID: <695ce7e5-3bdf-4487-82c0-811d2ad4bdc4@roeck-us.net>
+Date: Sat, 2 May 2026 09:43:33 -0700
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
@@ -69,11 +69,11 @@ List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] hwmon: (lm75) Fix AS6200 setup and alarm handling
+Subject: Re: [PATCH v2 1/2] hwmon: (lm75) Fix AS6200 setup and alarm handling
 To: sashiko@lists.linux.dev, Markus Stockhausen <markus.stockhausen@gmx.de>
 Cc: linux-hwmon@vger.kernel.org
-References: <20260502094524.3358193-2-markus.stockhausen@gmx.de>
- <20260502101009.DFDF8C19425@smtp.kernel.org>
+References: <20260502160533.3527619-2-markus.stockhausen@gmx.de>
+ <20260502162839.71710C19425@smtp.kernel.org>
 Content-Language: en-US
 From: Guenter Roeck <linux@roeck-us.net>
 Autocrypt: addr=linux@roeck-us.net; keydata=
@@ -119,28 +119,35 @@ Autocrypt: addr=linux@roeck-us.net; keydata=
  F0WaMvQMNrk9UAUziVcUkLU52NS9SXqpVg8vgrO0JKx97IXFPcNh0DWsSj/0Y8HO/RDkGXYn
  FDMj7fZSPKyPQPmEHg+W/KzxSSfdgWIHF2QaQ0b2q1wOSec4Rti52ohmNSY+KNIW/zODhugJ
  np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20260502101009.DFDF8C19425@smtp.kernel.org>
+In-Reply-To: <20260502162839.71710C19425@smtp.kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 5/2/26 03:10, sashiko-bot@kernel.org wrote:
+On 5/2/26 09:28, sashiko-bot@kernel.org wrote:
 > Thank you for your contribution! Sashiko AI review found 2 potential issue(s) to consider:
-> - [High] The updated set_mask of 0x10C0 is byte-swapped over I2C and will force the sensor into single-shot mode instead of the intended continuous mode.
-> - [High] The new alarm reporting logic is mathematically inverted, violating the hwmon ABI by returning 0 during an active alarm.
+> - [High] The patch attempts to disable Single Shot mode but fails due to a misunderstanding of the sensor's endianness, leaving the device in the wrong mode.
+> - [High] The patch's new alarm logic uses `!=` to compare the alarm and polarity bits, which inverts the output and violates the hwmon sysfs ABI.
 > --
 > 
-> commit bef39cd430ab022cea5921c7c9e935e0fe939e92
+> commit ce15170fb232a37df75ee23f58c0868809e4b7cb
 > Author: Markus Stockhausen <markus.stockhausen@gmx.de>
 > 
 > hwmon: (lm75) Fix AS6200 setup and alarm handling
 > 
-> This commit attempts to fix the AS6200 initialization by changing the set
-> mask to enable continuous conversion mode. It also modifies the alarm
-> handling logic with the intention of correctly reporting alarms regardless
-> of the configured polarity.
+> This commit attempts to fix the AS6200 initialization by changing the
+> configuration mask to drive the sensor in continuous mode and active-low
+> setup. It also adjusts the alarm handling logic to compare the alarm bit
+> against the polarity bit to correctly report active alarms.
+> 
+>> - Change the set_mask to 0x10c0 to reflect the current active-low
+>>    setup properly and to drive the sensor in continous mode. This
+>>    takes into account that the config register is little endian and
+>>    the first byte sent to the chip is the LSB.
+> 
+> The lm75-compatible 16-bit sensors generally use a big-endian format where
+> the msb is sent first.
 > 
 >> diff --git a/drivers/hwmon/lm75.c b/drivers/hwmon/lm75.c
->> index f1a1e5b888f6..4fd4288ae502 100644
 >> --- a/drivers/hwmon/lm75.c
 >> +++ b/drivers/hwmon/lm75.c
 >> @@ -137,7 +137,7 @@ static const struct lm75_params device_params[] = {
@@ -150,22 +157,16 @@ On 5/2/26 03:10, sashiko-bot@kernel.org wrote:
 >> -		.set_mask = 0x94C0,	/* 8 sample/s, 4 CF, positive polarity */
 >> +		.set_mask = 0x10C0,	/* 8 sample/s, 4 CF */
 > 
-> The intent described in the commit message is to clear bit 15 to disable
-> single-shot mode. However, won't this new mask still force the sensor into
-> single-shot mode over the wire?
+> If the i2c transfer sends the lsb of 0x10C0 first, the first byte sent
+> is 0xC0.
 > 
-> The LM75 driver writes LM75_REG_CONF using i2c_smbus_write_word_data(),
-> which transmits data in little-endian order. The AS6200 is a big-endian I2C
-> sensor. When 0x10C0 is transmitted, the lower byte (0xC0) is sent first and
-> interpreted by the device as the MSB. Since 0xC0 is 11000000 in binary,
-> bit 15 remains set to 1.
+> When 0xC0 is interpreted by the chip as the msb, it sets bits 15 and 14.
+> Since bit 15 controls Single Shot mode, does this unintentionally keep
+> the device in Single Shot mode instead of enabling continuous mode?
 > 
 
-... except for the config register, which is little endian, and the first
-byte sent to the chip is the LSB. No idea how to tell that to the agent.
-
-Either case, I ended up ordering an evaluation board for as6200 and samples
-for TMP112, so we'll see how this works for real once I get that.
+We know about that. Keep as is. If it turns out to be wrong after I get
+the eval boards / samples, I'll submit a fix.
 
 > [ ... ]
 > 
@@ -174,33 +175,27 @@ for TMP112, so we'll see how this works for real once I get that.
 >>   			case as6200:
 >>   			case tmp112:
 >> -				*val = (regval >> 13) & 0x1;
->> +				*val = !!(regval & BIT(13)) ^ !!(regval & BIT(2));
+>> +				*val = !!(regval & BIT(13)) != !!(regval & BIT(2));
 > 
-> Does this logic correctly map to the hwmon ABI, which expects a value of 1
-> during an active alarm?
+> Does this comparison invert the expected hwmon alarm abi?
 > 
-> According to the sensor datasheets, the AL bit reflects the ALERT pin
-> directly.
+> The hwmon abi expects the alarm attribute to return 1 when an alarm
+> is active and 0 otherwise. The alarm bit (13) reflects the physical state
+> of the alert pin.
 > 
-> If POL=0 (active low), the pin is low on alarm (AL=0), so 0 ^ 0 = 0.
-> If POL=1 (active high), the pin is high on alarm (AL=1), so 1 ^ 1 = 0.
+> If the setup is active-low (polarity bit 2 is 0) and an alarm triggers,
+> the pin is pulled low so bit 13 becomes 0. The expression 0 != 0 evaluates
+> to 0.
 > 
-> In both cases, it appears this expression evaluates to 0 during an active
-> alarm and 1 during normal operation, inverting the expected hwmon behavior.
+> During normal operation, the pin is high (1), and 1 != 0 evaluates to 1.
+> 
+> Should this use == instead to ensure the attribute returns 1 when the
+> alarm condition is active?
 > 
 
-I had another look at the datasheet. Turns out the agent is correct. The
-bits must be _different_ for the alarm to be active. So this has to be
-something like
-	!!(regval & BIT(13)) != !!(regval & BIT(2));
+Sigh. This chip is so confusing. Yes, it needs to be "==". Sorry again.
 
-Sorry for that.
-
-> Additionally, does hardcoding BIT(13) and BIT(2) solidify an underlying
-> I2C byte-swapping behavior directly into the logic rather than fixing the
-> root cause?
-> 
-We can live with that.
+Otherwise looks good, but please remember to provide change logs.
 
 Thanks,
 Guenter
