@@ -1,202 +1,170 @@
-Received: from mail-dl1-f50.google.com (mail-dl1-f50.google.com [74.125.82.50])
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C94738550C
-	for <sashiko@lists.linux.dev>; Sat,  2 May 2026 16:43:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.50
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777740218; cv=none; b=JFRFfiPTMT2ilD20rm/zlLsdLe/BBybnUoh2eFVkbChoqPKH0CksCHIXah4RKUV/c+ROoSX8gx738VDBBTiRTQQB5EfiVMGGNwf5VuB3wDhGEH/+692OKHGIxMZaEUgxmRpt6CkwfMD/6P10skL+yJwFqn/X865c571meF4GspA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777740218; c=relaxed/simple;
-	bh=eU2W+QBaJscU1JZXn/8gMqfqkkbCpD5Lh71qSITbbBc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KsqZtgx+zGDj2NYLIcOZ7oqEmRdNlYUHy3zQH7DY7YnwwvbYmaq7iLwojvS7OUjxiAjE966ZENm1eDV6HGMqQU9bNhaDIbMjIPDoKJAX04MZxQUBDXspUanWtRKYkAVwIp/EXTQt1xVt9HiFgPInqNQD8gPN6L/8snPFYVznWR8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B5nonnaS; arc=none smtp.client-ip=74.125.82.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96244385519
+	for <sashiko@lists.linux.dev>; Sat,  2 May 2026 19:04:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.45
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777748689; cv=pass; b=ikYhv5slARYybI7/LR3w/kFo1InH8Co5zUykE99wB+Fwiifrik/K9s5GWQAhziFSbmoe2N7861rhKZ+gORI6BhiGYxbKlm+mtgrWLsUtfG35HisnYlPlyWS27s/geXAyZOcz5NcGmFM/A62/2Z1pucdGkZNm995B4qxPaCiJ8Vg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777748689; c=relaxed/simple;
+	bh=JabJJvGOVACFB5Q05Gm+KwlOst4BTOxQbBgtxJNSxhE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=djX5xcbtTr1ti+JF7+/Aof3hDG8B7nYJTLUhqpbJmYrJl2vlkwubZ+w+h8OrsBUhkADUCkgix4PQTB4NYNT3t8zkXyoLeFn+nbAVkxtSAaxukXhuGSdJ+A7JPfYlocoIAS+JW/b9enW+DZAcGedef23RA/imLAVZQxxkr+j+Ev8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ravq6yyT; arc=pass smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B5nonnaS"
-Received: by mail-dl1-f50.google.com with SMTP id a92af1059eb24-12c45281a06so4414572c88.1
-        for <sashiko@lists.linux.dev>; Sat, 02 May 2026 09:43:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ravq6yyT"
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-59dcdf60427so2529143e87.3
+        for <sashiko@lists.linux.dev>; Sat, 02 May 2026 12:04:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777748686; cv=none;
+        d=google.com; s=arc-20240605;
+        b=W7/rhydYb0YKXCfQjeOwhKhCRar6KNbRtMjEN3SFLGPVa5yWi79oYNpfoS2A8Wz8CJ
+         Q9Hjk8XuOIL6WlPRPla4rHPxnk/w79JzBX8GJKglCUnmrlgqdu3Dvla3/ra2nQv7HSEM
+         C38rOVWcRsGbpId85bZaFS4wnBsMPl+3D3atVVvcuzX6a4EgrZk+6Gi3TiuVtigkNO45
+         l6m5aYw9zxvRFPYy30DX6BUr9mYP+CLaL1Jf1eFRgb9M+iCoRGmmfGpABC9iN+VB6a76
+         7X30MDCHDNHP1IGA6hvDn4qVG8D55XK3WPSXJalPOVaf8kgkcTPz5+EQvh8qMQCuLVR9
+         QQLA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=UJEn27V6OkYesuaUVcNgLy1Ezf+jQkNNDAQg+5dVDzg=;
+        fh=vWikvm8CNHZiaF6N4Gb9HpRiBy6fZqLb0P11KrtreRg=;
+        b=LHBF2GFXR2b8v+Dq8TSBMO9iVmdh5bmYdzy7YZYHmGKHOziaVEKtBn0wy9FzPBswpA
+         r86te2+6YLBwClCCDd1uxKWBC59sC1WRIsAgrfWU0FSzwIv4RG/2xJqziXOmggP38Csv
+         R3aFjwUnsmVXFjtCSyA6lvAdggt+qJ2JWUh5wVuCrc1WwCR49cIDsRkUa6mboEdAt3is
+         3UmkeSWLNkV+2qjsZcw1NpiB1In5+0TcJ8ND7J5E6RuZ5Pr1U7A2X1f78OY4dVZfupBE
+         fT1/xR+ERQsWH08yVWJaF5ZglTfthFlrJP6zSkzoMJcuADYlSdF3t1fSc5R7FdRXzu/U
+         PD6A==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777740215; x=1778345015; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=rJAvfJpV1fB53OjMJYuf7C1FJhyAiiYFszvx8mK36BE=;
-        b=B5nonnaSnAo941tSA+hYlSIefnlxyul0czk4BNt2DoR9hHTL28RuZyT7Nhh68Bvzs3
-         yDt48oT9NGWSRVcvUkUTm3CsxP3UjAesQigjnmhuBPp0cFiD5by6VMvPuuTCf9gS+uss
-         Rh0SVxAABLcDP3wnwqhCqDJbJofK+HSqjkzN1wf0RnNG+M4msfqp22njSxjgt3jfptxc
-         Ygpov3B+xV96I7dLB3uvY4HecxF5huZ6zVjBBayaesSq8lw0Llt8RMZt9eF8rjyJPgag
-         TVT5PCMfC5BaQrWjaH8H97xRAEVO7u3yXhjzJTN4+Ft8y89n3EQFXAyl6ezPh+r+cOoT
-         VTkg==
+        d=gmail.com; s=20251104; t=1777748686; x=1778353486; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UJEn27V6OkYesuaUVcNgLy1Ezf+jQkNNDAQg+5dVDzg=;
+        b=Ravq6yyTzKoVV54Lpkuc5KbMkwpe9AVN0TLvl0L7Y6YjfTJ4sA0xTVngd/c02os4/v
+         ILS95+BkDMuEHCB8RxYx4NoQYcDANm0bFX7j6gs//P8fE17YlqjEOUw9A38yDye+kClz
+         vqL9FmuanI3O2q3v5h8PURWYf5bY4q5yl/fmZkRqY7zU9Ovz3Mb3gMzRXDP/C6xc+Tbp
+         zL1B4PdAMu/iLhcAQNZgedobN2PK3NKHw76y0K/GLuP5zxMQkANP1AWPVwEoDSkDi5aP
+         VX9hGj3aeFGZG1WN8T2jt342nnLWi/12ssYneoJMCFkkAngcn3RQD5WOr/wGWk61L9pQ
+         eDTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777740215; x=1778345015;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rJAvfJpV1fB53OjMJYuf7C1FJhyAiiYFszvx8mK36BE=;
-        b=kg15R/gCil5ongGLrsfqynVM3kmEzFZxqjnkW6VyVQg+jp5uZGpeCWMXNKF2Oga7f+
-         s7Z0RSXv8m5gmkTdgJh/r8Za343MO3tAheoGkgnP+KZoFZ1i7pjZUoHx+0LldMXGZDoZ
-         0G3DEC0aeds9NxqRRImaacgqivkSGqvFznuMDOphg54UFBipYgcDvQ/sOzUyU9MDWhGu
-         xzWy2tz3ONsq7Sx6h5lAqzHAdlRSD5DnLrXMUJDI6YB3/3Ssb6glWdTQyXywL6WAbMLL
-         Sc0JYocc50Ad54eY4I6yxZCELvzDF7Twt+V8B0kUfpEC0mWlHKM9dO9TwVEjsnXZBcbS
-         Wouw==
-X-Gm-Message-State: AOJu0YwsdCbPkS3ZzjQOJYEskz5b9OWFHz1FQLcxe2sQfcqicgt4C9V7
-	CStVlaiigSDsrXX5ILL1lk22OlXphL95RLLc6YRQnUQUhiVpho5LE8G4QY0b8A==
-X-Gm-Gg: AeBDieu9qd3QVse0+A7ErXNjB2EVzHc5x36hL/Xppw5TrcuKvgSYX8ef/uvjWT7XPSg
-	v2AMyHi8Wtdf+uChZqHmmj/75dpBFvTwkDg74HCR2yb2Cc0BBOsPhfDJ8PW1S4+ffqbO5yFXBr7
-	ra5/KYkzGdvL+j92QLTIHQ1/M/8W18lLxa8NwwjnDdV+OSUcsQU+Lytbf1/abCBNU80m9Hfztwq
-	30d6XUrA7AGgnni3Koz2Djhw/Lb5i89OaAy5XqeVT34zQ96aVkxpbRfZ9eOrrolIM8MbKmcuVwA
-	bSFh09dDAjkODrNg1mHKOWlDssM+LvI7ksgpMcOzxLSdsrahsj6sJy4aHx73/mjKyWfpGkOWtEf
-	rPWKv0mY9PGtE/JaWyiPtaKJ2K19chC8euJoL2+ryor3s5xOVxaTK3gQjpNVr752bAzmlXDBA+G
-	RVYlBsp3aYqmfaYZ7FJETtB66IjnVZ00Oj4mkE1SRKacC/cG57jJ6y7Jq0QtXD6GcBIaYC8tdlZ
-	FCqmJNwWZh9pBjD8opMRw==
-X-Received: by 2002:a05:7022:6286:b0:12b:f8d6:d4bc with SMTP id a92af1059eb24-12dfd8199a7mr1653231c88.34.1777740215187;
-        Sat, 02 May 2026 09:43:35 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12df82a141asm9510094c88.8.2026.05.02.09.43.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 02 May 2026 09:43:34 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <695ce7e5-3bdf-4487-82c0-811d2ad4bdc4@roeck-us.net>
-Date: Sat, 2 May 2026 09:43:33 -0700
+        d=1e100.net; s=20251104; t=1777748686; x=1778353486;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=UJEn27V6OkYesuaUVcNgLy1Ezf+jQkNNDAQg+5dVDzg=;
+        b=Kv1qw9ZlIBaKInWO9EVy12fz5DSBSaRuKvvfxZIDBXFVJf0UtoXs+seWxGiA5S3J0q
+         JW9F/4b56+WubfaNNbNQvIy9tNpF9d2kEu36DOstKixAHeY9NwFJnEDoix/pW/QDx+dC
+         TXm+2wPTzCVUPKZOmSaUqZ6gYZV31aerqS+KAh8OCWfduqO/YyEUYhYNaguoITlCyhDK
+         2InIXHxT1+5j6NxCrpGNl9/Og3XuZZJMZZX1hD+kT/bh571HSbWbUDqAHfBCdhniB76F
+         mjDUFqGqyfN37oN8vErpiUrbnIKE3nUqy2zZYiiEH9vJPEmDtWhyyuWRmqsqsMi1kj4p
+         mwCg==
+X-Forwarded-Encrypted: i=1; AFNElJ9TnQO0ckmsQ7vimB1/MVuQjpvu6lz/r+ZN6E14HzCxZxLZvaqb7734w8ahR9vwlZwHiI3+sHeo@lists.linux.dev
+X-Gm-Message-State: AOJu0YzUP2Q1bBtiy3nX5w2JK9DUK6bQG+3MKcorV7UHhHfBvDYlz+xN
+	1Xsh0arvNq/Q4HZLuYrjxz4tZ6D3/KDmiNo6+n7rIZrGD0gPEMTDkECSLE6etXv3u9dt7zqxFlQ
+	MKAvr9VROSruf0Fzp47rHGD3gvKGKf18=
+X-Gm-Gg: AeBDiev9jlGsu2q4FzbPZFPCBjr7rasHZdiB2dnOR9chel+14E+sQqYhi7CU+T4Ehlt
+	XM6RjdfQLwEY+cBEJfvxl32hfKZR4oD6OZJITqSxPDdNM5ceI8ee9vJwROG5odBgS43zwVP4Bh4
+	aO9FK7pS2QAD4JFodCM3RJegraAHgmlkwKxsxFnUMNbh3a9as8IbVFVtAlgNlpkwPzoeL671SW/
+	JdjNj3w3GCp9DIfw2Y6yYGyRpIF5il8L3MlN4wEJ49E592crnd0YP0d16Aa+tifZKSoS7vZ1poh
+	ysTDjN/bmYftfyvm+nAJ2wXFAiitbjSnWd+jZWsTg5kj0L4D
+X-Received: by 2002:a05:6512:31c9:b0:5a7:46f1:d96a with SMTP id
+ 2adb3069b0e04-5a862ec3439mr409761e87.13.1777748685442; Sat, 02 May 2026
+ 12:04:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] hwmon: (lm75) Fix AS6200 setup and alarm handling
-To: sashiko@lists.linux.dev, Markus Stockhausen <markus.stockhausen@gmx.de>
-Cc: linux-hwmon@vger.kernel.org
-References: <20260502160533.3527619-2-markus.stockhausen@gmx.de>
- <20260502162839.71710C19425@smtp.kernel.org>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20260502162839.71710C19425@smtp.kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20260424053816.27965-2-kerneljasonxing@gmail.com>
+ <20260425054032.28A27C2BCB2@smtp.kernel.org> <99816901-6026-49ec-9c20-b548ed362d11@redhat.com>
+In-Reply-To: <99816901-6026-49ec-9c20-b548ed362d11@redhat.com>
+From: Jason Xing <kerneljasonxing@gmail.com>
+Date: Sat, 2 May 2026 22:04:06 +0300
+X-Gm-Features: AVHnY4Lr-W5067WEgcSeNunEx2Jj-8DqWBliGYLjrFqxjd89zBTtZWswi8YtXcc
+Message-ID: <CAL+tcoDcOz0q9MNNOfgYdt2XAKHAkjFW=r-seHifYqyMH3RV5g@mail.gmail.com>
+Subject: Re: [PATCH net v4 1/8] xsk: reject sw-csum UMEM binding to
+ IFF_TX_SKB_NO_LINEAR devices
+To: Paolo Abeni <pabeni@redhat.com>
+Cc: bpf@vger.kernel.org, "netdev@vger.kernel.org" <netdev@vger.kernel.org>, sashiko@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 5/2/26 09:28, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 2 potential issue(s) to consider:
-> - [High] The patch attempts to disable Single Shot mode but fails due to a misunderstanding of the sensor's endianness, leaving the device in the wrong mode.
-> - [High] The patch's new alarm logic uses `!=` to compare the alarm and polarity bits, which inverts the output and violates the hwmon sysfs ABI.
-> --
-> 
-> commit ce15170fb232a37df75ee23f58c0868809e4b7cb
-> Author: Markus Stockhausen <markus.stockhausen@gmx.de>
-> 
-> hwmon: (lm75) Fix AS6200 setup and alarm handling
-> 
-> This commit attempts to fix the AS6200 initialization by changing the
-> configuration mask to drive the sensor in continuous mode and active-low
-> setup. It also adjusts the alarm handling logic to compare the alarm bit
-> against the polarity bit to correctly report active alarms.
-> 
->> - Change the set_mask to 0x10c0 to reflect the current active-low
->>    setup properly and to drive the sensor in continous mode. This
->>    takes into account that the config register is little endian and
->>    the first byte sent to the chip is the LSB.
-> 
-> The lm75-compatible 16-bit sensors generally use a big-endian format where
-> the msb is sent first.
-> 
->> diff --git a/drivers/hwmon/lm75.c b/drivers/hwmon/lm75.c
->> --- a/drivers/hwmon/lm75.c
->> +++ b/drivers/hwmon/lm75.c
->> @@ -137,7 +137,7 @@ static const struct lm75_params device_params[] = {
->>   	},
->>   	[as6200] = {
->>   		.config_reg_16bits = true,
->> -		.set_mask = 0x94C0,	/* 8 sample/s, 4 CF, positive polarity */
->> +		.set_mask = 0x10C0,	/* 8 sample/s, 4 CF */
-> 
-> If the i2c transfer sends the lsb of 0x10C0 first, the first byte sent
-> is 0xC0.
-> 
-> When 0xC0 is interpreted by the chip as the msb, it sets bits 15 and 14.
-> Since bit 15 controls Single Shot mode, does this unintentionally keep
-> the device in Single Shot mode instead of enabling continuous mode?
-> 
+On Tue, Apr 28, 2026 at 4:13=E2=80=AFPM Paolo Abeni <pabeni@redhat.com> wro=
+te:
+>
+> On 4/25/26 7:40 AM, sashiko-bot@kernel.org wrote:
+> > Sashiko AI review found 1 potential issue(s):
+> > - [High] The patch incompletely fixes the WARN_ON_ONCE in skb_checksum_=
+help() triggered by pure-fragment SKBs. It successfully prevents the explic=
+it fallback in xsk_skb_metadata() (which wedged the TX ring), but leaves th=
+e implicit generic network stack fallback vulnerable. If a user sets XDP_TX=
+MD_FLAGS_CHECKSUM on an IFF_TX_SKB_NO_LINEAR device and the hardware checks=
+um offload is disabled at runtime (e.g., via `ethtool -K eth0 tx off`), the=
+ core stack's validate_xmit_skb() takes over. Because NETIF_F_SG is allowed=
+ to remain active even without checksum features, skb_needs_linearize() eva=
+luates to false, leaving the SKB unlinearized. The SKB is then passed to sk=
+b_csum_hwoffload_help() -> skb_checksum_help(), which hits the exact same W=
+ARN_ON_ONCE(offset >=3D skb_headlen(skb)) because skb_headlen is 0.
+> > --
+> >
+> > commit 86ab0a4900aa60bee0c3df7393a2846b5ff74ccb
+> > Author: Jason Xing <kerneljasonxing@gmail.com>
+> >
+> > xsk: reject sw-csum UMEM binding to IFF_TX_SKB_NO_LINEAR devices
+> >
+> > This commit attempts to fix a warning triggered in skb_checksum_help()
+> > by AF_XDP pure-fragment SKBs. It rejects sw-csum UMEM binding for
+> > drivers advertising IFF_TX_SKB_NO_LINEAR at setup time.
+> >
+> > Closes: https://lore.kernel.org/all/20260419045822.843BFC2BCAF@smtp.ker=
+nel.org/#t
+> > Fixes: 30c3055f9c0d ("xsk: wrap generic metadata handling onto separate=
+ function")
+> > Acked-by: Stanislav Fomichev <sdf@fomichev.me>
+> > Signed-off-by: Jason Xing <kernelxing@tencent.com>
+> >
+> >> diff --git a/net/xdp/xsk_buff_pool.c b/net/xdp/xsk_buff_pool.c
+> >> index cd7bc50872f6b5..d981cfdd853578 100644
+> >> --- a/net/xdp/xsk_buff_pool.c
+> >> +++ b/net/xdp/xsk_buff_pool.c
+> >> @@ -175,6 +175,9 @@ int xp_assign_dev(struct xsk_buff_pool *pool,
+> >>      if (force_zc && force_copy)
+> >>              return -EINVAL;
+> >>
+> >> +    if (pool->tx_sw_csum && (netdev->priv_flags & IFF_TX_SKB_NO_LINEA=
+R))
+> >> +            return -EOPNOTSUPP;
+> >> +
+> >
+> > Does this still leave a path for the warning in skb_checksum_help() to
+> > trigger if hardware checksum offloading is disabled at runtime?
+> >
+> > If a user sets XDP_TXMD_FLAGS_CHECKSUM on an IFF_TX_SKB_NO_LINEAR devic=
+e,
+> > and hardware checksum offload is later disabled (e.g., via ethtool -K
+> > eth0 tx off), the core stack's validate_xmit_skb() will take over.
+> >
+> > Because NETIF_F_SG can remain active even without checksum features,
+> > skb_needs_linearize() evaluates to false, leaving the SKB unlinearized.
+> >
+> > The SKB is then passed to skb_csum_hwoffload_help() which falls back to
+> > skb_checksum_help(). Since the pure-fragment SKB still has a headlen of=
+ 0,
+> > won't this hit the exact same WARN_ON_ONCE(offset >=3D skb_headlen(skb)=
+)
+> > warning?
+>
+> My take here is the issue describe above should be handled separately.
+> (And on top of my head I don't see an easy way to address it short of an
+> additional check in the tx path, which I think we want to avoid).
 
-We know about that. Keep as is. If it turns out to be wrong after I get
-the eval boards / samples, I'll submit a fix.
-
-> [ ... ]
-> 
->> @@ -416,7 +416,7 @@ static int lm75_read(struct device *dev, enum hwmon_sensor_types type,
->>   			switch (data->kind) {
->>   			case as6200:
->>   			case tmp112:
->> -				*val = (regval >> 13) & 0x1;
->> +				*val = !!(regval & BIT(13)) != !!(regval & BIT(2));
-> 
-> Does this comparison invert the expected hwmon alarm abi?
-> 
-> The hwmon abi expects the alarm attribute to return 1 when an alarm
-> is active and 0 otherwise. The alarm bit (13) reflects the physical state
-> of the alert pin.
-> 
-> If the setup is active-low (polarity bit 2 is 0) and an alarm triggers,
-> the pin is pulled low so bit 13 becomes 0. The expression 0 != 0 evaluates
-> to 0.
-> 
-> During normal operation, the pin is high (1), and 1 != 0 evaluates to 1.
-> 
-> Should this use == instead to ensure the attribute returns 1 when the
-> alarm condition is active?
-> 
-
-Sigh. This chip is so confusing. Yes, it needs to be "==". Sorry again.
-
-Otherwise looks good, but please remember to provide change logs.
+Agreed. I've already reworded the commit message locally :)
 
 Thanks,
-Guenter
-
+Jason
