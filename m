@@ -1,106 +1,101 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D1B234CFDD;
-	Mon,  4 May 2026 17:09:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF6EF3E51D6;
+	Mon,  4 May 2026 17:54:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777914583; cv=none; b=S0rTdCpzY6uFnVbPnG1PgGQGqIMJhz9EQzYhU/N2rwF6boHzGaHHsu2nGm0qhPirGpqALeKnxvKRuUYDUEezYSnx9X6Ffy1qFrrQeLI1QPWPzequ0r2H4P7R0KJNsq80KhnQ1YCv62xek4K9Sq2Avz6iIbwrrqTAGRm3XzljHBQ=
+	t=1777917271; cv=none; b=qhj0jNJK7x9DfrpMP3l3q2JkgHWxcsXB+AfAkVZgmlcz8btAKRkdZyoc8sCtWhV+0v2aoQX8//MHWSZDSC/k4wzcwvRFjkmzlhISnlBQ0hWCb/IuKPH41kjDMLROAgxK35HUD6Xiv4A9SOfDMm/bYxk7KkV1zEksDU3JPR0M9so=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777914583; c=relaxed/simple;
-	bh=DL0oHUGtIQtcJa3UvSNpsHCUpyj2484rSE3g3qjViQ0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=T3OhXHfUumo7kIx156edUgGzEXfsjBrhUQIw3qUMXTfDfW0VDq11/KhzS//xRYZ66nBkOtlxg/rEJT/F7kXJj1TA12eOrtKL62DANQSkHgwDJX23wq4wCcUeDj4bCEamuCRghpmjBQ4PkZDx7Wkbuqfu3YPYf04UFiRQRiMKJXc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c+ExzHbk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777917271; c=relaxed/simple;
+	bh=leccLOhiq2QdlaHtZZKF8/D6p8Lo6PBNkeGX3IE8ZOQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GtgzDig7C4vNnzina5nvwr/GWXiWH3OYWYBl2lzlM61F1dJRDcElmVVOfm0jkXx98zyp94umMqCOijvNeV2BRfeKh2TWnwtLT486lfU8BgfVZnC1aV9uWOtZQ7O4iUpwMkjLXClWvCDAUpoxj6/s5U0eYU47FbFMui+Gg4PRshU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CGERB53g; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c+ExzHbk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6A32C2BCB8;
-	Mon,  4 May 2026 17:09:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CGERB53g"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98502C2BCB8;
+	Mon,  4 May 2026 17:54:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777914583;
-	bh=DL0oHUGtIQtcJa3UvSNpsHCUpyj2484rSE3g3qjViQ0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=c+ExzHbkvgNEzyWPuMePVK7/qM3PkmMH8cReatgKVTb/LzMSV9LSqIPWnv697dlWi
-	 3mLiiH1X6QLMZ7ybpXAKRvcX2dsdoIxwtYJVgDUInk9NaFkvQBvGpyqDJJ2zTvuyUr
-	 hZQUTzB1PhVaThjECxs1NHsx2tHPGq74bwKz7Ij+6s+gRlMq3WYwPwAA+nwCB+fKIH
-	 dn7BZbvQcKme6hm1HNmQuYPoi4HEFw4f/DhPKkofQAFSjbLuH+fHKzMuh/iu5CWdXG
-	 vROeYjpR/0UCmkpqWD3c50PvHYXNLs+/XjFbO1n7y0XqA3pNfQso2Of3X61Qe2ZXNq
-	 ZP9HVavj8R25g==
-Date: Mon, 4 May 2026 12:09:41 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Lukas Wunner <lukas@wunner.de>
-Cc: sashiko-bot@kernel.org, linux-pci@vger.kernel.org,
-	sashiko@lists.linux.dev, Marco Nenciarini <mnencia@kcore.it>,
-	Michal Winiarski <michal.winiarski@intel.com>,
-	Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Eric Chanudet <echanude@redhat.com>,
-	Jean Guyader <jean.guyader@gmail.com>,
-	Alex Williamson <alex@shazbot.org>, Sinan Kaya <okaya@kernel.org>,
-	Mario Limonciello <superm1@kernel.org>
-Subject: Re: [PATCH] PCI: Drop unnecessary retries when restoring BARs
-Message-ID: <20260504170941.GA648635@bhelgaas>
+	s=k20201202; t=1777917271;
+	bh=leccLOhiq2QdlaHtZZKF8/D6p8Lo6PBNkeGX3IE8ZOQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CGERB53gey32knu4DwMMUoBi2esMPCP6qjlQ3fQo/MeJDP0bjCibiIqJlJkJcMuWF
+	 j84zfJqEhE8SQDeYZeub8LpZJwvOS8jX+dVv3Ay9HHQk2M1abY745oq6y4ObxxojVP
+	 6mQhAwCdkfyLcLUciL+46droy9ot7AXFemvpaQYGO16fKX3uq25mQa3ojHrO4TERaX
+	 eLwnE4SXayKgHiS2LOwk+i48aO453XIiz9IQmnd+NO8IszLnnv4omFBvgbv2ggMwaJ
+	 F1FzK4NuGSRu1v5+qdozQKmE6Ij5z/gZrwOGc7M7Pmp/vxid1CeTqrNW3Pps6aOogS
+	 9yTjdGOJYubBQ==
+Date: Mon, 4 May 2026 14:54:27 -0300
+From: Arnaldo Carvalho de Melo <acme@kernel.org>
+To: Ian Rogers <irogers@google.com>
+Cc: linux-perf-users@vger.kernel.org, Namhyung Kim <namhyung@kernel.org>,
+	sashiko@lists.linux.dev
+Subject: Re: [PATCH v5 9/9] perf debuginfo: Fix libdw API contract violations
+Message-ID: <afjdU9yZ5WYNgyc5@x1>
+References: <20260504081227.2203848-10-irogers@google.com>
+ <20260504105301.29676C2BCB8@smtp.kernel.org>
+ <CAP-5=fUuqcGCgpZApHbqpP8hxs2Y+FYU2W=h1T0D4qgdhOfdBw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <afhPkLynt7vS793r@wunner.de>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAP-5=fUuqcGCgpZApHbqpP8hxs2Y+FYU2W=h1T0D4qgdhOfdBw@mail.gmail.com>
 
-[+cc Mario]
+On Mon, May 04, 2026 at 08:26:34AM -0700, Ian Rogers wrote:
+> On Mon, May 4, 2026 at 3:53 AM <sashiko-bot@kernel.org> wrote:
+> >
+> > Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
+> > - [Critical] This problem wasn't introduced by this patch, but the open() call in debuginfo__init_offline_dwarf() lacks the O_NONBLOCK flag, exposing a local Denial of Service (DoS) vulnerability.
+> > --
+> >
+> > commit a6e339ae66465b909762a437f958cdaed424b666
+> > Author: Ian Rogers <irogers@google.com>
+> >
+> > perf debuginfo: Fix libdw API contract violations
+> >
+> > This commit adds return value checks for dwfl_report_end and
+> > dwfl_module_relocation_info to prevent potential segmentation faults. It also
+> > fixes a file descriptor leak in the error path of
+> > debuginfo__init_offline_dwarf() when offline initialization fails.
+> >
+> > > diff --git a/tools/perf/util/debuginfo.c b/tools/perf/util/debuginfo.c
+> > > index 0e35c13abd04..84a78b30ceac 100644
+> > > --- a/tools/perf/util/debuginfo.c
+> > > +++ b/tools/perf/util/debuginfo.c
+> > > @@ -42,6 +42,7 @@ static int debuginfo__init_offline_dwarf(struct debuginfo *dbg,
+> > >  {
+> > >       GElf_Addr dummy;
+> > >       int fd;
+> > > +     bool fd_consumed = false;
+> > >
+> > >       fd = open(path, O_RDONLY);
+> >
+> > While this wasn't introduced by this patch, could this open() call cause a
+> > regression by hanging on a FIFO?
+> >
+> > If the path originates from user-controlled sources, opening it without
+> > O_NONBLOCK can cause the perf record session to hang indefinitely. Using
+> > O_RDONLY | O_NONBLOCK would prevent this.
+> 
+> So this review is bad and based on this prompt:
+> https://github.com/masoncl/review-prompts/blob/main/kernel/subsystem/perf.md#file-io-safety-on-untrusted-paths
+> 
+> I'm trying to get the bad prompt removed. The prompt was automatically
+> generated from fixes commits when we added O_NONBLOCK to address build
+> ID reading hangs, particularly for data mmaps during perf record
+> synthesis. We now avoid those hangs by checking for a "regular" file
+> with stat. Therefore, the advice regarding O_NONBLOCK and EINTR from
+> the prompts is incorrect and does not reflect what the code base does.
+> 
+> Side note: this is the only Sashiko feedback on this series:
+> https://sashiko.dev/#/patchset/20260504081227.2203848-1-irogers%40google.com
 
-On Mon, May 04, 2026 at 09:49:36AM +0200, Lukas Wunner wrote:
-> On Sun, May 03, 2026 at 01:51:08PM +0000, sashiko-bot@kernel.org wrote:
-> > Thank you for your contribution! Sashiko AI review found 1 potential
-> > issue(s) to consider:
-> > - [High] Removing the read-back and retry loop for BAR restoration in
-> > `pci_restore_state()` introduces a risk of silent regressions for
-> > hardware resuming from non-FLR resets (such as D3hot to D0 transitions
-> > or custom driver resets). The commit incorrectly assumes the 60s delay
-> > from `pci_dev_wait()` covers all usages, but standard PM resume paths
-> > only delay for 10ms (`PCI_PM_D3_WAIT`) before calling `pci_restore_state()`.
-> > Historically, hardware that needed slightly longer to accept
-> > configuration writes relied on the 10x 1ms retry loop to successfully
-> > restore BARs. By removing both the retry and the read-back verification,
-> > BAR writes to slow devices will be silently dropped, leaving hardware
-> > unconfigured and causing MMIO accesses to result in IOMMU faults or
-> > kernel crashes.
-> 
-> Hallucination alert:
-> 
-> PCI_PM_D3_WAIT does not exist, it was renamed to PCI_PM_D3HOT_WAIT
-> six years ago by commit 3789af9a13e5, which went into v5.10.
-> 
-> The macro is used in:
-> 
-> pci_pm_resume_noirq()
->   pci_pm_default_resume_early()
->     pci_pm_power_up_and_verify_state()
->       pci_power_up()
->         pci_dev_d3_sleep()
-> 
-> However before pci_power_up() calls pci_dev_d3_sleep(), it reads
-> the PMCSR register and errors out if config space is inaccessible.
-> 
-> Hence when pci_restore_state() is invoked a bit later, config space
-> can be assumed to be accessible.
+I'll process it soon,
 
-I don't quite follow this.  In this path, pci_power_up() changes a
-device from some low-power state to D0.  If the device was in D3hot or
-D3cold, we must delay at least 10ms before any access to it (PCIe
-r7.0, sec 5.9).  pci_power_up() doesn't do any delay before the PMCSR
-read.  That part seems like a pre-existing issue even before this
-patch.
-
-If the PMCSR read returns PCI_POSSIBLE_ERROR(), pci_power_up() does
-complain "Unable to change power state ... to D0" and return -EIO, but
-pci_pm_power_up_and_verify_state() doesn't look at it, and
-pci_pm_default_resume_early() continues on to pci_restore_state(), so
-it looks to me like we could try to restore state to an inaccessible
-device.
-
-We do call pci_dev_wait() in pci_pm_reset(), which does a D3hot -> D0
-transition; shouldn't we do the same in pci_power_up()?
+- Arnaldo
