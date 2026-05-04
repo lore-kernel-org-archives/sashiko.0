@@ -1,138 +1,152 @@
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+Received: from mail-dl1-f53.google.com (mail-dl1-f53.google.com [74.125.82.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1CEE3DE420
-	for <sashiko@lists.linux.dev>; Mon,  4 May 2026 14:04:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A7263D9029
+	for <sashiko@lists.linux.dev>; Mon,  4 May 2026 14:07:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777903496; cv=none; b=itnDlwRRqej6WLo1bo2dkg87uycDkV6t+zRVgsxUWkmYhuGpjMxAQtLxE5BVbE3TE30YOX80UFZC1c3e+4AhrYgRKOMAhuUBqxmibEKsfcD5iGBRsTpgxCvxnlKa6EEb9devHxHv9olGdRlSW7OxLK+WfJozkJbJ8PbvU2k5/Ao=
+	t=1777903626; cv=none; b=AFc9TkT7Xt30nMrzs6Q/Cpas0gCcgSQ3AIvpBcG3wPohy7dDmLITJFRL03sLPwOhJ4ygQ75M7PxCEDiaEm7gMvCyAlKiDP3pYaZYzEeUZly34oGTmMEMVLGZPR6KoCQeUwEYKSSnx/cu0Vw7hQUt0rN0BFz+9+SJ+SCaEYEqgdY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777903496; c=relaxed/simple;
-	bh=e5A7TNuClHv+JZ1tGkRV2KbMiHhdOQnVozYbGaniwbU=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:To:From:Subject:
-	 References:In-Reply-To; b=F2lQJxOFPZtF2DpVGLWwTbaEfeEPjKvxdtwGfp9uxBLak+NAV+oNo92rTgTsfdXk/F72v2xBrDqnE3hmt4GSyOM6Zz15p6TAkjPrfvIl72CCP7KUAq4Z4wxfRNfHzRn9ZhRoIFmSFZ6wB6QBF6c9NpW81ZcnC/x8oRb1Bvb6GsI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=Vz7py2tW; arc=none smtp.client-ip=209.85.208.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1777903626; c=relaxed/simple;
+	bh=p4TNWXFzxSZPs+w/zTaBL/06Fie+A/+SzSybmOLSStU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DVxeesxEtEwpOt9/rsBEM6HTmbktwOovyXewYvilOej0IKw0ryMcdg/vETFc7/IYxg38AAWE2TDKJOLmsiEp1HPnvKja5/6fnmLM0/HLYOjyPjVxuig6vvSPtmw8E/q/nzD5G3wtIsFE05hQWegW3CGCwOih14oiU2oglOxFs+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X/ecj74T; arc=none smtp.client-ip=74.125.82.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="Vz7py2tW"
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-38e7d983f79so41658001fa.0
-        for <sashiko@lists.linux.dev>; Mon, 04 May 2026 07:04:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X/ecj74T"
+Received: by mail-dl1-f53.google.com with SMTP id a92af1059eb24-12713e56abdso2844348c88.1
+        for <sashiko@lists.linux.dev>; Mon, 04 May 2026 07:07:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1777903492; x=1778508292; darn=lists.linux.dev;
-        h=in-reply-to:references:subject:from:to:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=83bjCd7DYBvN7wEuphGjy3Mtk7MEDyYzlTQwjp3YiJg=;
-        b=Vz7py2tWuzLz2QUO8g81cudVrSU0v79n9fDTr1C9kwwCp1Nuhkbk61CEkXb/P8aqfQ
-         Mcje50gFzDXAzzRUJ9ENvpzVEFcFyoG1XX3zwm//LGoPmTkgsKKaY/eHNBGBWgBJbDKM
-         p0W5ue9x+8/L6F3SJGTOvbp9LYeVAwl3RT3QIZeaKVxylxxpLoyrTmvhehbFnLY+oMPy
-         3q5rqDL3LISnW4HKSqf4EqIWTifza4BK5BSdB9jILP/2gu32beFefaIQPYhFJ7/KwpCX
-         lCmWz15v6eZp7b/pViMyugVQpvz8E/w7/glkS7wjRo/ONwQ7B9cu1K8h86FMtW1nM/hH
-         Dkwg==
+        d=gmail.com; s=20251104; t=1777903625; x=1778508425; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=5SodUFa5OKjCfXMMyR31CKP2Q/lfXpF4gL//OT3nY2c=;
+        b=X/ecj74T3J0tvWYWsae/cDO+1iuv4Wr6tu+83ZoRotsyUhNxXPFT8ObtEtCSfFcdkp
+         Rn/V9TMZzEcrLGZigy1vFwnTfQ+JMixLGMVkXvvqoCs59zoZjnq3yBWkAsKIoL5rXbsn
+         osWHTOQoGWpW7m6z54j842YrAeNDxWWFHNevxx/roxnIiJ5W/93wrHTmRxr6LjQB4cMH
+         LYlwhjQTstJDJzC72+zyMxeW8E2/hRzaa76M6a1Jqig8lakwbEc2uB9J2edfWOalCVAY
+         tYE4uppklPTpnuV6x90gEULrpklOzt71TYGq/ZJF5dh6OCpeMPaMbxIx+/gTgEkgTMX9
+         1aYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777903492; x=1778508292;
-        h=in-reply-to:references:subject:from:to:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=83bjCd7DYBvN7wEuphGjy3Mtk7MEDyYzlTQwjp3YiJg=;
-        b=rgAJQ7gTko1mgYscYVR9P/im7Ha/UrqZBKU6xkNbwUINNs72q+JQIk3AtiChOttGTm
-         X14UD93hzSU5wHchYv94hAG07XF431FLfZAf4vBjH94GS8n8sBEaMp/UV9kmlp7zw6Rk
-         fwW6LKJJWAr3DpEifTGxQNCb4YgEmfILcEtn5Stw5UmTjAGkDunruVkbe+bwRgQD7+D9
-         NpbOCdZ3SzxbCMToJh2K1iHTQdXfIdMGMb5MwZQnqEoJGR6MyWG5ZpaijB0BBNcg46V8
-         PfIF6L+NGH2yN3Nw5Gbrvb62ZyTfQ13F/Z+BTgdLmABjX/VM0qzubHrd+rLeGUlf0vWA
-         Ypkw==
-X-Gm-Message-State: AOJu0YzsGro0ZmifSYAR3mL3lynjNqwMh13GHvMLpXrx6Ibzz8TrdJE7
-	cB36HR1uiXJGhkynR/YjBtIpG4YnYjmKJo3aDTE5OpHR3L4BK7UNxarvpXk3s10Pvfw0Vy8fdss
-	2AEE/KT4=
-X-Gm-Gg: AeBDiesUc03T5gp+KLEqDiDcBeIxlSAZDvmDmI6YsVczb8+tFFZ+esvmFEjZBtCqvIw
-	+hUP9fB/z8bPqp84PJlY6MIlxwRpkwaSMdNUStxlHx6D643osemYsCp4FY2PNA+gPk7map7i1pW
-	YPiMa9qsn4/p+dxZ+s/V7coJVM+njJ7cFsVPK+hfsuHp8/jB4PWRNxHIYi9uDKamhIKxW5rTEA+
-	KCe18lYygyMXT5rt3QaA4E+j2+8dmALX0ddF9TueVnEA/W+td0/i5qbiYbVW0QUOQZStYRbA2a1
-	YNZgo593yWXRPGlNN2tD/QsiHaa49QfvZ/DTsTp1KAO+KjGDDS4OZt+CRN96W4A7ECNA/57Emrd
-	ip7KEa2VUyiOmIBzK/3iAW5ehXfyFym03L4Wr26bb956p6ygs1FvZA3FN9cwFGOmDODMjR5Ox61
-	Z18AdQyUOrOgt5udoeXciXtA==
-X-Received: by 2002:a05:651c:3242:b0:393:9579:2683 with SMTP id 38308e7fff4ca-39395792925mr16892061fa.5.1777903491730;
-        Mon, 04 May 2026 07:04:51 -0700 (PDT)
-Received: from localhost ([2804:7f0:b765:1294:2ecf:67ff:fe81:9da0])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-62bfd8b5886sm5727147137.8.2026.05.04.07.04.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 May 2026 07:04:50 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1777903625; x=1778508425;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5SodUFa5OKjCfXMMyR31CKP2Q/lfXpF4gL//OT3nY2c=;
+        b=YR7iVU75OI6kJWVkbEIx6Y/cbfVdrUTXJ3WJhyjmDlM0zrZxBS/+DgY1Hi9kdbvvsn
+         By57dThOelYmBD/iceQ168fVQPA/n2HOuTxrHggQahrJZ4LKotg+gdRW2n/IVk+a8ux8
+         zTLP3DRmJO8Qiss6mlJzcFavPklW6z/Vr0pw6D72fwtGc8ztWOTUlmgtibxZiM6E06mI
+         pck0H5s6bCnmm6gGTJEhi+3XDaMJXLeMPlLyYEdfPI6GZwMxZSPexknew61Zzjx0icOC
+         VKtY/YmqMX1rMq3eHp61jH49Z/TNNoYeyL5H/w2OyYNvyHc1FHRkBpDaRvcSfgO8SYE9
+         Aaog==
+X-Forwarded-Encrypted: i=1; AFNElJ9IuVJBdnDC4XfIpMsIL+klrhWubMbTZD6mo0a1uab+1wunOmadMrbYOopCYL9dfmcqEM/7IBZu@lists.linux.dev
+X-Gm-Message-State: AOJu0YxvLmfqHz2PvCJ89Y2l94M9gPB9DKXyXH/S0zM4l/qJquf3XvEc
+	um+PjJ75RoophNqshFS9jI4Z+ONv+rol/6zeB+wERAAAOEHS6nWK9YWu
+X-Gm-Gg: AeBDiestQb9/wmC61Dh6dVj3iv/YfFm9L2z5bavN61dCM1y2gQ1BsAE15mdII8DopyB
+	NOiHWGzYmYds8WHAAKD3a7aFuZW4ApQP08lB6lhQjPGBJ/0Je6PaUkNSUUYBEsYmQE0irGsmeH3
+	2VxRc3pOqIaglRC2fp5w4ZT6+VrdXLQG3Ma4EowQAfmxANd25hD935Yars1mNBlO7yF6PmjMQek
+	S4o1qv+zO2Hg9FdcXSeFvpXXgdYD+vPBLNWeMLu0HuHqlfdHHYGeOWjT7YSjakWyToXkhvZJu2d
+	uffWx3ygk2vRN6dXw40+L8OkDIvB0rFoV4YK1ZK9oAhLz2gcqr5Z096WWGmG8BvY1lAYno11lU8
+	u1SJUcnrGe2iEUy/5o59BrhPPBt26vq5ik4xfAHsHrnJ+YpGc1Z7IjJHXDgNUon8jcpPsMV35i/
+	1guxx0kIOuiuJhCUo1EUPho6sSb4bFVBLqie2/qh9aZvieN/BdfwnWKlbgzZXqFN+RO/uWfhl5r
+	1xSUtWRp84=
+X-Received: by 2002:a05:7022:60b:b0:12c:9037:5115 with SMTP id a92af1059eb24-12dfd596e21mr3853981c88.13.1777903624413;
+        Mon, 04 May 2026 07:07:04 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12df8424ef1sm20329083c88.9.2026.05.04.07.07.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 May 2026 07:07:03 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <fa76f946-f943-418b-a06a-b36b001c14a0@roeck-us.net>
+Date: Mon, 4 May 2026 07:07:02 -0700
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 04 May 2026 11:04:48 -0300
-Message-Id: <DI9Y6R84C029.16EELKNHG5NEL@suse.com>
-Cc: <bpf@vger.kernel.org>
-To: <sashiko@lists.linux.dev>, =?utf-8?b?UmljYXJkbyBCLiBNYXJsacOocmU=?=
- <rbm@suse.com>
-From: =?utf-8?b?UmljYXJkbyBCLiBNYXJsacOocmU=?= <rbm@suse.com>
-Subject: Re: [PATCH bpf-next v11 09/11] selftests/bpf: Tolerate benchmark
- build failures
-X-Mailer: aerc 0.21.0-120-g22b95d38161f
-References: <20260430-selftests-bpf_misconfig-v11-9-e11f7a8c4fdc@suse.com>
- <20260430163852.E33CCC2BCB3@smtp.kernel.org>
-In-Reply-To: <20260430163852.E33CCC2BCB3@smtp.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: AW: [PATCH 1/6] watchdog: Fix wrong SPDX license identifier
+To: Philipp Hahn <p.hahn@fritz.com>,
+ "sashiko@lists.linux.dev" <sashiko@lists.linux.dev>
+Cc: "linux-watchdog@vger.kernel.org" <linux-watchdog@vger.kernel.org>
+References: <5557c8ab4a62750c95631f6f78be7d2b11e091fc.1777892508.git.phahn-oss@avm.de>
+ <20260504111735.3D387C2BCB8@smtp.kernel.org>
+ <232833f9-5542-4f4c-9bdd-92f72b0597d3@roeck-us.net>
+ <FR3P281MB22523AF9022B4059696D33BF97312@FR3P281MB2252.DEUP281.PROD.OUTLOOK.COM>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <FR3P281MB22523AF9022B4059696D33BF97312@FR3P281MB2252.DEUP281.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Thu Apr 30, 2026 at 1:38 PM -03, sashiko-bot wrote:
-> Thank you for your contribution! Sashiko AI review found 1 potential issu=
-e(s) to consider:
-> - [Medium] Skipping the 'bench' binary compilation will cause 'make insta=
-ll' to abort.
-> --
->
-> commit 17b45ab67f584992f6ac2a400e83d514968d8c98
-> Author: Ricardo B. Marli=C3=A8re <rbm@suse.com>
->
-> selftests/bpf: Tolerate benchmark build failures
->
-> This commit allows benchmark object compilation and final bench linking t=
-o
-> be non-fatal when PERMISSIVE is set. It emits a skip message and removes
-> the failed outputs so stale binaries are not reused by incremental builds=
-.
->
->> diff --git a/tools/testing/selftests/bpf/Makefile b/tools/testing/selfte=
-sts/bpf/Makefile
->> index 04634e6e0661e..a460f2ad3cffa 100644
->> --- a/tools/testing/selftests/bpf/Makefile
->> +++ b/tools/testing/selftests/bpf/Makefile
->
-> [ ... ]
->
->> @@ -988,7 +989,8 @@ $(OUTPUT)/bench: $(OUTPUT)/bench.o \
->>  		 $(OUTPUT)/usdt_2.o \
->>  		 #
->>  	$(call msg,BINARY,,$@)
->> -	$(Q)$(CC) $(CFLAGS) $(LDFLAGS) $(filter %.a %.o,$^) $(LDLIBS) -o $@
->> +	$(Q)$(CC) $(CFLAGS) $(LDFLAGS) $(filter %.a %.o,$^) $(LDLIBS) -o $@ $(=
-if $(PERMISSIVE),|| \
->> +		($(RM) $@; printf '  %-12s %s\n' 'SKIP-LINK' '$(notdir $@) (some benc=
-hmarks may have been skipped)' 1>&2))
->
-> Will removing the target via $(RM) $@ here cause make install to abort?
+On 5/4/26 06:52, Philipp Hahn wrote:
+> Hello Guenher,
+> 
+>> linux-next$ scripts/checkpatch.pl --strict -f Documentation/watchdog/index.rst
+>> total: 0 errors, 0 warnings, 0 checks, 18 lines checked
+>>
+>> Documentation/watchdog/index.rst has no obvious style problems and is ready for submission.
+> 
+> Sorry for the wrong file, but it was …/wdt.rst which `checkpatch` complained about.
+> 
+>> Please refrain from unnecessary churn, and from making false statements
+>> ("to silence checkpatch").
+> 
+> Sorry for that, v2 is on its way.
+> 
+> Thank you for your mail and sorry for the extra work.
+> 
 
-This is a non issue for the default BPF_STRICT_BUILD=3D1 case.
+By sending v2 without giving me a chance to finish reviewing v1 you did create
+even more extra work :-(
 
->
-> The bench binary is registered in the TEST_GEN_PROGS_EXTENDED variable in=
- the
-> BPF Makefile. The selftests framework (via tools/testing/selftests/lib.mk=
-)
-> unconditionally attempts to install all files in this list using rsync.
->
-> Because lib.mk does not use the --ignore-missing-args flag for this targe=
-t,
-> rsync will fail to find the bench binary if it was skipped (and thus
-> removed) during a permissive build. This non-zero exit status from rsync
-> would break the make install step.
->
-> I note this is addressed later in the series by commit 99f5f021f0516
-> (selftests/bpf: Tolerate missing files during install).
+Guenter
 
-Yes.
