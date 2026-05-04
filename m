@@ -1,221 +1,92 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailout2.hostsharing.net (mailout2.hostsharing.net [83.223.78.233])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF82A34A788
-	for <sashiko@lists.linux.dev>; Sun,  3 May 2026 19:06:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D23A30FC1D
+	for <sashiko@lists.linux.dev>; Mon,  4 May 2026 07:49:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.223.78.233
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777835210; cv=none; b=cqizpICAT3jCkqlOzBwZGHA/r1gB5De+ikmvEPA3+7VnrcjMi13FEkFMStwT0/9np0T0qr5XmkYMezJbZGP3eA8L8UireEODY5pUpVLRxv3yY0kuEAa9XwlsaQTe88rJySUcHfZfMTqLwk9URQBggEybK+umAtDL2/V7hjg+K78=
+	t=1777880982; cv=none; b=EC3PubSrXJBKyzdn4FN1nEdvr79NdLV8wc9TAcivqMsjFaVHoAsZMOLu4w80InGYxrVTo/bhZ6wRwpeM//C2yQnUHieygE2k8TkCyFGIXsFTHWq0gCosl2nn6mvZ8pGV2Hb97fSbhkz/xafAC/zGcmccaouOj5LHW79+VsPHzRw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777835210; c=relaxed/simple;
-	bh=0B60y2qvx4+XQ9VT6ZUsckD8QN/DX+O38rCAwjIziBM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WGC8k4FHSRmxsMNkhajnC+ZEpfqNFoxsL0grpg1DemINnUyoMjwffTcm5oLt9hL4uQnGjnFkzwdtZQuMgXhLFuwIHbbtA0HcSJ+bxPXwEbmZALMfsOzRAd+syttsVxASp5fG6oDzoajwgmUmAN64QMZYbcD7MZ6EgMz0FQa/dEI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gMWKVeRY; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gMWKVeRY"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-82fbdd60b64so2448035b3a.3
-        for <sashiko@lists.linux.dev>; Sun, 03 May 2026 12:06:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777835209; x=1778440009; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=aYI69VkKb46E86EGHCz5JQrt83BRbU6+MA3R48V95bs=;
-        b=gMWKVeRYeESNGVGtkUKiWFIRZ2/uN5QRZssaE/HTU55oa7h79daKbobN5XDkn4A15k
-         DuJtEwDZTfpyPXuGg6LfS8aRxQjCY/LcvqI9iYOMso1hWeVIqSQUvh6JMbQDyeVsg1aY
-         zs3BXWoOmVwDzwXvEvY2RhaKqilMBAcZEWrHWQhNsJPBH3LG1MAfnE4i7VgLdjbG/srk
-         9GWSZ8pRnWCn5wFGUebTf3f0DCYuq5qdMxlfxoXnxqP9vAMugAVIPP4XH1rz6NOneKnF
-         055i10Enoa/dxa8nyKhRGK95N0rUUCqMc2ncd5qjr8WmfhtKc1nWp40mkzMlZHldk4jr
-         8dYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777835209; x=1778440009;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aYI69VkKb46E86EGHCz5JQrt83BRbU6+MA3R48V95bs=;
-        b=XX5qZCLXs0l+aBL805qKZke8UGWk1W0fNZ6rXy5tQmatoYARl2srH32Im9YnMJNVe6
-         JxaYXN+ZZWNOQTsZVj3Eei0urCOMbaFlA5zI3a+HX1qjOZxaslXTWkZnzR2xepAI7LzK
-         IEtvPErc7LhdVGhr2mm82JLKDuP0SXSZSmqB98Q1DHX/b+Nulr+Ul/rNRmaXJfYrlh0r
-         i3ORv/l67JG0/jdWhXqoe0sZ3+myN6UaFBplFEuU1abzW6YxBuWEvgxMVnPxXdw6G68X
-         KhM8UtgB/HcL1u+eBxAkfI5JG1E21OSZOl5iz7OLYYr7rxksIVFmOV9+QTeBZPRK+u/r
-         sLHA==
-X-Gm-Message-State: AOJu0YyhmPfHGTBaQNuuKERH1K9x67aqzVc9V0FQ+Nl2Q/66hzqvAakv
-	92VWbVLKU+po/MRyK5NqAm8C4fp3Q+0ZUlq4GpNTGoNosYefAhnlpBHJBxNIVg==
-X-Gm-Gg: AeBDiestzSQjzwidA+3GhBIHwtg+F1mbR7VFQ4VpRjJfBjlOpU98wp4896D6FNzcAeN
-	ykRrW6C3fUa0c8tyXtVOHbq+kBapbhoB4qwD+01tB9t1ksGLSVTGYEwnEDLvbSwc8bhOlhRGJz2
-	RnGOnDLyH0rqjMbtweITXhrfAtUk0ZxeQ5cWazVbd7YDDXf7CCaBXEm/NgfLb7WPtA83HjHzw3q
-	29Ts33uJofBlhHdFFhKunMiRB7m20UM2pLHPtCJWFId42RXYAv4UhOBHOjeWViT9O+spAR3x5W0
-	ayXQYb4GEKmbEsCzdT+ajfoJcYJnlm58DPAC2VrvkEi7lpNB8RxRrOGnZ3ZNoJYOcRJMWxFgQXn
-	tOSyJOS6BHw6RLGGkO7saMZnV9OMN6xUrF1p69m2z8J/Kw0QSeHTZv6ThRqKYGocbCW9u6UsV07
-	VFh1KkHy76tgxMtU5cWUmKC6Tab6UI+TntBNVs/b6vePz08xZRAxp16QJlKQac6PIYxXrYkqPqi
-	7pp06qOsOc=
-X-Received: by 2002:a05:6a00:aa8c:b0:823:1c5f:1c43 with SMTP id d2e1a72fcca58-8352d2b63dbmr6574196b3a.36.1777835208714;
-        Sun, 03 May 2026 12:06:48 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83515b5b921sm10478298b3a.54.2026.05.03.12.06.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 03 May 2026 12:06:48 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <486ff558-d1c3-46a0-8688-50a5d318d967@roeck-us.net>
-Date: Sun, 3 May 2026 12:06:47 -0700
+	s=arc-20240116; t=1777880982; c=relaxed/simple;
+	bh=iyd9zb129Pnm+iwV0/zcRqQV5H+vblJWszUxZPv1rlQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SyPzyPJDIdk4ua8LLRGPU4rpEYjl5L2PqD9YF3tPlfvC23bP2Bg7xtDpIu5aXg5wHq80v4SLorM00wWo/2wPCcErfFnDHFQUNreIK1Ku+r4m2Ym+y4Vt+qWC6y9I6e64SCEFpISybyo4cJzI/HLXVFoFkYfRwPCHtRat2h3ez4M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de; spf=pass smtp.mailfrom=wunner.de; arc=none smtp.client-ip=83.223.78.233
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wunner.de
+Received: from h08.hostsharing.net (h08.hostsharing.net [IPv6:2a01:37:1000::53df:5f1c:0])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature ECDSA (secp384r1) server-digest SHA384
+	 client-signature ECDSA (secp384r1) client-digest SHA384)
+	(Client CN "*.hostsharing.net", Issuer "GlobalSign GCC R6 AlphaSSL CA 2025" (verified OK))
+	by mailout2.hostsharing.net (Postfix) with ESMTPS id D6BC910DDB;
+	Mon, 04 May 2026 09:49:36 +0200 (CEST)
+Received: by h08.hostsharing.net (Postfix, from userid 100393)
+	id B74046019647; Mon,  4 May 2026 09:49:36 +0200 (CEST)
+Date: Mon, 4 May 2026 09:49:36 +0200
+From: Lukas Wunner <lukas@wunner.de>
+To: sashiko-bot@kernel.org
+Cc: linux-pci@vger.kernel.org, sashiko@lists.linux.dev,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	Marco Nenciarini <mnencia@kcore.it>,
+	Michal Winiarski <michal.winiarski@intel.com>,
+	Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Eric Chanudet <echanude@redhat.com>,
+	Jean Guyader <jean.guyader@gmail.com>,
+	Alex Williamson <alex@shazbot.org>, Sinan Kaya <okaya@kernel.org>
+Subject: Re: [PATCH] PCI: Drop unnecessary retries when restoring BARs
+Message-ID: <afhPkLynt7vS793r@wunner.de>
+References: <785c98b50a7a00d0698848c75d51b8f5669ad18f.1777814679.git.lukas@wunner.de>
+ <20260503135109.46193C2BCB4@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] hwmon: (lm75) Support active-high alert polarity
-To: sashiko@lists.linux.dev, Markus Stockhausen <markus.stockhausen@gmx.de>
-Cc: linux-hwmon@vger.kernel.org
-References: <20260502190408.3577731-3-markus.stockhausen@gmx.de>
- <20260502193627.3F9C4C19425@smtp.kernel.org>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20260502193627.3F9C4C19425@smtp.kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260503135109.46193C2BCB4@smtp.kernel.org>
 
-On 5/2/26 12:36, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 3 potential issue(s) to consider:
-> - [High] The alert polarity configuration is silently ignored by the hardware because the new polarity bit is omitted from the register update mask.
-> - [High] For devices with 16-bit configuration registers, the polarity bit is incorrectly shifted into the wrong byte, modifying a reserved hardware bit instead of the polarity bit.
-> - [Low] The patch directly uses the Device Tree specific `of_property_read_bool()` API instead of the firmware-agnostic `device_property_read_bool()`.
-> --
-> 
-> commit 80ab4767c4e330cd441a8b4dcd804fcd1dec493b
-> Author: Markus Stockhausen <markus.stockhausen@gmx.de>
-> 
-> hwmon: (lm75) Support active-high alert polarity
-> 
-> LM75 devices supported by this driver support configurable active-high
-> alert polarity. This is already documented in the devicetree description.
-> Add support for it to the driver.
-> 
->> diff --git a/drivers/hwmon/lm75.c b/drivers/hwmon/lm75.c
->> index f1a1e5b888f6..d5a14a3b2820 100644
->> --- a/drivers/hwmon/lm75.c
->> +++ b/drivers/hwmon/lm75.c
->> @@ -123,7 +123,9 @@ struct lm75_data {
->>   
->>   static const u8 lm75_sample_set_masks[] = { 0 << 5, 1 << 5, 2 << 5, 3 << 5 };
->>   
->> -#define LM75_SAMPLE_CLEAR_MASK	(3 << 5)
->> +#define LM75_ALERT_POLARITY_HIGH_8_BIT	(BIT(2))
->> +#define LM75_ALERT_POLARITY_HIGH_16_BIT	(BIT(2) << 8)
-> 
-> Does this shift target the correct byte for 16-bit registers?
-> 
-> Because the hardware typically expects the first transmitted byte to be the
-> most significant byte of its configuration register (which contains the POL bit
-> at bit 2), and i2c_smbus_write_word_data() transmits the least significant
-> byte first, the POL bit might need to remain in the LSB of the logical value
-> (BIT(2)).
-> 
-> By shifting it by 8 bits, does this target the MSB of the value, which maps
-> to the LSB of the hardware register, potentially modifying a reserved bit
-> instead of the polarity?
-> 
-Ignore.
+On Sun, May 03, 2026 at 01:51:08PM +0000, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 1 potential
+> issue(s) to consider:
+> - [High] Removing the read-back and retry loop for BAR restoration in
+> `pci_restore_state()` introduces a risk of silent regressions for
+> hardware resuming from non-FLR resets (such as D3hot to D0 transitions
+> or custom driver resets). The commit incorrectly assumes the 60s delay
+> from `pci_dev_wait()` covers all usages, but standard PM resume paths
+> only delay for 10ms (`PCI_PM_D3_WAIT`) before calling `pci_restore_state()`.
+> Historically, hardware that needed slightly longer to accept
+> configuration writes relied on the 10x 1ms retry loop to successfully
+> restore BARs. By removing both the retry and the read-back verification,
+> BAR writes to slow devices will be silently dropped, leaving hardware
+> unconfigured and causing MMIO accesses to result in IOMMU faults or
+> kernel crashes.
 
->> +#define LM75_SAMPLE_CLEAR_MASK		(3 << 5)
->>   
-> 
-> [ ... ]
-> 
->> @@ -762,8 +765,15 @@ static int lm75_generic_probe(struct device *dev, const char *name,
->>   		return err;
->>   	data->orig_conf = status;
->>   
->> -	err = lm75_write_config(data, data->params->set_mask,
->> -				data->params->clr_mask);
->> +	set_mask = data->params->set_mask;
->> +	if (of_property_read_bool(dev->of_node, "ti,alert-polarity-active-high")) {
-> 
-> Could we use device_property_read_bool() here instead?
-> 
-> The probe function already uses device_property_read_string() to read the label
-> property earlier. Hardcoding the Device Tree specific API here breaks
-> consistency and prevents the active-high polarity feature from working on
-> systems using ACPI or software nodes.
-> 
-Please use device_property_read_bool().
+Hallucination alert:
 
->> +		if (!data->params->config_reg_16bits)
->> +			set_mask |= LM75_ALERT_POLARITY_HIGH_8_BIT;
->> +		else
->> +			set_mask |= LM75_ALERT_POLARITY_HIGH_16_BIT;
->> +	}
->> +
->> +	err = lm75_write_config(data, set_mask, data->params->clr_mask);
-> 
-> Are we missing an update to the clear mask?
-> 
-> When we pass data->params->clr_mask into lm75_write_config():
-> 
-> drivers/hwmon/lm75.c:lm75_write_config() {
-> 	return regmap_update_bits(data->regmap, LM75_REG_CONF,
-> 				  clr_mask | LM75_SHUTDOWN, set_mask);
-> }
-> 
-> The regmap_update_bits() function uses clr_mask | LM75_SHUTDOWN as the mask
-> of bits to modify. Since the newly added polarity bit isn't included in the
-> mask, is the alert polarity configuration silently ignored by the hardware?
-> 
-> If the device tree configures the interrupt controller for an active-high
-> signal but the sensor remains in its default active-low state, could this
-> lead to an unhandled interrupt storm?
-> 
-You'll have to pass the bit in clr_mask if the property is not set
-for consistency.
+PCI_PM_D3_WAIT does not exist, it was renamed to PCI_PM_D3HOT_WAIT
+six years ago by commit 3789af9a13e5, which went into v5.10.
+
+The macro is used in:
+
+pci_pm_resume_noirq()
+  pci_pm_default_resume_early()
+    pci_pm_power_up_and_verify_state()
+      pci_power_up()
+        pci_dev_d3_sleep()
+
+However before pci_power_up() calls pci_dev_d3_sleep(), it reads
+the PMCSR register and errors out if config space is inaccessible.
+
+Hence when pci_restore_state() is invoked a bit later, config space
+can be assumed to be accessible.
+
+sashiko reviews are a mixed bag, I think this one doesn't even reach
+junior developer level. :(
 
 Thanks,
-Guenter
 
+Lukas
