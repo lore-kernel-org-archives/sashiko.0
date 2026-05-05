@@ -1,117 +1,126 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34F12285066;
-	Tue,  5 May 2026 22:35:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 397A630ACE6
+	for <sashiko@lists.linux.dev>; Tue,  5 May 2026 23:12:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778020511; cv=none; b=ZvEg0SheEQkN/So8iFYl3d5YpB46mQ17u5+RTvpKzzgNe1f3/a6R9zti6DVXg7l3hs4Cs2vCIOh7u6vg1VaLoVdUiNyAIRz0pRKSN6E6SW+wyolSnh403gNfv6BLxI/QymLjFqOothMauNGuXs6+beVxNfGS4eMV+SdjcQj+nC8=
+	t=1778022743; cv=none; b=NB2ITYahN9OdDVS/0Z4ZMAoTi/xxgwoy2MxrndMACzY1wJlbpoCbC7jRea15lp/R+Rp+H8rvKMoi2/uWzJ1hErHbfPUxzBaDEQfGjQ6BLpBirZtXlmwniSg+1DqhH5JcGB4VkWlOMwYoYtLYEO8FLtr7b1CXJsjuN0Xt2p5jiso=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778020511; c=relaxed/simple;
-	bh=w6OTTCfPyCZr+g37wh6OMJntQU+LnbrUZIbyk9kla1w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CHz2lUzaAMI5Dz02pW7AR8Cyh1FytMtAMqTVeXvId+V3OxO9npYwf+5/OYlV1bo81rQhbxRZ5YlNBW8IZWYoM1qgVgqA+nzShVpNWHAO2VPbnkR4f+hqFqG/UpRITST0qWQWOfQqKCG0iSvbfxJgRL9LKBtKLFwklZjzMEFlr/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ph0uz4Cp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778022743; c=relaxed/simple;
+	bh=/aBM8KLN5n124JvBcwRy2RW+8Ga8nqgEjNS2jK7iyc0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=SC52a5R9UBAOf9KwIZFvt/wb7jkwuIRqtKpgAYxC4dGjy9/YutxOjDvKpp36ioheuQ6TpZx8pb6tJC8xVU9+OXKt+cikZsawq4HqcFElAWXi63qBo0HoRceuNeTuxq8EfeuXopRyhOq3ISVY92xvnUdTIpwcNWQf6bGQKu2HhgE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tHZjOL14; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ph0uz4Cp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA204C2BCB4;
-	Tue,  5 May 2026 22:35:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tHZjOL14"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEF58C2BCF4
+	for <sashiko@lists.linux.dev>; Tue,  5 May 2026 23:12:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778020510;
-	bh=w6OTTCfPyCZr+g37wh6OMJntQU+LnbrUZIbyk9kla1w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ph0uz4CpWQ720yfvpqVRFD28JgjmpTRa1zS9AmMs+6WlcrFPfO4hs0p2MkGu89vW4
-	 qdZPmCapJPO3RXfNoDV8U6GnEhQr0bqzYoj05ZkDu+lFpojXORUmCdHxNEpeltV/DD
-	 n0/g83ToyZcKTNnbmQbgEDlWEVn70gsrSC7sJF7/BH/UVgSrvIC01iob1+3g754Bvw
-	 rNr/VJfMg4K/s5iXxrFf1a4N1CufjQYujbTNdOEPOM2gHn/6BqEzPX5zZ9IMNHOMYJ
-	 CkVMaF04SI2YRpSWqs/6BloC/ItubHEUNLgxWqq+a4JSWeRsyGZhrfZ7IE0qUSx7jh
-	 oMGfNr+9QSv9w==
-Date: Tue, 5 May 2026 15:35:09 -0700
-From: Namhyung Kim <namhyung@kernel.org>
-To: sashiko@lists.linux.dev
-Cc: Suchit Karunakaran <suchitkarunakaran@gmail.com>, bpf@vger.kernel.org,
-	linux-perf-users@vger.kernel.org
-Subject: Re: [PATCH RESEND] perf/lock: Fix non-atomic max/time and min_time
- updates in contention_data
-Message-ID: <afpwnf5VfjxBgIhS@google.com>
-References: <20260504135138.17050-1-suchitkarunakaran@gmail.com>
- <20260504172338.6FA50C2BCB8@smtp.kernel.org>
+	s=k20201202; t=1778022742;
+	bh=/aBM8KLN5n124JvBcwRy2RW+8Ga8nqgEjNS2jK7iyc0=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=tHZjOL148wsIaE8eiTrqH2IcxoZJfF1cw0mzYYXZbdI2FV/cJc24virD6J9LQoUDR
+	 Fn4vJ4W54y0DDSf7bskUCukjDhfOHoEk2atUdaBkW0FifTqFtgby3FPI2mn9YbewFO
+	 fla9PwzsfF1O/WbUUML58JjorPW5Ok+GcCiqZs/XwXgR67zX34byCK15caMz64lZ2u
+	 98dZGUE3YOD0ONBJw3BmLoy4nHAlRLMQS8TrYXhSbN3dKTS8CsglOyta5YBhRFBvjH
+	 FHRj8FpMbwo6Sg708Lybc4OAiMopL4fCSxlBx/Rf0wgybotwr7tMJZg01G/mvp77lg
+	 JvOlj4wr02/UQ==
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-67bb5ad91bfso8456401a12.0
+        for <sashiko@lists.linux.dev>; Tue, 05 May 2026 16:12:22 -0700 (PDT)
+X-Gm-Message-State: AOJu0YwBKTww8yFkm1GbctNINEfuwnJ+B4ni0Y0b1zl/Des83vkZsleO
+	FrbBjGoGYNtQqDyLcPOR46VVolM7FXyPaUqL20IcCjF6c6+uBdYuupxWCNGTwsck2RN5ZVLhz1N
+	ftUPWyZ/jqwMYJGTYWekpyZnJqOisRg==
+X-Received: by 2002:a05:6402:2cd:b0:66e:6ac4:2c01 with SMTP id
+ 4fb4d7f45d1cf-67d63d7f325mr205355a12.2.1778022741413; Tue, 05 May 2026
+ 16:12:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260504172338.6FA50C2BCB8@smtp.kernel.org>
+References: <20260423085718.70762-2-akhilrajeev@nvidia.com>
+ <20260423112311.E2902C2BCAF@smtp.kernel.org> <20260505213248.GA4000045-robh@kernel.org>
+ <d357a7a0-920d-4ca6-82c0-c10a4a0a6db1@roeck-us.net>
+In-Reply-To: <d357a7a0-920d-4ca6-82c0-c10a4a0a6db1@roeck-us.net>
+From: Rob Herring <robh@kernel.org>
+Date: Tue, 5 May 2026 18:12:10 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqKuTog5TBxcbRNkmy30xCJ14z8tRAWFZ0e_acB98Tw6Tw@mail.gmail.com>
+X-Gm-Features: AVHnY4KmuDCnmY5_0ne636IYyR4CARaKYdy7iQlWDeuCKQXIm7zmM4UwqS8Tfks
+Message-ID: <CAL_JsqKuTog5TBxcbRNkmy30xCJ14z8tRAWFZ0e_acB98Tw6Tw@mail.gmail.com>
+Subject: Re: [PATCH v3 01/13] dt-bindings: i3c: Add mipi-i3c-static-method to
+ support SETAASA
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: sashiko@lists.linux.dev, Akhil R <akhilrajeev@nvidia.com>, 
+	linux-hwmon@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
+On Tue, May 5, 2026 at 5:17=E2=80=AFPM Guenter Roeck <linux@roeck-us.net> w=
+rote:
+>
+> On 5/5/26 14:32, Rob Herring wrote:
+> > On Thu, Apr 23, 2026 at 11:23:11AM +0000, sashiko-bot@kernel.org wrote:
+> >> Sashiko AI review found 3 potential issue(s):
+> >
+> > Does anyone read replies to the bot? If so, why was everyone hwmon list
 
-On Mon, May 04, 2026 at 05:23:37PM +0000, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
-> - [Low] The use of `__sync_val_compare_and_swap` introduces a compiler dependency on BPF ISA v3, breaking the `perf` tool build on older toolchains.
-> --
-> 
-> commit 30820839a2cfcfa987fbc2e0f79fa0e2f2cf0dc3
-> Author: Suchit Karunakaran <suchitkarunakaran@gmail.com>
-> 
-> perf/lock: Fix non-atomic max/time and min_time updates in contention_data
-> 
-> This commit replaces bare conditional assignments with a bpf_loop()-based CAS
-> retry loop to fix non-atomic updates of max_time and min_time.
-> 
-> > diff --git a/tools/perf/util/bpf_skel/lock_contention.bpf.c b/tools/perf/util/bpf_skel/lock_contention.bpf.c
-> > index 96e7d853b9edf..5c8431be674ac 100644
-> > --- a/tools/perf/util/bpf_skel/lock_contention.bpf.c
-> > +++ b/tools/perf/util/bpf_skel/lock_contention.bpf.c
-> [ ... ]
-> > @@ -486,16 +493,49 @@ static inline s32 get_owner_stack_id(u64 *stacktrace)
-> >  	return -1;
-> >  }
-> >  
-> > +static long cas_min_max_cb(u64 idx, void *arg)
-> > +{
-> > +	struct cas_ctx *ctx = arg;
-> > +
-> > +	if (!ctx->max_done) {
-> > +		u64 old_max = ctx->data->max_time;
-> > +		if (old_max >= ctx->duration) {
-> > +			ctx->max_done = 1;
-> > +		} else {
-> > +			u64 r = __sync_val_compare_and_swap(
-> > +				&ctx->data->max_time, old_max, ctx->duration);
-> 
-> Does this cause build failures on older toolchains?
-> 
-> The built-in __sync_val_compare_and_swap lowers to the BPF_CMPXCHG
-> instruction, which requires BPF CPU v3 (-mcpu=v3).
+everyone *but* the hwmon list...
 
-Hmm.. this looks like a real concern.  We could add -mcpu=v3 to the
-compiler option, but then there would be compatibility issues with old
-kernels.  It seems it's added in v5.1 kernel and the oldest longterm
-support kernel version is 5.10.  So I think it's fine to add it.
+> > dropped?
+> >
+>
+> It appears that people either complain about getting AI feedback, or
+> they complain that they don't. That is pretty much a lose-lose situation.
+> For patches sent to linux-hwmon, Sashiko is configured to respond only
+> to the mailing list and to the submitter in the hope to minimize the
+> "I do not want to see this" feedback. That matches the configuration
+> for several subsystems.
+>
+> As far as I can see it is not currently possible to limit AI review to
+> patches actually associated with the given subsystem if sent to that
+> subsystem's mailing list. I'll discuss with Roman to see if patches
+> like this one can be filtered out when reviewing patches sent to
+> hwmon mailing list.
 
-Could you please update the build flag as well?  It can be a separate
-commit.
+No, I want the replies. I was just wondering why it is not reply-all
+which is standard. I was also wondering why I was only sometimes
+seeing the reviews. I have since figured that out and submitted a PR
+to add DT. I set it to reply-all, so I guess there will be some
+comment about that.
 
-Thanks,
-Namhyung
+I don't think there's any solution if a patch hits 2 conflicting
+configurations. Surely the folks that don't want to see it can figure
+out how to delete or ignore emails... I have thousands of ignored
+emails. It's not hard. :)
 
-> 
-> The perf build system compiles BPF skeletons using the host compiler's default
-> target features, without explicitly passing an -mcpu flag. On toolchains
-> where the default BPF target is v1 or v2 (such as Clang < 18), the compiler
-> may fail to generate the instruction and throw a fatal error (e.g.,
-> 'hardware compare and swap not supported' or an unresolved libcall to
-> __sync_val_compare_and_swap_8).
-> 
-> > +			if (r == old_max)
-> > +				ctx->max_done = 1;
-> > +		}
-> > +	}
-> [ ... ]
-> 
-> -- 
-> Sashiko AI review · https://sashiko.dev/#/patchset/20260504135138.17050-1-suchitkarunakaran@gmail.com?part=1
+> >> - [Medium] The `mipi-i3c-static-method` schema incorrectly enforces `m=
+inimum: 0x1`, preventing devices from declaring no static address assignmen=
+t support.
+> >> - [Low] The `assigned-address` property description is now inaccurate =
+and contradicts the new capabilities.
+> >> - [Low] Missing macro definition for Bit 2 ('Other CCC') in `include/d=
+t-bindings/i3c/i3c.h`.
+> >> --
+> >
+> > This should go below the quoted commit msg.
+> >
+>
+> Others (like me) want to see it at the very top to see a quick summary.
+> Another lose-lose situation.
+
+If there's anything kernel developers agree on, it is not top posting.
+I don't see how sashiko is special here. Isn't below the commit
+message close enough to the top? I don't mind so much about the list
+of issues being at the top, but I really don't see why the commit
+message is not quoted (I would guess that's just an artifact of
+creating the reply out of the git tree it was applied to?). The commit
+hash is also completely useless to anyone without access to the git
+tree sashiko uses.
+
+One thing I would love to see is reviews of the commit message itself.
+I would love to never have to say "don't use 'This commit/patch'" or
+"the commit msg should answer why, not what" again.
+
+Rob
