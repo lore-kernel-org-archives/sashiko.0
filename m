@@ -1,212 +1,167 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 979A33A5E6F
-	for <sashiko@lists.linux.dev>; Tue,  5 May 2026 19:46:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778010414; cv=pass; b=hyufHgagpT73ZCt4M8xz+7qAZsrr9ovpN+MrH2HeoxRDR7HsNkJeNk2eztVQMy+EBa/71CYbste9V78Dh8TPPhpZJH4zkKszGMSyr/iBoMyICIMf4cBUtCsZI3i61/Ysgv8Awh39tjOjbOKnDqHrBeSOWCGPL8niTiPBI9GxXGc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778010414; c=relaxed/simple;
-	bh=E357EEz6wA12TgsMkENSmkoFH2QFS+9tNac78U2KDko=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oDu0cbxCQR9ExvMDlFoBz8F6M+QzWeZ7XQVbBjpoJvLhM3OZxZrbfldjQ7b2Ae4ccG7LWqEv4+7ek5efqDDVGJobacAUleKOsbV++R9v+mntV5HZ3tZPe4eALdoqQ/Aj438Vv/AV3JMD+yx9X6qsKHrk1bNwIjUflyFum5LBqFY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l+mzutl0; arc=pass smtp.client-ip=209.85.167.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A4A554654;
+	Tue,  5 May 2026 21:23:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778016188; cv=none; b=rE8feCM5b989djCvovURMEGh//dfMSytxaWVFi0xpFooXqGjShPJkNxWxkRvNYk+Yz19eFyTLPAP/mzt6/9+/QmKoUnd69nY2Ai2jhggIpjVGG8F8c0PR2CupHgRVRXNsi63BSxCfl7ISIzt92ddtCabIk23iKN4cxji0quwSTM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778016188; c=relaxed/simple;
+	bh=+umIMDtcMebdhJqgtSoV7BFtE++KssU85kbZ6gqvnaE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=uGvVZ49E3V7BlrtuJ0A311madEobnoPDsC8efCv0r9/ScurAz/hBw/7k5jQFv3OeG5cAQQ9okoShomzkF2AxNyKYMhCbheXfaO75ZSWWvkUFcmwOM5E8E8k7srgHYuui96FEhXHMMi0fTeYXhxp3wrYU5ICHwB98N/4mwgiVh0w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jGKV4Man; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l+mzutl0"
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5a884815606so828375e87.0
-        for <sashiko@lists.linux.dev>; Tue, 05 May 2026 12:46:52 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778010409; cv=none;
-        d=google.com; s=arc-20240605;
-        b=ibY9xHRSKrrImhkij5XBgessLyzq2PvG6nVGa5/f4q2pUFWJUEWFHXlZ43dWLqFfNO
-         zsBjmgTfGhuK5CYxiFLq6WdsRpC5Lm9GXvKw2OMUJw1j1jc63z2kaqJe4EYpM3sa1Emr
-         AK+ZjH0MS/ngE41TYptJ+x0E1PxpjELd9+yC3b0tt8X/TgfzKykw8IQTLsdQ3dOonwJq
-         RIT3a8YZGeR7vj+oWFXP6O0beuVSi4lvaBTn/7t62l4DlgKdto/8dhRep5dfcQtoojIl
-         aZTBDZxCojmeDGAwpJ0Bjo8rHUoCR67AU4DJHh/0lImDkeLU8aROXnXLIM5lfb2uEE6/
-         76SA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=pWU9rOpaHZ1DhhXMYqH7oDqxMjcohg/E8GRcu0AFpqo=;
-        fh=7pQPbM1mTaKjUbZ75iTISJbipA72wUVZwkXXTYMxzFw=;
-        b=AkKsWfAYwFcnWuQypGRDrrnp6SXnMdtfaPz8vQa+wMiHD2Rqlq3mIYPdWMmJ7nFHD9
-         3JzIlRT24tcItKHF2jLCSKJ7BoX2FesI+9iBuuil7PRkZKjkUrEDy26UlzTIoiSCOZFA
-         u/Zsye8QFr28c50XrQHeI45JjCAL9uFJQk99nd+8wl186GFnlAdHFOb3oeU5sJeiFg7U
-         1rb6S0TLY/oEs2pGcN6eeXuw7/tMNXQ04vVdA9FmtS+VJgPubEu6k8Vw5kpgmgU2eB+b
-         uoFrO7hrprpVwwaQqoO5/sk1TjimWkStvIiRtMLA3h60nDe2S6vDzs2N0qpuCTs0tvNR
-         WoFw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778010409; x=1778615209; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pWU9rOpaHZ1DhhXMYqH7oDqxMjcohg/E8GRcu0AFpqo=;
-        b=l+mzutl0mUSQGtVB8MSZkIIH8huqTWR7/jIQPo4ihJN6N2Zv9CDCMURG2Odn+p/+ai
-         jq/GXLG8GsypMSjhlbbmWonw1CxNifl/osfKUBknswbNrL4hiOG+qTlkiGR8jEGgkQgi
-         FYP8d75f7nVv5CfmKDJ1TxpcVaEIh1vci1gGoft6CP7uCX+8OauRoxIzCsvQc5zp+bbG
-         CPYhm9CI84xZiO3Fd1ExJU+6v20oPsnRiGWPwhHQBZKS74As59FERNATX6VEZa2TGfPu
-         Ritv5ALpEMrv8HflPKizi2GD4oO/di6kHC33uZstJKo9nwpZcAiVCbCNdwHvenwdcd43
-         gmSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778010409; x=1778615209;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=pWU9rOpaHZ1DhhXMYqH7oDqxMjcohg/E8GRcu0AFpqo=;
-        b=sKQeCyOu8VfEuCU3x0p2H9esGNGZN7NRbkJGh6mWOd2hk28VgG4Yp3rGxJSxtYtZ9s
-         cIF5T/EqXfopRuZ3Ug8c8Bc+iZ87rgdVvOtjLK0XdCPU8XvCS1OI0b1WXCQOy5YLtzmR
-         aK8SPaGaYSnPorLKAz7eqxvTx1QVgKn755KXcUctQ0L1RvRdohoEiCLpenGH5ZdyQwzO
-         MuqBQDbXbAw/maDeOO602kR3XAjA5QgOYYLwfTOmbqmHHl1/lGrIjBnoKqz33Aq6mcRs
-         5fBdgifmzgoooEmccvTIoJaqpknRswDkkqjR8QKO6Ojqs+EPplXPjXZjhMUx91gSU7vR
-         axpA==
-X-Gm-Message-State: AOJu0YxCUIv1MMR+owxfaa3gda6bJLwPaHVjLYPLdUuzrD65M5lrNYh4
-	XvD8MRQZZGe8sDs+iFArSNARRG/rtnN5i6xmCMBIQITByp/2o7FhX9udx+6lLJYbmmqax1OzLOZ
-	JTs/DYjjj0xHYwb49maSNAAxEl6mkkAO/mA4KBoNQ4A==
-X-Gm-Gg: AeBDiet3AM8kSl5zGqJ5mGJlkTuXVO1cQsic5yjYIMrfhMNRyItlSYiLLlKLSiTcKex
-	VTwA4ZHudoIIVEszYxcwPufm/vsLWoBNny+IWKW7o+hMuffO13LTvBSqEcJHleNoXauQ+RkgFKc
-	1SbK0fPbVOnZfCmJp1ShFtU2avpEd/cPQqrSlbO0fc2KMXdlfIqYHtCzlvffOSB1KChFSmBdrVZ
-	fyLi02pVTOv4UY7Cw9mF+w9PISeLuwMEWfi2cvVT+UOgcYVBgkEN2CsJcAuWKpYEW/fKDSrAf9z
-	rSxLIlIk6zuw96W+YCFnMnvWqu4moI6udNpaz44kcRU5x9Vb
-X-Received: by 2002:a05:6512:3a8e:b0:5a7:49ed:8aa with SMTP id
- 2adb3069b0e04-5a887adfc1bmr58626e87.11.1778010409350; Tue, 05 May 2026
- 12:46:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jGKV4Man"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE940C2BCB4;
+	Tue,  5 May 2026 21:23:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778016187;
+	bh=+umIMDtcMebdhJqgtSoV7BFtE++KssU85kbZ6gqvnaE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=jGKV4ManQPUtTeYi60DDVKHaT/N2eStYocB+v/dA1QuR/dxUfKSr3Bv9a3evDluHR
+	 S7Y6i8hSujuSsbbEU8NuMoKQLtPjzFG7/eXEA5vIiJ44os2fPxcR4mDTrS0KvlFgZ8
+	 ee9wk9AtTfgAdzCduZG49OFfvgb9Qq/6mF2ZVqCh8kzc0WRemIQiROCykO3FoPHWFY
+	 gN7h0cjYVNgtOLnWe6l/TjrISNLrZMpqYi0hA8Oe820TlxKqKWrp0DtMLcSZBXbR7c
+	 1Z5YNJnbDOefgLdcOZuFgTQoQEVlyrMShlaDSPyt8hXqdXi6Ohs9CM3nte6sVEz5bR
+	 yLPZsULHH8eHg==
+Date: Tue, 5 May 2026 16:23:06 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Hans Zhang <18255117159@163.com>
+Cc: sashiko@lists.linux.dev, linux-pci@vger.kernel.org
+Subject: Re: [PATCH] PCI: cadence: Use cdns_pcie_find_capability() to get
+ PCIe Cap offset in host driver
+Message-ID: <20260505212306.GA744158@bhelgaas>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260502200722.53960-9-kerneljasonxing@gmail.com> <20260503200928.5988DC2BCB4@smtp.kernel.org>
-In-Reply-To: <20260503200928.5988DC2BCB4@smtp.kernel.org>
-From: Jason Xing <kerneljasonxing@gmail.com>
-Date: Tue, 5 May 2026 22:46:05 +0300
-X-Gm-Features: AVHnY4LBojguOcRNc5OxJ3xvYVr8nJ5tvHPQKuM4JG_dxX64kfAOGRi4oc5nZsw
-Message-ID: <CAL+tcoAK-X3Tn-7Gc4X6UjW1FUBSKquqsKOFF1UBBLGeGWMSRQ@mail.gmail.com>
-Subject: Re: [PATCH net v5 8/8] xsk: fix u64 descriptor address truncation on
- 32-bit architectures
-To: sashiko@lists.linux.dev
-Cc: bpf@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5823faec-d972-4c77-90ec-a215c686e0a8@163.com>
 
-On Sun, May 3, 2026 at 11:09=E2=80=AFPM <sashiko-bot@kernel.org> wrote:
->
-> Thank you for your contribution! Sashiko AI review found 1 potential issu=
-e(s) to consider:
-> - [High] In the copy-mode TX path (`xsk_build_skb`), if a multi-buffer fr=
-agment exceeds the `MAX_SKB_FRAGS` limit, the buffer's address is leaked to=
- userspace because `0` is erroneously submitted to the completion queue.
-> --
->
-> commit 4a776aefc60aa4d3123e7e63fd8f927f3748d008
-> Author: Jason Xing <kerneljasonxing@gmail.com>
->
-> xsk: fix u64 descriptor address truncation on 32-bit architectures
->
-> This commit fixes a 32-bit truncation issue when storing 64-bit descripto=
-r
-> addresses in the SKB destructor argument by allocating an xsk_addrs struc=
-t.
-> It consolidates the allocation logic into xsk_addrs_alloc() and uses it i=
-n
-> both zerocopy and copy modes.
->
-> Link: https://lore.kernel.org/all/20260419045824.D9E5EC2BCAF@smtp.kernel.=
-org/
->
-> > diff --git a/net/xdp/xsk.c b/net/xdp/xsk.c
-> > index 079abd4bcb69..5e5786cd9af5 100644
-> > --- a/net/xdp/xsk.c
-> > +++ b/net/xdp/xsk.c
->
-> [ ... ]
->
-> > @@ -929,19 +959,10 @@ static struct sk_buff *xsk_build_skb(struct xdp_s=
-ock *xs,
-> >                       struct page *page;
-> >                       u8 *vaddr;
+On Mon, May 04, 2026 at 04:22:26PM +0800, Hans Zhang wrote:
+> On 5/4/26 00:52, sashiko-bot@kernel.org wrote:
+> > Thank you for your contribution! Sashiko AI review found 1
+> > potential issue(s) to consider:
 > >
-> > -                     if (xsk_skb_destructor_is_addr(skb)) {
-> > -                             xsk_addr =3D kmem_cache_zalloc(xsk_tx_gen=
-eric_cache,
-> > -                                                          GFP_KERNEL);
-> > -                             if (!xsk_addr) {
-> > -                                     err =3D -ENOMEM;
-> > -                                     goto free_err;
-> > -                             }
-> > -
-> > -                             xsk_addr->num_descs =3D 1;
-> > -                             xsk_addr->addrs[0] =3D xsk_skb_destructor=
-_get_addr(skb);
-> > -                             skb_shinfo(skb)->destructor_arg =3D (void=
- *)xsk_addr;
-> > -                     } else {
-> > -                             xsk_addr =3D (struct xsk_addrs *)skb_shin=
-fo(skb)->destructor_arg;
-> > +                     xsk_addr =3D xsk_addrs_alloc(skb);
-> > +                     if (!xsk_addr) {
-> > +                             err =3D -ENOMEM;
-> > +                             goto free_err;
-> >                       }
-> >
-> >                       if (unlikely(nr_frags =3D=3D (MAX_SKB_FRAGS - 1) =
-&& xp_mb_desc(desc))) {
->
-> This isn't a regression introduced by this patch, but while looking at th=
-e
-> modified code, does this error handling path leak the buffer's address to
-> userspace?
->
-> If this overflow check evaluates to true, the code sets err =3D -EOVERFLO=
-W and
-> jumps to the free_err label before assigning desc->addr to
-> xsk_addr->addrs[xsk_addr->num_descs].
->
-> In the free_err block, it handles -EOVERFLOW by calling
-> xsk_inc_num_desc(xs->skb) and xsk_drop_skb(xs->skb). This increments
-> num_descs to account for the dropped descriptor and eventually calls
-> xsk_destruct_skb() which calls xsk_cq_submit_addr_locked().
->
-> Since xsk_addr->addrs was never initialized with desc->addr for this
-> descriptor, does this mean it submits 0 (from kmem_cache_zalloc) to the
-> completion queue instead of the actual buffer address, causing userspace
-> to permanently lose track of the buffer?
->
-> By comparison, xsk_build_skb_zerocopy() assigns desc->addr to the array
-> before checking the fragment limit:
->
-> net/xdp/xsk.c:xsk_build_skb_zerocopy() {
->     ...
->                 xsk_addr =3D xsk_addrs_alloc(skb);
->                 if (!xsk_addr)
->                         return ERR_PTR(-ENOMEM);
->
->                 /* in case of -EOVERFLOW that could happen below,
->                  * xsk_consume_skb() will release this node as whole skb
->                  * would be dropped, which implies freeing all list eleme=
-nts
->                  */
->                 xsk_addr->addrs[xsk_addr->num_descs] =3D desc->addr;
->         }
->
->         len =3D desc->len;
->     ...
-> }
->
-> Should xsk_build_skb() also record the descriptor address before checking
-> the -EOVERFLOW condition?
+> > - [Critical] cdns_pcie_find_capability() searches the wrong
+> > register space in Host mode and its return value is not validated,
+> > leading to Root Port configuration space corruption.
+> > --
+> > 
+> > commit 09b3c64b8f5892eb365acd13030a8067652a15e8
+> > Author: Hans Zhang <18255117159@163.com>
+> > 
+> > PCI: cadence: Use cdns_pcie_find_capability() to get PCIe Cap offset in host driver
+> > 
+> > This commit replaces the hardcoded CDNS_PCIE_RP_CAP_OFFSET with a dynamic
+> > lookup using cdns_pcie_find_capability() in Cadence PCIe host-related
+> > functions. The goal is to ensure correct operation across various SoC designs
+> > where the capability might not reside at offset 0xC0.
+> > 
+> > > diff --git a/drivers/pci/controller/cadence/pcie-cadence-host-common.c b/drivers/pci/controller/cadence/pcie-cadence-host-common.c
+> > > index 2b0211870f02..5013d3fe23b5 100644
+> > > --- a/drivers/pci/controller/cadence/pcie-cadence-host-common.c
+> > > +++ b/drivers/pci/controller/cadence/pcie-cadence-host-common.c
+> > > @@ -26,14 +26,14 @@ EXPORT_SYMBOL_GPL(bar_max_size);
+> > >   int cdns_pcie_host_training_complete(struct cdns_pcie *pcie)
+> > >   {
+> > > -	u32 pcie_cap_off = CDNS_PCIE_RP_CAP_OFFSET;
+> > >   	unsigned long end_jiffies;
+> > >   	u16 lnk_stat;
+> > > +	u8 cap = cdns_pcie_find_capability(pcie, PCI_CAP_ID_EXP);
+> > 
+> > Does this capability search scan the correct register space when
+> > operating in host mode?
+> > 
+> > Looking at the helper function, it uses cdns_pcie_read_cfg() which
+> > reads directly from the base address without the Root Port offset:
+> > 
+> > drivers/pci/controller/cadence/pcie-cadence.c:cdns_pcie_find_capability() {
+> >      return PCI_FIND_NEXT_CAP(cdns_pcie_read_cfg, PCI_CAPABILITY_LIST,
+> >                               cap, NULL, pcie);
+> > }
+> > 
+> > However, the Root Port configuration registers are physically
+> > located at pcie->reg_base + CDNS_PCIE_RP_BASE. Could this cause
+> > the search to scan the Local Management register space instead,
+> > failing to find PCI_CAP_ID_EXP and returning 0?
+> 
+> I don't think we need to worry about this issue.
+> 
+> As per PCIe r7.0, sec 7.5.1.1.11, Since all PCI Express Functions
+> are required to implement the PCI Express Capability structure,
+> which must be included somewhere in this linked list;
+> 
+> So, it won't return 0 here.
 
-It has already been uncovered by you, maybe in v4 or v3 :) Sure, it
-will be fixed after this patch gets merged.
+It's true that all Root Ports must have a PCIe Capability, but 
+that's not related to this issue.
 
-Thanks,
-Jason
+cdns_pcie_host_init_root_port() accesses PCI_EXP_LNKCAP at the
+address:
 
->
-> --
-> Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260502200722.53=
-960-1-kerneljasonxing@gmail.com?part=3D8
+  pcie->reg_base + CDNS_PCIE_RP_BASE + CDNS_PCIE_RP_CAP_OFFSET + PCI_EXP_LNKCAP
+
+but when we search with cdns_pcie_find_capability(pcie, PCI_CAP_ID_EXP),
+we start reading at:
+
+  pcie->reg_base + PCI_CAPABILITY_LIST
+
+It should be starting at:
+
+  pcie->reg_base + CDNS_PCIE_RP_BASE + PCI_CAPABILITY_LIST
+
+Previously, cdns_pcie_find_capability() and
+cdns_pcie_find_ext_capability() were only used for endpoints, and I
+assume they work fine there.  There is pcie->is_rc, so there should be
+a way to make this work for both endpoints and Root Ports.
+
+
+Separate issue: I think some of the config accessors ended up being
+sub-optimal.  They should all have the same structure, but
+cdns_pcie_read_cfg_dword() is different from the rest, I think because
+some devices don't support 1- and 2-byte accesses.
+
+  cdns_pcie_read_cfg_byte
+    addr = pcie->reg_base + where
+    cdns_pcie_read_sz(addr, 0x1)
+     readl(addr)
+
+  cdns_pcie_read_cfg_word
+    addr = pcie->reg_base + where
+    cdns_pcie_read_sz(addr, 0x2)
+     readl(addr)
+
+  cdns_pcie_read_cfg_dword
+    cdns_pcie_readl
+      readl(pcie->reg_base + reg)
+
+I think it would be better to use "cdns_pcie_read_sz(addr, 0x4)"
+even for cdns_pcie_read_cfg_dword().
+
+> > [ ... ]
+> > 
+> > > @@ -68,27 +68,26 @@ EXPORT_SYMBOL_GPL(cdns_pcie_host_wait_for_link);
+> > >   int cdns_pcie_retrain(struct cdns_pcie *pcie,
+> > >   		      cdns_pcie_linkup_func pcie_link_up)
+> > >   {
+> > > -	u32 lnk_cap_sls, pcie_cap_off = CDNS_PCIE_RP_CAP_OFFSET;
+> > > +	u32 lnk_cap_sls;
+> > >   	u16 lnk_stat, lnk_ctl;
+> > >   	int ret = 0;
+> > > +	u8 cap = cdns_pcie_find_capability(pcie, PCI_CAP_ID_EXP);
+> > >   	/*
+> > >   	 * Set retrain bit if current speed is 2.5 GB/s,
+> > >   	 * but the PCIe root port support is > 2.5 GB/s.
+> > >   	 */
+> > > -	lnk_cap_sls = cdns_pcie_readl(pcie, (CDNS_PCIE_RP_BASE + pcie_cap_off +
+> > > +	lnk_cap_sls = cdns_pcie_readl(pcie, (CDNS_PCIE_RP_BASE + cap +
+> > >   					     PCI_EXP_LNKCAP));
+
+Could reduce the size of the diff by keeping the original
+"pcie_cap_off" name.
