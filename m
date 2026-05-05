@@ -1,38 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A4A554654;
-	Tue,  5 May 2026 21:23:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 561F325C818;
+	Tue,  5 May 2026 21:32:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778016188; cv=none; b=rE8feCM5b989djCvovURMEGh//dfMSytxaWVFi0xpFooXqGjShPJkNxWxkRvNYk+Yz19eFyTLPAP/mzt6/9+/QmKoUnd69nY2Ai2jhggIpjVGG8F8c0PR2CupHgRVRXNsi63BSxCfl7ISIzt92ddtCabIk23iKN4cxji0quwSTM=
+	t=1778016771; cv=none; b=CGsiyyH+0tyi7gLIRUSiVS6a7WhBcfFfP64hucdKOZrywLfo/M1en+9NhQimDpKF2l8+vGoJh1KVkXIJB/rRu3iSdCiK01v27uidskCqpWFyXuE2hv3bs2/DTHVWmwCE6l4PL8zegJ4cKhU7nG/pi8rXfh20Q8FfzdgbqQDTwFg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778016188; c=relaxed/simple;
-	bh=+umIMDtcMebdhJqgtSoV7BFtE++KssU85kbZ6gqvnaE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=uGvVZ49E3V7BlrtuJ0A311madEobnoPDsC8efCv0r9/ScurAz/hBw/7k5jQFv3OeG5cAQQ9okoShomzkF2AxNyKYMhCbheXfaO75ZSWWvkUFcmwOM5E8E8k7srgHYuui96FEhXHMMi0fTeYXhxp3wrYU5ICHwB98N/4mwgiVh0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jGKV4Man; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778016771; c=relaxed/simple;
+	bh=mlvEEAk17e5BxmwUSgibM9qoq/iMOYUgH8N0bxjBL+c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sTkOMqE/20Ga4JOJyYDkAOXe65Nyc6PMJ8/q0FlCGR0sehJg3bU1c4uRI5nC53hqVwQHfDE/3GKwR9tgrM/Gblg/Kq4q+nT3FI978TlIGFcC9qUAIWaZwaEgreiaz/RfUCoczFeVaY1kzfmR5GH4T2wB5LcB6Ty4IhGeouUWjGw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gkq7dWOr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jGKV4Man"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE940C2BCB4;
-	Tue,  5 May 2026 21:23:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gkq7dWOr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05899C2BCB4;
+	Tue,  5 May 2026 21:32:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778016187;
-	bh=+umIMDtcMebdhJqgtSoV7BFtE++KssU85kbZ6gqvnaE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=jGKV4ManQPUtTeYi60DDVKHaT/N2eStYocB+v/dA1QuR/dxUfKSr3Bv9a3evDluHR
-	 S7Y6i8hSujuSsbbEU8NuMoKQLtPjzFG7/eXEA5vIiJ44os2fPxcR4mDTrS0KvlFgZ8
-	 ee9wk9AtTfgAdzCduZG49OFfvgb9Qq/6mF2ZVqCh8kzc0WRemIQiROCykO3FoPHWFY
-	 gN7h0cjYVNgtOLnWe6l/TjrISNLrZMpqYi0hA8Oe820TlxKqKWrp0DtMLcSZBXbR7c
-	 1Z5YNJnbDOefgLdcOZuFgTQoQEVlyrMShlaDSPyt8hXqdXi6Ohs9CM3nte6sVEz5bR
-	 yLPZsULHH8eHg==
-Date: Tue, 5 May 2026 16:23:06 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Hans Zhang <18255117159@163.com>
-Cc: sashiko@lists.linux.dev, linux-pci@vger.kernel.org
-Subject: Re: [PATCH] PCI: cadence: Use cdns_pcie_find_capability() to get
- PCIe Cap offset in host driver
-Message-ID: <20260505212306.GA744158@bhelgaas>
+	s=k20201202; t=1778016771;
+	bh=mlvEEAk17e5BxmwUSgibM9qoq/iMOYUgH8N0bxjBL+c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=gkq7dWOrSuULmIV6OtK2UjD/KTvrTL+08r3OdlAbIugbQx/1xoDSzUHUOIB994uNW
+	 iAj4ASB7J+xFs8p1dfGMa+gaB1ZsW0IaTz9FYOzUeP8MUX85vm6aX5qdatArc4XucC
+	 cJU2m7oZEDOWCI4UE+N3yN0k30M9xtxcA8qtUkBOOxhe2BZUdwdpParUCzhwjW0Fdy
+	 5M0amcqIQGmh377R63AYr7RJlrnW2kjWrbyHv95k5htc1SvMSaXWypyFOtaVtpwzFg
+	 ArW5Nr79g8fR06J2dej4ugqUr29BbGYXRL6Cn1Z0W5piuKsSq+ktuAUuXAcVR6Or4f
+	 U2qBRti79iBSg==
+Date: Tue, 5 May 2026 16:32:48 -0500
+From: Rob Herring <robh@kernel.org>
+To: sashiko@lists.linux.dev
+Cc: Akhil R <akhilrajeev@nvidia.com>, linux-hwmon@vger.kernel.org
+Subject: Re: [PATCH v3 01/13] dt-bindings: i3c: Add mipi-i3c-static-method to
+ support SETAASA
+Message-ID: <20260505213248.GA4000045-robh@kernel.org>
+References: <20260423085718.70762-2-akhilrajeev@nvidia.com>
+ <20260423112311.E2902C2BCAF@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
@@ -41,127 +43,91 @@ List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5823faec-d972-4c77-90ec-a215c686e0a8@163.com>
+In-Reply-To: <20260423112311.E2902C2BCAF@smtp.kernel.org>
 
-On Mon, May 04, 2026 at 04:22:26PM +0800, Hans Zhang wrote:
-> On 5/4/26 00:52, sashiko-bot@kernel.org wrote:
-> > Thank you for your contribution! Sashiko AI review found 1
-> > potential issue(s) to consider:
-> >
-> > - [Critical] cdns_pcie_find_capability() searches the wrong
-> > register space in Host mode and its return value is not validated,
-> > leading to Root Port configuration space corruption.
-> > --
-> > 
-> > commit 09b3c64b8f5892eb365acd13030a8067652a15e8
-> > Author: Hans Zhang <18255117159@163.com>
-> > 
-> > PCI: cadence: Use cdns_pcie_find_capability() to get PCIe Cap offset in host driver
-> > 
-> > This commit replaces the hardcoded CDNS_PCIE_RP_CAP_OFFSET with a dynamic
-> > lookup using cdns_pcie_find_capability() in Cadence PCIe host-related
-> > functions. The goal is to ensure correct operation across various SoC designs
-> > where the capability might not reside at offset 0xC0.
-> > 
-> > > diff --git a/drivers/pci/controller/cadence/pcie-cadence-host-common.c b/drivers/pci/controller/cadence/pcie-cadence-host-common.c
-> > > index 2b0211870f02..5013d3fe23b5 100644
-> > > --- a/drivers/pci/controller/cadence/pcie-cadence-host-common.c
-> > > +++ b/drivers/pci/controller/cadence/pcie-cadence-host-common.c
-> > > @@ -26,14 +26,14 @@ EXPORT_SYMBOL_GPL(bar_max_size);
-> > >   int cdns_pcie_host_training_complete(struct cdns_pcie *pcie)
-> > >   {
-> > > -	u32 pcie_cap_off = CDNS_PCIE_RP_CAP_OFFSET;
-> > >   	unsigned long end_jiffies;
-> > >   	u16 lnk_stat;
-> > > +	u8 cap = cdns_pcie_find_capability(pcie, PCI_CAP_ID_EXP);
-> > 
-> > Does this capability search scan the correct register space when
-> > operating in host mode?
-> > 
-> > Looking at the helper function, it uses cdns_pcie_read_cfg() which
-> > reads directly from the base address without the Root Port offset:
-> > 
-> > drivers/pci/controller/cadence/pcie-cadence.c:cdns_pcie_find_capability() {
-> >      return PCI_FIND_NEXT_CAP(cdns_pcie_read_cfg, PCI_CAPABILITY_LIST,
-> >                               cap, NULL, pcie);
-> > }
-> > 
-> > However, the Root Port configuration registers are physically
-> > located at pcie->reg_base + CDNS_PCIE_RP_BASE. Could this cause
-> > the search to scan the Local Management register space instead,
-> > failing to find PCI_CAP_ID_EXP and returning 0?
+On Thu, Apr 23, 2026 at 11:23:11AM +0000, sashiko-bot@kernel.org wrote:
+> Sashiko AI review found 3 potential issue(s):
+
+Does anyone read replies to the bot? If so, why was everyone hwmon list 
+dropped?
+
+> - [Medium] The `mipi-i3c-static-method` schema incorrectly enforces `minimum: 0x1`, preventing devices from declaring no static address assignment support.
+> - [Low] The `assigned-address` property description is now inaccurate and contradicts the new capabilities.
+> - [Low] Missing macro definition for Bit 2 ('Other CCC') in `include/dt-bindings/i3c/i3c.h`.
+> --
+
+This should go below the quoted commit msg.
+
 > 
-> I don't think we need to worry about this issue.
+> commit dbfc3abafb12042fa0c42239f7ff49c55d30eb3d
+> Author: Akhil R <akhilrajeev@nvidia.com>
 > 
-> As per PCIe r7.0, sec 7.5.1.1.11, Since all PCI Express Functions
-> are required to implement the PCI Express Capability structure,
-> which must be included somewhere in this linked list;
+> dt-bindings: i3c: Add mipi-i3c-static-method to support SETAASA
 > 
-> So, it won't return 0 here.
+> This commit adds the 'mipi-i3c-static-method' property to specify which
+> discovery method an I3C device supports during bus initialization. The
+> property serves as a bitmap where each bit indicates support for methods
+> like SETDASA or SETAASA.
+> 
+> [1] https://www.mipi.org/mipi-disco-for-i3c-download
+> 
+> > diff --git a/Documentation/devicetree/bindings/i3c/i3c.yaml b/Documentation/devicetree/bindings/i3c/i3c.yaml
+> > index e25fa72fd7857..225844abdd1fd 100644
+> > --- a/Documentation/devicetree/bindings/i3c/i3c.yaml
+> > +++ b/Documentation/devicetree/bindings/i3c/i3c.yaml
+> [ ... ]
+> > @@ -147,6 +149,27 @@ patternProperties:
+> >            through SETDASA. If static address is not present, this address is assigned
+> >            through SETNEWDA after assigning a temporary address via ENTDAA.
+> 
+> Does the description for assigned-address need an update here? It currently
+> states that if a static address is present, the address is assigned through
+> SETDASA. This seems to contradict the new capabilities allowing SETAASA.
 
-It's true that all Root Ports must have a PCIe Capability, but 
-that's not related to this issue.
+Yes.
 
-cdns_pcie_host_init_root_port() accesses PCI_EXP_LNKCAP at the
-address:
+> 
+> >  
+> > +      mipi-i3c-static-method:
+> > +        $ref: /schemas/types.yaml#/definitions/uint32
+> > +        minimum: 0x1
+> 
+> The description below states that "0 indicates lack of support", but this
+> minimum validation prevents setting the bitmap to 0. If an I3C target has a
+> static address but relies purely on ENTDAA, how can a developer override the
+> default value of 1 to specify that no static methods are supported?
 
-  pcie->reg_base + CDNS_PCIE_RP_BASE + CDNS_PCIE_RP_CAP_OFFSET + PCI_EXP_LNKCAP
+0 is referring to the bit values, not the overall value. However, 
+whether 0 should be allowed is a valid point.
 
-but when we search with cdns_pcie_find_capability(pcie, PCI_CAP_ID_EXP),
-we start reading at:
+> > +        maximum: 0x7
+> > +        default: 1
+> > +        description: |
+> > +          Bitmap describing which methods of Dynamic Address Assignment from a
+> > +          static address are supported by this I3C Target. A bit value of 1
+> > +          indicates support for that method, and 0 indicates lack of support.
+> > +
+> > +            Bit 0: SETDASA CCC (Direct)
+> > +            Bit 1: SETAASA CCC (Broadcast)
+> > +            Bit 2: Other CCC (vendor / standards extension)
+> > +            All other bits are reserved.
+> [ ... ]
+> > diff --git a/include/dt-bindings/i3c/i3c.h b/include/dt-bindings/i3c/i3c.h
+> > index 373439218bba6..8409addff0115 100644
+> > --- a/include/dt-bindings/i3c/i3c.h
+> > +++ b/include/dt-bindings/i3c/i3c.h
+> > @@ -13,4 +13,7 @@
+> >  #define I2C_NO_FILTER_HIGH_FREQUENCY    (1 << 5)
+> >  #define I2C_NO_FILTER_LOW_FREQUENCY     (2 << 5)
+> >  
+> > +#define I3C_ADDR_METHOD_SETDASA     (1 << 0)
+> > +#define I3C_ADDR_METHOD_SETAASA     (1 << 1)
+> 
+> Since Bit 2 is documented as "Other CCC" in the binding and the maximum value
+> allows combinations up to 0x7, should there be a macro defined for Bit 2?
+> Adding one could prevent device tree authors from needing to use magic
+> numbers to represent this capability.
 
-  pcie->reg_base + PCI_CAPABILITY_LIST
+Yes.
 
-It should be starting at:
-
-  pcie->reg_base + CDNS_PCIE_RP_BASE + PCI_CAPABILITY_LIST
-
-Previously, cdns_pcie_find_capability() and
-cdns_pcie_find_ext_capability() were only used for endpoints, and I
-assume they work fine there.  There is pcie->is_rc, so there should be
-a way to make this work for both endpoints and Root Ports.
-
-
-Separate issue: I think some of the config accessors ended up being
-sub-optimal.  They should all have the same structure, but
-cdns_pcie_read_cfg_dword() is different from the rest, I think because
-some devices don't support 1- and 2-byte accesses.
-
-  cdns_pcie_read_cfg_byte
-    addr = pcie->reg_base + where
-    cdns_pcie_read_sz(addr, 0x1)
-     readl(addr)
-
-  cdns_pcie_read_cfg_word
-    addr = pcie->reg_base + where
-    cdns_pcie_read_sz(addr, 0x2)
-     readl(addr)
-
-  cdns_pcie_read_cfg_dword
-    cdns_pcie_readl
-      readl(pcie->reg_base + reg)
-
-I think it would be better to use "cdns_pcie_read_sz(addr, 0x4)"
-even for cdns_pcie_read_cfg_dword().
-
-> > [ ... ]
-> > 
-> > > @@ -68,27 +68,26 @@ EXPORT_SYMBOL_GPL(cdns_pcie_host_wait_for_link);
-> > >   int cdns_pcie_retrain(struct cdns_pcie *pcie,
-> > >   		      cdns_pcie_linkup_func pcie_link_up)
-> > >   {
-> > > -	u32 lnk_cap_sls, pcie_cap_off = CDNS_PCIE_RP_CAP_OFFSET;
-> > > +	u32 lnk_cap_sls;
-> > >   	u16 lnk_stat, lnk_ctl;
-> > >   	int ret = 0;
-> > > +	u8 cap = cdns_pcie_find_capability(pcie, PCI_CAP_ID_EXP);
-> > >   	/*
-> > >   	 * Set retrain bit if current speed is 2.5 GB/s,
-> > >   	 * but the PCIe root port support is > 2.5 GB/s.
-> > >   	 */
-> > > -	lnk_cap_sls = cdns_pcie_readl(pcie, (CDNS_PCIE_RP_BASE + pcie_cap_off +
-> > > +	lnk_cap_sls = cdns_pcie_readl(pcie, (CDNS_PCIE_RP_BASE + cap +
-> > >   					     PCI_EXP_LNKCAP));
-
-Could reduce the size of the diff by keeping the original
-"pcie_cap_off" name.
+Rob
