@@ -1,162 +1,171 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38A6B382F23;
-	Tue,  5 May 2026 12:41:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D46F304976
+	for <sashiko@lists.linux.dev>; Tue,  5 May 2026 14:40:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777984860; cv=none; b=dgsCXS2SVqQ8AE0QgW5gj5vur3j186u7PdKLArBIfKS4h9N5kVWplpEcc+PvuBnD0HZvgLeqwqn+Zjj+mBBp3idM2DVh41me+iVRRjK/UKrfDvySqJ0fX6ThnSdfDWirvPTUbcUq/qVfqAHu4cPUAd23atOJd+ByULLcSI2qsnU=
+	t=1777992035; cv=none; b=ZWDOcgM4nch1TFp9QKDCiwc5FqikEvRGp67y75QuZx88WCs+VfyvE0kAl9mN53JohCD+b1aI+FAt5d6+hm8FitzKyzXwHsTvxT+PBqhmviSpXKJzl0A0swNN7FPU7KsexFglH/MfCNF21vBz7vDolpYEiy3Ab+bvf+KkV9bex2s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777984860; c=relaxed/simple;
-	bh=xSeupnuvJlm1SCUwSLTr6zr3hWRgUFyf0/4uoYJZNaI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=S9Au2SglrDL+8AhNKd/YwG+gIy35pg6TF4W1IWl6nbqcZ2aG7smAe4ihbi7D2lzQwwmeod4+sxbf06bi1Y3Ms5dIxcEdUUwtsjF25GiMle9WDd6tmAx+T3SBSLoGrjgBhAs4wIA9PTADFhYlREIQBzYHzvqzlR0PW4vLaLYCe2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aZgitXAQ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777992035; c=relaxed/simple;
+	bh=7EXeEn5Lojw/dTJtXqgpww5CPlD7bASoIZDJ/U6LtHg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hSLMCtlFkpf1tAIbxWhOrq6qpgYMiehee7f2skTAuJ12NYOKihCTnUSNQ+A17BC5skk8xJLovBTQmUWVZQjb4F+i5zeKjxKtYpmXdSRVIAV5HO62te148DRID7BTkcI/3BUBzhHFutTMQorSDeWfWXcDrNczfk8f8jIibdH+UY8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tUCOUlxm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aZgitXAQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23959C2BCB4;
-	Tue,  5 May 2026 12:40:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tUCOUlxm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C9E5C2BCB4
+	for <sashiko@lists.linux.dev>; Tue,  5 May 2026 14:40:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777984859;
-	bh=xSeupnuvJlm1SCUwSLTr6zr3hWRgUFyf0/4uoYJZNaI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=aZgitXAQKnW8uvL01qWyAO8epkmapRR+vivO7oPD4fKv9/nkYvrQ+aO/slBm5f88/
-	 QZTDO48wpznV2zMZUJLQ4fxkCKqYciPLGFUf69yd4J8scVI45m1Cc21jAUiTsDTSUz
-	 J8g6LLCuC357F0VkIUPeiPKoFjs20PODZ6jmcw26u+w6eJu7+BXxsDH21QKjK6gCd6
-	 f0aK4gasN5dT0zd+L59XUVA64VNl7JTnZOc2hgy3Lk3xHGSwNIyJb2k8451k4tehkz
-	 IyAQERUtR9xEMDBPHx98qVih9IJW72p62eJ4UtkSnHZxDmt7SBAFAv4MAs4IkEgq5v
-	 fG55DM5de+v/Q==
-Message-ID: <0737c71e-0614-4ecf-9801-a7e71be198d4@kernel.org>
-Date: Tue, 5 May 2026 14:40:56 +0200
+	s=k20201202; t=1777992035;
+	bh=7EXeEn5Lojw/dTJtXqgpww5CPlD7bASoIZDJ/U6LtHg=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=tUCOUlxmElRClTeK1JZUFqTewIeyNbZpdYT6oSjHqk1Ym38tp48mLg1u2thE1Q2b0
+	 lGIvnadrnKa9F+fBWnfoXRIIlvXUUb0kI9E9XZBSWwoFRpB2cOi/yqc26c3KeMwR+i
+	 WLY3tG8mUOoJmylvFI7fbLO+ySikvNXvIFSkOdG/n2Wh1AjGuzIfui2nl+lbxbc+Sd
+	 uS3ALaeYd+/nSvt7mC9oNJLNpNtY9aGHcBT+cDHRTTm0mAEz4jJOip6f4v+hiEE4dr
+	 rURWrKlBF0Qo1xeDs6HGDrI+5bsuqGIBdLdtTbmv56NUHrnHBLyjL4UDAAaKsu2Pp0
+	 nAqPmZhD7JleQ==
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5a858881ad2so5485454e87.3
+        for <sashiko@lists.linux.dev>; Tue, 05 May 2026 07:40:34 -0700 (PDT)
+X-Gm-Message-State: AOJu0YzkXgauOhBUDF7IR6DwgzahSAmPYMo6GzRsewJeXV37NuiRVLpP
+	2G/XKRA1hLpmJ8Pqxth0NPZ1adnxYAmnLUUsK8QFC0MtyM14OllhZzZ70yZPmI3eVge1Nk/MGtu
+	WYq/e+43uABep2FJVAuDNb+9n63tmuKM=
+X-Received: by 2002:a05:6512:3095:b0:5a8:6eb1:2b6d with SMTP id
+ 2adb3069b0e04-5a86eb12d46mr3679237e87.9.1777992033459; Tue, 05 May 2026
+ 07:40:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v4 2/4] veth: implement Byte Queue Limits (BQL)
- for latency reduction
+References: <3070412.e9J7NaK4W3@rafael.j.wysocki> <20260505124114.87E85C2BCB9@smtp.kernel.org>
+In-Reply-To: <20260505124114.87E85C2BCB9@smtp.kernel.org>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Tue, 5 May 2026 16:40:21 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0hcJFk-M27AEkHugqPZ-rH4td8HZnMc209kgpDFnmbs9g@mail.gmail.com>
+X-Gm-Features: AVHnY4IAY3mPgiOdxOj1j9rPu27IV73cn9UoM7iMSC3vuxXzf-XchlwQ6iEP8fA
+Message-ID: <CAJZ5v0hcJFk-M27AEkHugqPZ-rH4td8HZnMc209kgpDFnmbs9g@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] thermal: hwmon: Register a hwmon device for each
+ thermal zone
 To: sashiko@lists.linux.dev
-Cc: bpf@vger.kernel.org, Netdev <netdev@vger.kernel.org>,
- Jakub Kicinski <kuba@kernel.org>, kernel-team <kernel-team@cloudflare.com>,
- Paolo Abeni <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>
-References: <20260501071633.644353-3-hawk@kernel.org>
- <20260502071828.616C3C19425@smtp.kernel.org>
-Content-Language: en-US
-From: Jesper Dangaard Brouer <hawk@kernel.org>
-In-Reply-To: <20260502071828.616C3C19425@smtp.kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, linux-hwmon@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-
-
-On 02/05/2026 09.18, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 2 potential issue(s) to consider:
-> - [Critical] Out-of-bounds array access on peer_dev->_tx in veth_poll() when local RX queues exceed peer TX queues.
-> - [High] Disabling XDP permanently stops peer TX queues if they were backpressured (DRV_XOFF leak).
+On Tue, May 5, 2026 at 2:41=E2=80=AFPM <sashiko-bot@kernel.org> wrote:
+>
+> Thank you for your contribution! Sashiko AI review found 1 potential issu=
+e(s) to consider:
+> - [Critical] Changing the hwmon device name and splitting aggregate devic=
+es breaks userspace hwmon tools and configurations.
 > --
-> 
-> commit 9bc3ed022846dda6dd5cc131e798f949f63f491f
-> Author: Jesper Dangaard Brouer <hawk@kernel.org>
-> 
-> veth: implement Byte Queue Limits (BQL) for latency reduction
-> 
-> This commit adds byte queue limits support to the veth driver to provide
-> qdiscs with feedback and reduce latency. It charges a fixed unit per
-> packet rather than byte-based charging.
-> 
->> diff --git a/drivers/net/veth.c b/drivers/net/veth.c
->> index e35df717e65e2..3de25ba34a906 100644
->> --- a/drivers/net/veth.c
->> +++ b/drivers/net/veth.c
-> 
+>
+> commit ef04f4845b76df7ab7442699654ee8214cc3a4ea
+> Author: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+>
+> thermal: hwmon: Register a hwmon device for each thermal zone
+>
+> The current code creates one hwmon device per thermal zone type and regis=
+ters
+> it under the first thermal zone of that type. This commit addresses remov=
+al
+> issues by registering one hwmon device for each thermal zone individually=
+,
+> appending the zone ID to the hwmon name, and giving each its own temp1_in=
+put.
+>
+> Link: https://lore.kernel.org/linux-pm/20260402021828.16556-1-liujia6264@=
+gmail.com/
+>
+> > diff --git a/drivers/thermal/thermal_hwmon.c b/drivers/thermal/thermal_=
+hwmon.c
+> > index 597c33c8a5550..223ae1571655b 100644
+> > --- a/drivers/thermal/thermal_hwmon.c
+> > +++ b/drivers/thermal/thermal_hwmon.c
+>
 > [ ... ]
-> 
->> @@ -975,7 +1016,7 @@ static int veth_poll(struct napi_struct *napi, int budget)
->>   	peer_txq = peer_dev ? netdev_get_tx_queue(peer_dev, queue_idx) : NULL;
->>   
->>   	xdp_set_return_frame_no_direct();
->> -	done = veth_xdp_rcv(rq, budget, &bq, &stats);
->> +	done = veth_xdp_rcv(rq, budget, &bq, &stats, peer_txq);
-> 
-> Could this lead to an out-of-bounds array access on the peer device's
-> transmit queues?
-> 
-> If a veth pair is configured asymmetrically, the local device might have
-> more receive queues than the peer has transmit queues.
-> 
-> If packets are redirected from another interface into a higher-indexed
-> receive queue, the poll function will run with a queue_idx greater than or
-> equal to peer_dev->real_num_tx_queues.
-> 
-> Since netdev_get_tx_queue() performs a direct array access without bounds
-> checking, peer_txq would point out-of-bounds. This out-of-bounds pointer is
-> then passed into the new veth_xdp_rcv() code paths and accessed by
-> netif_tx_queue_stopped().
-> 
-> Should queue_idx be checked against peer_dev->real_num_tx_queues before
-> fetching the transmit queue?
-Yes, for the XDP redirect code path, which enqueues frames into the
-peer's ptr_ring using smp_processor_id() % peer->real_num_rx_queues
-as the ring index.  Then this is actually possible.
+>
+> > @@ -137,54 +101,39 @@ int thermal_add_hwmon_sysfs(struct thermal_zone_d=
+evice *tz)
+> >  {
+> >       struct thermal_hwmon_device *hwmon;
+> >       struct thermal_hwmon_temp *temp;
+> > -     int new_hwmon_device =3D 1;
+> >       int result;
+> >
+> > -     hwmon =3D thermal_hwmon_lookup_by_type(tz);
+> > -     if (hwmon) {
+> > -             new_hwmon_device =3D 0;
+> > -             goto register_sys_interface;
+> > -     }
+> > -
+> >       hwmon =3D kzalloc_obj(*hwmon);
+> >       if (!hwmon)
+> >               return -ENOMEM;
+> >
+> > -     INIT_LIST_HEAD(&hwmon->tz_list);
+> > -     strscpy(hwmon->type, tz->type, THERMAL_NAME_LENGTH);
+> > -     strreplace(hwmon->type, '-', '_');
+> > +     /*
+> > +      * Append the thermal zone ID preceded by an underline character =
+to the
+> > +      * type to disambiguate the sensors command output.
+> > +      */
+> > +     scnprintf(hwmon->name, THERMAL_HWMON_NAME_LENGTH, "%s_%d", tz->ty=
+pe, tz->id);
+> > +     strreplace(hwmon->name, '-', '_');
+>
+> Could this change to the hwmon name attribute cause a regression for user=
+space
+> tools?
+>
+> Tools and configuration files, such as sensors.conf, typically use the na=
+me
+> attribute for matching devices (for example, matching acpitz-*). Appendin=
+g an
+> instance-specific ID to the name might prevent these configurations from
+> applying correctly.
 
-It is not a bug introduced in this patchset, but given we access
-peer_txq a bit earlier, then a fix for this is needed as part of this
-patchset. I have prepared a patch that fixes this.
+Or not.
 
-diff --git a/drivers/net/veth.c b/drivers/net/veth.c
-index e35df717e65e..0cfb19b760dd 100644
---- a/drivers/net/veth.c
-+++ b/drivers/net/veth.c
-@@ -972,7 +972,8 @@ static int veth_poll(struct napi_struct *napi, int 
-budget)
+> >       hwmon->device =3D hwmon_device_register_for_thermal(&tz->device,
+> > -                                                       hwmon->type, hw=
+mon);
+> > +                                                       hwmon->name, hw=
+mon);
+> >       if (IS_ERR(hwmon->device)) {
+> >               result =3D PTR_ERR(hwmon->device);
+> >               goto free_mem;
+> >       }
+> >
+> > - register_sys_interface:
+> > -     temp =3D kzalloc_obj(*temp);
+> > -     if (!temp) {
+> > -             result =3D -ENOMEM;
+> > -             goto unregister_name;
+> > -     }
+> > +     temp =3D &hwmon->tz_temp;
+> >
+> >       temp->tz =3D tz;
+> > -     hwmon->count++;
+> >
+> > -     snprintf(temp->temp_input.name, sizeof(temp->temp_input.name),
+> > -              "temp%d_input", hwmon->count);
+> > -     temp->temp_input.attr.attr.name =3D temp->temp_input.name;
+> > +     temp->temp_input.attr.attr.name =3D "temp1_input";
+>
+> Does splitting aggregate devices break existing sysfs access patterns?
+>
+> Previously, a single hwmon device might have contained multiple temperatu=
+re
+> inputs, like temp1_input and temp2_input. Since each zone now gets its ow=
+n
+> hwmon device with only a temp1_input, scripts or tools that explicitly re=
+ad
+> temp2_input from the old aggregate device path will likely fail with a mi=
+ssing
+> file error.
 
-         /* NAPI functions as RCU section */
-         peer_dev = rcu_dereference_check(priv->peer, 
-rcu_read_lock_bh_held());
--       peer_txq = peer_dev ? netdev_get_tx_queue(peer_dev, queue_idx) : 
-NULL;
-+       peer_txq = (peer_dev && queue_idx < peer_dev->real_num_tx_queues) ?
-+                  netdev_get_tx_queue(peer_dev, queue_idx) : NULL;
-
-
-
-> [ ... ]
-> 
->> @@ -1091,6 +1133,17 @@ static void veth_napi_del_range(struct net_device *dev, int start, int end)
->>   		ptr_ring_cleanup(&rq->xdp_ring, veth_ptr_free);
->>   	}
->>   
->> +	/* Reset BQL on peer's txqs: remaining ring items were freed above
->> +	 * without BQL completion, so DQL state must be reset.
->> +	 */
->> +	peer = rtnl_dereference(priv->peer);
->> +	if (peer) {
->> +		int peer_end = min(end, (int)peer->real_num_tx_queues);
->> +
->> +		for (i = start; i < peer_end; i++)
->> +			netdev_tx_reset_queue(netdev_get_tx_queue(peer, i));
->> +	}
-> 
-> Does this cleanup leave peer transmit queues permanently stopped if they
-> were backpressured when xdp was disabled?
-> 
-> When the ptr_ring is full, veth_xmit() stops the transmit queue using
-> netif_tx_stop_queue(), which sets the __QUEUE_STATE_DRV_XOFF flag.
-> 
-> While netdev_tx_reset_queue() successfully clears the newly added
-> __QUEUE_STATE_STACK_XOFF flag, it does not clear __QUEUE_STATE_DRV_XOFF.
-> If a queue was backpressured exactly when xdp is disabled, it appears it
-> would remain locked forever.
-> 
-> Would it be appropriate to wake the queues using netif_tx_wake_queue() or
-> explicitly clear the __QUEUE_STATE_DRV_XOFF flag during this cleanup?
-
-The watchdog timer in this patchset will call netif_tx_wake_queue().
-So, we would recover from this unlikely case.  I guess there is no harm
-in adding a netif_tx_wake_queue() call here (but we should likely guard
-it with netif_running(dev)).
-
---Jesper
-
+Does this happen in practice though?
