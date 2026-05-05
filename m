@@ -1,163 +1,183 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66E3139B952;
-	Tue,  5 May 2026 15:14:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5C622ED870
+	for <sashiko@lists.linux.dev>; Tue,  5 May 2026 15:14:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777994053; cv=none; b=L0O5NtIQ4pgvMm7c+Idtb4sL5+B0OTS5x0nK25zYVtzv8jRM/SUxdiue/cnyIGYs/MGnNYsX96XLjVvQ52Wb61+qbNfk+ZrQ5AXcJej6jxEoCwBzIl7AGGGjjp4vzecR8AeIETZevAOitmDk0sdxnCkkOvqd4zBOURzMnUIbcOg=
+	t=1777994078; cv=none; b=MbI6hu1GWvyOOci5CkaM+REzKJMEqovT9qESyDG9juBaqrer+9V05v8xn0j4jLDASJN5sWXEadK8eNfdf4D3wpzj6CqftVtfFXdNp9tORy7n+pX43k7FkSt0m2AnP5PCvw6A+iNL8hfZjvFsvi+taeVo1spDOHeTY4YYz+35SfA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777994053; c=relaxed/simple;
-	bh=yJ/mQCKDNyWieksngGmTrHElKRuZ0mOGGcnfFjZfoqk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=W2T+JgacibGB6y1EKnDcgzTz94XO6KrQhZSIilU4MxP0J2rLhXn9XZlGqn0GhVfktKwu9evANrAmWR336A+aVSqDiTweEjg62+zBVqRZ34mHwRDPxF0d+s+yB5X+3CTVQFQ3bR5zMumPGX/pHXoRJLdGOV8qeScudZCBhqtmNXM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eqMQr+8E; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777994078; c=relaxed/simple;
+	bh=nwGdY/S9WABXVGxp+rB6OdROhGj1euGmTAAsMSG/Ilw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=CN0GN9nVODtQ1GytGWajq9A58TM9y9yLci/M03GywWHK8Wq4/kp9W1bpQ8v/coW5gqda7JMZwffDA+AUeVMpUXEuHKEOMTbCnUO0Vl7PoKpFjmg/A6TN18+JPwzspR0brkZq4bkyFcWkSPx/4t0ovc3e04efLERdJv/KaX+r588=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HwoVnMCK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eqMQr+8E"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87951C2BCB4;
-	Tue,  5 May 2026 15:14:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HwoVnMCK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6529EC2BCF5
+	for <sashiko@lists.linux.dev>; Tue,  5 May 2026 15:14:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777994053;
-	bh=yJ/mQCKDNyWieksngGmTrHElKRuZ0mOGGcnfFjZfoqk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=eqMQr+8EBUJ65SoEkkHVJK8O4j3mVUGSiFlBXcji5jIKi+gn7xoGcTfrt4UF7m9h5
-	 1xTyCxkWlU2Qlr+INPcwtfdEA0Wuqfmi50hFZgdN5FeCe+6+Q/jmz86p5YrjHMpRT5
-	 pOzGG2HwqocyR8wIzTEBJEAp4mp/18pUPAEe77F47mCJ0LOAcxP/1H385YJd160Qul
-	 DfboSff+xTkwSR6ucKFpr5yHv7+FlASzLzGfXMecYe0tyNO8lry9sF+yUqyfCwxz8+
-	 LLVa4TBrDWB0e0cTs+HiMWMQZ5m6QkAeHuZHgvmFLvU7SO/4QDgTqzj3JWeTjqmGl1
-	 1k2ulheBiDS/g==
-Message-ID: <64a691f2-4104-4538-9aa6-6feadc756c56@kernel.org>
-Date: Tue, 5 May 2026 17:14:08 +0200
+	s=k20201202; t=1777994078;
+	bh=nwGdY/S9WABXVGxp+rB6OdROhGj1euGmTAAsMSG/Ilw=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=HwoVnMCKWZIUajswxOSdodHgT6Mqnml0olLOOyfM2me1ub3uiTwGL3ZqLdjEuhDCo
+	 RILVQEvYxV/0ZykgKM5q6MW7IYkZ37iqYVMYqk5wJdFbBd6hFddPLUdHYjH8/h5s10
+	 weHJBWTleIUsDY5wjHhFnrTTuPupZRZD8OEccitIkXLtbBmbmUcnSGXwQhRlvXnRAU
+	 3l7iY7YvQJDjCmGlHspN6l/EvAcBXkVP0LFaid7AMzI0H7j7mCyRH4522+MiC5/6j0
+	 fT8YuywXUtc8g34w0EXUhJ4qhM/iH5WmX7gDrAhPgSMnld+YvTwfoV0t7xiz+66FC2
+	 Hf5v/2eeC1gBA==
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-59dcdf60427so5025655e87.3
+        for <sashiko@lists.linux.dev>; Tue, 05 May 2026 08:14:38 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ/5p5Kbnk1ievFvJ07wIGuQo+30WEywHF3Ai3/fPcwy+1l4+p/05BVaLKbdAGqdUzwYcEdCtCj7@lists.linux.dev
+X-Gm-Message-State: AOJu0YwODy3sSFVyk21EjpSTWUChVdZmzV/nHcP61oLlEOHOtjugg6xB
+	5HvKMjpezTrbSMqxm9aSGPkfevm8IFzNc/LHYlMAWZfw2NQs/PeU1APm24V6Hy3HN7U1xsocff+
+	XxjA33mpQNXj/bN9GJkQpb05yYdtMc4I=
+X-Received: by 2002:a05:6512:400f:b0:5a3:f2ed:87cd with SMTP id
+ 2adb3069b0e04-5a862ec316bmr4880714e87.10.1777994076783; Tue, 05 May 2026
+ 08:14:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird Beta
-Subject: Re: [PATCH v2 bpf 3/6] mptcp: bpf: fix type confusion in
- bpf_mptcp_sock_from_subflow()
-Content-Language: fr
-To: Kuniyuki Iwashima <kuniyu@google.com>, sashiko@lists.linux.dev
-Cc: bpf@vger.kernel.org, MPTCP Linux <mptcp@lists.linux.dev>
-References: <20260504210610.180150-4-kuniyu@google.com>
- <20260505041435.187D0C2BCB4@smtp.kernel.org>
- <CAAVpQUB-K4YBE5Em4xg5wWsjtK=7xZwwXFynX2vUN4DQDx2tRw@mail.gmail.com>
-From: Matthieu Baerts <matttbe@kernel.org>
-Autocrypt: addr=matttbe@kernel.org; keydata=
- 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
- lzVbFe7fduHbABmYz9cefQpO7wDE/Q==
-Organization: NGI0 Core
-In-Reply-To: <CAAVpQUB-K4YBE5Em4xg5wWsjtK=7xZwwXFynX2vUN4DQDx2tRw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <3070412.e9J7NaK4W3@rafael.j.wysocki> <20260505124114.87E85C2BCB9@smtp.kernel.org>
+ <CAJZ5v0hcJFk-M27AEkHugqPZ-rH4td8HZnMc209kgpDFnmbs9g@mail.gmail.com> <6fdf5a6b-730c-4c33-95a8-35078785f73c@roeck-us.net>
+In-Reply-To: <6fdf5a6b-730c-4c33-95a8-35078785f73c@roeck-us.net>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Tue, 5 May 2026 17:14:22 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0gcatfUYocWViAZjs=BkqSz-JK+bECm2cpanv9NrWgfnw@mail.gmail.com>
+X-Gm-Features: AVHnY4JYgTiEHcRRFstuHq1n9_bFLiNz-FKMMZAAveW3BEnGZ-BdEHnfbrL7KFI
+Message-ID: <CAJZ5v0gcatfUYocWViAZjs=BkqSz-JK+bECm2cpanv9NrWgfnw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] thermal: hwmon: Register a hwmon device for each
+ thermal zone
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, sashiko@lists.linux.dev, linux-hwmon@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Kuniyuki,
+On Tue, May 5, 2026 at 4:59=E2=80=AFPM Guenter Roeck <linux@roeck-us.net> w=
+rote:
+>
+> On 5/5/26 07:40, Rafael J. Wysocki wrote:
+> > On Tue, May 5, 2026 at 2:41=E2=80=AFPM <sashiko-bot@kernel.org> wrote:
+> >>
+> >> Thank you for your contribution! Sashiko AI review found 1 potential i=
+ssue(s) to consider:
+> >> - [Critical] Changing the hwmon device name and splitting aggregate de=
+vices breaks userspace hwmon tools and configurations.
+> >> --
+> >>
+> >> commit ef04f4845b76df7ab7442699654ee8214cc3a4ea
+> >> Author: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> >>
+> >> thermal: hwmon: Register a hwmon device for each thermal zone
+> >>
+> >> The current code creates one hwmon device per thermal zone type and re=
+gisters
+> >> it under the first thermal zone of that type. This commit addresses re=
+moval
+> >> issues by registering one hwmon device for each thermal zone individua=
+lly,
+> >> appending the zone ID to the hwmon name, and giving each its own temp1=
+_input.
+> >>
+> >> Link: https://lore.kernel.org/linux-pm/20260402021828.16556-1-liujia62=
+64@gmail.com/
+> >>
+> >>> diff --git a/drivers/thermal/thermal_hwmon.c b/drivers/thermal/therma=
+l_hwmon.c
+> >>> index 597c33c8a5550..223ae1571655b 100644
+> >>> --- a/drivers/thermal/thermal_hwmon.c
+> >>> +++ b/drivers/thermal/thermal_hwmon.c
+> >>
+> >> [ ... ]
+> >>
+> >>> @@ -137,54 +101,39 @@ int thermal_add_hwmon_sysfs(struct thermal_zone=
+_device *tz)
+> >>>   {
+> >>>        struct thermal_hwmon_device *hwmon;
+> >>>        struct thermal_hwmon_temp *temp;
+> >>> -     int new_hwmon_device =3D 1;
+> >>>        int result;
+> >>>
+> >>> -     hwmon =3D thermal_hwmon_lookup_by_type(tz);
+> >>> -     if (hwmon) {
+> >>> -             new_hwmon_device =3D 0;
+> >>> -             goto register_sys_interface;
+> >>> -     }
+> >>> -
+> >>>        hwmon =3D kzalloc_obj(*hwmon);
+> >>>        if (!hwmon)
+> >>>                return -ENOMEM;
+> >>>
+> >>> -     INIT_LIST_HEAD(&hwmon->tz_list);
+> >>> -     strscpy(hwmon->type, tz->type, THERMAL_NAME_LENGTH);
+> >>> -     strreplace(hwmon->type, '-', '_');
+> >>> +     /*
+> >>> +      * Append the thermal zone ID preceded by an underline characte=
+r to the
+> >>> +      * type to disambiguate the sensors command output.
+> >>> +      */
+> >>> +     scnprintf(hwmon->name, THERMAL_HWMON_NAME_LENGTH, "%s_%d", tz->=
+type, tz->id);
+> >>> +     strreplace(hwmon->name, '-', '_');
+> >>
+> >> Could this change to the hwmon name attribute cause a regression for u=
+serspace
+> >> tools?
+> >>
+> >> Tools and configuration files, such as sensors.conf, typically use the=
+ name
+> >> attribute for matching devices (for example, matching acpitz-*). Appen=
+ding an
+> >> instance-specific ID to the name might prevent these configurations fr=
+om
+> >> applying correctly.
+> >
+> > Or not.
+> >
+> >>>        hwmon->device =3D hwmon_device_register_for_thermal(&tz->devic=
+e,
+> >>> -                                                       hwmon->type, =
+hwmon);
+> >>> +                                                       hwmon->name, =
+hwmon);
+> >>>        if (IS_ERR(hwmon->device)) {
+> >>>                result =3D PTR_ERR(hwmon->device);
+> >>>                goto free_mem;
+> >>>        }
+> >>>
+> >>> - register_sys_interface:
+> >>> -     temp =3D kzalloc_obj(*temp);
+> >>> -     if (!temp) {
+> >>> -             result =3D -ENOMEM;
+> >>> -             goto unregister_name;
+> >>> -     }
+> >>> +     temp =3D &hwmon->tz_temp;
+> >>>
+> >>>        temp->tz =3D tz;
+> >>> -     hwmon->count++;
+> >>>
+> >>> -     snprintf(temp->temp_input.name, sizeof(temp->temp_input.name),
+> >>> -              "temp%d_input", hwmon->count);
+> >>> -     temp->temp_input.attr.attr.name =3D temp->temp_input.name;
+> >>> +     temp->temp_input.attr.attr.name =3D "temp1_input";
+> >>
+> >> Does splitting aggregate devices break existing sysfs access patterns?
+> >>
+> >> Previously, a single hwmon device might have contained multiple temper=
+ature
+> >> inputs, like temp1_input and temp2_input. Since each zone now gets its=
+ own
+> >> hwmon device with only a temp1_input, scripts or tools that explicitly=
+ read
+> >> temp2_input from the old aggregate device path will likely fail with a=
+ missing
+> >> file error.
+> >
+> > Does this happen in practice though?
+> >
+> I guess we'll see.
 
-(+cc MPTCP ML)
-
-On 05/05/2026 07:43, Kuniyuki Iwashima wrote:
-> Could you follow up on the comments by Sashiko ?
-
-Thank you for having forwarded this!
-
-> On Mon, May 4, 2026 at 9:14 PM <sashiko-bot@kernel.org> wrote:
-
-(...)
-
->>> diff --git a/net/mptcp/bpf.c b/net/mptcp/bpf.c
->>> index 8a16672b94e2..4cc16cbeb328 100644
->>> --- a/net/mptcp/bpf.c
->>> +++ b/net/mptcp/bpf.c
->>> @@ -14,7 +14,7 @@
->>>
->>>  struct mptcp_sock *bpf_mptcp_sock_from_subflow(struct sock *sk)
->>>  {
->>> -     if (sk && sk_fullsock(sk) && sk->sk_protocol == IPPROTO_TCP && sk_is_mptcp(sk))
->>> +     if (sk && sk_fullsock(sk) && sk_is_tcp(sk) && sk_is_mptcp(sk))
->>>               return mptcp_sk(mptcp_subflow_ctx(sk)->conn);
->>
->> Could this cause a regression by dereferencing a NULL pointer when accessed
->> concurrently?
->>
->> In subflow_ulp_fallback(), icsk->icsk_ulp_data is set to NULL prior to
->> clearing tcp_sk(sk)->is_mptcp. If a BPF program triggers in this window,
->> sk_is_mptcp() would return true but mptcp_subflow_ctx(sk) would return NULL,
->> leading to a NULL pointer dereference.
-
-This would need to be confirmed, but from what I see, that's not a new
-bug introduced by the patch here.
-
->> Additionally, could ctx->conn be NULL when read here?
->>
->> During subflow_ulp_init(), the context is allocated and is_mptcp is set to 1,
->> but ctx->conn is initially NULL. Passing NULL to mptcp_sk(ctx->conn) triggers
->> a kernel panic on CONFIG_DEBUG_NET builds. On non-debug builds, it returns a
->> non-NULL offset pointer, which bypasses BPF verifier NULL checks and causes
->> invalid memory accesses.
-
-Same here: not a new bug.
-
->> Could this introduce a regression with a use-after-free of the mptcp_sock
->> during teardown?
->>
->> During subflow_ulp_release(), sock_put(ctx->conn) drops the reference to the
->> parent mptcp_sock and may free it. However, ctx->conn is not cleared, and the
->> subflow context remains valid until the RCU grace period ends.
->>
->> If a BPF tracing program triggers after sock_put(), could this retrieve
->> and return the dangling ctx->conn pointer, enabling the BPF program to read
->> from freed kernel slab memory?
-Same here: not a new bug.
-
-Sashiko is good at finding potential existing bugs that predate a patch,
-which is good, but someone has to fix them :)
-
-Because the issues raised here are not new, I suggest not blocking this
-patch. I will check if someone can look at it quickly.
-
-Cheers,
-Matt
--- 
-Sponsored by the NGI0 Core fund.
-
+Right.
