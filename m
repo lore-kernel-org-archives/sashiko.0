@@ -1,99 +1,162 @@
-Received: from oss.cyber.gouv.fr (oss.cyber.gouv.fr [51.159.188.251])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AD143128D7
-	for <sashiko@lists.linux.dev>; Tue,  5 May 2026 12:27:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.159.188.251
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38A6B382F23;
+	Tue,  5 May 2026 12:41:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777984065; cv=none; b=L7C/Alc2P8zzvzC63bQrx4Z44mJX8+waaCD9wHSne0HUUyuksvqc/oaFd/wweVMZwB1kLvUDsTEu7Yvy6dlaj3lmLF9lSnJ1iJo7ZJKCTFQH3Z/SSkVYDCUDOud86M9QqVO/xzeqGohVMWSd2Oaj+1q7Z5n35zk/hcePiJmvdd8=
+	t=1777984860; cv=none; b=dgsCXS2SVqQ8AE0QgW5gj5vur3j186u7PdKLArBIfKS4h9N5kVWplpEcc+PvuBnD0HZvgLeqwqn+Zjj+mBBp3idM2DVh41me+iVRRjK/UKrfDvySqJ0fX6ThnSdfDWirvPTUbcUq/qVfqAHu4cPUAd23atOJd+ByULLcSI2qsnU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777984065; c=relaxed/simple;
-	bh=Fa/3962kpvhdF7V+0z88Zf2DU1hMlF5cUeKj970O0jg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hSYmMOf3ZuUgHGOiJ+dsRp+h5ApC04W4dbyKfZ4xWdlNcPc91JfMO2QwhZePLjviSauSiQrARsWjg24eLWanwfcnL5gdPK83iL4eOP0koe8Mk3MztUPe3MB/4rNOvNr8j1mfS7X6SGarrcy4Dof0Q8M+2as6O/kVxRX9g3wefPk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.cyber.gouv.fr; spf=pass smtp.mailfrom=oss.cyber.gouv.fr; dkim=pass (2048-bit key) header.d=oss.cyber.gouv.fr header.i=@oss.cyber.gouv.fr header.b=S2KQtR4j; arc=none smtp.client-ip=51.159.188.251
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.cyber.gouv.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.cyber.gouv.fr
+	s=arc-20240116; t=1777984860; c=relaxed/simple;
+	bh=xSeupnuvJlm1SCUwSLTr6zr3hWRgUFyf0/4uoYJZNaI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=S9Au2SglrDL+8AhNKd/YwG+gIy35pg6TF4W1IWl6nbqcZ2aG7smAe4ihbi7D2lzQwwmeod4+sxbf06bi1Y3Ms5dIxcEdUUwtsjF25GiMle9WDd6tmAx+T3SBSLoGrjgBhAs4wIA9PTADFhYlREIQBzYHzvqzlR0PW4vLaLYCe2w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aZgitXAQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oss.cyber.gouv.fr header.i=@oss.cyber.gouv.fr header.b="S2KQtR4j"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=oss.cyber.gouv.fr; s=default; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=IxfTjv8LOMYjfUi8h0wbVoUSkjcjlTLTPYdh0YikeHc=; b=S2KQtR4jzO7j0+clGGWn4QIVgT
-	3tICv4HAfSV2VzWGeprV7p4BQxufNYl4MRzi3ym1YXFVMRKvBZTpHSo4qcIUycHqNlUT33xHHmc4d
-	0MDd+hpRiFhUiZgqGT0z+/ybU+fuwnWJrH5CtxrjawJbgA0bu2aLsIIFdm7/SJBsdXNd/tiFsfyJc
-	mgl65e3Wzyq0qfChUwT60zP9N2cXfgDwX4ZQsJueElmg6WvZ9Rt7mymSXyy4FpgBoJgInYEry8wT8
-	/g1dfBk6TZoNl+3SV4akrd4yDI9DHlD5VuLK5u4T1BA/46Pjb8BWzFMH47nBKiJQk2+p6W2VfqKmj
-	BKIH+8wQ==;
-Received: from laubervilliers-658-1-215-187.w90-63.abo.wanadoo.fr ([90.63.246.187]:17959 helo=archlinux)
-	by pf-012 with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.99.2)
-	(envelope-from <nicolas.bouchinet@oss.cyber.gouv.fr>)
-	id 1wKEsI-00000003jl2-2Hnm;
-	Tue, 05 May 2026 14:27:42 +0200
-Date: Tue, 5 May 2026 14:27:41 +0200
-From: Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>
-To: sashiko@lists.linux.dev
-Cc: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
-	bpf@vger.kernel.org
-Subject: Re: [PATCH v5 02/14] lockdown: Make the relationship to MODULE_SIG a
- dependency
-Message-ID: <afngZZcIZnZ2DrBC@archlinux>
-References: <20260505-module-hashes-v5-2-e174a5a49fce@weissschuh.net>
- <20260505093229.D8CD2C2BCB4@smtp.kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aZgitXAQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23959C2BCB4;
+	Tue,  5 May 2026 12:40:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777984859;
+	bh=xSeupnuvJlm1SCUwSLTr6zr3hWRgUFyf0/4uoYJZNaI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=aZgitXAQKnW8uvL01qWyAO8epkmapRR+vivO7oPD4fKv9/nkYvrQ+aO/slBm5f88/
+	 QZTDO48wpznV2zMZUJLQ4fxkCKqYciPLGFUf69yd4J8scVI45m1Cc21jAUiTsDTSUz
+	 J8g6LLCuC357F0VkIUPeiPKoFjs20PODZ6jmcw26u+w6eJu7+BXxsDH21QKjK6gCd6
+	 f0aK4gasN5dT0zd+L59XUVA64VNl7JTnZOc2hgy3Lk3xHGSwNIyJb2k8451k4tehkz
+	 IyAQERUtR9xEMDBPHx98qVih9IJW72p62eJ4UtkSnHZxDmt7SBAFAv4MAs4IkEgq5v
+	 fG55DM5de+v/Q==
+Message-ID: <0737c71e-0614-4ecf-9801-a7e71be198d4@kernel.org>
+Date: Tue, 5 May 2026 14:40:56 +0200
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260505093229.D8CD2C2BCB4@smtp.kernel.org>
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - pf-012
-X-AntiAbuse: Original Domain - lists.linux.dev
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - oss.cyber.gouv.fr
-X-Get-Message-Sender-Via: pf-012: authenticated_id: nicolas.bouchinet@oss.cyber.gouv.fr
-X-Authenticated-Sender: pf-012: nicolas.bouchinet@oss.cyber.gouv.fr
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v4 2/4] veth: implement Byte Queue Limits (BQL)
+ for latency reduction
+To: sashiko@lists.linux.dev
+Cc: bpf@vger.kernel.org, Netdev <netdev@vger.kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>, kernel-team <kernel-team@cloudflare.com>,
+ Paolo Abeni <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>
+References: <20260501071633.644353-3-hawk@kernel.org>
+ <20260502071828.616C3C19425@smtp.kernel.org>
+Content-Language: en-US
+From: Jesper Dangaard Brouer <hawk@kernel.org>
+In-Reply-To: <20260502071828.616C3C19425@smtp.kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-> > diff --git a/security/lockdown/Kconfig b/security/lockdown/Kconfig
-> > index e84ddf4840101..155959205b8ea 100644
-> > --- a/security/lockdown/Kconfig
-> > +++ b/security/lockdown/Kconfig
-> > @@ -1,7 +1,7 @@
-> >  config SECURITY_LOCKDOWN_LSM
-> >  	bool "Basic module for enforcing kernel lockdown"
-> >  	depends on SECURITY
-> > -	select MODULE_SIG if MODULES
-> > +	depends on !MODULES || MODULE_SIG
-> 
-> Will this change silently disable CONFIG_SECURITY_LOCKDOWN_LSM in existing
-> defconfigs?
-> 
-> Because Kconfig's savedefconfig strips out automatically selected symbols,
-> many in-tree defconfigs contain CONFIG_SECURITY_LOCKDOWN_LSM=y but omit
-> CONFIG_MODULE_SIG=y. Since CONFIG_MODULE_SIG has no default y, it will
-> initialize to n.
-> 
-> With CONFIG_MODULES=y and CONFIG_MODULE_SIG=n, this new dependency evaluates
-> to n. As a result, Kconfig will drop CONFIG_SECURITY_LOCKDOWN_LSM from the
-> final configuration without any warnings, leaving the kernel unprotected by
-> lockdown. This also degrades discoverability, hiding the Lockdown LSM in
-> menuconfig unless a user explicitly enables MODULE_SIG first.
 
-I think the bot is correct, powerpc/configs/skiroot_defconfig,
-powerpc/configs/ppc64_defconfig, s390/configs/debug_defconfig and
-s390/configs/defconfig all set CONFIG_SECURITY_LOCKDOWN_LSM{,_EARLY}=y.
-They also set CONFIG_MODULE_SIG_FORCE=y but do not set CONFIG_MODULE_SIG
-directly. The new 'depends on' condition will thus evict
-CONFIG_SECURITY_LOCKDOWN_LSM{,_EARLY} from the generated .config.
 
-Nicolas
+On 02/05/2026 09.18, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 2 potential issue(s) to consider:
+> - [Critical] Out-of-bounds array access on peer_dev->_tx in veth_poll() when local RX queues exceed peer TX queues.
+> - [High] Disabling XDP permanently stops peer TX queues if they were backpressured (DRV_XOFF leak).
+> --
+> 
+> commit 9bc3ed022846dda6dd5cc131e798f949f63f491f
+> Author: Jesper Dangaard Brouer <hawk@kernel.org>
+> 
+> veth: implement Byte Queue Limits (BQL) for latency reduction
+> 
+> This commit adds byte queue limits support to the veth driver to provide
+> qdiscs with feedback and reduce latency. It charges a fixed unit per
+> packet rather than byte-based charging.
+> 
+>> diff --git a/drivers/net/veth.c b/drivers/net/veth.c
+>> index e35df717e65e2..3de25ba34a906 100644
+>> --- a/drivers/net/veth.c
+>> +++ b/drivers/net/veth.c
+> 
+> [ ... ]
+> 
+>> @@ -975,7 +1016,7 @@ static int veth_poll(struct napi_struct *napi, int budget)
+>>   	peer_txq = peer_dev ? netdev_get_tx_queue(peer_dev, queue_idx) : NULL;
+>>   
+>>   	xdp_set_return_frame_no_direct();
+>> -	done = veth_xdp_rcv(rq, budget, &bq, &stats);
+>> +	done = veth_xdp_rcv(rq, budget, &bq, &stats, peer_txq);
+> 
+> Could this lead to an out-of-bounds array access on the peer device's
+> transmit queues?
+> 
+> If a veth pair is configured asymmetrically, the local device might have
+> more receive queues than the peer has transmit queues.
+> 
+> If packets are redirected from another interface into a higher-indexed
+> receive queue, the poll function will run with a queue_idx greater than or
+> equal to peer_dev->real_num_tx_queues.
+> 
+> Since netdev_get_tx_queue() performs a direct array access without bounds
+> checking, peer_txq would point out-of-bounds. This out-of-bounds pointer is
+> then passed into the new veth_xdp_rcv() code paths and accessed by
+> netif_tx_queue_stopped().
+> 
+> Should queue_idx be checked against peer_dev->real_num_tx_queues before
+> fetching the transmit queue?
+Yes, for the XDP redirect code path, which enqueues frames into the
+peer's ptr_ring using smp_processor_id() % peer->real_num_rx_queues
+as the ring index.  Then this is actually possible.
+
+It is not a bug introduced in this patchset, but given we access
+peer_txq a bit earlier, then a fix for this is needed as part of this
+patchset. I have prepared a patch that fixes this.
+
+diff --git a/drivers/net/veth.c b/drivers/net/veth.c
+index e35df717e65e..0cfb19b760dd 100644
+--- a/drivers/net/veth.c
++++ b/drivers/net/veth.c
+@@ -972,7 +972,8 @@ static int veth_poll(struct napi_struct *napi, int 
+budget)
+
+         /* NAPI functions as RCU section */
+         peer_dev = rcu_dereference_check(priv->peer, 
+rcu_read_lock_bh_held());
+-       peer_txq = peer_dev ? netdev_get_tx_queue(peer_dev, queue_idx) : 
+NULL;
++       peer_txq = (peer_dev && queue_idx < peer_dev->real_num_tx_queues) ?
++                  netdev_get_tx_queue(peer_dev, queue_idx) : NULL;
+
+
+
+> [ ... ]
+> 
+>> @@ -1091,6 +1133,17 @@ static void veth_napi_del_range(struct net_device *dev, int start, int end)
+>>   		ptr_ring_cleanup(&rq->xdp_ring, veth_ptr_free);
+>>   	}
+>>   
+>> +	/* Reset BQL on peer's txqs: remaining ring items were freed above
+>> +	 * without BQL completion, so DQL state must be reset.
+>> +	 */
+>> +	peer = rtnl_dereference(priv->peer);
+>> +	if (peer) {
+>> +		int peer_end = min(end, (int)peer->real_num_tx_queues);
+>> +
+>> +		for (i = start; i < peer_end; i++)
+>> +			netdev_tx_reset_queue(netdev_get_tx_queue(peer, i));
+>> +	}
+> 
+> Does this cleanup leave peer transmit queues permanently stopped if they
+> were backpressured when xdp was disabled?
+> 
+> When the ptr_ring is full, veth_xmit() stops the transmit queue using
+> netif_tx_stop_queue(), which sets the __QUEUE_STATE_DRV_XOFF flag.
+> 
+> While netdev_tx_reset_queue() successfully clears the newly added
+> __QUEUE_STATE_STACK_XOFF flag, it does not clear __QUEUE_STATE_DRV_XOFF.
+> If a queue was backpressured exactly when xdp is disabled, it appears it
+> would remain locked forever.
+> 
+> Would it be appropriate to wake the queues using netif_tx_wake_queue() or
+> explicitly clear the __QUEUE_STATE_DRV_XOFF flag during this cleanup?
+
+The watchdog timer in this patchset will call netif_tx_wake_queue().
+So, we would recover from this unlikely case.  I guess there is no harm
+in adding a netif_tx_wake_queue() call here (but we should likely guard
+it with netif_running(dev)).
+
+--Jesper
+
