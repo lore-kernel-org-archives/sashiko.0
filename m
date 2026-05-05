@@ -1,178 +1,235 @@
-Received: from mail-dl1-f48.google.com (mail-dl1-f48.google.com [74.125.82.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78FBE386440
-	for <sashiko@lists.linux.dev>; Tue,  5 May 2026 05:43:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777959803; cv=pass; b=oUPQ6+/aLDi4GHUUizPKWyU/k8r8nsbOgzedtFhpSqHc5HZisqnrhp7MHQrejNyu3+5BO3HtIEubDvG8qJ2lAGBheZaOBh09Y+iBzi/JZcb45+98iMBAXotDPQnrct/qNDrG8jXF3nyu6QaxcuOUkKQwvdqybOCyhBtcY3IusM0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777959803; c=relaxed/simple;
-	bh=PBDvQznMxWjpcwNYDmYcjrNP7ss5epTT/kwErEyvUEY=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7549309DCF
+	for <sashiko@lists.linux.dev>; Tue,  5 May 2026 10:43:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777977811; cv=none; b=N+SiKwcPllKXaA4JOOwNRypvVoCrV9oE4mZYW1YCMymDZoxiY306evGx+5269RREe5sq3wSiMcP+ELCQoW4KzPvpC8w2GjqTGjvIRI46HjKWfzSfDyCmBaGP0U46BQESgionyydjwH/uZ2iG6BpcDbdf7uDzTGar3gLyasqBMbg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777977811; c=relaxed/simple;
+	bh=4p8xZgPTwl23yuO4usByrqVx7sRRkYZITrF1b6z8fNY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rQNzz8J0Go68iCl/PnTd0BpHD626u+Umn17TuIOC+3kiweCg1kzuGOKOzl9sswBuBzIFda7S+1LljDso6PCdvWSf0ccUBkdNGCRQ9hceBo+jYCvRDpH7yRz3fk9w9XwLvfd1P4JNZzQCFR7NEU7yiGgyybJ3Ym/4x4wIoqc6his=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=g5SXCIg1; arc=pass smtp.client-ip=74.125.82.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 To:Cc:Content-Type; b=a30NbhSKcLOzsfx4yaGwQm8rLnRlWnaiTilfJCBu6MVBltrBZ2Mqn7K2y/X0VLjQ7yuHV8/Ib8mWwiPXMz4wOj6boZrRb1nIBHcGODzvJINfcnVbABqHx1YVEhSR9tLKFi9/k3PWM3pTiAQvsG9crHNn2r3F5I4BWKwbgMwuAoQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pSHbcEEf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="g5SXCIg1"
-Received: by mail-dl1-f48.google.com with SMTP id a92af1059eb24-1309f4ee973so1179839c88.1
-        for <sashiko@lists.linux.dev>; Mon, 04 May 2026 22:43:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777959801; cv=none;
-        d=google.com; s=arc-20240605;
-        b=AHzdTzTWNAaAePwMUI6r5ce8TsrP0z5ZPg1leWX2BBEv4sPj4vLu8J5TQ8wsCZgso9
-         7dD4EkhLmHi+oGivvpWozbK/WOMmEf/CjwFFJvzPjk9CGrxPilJAH8VZhcZVJ1awFJlv
-         sgmzMdmCvOBEe+Hp73n+5Y5yuJQuVd15Ou/ACcANh7KtEgQzpWiwSfSQOHFDwo8jsyR6
-         Ap2yFoND8NpW+FhhZIqZd6lWA0eX+xlh4U4vSNL5UuSht3sjNO8AI2pVKrBCIJp2pj6h
-         HJUcmQXz+EsJusdsHwaw8qIk8IFtySjlnDeI/RSrGqUTuBdaeZbxr5WDPihzwWPevFmR
-         DtsA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ID9/lDtQnEfLjPMFXed1O963xIM5qgALbX2MVBfWr7U=;
-        fh=BPNtcH7ntRniEjYIhZkfaTTujl+FWspWzDXVu7iCfaY=;
-        b=ZnP2GWoLCm5nMdHI1mFDsq64Q+A6xkP2IdyVAbu2ye4nnocT6RpKR8dR0S01wNuhae
-         U/ro147NtIjLU3jwmYgARPu10IR/Zfthy4DlTTz565rXwQLO2yjoCEBJB+xcDPZOrQ0u
-         /pTiHdQ8IyhQzRbyNimIQ1EHGqCC07rIMPsdvYU3++Z3fBLeZzbUTJB8q9IsqRgUr0Om
-         ST1PD9IbuBf/yRokBEHPbYEtz9uIagCrtTSrhn4B8jiF/fLT1eJEHXSIH0tvbKeam6Sz
-         58RKTHdaS2ntDaBMOhazL9kZCzaJdZwa8uMywdI9YcXFmt7UtfVCwWo2XZ5cdFKe9dWg
-         DR7g==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1777959801; x=1778564601; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ID9/lDtQnEfLjPMFXed1O963xIM5qgALbX2MVBfWr7U=;
-        b=g5SXCIg11/CWOCIkDC9ofoLYUDTex9cggycsNiM8SO8vr2jJscyvsI5zc9yP3ql5t2
-         vHY7Km6dywbOBsbNKnNGKaYu8dBsLbpSrnIkHHuCfJopsbx51ihRdWZxRdRZliIBNk+X
-         acJ9GBvj30/yCAA2UMI+FkkSzu1884RoXddg7pBL/9K5EIAQh8vgNkTwPKxbK2sPTXBk
-         FnQD7ZsARrPfgHnOpkyv38m4ZQyCacf7zUikxlJKtn1Bl8WaOxveUMXsDKt7shwq/6Ff
-         j2k9vxTmwuSiEJ63yJHRLPfxsvawQtFjnxoba+YRDiSaLj94g9LWt9fNB5A2WU/4p5i4
-         M+fA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777959801; x=1778564601;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ID9/lDtQnEfLjPMFXed1O963xIM5qgALbX2MVBfWr7U=;
-        b=Ym3BL3Tt2w81wHZBzPNbI0/9T39vjjxOXbcQmcpmcLX5W6WaawxNuE1RdIRjrOIHVL
-         DYYSpMIbytFI5Daii9k0pO05CI9G+IswY0H7DFofL9piHyB+S316lkHU/spB9WVCI7xA
-         7/7mEvBjFx0S75bVdbm9JG6TPjqvQ7r1vYbF0A8aY8yjIt2I6+8UIESlQQBsjZFb4VqC
-         InPk3F4dOYSFHB1QQv2GOTESNMbN0bKY34bEYCwvRR6DuDzNDI4EvfSJ+Li1Y7S4bRkc
-         dfy4JUTcgwd0RRAksOq6tFcXEhsAtiFFJOEHqeKBlg714sLqO00xcFmL5G2EShpPEwvT
-         S2/Q==
-X-Gm-Message-State: AOJu0YwjTExYPuoIgR18P9MswiqsDbIFa/6o5PRXKDA/prFpBC8xyCHL
-	RUtMNPJLbFGDuJsLAlAxC78tpu5ybqnTzfkhwBh5HK4Ln3Ye++6FBdfkmE/epTlpnwryuZolxq1
-	a7p8acUT+YeKtwNQ/tpgg6pPCVUP0aHmzwntKfMOpdvDODCGnwq4gbznubn4=
-X-Gm-Gg: AeBDiet+PhQ0Q6Nfh1QtywHQXWMKAeU8HE5I7AQBNdH8zash0/O0pbJ/+ok4+QywlHC
-	JLSVdsCzhOM39vVLeQkXtOAD4BTSQYP9UGPUTq4yRZCXN4XtTjOW/7/TYkBzRGlm0EpMjfnvJxL
-	rvCAC4rGipFdBRgGOgCe4R5tAnsacZU+Ff88t925aOIBLOyP0uGQjqvl36fX23dxKjiSvxUkYz2
-	HPa2gBPtlZ5AEpZCLsixn5/RLxNeJf0LnCPkOmvW55t9tExIu9TYPLEaXZm7K979SobMyI4++37
-	ukpeFTK7dzJi6lRgJPIs1OXztmzsMw0C6X9sLQx7Io2fVCvnkTrbbHZroYAkkZQVfT6vWGRTfCK
-	PtQ6Io4njg3mbI0KWqp0da17dRJHmlbU8wNg4Vdq/4voP7Y2ycbHol9ULFDpBRdVc6ESPmYDi0B
-	wAOgayM/An
-X-Received: by 2002:a05:7022:4381:b0:130:9bce:ba26 with SMTP id
- a92af1059eb24-1309bcebb05mr1826901c88.35.1777959800854; Mon, 04 May 2026
- 22:43:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pSHbcEEf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBC03C2BD01
+	for <sashiko@lists.linux.dev>; Tue,  5 May 2026 10:43:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777977811;
+	bh=4p8xZgPTwl23yuO4usByrqVx7sRRkYZITrF1b6z8fNY=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=pSHbcEEffmwAe1AyV5gwpZOhcvKoyz5oNnw5hpUc4pL78QL6NWwQ93yOMxpJ1i1Sk
+	 MGPGZVJyIqgnLxqCX+bx3hERDbXYLz/1x1I0b0KY6bjkhHxQsrTkCQwsrzs0M3umOG
+	 4+89S7eH/7QVsU5IKOSP2RLRa8R+pdUZs89GlJ48cijmAuMtZbi9lJSCB9WBA6NX34
+	 SMnDQ2D3SyVtz0iMvEfHNVTl8myiDfqT3y8WnMXr7efRqdKTC22USNHHZ1ZXrEn3LG
+	 4GbRbN1bncCugzOAQTKfs5y/IQdQszglWZQR9wf8bqbZg1UgOIzYt2elCg0Vl+7USV
+	 oi0JMLWiKAvbg==
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5a865d1547aso2864365e87.1
+        for <sashiko@lists.linux.dev>; Tue, 05 May 2026 03:43:31 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ9uEQ//XLLl7qIwL6I8l64SXDCsJCx3me2pSBnc5ZHOGLELR5/7Z4tZXC6NHkn2OJUuur70g3PN@lists.linux.dev
+X-Gm-Message-State: AOJu0YyRFhye61j3ZBqTUAJtQYoyKd7fHQchPlWVIji7moQy0o7lhhec
+	tSXbU+p6KW0thS0JNrM9D7EKP4pAdhRu2eCmWk60YUaYJDzzjbPRI2mI7QdYxrfaQGww1GYKIsX
+	Ugs986qts+RNfdiLz39K8zZforyd3NB0=
+X-Received: by 2002:a05:6512:3f0b:b0:5a8:7360:5c59 with SMTP id
+ 2adb3069b0e04-5a87e6826b7mr1133820e87.10.1777977809996; Tue, 05 May 2026
+ 03:43:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260504210610.180150-4-kuniyu@google.com> <20260505041435.187D0C2BCB4@smtp.kernel.org>
-In-Reply-To: <20260505041435.187D0C2BCB4@smtp.kernel.org>
-From: Kuniyuki Iwashima <kuniyu@google.com>
-Date: Mon, 4 May 2026 22:43:09 -0700
-X-Gm-Features: AVHnY4JOCOb71wu5mt1KFGtOvg7crQc-IG8Nxqs_vTCH-gFp-2Dt9Bt1UXsuzwI
-Message-ID: <CAAVpQUB-K4YBE5Em4xg5wWsjtK=7xZwwXFynX2vUN4DQDx2tRw@mail.gmail.com>
-Subject: Re: [PATCH v2 bpf 3/6] mptcp: bpf: fix type confusion in bpf_mptcp_sock_from_subflow()
-To: sashiko@lists.linux.dev, Matthieu Baerts <matttbe@kernel.org>
-Cc: bpf@vger.kernel.org
+References: <CAJZ5v0g3f8_7v-8W0SAbn_8vmKUJgpDbgyYMSjv03QjXJ8bCHQ@mail.gmail.com>
+ <20260504211741.GA659556@bhelgaas>
+In-Reply-To: <20260504211741.GA659556@bhelgaas>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Tue, 5 May 2026 12:43:17 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0hngqvdi2vRB4n5T3sGSPc10eR=1X+UO2QAR=GHYmQo2w@mail.gmail.com>
+X-Gm-Features: AVHnY4L9S085Yvf8QXDvLO4t6IegPYvzrYt8Z57K_31su0wbMOblGNmN7xFGjSs
+Message-ID: <CAJZ5v0hngqvdi2vRB4n5T3sGSPc10eR=1X+UO2QAR=GHYmQo2w@mail.gmail.com>
+Subject: Re: [PATCH] PCI: Drop unnecessary retries when restoring BARs
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Lukas Wunner <lukas@wunner.de>, sashiko-bot@kernel.org, 
+	linux-pci@vger.kernel.org, sashiko@lists.linux.dev, 
+	Marco Nenciarini <mnencia@kcore.it>, Michal Winiarski <michal.winiarski@intel.com>, 
+	Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>, Eric Chanudet <echanude@redhat.com>, 
+	Jean Guyader <jean.guyader@gmail.com>, Alex Williamson <alex@shazbot.org>, Sinan Kaya <okaya@kernel.org>, 
+	Mario Limonciello <superm1@kernel.org>, Mika Westerberg <mika.westerberg@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Matt,
-
-Could you follow up on the comments by Sashiko ?
-
-On Mon, May 4, 2026 at 9:14=E2=80=AFPM <sashiko-bot@kernel.org> wrote:
+On Mon, May 4, 2026 at 11:17=E2=80=AFPM Bjorn Helgaas <helgaas@kernel.org> =
+wrote:
 >
-> Thank you for your contribution! Sashiko AI review found 2 potential issu=
-e(s) to consider:
-> - [High] NULL pointer dereferences in bpf_mptcp_sock_from_subflow due to =
-lockless concurrent accesses
-> - [High] Use-After-Free in BPF programs returning freed mptcp socket duri=
-ng teardown
-> --
->
-> commit 52dbcdaad7d49ff5db2faacf11c47b1c581024a8
-> Author: Matthieu Baerts (NGI0) <matttbe@kernel.org>
-> mptcp: bpf: fix type confusion in bpf_mptcp_sock_from_subflow()
->
-> This commit fixes a type confusion issue in bpf_mptcp_sock_from_subflow()=
- by
-> checking if the socket is actually a TCP socket before calling sk_is_mptc=
-p().
-> Previously, raw sockets could bypass the IPPROTO_TCP check and cause inco=
-rrect
-> assumptions about the socket type.
->
-> > diff --git a/net/mptcp/bpf.c b/net/mptcp/bpf.c
-> > index 8a16672b94e2..4cc16cbeb328 100644
-> > --- a/net/mptcp/bpf.c
-> > +++ b/net/mptcp/bpf.c
-> > @@ -14,7 +14,7 @@
+> On Mon, May 04, 2026 at 09:31:51PM +0200, Rafael J. Wysocki wrote:
+> > On Mon, May 4, 2026 at 7:09=E2=80=AFPM Bjorn Helgaas <helgaas@kernel.or=
+g> wrote:
+> > > On Mon, May 04, 2026 at 09:49:36AM +0200, Lukas Wunner wrote:
+> > > > On Sun, May 03, 2026 at 01:51:08PM +0000, sashiko-bot@kernel.org wr=
+ote:
+> > > > > Thank you for your contribution! Sashiko AI review found 1 potent=
+ial
+> > > > > issue(s) to consider:
+> > > > > - [High] Removing the read-back and retry loop for BAR restoratio=
+n in
+> > > > > `pci_restore_state()` introduces a risk of silent regressions for
+> > > > > hardware resuming from non-FLR resets (such as D3hot to D0 transi=
+tions
+> > > > > or custom driver resets). The commit incorrectly assumes the 60s =
+delay
+> > > > > from `pci_dev_wait()` covers all usages, but standard PM resume p=
+aths
+> > > > > only delay for 10ms (`PCI_PM_D3_WAIT`) before calling `pci_restor=
+e_state()`.
+> > > > > Historically, hardware that needed slightly longer to accept
+> > > > > configuration writes relied on the 10x 1ms retry loop to successf=
+ully
+> > > > > restore BARs. By removing both the retry and the read-back verifi=
+cation,
+> > > > > BAR writes to slow devices will be silently dropped, leaving hard=
+ware
+> > > > > unconfigured and causing MMIO accesses to result in IOMMU faults =
+or
+> > > > > kernel crashes.
+> > > >
+> > > > Hallucination alert:
+> > > >
+> > > > PCI_PM_D3_WAIT does not exist, it was renamed to PCI_PM_D3HOT_WAIT
+> > > > six years ago by commit 3789af9a13e5, which went into v5.10.
+> > > >
+> > > > The macro is used in:
+> > > >
+> > > > pci_pm_resume_noirq()
+> > > >   pci_pm_default_resume_early()
+> > > >     pci_pm_power_up_and_verify_state()
+> > > >       pci_power_up()
+> > > >         pci_dev_d3_sleep()
+> > > >
+> > > > However before pci_power_up() calls pci_dev_d3_sleep(), it reads
+> > > > the PMCSR register and errors out if config space is inaccessible.
+> > > >
+> > > > Hence when pci_restore_state() is invoked a bit later, config space
+> > > > can be assumed to be accessible.
+> > >
+> > > I don't quite follow this.  In this path, pci_power_up() changes a
+> > > device from some low-power state to D0.  If the device was in D3hot o=
+r
+> > > D3cold, we must delay at least 10ms before any access to it (PCIe
+> > > r7.0, sec 5.9).
 > >
-> >  struct mptcp_sock *bpf_mptcp_sock_from_subflow(struct sock *sk)
-> >  {
-> > -     if (sk && sk_fullsock(sk) && sk->sk_protocol =3D=3D IPPROTO_TCP &=
-& sk_is_mptcp(sk))
-> > +     if (sk && sk_fullsock(sk) && sk_is_tcp(sk) && sk_is_mptcp(sk))
-> >               return mptcp_sk(mptcp_subflow_ctx(sk)->conn);
->
-> Could this cause a regression by dereferencing a NULL pointer when access=
-ed
-> concurrently?
->
-> In subflow_ulp_fallback(), icsk->icsk_ulp_data is set to NULL prior to
-> clearing tcp_sk(sk)->is_mptcp. If a BPF program triggers in this window,
-> sk_is_mptcp() would return true but mptcp_subflow_ctx(sk) would return NU=
-LL,
-> leading to a NULL pointer dereference.
->
-> Additionally, could ctx->conn be NULL when read here?
->
-> During subflow_ulp_init(), the context is allocated and is_mptcp is set t=
-o 1,
-> but ctx->conn is initially NULL. Passing NULL to mptcp_sk(ctx->conn) trig=
-gers
-> a kernel panic on CONFIG_DEBUG_NET builds. On non-debug builds, it return=
-s a
-> non-NULL offset pointer, which bypasses BPF verifier NULL checks and caus=
-es
-> invalid memory accesses.
->
-> Could this introduce a regression with a use-after-free of the mptcp_sock
-> during teardown?
->
-> During subflow_ulp_release(), sock_put(ctx->conn) drops the reference to =
-the
-> parent mptcp_sock and may free it. However, ctx->conn is not cleared, and=
- the
-> subflow context remains valid until the RCU grace period ends.
->
-> If a BPF tracing program triggers after sock_put(), could this retrieve
-> and return the dangling ctx->conn pointer, enabling the BPF program to re=
-ad
-> from freed kernel slab memory?
->
+> > D3hot and D3cold are different in this respect, so using "or" here is
+> > inaccurate and confusing.
 > >
-> >       return NULL;
-> >  }
+> > Accessing the config space of a device in D3hot is entirely correct
+> > and doesn't require any delay.
+> >
+> > Accessing the config space of a device in D3cold is questionable
+> > because the device may not be accessible, but then the host bridge
+> > should just fail the access.
+> >
+> > The 10 ms delay is after attempting to program the device into D0 from
+> > D3hot (or the other way around) and it is observed as required.
 >
-> --
-> Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260504210610.18=
-0150-1-kuniyu@google.com?part=3D3
+> Thanks for taking a look at this!
+
+No prob.
+
+> If pci_power_up() is doing D3cold -> D0, main power is initially off,
+> so platform_pci_set_power_state(PCI_D0) would turn on main power,
+> which is a Fundamental Reset leaving the device in D0uninitialized.
+> In general the device needs at least 100 ms after that reset before
+> any access, e.g., before the PMCSR read.
+
+Yes, it does in general, but that should be covered by
+platform_pci_set_power_state() because on some platforms the delay can
+be shorter.
+
+> If pci_power_up() is doing D3hot -> D0, the device already has main
+> power, so I suppose platform_pci_set_power_state(PCI_D0) doesn't do
+> anything.
+
+It may or may not.  Some platforms supply AML to run during D3hot ->
+D0 transitions (and the ACPI spec allows that).
+
+> The device remains in D3hot, the PMCSR read should be fine,
+> and the PMCSR write to transition to D0 is immediately followed by the
+> 10 ms delay.  When No_Soft_Reset =3D=3D 1, this should be enough.
+>
+> But when No_Soft_Reset =3D=3D 0, the transition is to D0uninitialized,
+> which sec 2.3.1 includes as a reset condition after which the device
+> is permitted to return RRS.
+>
+> So to me it looks like we need these delays:
+>
+>   - For D3cold -> D0, msleep(100) and pci_dev_wait() between
+>     platform_pci_set_power_state(PCI_D0) and the PMCSR read, similar
+>     to what pcie_flr() does.
+
+Adding those delays directly to the PCI PM code would ruin the timing
+of system resume on many systems where devices go into D3cold during
+suspend, or are powered off by the platform firmware later in the case
+of S3 transitions.  For instance, during resume from S3, everything is
+typically powered up by the platform firmware which also takes care of
+the delays and the kernel effectively gets all devices in D0uninit.
+
+Also, as stated above, IMO it is better if
+platform_pci_set_power_state() takes care of the delay.
+
+>     Maybe platform_pci_set_power_state() takes care of some or all of
+>     this internally?
+
+At least on some platforms, yes it does.
+
+Moreover, the power-on may not actually happen during
+platform_pci_set_power_state() for the device in question, but for its
+parent.  It is quite common to provide an ACPI power resource for a
+PCIe root port for bringing up the downstream link, which doesn't
+really change the power state of the root port itself, but it affects
+the subordinate device (and possibly everything below it).
+
+Of course, a good question is what Alternative OSes do when
+transitioning PCIe devices from D3cold to D0, but I think I can find
+that out.
+
+>   - For D3hot -> D0 with No_Soft_Reset =3D=3D 0, pci_dev_wait() after the
+>     PMCSR write to transition to D0.
+>
+>     abbcf0e2a99d ("PCI: Wait for device to become ready after a power
+>     management reset") added the similar wait in pci_pm_reset().
+>
+> > > pci_power_up() doesn't do any delay before the PMCSR read.
+> >
+> > It assumes that platform_pci_set_power_state() has run and either it
+> > has succeeded or the config space is not accessible which is when
+> > PCI_POSSIBLE_ERROR() will trigger.  Unfortunately, there is no
+> > canonical way to verify that power has been restored to the device
+> > other than attempting to access it.
+> >
+> > > That part seems like a pre-existing issue even before this patch.
+> >
+> > I beg to differ.
+> >
+> > > If the PMCSR read returns PCI_POSSIBLE_ERROR(), pci_power_up() does
+> > > complain "Unable to change power state ... to D0" and return -EIO, bu=
+t
+> > > pci_pm_power_up_and_verify_state() doesn't look at it,
+> >
+> > In fact, pci_update_current_state() changes the power state to D3cold
+> > if the config space is not accessible.
+> >
+> > > and pci_pm_default_resume_early() continues on to pci_restore_state()=
+, so
+> > > it looks to me like we could try to restore state to an inaccessible
+> > > device.
+> >
+> > So the pci_restore_state() call could be avoided if the power state of
+> > the device was D3cold, but then the question is how much of a problem
+> > that is in practice.
+> >
+> > > We do call pci_dev_wait() in pci_pm_reset(), which does a D3hot -> D0
+> > > transition; shouldn't we do the same in pci_power_up()?
+> >
+> > It would be good to make them consistent, but maybe the other way aroun=
+d?
