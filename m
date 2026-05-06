@@ -1,60 +1,60 @@
 Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A2E031A06C;
-	Wed,  6 May 2026 13:50:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFAA13F7861;
+	Wed,  6 May 2026 14:13:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778075455; cv=none; b=bbs3Ely8BL2+rVz8vqHhlOTChtlF0pDQE7pLuzIxJN8iauJLodMd5+8V7fBO4Zc7RYFE1VkzWgSC7Oc68vEmmlq8EEKncKMT6L2myLVuYC6sE4OoisL8fu88QLTsfRCsdpj05xkJJL21d/8NoVnCSUN1O6u16RBgKiksutskm7o=
+	t=1778076813; cv=none; b=X5ad+7rKKwv2P0EGsnNTEZrgAxlJFG3nn/zdAZj4VKXrGkbp5qVcf+4DBZ70vivsLm9Ywt96OdK7bMddS4hPWoQye1it7jsPf74vM4vI5hTLr1dp6oPCxjchM6ovOExZTVFQTzUv34doXTiNxctngt2VQA1aY6qBmKljlK4bcUE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778075455; c=relaxed/simple;
-	bh=kya7CyX8B6k7kt0FGrLt9IE5yhQNaHdb1KkUjt4FzaU=;
+	s=arc-20240116; t=1778076813; c=relaxed/simple;
+	bh=lU6FXG3n/Xv4yIuXCPWQgDXaWtitBTmJQrODXegMxM4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WXTciBLASg5AZhXLZsLZEW1gQbTS3+BGME4GwNtC68fkD66xMq81x4wGsLjJM+hZXtsTJSggDGnICouZ3rZek4LtmOIDsNdlrfkfQ7x80GagnD2/fKJoPSLUkFuoEkQmz4ft5R3+DTbXDMwjCIeM2et8yEZV4eULHRig+fxz1dg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=BKmpZdIX; arc=none smtp.client-ip=148.163.158.5
+	 In-Reply-To:Content-Type; b=SVyc/DBPDXOUAeMkrfxAuDybsErNV2uM8y1xpyfmiJzZ4xzNDaB9eadVl9h0R9Dg6y0RjLo3COXkcKOrIMoC+0kIoYqyhp2eCzMORElFaiWi2waqDzK0jjDU2IgEfxVHTjWsjYVgU61iRDaegkEe+IQaMyEthzi76/0cJbKk8Xg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=g//rLicW; arc=none smtp.client-ip=148.163.158.5
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="BKmpZdIX"
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64695Gc62062528;
-	Wed, 6 May 2026 13:50:49 GMT
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="g//rLicW"
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6465P6Dm1010395;
+	Wed, 6 May 2026 14:13:28 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=poL33O
-	/KFoBdMk8AOsrcc6ZNOxiRBALDMQ087Zyzt8A=; b=BKmpZdIXglTT7kSbwdL3NP
-	JPtayUaUyxLTVZsM7WUfqVBiP/76KueEcWIt0XiwcQ8nT2wI1vxow2ZfqFa57FgF
-	tYFdLVvn3Q/kfyl1r4T3nvX68M9ZbieezE3Szi3om6bDQTfBSK4LkosHD4FrcagL
-	hxV2J3lcC/ZmeVeXiH2cDpdd0mPuFjFMQ6x5+rs99bKQt/LcA/68I7WvXaWrKlaK
-	skb3HXljfl42uSN7UcgL1wMbNqaYEI4gP7AT1aSZ+hffhHSiRW27S7ua/Y2qh18n
-	2VGqQqVJ7uYRAlnZhyp6/r65fZAiVuEuod26hA81pEKi07zUOV0edC0ererfp8Qw
+	:message-id:mime-version:references:subject:to; s=pp1; bh=ZvnlJ8
+	rf1zoU7sgBzQ2aNqwky9VSaAMLSREtRp8TzKU=; b=g//rLicWXGdQ0Q/rZ+ku2X
+	Gcz7y1ilAE8h96WlccaOGxBSwiSsJQG3qJ9dFnoLy+DRAL7+hub788X7y2ZVItyV
+	pBD+LON3M9K90NBRYY/NXyojMVb7cEH7UTny0feru/ERJa0g1VqaRNee1YMvZGtX
+	KrhErqlEdCfrx1vv29dFFtT/WB3kisvvS5itTgRxpBvDBm8um0ufh4dH12Xrse/j
+	wtA95lJUaKEeTRvNAvEtPn7OHzzfuhil6fOt0oBBX0CVLQts4u451T/pBkRhIGhM
+	kcoCElo+uWropTc60Is2O6mJMHSUx7avWm4TfWWC/qdBRwl+MrVcRTEBoR1Hdp8Q
 	==
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4dw9w6g9p9-1
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4dw9y4rdpe-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 06 May 2026 13:50:48 +0000 (GMT)
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 646DdSIQ007540;
-	Wed, 6 May 2026 13:50:47 GMT
-Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4dwwtge92y-1
+	Wed, 06 May 2026 14:13:28 +0000 (GMT)
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 646E9bkY025470;
+	Wed, 6 May 2026 14:13:27 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4dwx9ye9ut-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 06 May 2026 13:50:47 +0000 (GMT)
+	Wed, 06 May 2026 14:13:27 +0000 (GMT)
 Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
-	by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 646DokoQ33751366
+	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 646EDPbV55116268
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 6 May 2026 13:50:46 GMT
+	Wed, 6 May 2026 14:13:25 GMT
 Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 075262004B;
-	Wed,  6 May 2026 13:50:46 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id C68122004D;
+	Wed,  6 May 2026 14:13:25 +0000 (GMT)
 Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id D08BD20043;
-	Wed,  6 May 2026 13:50:45 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id A44F820043;
+	Wed,  6 May 2026 14:13:25 +0000 (GMT)
 Received: from [9.52.200.195] (unknown [9.52.200.195])
 	by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Wed,  6 May 2026 13:50:45 +0000 (GMT)
-Message-ID: <49318ed5-8668-43fe-880d-b91bd7c3a7a9@linux.ibm.com>
-Date: Wed, 6 May 2026 15:50:45 +0200
+	Wed,  6 May 2026 14:13:25 +0000 (GMT)
+Message-ID: <2946bcda-321d-4a17-88f2-02c5137676cf@linux.ibm.com>
+Date: Wed, 6 May 2026 16:13:25 +0200
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
@@ -62,228 +62,89 @@ List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v14 03/19] unwind_user/sframe: Store .sframe section data
- in per-mm maple tree
+Subject: Re: [PATCH v14 04/19] x86/uaccess: Add unsafe_copy_from_user()
+ implementation
 To: Steven Rostedt <rostedt@kernel.org>, Josh Poimboeuf <jpoimboe@kernel.org>
 Cc: bpf@vger.kernel.org, sashiko@lists.linux.dev,
         Indu Bhagat <ibhagatgnu@gmail.com>
-References: <20260505121718.3572346-4-jremus@linux.ibm.com>
- <20260505185158.39F35C2BCB4@smtp.kernel.org>
+References: <20260505121718.3572346-5-jremus@linux.ibm.com>
+ <20260505182244.0A151C2BCB4@smtp.kernel.org>
 Content-Language: en-US
 From: Jens Remus <jremus@linux.ibm.com>
 Organization: IBM Deutschland Research & Development GmbH
-In-Reply-To: <20260505185158.39F35C2BCB4@smtp.kernel.org>
+In-Reply-To: <20260505182244.0A151C2BCB4@smtp.kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
 X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Authority-Analysis: v=2.4 cv=XPQAjwhE c=1 sm=1 tr=0 ts=69fb4738 cx=c_pps
- a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA2MDEzOSBTYWx0ZWRfX+6qrWa6fNU6q
+ V6riBsdnt/4L/gRjAPoVmOYV7VP1+UxqZW80pK3QtlEXmov4zmHQhfxiTOkWaZdz047modZebu6
+ FK7iRwvS8ln8msobA7bktqUCt/BHoKF7mniFdjejK1D6Jy+cnNcU/H23AhwLn+Yadft0zXjda6x
+ Tax2sOFDrYUyhpPP3g0ErE3HbmfUTuQhO58WatVUo6USU9K4NNg3xPBqNfqxXvPc2Uppp6CJhOc
+ Qc1Ybt26mPUlVSlrDY8cwCLd9RYvVrt2j+T/sRHTAMLSREuaTNuJhXHruRVgaQ1jAUJAyZuDudG
+ vBqhkUS1LxsF3NQ1bQXmjd/cFjyX2p02zc1XJ0fAEkujUvFOWY1Pk6ADUybFp19gv4rEWQ83pcn
+ ocRuiladW+ZdQCWs+l6IJRYHB+e6gW1fYeUK2WOYeiECJGuLNw0j2OYUqIkRvvLZaFSflKL8yuD
+ KmFXsmuwQ2udCzK2fkA==
+X-Authority-Analysis: v=2.4 cv=J4GaKgnS c=1 sm=1 tr=0 ts=69fb4c88 cx=c_pps
+ a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
  a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=VnNF1IyMAAAA:8
- a=VwQbUJbxAAAA:8 a=5z3OOvnrkLlYczDheucA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-ORIG-GUID: roZ7ef1M_X0YI0fTxpiO0nwq4ZmX19jq
-X-Proofpoint-GUID: 5jirEh7eZEeFEczUQqsqK35rYfITND4P
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA2MDEzNCBTYWx0ZWRfX6yz1ebBC9c1t
- PtV5YpiPx8aAWY32PO7TdNq58E85bdSO7yKK3X/tNzv6rPjO4obuusE4oerDfdAHlLDSytOzPuE
- LjhjSsCog7hzF6Jd+gCP6akrM9VY6imwPFABpC/3fz9fVON4h21mSzB1NNaAlP9CYatO9KzRoo5
- Kr+cqewBZ/s0bNrGWxAKlpXqZwBGg20bRNLYLphGysA45CrSZwmzs7Pcx54JiQ45BrcgUmjOLmo
- 7xlCZ/zQle/oa+MUejS4gwVK3b+Ke8OjV0FX7N8FY2wZJeajS0amXShPKA1ACKN3DL8ho3y/5qE
- TlAvmtMK7WjQGwEfAH2Taq2RyPmotkCYIxlt2E5fJKJPcN3xzyLZrdwZBhh00wCzi6cnz/AJyOA
- ijClHvdqqtOuKnDRvngSsZi+b6ZfOaijfJpERrzvfu9ZGJU3hy9bQOzvjoDrB+jdZo1kngj44at
- 625N/VE+ukBdpYjHGag==
+ a=RnoormkPH1_aCDwRdu11:22 a=RzCfie-kr_QcCd8fBx8p:22 a=VnNF1IyMAAAA:8
+ a=VwQbUJbxAAAA:8 a=LFt20mCCc4CE-LtB3JUA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: yBBzXVAkvyL2H-hiaKZAo-74MXd8j0K3
+X-Proofpoint-ORIG-GUID: J2UJhCTx5GhGmBRJZ7iO2sWgHRpKQJkV
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-05-05_03,2026-05-06_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 lowpriorityscore=0 suspectscore=0 adultscore=0 spamscore=0
- priorityscore=1501 impostorscore=0 phishscore=0 malwarescore=0 clxscore=1015
+ impostorscore=0 clxscore=1015 malwarescore=0 bulkscore=0 suspectscore=0
+ priorityscore=1501 spamscore=0 phishscore=0 adultscore=0 lowpriorityscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2605060134
+ reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2605060139
 
-On 5/5/2026 8:51 PM, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 6 potential issue(s) to consider:
-> - [Critical] Concurrency Use-After-Free and Double Free in sframe_remove_section
-> - [High] Unbounded memory leak of sframe_section allocations leading to Denial of Service (OOM)
-> - [High] Missing MT_FLAGS_USE_RCU initialization breaks lockless NMI unwinding
-> - [Medium] Child processes silently lose .sframe unwind data on fork()
-> - [Medium] Inclusive bound semantics in maple tree cause 1-byte overlap rejections for contiguous sections
-> - [Low] Zero-address validation falsely rejects valid memory mappings
+On 5/5/2026 8:22 PM, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 2 potential issue(s) to consider:
+> - [High] Variable shadowing hazard in unsafe_copy_to_user and unsafe_copy_from_user macros.
+> - [Low] Missing const qualifier on the source pointer in unsafe_copy_from_user.
 > --
 > 
-> commit 3b41045a6b38a262cb32acf9ed118e4d667448dd
+> Note: The format of this report is altered due to recitation restrictions.
+> The original patch code is not quoted directly, and a free-form summary
+> of the review findings is provided instead.
+> 
+> commit b652061f302d029392e67f46699e5a2db0abfaca
 > Author: Josh Poimboeuf <jpoimboe@kernel.org>
 > 
-> unwind_user/sframe: Store .sframe section data in per-mm maple tree
+> x86/uaccess: Add unsafe_copy_from_user() implementation
 > 
-> Associate an .sframe section with its mm by adding it to a per-mm maple
-> tree which is indexed by the corresponding text address range. A single
-> .sframe section can be associated with multiple text ranges.
+> This commit introduces the unsafe_copy_from_user() macro for x86 architectures.
+> It also refactors the existing unsafe_copy_to_user() macro to use updated
+> internal variable names.
 > 
->> diff --git a/kernel/fork.c b/kernel/fork.c
->> index f1ad69c6dc2d4..0d92fb1c61a99 100644
->> --- a/kernel/fork.c
->> +++ b/kernel/fork.c
-> [ ... ]
->> @@ -1072,6 +1074,13 @@ static void mmap_init_lock(struct mm_struct *mm)
->>  #endif
->>  }
->>  
->> +static void mm_init_sframe(struct mm_struct *mm)
->> +{
->> +#ifdef CONFIG_HAVE_UNWIND_USER_SFRAME
->> +	mt_init(&mm->sframe_mt);
->> +#endif
->> +}
->> +
->>  static struct mm_struct *mm_init(struct mm_struct *mm, struct task_struct *p,
+> Regarding the variable naming in the updated unsafe_copy_to_user() and the
+> new unsafe_copy_from_user() macros, is there a risk of variable shadowing?
 > 
-> mt_init() initializes the maple tree with flags set to 0. Since stack
-> unwinding typically occurs in profiling interrupts (NMIs) which must
-> traverse the maple tree locklessly via RCU, does this missing
-> MT_FLAGS_USE_RCU flag allow concurrent modifications to perform in-place
-> updates instead of RCU-safe copy-on-write allocations? This could result in
-> the NMI unwinder observing corrupted tree states.
+> The macros declare local variables with very common names, specifically __dst,
+> __src, and __len. If a caller passes an argument that happens to share one of
+> these names, the local variable declaration will shadow the caller's argument.
+> For instance, if a caller passes __len, the initialization size_t __len =
+> (_len); will evaluate the right-hand side as the newly declared uninitialized
+> local variable itself. Could this lead to the loop copying a random length of
+> memory based on stack garbage instead of the intended length? The previous
+> implementation seemed to avoid this by using uniquely prefixed names like
+> __ucu_len.
 
 Please advise.
 
-> [ ... ]
->> @@ -1100,6 +1109,7 @@ static struct mm_struct *mm_init(struct mm_struct *mm, struct task_struct *p,
->>  	mm->pmd_huge_pte = NULL;
->>  #endif
->>  	mm_init_uprobes_state(mm);
->> +	mm_init_sframe(mm);
->>  	hugetlb_count_init(mm);
->>  
->>  	mm_flags_clear_all(mm);
+> Additionally, looking at the unsafe_copy_from_user() macro, the user-space
+> source pointer is initialized as a void pointer without a const qualifier.
 > 
-> When a process forks, this initializes an empty sframe_mt for the child's
-> mm_struct. While dup_mmap() duplicates the parent's VMAs, it doesn't appear
-> that the registered .sframe entries are propagated to the child's maple tree.
-> Will child processes silently lose their .sframe unwind data for shared
-> libraries registered prior to the fork?
+> Since memory read operations typically expect the source buffer to be
+> read-only, callers might pass a const void pointer. Does this implicit
+> dropping of the const qualifier trigger a discarded-qualifiers compiler
+> warning? Could the source pointer be declared as a const void pointer
+> to prevent potential build failures when warnings are treated as errors?
 
-Does this ring any bell, Steven?  I ran into it with my signal frame
-stacktracing test on s390.  I think we discussed this during one of the
-SFrame calls and it got lost.  
-
->> diff --git a/kernel/unwind/sframe.c b/kernel/unwind/sframe.c
->> index c128c1eeaca20..fdb2a49085638 100644
->> --- a/kernel/unwind/sframe.c
->> +++ b/kernel/unwind/sframe.c
-> [ ... ]
->> @@ -81,6 +81,7 @@ static int sframe_read_header(struct sframe_section *sec)
->>  int sframe_add_section(unsigned long sframe_start, unsigned long sframe_end,
->>  		       unsigned long text_start, unsigned long text_end)
->>  {
->> +	struct maple_tree *sframe_mt = &current->mm->sframe_mt;
->>  	struct vm_area_struct *sframe_vma, *text_vma;
->>  	struct mm_struct *mm = current->mm;
->>  	struct sframe_section *sec;
->> @@ -88,10 +89,12 @@ int sframe_add_section(unsigned long sframe_start, unsigned long sframe_end,
->>  	if (!sframe_start || !sframe_end || !text_start || !text_end) {
-> 
-> Virtual addresses can legitimately be zero, such as when mmap_min_addr
-> permits it. Does checking !text_start falsely reject valid zero-address
-> VMAs? Checking the range bounds explicitly might be safer here.
-
-Addressed in previous patch.
-
-> [ ... ]
->>  		}
->>  	}
->>  
->>  	sec = kzalloc(sizeof(*sec), GFP_KERNEL);
-> 
-> This allocates the section with GFP_KERNEL instead of GFP_KERNEL_ACCOUNT,
-> which bypasses memory cgroup limits.
-> 
-> Furthermore, is there a mechanism to clean up these allocated sections when
-> the corresponding VMA is torn down (e.g., via munmap)? Without cleanup hooks
-> in the VMA teardown paths, it looks like an application could repeatedly mmap
-> an executable region, register it here, and munmap it, leaking kernel memory
-> and maple tree nodes indefinitely.
-
-Isn't that taken care of by the change in __mmdrop() to call
-sframe_free_mm(mm), which is part of this patch?
-
-> [ ... ]
->> -	/* TODO nowhere to store it yet - just free it and return an error */
->> -	ret = -ENOSYS;
->> +	ret = mtree_insert_range(sframe_mt, sec->text_start, sec->text_end, sec, GFP_KERNEL);
-
-	ret = mtree_insert_range(sframe_mt, sec->text_start, sec->text_end - 1,
-				 sec, GFP_KERNEL);
-
-> The Maple Tree API stores ranges inclusively as [first, last]. Since VMA
-> boundaries are exclusive, does passing sec->text_end directly cause the
-> maple tree range to incorrectly cover one extra byte?
-> 
-> If an application registers two perfectly contiguous .sframe sections, the
-> insertion of the second section could fail with -EEXIST because the first
-> section erroneously claims the first byte of the second section. Using
-> sec->text_end - 1 might prevent this overlap.
-> 
->> +	if (ret) {
->> +		dbg("mtree_insert_range failed: text=%lx-%lx\n",
->> +		    sec->text_start, sec->text_end);
->> +		goto err_free;
->> +	}
->> +
->> +	return 0;
->>  
->>  err_free:
->>  	free_section(sec);
->>  	return ret;
->>  }
->>  
->> +static int __sframe_remove_section(struct mm_struct *mm,
->> +				   struct sframe_section *sec)
->> +{
->> +	if (!mtree_erase(&mm->sframe_mt, sec->text_start)) {
->> +		dbg("mtree_erase failed: text=%lx\n", sec->text_start);
->> +		return -EINVAL;
->> +	}
->> +
->> +	free_section(sec);
->> +
->> +	return 0;
->> +}
->> +
->>  int sframe_remove_section(unsigned long sframe_start)
->>  {
->> -	return -ENOSYS;
->> +	struct mm_struct *mm = current->mm;
->> +	struct sframe_section *sec;
->> +	unsigned long index = 0;
->> +	bool found = false;
->> +	int ret = 0;
->> +
->> +	mt_for_each(&mm->sframe_mt, sec, index, ULONG_MAX) {
->> +		if (sec->sframe_start == sframe_start) {
-> 
-> Can concurrent calls to sframe_remove_section() cause a use-after-free and
-> subsequent double free?
-> 
-> mt_for_each() locklessly iterates mm->sframe_mt, and internally acquires and
-> drops the RCU read lock, meaning the returned sec pointer has no lifetime
-> protection in the loop body.
-> 
-> If two threads concurrently invoke sframe_remove_section(), both could
-> receive the exact same sec pointer from the tree. Thread A could then call
-> __sframe_remove_section(), erasing the entry and freeing sec via
-> free_section(). Thread B would then evaluate the if statement using the
-> freed sec pointer, causing a use-after-free read, and potentially proceeding
-> to free it again.
-
-Please advise.
-
-> Additionally, does free_section() need to use kfree_rcu() instead of
-> kfree() to prevent lockless NMI unwinders from hitting a use-after-free
-> when reading payloads?
-
-Please advise.
-
+Makes sense.
 Thanks and regards,
 Jens
 -- 
