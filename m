@@ -1,70 +1,40 @@
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ED2E1DA62E
-	for <sashiko@lists.linux.dev>; Wed,  6 May 2026 01:19:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 060CD3770B;
+	Wed,  6 May 2026 01:22:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778030342; cv=none; b=Cr3xSRqOo1G3Ts2V9tAOC0XVIq7SboZqIOhq7X6qO/V/tbRA4+NVNngppbhkFGtPdarKMt9p54aHx9E0tpVMqJ9qeEpZoBACXitLpTttrV9KAWDzEXbV2Xaap/ylUvYEpE6QESA8oxOz8MVV8lLedshCSAckHCMdUhlQO/DUnHA=
+	t=1778030564; cv=none; b=mpUtMLhx48iFnZS/ofV5MO0hHfnbPHSRk44BhfdHaJ23E76IvqFxL9TSXsORevr8IZMYka9ES6LsNPOcnqtIDdsbADU3xbiVCO2XtZBPGHa4aBGCe6QtPw7fEkBK1LQA75G/ACd01AxCxQUh6lJ8yV8PLKJSL0zWxJqHqxcqObg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778030342; c=relaxed/simple;
-	bh=LR7LAldVcgI9obIy+/bO4y0ruSnBiqbukoMOuSekzAM=;
+	s=arc-20240116; t=1778030564; c=relaxed/simple;
+	bh=vqpM+z6IMP1SGxcrsteKqQx3HnsRKEALogLdi1GJHyc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CsykoHJXQPaHfFdEP6rfKP/o7CgvaTjnHmOHWjA3z2gtUaiX/GreGlbwrDGH+UCLvAdV6govLFaylLLs84GFYZPR1uCVUhSR0qt05mfUKVD9M+6Fh+kF1f41bbfD9EO+iL5OTccFqHOLUgJif7iIMMeBvGznE+qafRUgjzLMtgg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U/pGWFlO; arc=none smtp.client-ip=209.85.219.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=dVf4Z1nPJUw3TGMfjYL8EZ0eYhkZDqpsjb51x5lMV0H/AD794eari2CzQyHlwqihjXKOKDAjJ8qJ6xRXGVCBCERehSgU++EXZUUqx7Oc3916p34zkyhOOwKUkakmSg6cr+ohf7DOzp18pSqx75Q7gtYSuyUy9+EWvgV1lROUxgk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sYVAKITL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U/pGWFlO"
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-8b4298d271fso72527906d6.3
-        for <sashiko@lists.linux.dev>; Tue, 05 May 2026 18:19:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778030340; x=1778635140; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=xefO3CdiqRR6SyOJAzo15ugz1YtLwmd7HdJ9NdZnMzE=;
-        b=U/pGWFlOHs5nq4TuwniFtwdwSBQ61IbOsbfiDRl8paeMBs3aHeagX1N1OmCXT++ZoP
-         H+fchNtbxlp6TOKAj42/0Ck/PlLxuW1rMfwpGSGSLYbNzdauILlGRi66rsoMHqpKi2j+
-         n/FgpcJz/A7IfYwgvf5UxSME9csSLoJFizAE9tkR4R6TK5BFMTKKRqChwq1aNb9mv9EO
-         w0O/Knq3VA6GzLMmBeVwY0wrRasMIVDqxiNrFz6iPqYZSiB7qaYHGchhzUyHMjV7uo3y
-         KE3PFbpHUQ9e4Y5/JP7882rWVb0PVbFitmToKZFHK76+/Xp5ebi2QaaMPMKVhCyP91o2
-         8tHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778030340; x=1778635140;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xefO3CdiqRR6SyOJAzo15ugz1YtLwmd7HdJ9NdZnMzE=;
-        b=gKqkGSfRGZQmHPY6hr00OiuEcMq4WgScRQzKqNhFyd/gbnCX/VwUw+9bKSnxRLkoDu
-         D5uCKVwYlW/20FNFEQS2TFxex60KMdaCx2CScDqxhuvbgq4C60WvhA1CLgiehpdotB8Y
-         B1erVGu0I4IfzaaEVG0Rvj8WS6nv0pq/g+uQuWAaSf+ozlOfTs97OQ3rTA6qOp4bJ84o
-         AjBlo0S7z0SYfZBRKcUS7sEnQrt+zZU/G4WxCyiw6mkHUCntC38TehfqIL0W8BVEMbBz
-         3/R5FLYBREB46XBYCn3Gi/53+wLDerQDYPh3rGdRuB9sYL3S1z2dX5Gm4HoLRa3JV/cz
-         qB+g==
-X-Gm-Message-State: AOJu0YzbqUQ0QDqxain8wVWuVBPieEJvh2MjezD2P0QYCfRPapc/a2Oe
-	5ts8BkIWxTyJpHZD/yVU6xfc5ywEacKAhA/rUha61EfJREGDcOBwR2Wel/3HpyeZ
-X-Gm-Gg: AeBDietjgGiE64pCk+MzF6FtAPWDPHQsYOWD/LnsOYeHAzC+TOfNKuTN6YZ8BRJlXzC
-	NuJtdF2iNjlsxkg+fM4aAJe20OKNY57IkVuc/pFaDWTJBrXMclIhDXgbzVXiKU98xqZ2Ascmj9s
-	NQBOhCksBZaoQ1ko2gTnSBTnWr3X4BTL1bX4Zbc1RR9W9qJ+ksbZ7VJeGUxsT5vXkPF0zR+BMLS
-	9jMeBnkitTCh1nYgZba6Ql3JRWLxDZNFma88V6hGAK3CHsMAITuhEo9hRX+RJXnLMt9mP7N3dKS
-	T/fM9KXwCDGH0KojonYCODo3VStww3AMRu2qW1ZtZoDc0Vxwu3zCwxI3zaPbXLUIl/NeyTG17gL
-	WmkTtTSCrmMAhJVLvFkoPJQFF26ftzRMDPXyDSbL4Z+Amlp0WlxswwUzL6V9vIz87vB6bPPgXFO
-	bTWSEJ5+KxtqsNotelOfcFvf8YkmAK9VKaAI+usUeDKMBl9ew1RcRUmg2BSA==
-X-Received: by 2002:a05:6214:f66:b0:89a:622e:d32c with SMTP id 6a1803df08f44-8bc44f852fcmr21784616d6.36.1778030340115;
-        Tue, 05 May 2026 18:19:00 -0700 (PDT)
-Received: from devvm29614.prn0.facebook.com ([2a03:2880:f800:2e::])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8b538b1d953sm186780256d6.3.2026.05.05.18.18.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 May 2026 18:18:59 -0700 (PDT)
-Date: Tue, 5 May 2026 18:18:56 -0700
-From: Bobby Eshleman <bobbyeshleman@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sYVAKITL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89D1CC2BCB4;
+	Wed,  6 May 2026 01:22:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778030563;
+	bh=vqpM+z6IMP1SGxcrsteKqQx3HnsRKEALogLdi1GJHyc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=sYVAKITLvGAKNmtxbIXRltxdqMUvq9FzagmxdqvcZo+l3wHIZZoAH3RPXt1q0ub1w
+	 jYFtdcqc1v6kVVYXGnu5GhzIxeYAXUUeF7TDp3bk9z6gG0B3yw6h02LNQN/HYIJsqa
+	 SyCFyfCMM7V32UeY6J6F5Y9rDJMBg/mIhDou8x3SDT/sbK46YCObJ2YuYtLAXlcF+s
+	 VRZzeNGqcEArn1XQmvL3bSvqzU0pLCgOCoOfdkqcAMHkUqaZdIY2XWZMiai1qn0FSR
+	 tC2QxDCQHgkCt4olZ3N/q/h3OfB4qViCsr1WuJLisVoTtru0EZ6ZZuRx9qB2LRh+nv
+	 8M2+gKjfmB7Yw==
+Date: Tue, 5 May 2026 20:22:41 -0500
+From: Rob Herring <robh@kernel.org>
 To: sashiko@lists.linux.dev
-Cc: bpf@vger.kernel.org
-Subject: Re: [PATCH net-next v2 2/6] net: devmem: support TX over
- NETMEM_TX_NO_DMA devices
-Message-ID: <afqXAKj4fJbTd4tL@devvm29614.prn0.facebook.com>
-References: <20260504-tcp-dm-netkit-v2-2-56d52ac72fd4@meta.com>
- <20260506002905.DF681C2BCB4@smtp.kernel.org>
+Cc: Changhuang Liang <changhuang.liang@starfivetech.com>,
+	linux-hwmon@vger.kernel.org
+Subject: Re: [PATCH v1 1/2] dt-bindings: hwmon: Add starfive,jhb100-fan-tach
+Message-ID: <20260506012241.GA248179-robh@kernel.org>
+References: <20260428082337.743546-2-changhuang.liang@starfivetech.com>
+ <20260428193953.31ED7C2BCAF@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
@@ -73,110 +43,57 @@ List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260506002905.DF681C2BCB4@smtp.kernel.org>
+In-Reply-To: <20260428193953.31ED7C2BCAF@smtp.kernel.org>
 
-On Wed, May 06, 2026 at 12:29:05AM +0000, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 3 potential issue(s) to consider:
-> - [High] Double lock lockdep splat and potential deadlock in netdev_nl_bind_tx_doit()
-> - [High] Use-After-Free of dma_dev pointer in netdev_nl_bind_tx_doit()
-> - [High] ABA vulnerability and pointer aliasing due to untracked vdev lifecycle
+On Tue, Apr 28, 2026 at 07:39:52PM +0000, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
+> - [Low] The `tach-ch` property in the device tree example uses incorrect comma-separated syntax that evaluates to a 5-byte array rather than the intended 2-byte array.
 > --
 > 
-> commit fea3266a76d31b8278bf86dac679860b442a5bea
-> Author: Bobby Eshleman <bobbyeshleman@meta.com>
+> commit 4bf196984d444742e611042f289ee38d6b5ced8c
+> Author: Changhuang Liang <changhuang.liang@starfivetech.com>
 > 
-> net: devmem: support TX over NETMEM_TX_NO_DMA devices
+> dt-bindings: hwmon: Add starfive,jhb100-fan-tach
 > 
-> This patch enables devmem TX bindings on netkit virtual devices by routing
-> the binding to the underlying DMA-capable physical device. It extends the
-> skb validation and binding lookup to support the netkit architecture.
+> This commit adds the compatible string "starfive,jhb100-fan-tach" and the
+> corresponding binding schema for the StarFive JHB100 Fan-Tach controller.
+> The controller supports up to 16 fan tach inputs.
 > 
-> > diff --git a/net/core/devmem.c b/net/core/devmem.c
-> > index cde4c89bc146..644c286b778f 100644
-> > --- a/net/core/devmem.c
-> > +++ b/net/core/devmem.c
+> > diff --git a/Documentation/devicetree/bindings/hwmon/starfive,jhb100-fan-tach.yaml b/Documentation/devicetree/bindings/hwmon/starfive,jhb100-fan-tach.yaml
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/hwmon/starfive,jhb100-fan-tach.yaml
 > [ ... ]
-> > @@ -212,6 +212,7 @@ net_devmem_bind_dmabuf(struct net_device *dev,
-> >  	}
-> >  
-> >  	binding->dev = dev;
-> > +	binding->vdev = vdev;
-> >  	xa_init_flags(&binding->bound_rxqs, XA_FLAGS_ALLOC);
-> 
-> Is it possible for this virtual device to be unregistered and freed while
-> the binding is still active? Since there is no reference count acquired on
-> vdev, and no NETDEV_UNREGISTER notifier seems to clean up the binding for
-> the virtual device, vdev could become a dangling pointer.
-> 
-> [ ... ]
-> > @@ -397,7 +398,8 @@ struct net_devmem_dmabuf_binding *net_devmem_get_binding(struct sock *sk,
-> >  	 */
-> >  	dst_dev = dst_dev_rcu(dst);
-> >  	if (unlikely(!dst_dev) ||
-> > -	    unlikely(dst_dev != READ_ONCE(binding->dev))) {
-> > +	    unlikely(dst_dev != READ_ONCE(binding->dev) &&
-> > +		     dst_dev != READ_ONCE(binding->vdev))) {
-> 
-> If vdev was freed as mentioned above, and a new, unrelated network device
-> is allocated at the exact same memory address, could this pointer comparison
-> incorrectly pass due to the ABA problem?
-
-For reviewers, we could add a dev_hold() on the netkit to avoid the ABA
-problem, but then a guest ns user can use bind-tx to prevent the the ns
-manager user from being able to delete the netkit. This ->dev and ->vdev
-check only exists to inform the sendmsg() caller early about the
-mismatch, so I leaned towards this not being a great trade-off.
-Especially since validate_xmit_unreadable_skb() does the validation
-correctly. I'm open to adding this if that seems like a better approach,
-though.
-
-> 
-> [ ... ]
-> > diff --git a/net/core/netdev-genl.c b/net/core/netdev-genl.c
-> > index b8f6076d8007..0e296c3bb677 100644
-> > --- a/net/core/netdev-genl.c
-> > +++ b/net/core/netdev-genl.c
-> [ ... ]
-> > @@ -1164,16 +1197,30 @@ int netdev_nl_bind_tx_doit(struct sk_buff *skb, struct genl_info *info)
-> [ ... ]
-> > +	bind_dev = netdev_find_netmem_tx_dev(netdev);
-> > +	if (!bind_dev) {
-> > +		err = -EOPNOTSUPP;
-> > +		NL_SET_ERR_MSG(info->extack,
-> > +			       "No DMA-capable device found for netmem TX");
-> > +		goto err_unlock_netdev;
-> > +	}
+> > +examples:
+> > +  - |
+> > +    fan-tach-controller@11be0000 {
+> > +        compatible = "starfive,jhb100-fan-tach";
+> > +        reg = <0x11be0000 0x400>;
+> > +        interrupts = <128>;
+> > +        clocks = <&per2crg 33>;
+> > +        resets = <&per2crg 5>;
+> > +        #address-cells = <1>;
+> > +        #size-cells = <0>;
 > > +
-> > +	if (bind_dev != netdev)
-> > +		netdev_lock(bind_dev);
+> > +        fan@0 {
+> > +            reg = <0>;
+> > +            tach-ch = /bits/ 8 <0x0>, <0x8>;
 > 
-> Will acquiring netdev_lock() on bind_dev while already holding it on netdev
-> trigger a lockdep warning? Since both are struct net_device instances, their
-> locks belong to the exact same lockdep class. Without a mutex_lock_nested()
-> annotation, acquiring them sequentially might trigger a possible circular
-> locking dependency splat, and introduce a potential deadlock if locked in
-> reverse order elsewhere.
-
-The tests passed with CONFIG_LOCKDEP=y and CONFIG_PROVE_LOCKING=y. Since
-they take the bind_dev != netdev path, I'm not not sure if this is
-needed. Though I admit I don't fully understand mutex subclasses...
-
+> Is the comma-separated syntax in tach-ch intentional? In Device Tree Source
+> syntax, the /bits/ 8 directive applies only to the immediately following
+> angle-bracket block.
 > 
-> > +	dma_dev = netdev_queue_get_dma_dev(bind_dev, 0, NETDEV_QUEUE_TYPE_TX);
-> > +	if (bind_dev != netdev)
-> > +		netdev_unlock(bind_dev);
-> > +	binding = net_devmem_bind_dmabuf(bind_dev,
-> > +					 bind_dev != netdev ? netdev : NULL,
-> > +					 dma_dev, DMA_TO_DEVICE, dmabuf_fd,
-> > +					 priv, info->extack);
+> Because tach-ch = /bits/ 8 <0x0>, <0x8>; separates the values with a comma,
+> the second block reverts to the default 32-bit cell size. This produces a
+> 5-byte array [0x00, 0x00, 0x00, 0x00, 0x08] rather than the intended 2-byte
+> array.
 > 
-> Is it safe to use dma_dev after dropping the bind_dev lock? Since
-> netdev_queue_get_dma_dev() returns a raw device pointer without acquiring a
-> reference via get_device(), what prevents a concurrent hardware hot-unplug
-> or driver unbind from freeing the dma_dev between netdev_unlock() and the
-> subsequent use in net_devmem_bind_dmabuf()?
+> If a developer copies this example into a real device tree, will the driver
+> incorrectly interpret it as 5 separate tachometer channels (0, 0, 0, 0, 8)
+> instead of the intended 2 channels (0, 8)?
+> 
+> Should this be written as /bits/ 8 <0x0 0x8>; or using byte array syntax
+> like [00 08] instead?
 
-Valid, will fix.
+Yes. The former style though.
 
-Best,
-Bobby
+Rob
