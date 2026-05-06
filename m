@@ -1,39 +1,70 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31BC0C2FF;
-	Wed,  6 May 2026 01:02:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ED2E1DA62E
+	for <sashiko@lists.linux.dev>; Wed,  6 May 2026 01:19:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778029321; cv=none; b=gw0Vwg36Ur2RnnhoTVS1KdhGoWZhkLGhKSGqvjNHF/yIbaOzEahMf5LSTaICGua7e1kVvlZOjNBLD164xG9iScvzOZYZdIAPNPzZVAr+uaLEqB9H5yVgQBduDfqccMHQOttYJXifvDU4/q15KEHxMJ52pVmVeDvuFdhkcVnNK/8=
+	t=1778030342; cv=none; b=Cr3xSRqOo1G3Ts2V9tAOC0XVIq7SboZqIOhq7X6qO/V/tbRA4+NVNngppbhkFGtPdarKMt9p54aHx9E0tpVMqJ9qeEpZoBACXitLpTttrV9KAWDzEXbV2Xaap/ylUvYEpE6QESA8oxOz8MVV8lLedshCSAckHCMdUhlQO/DUnHA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778029321; c=relaxed/simple;
-	bh=8G3e6QSF39eIKq52hOqD4lukC804POckI72mIHa2qtU=;
+	s=arc-20240116; t=1778030342; c=relaxed/simple;
+	bh=LR7LAldVcgI9obIy+/bO4y0ruSnBiqbukoMOuSekzAM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BveXDZjjpVzEpbTQo6K/ShwOmxmGvDON1WOi6a2Ei1kDR1qgHhAszx/uUbrplUkQo7kzLx5ylelTCMysVAXacP/M4QRyqUSgzkyL1clNI9BSZN63x4DpBJydRp8j0As5uSotbJPv2ZkFSjNKHo1TlGtDD/CHTl87Rp2efx03Jqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BL8dEFMG; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=CsykoHJXQPaHfFdEP6rfKP/o7CgvaTjnHmOHWjA3z2gtUaiX/GreGlbwrDGH+UCLvAdV6govLFaylLLs84GFYZPR1uCVUhSR0qt05mfUKVD9M+6Fh+kF1f41bbfD9EO+iL5OTccFqHOLUgJif7iIMMeBvGznE+qafRUgjzLMtgg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U/pGWFlO; arc=none smtp.client-ip=209.85.219.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BL8dEFMG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 333C2C2BCB4;
-	Wed,  6 May 2026 01:01:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778029320;
-	bh=8G3e6QSF39eIKq52hOqD4lukC804POckI72mIHa2qtU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BL8dEFMGn9Q1JU6HQcvYU8Q6lkCK+EnqFPtrVeZrph1s/R65OcqseP/Y8S5lw5Sdw
-	 Vxqb7HWeNWV5CLPnVBVGFaMLuGzzHie34Vpgi3aUYPs95uCZ6k5aCduyq5Wx/yhKIx
-	 l79dewiGWfOjXO5whXOD/gwXkgY7z6NcHpkVxlK618CeULarubQ4zgTiqkEQws8Fhg
-	 1ZSwRn0RA+EVba9BBrc227vs0YkphJd3wh4wQNk6dz8R1WjUua82Ipxf/7h+kSK6VR
-	 kmPrY4Nlc435JuOvdgwNUtrWVHlQ3KBpGR49G0pWOWUvO0BMPmHowADcUYYYOvfusf
-	 Wx2kogXahiwPA==
-Date: Tue, 5 May 2026 22:01:56 -0300
-From: Arnaldo Carvalho de Melo <acme@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U/pGWFlO"
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-8b4298d271fso72527906d6.3
+        for <sashiko@lists.linux.dev>; Tue, 05 May 2026 18:19:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778030340; x=1778635140; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=xefO3CdiqRR6SyOJAzo15ugz1YtLwmd7HdJ9NdZnMzE=;
+        b=U/pGWFlOHs5nq4TuwniFtwdwSBQ61IbOsbfiDRl8paeMBs3aHeagX1N1OmCXT++ZoP
+         H+fchNtbxlp6TOKAj42/0Ck/PlLxuW1rMfwpGSGSLYbNzdauILlGRi66rsoMHqpKi2j+
+         n/FgpcJz/A7IfYwgvf5UxSME9csSLoJFizAE9tkR4R6TK5BFMTKKRqChwq1aNb9mv9EO
+         w0O/Knq3VA6GzLMmBeVwY0wrRasMIVDqxiNrFz6iPqYZSiB7qaYHGchhzUyHMjV7uo3y
+         KE3PFbpHUQ9e4Y5/JP7882rWVb0PVbFitmToKZFHK76+/Xp5ebi2QaaMPMKVhCyP91o2
+         8tHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778030340; x=1778635140;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xefO3CdiqRR6SyOJAzo15ugz1YtLwmd7HdJ9NdZnMzE=;
+        b=gKqkGSfRGZQmHPY6hr00OiuEcMq4WgScRQzKqNhFyd/gbnCX/VwUw+9bKSnxRLkoDu
+         D5uCKVwYlW/20FNFEQS2TFxex60KMdaCx2CScDqxhuvbgq4C60WvhA1CLgiehpdotB8Y
+         B1erVGu0I4IfzaaEVG0Rvj8WS6nv0pq/g+uQuWAaSf+ozlOfTs97OQ3rTA6qOp4bJ84o
+         AjBlo0S7z0SYfZBRKcUS7sEnQrt+zZU/G4WxCyiw6mkHUCntC38TehfqIL0W8BVEMbBz
+         3/R5FLYBREB46XBYCn3Gi/53+wLDerQDYPh3rGdRuB9sYL3S1z2dX5Gm4HoLRa3JV/cz
+         qB+g==
+X-Gm-Message-State: AOJu0YzbqUQ0QDqxain8wVWuVBPieEJvh2MjezD2P0QYCfRPapc/a2Oe
+	5ts8BkIWxTyJpHZD/yVU6xfc5ywEacKAhA/rUha61EfJREGDcOBwR2Wel/3HpyeZ
+X-Gm-Gg: AeBDietjgGiE64pCk+MzF6FtAPWDPHQsYOWD/LnsOYeHAzC+TOfNKuTN6YZ8BRJlXzC
+	NuJtdF2iNjlsxkg+fM4aAJe20OKNY57IkVuc/pFaDWTJBrXMclIhDXgbzVXiKU98xqZ2Ascmj9s
+	NQBOhCksBZaoQ1ko2gTnSBTnWr3X4BTL1bX4Zbc1RR9W9qJ+ksbZ7VJeGUxsT5vXkPF0zR+BMLS
+	9jMeBnkitTCh1nYgZba6Ql3JRWLxDZNFma88V6hGAK3CHsMAITuhEo9hRX+RJXnLMt9mP7N3dKS
+	T/fM9KXwCDGH0KojonYCODo3VStww3AMRu2qW1ZtZoDc0Vxwu3zCwxI3zaPbXLUIl/NeyTG17gL
+	WmkTtTSCrmMAhJVLvFkoPJQFF26ftzRMDPXyDSbL4Z+Amlp0WlxswwUzL6V9vIz87vB6bPPgXFO
+	bTWSEJ5+KxtqsNotelOfcFvf8YkmAK9VKaAI+usUeDKMBl9ew1RcRUmg2BSA==
+X-Received: by 2002:a05:6214:f66:b0:89a:622e:d32c with SMTP id 6a1803df08f44-8bc44f852fcmr21784616d6.36.1778030340115;
+        Tue, 05 May 2026 18:19:00 -0700 (PDT)
+Received: from devvm29614.prn0.facebook.com ([2a03:2880:f800:2e::])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8b538b1d953sm186780256d6.3.2026.05.05.18.18.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 May 2026 18:18:59 -0700 (PDT)
+Date: Tue, 5 May 2026 18:18:56 -0700
+From: Bobby Eshleman <bobbyeshleman@gmail.com>
 To: sashiko@lists.linux.dev
-Cc: James Clark <james.clark@linaro.org>, linux-perf-users@vger.kernel.org
-Subject: Re: [PATCH v4 5/6] perf arm_spe: Decode Arm N1 IMPDEF events
-Message-ID: <afqTBBXcPmobSCu1@x1>
-References: <20260414-james-spe-impdef-decode-v4-5-1dd30783a33b@linaro.org>
- <20260414155203.0B24CC19425@smtp.kernel.org>
+Cc: bpf@vger.kernel.org
+Subject: Re: [PATCH net-next v2 2/6] net: devmem: support TX over
+ NETMEM_TX_NO_DMA devices
+Message-ID: <afqXAKj4fJbTd4tL@devvm29614.prn0.facebook.com>
+References: <20260504-tcp-dm-netkit-v2-2-56d52ac72fd4@meta.com>
+ <20260506002905.DF681C2BCB4@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
@@ -42,63 +73,110 @@ List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260414155203.0B24CC19425@smtp.kernel.org>
+In-Reply-To: <20260506002905.DF681C2BCB4@smtp.kernel.org>
 
-On Tue, Apr 14, 2026 at 03:52:02PM +0000, sashiko-bot@kernel.org wrote:
-> Sashiko AI review found 1 potential issue(s):
-> - [Low] The relative include path `#include "../../arm64/include/asm/cputype.h"` is invalid and relies on accidental directory traversal through a compiler `-I` flag.
+On Wed, May 06, 2026 at 12:29:05AM +0000, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 3 potential issue(s) to consider:
+> - [High] Double lock lockdep splat and potential deadlock in netdev_nl_bind_tx_doit()
+> - [High] Use-After-Free of dma_dev pointer in netdev_nl_bind_tx_doit()
+> - [High] ABA vulnerability and pointer aliasing due to untracked vdev lifecycle
 > --
 > 
-> commit 7fc153524fe60dc6d6f08fd73b7ea3f46e904e39
-> Author: James Clark <james.clark@linaro.org>
+> commit fea3266a76d31b8278bf86dac679860b442a5bea
+> Author: Bobby Eshleman <bobbyeshleman@meta.com>
 > 
-> perf arm_spe: Decode Arm N1 IMPDEF events
+> net: devmem: support TX over NETMEM_TX_NO_DMA devices
 > 
-> This commit adds a framework to decode the N1 IMPDEF event for Arm SPE, 
-> which isn't covered by the common list. It also increases the packet 
-> description buffer size to accommodate more strings without falling back 
-> to a hex dump.
+> This patch enables devmem TX bindings on netkit virtual devices by routing
+> the binding to the underlying DMA-capable physical device. It extends the
+> skb validation and binding lookup to support the netkit architecture.
 > 
-> Link: https://developer.arm.com/documentation/100616/0401/Statistical-Profiling-Extension/implementation-defined-features-of-SPE
+> > diff --git a/net/core/devmem.c b/net/core/devmem.c
+> > index cde4c89bc146..644c286b778f 100644
+> > --- a/net/core/devmem.c
+> > +++ b/net/core/devmem.c
+> [ ... ]
+> > @@ -212,6 +212,7 @@ net_devmem_bind_dmabuf(struct net_device *dev,
+> >  	}
+> >  
+> >  	binding->dev = dev;
+> > +	binding->vdev = vdev;
+> >  	xa_init_flags(&binding->bound_rxqs, XA_FLAGS_ALLOC);
 > 
-> > diff --git a/tools/perf/util/arm-spe-decoder/Build b/tools/perf/util/arm-spe-decoder/Build
-> > index ab500e0efe244..97a298d1e2791 100644
-> > --- a/tools/perf/util/arm-spe-decoder/Build
-> > +++ b/tools/perf/util/arm-spe-decoder/Build
-> > @@ -1 +1,3 @@
-> >  perf-util-y += arm-spe-pkt-decoder.o arm-spe-decoder.o
-> > +
-> > +CFLAGS_arm-spe-pkt-decoder.o += -I$(srctree)/tools/arch/arm64/include/ -I$(OUTPUT)arch/arm64/include/generated/
+> Is it possible for this virtual device to be unregistered and freed while
+> the binding is still active? Since there is no reference count acquired on
+> vdev, and no NETDEV_UNREGISTER notifier seems to clean up the binding for
+> the virtual device, vdev could become a dangling pointer.
 > 
 > [ ... ]
+> > @@ -397,7 +398,8 @@ struct net_devmem_dmabuf_binding *net_devmem_get_binding(struct sock *sk,
+> >  	 */
+> >  	dst_dev = dst_dev_rcu(dst);
+> >  	if (unlikely(!dst_dev) ||
+> > -	    unlikely(dst_dev != READ_ONCE(binding->dev))) {
+> > +	    unlikely(dst_dev != READ_ONCE(binding->dev) &&
+> > +		     dst_dev != READ_ONCE(binding->vdev))) {
 > 
-> > diff --git a/tools/perf/util/arm-spe-decoder/arm-spe-pkt-decoder.c b/tools/perf/util/arm-spe-decoder/arm-spe-pkt-decoder.c
-> > index 67ca356100e53..b74f887a48f2a 100644
-> > --- a/tools/perf/util/arm-spe-decoder/arm-spe-pkt-decoder.c
-> > +++ b/tools/perf/util/arm-spe-decoder/arm-spe-pkt-decoder.c
-> > @@ -15,6 +15,8 @@
-> >  
-> >  #include "arm-spe-pkt-decoder.h"
-> >  
-> > +#include "../../arm64/include/asm/cputype.h"
-> 
-> Is this relative include path correct?
-> 
-> It looks like this file is located in tools/perf/util/arm-spe-decoder/, so
-> the relative path resolves to tools/perf/arm64/include/asm/cputype.h,
-> which doesn't exist.
-> 
-> It seems this only compiles because the newly added -I flag in the Build
-> file causes the preprocessor to resolve the include relative to
-> tools/arch/arm64/include/. The path then inadvertently evaluates back to the
-> correct file by traversing backwards out of the include directory and diving
-> back in.
-> 
-> Could this be made less brittle by relying directly on the include flag,
-> using #include <asm/cputype.h> instead?
+> If vdev was freed as mentioned above, and a new, unrelated network device
+> is allocated at the exact same memory address, could this pointer comparison
+> incorrectly pass due to the ABA problem?
 
-This is just a possible improvement and not strictly a problem as the -I
-is structured today, so lets not postpone processing this patchset
-because of this, this can be considered some other time.
+For reviewers, we could add a dev_hold() on the netkit to avoid the ABA
+problem, but then a guest ns user can use bind-tx to prevent the the ns
+manager user from being able to delete the netkit. This ->dev and ->vdev
+check only exists to inform the sendmsg() caller early about the
+mismatch, so I leaned towards this not being a great trade-off.
+Especially since validate_xmit_unreadable_skb() does the validation
+correctly. I'm open to adding this if that seems like a better approach,
+though.
 
-- Arnaldo
+> 
+> [ ... ]
+> > diff --git a/net/core/netdev-genl.c b/net/core/netdev-genl.c
+> > index b8f6076d8007..0e296c3bb677 100644
+> > --- a/net/core/netdev-genl.c
+> > +++ b/net/core/netdev-genl.c
+> [ ... ]
+> > @@ -1164,16 +1197,30 @@ int netdev_nl_bind_tx_doit(struct sk_buff *skb, struct genl_info *info)
+> [ ... ]
+> > +	bind_dev = netdev_find_netmem_tx_dev(netdev);
+> > +	if (!bind_dev) {
+> > +		err = -EOPNOTSUPP;
+> > +		NL_SET_ERR_MSG(info->extack,
+> > +			       "No DMA-capable device found for netmem TX");
+> > +		goto err_unlock_netdev;
+> > +	}
+> > +
+> > +	if (bind_dev != netdev)
+> > +		netdev_lock(bind_dev);
+> 
+> Will acquiring netdev_lock() on bind_dev while already holding it on netdev
+> trigger a lockdep warning? Since both are struct net_device instances, their
+> locks belong to the exact same lockdep class. Without a mutex_lock_nested()
+> annotation, acquiring them sequentially might trigger a possible circular
+> locking dependency splat, and introduce a potential deadlock if locked in
+> reverse order elsewhere.
+
+The tests passed with CONFIG_LOCKDEP=y and CONFIG_PROVE_LOCKING=y. Since
+they take the bind_dev != netdev path, I'm not not sure if this is
+needed. Though I admit I don't fully understand mutex subclasses...
+
+> 
+> > +	dma_dev = netdev_queue_get_dma_dev(bind_dev, 0, NETDEV_QUEUE_TYPE_TX);
+> > +	if (bind_dev != netdev)
+> > +		netdev_unlock(bind_dev);
+> > +	binding = net_devmem_bind_dmabuf(bind_dev,
+> > +					 bind_dev != netdev ? netdev : NULL,
+> > +					 dma_dev, DMA_TO_DEVICE, dmabuf_fd,
+> > +					 priv, info->extack);
+> 
+> Is it safe to use dma_dev after dropping the bind_dev lock? Since
+> netdev_queue_get_dma_dev() returns a raw device pointer without acquiring a
+> reference via get_device(), what prevents a concurrent hardware hot-unplug
+> or driver unbind from freeing the dma_dev between netdev_unlock() and the
+> subsequent use in net_devmem_bind_dmabuf()?
+
+Valid, will fix.
+
+Best,
+Bobby
