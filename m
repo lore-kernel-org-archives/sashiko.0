@@ -1,126 +1,104 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 397A630ACE6
-	for <sashiko@lists.linux.dev>; Tue,  5 May 2026 23:12:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31BC0C2FF;
+	Wed,  6 May 2026 01:02:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778022743; cv=none; b=NB2ITYahN9OdDVS/0Z4ZMAoTi/xxgwoy2MxrndMACzY1wJlbpoCbC7jRea15lp/R+Rp+H8rvKMoi2/uWzJ1hErHbfPUxzBaDEQfGjQ6BLpBirZtXlmwniSg+1DqhH5JcGB4VkWlOMwYoYtLYEO8FLtr7b1CXJsjuN0Xt2p5jiso=
+	t=1778029321; cv=none; b=gw0Vwg36Ur2RnnhoTVS1KdhGoWZhkLGhKSGqvjNHF/yIbaOzEahMf5LSTaICGua7e1kVvlZOjNBLD164xG9iScvzOZYZdIAPNPzZVAr+uaLEqB9H5yVgQBduDfqccMHQOttYJXifvDU4/q15KEHxMJ52pVmVeDvuFdhkcVnNK/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778022743; c=relaxed/simple;
-	bh=/aBM8KLN5n124JvBcwRy2RW+8Ga8nqgEjNS2jK7iyc0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SC52a5R9UBAOf9KwIZFvt/wb7jkwuIRqtKpgAYxC4dGjy9/YutxOjDvKpp36ioheuQ6TpZx8pb6tJC8xVU9+OXKt+cikZsawq4HqcFElAWXi63qBo0HoRceuNeTuxq8EfeuXopRyhOq3ISVY92xvnUdTIpwcNWQf6bGQKu2HhgE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tHZjOL14; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778029321; c=relaxed/simple;
+	bh=8G3e6QSF39eIKq52hOqD4lukC804POckI72mIHa2qtU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BveXDZjjpVzEpbTQo6K/ShwOmxmGvDON1WOi6a2Ei1kDR1qgHhAszx/uUbrplUkQo7kzLx5ylelTCMysVAXacP/M4QRyqUSgzkyL1clNI9BSZN63x4DpBJydRp8j0As5uSotbJPv2ZkFSjNKHo1TlGtDD/CHTl87Rp2efx03Jqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BL8dEFMG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tHZjOL14"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEF58C2BCF4
-	for <sashiko@lists.linux.dev>; Tue,  5 May 2026 23:12:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BL8dEFMG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 333C2C2BCB4;
+	Wed,  6 May 2026 01:01:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778022742;
-	bh=/aBM8KLN5n124JvBcwRy2RW+8Ga8nqgEjNS2jK7iyc0=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=tHZjOL148wsIaE8eiTrqH2IcxoZJfF1cw0mzYYXZbdI2FV/cJc24virD6J9LQoUDR
-	 Fn4vJ4W54y0DDSf7bskUCukjDhfOHoEk2atUdaBkW0FifTqFtgby3FPI2mn9YbewFO
-	 fla9PwzsfF1O/WbUUML58JjorPW5Ok+GcCiqZs/XwXgR67zX34byCK15caMz64lZ2u
-	 98dZGUE3YOD0ONBJw3BmLoy4nHAlRLMQS8TrYXhSbN3dKTS8CsglOyta5YBhRFBvjH
-	 FHRj8FpMbwo6Sg708Lybc4OAiMopL4fCSxlBx/Rf0wgybotwr7tMJZg01G/mvp77lg
-	 JvOlj4wr02/UQ==
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-67bb5ad91bfso8456401a12.0
-        for <sashiko@lists.linux.dev>; Tue, 05 May 2026 16:12:22 -0700 (PDT)
-X-Gm-Message-State: AOJu0YwBKTww8yFkm1GbctNINEfuwnJ+B4ni0Y0b1zl/Des83vkZsleO
-	FrbBjGoGYNtQqDyLcPOR46VVolM7FXyPaUqL20IcCjF6c6+uBdYuupxWCNGTwsck2RN5ZVLhz1N
-	ftUPWyZ/jqwMYJGTYWekpyZnJqOisRg==
-X-Received: by 2002:a05:6402:2cd:b0:66e:6ac4:2c01 with SMTP id
- 4fb4d7f45d1cf-67d63d7f325mr205355a12.2.1778022741413; Tue, 05 May 2026
- 16:12:21 -0700 (PDT)
+	s=k20201202; t=1778029320;
+	bh=8G3e6QSF39eIKq52hOqD4lukC804POckI72mIHa2qtU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BL8dEFMGn9Q1JU6HQcvYU8Q6lkCK+EnqFPtrVeZrph1s/R65OcqseP/Y8S5lw5Sdw
+	 Vxqb7HWeNWV5CLPnVBVGFaMLuGzzHie34Vpgi3aUYPs95uCZ6k5aCduyq5Wx/yhKIx
+	 l79dewiGWfOjXO5whXOD/gwXkgY7z6NcHpkVxlK618CeULarubQ4zgTiqkEQws8Fhg
+	 1ZSwRn0RA+EVba9BBrc227vs0YkphJd3wh4wQNk6dz8R1WjUua82Ipxf/7h+kSK6VR
+	 kmPrY4Nlc435JuOvdgwNUtrWVHlQ3KBpGR49G0pWOWUvO0BMPmHowADcUYYYOvfusf
+	 Wx2kogXahiwPA==
+Date: Tue, 5 May 2026 22:01:56 -0300
+From: Arnaldo Carvalho de Melo <acme@kernel.org>
+To: sashiko@lists.linux.dev
+Cc: James Clark <james.clark@linaro.org>, linux-perf-users@vger.kernel.org
+Subject: Re: [PATCH v4 5/6] perf arm_spe: Decode Arm N1 IMPDEF events
+Message-ID: <afqTBBXcPmobSCu1@x1>
+References: <20260414-james-spe-impdef-decode-v4-5-1dd30783a33b@linaro.org>
+ <20260414155203.0B24CC19425@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260423085718.70762-2-akhilrajeev@nvidia.com>
- <20260423112311.E2902C2BCAF@smtp.kernel.org> <20260505213248.GA4000045-robh@kernel.org>
- <d357a7a0-920d-4ca6-82c0-c10a4a0a6db1@roeck-us.net>
-In-Reply-To: <d357a7a0-920d-4ca6-82c0-c10a4a0a6db1@roeck-us.net>
-From: Rob Herring <robh@kernel.org>
-Date: Tue, 5 May 2026 18:12:10 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqKuTog5TBxcbRNkmy30xCJ14z8tRAWFZ0e_acB98Tw6Tw@mail.gmail.com>
-X-Gm-Features: AVHnY4KmuDCnmY5_0ne636IYyR4CARaKYdy7iQlWDeuCKQXIm7zmM4UwqS8Tfks
-Message-ID: <CAL_JsqKuTog5TBxcbRNkmy30xCJ14z8tRAWFZ0e_acB98Tw6Tw@mail.gmail.com>
-Subject: Re: [PATCH v3 01/13] dt-bindings: i3c: Add mipi-i3c-static-method to
- support SETAASA
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: sashiko@lists.linux.dev, Akhil R <akhilrajeev@nvidia.com>, 
-	linux-hwmon@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260414155203.0B24CC19425@smtp.kernel.org>
 
-On Tue, May 5, 2026 at 5:17=E2=80=AFPM Guenter Roeck <linux@roeck-us.net> w=
-rote:
->
-> On 5/5/26 14:32, Rob Herring wrote:
-> > On Thu, Apr 23, 2026 at 11:23:11AM +0000, sashiko-bot@kernel.org wrote:
-> >> Sashiko AI review found 3 potential issue(s):
-> >
-> > Does anyone read replies to the bot? If so, why was everyone hwmon list
+On Tue, Apr 14, 2026 at 03:52:02PM +0000, sashiko-bot@kernel.org wrote:
+> Sashiko AI review found 1 potential issue(s):
+> - [Low] The relative include path `#include "../../arm64/include/asm/cputype.h"` is invalid and relies on accidental directory traversal through a compiler `-I` flag.
+> --
+> 
+> commit 7fc153524fe60dc6d6f08fd73b7ea3f46e904e39
+> Author: James Clark <james.clark@linaro.org>
+> 
+> perf arm_spe: Decode Arm N1 IMPDEF events
+> 
+> This commit adds a framework to decode the N1 IMPDEF event for Arm SPE, 
+> which isn't covered by the common list. It also increases the packet 
+> description buffer size to accommodate more strings without falling back 
+> to a hex dump.
+> 
+> Link: https://developer.arm.com/documentation/100616/0401/Statistical-Profiling-Extension/implementation-defined-features-of-SPE
+> 
+> > diff --git a/tools/perf/util/arm-spe-decoder/Build b/tools/perf/util/arm-spe-decoder/Build
+> > index ab500e0efe244..97a298d1e2791 100644
+> > --- a/tools/perf/util/arm-spe-decoder/Build
+> > +++ b/tools/perf/util/arm-spe-decoder/Build
+> > @@ -1 +1,3 @@
+> >  perf-util-y += arm-spe-pkt-decoder.o arm-spe-decoder.o
+> > +
+> > +CFLAGS_arm-spe-pkt-decoder.o += -I$(srctree)/tools/arch/arm64/include/ -I$(OUTPUT)arch/arm64/include/generated/
+> 
+> [ ... ]
+> 
+> > diff --git a/tools/perf/util/arm-spe-decoder/arm-spe-pkt-decoder.c b/tools/perf/util/arm-spe-decoder/arm-spe-pkt-decoder.c
+> > index 67ca356100e53..b74f887a48f2a 100644
+> > --- a/tools/perf/util/arm-spe-decoder/arm-spe-pkt-decoder.c
+> > +++ b/tools/perf/util/arm-spe-decoder/arm-spe-pkt-decoder.c
+> > @@ -15,6 +15,8 @@
+> >  
+> >  #include "arm-spe-pkt-decoder.h"
+> >  
+> > +#include "../../arm64/include/asm/cputype.h"
+> 
+> Is this relative include path correct?
+> 
+> It looks like this file is located in tools/perf/util/arm-spe-decoder/, so
+> the relative path resolves to tools/perf/arm64/include/asm/cputype.h,
+> which doesn't exist.
+> 
+> It seems this only compiles because the newly added -I flag in the Build
+> file causes the preprocessor to resolve the include relative to
+> tools/arch/arm64/include/. The path then inadvertently evaluates back to the
+> correct file by traversing backwards out of the include directory and diving
+> back in.
+> 
+> Could this be made less brittle by relying directly on the include flag,
+> using #include <asm/cputype.h> instead?
 
-everyone *but* the hwmon list...
+This is just a possible improvement and not strictly a problem as the -I
+is structured today, so lets not postpone processing this patchset
+because of this, this can be considered some other time.
 
-> > dropped?
-> >
->
-> It appears that people either complain about getting AI feedback, or
-> they complain that they don't. That is pretty much a lose-lose situation.
-> For patches sent to linux-hwmon, Sashiko is configured to respond only
-> to the mailing list and to the submitter in the hope to minimize the
-> "I do not want to see this" feedback. That matches the configuration
-> for several subsystems.
->
-> As far as I can see it is not currently possible to limit AI review to
-> patches actually associated with the given subsystem if sent to that
-> subsystem's mailing list. I'll discuss with Roman to see if patches
-> like this one can be filtered out when reviewing patches sent to
-> hwmon mailing list.
-
-No, I want the replies. I was just wondering why it is not reply-all
-which is standard. I was also wondering why I was only sometimes
-seeing the reviews. I have since figured that out and submitted a PR
-to add DT. I set it to reply-all, so I guess there will be some
-comment about that.
-
-I don't think there's any solution if a patch hits 2 conflicting
-configurations. Surely the folks that don't want to see it can figure
-out how to delete or ignore emails... I have thousands of ignored
-emails. It's not hard. :)
-
-> >> - [Medium] The `mipi-i3c-static-method` schema incorrectly enforces `m=
-inimum: 0x1`, preventing devices from declaring no static address assignmen=
-t support.
-> >> - [Low] The `assigned-address` property description is now inaccurate =
-and contradicts the new capabilities.
-> >> - [Low] Missing macro definition for Bit 2 ('Other CCC') in `include/d=
-t-bindings/i3c/i3c.h`.
-> >> --
-> >
-> > This should go below the quoted commit msg.
-> >
->
-> Others (like me) want to see it at the very top to see a quick summary.
-> Another lose-lose situation.
-
-If there's anything kernel developers agree on, it is not top posting.
-I don't see how sashiko is special here. Isn't below the commit
-message close enough to the top? I don't mind so much about the list
-of issues being at the top, but I really don't see why the commit
-message is not quoted (I would guess that's just an artifact of
-creating the reply out of the git tree it was applied to?). The commit
-hash is also completely useless to anyone without access to the git
-tree sashiko uses.
-
-One thing I would love to see is reviews of the commit message itself.
-I would love to never have to say "don't use 'This commit/patch'" or
-"the commit msg should answer why, not what" again.
-
-Rob
+- Arnaldo
