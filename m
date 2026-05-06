@@ -1,300 +1,296 @@
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62F7546AF11
-	for <sashiko@lists.linux.dev>; Wed,  6 May 2026 13:27:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.172
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778074036; cv=pass; b=cPoL2epltUJkPA9MrNpjlr3VGLKVT19DuyS1hY+Dmk8/78AyVIHDpYFR4c1DOJBpPgzH9KPwjgiQaN3Fnj9Wif6678AXbbLmoSxVhijGfnIrKMjRi25tJa1d87gUi4IpZnRVAGxVZdX+1JTfpetfmmihxdrwGULOcH30aC30P9s=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778074036; c=relaxed/simple;
-	bh=pFDIaO3ijrgVBN0tzYnOqs0tlVPFCNUED/bjUZob+Jw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=a+b4vki5/5loapfBcmxBQtGHMliRz06WScIuPI09Qm4lLgcK1Q2Tc6Chx3LuxIj0VNorqUdVQrY5r2CvlfSwfcL2Sdb2nUZqCrJd3z6CZHvMwWOngONTxGvOFoVHEQDQA5VleQMtnqk61ity8OX4+adLMmgrykNPmQmdoL8ZIOc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ijdk2X8K; arc=pass smtp.client-ip=209.85.208.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3889F4779B9;
+	Wed,  6 May 2026 13:42:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778074945; cv=none; b=D3ZXe8hc45me/2tTLKoXm0UyKsPf3MedNxNpidMAdkGCLGpTmpT0quKxT2uLVT4Z162IFZvtRQEClivdEfDQj1zrtsetRPLY66ckznNrlM1zrwNByJCHa85Z5zr6/DQ+wXI/uMkD+zdMIYJsIA909j2mzuuGgazSqmUa5EYQ6Aw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778074945; c=relaxed/simple;
+	bh=XjJt4MMiRneSTZZ6NdJgHvj44kR4uurKFf9SIauftKg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=P1xJWZRtxCZsDzI6cJC52+p/XlWLEgvZI3jkJFey+pkXye14QpQACijhZiYS2sGOh4ZGSGhA7960kuk9G0D30n5Hum2IzLOrn4iJ/WNCxLxB0OuYpkEAmEcL176woUdqRwzeih4HFD8H/9/aUjDcA8dFNtt6evvTw5ym0iLilGo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=tdrB7WbH; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ijdk2X8K"
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-393a44854d2so25641291fa.3
-        for <sashiko@lists.linux.dev>; Wed, 06 May 2026 06:27:14 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778074032; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Po3MA0wla14xhGUBq/MWH1/qsbaEq0U6kR+TAVu2nxbLSFUmHGb56yGydc+jNsGmJA
-         IQtAQMgq1XTuq19/UV06EsbzJIRMM7WJw50FUKen5AdOmHQJ0gTu5DXHFEgLTvZw5nw4
-         CoyHyXIIoHWwE+jQgGRoW5QAX2JNT9QOudOK+oA4vmoNb/xyHBJlp/HVvxN2zgw8ZXCV
-         TTiOVowg1ZLqslx81ulX/6jOylcuYR7E8AuKiPIgoO+D9tJcNjYiuwzkqaoRpmVgNGvg
-         05g0qbP5xe/BM37Zk5UI5os9s1HCl45EbwLN2HegHSyccdTH6/MfqEqneAmU7DEjh91A
-         QFnQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=G8+O6WlrTVqaZn8/F7q6B9USYK4FirbixL2u42VdTFQ=;
-        fh=TehjY1t5eGpLR12A70uh3MyGVP6T186N9ByKaUcxf4Q=;
-        b=QWlKqKib/oGcKGoTlBJ/6N5HwPP05Eh96wdGhqXyKzEONfDMqVHjLLuE6ULcHJnF6/
-         uyjDDyHlLCDpi8t/EZ9cfWGWwN7+p/v8IMwsTC0ur9fDG+QhZE1ckIZta62FLBeZa8Go
-         40S77b3ijG/ZeATPoOStrtfWQl5ooepNT+pjjbEXhFDdVhxjdxvMh1vyZxJp3leTnVHl
-         JNo771z8R5plhsHB/hAPcF7Rn0h/MrM2VxF6TLmPAp9muP0+5MEC9rmSO+Mjzcj9XyGj
-         KSdQWuROcpb5MMeFLW+J7n34ONYBN0X0snICBYUYEisYPlqlJywiH+cB9e1MGkmM8FEV
-         1hRg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778074032; x=1778678832; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=G8+O6WlrTVqaZn8/F7q6B9USYK4FirbixL2u42VdTFQ=;
-        b=Ijdk2X8KKjvcqmU+wMVmhm9IygkGuenxu8JoSjFdwDAZLhLFJpb06nSe4aRGra872x
-         CJ9+Uj8c+yLDL+4juk+OEDrVhkB+CLrF7XSa59kEIJh3SMR+IIVXYe1xP1tTGh4UanV2
-         RmS/Wrli04EpCNgw2intezZlC1Vdar8YVJ/fWJ6/CLaz51enTsfroogrWzO/PlzmLeIL
-         MIrHGgtWE6riQg1Zl6k6E0UTEnpuO9fe6NFTPSg8UwqHV6VIOI5jYUqsGQmTqgH7c3/i
-         +c5jq7HG9nyyzKdb1YpLVqpuuTJBPq2SZp6qywjRGLfyPEIj4+7N8zm9ko1a5AM+tbE9
-         d9ow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778074032; x=1778678832;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=G8+O6WlrTVqaZn8/F7q6B9USYK4FirbixL2u42VdTFQ=;
-        b=a53JUpqTl2QwPZwzJt3pwEXig2xmGOpYFLYeeDfWjHDNqPhQy3Og1iRmgc01we+PFy
-         vX5uoNlUpvjwcv9AClY8zg8qDoh1UtOIPL9W+DCspiYjEO6UKqKVD4ca5rK+9urn5jYU
-         6imDOWSHlUmhFJ5OEaLMANzKyesh3FZ+HumAumK87xCiPpNjJhNdMjyO79DDyh4y4aFf
-         eLwD4hhpFBOSNghhpJAOFjM54Ib1VIhuXhENK7pQq00wCbNWQBsL3cftOQ9R9ki2BqGv
-         KUDlIbCMOlcrAVi9+oeY/aD5ORK1kXhshujhQAYs0gnOMNpzkV3GYalp+H3VN3/B0Heg
-         uN+w==
-X-Gm-Message-State: AOJu0Yx/47m/xTC4PeaCD8wSnwPVJiN+oVKMOophhbhmlG5HgbCktNfC
-	VkGTzVdhpgBaIQCmnaWEoiOTWkWCeflAVu37h+182rbH1BwATugNmUVVILSlI4oX6g4b8y5ZbH1
-	yemENZ/jqpiMaXf4ZEVA7kVDThYPa+cJcvKFg
-X-Gm-Gg: AeBDietNCguFqLpomTRt9ccfJv0RANJFVYTsZDVs7Mj3HDFjTkWfnMgaT1xVjLJq6Ca
-	nQ7WULzeToBiijgRy/SUeJb/t2nt/m9M182H4eJR0Iv3h0J9h7Wi3m0UU+kydu6RSa1eMakI45K
-	S8GPaPqiMKo60RSiAo5UTeXWSh4gYoI9h/TJqdCCqSRaM42GO5Ok5CmmBigQAdqCutWsS8idpbF
-	vZbfyXmGfLhzHDDY9R1ml593rWt5UDBSrm20E0DENW823FNS++lRQ58Fs0fOPwLoT0dkkXcW6OI
-	Vn/asLbo2MUEyI9b
-X-Received: by 2002:a2e:8952:0:b0:38e:98b0:3a7e with SMTP id
- 38308e7fff4ca-393c4211654mr10682631fa.22.1778074032033; Wed, 06 May 2026
- 06:27:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="tdrB7WbH"
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 646B4p632210426;
+	Wed, 6 May 2026 13:42:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=Uvy47b
+	2CJY1t+DIcurbHCRix+0waFmJr2FYMuBH0/oE=; b=tdrB7WbHhfs3PmRupMHd+m
+	zDTakINT8qvjFuoTZFAKNPk5F0dDS+33iFZo5nEDeWDf5NYPZXpt+dnFIX01AA3n
+	C7YNpuukaNwx2PtBmrazw+T314TZeHsI6CEAmvQjn1PE75Hvz0S7ywXEDc23RINH
+	uD7Isv8qvS+CUmLzkGVSE0pSfusKNb6NNM5GYK0FQgYy9OHduBetL5bKWldvB6ea
+	M/RvktgNIT7STgFo2Ru8n/WqkXr5CSPb7Wqb1QGE2p4QA4tFvyJRum5Tpr08R3o1
+	f6T+zsIHKMHijgjG7LK/M/uFFV9S33p54ytuXjS92ZKdz7tEDpW1SfNLaL0EpWyA
+	==
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4dw9y1gx1w-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 06 May 2026 13:42:19 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 646DdZxn007576;
+	Wed, 6 May 2026 13:42:18 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4dwwtge8a1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 06 May 2026 13:42:18 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
+	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 646DgGEs50856380
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 6 May 2026 13:42:16 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id A53C120043;
+	Wed,  6 May 2026 13:42:16 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 8369D20040;
+	Wed,  6 May 2026 13:42:16 +0000 (GMT)
+Received: from [9.52.200.195] (unknown [9.52.200.195])
+	by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Wed,  6 May 2026 13:42:16 +0000 (GMT)
+Message-ID: <f106e4a1-4f60-4c65-97bc-2257005765e5@linux.ibm.com>
+Date: Wed, 6 May 2026 15:42:16 +0200
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260503165024.1526680-4-vernon2gm@gmail.com> <20260503174125.2C949C2BCB4@smtp.kernel.org>
-In-Reply-To: <20260503174125.2C949C2BCB4@smtp.kernel.org>
-From: Vernon Yang <vernon2gm@gmail.com>
-Date: Wed, 6 May 2026 21:26:57 +0800
-X-Gm-Features: AVHnY4Ljul8CUzS_G-va6ruKGX3ZCJiSzHij9r9KLJr3ECHCCjVxfY92mQxB2T4
-Message-ID: <CACZaFFO9-xe-LewtzcUn9XHaJOUiMv60==M6TVOPVJHFafAefQ@mail.gmail.com>
-Subject: Re: [PATCH 3/4] mm: introduce bpf_mthp_ops struct ops
-To: sashiko@lists.linux.dev
-Cc: bpf@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>, 
-	"David Hildenbrand (Red Hat)" <david@kernel.org>, "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, inwardvessel@gmail.com, 
-	Shakeel Butt <shakeel.butt@linux.dev>, ast@kernel.org, 
-	Daniel Borkmann <daniel@iogearbox.net>, surenb@google.com, linux-kernel@vger.kernel.org, 
-	linux-mm <linux-mm@kvack.org>, baohua@kernel.org, Lance Yang <lance.yang@linux.dev>, 
-	Dev Jain <dev.jain@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v14 02/19] unwind_user/sframe: Add support for reading
+ .sframe headers
+To: Steven Rostedt <rostedt@kernel.org>, Josh Poimboeuf
+ <jpoimboe@kernel.org>,
+        Indu Bhagat <ibhagatgnu@gmail.com>
+Cc: bpf@vger.kernel.org, sashiko@lists.linux.dev
+References: <20260505121718.3572346-3-jremus@linux.ibm.com>
+ <20260505124948.669E2C2BCB4@smtp.kernel.org>
+Content-Language: en-US
+From: Jens Remus <jremus@linux.ibm.com>
+Organization: IBM Deutschland Research & Development GmbH
+In-Reply-To: <20260505124948.669E2C2BCB4@smtp.kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-ORIG-GUID: u63sPowX08cZjLfRc8HYO0aZzJiZvLVK
+X-Proofpoint-GUID: _y2Q5mmT00oMzphCrb6X7uL8BgPI6OJu
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA2MDEzNCBTYWx0ZWRfX515t7tDsKe91
+ XlTmSkftQMI8X/5oyGwxPLzwoSws5zQ+7I8njjmQgHGturkojm2US+gysl71ytnbSyoeNldPABQ
+ Q3TAlTJ2P8vM2Bpy/f3ViNkoR9r7lUWuMR5lgnIHfwFjk/xIxf68D/eHoVHiuHAuJrG1JABQTll
+ G7MXwRhCI0YoIT0Pk0ab1S2Mks9veP3bZty0jp0MbkIWRDUZ+N4K4fEzYLj54MBmEKfUApYlmBe
+ B/e/YiEF1B2oc7gfhX5quFACucC1ZGKT2wmOKQ37VWscbLJo3jSuE/KPsjLOunbm/IttZ1ru8ES
+ ab8vUdBVJBfUH3yDnexMoooOBv8cWnhvLiNS+5/M0JmNaK9zJuQ+R6fCaYfO0SDXrwgPulvMEM0
+ ODnC7ci5vAcdB6+7qYI6tbRdu4KnzevUmb3cBH1CS7yQ2SqmJv51yv/QjIAd3oiJHRGkaWKttEw
+ upVcfbGEIonNVSpCGYg==
+X-Authority-Analysis: v=2.4 cv=UbFhjqSN c=1 sm=1 tr=0 ts=69fb453b cx=c_pps
+ a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
+ a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=U7nrCbtTmkRpXpFmAIza:22 a=VwQbUJbxAAAA:8
+ a=VnNF1IyMAAAA:8 a=ADBILDl3CrY6QJhYfcwA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-05_03,2026-05-06_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 spamscore=0 lowpriorityscore=0 malwarescore=0 suspectscore=0
+ adultscore=0 priorityscore=1501 bulkscore=0 phishscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2605060134
 
-Forwarding sashiko review
-
-On Mon, May 4, 2026 at 1:41=E2=80=AFAM <sashiko-bot@kernel.org> wrote:
->
-> Thank you for your contribution! Sashiko AI review found 6 potential issu=
-e(s) to consider:
-> - [Critical] Use-After-Free vulnerability in `bpf_mthp_choose()` due to i=
-mproper SRCU locking.
-> - [High] NULL pointer dereference of `link` before validation in `bpf_mth=
-p_ops_reg()` and `bpf_mthp_ops_unreg()`.
-> - [High] Newly created cgroups silently bypass the hierarchical BPF mTHP =
-policy.
-> - [High] Silent registration failure leaves the cgroup hierarchy in an in=
-consistent state.
-> - [Medium] The BPF program can only restrict allowable THP orders, not ex=
-pand or select new ones.
-> - [Low] Compilation failure due to dereferencing an incomplete type and a=
- non-existent struct member.
+On 5/5/2026 2:49 PM, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 3 potential issue(s) to consider:
+> - [Medium] Missing validation of shdr.abi_arch allows parsing SFrame data from mismatched architectures.
+> - [Medium] VMA addresses are incorrectly evaluated as boolean flags to check for zero-length inputs.
+> - [Low] Mixing goto error handling with scoped_guard scope-based cleanup.
 > --
->
-> commit e5c9c74b11f76b4de7ba4ef8ff94c10bae978e16
-> Author: Vernon Yang <yanglincheng@kylinos.cn>
->
-> mm: introduce bpf_mthp_ops struct ops
->
-> Introducing bpf_mthp_ops enables eBPF programs to register the
-> mthp_choose callback function via cgroup-ebpf.
->
-> > diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
-> > index 2949e5acff35..80ec622213df 100644
-> > --- a/include/linux/huge_mm.h
-> > +++ b/include/linux/huge_mm.h
+> 
+> commit afe7c9eb6f0e6fc3f73d0b6a555f8d3926cf6ccf
+> Author: Josh Poimboeuf <jpoimboe@kernel.org>
+> 
+> unwind_user/sframe: Add support for reading .sframe headers
+> 
+> This commit introduces basic infrastructure for unwinding user space stacks
+> with SFrame. It adds support for parsing the .sframe section header.
+> 
+> Link: https://lore.kernel.org/all/f27e8463783febfa0dabb0432a3dd6be8ad98412.1737511963.git.jpoimboe@kernel.org/
+> 
+>> diff --git a/kernel/unwind/sframe.c b/kernel/unwind/sframe.c
+>> new file mode 100644
+>> index 0000000000000..c128c1eeaca20
+>> --- /dev/null
+>> +++ b/kernel/unwind/sframe.c
 > [ ... ]
-> > @@ -291,6 +292,11 @@ unsigned long thp_vma_allowable_orders(struct vm_a=
-rea_struct *vma,
-> >                                      enum tva_type type,
-> >                                      unsigned long orders)
-> >  {
-> > +     /* The eBPF-specified orders overrides which order is selected. *=
-/
-> > +     orders &=3D bpf_mthp_choose(vma->vm_mm, orders);
->
-> Does this inadvertently prevent the BPF program from enabling or selectin=
-g new
-> orders? Since the return value is applied using a bitwise AND, it appears
-> restricted to only disabling existing orders rather than customizing them=
- as
-> described in the commit message.
+>> +static int sframe_read_header(struct sframe_section *sec)
+>> +{
+>> +	unsigned long header_end, fdes_start, fdes_end, fres_start, fres_end;
+>> +	struct sframe_header shdr;
+>> +	unsigned int num_fdes;
+>> +
+>> +	if (copy_from_user(&shdr, (void __user *)sec->sframe_start, sizeof(shdr))) {
+>> +		dbg("header usercopy failed\n");
+>> +		return -EFAULT;
+>> +	}
+>> +
+>> +	if (shdr.preamble.magic != SFRAME_MAGIC ||
+>> +	    shdr.preamble.version != SFRAME_VERSION_3 ||
+>> +	    !(shdr.preamble.flags & SFRAME_F_FDE_SORTED) ||
+>> +	    !(shdr.preamble.flags & SFRAME_F_FDE_FUNC_START_PCREL) ||
 
-Yes, It is restricted to only disabling existing orders.
+	    shdr.abi_arch != sframe_abi_arch() ||
 
-> > +     if (!orders)
-> > +             return 0;
-> > +
-> >       /*
-> >        * Optimization to check if required orders are enabled early. On=
-ly
-> >        * forced collapse ignores sysfs configs.
-> > diff --git a/mm/bpf_huge_memory.c b/mm/bpf_huge_memory.c
-> > new file mode 100644
-> > index 000000000000..e34e0a35edac
-> > --- /dev/null
-> > +++ b/mm/bpf_huge_memory.c
+>> +	    shdr.auxhdr_len) {
+>> +		dbg("bad/unsupported sframe header\n");
+>> +		return -EINVAL;
+>> +	}
+> 
+> Should we also validate shdr.abi_arch to ensure it matches the expected
+> architecture?
+> 
+> If malformed or foreign-architecture SFrame data is passed in (for instance,
+> with an unexpected endianness or register mapping), the kernel might interpret
+> it incorrectly and generate invalid stack traces.
+> 
+> Furthermore, accepting arbitrary values here could risk ABI calcification if
+> userspace starts supplying invalid values that we later want to reject.
+
+I could introduce an architecture-specific sframe_abi_arch() and update
+the SFrame header validation as above.  For x86 the implementation in
+in unwind_user_sframe.h could look as follows:
+
+#ifdef CONFIG_X86_64
+#define sframe_abi_arch()	SFRAME_ABI_AMD64_ENDIAN_LITTLE
+#endif
+
+Given sframe.o is only linked in if CONFIG_HAVE_UNWIND_USER_SFRAME and
+that is only selected if X86_64 this should be fine.
+
+Do you see any value?
+
 > [ ... ]
-> > +unsigned long bpf_mthp_choose(struct mm_struct *mm, unsigned long orde=
-rs)
-> > +{
-> > +     struct cgroup *cgrp;
-> > +     struct mem_cgroup *memcg;
-> > +     struct bpf_mthp_ops *ops;
-> > +     int idx;
-> > +
-> > +     memcg =3D get_mem_cgroup_from_mm(mm);
-> > +     if (!memcg)
-> > +             return orders;
-> > +
-> > +     cgrp =3D memcg->css.cgroup;
-> > +     ops =3D READ_ONCE(cgrp->mthp_ops);
-> > +     if (unlikely(ops)) {
-> > +             idx =3D srcu_read_lock(&mthp_bpf_srcu);
-> > +             if (ops->mthp_choose)
-> > +                     orders =3D ops->mthp_choose(cgrp, orders);
-> > +             srcu_read_unlock(&mthp_bpf_srcu, idx);
-> > +     }
->
-> Could reading cgrp->mthp_ops outside the SRCU critical section lead to a
-> use-after-free regression?
->
-> If a thread is preempted immediately after ops is read:
->
->     ops =3D READ_ONCE(cgrp->mthp_ops);
->     <preempted>
->
-> Another thread could execute bpf_mthp_ops_unreg(), set the pointer to NUL=
-L,
-> and complete synchronize_srcu(). The original thread would then resume,
-> acquire the lock, and dereference the freed ops pointer.
+>> +int sframe_add_section(unsigned long sframe_start, unsigned long sframe_end,
+>> +		       unsigned long text_start, unsigned long text_end)
+>> +{
+>> +	struct vm_area_struct *sframe_vma, *text_vma;
+>> +	struct mm_struct *mm = current->mm;
+>> +	struct sframe_section *sec;
+>> +	int ret;
+>> +
+>> +	if (!sframe_start || !sframe_end || !text_start || !text_end) {
 
-(Report is identical to bot+bpf-ci) Good catch, I will fix that in the
-next version. Thanks!
+	if (sframe_start >= sframe_end || text_start >= text_end) {
+		dbg("invalid sframe/text address\n");
 
-> > +
-> > +     mem_cgroup_put(memcg);
-> > +
-> > +     return orders;
-> > +}
+Do you agree?
+
+> Is it safe to use VMA start addresses as boolean flags?
+> 
+> Since vm_start can legitimately be zero in certain configurations (if
+> mmap_min_addr permits), evaluating !sframe_start or !text_start could
+> incorrectly reject perfectly valid mappings at address 0.
+> 
+> Also, to check for zero-length sections, would it be better to explicitly use
+> comparisons like sframe_start >= sframe_end instead?
+> 
+>> +		dbg("zero-length sframe/text address\n");
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	scoped_guard(mmap_read_lock, mm) {
 > [ ... ]
-> > +static int bpf_mthp_ops_reg(void *kdata, struct bpf_link *link)
-> > +{
-> > +     struct bpf_struct_ops_link *st_link =3D (struct bpf_struct_ops_li=
-nk *)link;
-> > +     struct bpf_mthp_ops *ops =3D kdata;
-> > +     struct cgroup *cgrp =3D st_link->cgroup;
->
-> Can this cause a regression if link is passed as NULL? st_link is cast fr=
-om
-> link, and st_link->cgroup implicitly dereferences it before the validatio=
-n
-> check below.
+>> +	sec = kzalloc(sizeof(*sec), GFP_KERNEL);
+>> +	if (!sec)
+>> +		return -ENOMEM;
+>> +
+>> +	sec->sframe_start	= sframe_start;
+>> +	sec->sframe_end		= sframe_end;
+>> +	sec->text_start		= text_start;
+>> +	sec->text_end		= text_end;
+>> +
+>> +	ret = sframe_read_header(sec);
+>> +	if (ret)
+>> +		goto err_free;
+> 
+> Is it acceptable to mix goto error handling with scoped_guard() cleanup
+> helpers in the same function?
+> 
+> The kernel's cleanup subsystem guidelines generally suggest that usage of
+> goto and cleanup helpers shouldn't be mixed in the same routine.
 
-(Report is identical to bot+bpf-ci) I will fix that in the next version. Th=
-anks!
+This references to the following comment in include/linux/cleanup.h:
 
-> Additionally, struct bpf_struct_ops_link is defined privately in
-> kernel/bpf/bpf_struct_ops.c and does not contain a cgroup field. Will thi=
-s
-> cause a compilation failure due to dereferencing an incomplete type and a
-> non-existent struct member?
+  Lastly, given that the benefit of cleanup helpers is removal of
+  "goto", and that the "goto" statement can jump between scopes, the
+  expectation is that usage of "goto" and cleanup helpers is never
+  mixed in the same function. I.e. for a given routine, convert all
+  resources that need a "goto" cleanup to scope-based cleanup, or
+  convert none of them.
 
-(Report is identical to bot+bpf-ci)
+> 
+> Could sec be allocated using __free(kfree) to avoid the goto entirely?
 
-This series is based on linux v7.1-rc1 (26fd6bff2c05) + "mm: BPF OOM"[3]
-first four patches.
+The goto error handling is used outside the scoped_guard().  So I think
+it is fine.  Do you see any value in converting it as follows (my naive
+attempt):
 
-All of the above definitions are in  "mm: BPF OOM" PATCH#2.
+diff --git a/kernel/unwind/sframe.c b/kernel/unwind/sframe.c
+@@ -722,13 +722,14 @@ static int sframe_read_header(struct sframe_section *sec)
+        return 0;
+ }
 
-https://lore.kernel.org/linux-mm/20260127024421.494929-3-roman.gushchin@lin=
-ux.dev/
++DEFINE_FREE(free_section, struct sframe_section *, if (_T) free_section(_T))
+ int sframe_add_section(unsigned long sframe_start, unsigned long sframe_end,
+                       unsigned long text_start, unsigned long text_end)
+ {
+        struct maple_tree *sframe_mt = &current->mm->sframe_mt;
+        struct vm_area_struct *sframe_vma, *text_vma;
+        struct mm_struct *mm = current->mm;
+-       struct sframe_section *sec;
++       struct sframe_section *sec __free(free_section) = NULL;
+        int ret;
 
-> > +     struct cgroup_subsys_state *pos;
-> > +
-> > +     /* The link is not yet fully initialized, but cgroup should be se=
-t */
-> > +     if (!link)
-> > +             return -EOPNOTSUPP;
-> > +
-> > +     cgroup_lock();
-> > +     css_for_each_descendant_pre(pos, &cgrp->self) {
-> > +             struct cgroup *child =3D pos->cgroup;
-> > +
-> > +             if (READ_ONCE(child->mthp_ops)) {
-> > +                     /* TODO
-> > +                      * Do not destroy the cgroup hierarchy property.
-> > +                      * If an eBPF program already exists in the sub-c=
-group,
-> > +                      * trigger an error and clear the already set
-> > +                      * bpf_mthp_ops data.
-> > +                      */
-> > +                     continue;
->
-> Is it intentional to return 0 at the end of this function when we skip ov=
-er
-> descendants that already have mthp_ops configured? This appears to leave =
-the
-> hierarchy in an inconsistent state while userspace assumes the registrati=
-on
-> was fully successful.
+        if (sframe_start >= sframe_end || text_start >= text_end) {
+@@ -768,7 +769,7 @@ int sframe_add_section(unsigned long sframe_start, unsigned long sframe_end,
+        ret = sframe_read_header(sec);
+        if (ret) {
+                dbg_print_header(sec);
+-               goto err_free;
++               return ret;
+        }
 
-Yes, that is exactly what I will do next.
+        ret = sframe_validate_section(sec);
+@@ -784,10 +785,6 @@ int sframe_add_section(unsigned long sframe_start, unsigned long sframe_end,
+        }
 
-> Furthermore, is there a missing hook in the cgroup creation path? Since t=
-his
-> loop only applies to existing descendants, any newly created cgroups will
-> have their mthp_ops field initialized to NULL, allowing tasks moved there=
- to
-> silently bypass the BPF program attached to their ancestors.
+        return 0;
+-
+-err_free:
+-       free_section(sec);
+-       return ret;
+ }
 
-Good catch, I will set WRITE_ONCE(child->mthp_ops, parent->mthp_ops)
-during cgroup_create(). Thanks!
+> 
+>> +
+>> +	/* TODO nowhere to store it yet - just free it and return an error */
+>> +	ret = -ENOSYS;
+>> +
+>> +err_free:
+>> +	free_section(sec);
+>> +	return ret;
+>> +}
+> 
 
-> > +             }
-> > +             WRITE_ONCE(child->mthp_ops, ops);
-> > +     }
-> > +     cgroup_unlock();
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static void bpf_mthp_ops_unreg(void *kdata, struct bpf_link *link)
-> > +{
-> > +     struct bpf_struct_ops_link *st_link =3D (struct bpf_struct_ops_li=
-nk *)link;
-> > +     struct bpf_mthp_ops *ops =3D kdata;
-> > +     struct cgroup *cgrp =3D st_link->cgroup;
->
-> Does this code similarly dereference link before it can be validated?
->
-> --
-> Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260503165024.15=
-26680-1-vernon2gm@gmail.com?part=3D3
+Thanks and regards,
+Jens
+-- 
+Jens Remus
+Linux on Z Development (D3303)
+jremus@de.ibm.com / jremus@linux.ibm.com
+
+IBM Deutschland Research & Development GmbH; Vorsitzender des Aufsichtsrats: Wolfgang Wendt; Geschäftsführung: David Faller; Sitz der Gesellschaft: Ehningen; Registergericht: Amtsgericht Stuttgart, HRB 243294
+IBM Data Privacy Statement: https://www.ibm.com/privacy/
+
