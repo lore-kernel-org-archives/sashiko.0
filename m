@@ -1,60 +1,60 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F9FF2DA76A;
-	Thu,  7 May 2026 16:02:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4564C3AA4EF;
+	Thu,  7 May 2026 16:18:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778169725; cv=none; b=jimMlPTwYmMCAn5b4pIP70of9dYc3PSYA5RWCso52OGB9mNYLB8dKyoausmLlXnnKJZqEaYRkrLRXCxB8rsMKb59QCDukn67VLwSVHbTivwh63hD5asbagfaDXdTgv93l8PJe3r3KvQxZaPGGiDP8iLO/scpScIqrtYi5u4SE2E=
+	t=1778170693; cv=none; b=cRMaAtM/FKar3ZkjLUYUvCCs3eXbJQHM7mslrGPIWYgtTlCK91XA7auINlUTgptAmFLKa7ctJosFoKfYZZ57TMThMlrWe0TaoLzA9MJc+uYZiPNXKgDiueBiiLCGW0nDoUnVhEnYFq4djd7lNijTVRhpQxJEE5XEOXdJIdrOSfk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778169725; c=relaxed/simple;
-	bh=P5zRmB3JYIFynYu6LoS9Zfk/P7CV1XT2vnQwV+0KnWY=;
+	s=arc-20240116; t=1778170693; c=relaxed/simple;
+	bh=aKxMDtiHoVhnzD/c2/TNAnB/B9Nc0pG3fDUwCjpFGCA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OT6bhYVvoFtVhoFehnRvZ1w+TuBiMsZnmiC2hZzIDnZUDMtNSpoVA3yF0gMdyi4ue2/mYWWatI4y4Wzcl8J1N7aV15Z2D643x9l4c08tE0AjxgFZKoxrYyoKEuj1ezMYQlhn7B1jY7klgnPvYPepOj9FjTY8kKEmsUEa3DGfzoo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=I1jH7qSl; arc=none smtp.client-ip=148.163.156.1
+	 In-Reply-To:Content-Type; b=DAK5K8fKp9ZmTv/uhe5sMxpYeR984XDKuNHNdycY4PLlBCupOgRxysGdVX1P+XigfwjfMyZ2oDem6TxgNk+//u0w2NWRxYV6sffx6oYQQxbfi8BbUT0EUG40b0kI9aOhVvJ71bh67Z/VoBn2ZyKPWIt3bBwK1vbPVvOqnP3a7A8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=QW4feoLF; arc=none smtp.client-ip=148.163.158.5
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="I1jH7qSl"
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 647ENLRr813969;
-	Thu, 7 May 2026 16:02:02 GMT
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="QW4feoLF"
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 647F8LeO852737;
+	Thu, 7 May 2026 16:18:08 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=EZLz10
-	Z089O/ouHp1YKLVeQHxQZCg8SYO46eHsUglfA=; b=I1jH7qSlcRN2lJXKhu+tZ3
-	QCGhXXT2bjw/1YbQ9052yaZB9jncu7d6yF3ePMRAPCnPcsnm6zdPS8XXMPjTkBwh
-	sqYT0Ty3zFUMVt1VPwsXAM6cDLHkqIjbxYmG9HySBdtI1cbW58kvTmLzshQoDfY5
-	reJaukwJUMag4XxO3TicrL1sM5acISmlaNvr94GdoZyze81arCK/o3e3pSJ/GZiM
-	L/bWUcSV/Q4S9FD3Wn2EAqr6mjihUNeMAFnCXfKRAAs92rXz/Xc7H3u2sZoSBzyY
-	B4Dvc0+eqg3kuzXKiZJwU1UgR6iZ/Ez1b/IAPcVoaYCMUoNMfTacPXiyKK8ilN5g
+	:message-id:mime-version:references:subject:to; s=pp1; bh=40bGt9
+	8KM/a8ddhSWpZ0EbCqSAq51Gz6IvkA6nerBXU=; b=QW4feoLFeDoQ9J8kCSpX2Q
+	ypx8HEzs6b5Slf7IChUeXXmdhrmnzaRabLpaQ9PGaS/b1BleTZ49mZa//NiSSz6m
+	S6u/76VHK/Ckmc83WwHx0qvjrk6bF1JyS1de+yjYIloFO8M+l6FIOfJ7fHqdIMf8
+	Fo53VeaAu7YMI6nkv7kPX7mA+iLJXg1tmt0UlpN9xqWTRBJT7aFe1Kf/QlAite3B
+	YpdZgwpWCarIQYBgqMA/5MrJOsc287sgw7aaryRBuysDLQzqPpuxGT5wcMW7ZDAn
+	tgbIzuPAc4IG8YgUwLK2E7C90B2WzyeDe+X89Y679cc3fjFXCyJ+rLmDIi19ezJg
 	==
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4dw9y1qfx1-1
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4dw9y4xjrf-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 07 May 2026 16:02:01 +0000 (GMT)
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 647FsdNT005736;
-	Thu, 7 May 2026 16:02:00 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4dwvkk4c02-1
+	Thu, 07 May 2026 16:18:07 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 647FsUGF005677;
+	Thu, 7 May 2026 16:18:06 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4dwukqmm14-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 07 May 2026 16:02:00 +0000 (GMT)
+	Thu, 07 May 2026 16:18:06 +0000 (GMT)
 Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
-	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 647G1uHg21627162
+	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 647GI5tR47579632
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 7 May 2026 16:01:56 GMT
+	Thu, 7 May 2026 16:18:05 GMT
 Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id A72F620043;
-	Thu,  7 May 2026 16:01:56 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id E579E20043;
+	Thu,  7 May 2026 16:18:04 +0000 (GMT)
 Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 83AAE20040;
-	Thu,  7 May 2026 16:01:56 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id B2FD320040;
+	Thu,  7 May 2026 16:18:04 +0000 (GMT)
 Received: from [9.52.200.195] (unknown [9.52.200.195])
 	by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Thu,  7 May 2026 16:01:56 +0000 (GMT)
-Message-ID: <eeb0bfe8-0651-48c0-90fc-d1ebc7ce031c@linux.ibm.com>
-Date: Thu, 7 May 2026 18:01:55 +0200
+	Thu,  7 May 2026 16:18:04 +0000 (GMT)
+Message-ID: <05adaec0-c2cc-4a16-b2da-ba3ed7437e7d@linux.ibm.com>
+Date: Thu, 7 May 2026 18:18:03 +0200
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
@@ -62,98 +62,114 @@ List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v14 17/19] unwind_user/sframe: Separate reading of FRE
- from reading of FRE data words
-To: Steven Rostedt <rostedt@kernel.org>, Josh Poimboeuf
- <jpoimboe@kernel.org>,
+Subject: Re: [PATCH v14 07/19] unwind_user/sframe: Wire up unwind_user to
+ sframe
+To: Steven Rostedt <rostedt@kernel.org>, Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: bpf@vger.kernel.org, sashiko@lists.linux.dev,
         Indu Bhagat <ibhagatgnu@gmail.com>
-Cc: bpf@vger.kernel.org, sashiko@lists.linux.dev
-References: <20260505121718.3572346-18-jremus@linux.ibm.com>
- <20260505190506.698BEC2BCB4@smtp.kernel.org>
+References: <20260505121718.3572346-8-jremus@linux.ibm.com>
+ <20260505185528.8E529C2BCB4@smtp.kernel.org>
 Content-Language: en-US
 From: Jens Remus <jremus@linux.ibm.com>
 Organization: IBM Deutschland Research & Development GmbH
-In-Reply-To: <20260505190506.698BEC2BCB4@smtp.kernel.org>
+In-Reply-To: <20260505185528.8E529C2BCB4@smtp.kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
 X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-ORIG-GUID: wLqntoCJMrMMvatxu2ch3uqOJ4zW6PaU
-X-Proofpoint-GUID: HxlcmDf8flWVY7qxnl1PGQ0IaHbjRRRt
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA3MDE1NiBTYWx0ZWRfX5ByqI5+Aug3Z
- Eo7j2ynxbpHMKUdZi8T1V2W6BGotog3exicFilzBHUuTqzkjBUgQDUCNd4dOCLsCSSXTcjYWKFf
- vN/bP+VqAsUtrlq+EqfazVz6R4C3VC6NwbyTZjtvzbKQuaIq1bRF9WUK/zQI0jnOeb2HElQVZTu
- JBzeWmxGDlliQF9cTNSuXabpF3WHCVAGRZ9vUcJbbTtlCxnaO0V3m2t2blYGR5DeG0LspRX+QfV
- hLSmzlmkEyq8dP0SXeZIP5O3VudUnEmm+q7vfuhgnpMjAXAKZKmm4KNOQVK3ErstQl7t4KY1cco
- /4BRDA0S+nOf8jIh/ys96s4X1jetUh4hzzxl+7VHcaPuqtn/eucooKqtv4tzniPIDI1of98jA1j
- gH6+pZUwM1Co7uss2W6dGogTgag+C5ZZmEXlY5qnD7ueJz225yUqZw0CkKgha1GbkgZA0+OL2Wc
- Blvx+Gq2eepCIqeQTxg==
-X-Authority-Analysis: v=2.4 cv=UbFhjqSN c=1 sm=1 tr=0 ts=69fcb779 cx=c_pps
- a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA3MDE1NiBTYWx0ZWRfXzTmBQ77rGbW3
+ ut5+NszAjZiSoiUPIM8ysicjmxfVNcwhsVfuLwH1iPIzd7arY4zJvQ/OHWZqEwPSC7cX6xzQClX
+ qDPu3/h85HPsKCpsayAA28ZYDSbvoc/lMcvgd+FcE5d5euFolBmLh68ldASsFWF/PTGCou7+fD4
+ YtuZHHiIRyaGsMH31B3PWJgJKEKtZfXSu5eb3H5egVrF0fdF5XgQpkhU+auOEgFCOsyBUyvuQ/o
+ 5sE5r19diGDuBGZy9Iff6Q+KMR9V6oaan5lURMxApm9g4zo/du6dAgdp9O4Wf2CLiOMwqF8NENj
+ BtSIpsCIQfz0Zt/TS6cLmzSpNPOBJoO4gNki0YDMDqdKKA2uJivWR86mqP0ExLBTFyOCSqpBaCw
+ O1GO71UdRL24I0NDy00V4HaRrBFUR9LOBVy3fePWa/F0O+C9plt82KdsPm1Zk3CFizv2fTMucNG
+ WhGNpFReWTZAChdYNkA==
+X-Authority-Analysis: v=2.4 cv=J4GaKgnS c=1 sm=1 tr=0 ts=69fcbb3f cx=c_pps
+ a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
  a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=U7nrCbtTmkRpXpFmAIza:22 a=VnNF1IyMAAAA:8
- a=VwQbUJbxAAAA:8 a=bMbYIdgO7Ne2iVapFegA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=RnoormkPH1_aCDwRdu11:22 a=RzCfie-kr_QcCd8fBx8p:22 a=VnNF1IyMAAAA:8
+ a=VwQbUJbxAAAA:8 a=cVT6PhOZ-X7ijlxorekA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: hGPW0TDMrgCCN8dbdC1y53Z0VBeEN9GA
+X-Proofpoint-ORIG-GUID: L7zQqDukMwgsizHEUVq_1v7W80Jx4Bc9
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-05-07_01,2026-05-06_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 spamscore=0 lowpriorityscore=0 malwarescore=0 suspectscore=0
- adultscore=0 priorityscore=1501 bulkscore=0 phishscore=0 impostorscore=0
+ impostorscore=0 clxscore=1015 malwarescore=0 bulkscore=0 suspectscore=0
+ priorityscore=1501 spamscore=0 phishscore=0 adultscore=0 lowpriorityscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2605070156
 
-On 5/5/2026 9:05 PM, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
-> - [Critical] A malicious user can trigger a kernel panic by providing a crafted `.sframe` section with `rep_size` set to 0, which causes a division-by-zero when the kernel attempts to unwind the stack.
+On 5/5/2026 8:55 PM, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 2 potential issue(s) to consider:
+> - [High] Unbounded linear scan of user-controlled sframe entries can cause a CPU hard lockup in NMI context.
+> - [Medium] The commit message claims to refactor `unwind_user_next_common()` by removing an unused `pt_regs` parameter, but this change is entirely absent from the code modifications.
 > --
 > 
-> commit 1aeb36f953ce26b15e30e2b228bfb48239924c2b
-> Author: Jens Remus <jremus@linux.ibm.com>
+> commit 2e1e17bbaa1c0426d41d66ce7930a944f3e86ae7
+> Author: Josh Poimboeuf <jpoimboe@kernel.org>
 > 
-> unwind_user/sframe: Separate reading of FRE from reading of FRE data words
+> unwind_user/sframe: Wire up unwind_user to sframe
 > 
-> This commit separates the reading of SFrame FRE structures from their
-> data words, which allows linear searches to skip data words until a
-> matching FRE is found. New fields are added to struct sframe_fre_internal
-> to cache the necessary information to read data words later.
+> This commit hooks up the sframe infrastructure into the unwind_user interface
+> to support user-space stack unwinding via sframe. It adds the
+> UNWIND_USER_TYPE_SFRAME type and updates the unwind_user_next() logic to
+> attempt sframe unwinding when available.
 > 
->> diff --git a/kernel/unwind/sframe.c b/kernel/unwind/sframe.c
->> index 2ba2c8b385f96..98346412078b8 100644
->> --- a/kernel/unwind/sframe.c
->> +++ b/kernel/unwind/sframe.c
+>>     [ Jens Remus: Remove unused pt_regs from unwind_user_next_common() and
+>>     its callers.  Simplify unwind_user_next_sframe(). ]
 > 
+> This isn't a bug, but does this commit message match the changes?
+> Looking at the diff and the code, there are no modifications to
+> unwind_user_next_common() or its callers to remove a pt_regs parameter.
+
+Sashiko AI review failed to understand this commit message comment.
+
+> 
+>> diff --git a/kernel/unwind/user.c b/kernel/unwind/user.c
+>> index 90ab3c1a205ef..1fb2724197332 100644
+>> --- a/kernel/unwind/user.c
+>> +++ b/kernel/unwind/user.c
 > [ ... ]
-> 
->> @@ -455,6 +450,7 @@ static __always_inline int __find_fre(struct sframe_section *sec,
->>  	bool which = false;
->>  	unsigned int i;
->>  	u32 ip_off;
->> +	int ret;
+>> @@ -82,6 +83,16 @@ static int unwind_user_next_fp(struct unwind_user_state *state)
+>>  	return unwind_user_next_common(state, &fp_frame);
+>>  }
 >>  
->>  	ip_off = ip - fde->func_addr;
->>  
+>> +static int unwind_user_next_sframe(struct unwind_user_state *state)
+>> +{
+>> +	struct unwind_user_frame frame;
+>> +
+>> +	/* sframe expects the frame to be local storage */
+>> +	if (sframe_find(state->ip, &frame))
 > 
-> This isn't a regression introduced by this patch, but while looking at this
-> area, can a crafted sframe section cause a division-by-zero just after
-> this line?
+> Can this sequence cause a hard lockup in NMI context?
+> 
+> Since this unwinder is often called from NMI context (like perf), sframe_find()
+> eventually calls __find_fre() to search for Frame Row Entries. If __find_fre()
+> performs a linear scan over an unbounded, user-controlled number of entries
+> (fde->fres_num), it could spin for a long time without yielding.
+> 
+> If a malicious userspace program maps a large VMA and provides hundreds of
+> millions of FREs, would this loop calling unsafe_get_user() on every
+> iteration tie up the CPU long enough in NMI context to trigger the hard
+> lockup detector?
 
-Fixed in [PATCH v14 05/19] unwind_user/sframe: Add support for reading
-.sframe contents.
+Please advise.
+
+A user could craft .sframe with a large number of FDEs (up to UINT32_MAX)
+and large number of FREs per FDE (up to UINT16_MAX).  Each FDE could point
+at the same FDA and FREs to save section space.  Each FDE would require
+16 bytes in the FDE table. All FDEs could share a single FDA of 5 bytes
+and share FREs of minimum 5 bytes each (when using the 16-bit start
+address offset to have UINT16_MAX FREs) in the FRE table.
 
 > 
-> In __find_fre(), the code does:
+>> +		return -ENOENT;
+>> +	return unwind_user_next_common(state, &frame);
+>> +}
 > 
->     if (fde_pctype == SFRAME_FDE_PCTYPE_MASK)
->         ip_off %= fde->rep_size;
-> 
-> Since fde->rep_size and fde->info are populated directly from the user-provided
-> sframe section, does anything ensure rep_size is non-zero before reaching
-> this code?
-> 
-> If a user provides an sframe section with rep_size set to 0 and the
-> SFRAME_FDE_PCTYPE_MASK bit set in the info field, will this lead to an
-> unhandled division-by-zero exception and crash the kernel during stack
-> unwinding?
+
 Regards,
 Jens
 -- 
