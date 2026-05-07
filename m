@@ -1,222 +1,166 @@
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56CB13EE1E2
-	for <sashiko@lists.linux.dev>; Thu,  7 May 2026 13:23:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.176
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778160223; cv=pass; b=CnhvNYt2vTFLB+6zf4f1BnlMPWba4lgb7Tm5wZlk4kBHiG9r4hOOZgmxiLsEDZtSxoBQtryC1e9ptjp4nbc04pDu/zgX4B7xp5VL5R1kB5AS8s6biA2Xbmva62IRFaaMwWqpcvTMRepEKyfZ0PtnULuqUVbFobWDiHBKxMDp0iM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778160223; c=relaxed/simple;
-	bh=9Jgm2FO/o1Ngm5CMWr0tKMwtsRN5483k422YkFCi7/Y=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=opGL7GfdjDpFkvA5VXiOcrrq8BdWvlFKGiz3PLFUIxPX/+nCjzMNiL7alkqRmLIzlouFf1sNXHt+Qa0S/IGWbKKUOQFdBQXScnkPG+WE1Z8S3IZOkf98fWv74Ek5OSGfQ4O69erIhmrZ3yAhWgrRZYERF21+XB/3m0vvHSXY2RM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rbI3ZFtX; arc=pass smtp.client-ip=209.85.128.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B7A939FCCC;
+	Thu,  7 May 2026 14:14:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778163273; cv=none; b=KNq5Voe8Vr8S1Zb26N9OBY5iQo+Vj3eTOvCPu1ObuzwwD1YdSk1vG984nBdsh6SAz2SIJkqUTQK6UWQS33v8OEYGG94dpo9VlKbD1EvGvRBSeR+SXb5vYPqDuey8vfB8zUDayUfLHjpuhNF2jKu6PVzXgchEpOJCS/7nHm+FzyY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778163273; c=relaxed/simple;
+	bh=oyso3nExNrG4BywlWTOYcyfA7BLXnZvv6aLfX2RV21g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QPfKOujhUGP+k2F9uij5xeNGn0Q8QQQcB1Gq14Qu+q7yZ40JCGAcodiF8x7YZjRUQAVD/9SR0GNcVKfLqvZY16lCrpsM04swajKmTv8+GkqbCogN7YP7betBVa1J4GRGs6l6Q5GhjrQyVWg5I3zZ6k+l3D3fau4zq+uU+debo0Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=Y4gOc3Mx; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rbI3ZFtX"
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-7b6ae2ea4a1so8055347b3.2
-        for <sashiko@lists.linux.dev>; Thu, 07 May 2026 06:23:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778160218; cv=none;
-        d=google.com; s=arc-20240605;
-        b=KRu3IqXITH3CGFlEVjaShYujkVv5WdVtlP1+SjXB8hQ77Egpz+90QxS8KRbk2flv4z
-         xOSOFptqUKkBCaQKtREqQzJodm0pIFQVS0x5HA0T2zSq3YVUEnbJZXp450HmrmK6ZXoo
-         EsGxK9s7bEbuCK2nnMfl2EL0xDicCv9H8slzefQKaubXejsBg/LYDlfP2ASszSTeNWkA
-         p6JQpgTdbztqo1hNP9Ju8OoKUXSDjSvE+NH9iFOP8shkdC6BbaKleaaUpmSpDZgXmFD/
-         ZBjGkd6396ocwAw35a2jeMnBhHpc+iJsrTG0fdwKvL8LSpn16dsg+VuvOsotbsXTbzVy
-         0u3Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=W6smblTfezSJWX6RvWSVUMERv5fpI/QdrqhW+dClZI0=;
-        fh=7pQPbM1mTaKjUbZ75iTISJbipA72wUVZwkXXTYMxzFw=;
-        b=L1gMj9eQ+8r9nxmjq1PCZqBB4GibPGBta+GauHgcSELwsEPGbm4bIflKEmcoG0Jyi9
-         ZQDKT7GafAATbsodWXI14rmRSvXkJmRywYoWLk+OFaRbh8uMSA3yUWGc8fYhsYF29BIx
-         BJNp9UxtLYk4OfuxGHkaIS/UpwoaRdrJ+TPejKNCFZkiqTxAWu/IJLLlxQRSnNpIkh4x
-         49NwKyOv8UOcyZif7s4x8WW6Z5MFQUVIfbUv1NAhJWPH0JineklpqqyLQkq8zznAA00Y
-         Ul9mzmK20QFmA6e9y3l16SqVQIkAr/toaKs6eyixtwootXbYwyG09tNbPckqAAJ1cQBq
-         08dw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778160218; x=1778765018; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=W6smblTfezSJWX6RvWSVUMERv5fpI/QdrqhW+dClZI0=;
-        b=rbI3ZFtX3nyQ61ro26Y1ptr4QtL03k/RALAMAE+xONV0WTf6iJpNmUx7uQ2Pk5UZ3a
-         p0bvQ3j6FNHYdWMJkueK0augdcNA/v08INMqVenBAYJ4rA+RTU1MYJwpIsjGNzQqNifc
-         pzYtXGVP9LLRn21J0U1sh9G2W4czU11lLTddl4nKhaubi6a9ggDzlte5pd63YOD8wYJB
-         vd74ph1YjzNFy/rRIV+aoM5mA40HsUnmwYEyqTXITym6VFR5LivpUpXv5NKIz2S/Zkp2
-         it1wzCMaSH/jGyGANRkR/xAuqrHPFoiofew5klTYEeXxtWiQuOC/sT2svBLdxb9R4jAl
-         awzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778160218; x=1778765018;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=W6smblTfezSJWX6RvWSVUMERv5fpI/QdrqhW+dClZI0=;
-        b=D6f/MeVapO++sRGqrnkg4qCurBZDJ1ja3aZYnetfGJZTBXu/k63daGUfFynCF5ct7C
-         CJL8kvZGArdcpQznG/p55kRrJ/+I7CQ7LWmfMG7m8vrqQQuSAyXABpUfFRvUZgQZafOD
-         8Gn9DQS6M5M0KgU4CBq5IbcnvdfDYEesAm+o7dnUd1X+JR2ZH3JVBWGQ87tWd1xLS9ef
-         ao5qvmWcWypMFLyqJYWSHfql5t7mIufpnUy+I6G6JUwqez9GiLLAqjq0/XSreds5lbC2
-         gRzk3P3Eq6E49f6hctXKIJDnW+SHPEvkohMUkkYN4EsjRAlqcXsZGUYtjhXS4lMmZer3
-         RLug==
-X-Gm-Message-State: AOJu0YzwhhlOC3mD9UDsb4npGRQgLXAacGBWK/yrEpOcmms8vmPifFwt
-	y6Bz7tX+ukKEh4Wq4wZsTdx9vht/CuZeODwaYrHwYbk+zUZQYTbsuTahlrJF68KRfaraIW9SYNe
-	PlNJAS90y8gt2cYMbFxp9XkK/dcCmbfYOkocg45zXvQ==
-X-Gm-Gg: Acq92OEmGDS896Hm3+OiG+x4BEkuVwvoX9s4unG60pBmgtdyBqsF0+fFgRY6pn7rltS
-	teLSAOLeVqE2FucNs5J5O4otJm6d9tTRMIQjcK9lvvvAemiXUJQU2CIw8y58PnPnKaM695yDGM2
-	lkehhHMYbgQlxXOwCQkmvDXs78cqtlJY9h/3SOLs1Lu4nFb2JTZw8XotJ3PdksdezmBe81O7xdO
-	PPv5TY82/buuc7uMBezweAKsUOkwU9oejh/vLU58FF6AAgFfUJFqqph0M/GiXwIc9COuVr+NDWe
-	4Ll6g+0bRYMmp61WRcfkGAaHUTLbwA==
-X-Received: by 2002:a05:690c:dd4:b0:7bd:7b55:ebdb with SMTP id
- 00721157ae682-7bdf5db91b9mr82957967b3.5.1778160217790; Thu, 07 May 2026
- 06:23:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="Y4gOc3Mx"
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6475dgmY989845;
+	Thu, 7 May 2026 14:14:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=jtZgxZ
+	SPXnz+TforHqnmNEhazlwAO2Wl0iHCtSJM0nU=; b=Y4gOc3MxVgbUQ5IdNcg9Ij
+	uDe34sb9OMhv0sv/APflAVozPFp/NDlMbT3yNiyyA8PoMuAjaybocxgdI5a1OzWO
+	rP1WsWHJ8Uh0dnEKNeJaRtw4suCjg7+yxwMuR9J6NykwCyGq6b68ar4MIINbg0fu
+	9nKE+bF09CRkHeEEeo0ERrMiHoTztxEwX+71atg9fxjAcsy3Djk0rLQlVlEyho3x
+	g8MV6goYAvp+3KJz1O+8nZh0QSQN4pICHxmqrgkO7nN46N2Q2U7608WMV7Y244GR
+	dedCxP45hvcVsvwFlg/B0JEoJwKTOllyNNrDODXbYAAcIvl1/F4qPVnjr4PK7gWA
+	==
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4dw9w6p099-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 07 May 2026 14:14:27 +0000 (GMT)
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 647E9RHS021713;
+	Thu, 7 May 2026 14:14:27 GMT
+Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4dwvkk3y1y-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 07 May 2026 14:14:27 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
+	by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 647EEPB321496358
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 7 May 2026 14:14:25 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 369E020043;
+	Thu,  7 May 2026 14:14:25 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 1297820040;
+	Thu,  7 May 2026 14:14:25 +0000 (GMT)
+Received: from [9.52.200.195] (unknown [9.52.200.195])
+	by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Thu,  7 May 2026 14:14:25 +0000 (GMT)
+Message-ID: <a59bec51-007a-436f-905f-dfdd54f5bceb@linux.ibm.com>
+Date: Thu, 7 May 2026 16:14:24 +0200
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260506142709.2298255-9-ameryhung@gmail.com> <20260506235915.687C5C2BCB0@smtp.kernel.org>
-In-Reply-To: <20260506235915.687C5C2BCB0@smtp.kernel.org>
-From: Amery Hung <ameryhung@gmail.com>
-Date: Thu, 7 May 2026 15:23:26 +0200
-X-Gm-Features: AVHnY4IGekU0O8uTCO6uo7TaWUsiNxKEX4SPGMTBCHCQrpoUs3X0nGFPkKlwMTo
-Message-ID: <CAMB2axM9DM+6CD02sr7Qx56V-yp4Mr_=yRebC0PktthNTh227g@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v4 08/12] bpf: Unify release handling for helpers
- and kfuncs
-To: sashiko@lists.linux.dev
-Cc: bpf@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v14 19/19] unwind_user/sframe: Add prctl() interface for
+ registering .sframe sections
+To: Steven Rostedt <rostedt@kernel.org>
+Cc: bpf@vger.kernel.org, sashiko@lists.linux.dev,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Indu Bhagat <ibhagatgnu@gmail.com>
+References: <20260505121718.3572346-20-jremus@linux.ibm.com>
+ <20260505184556.B94A0C2BCB4@smtp.kernel.org>
+Content-Language: en-US
+From: Jens Remus <jremus@linux.ibm.com>
+Organization: IBM Deutschland Research & Development GmbH
+In-Reply-To: <20260505184556.B94A0C2BCB4@smtp.kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Authority-Analysis: v=2.4 cv=XPQAjwhE c=1 sm=1 tr=0 ts=69fc9e44 cx=c_pps
+ a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
+ a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=VwQbUJbxAAAA:8
+ a=VnNF1IyMAAAA:8 a=LBgWG6ceKceDMaZCywwA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: VdNAbrooQrd6lHdZPp91T2Nlqj3LFnpD
+X-Proofpoint-GUID: ZWcFR8ylTy7n-FHybeIGLNofyJIW4xbx
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA3MDE0MSBTYWx0ZWRfXxRejzSSfA+Q9
+ CAMXc/4kBaFgHaXFMkeNHy3FYAY8v6ks6AszNdsfVLcmoJIi4CXfTzGxudzIXq5RhRLheWuG71i
+ H4qTHouVVT7qNV3upJqM+lVQX7jgysSXCURdPFgA3MrsHjOPFYsRHP9W92gjHeVbUppMDk2i03n
+ sA/TN9mPfgT1ypIUc3WSHJBIv7Rqn6C3QN4xdTryIEth0181luRVNl4vIizA0O/BjM6gdcJiqy3
+ k0rRQvkwYBRoq8RbCtfgvUGPcdqD6l2HmsFQbSVv1T2aHo7CUNXUsd/z/KucIbyE5fZ0I47QX+s
+ K/sIpZfGvDqhL7YJXXZ8oltLTVmG9SmgDck5tx/t05Sj9qoJMOZL9dyNIyNOFMVxa+C2d0bS5Qg
+ gNvI5puxD1hEVd9HKkLEuDq60wYjgNUzE6oV7DCtWlviAR+SQLwoJfQaQxIUhpcZ2zc9PrvvW5L
+ DdTspjT3RDU78wCa9Fw==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-07_01,2026-05-06_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 lowpriorityscore=0 suspectscore=0 adultscore=0 spamscore=0
+ priorityscore=1501 impostorscore=0 phishscore=0 malwarescore=0 clxscore=1015
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2605070141
 
-On Thu, May 7, 2026 at 12:59=E2=80=AFAM <sashiko-bot@kernel.org> wrote:
->
-> Thank you for your contribution! Sashiko AI review found 2 potential issu=
-e(s) to consider:
-> - [High] Hardcoding meta->release_regno =3D BPF_REG_1 for KF_RELEASE kfun=
-cs creates a Use-After-Free vulnerability for kfuncs releasing non-first ar=
-guments.
-> - [Medium] Incorrect evaluation of the release_dynptr flag leads to false=
- rejection of valid BPF programs.
+On 5/5/2026 8:45 PM, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 2 potential issue(s) to consider:
+> - [High] Missing `break;` statement causes `PR_SET_CFI` to fall through to `PR_ADD_SFRAME`.
+> - [Medium] Patch introduces a test-only interface into the permanent UAPI.
 > --
->
-> commit e0e1bbafcfda45d42ce5635352bc4b69c0d713c6
-> Author: Amery Hung <ameryhung@gmail.com>
->
-> bpf: Unify release handling for helpers and kfuncs
->
-> Introduce release_reg() to consolidate the release logic shared by both
-> helpers and kfuncs. The patch determines release_regno from the function
-> prototype or metadata before argument checking.
->
-> > diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
-> > index 542912c7983f7..e40f09cefa291 100644
-> > --- a/kernel/bpf/verifier.c
-> > +++ b/kernel/bpf/verifier.c
+> 
+> commit 9171aa16917963dd1070d9ca3467d9086cd66393
+> Author: Josh Poimboeuf <jpoimboe@kernel.org>
+> 
+> unwind_user/sframe: Add prctl() interface for registering .sframe sections
+> 
+> The commit adds prctl() interfaces which allow glibc to tell the kernel
+> where to find .sframe sections. It mentions that the patch is for testing
+> purposes only.
+> 
+>>     [
+>>       This adds an interface for prctl() for testing loading of sframes for
+>>       libraries. But this interface should really be a system call. This patch
+>>       is for testing purposes only and should not be applied to mainline.
+>>     ]
+> 
+> Is it intended to include this in a mainline patch series? Adding temporary
+> or test-only interfaces into the UAPI represents a permanent ABI commitment
+> once released.
+
+This patch will get replaced by a new syscall that Steven is working on:
+
+[RFC][PATCH] unwind: Add stacktrace_setup system call
+https://lore.kernel.org/all/20260429114355.6c712e6a@gandalf.local.home/
+
+> 
+>> diff --git a/kernel/sys.c b/kernel/sys.c
+>> index 62e842055cc9c..6e81e82bc9911 100644
+>> --- a/kernel/sys.c
+>> +++ b/kernel/sys.c
 > [ ... ]
-> > @@ -9870,37 +9928,11 @@ static int check_helper_call(struct bpf_verifie=
-r_env *env, struct bpf_insn *insn
-> >       }
-> >
-> >       if (meta.release_regno) {
-> [ ... ]
-> > +             struct bpf_reg_state *reg =3D &regs[meta.release_regno];
-> > +             bool convert_rcu =3D (func_id =3D=3D BPF_FUNC_kptr_xchg) =
-&& in_rcu_cs(env) &&
-> > +                                (reg->type & MEM_ALLOC) && (reg->type =
-& MEM_PERCPU);
-> > +
-> > +             err =3D release_reg(env, reg, convert_rcu, !!meta.dynptr.=
-ref_obj_id);
-> >               if (err)
-> >                       return err;
-> >       }
->
-> Does passing !!meta.dynptr.ref_obj_id as the release_dynptr flag cause va=
-lid
-> programs to be rejected?
->
-> If a kfunc or helper accepts both a normal PTR_TO_BTF_ID to be released a=
-nd
-> a referenced dynptr as a normal (non-release) argument,
-> meta.dynptr.ref_obj_id would be set. This would cause release_reg() to
-> mistakenly invoke unmark_stack_slots_dynptr() on the non-dynptr release
-> register, returning -EINVAL.
->
-> Could the release condition be strictly derived from the argument type of
-> the specific release register instead?
+>> @@ -2906,6 +2907,13 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
+>>  			break;
+>>  		if (arg3 & PR_CFI_LOCK && !(arg3 & PR_CFI_DISABLE))
+>>  			error = arch_prctl_lock_branch_landing_pad_state(me);
+>> +	case PR_ADD_SFRAME:
+>> +		error = sframe_add_section(arg2, arg3, arg4, arg5);
+>> +		break;
+> 
+> Does this cause the previous case to fall through into PR_ADD_SFRAME?
+> 
+> It appears the new case was inserted before the break statement of the
+> previous case. This would cause execution to unintentionally continue into
+> sframe_add_section and overwrite the original error status.
 
-No existing helper and kfunc releases a ref_obj that also has another
-dynptr argument.
+Doh!  Stupid mistake during rebase.  Fixed in next version.
 
-Kfunc already use this check and I choose to make helper align with
-kfunc to make it the same without overcomplicating things. In the
-future when there is a universal proto for heleprs and kfuncs, we can
-check meta->fn->arg_type[release_regno] to make it more robust.
+Regards,
+Jens
+-- 
+Jens Remus
+Linux on Z Development (D3303)
+jremus@de.ibm.com / jremus@linux.ibm.com
 
->
-> [ ... ]
-> > @@ -12083,6 +12107,9 @@ int bpf_fetch_kfunc_arg_meta(struct bpf_verifie=
-r_env *env,
-> >
-> >       meta->kfunc_flags =3D *kfunc.flags;
-> >
-> > +     if (is_kfunc_release(meta))
-> > +             meta->release_regno =3D BPF_REG_1;
-> > +
-> >       return 0;
-> >  }
->
-> By unconditionally hardcoding BPF_REG_1 here, could this create a
-> use-after-free if a kernel module defines a release kfunc that frees an
-> argument other than the first?
->
-> If a BPF program passes a dummy referenced object to R1 and the actual
-> target object to R2, the verifier might drop the reference for R1 while
-> retaining R2, even though the kfunc frees R2 at runtime.
->
-> Should we still rely on dynamically discovering the release register base=
-d
-> on the argument type to avoid this?
+IBM Deutschland Research & Development GmbH; Vorsitzender des Aufsichtsrats: Wolfgang Wendt; Geschäftsführung: David Faller; Sitz der Gesellschaft: Ehningen; Registergericht: Amtsgericht Stuttgart, HRB 243294
+IBM Data Privacy Statement: https://www.ibm.com/privacy/
 
-If anyone is developing a new kfunc whose ref_obj to be released is
-not BPF_REG_1, the verifier should scream "unreleased reference", so
-the bug is unlikely to make it into the kernel.
-
-Some reason for this approach: The longterm goal is to remove the
-dependency of bpf_reg_state from kfunc proto generation. In this case,
-I want to tag OBJ_RELEASE by looking at the proto. This is currently
-impossible since we haved enable decl_tag for kfunc arguments yet. I
-think hardcode to BPF_REG_1 is a reasonable workaround for now.
-
-If this sounds okay. I will add this temporary constraint to kfuncs.rst.
-
->
-> [ ... ]
-> > @@ -12622,13 +12638,7 @@ static int check_kfunc_call(struct bpf_verifie=
-r_env *env, struct bpf_insn *insn,
-> [ ... ]
-> >       if (meta.release_regno) {
-> > -             struct bpf_reg_state *reg =3D &regs[meta.release_regno];
-> > -
-> > -             if (meta.dynptr.ref_obj_id) {
-> > -                     err =3D unmark_stack_slots_dynptr(env, reg);
-> > -             } else {
-> > -                     err =3D release_reference(env, reg->ref_obj_id);
-> > -             }
-> > +             err =3D release_reg(env, &regs[meta.release_regno], false=
-, !!meta.dynptr.ref_obj_id);
-> >               if (err)
-> >                       return err;
-> >       }
->
-> Similar to the check_helper_call() case above, does this global dynptr
-> metadata check safely handle mixed arguments when releasing registers?
->
-> --
-> Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260506142709.22=
-98255-1-ameryhung@gmail.com?part=3D8
