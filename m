@@ -1,135 +1,296 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E5BF4A13BF;
-	Wed,  6 May 2026 17:12:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E42EC275B03
+	for <sashiko@lists.linux.dev>; Thu,  7 May 2026 02:32:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778087550; cv=none; b=olb8W1LtXNrB6SnnTq+JZM359AgIowEzgjigwT+7aCZf7z2zirGvRnlS0qe72wgW9CehGpFUn/1sqctv2C4Eon5KtX0bwgktdbxeaCqFRjFUR5txh8ClTvnWHulkdHseVz9Pf4hWcyAerUdJB206J9QGqpb0RpOx2KYq83UWoRY=
+	t=1778121158; cv=none; b=Hf+kFP1JI0e3wmah/gYEk37qRhGJUAW1L+ec8/XaG7mqUiBjl/NR9T0eNBSMkJMTlol8nYW7BjVxyQh0NoZ5b3UxrjrjBmuX07OfMgtFh8ZbjCiqFsj8SEz1wXuBssqgoXwyD15Eas+0scKYE3GXnvYW0n+6G+qGYZ/eSz9+9NI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778087550; c=relaxed/simple;
-	bh=4UTh1+V2xr8wQjaCmcYORVivtr5ISCP3YfmJwCUuXSk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=Du3uk9OIK9Cg+KLsvgeffvONm2D/oyWL0M8i3fxsZYuQOxaH3PwNSL4QXC1iDe0M35FdBxfne8we0mHCHuAnWjAHfx/yarrz+uwLCWblK4EGmXDfM0Dci5HcPWNMmLBwvL+Jg7BCR38+oim3LgIajMDVzxebjMuq40mjZ7GMkAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PlCr3kc6; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778121158; c=relaxed/simple;
+	bh=XIVMCDjzPlTxfHhRJyKt7NkoOHhmpdRK+H1evR8Gqbk=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=c9x/Pr73N1hHOESVNOTxElDpCq6QaDETjATgvINron3tuvxwpaV8LU0iWuq6ff2vSQkHQZTRG4ZxRGa1WpfUH6fxHvvwEdramFvdl1geHThENajEdqAt/7Xcj8TrmxTLYfeS6miQDgTHAP7ZDHjA2juQ8tORY53y6AWlBL/y6Rk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L42krAtK; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PlCr3kc6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39874C2BCC9;
-	Wed,  6 May 2026 17:12:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778087549;
-	bh=4UTh1+V2xr8wQjaCmcYORVivtr5ISCP3YfmJwCUuXSk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=PlCr3kc6uIpPRilSsSx714+bxudOEPRDMdh2m/Zgo0etieg+uvlKnAbrTN7eXRkGN
-	 9O4vQA0buxY8AILyKfKegpDkfhFLPualPhYrHXATsfKJLbi0JXzAC9tw+MaDc1m+zC
-	 pYJvLO5Ul/uCvoNvSQaevgdx+HSyuINXkfHw6rcOh0IyFAkaxtFXMHE+lwBfEbmzr8
-	 ZASIwqLj0IpwnIfEYb2TUZHI/Upv4DjG6tjhese2R35eOpy+g1jBCnzgVHNuatSFxN
-	 r/+mEGoSeKS8PAq0O8uGArxp3HMhGUXvNiEX/FXbJWm7/EZxuwbuBCEUZLDO1X9YKf
-	 b2+RJyUQvDGWQ==
-Date: Wed, 6 May 2026 12:12:27 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Hans Zhang <18255117159@163.com>, t@bhelgaas
-Cc: sashiko@lists.linux.dev, linux-pci@vger.kernel.org
-Subject: Re: [PATCH] PCI: cadence: Use cdns_pcie_find_capability() to get
- PCIe Cap offset in host driver
-Message-ID: <20260506171227.GA797577@bhelgaas>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L42krAtK"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2ab46931cf1so10630035ad.0
+        for <sashiko@lists.linux.dev>; Wed, 06 May 2026 19:32:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778121156; x=1778725956; darn=lists.linux.dev;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=b4vgs0xscu3MsVhFPXf5qWcASYOxg1W9AcmmIG28clo=;
+        b=L42krAtK/qUF4ztltX6UnutUukNcle4gFTXUGF9rmPapNZ9xr1Q8GZlT12nY2sG1gY
+         65kzzKmTY+5Ruicf//M6VtXBQVsNQ5diWUS3gOzi41wSGwCJo/p7Ind07AiF3aXkqPdP
+         yv8x3GmFgB0BTbVNAoXZb/2FvncHTSdGF9yg6wHkUHJgOxWuZ1VV611IucB5iEN26VbU
+         rAU9CQU6fBK+6Tp1jh+qKEAo93VCC576t2ptmz9I4f1zIJ92lCa2BIQg6tVM8KR9kIMN
+         4O8XBBFytiAhggBBYTwJPWSvpVeYa9zRJeDvbl1ZlI1e59wY6y44t3dQ0t6ebMSXVBBY
+         bZsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778121156; x=1778725956;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=b4vgs0xscu3MsVhFPXf5qWcASYOxg1W9AcmmIG28clo=;
+        b=m4Sw6unjvoNa4z4WGYERdym6QvSeAVkWvTbA/nM7+fCD6ZFk2AFxOdjKQH9k/Rn2EI
+         MltEW3L2A1gl16v3mHIKsZTU7ckw6Cs0NVQaTsieG90OMR2n9gNyfSMrKtbg4gia1PzD
+         iZWd3rK1pq1ASkq77SdwXg1A9mxqDFH3eFWz1PboR/3CT/CEsvwjsHZ4BtLNEE6SrCLi
+         ST4I6Jw8UPktL8ms4jqKOZeDnif4z6qw9lg/4eJ9Vre++FctaDzBRHP9sU5/MqeAYeZw
+         ZIVKeQTPb7HcAvqf0ljBSkBJ0fyxG6dGRLPxrrD0Uv6JezQQXr7iG1t7jNiCFNqBysOt
+         DMmg==
+X-Gm-Message-State: AOJu0YyapOEsdh3d4cjrqjyqaLU+UpQ+AUidUJzVcZxNp3j44pPl5jDz
+	/8p4sMTsR6M7fVejcQacisplN9XSq2BB1WlYs8dk9gxDrAYsX/ffQhmcu4mdsA==
+X-Gm-Gg: AeBDiesw1F0L7rpAXjkl2+9VuaWBW81wQa4Ezu7gP0xSRTcz8CzFBXb55JJfjihXHGl
+	UeFAy0DxSmuLvPPo/DjiCeaeV1Vt/65jdnYp8XOUpgyn2m9j1Cr7hYYM7RvtZbzKtw8cO35swAF
+	jXsaCcAG8r45u0xJColq5IplJgFQlJiOrCM9KGRqP3S1Xj3AYzw6G3POTfOb+nmYd5fcyc0hvjm
+	kAG8llFsWRhGtNVOb7RcyJ+FmA2SCY+O8wo7mknUFlvCM3klhLAW0dadrE391TuxePvk7bCUM5y
+	9Zcih5UynjNeKHofXOpvzeS7vYhqUYhYI+tjfohWd6GEnT18xrCvgTluVClVKVfAK/FPqxilAMK
+	eZvSYW0LnBw2MXV+g+bfmcD9jGxrk+ubmRTzCYKQKNFijSG3lK6UJfFExyqQjNtC7TyDd32K2sQ
+	Kj7GU0vsSpm/QqVTvwBWUcz4g0mHlqmtQnu9GlODshoPiCBMYhq5gnjM3g
+X-Received: by 2002:a17:903:2f46:b0:2b2:3eec:c75b with SMTP id d9443c01a7336-2babc64a10dmr9337385ad.2.1778121155927;
+        Wed, 06 May 2026 19:32:35 -0700 (PDT)
+Received: from smtpclient.apple ([43.224.245.235])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2babadd2304sm6031105ad.42.2026.05.06.19.32.33
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 06 May 2026 19:32:35 -0700 (PDT)
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <505b1138-b4a7-4519-b6e5-5da6e06d615d@163.com>
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.500.181\))
+Subject: Re: [PATCH v2] sched_ext: Fix sched_ext_dead() race with
+ scx_root_enable_workfn()
+From: zhidao su <soolaugust@gmail.com>
+In-Reply-To: <20260506061633.73070C2BCB8@smtp.kernel.org>
+Date: Thu, 7 May 2026 10:32:21 +0800
+Cc: sched-ext@lists.linux.dev,
+ Tejun Heo <tj@kernel.org>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <5636DBB8-B5F3-4F88-AA54-B388DB3A80F1@gmail.com>
+References: <20260506054001.1105522-1-suzhidao@xiaomi.com>
+ <20260506061633.73070C2BCB8@smtp.kernel.org>
+To: sashiko@lists.linux.dev
+X-Mailer: Apple Mail (2.3864.500.181)
 
-On Thu, May 07, 2026 at 12:04:34AM +0800, Hans Zhang wrote:
-> On 5/6/26 05:23, Bjorn Helgaas wrote:
-> > On Mon, May 04, 2026 at 04:22:26PM +0800, Hans Zhang wrote:
-> > > On 5/4/26 00:52, sashiko-bot@kernel.org wrote:
-> > > > Thank you for your contribution! Sashiko AI review found 1
-> > > > potential issue(s) to consider:
-> > > > 
-> > > > - [Critical] cdns_pcie_find_capability() searches the wrong
-> > > > register space in Host mode and its return value is not validated,
-> > > > leading to Root Port configuration space corruption.
-> > > > --
-> > > > 
-> > > > commit 09b3c64b8f5892eb365acd13030a8067652a15e8
-> > > > Author: Hans Zhang <18255117159@163.com>
-> > > > 
-> > > > PCI: cadence: Use cdns_pcie_find_capability() to get PCIe Cap offset in host driver
-> > > > 
-> > > > This commit replaces the hardcoded CDNS_PCIE_RP_CAP_OFFSET with a dynamic
-> > > > lookup using cdns_pcie_find_capability() in Cadence PCIe host-related
-> > > > functions. The goal is to ensure correct operation across various SoC designs
-> > > > where the capability might not reside at offset 0xC0.
-> > > > 
-> > > > > diff --git a/drivers/pci/controller/cadence/pcie-cadence-host-common.c b/drivers/pci/controller/cadence/pcie-cadence-host-common.c
-> > > > > index 2b0211870f02..5013d3fe23b5 100644
-> > > > > --- a/drivers/pci/controller/cadence/pcie-cadence-host-common.c
-> > > > > +++ b/drivers/pci/controller/cadence/pcie-cadence-host-common.c
-> > > > > @@ -26,14 +26,14 @@ EXPORT_SYMBOL_GPL(bar_max_size);
-> > > > >    int cdns_pcie_host_training_complete(struct cdns_pcie *pcie)
-> > > > >    {
-> > > > > -	u32 pcie_cap_off = CDNS_PCIE_RP_CAP_OFFSET;
-> > > > >    	unsigned long end_jiffies;
-> > > > >    	u16 lnk_stat;
-> > > > > +	u8 cap = cdns_pcie_find_capability(pcie, PCI_CAP_ID_EXP);
-> > > > 
-> > > > Does this capability search scan the correct register space when
-> > > > operating in host mode?
-> > > > 
-> > > > Looking at the helper function, it uses cdns_pcie_read_cfg() which
-> > > > reads directly from the base address without the Root Port offset:
-> > > > 
-> > > > drivers/pci/controller/cadence/pcie-cadence.c:cdns_pcie_find_capability() {
-> > > >       return PCI_FIND_NEXT_CAP(cdns_pcie_read_cfg, PCI_CAPABILITY_LIST,
-> > > >                                cap, NULL, pcie);
-> > > > }
-> > > > 
-> > > > However, the Root Port configuration registers are physically
-> > > > located at pcie->reg_base + CDNS_PCIE_RP_BASE. Could this cause
-> > > > the search to scan the Local Management register space instead,
-> > > > failing to find PCI_CAP_ID_EXP and returning 0?
-> > > 
-> > > I don't think we need to worry about this issue.
-> > > 
-> > > As per PCIe r7.0, sec 7.5.1.1.11, Since all PCI Express Functions
-> > > are required to implement the PCI Express Capability structure,
-> > > which must be included somewhere in this linked list;
-> > > 
-> > > So, it won't return 0 here.
-> > 
-> > It's true that all Root Ports must have a PCIe Capability, but
-> > that's not related to this issue.
-> > 
-> > cdns_pcie_host_init_root_port() accesses PCI_EXP_LNKCAP at the
-> > address:
-> > 
-> >    pcie->reg_base + CDNS_PCIE_RP_BASE + CDNS_PCIE_RP_CAP_OFFSET + PCI_EXP_LNKCAP
-> > 
-> > but when we search with cdns_pcie_find_capability(pcie, PCI_CAP_ID_EXP),
-> > we start reading at:
-> > 
-> >    pcie->reg_base + PCI_CAPABILITY_LIST
-> > 
-> > It should be starting at:
-> > 
-> >    pcie->reg_base + CDNS_PCIE_RP_BASE + PCI_CAPABILITY_LIST
-> > 
-> > Previously, cdns_pcie_find_capability() and
-> > cdns_pcie_find_ext_capability() were only used for endpoints, and I
-> > assume they work fine there.  There is pcie->is_rc, so there should be
-> > a way to make this work for both endpoints and Root Ports.
-> 
-> The reason for using the "is_rc" tag is that for Cadence IP, it is not only
-> applicable to the RC or EP mode, but also there are significant differences
-> between the LGA and HPA generations of IP. Including register offset values,
-> definitions, etc., it fails to achieve good compatibility. It is not like
-> Synopsys IP, where compatibility has been handled very well. It was truly
-> out of necessity.
+On Wed, May 06 2026, sashiko-bot@kernel.org wrote:
 
-I think cdns_pcie_find_capability(pcie, PCI_CAP_ID_EXP) fails on Root
-Ports because it doesn't include the CDNS_PCIE_RP_BASE offset.  Do you
-have hardware where you can test that?
+> - [High] Calling `scx_set_task_state(p, SCX_TASK_READY)` without =
+holding
+>  `task_rq_lock(p)` introduces a Time-Of-Check to Time-Of-Use (TOCTOU)
+>  data race against `sched_ext_dead()`.
+> [...]
+> Can this cause a Time-Of-Check to Time-Of-Use (TOCTOU) data race =
+against
+> sched_ext_dead()?
+
+When p_dead is true the code does `continue`, so scx_set_task_state(p,
+SCX_TASK_READY) is never reached for dead tasks. The TOCTOU window
+doesn't exist.
+
+> - [High] A memory ordering vulnerability defeats the bug 1 fix on =
+weakly
+>  ordered architectures, allowing the NULL pointer dereference to still =
+occur.
+> [...]
+> Does this require a full write memory barrier (e.g., smp_wmb()) =
+between
+> setting the scheduler pointer and transitioning the state?
+
+I'm not confident whether the store ordering between =
+scx_set_task_sched()
+and the state transition needs an explicit barrier here.
+
+Tejun, what's the intended model for scx flags access in this path?
+
+> - [Medium] Missing `SCX_TASK_OFF_TASKS` flag on the =
+scx_root_enable_workfn()
+>  cleanup path exposes dead tasks to cgroup iterators.
+> [...]
+> Is this cleanup path missing the SCX_TASK_OFF_TASKS flag?
+
+Not needed here. scx_task_iter_next_locked() checks SCX_TASK_OFF_TASKS
+only for cgroup-scoped iteration, which is only reachable from
+scx_sub_enable_workfn(). That function requires scx_enabled() at entry;
+scx_root_enable_workfn() has not called scx_ops_enable() yet at this
+point, so no sub-sched enable can be running concurrently.
+
+
+> 2026=E5=B9=B45=E6=9C=886=E6=97=A5 14:16=EF=BC=8Csashiko-bot@kernel.org =
+=E5=86=99=E9=81=93=EF=BC=9A
+>=20
+> Thank you for your contribution! Sashiko AI review found 3 potential =
+issue(s) to consider:
+> - [High] Calling `scx_set_task_state(p, SCX_TASK_READY)` without =
+holding `task_rq_lock(p)` introduces a Time-Of-Check to Time-Of-Use =
+(TOCTOU) data race against `sched_ext_dead()`.
+> - [High] A memory ordering vulnerability defeats the bug 1 fix on =
+weakly ordered architectures, allowing the NULL pointer dereference to =
+still occur.
+> - [Medium] Missing `SCX_TASK_OFF_TASKS` flag on the =
+`scx_root_enable_workfn()` cleanup path exposes dead tasks to cgroup =
+iterators, causing sub-scheduler enables to abort.
+> --
+>=20
+> commit 1d291365affa3415c03f2031e9198ebe7208a245
+> Author: zhidao su <soolaugust@gmail.com>
+>=20
+> sched_ext: Fix sched_ext_dead() race with scx_root_enable_workfn()
+>=20
+> In CONFIG_EXT_SUB_SCHED, scx_task_sched(p) returns p->scx.sched =
+instead
+> of scx_root. scx_root_enable_workfn() iterates all tasks and for each
+> releases scx_tasks_lock via scx_task_iter_unlock() before calling
+> scx_init_task().
+>=20
+>> diff --git a/kernel/sched/ext.c b/kernel/sched/ext.c
+>> index 5600618dcef8e..98505577d56ca 100644
+>> --- a/kernel/sched/ext.c
+>> +++ b/kernel/sched/ext.c
+>> @@ -3690,7 +3690,15 @@ static int scx_init_task(struct scx_sched =
+*sch, struct task_struct *p, bool fork
+>> /*
+>> * While @p's rq is not locked. @p is not visible to the rest of
+>> * SCX yet and it's safe to update the flags and state.
+>> + *
+>> + * Install p->scx.sched before transitioning state off NONE so
+>> + * that the invariant state!=3DNONE =3D> p->scx.sched!=3DNULL holds =
+as
+>> + * soon as state becomes observable.  A concurrent sched_ext_dead()
+>> + * that races the INIT window will then always find a valid
+>> + * scheduler pointer and can call scx_disable_and_exit_task()
+>> + * to release resources allocated by ops.init_task().
+>> */
+>> + scx_set_task_sched(p, sch);
+>> p->scx.flags |=3D SCX_TASK_RESET_RUNNABLE_AT;
+>> scx_set_task_state(p, SCX_TASK_INIT);
+>> }
+>=20
+> Can this result in a memory ordering vulnerability on weakly ordered
+> architectures?
+>=20
+> In scx_init_task(), scx_set_task_sched() uses rcu_assign_pointer(), =
+which
+> relies on smp_store_release(). While smp_store_release() guarantees =
+prior
+> operations are visible, it does not prevent subsequent memory =
+operations
+> from being reordered before the release.
+>=20
+> Could the CPU commit the store updating p->scx.flags to SCX_TASK_INIT
+> before the store to p->scx.sched is completed? If a concurrent
+> sched_ext_dead() observes state =3D=3D SCX_TASK_INIT, branches into =
+the cleanup
+> path, and reads a NULL scheduler pointer, it would pass it to
+> scx_disable_and_exit_task() which crashes in SCX_HAS_OP().
+>=20
+> Does this require a full write memory barrier (e.g., smp_wmb()) =
+between
+> setting the scheduler pointer and transitioning the state?
+>=20
+> [ ... ]
+>=20
+>> @@ -7130,7 +7133,49 @@ static void scx_root_enable_workfn(struct =
+kthread_work *work)
+>> goto err_disable_unlock_all;
+>> }
+>>=20
+>> - scx_set_task_sched(p, sch);
+>> + /*
+>> + * sched_ext_dead() may have raced while locks were dropped in
+>> + * scx_task_iter_unlock().  Two cases:
+>> + *
+>> + * (a) sched_ext_dead() ran after scx_init_task() set state=3DINIT:
+>> + *     it called scx_disable_and_exit_task() (cancelled=3Dtrue) and
+>> + *     reset state to NONE.  ops.exit_task() already ran; skip.
+>> + *
+>> + * (b) sched_ext_dead() ran before scx_init_task() (state=3DNONE at
+>> + *     the time): it skipped scx_disable_and_exit_task() because
+>> + *     state was NONE.  scx_init_task() subsequently called
+>> + *     ops.init_task() and set state=3DINIT, leaving allocated
+>> + *     resources with no owner.  We must call
+>> + *     scx_disable_and_exit_task() here to release them.
+>> + *
+>> + * Distinguish case (a) from (b) by reading state: (a) leaves
+>> + * state=3DNONE (reset by scx_disable_and_exit_task); (b) leaves
+>> + * state=3DINIT (set by scx_init_task, never reset).
+>> + */
+>> + {
+>> + bool p_dead =3D false, need_exit =3D false;
+>> +
+>> + scoped_guard(raw_spinlock_irq, &scx_tasks_lock) {
+>> + if (list_empty(&p->scx.tasks_node)) {
+>> + p_dead =3D true;
+>> + need_exit =3D scx_get_task_state(p) !=3D SCX_TASK_NONE;
+>> + }
+>> + }
+>> +
+>> + if (p_dead) {
+>> + if (need_exit) {
+>> + struct rq_flags rf;
+>> + struct rq *rq;
+>> +
+>> + rq =3D task_rq_lock(p, &rf);
+>> + scx_disable_and_exit_task(sch, p);
+>> + task_rq_unlock(rq, p, &rf);
+>=20
+> Is this cleanup path missing the SCX_TASK_OFF_TASKS flag?
+>=20
+> If sched_ext_dead() runs before scx_init_task() completes, it sees =
+state
+> NONE and skips setting SCX_TASK_OFF_TASKS. When this cleanup path =
+calls
+> scx_disable_and_exit_task() under task_rq_lock(), the =
+SCX_TASK_OFF_TASKS
+> flag is not set before the runqueue is unlocked.
+>=20
+> Because the flag is missing, if a cgroup iterator traverses the cgroup
+> before cgroup_task_dead() removes the task, could the iterator =
+erroneously
+> yield the dead task with state NONE, hit =
+assert_task_ready_or_enabled(p),
+> and abort the sub-scheduler enable?
+>=20
+>> + }
+>> + put_task_struct(p);
+>> + continue;
+>> + }
+>> + }
+>> +
+>> scx_set_task_state(p, SCX_TASK_READY);
+>=20
+> Can this cause a Time-Of-Check to Time-Of-Use (TOCTOU) data race =
+against
+> sched_ext_dead()?
+>=20
+> The code checks list_empty(&p->scx.tasks_node) under scx_tasks_lock to
+> determine if a concurrent sched_ext_dead() has started processing.
+>=20
+> However, once scx_tasks_lock is dropped, sched_ext_dead() can acquire =
+it,
+> remove the task, and proceed to exit the task, eventually doing
+> p->scx.flags |=3D SCX_TASK_OFF_TASKS under task_rq_lock(p).
+>=20
+> Meanwhile, scx_root_enable_workfn() continues past the lock and
+> unconditionally calls scx_set_task_state(p, SCX_TASK_READY) without =
+holding
+> task_rq_lock(p). Because scx_set_task_state() performs a non-atomic
+> read-modify-write on p->scx.flags, could this overwrite and =
+permanently
+> lose the SCX_TASK_OFF_TASKS flag?
+>=20
+> Also, could this incorrectly transition a dead task to SCX_TASK_READY =
+after
+> its scheduler resources were torn down, triggering a warning?
+>=20
+> --=20
+> Sashiko AI review =C2=B7 =
+https://sashiko.dev/#/patchset/20260506054001.1105522-1-suzhidao@xiaomi.co=
+m?part=3D1
+
