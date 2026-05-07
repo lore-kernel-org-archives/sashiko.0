@@ -1,60 +1,32 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FD5B15ECCC;
-	Thu,  7 May 2026 14:55:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F68C3F23D9
+	for <sashiko@lists.linux.dev>; Thu,  7 May 2026 15:22:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.2
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778165730; cv=none; b=qq43J2wGSx66T93hg2GgqKj00/Yka68gZqjMulydvCtwfUltRSZfQlvFXwLAfrjxQkAIHI7rM3XR0JeF9WJ00Wk/Fz9sDqbZVcEI1O130OrMW/i2+R6l6eQ67N1lRKJU8lKzwd7vlFtu2/K33NC+JRWsVoO7KxweY8/oMO0UQbg=
+	t=1778167335; cv=none; b=AAZJaAdlpTbRiXUif44CEKfmNEbZ/OTRP3eIW9XvyqOVNpKConnYmQqJn4n50OSU5wRP6HttBGr35TrSqDvo5BTX0WCh3mtY2BMC5fikhisWXoQnmvU/tYBzi5HTCZ4TLBSqTQ2ULctobt59W611aZ9agLgnTE2qu/wxs+RivBA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778165730; c=relaxed/simple;
-	bh=2ZVajmPaSkGvuA/yHVKgEbcelNRw5s50vYsWkiOJxdE=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=nMfOVY1udn2P9k4ZsfYtBUjUbGuLJeaCQ4GaTQnccF0p7bRpfeOsT8DWQkubHOVwstOKr0lO2XdK97SfqnB22Mp/as3cvO/KHFhu6qT64C0xkKaZ8fR0cBCLKFCdB/tOTwc0C8px8KbEl5NHbV3Qm2tcI4dLFyx2Dp5ewBB6VYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=c/fkqRoA; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1778167335; c=relaxed/simple;
+	bh=tL8vhjTM/0lzcBl5kGybgTGbZkaz7KtDK49q0G/JKg4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=R27GBKQlmEn85FhYgWA4EfIZObhC7GFf4Yx1w/O7T4YLmL49U3EFL+250s3D3RzCUfFJT6aVBnSB6K4vyZSxtGLjBezKd+U8Oq03lleB7BPIJ/K5mxIEj+O7KnulBPmJ2HuxH7NN/eiBUQaO4wziHVKCHVbPkbwK6I/pvrpgZtU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=Hn1ioPfR; arc=none smtp.client-ip=220.197.31.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="c/fkqRoA"
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6479vfh81496151;
-	Thu, 7 May 2026 14:55:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=lWiIA9
-	h8T8iXeuIwUqmNWo/xrWHHXLraLrEMf2skmsM=; b=c/fkqRoA9JDMeFkn6x8Lf0
-	dCdNz0ZzT+ghTtIGBSvD1rDmNdnoGSWmyLTakW37lw2ZBTy0fdzaRPGs/aK3SHNC
-	Dj1PZqVl9/Kd03cwI0ABek8ZzM12t6WnALI0ftJmuSdQnRVqW+NLFqxzMeQNGEXa
-	q4ejkaO7oKW5/j/P+BG93/WSHINkIyTVKVtrjxbfnjtb3tFIbiSJqF/+r/L5gLyz
-	eAvPFvuTRSeWaEvu4TyijRJhEdA1h3ZIefXyFz5J3yKiM2YKNnJVKjjW3Cr8I75n
-	YDPnVzghoSP4ILvkBS8NTI8wxDOT4tyhxitAKL7u+FaqjECKeSL7qPDuW19KLJ2g
-	==
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4dw9x4y4w4-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 07 May 2026 14:55:26 +0000 (GMT)
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 647EsfIx002160;
-	Thu, 7 May 2026 14:55:25 GMT
-Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4dwwtgkxeq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 07 May 2026 14:55:25 +0000 (GMT)
-Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
-	by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 647EtN0u62325000
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 7 May 2026 14:55:23 GMT
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id BFD302004E;
-	Thu,  7 May 2026 14:55:23 +0000 (GMT)
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 9EAE02004D;
-	Thu,  7 May 2026 14:55:23 +0000 (GMT)
-Received: from [9.52.200.195] (unknown [9.52.200.195])
-	by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Thu,  7 May 2026 14:55:23 +0000 (GMT)
-Message-ID: <8809f550-1dcf-4e47-96fe-74e85c522418@linux.ibm.com>
-Date: Thu, 7 May 2026 16:55:22 +0200
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="Hn1ioPfR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Message-ID:Date:MIME-Version:Subject:To:From:
+	Content-Type; bh=YpeiknJVJPLIFMqNflFehOonJQLV87GJbhuLuF4ydoc=;
+	b=Hn1ioPfRoik0hfxvXAUbZxjHccxhXuHbsG1B/HaOWqrRfJMCb9gNqzROk2C39Q
+	BOiaTEFejCewTp2/554L94+7hOixi/UfyjxmHGzMZiSClhaC3BC582mQngwl/r1h
+	T1EU1vbWpGl4O+EpngsfeTeRIvDc9miUGmv3MzLWxIzU0=
+Received: from [192.168.71.11] (unknown [])
+	by gzsmtp2 (Coremail) with SMTP id PSgvCgDnn_gDrvxp1fr3DQ--.42093S2;
+	Thu, 07 May 2026 23:21:40 +0800 (CST)
+Message-ID: <3280415c-3c38-4b69-b2a5-6b97d0d24e54@163.com>
+Date: Thu, 7 May 2026 23:21:39 +0800
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
@@ -62,115 +34,377 @@ List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v14 02/19] unwind_user/sframe: Add support for reading
- .sframe headers
-From: Jens Remus <jremus@linux.ibm.com>
-To: Steven Rostedt <rostedt@kernel.org>, Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: bpf@vger.kernel.org, sashiko@lists.linux.dev,
-        Indu Bhagat <ibhagatgnu@gmail.com>
-References: <20260505121718.3572346-3-jremus@linux.ibm.com>
- <20260505124948.669E2C2BCB4@smtp.kernel.org>
- <f106e4a1-4f60-4c65-97bc-2257005765e5@linux.ibm.com>
+Subject: Re: [PATCH] PCI: cadence: Use cdns_pcie_find_capability() to get PCIe
+ Cap offset in host driver
+To: Aksh Garg <a-garg7@ti.com>, Bjorn Helgaas <helgaas@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, Siddharth Vadapalli <s-vadapalli@ti.com>
+Cc: sashiko@lists.linux.dev, linux-pci@vger.kernel.org
+References: <20260506171227.GA797577@bhelgaas>
+ <a791e1d8-f17a-4e8c-8afe-d1da338f4c5e@163.com>
+ <2e92d011-02fa-433f-92e3-142880d5d0d2@163.com>
+ <181c2204-dfb6-4484-b4e4-069d8c7445fd@ti.com>
 Content-Language: en-US
-Organization: IBM Deutschland Research & Development GmbH
-In-Reply-To: <f106e4a1-4f60-4c65-97bc-2257005765e5@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8
+From: Hans Zhang <18255117159@163.com>
+In-Reply-To: <181c2204-dfb6-4484-b4e4-069d8c7445fd@ti.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA3MDE0NiBTYWx0ZWRfXztIuCT/MGSyv
- 6B9CI6Wy/FYuMZUwce4LeXnB5JL7KZkq8ltFbxD/r4KTLNijEvQ10BX1/sOAJZ772CdtCPkZPCZ
- RitHY27A0xw0WB3L5Z6JXRUwdc8N5b88CHa0x7xRlvNyC9IwHd0lU/xCLLyqrKwpVLNiQPL2Qml
- 0s+1vL39GhOqVWs/XiMbOYThOKtLRS6d17F62LYdSFmKv6E84NcQ1jUhZo78iU0Js06++cJmMfj
- 7MlvtE3A2BAnHtZvAR7YeTg+LHXq9OVEpFHcd480yPA+w8f1HpYh1D69YX18Nv+RE8L7yorLYbf
- VGiPr5MO1YzdrcK++tI10rwFQikGhOwnW54SBJcBaZ0ppFrwPPLlHSsAAnwX6fqirQOuD06aKwg
- qBF4g95vKw+qypnkxX1qVZUHv+eBGNZh/rHBkOXYiuqoi9/6hZCIMFR4D9Rpb1MFMzblQrmWqtb
- lbb9OK8+82PXeS8rslQ==
-X-Proofpoint-ORIG-GUID: AxTHEVNvyk6uLsp_uzrXGwTza0T2jt6y
-X-Proofpoint-GUID: zXMZSxucn2v49XcB23sObOmHP0dJA1RS
-X-Authority-Analysis: v=2.4 cv=W7UIkxWk c=1 sm=1 tr=0 ts=69fca7de cx=c_pps
- a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
- a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=uAbxVGIbfxUO_5tXvNgY:22 a=VnNF1IyMAAAA:8
- a=VwQbUJbxAAAA:8 a=LFt20mCCc4CE-LtB3JUA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-05-07_01,2026-05-06_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 adultscore=0 lowpriorityscore=0 malwarescore=0
- suspectscore=0 spamscore=0 clxscore=1015 phishscore=0 bulkscore=0
- impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2604200000
- definitions=main-2605070146
+X-CM-TRANSID:PSgvCgDnn_gDrvxp1fr3DQ--.42093S2
+X-Coremail-Antispam: 1Uf129KBjvAXoW3tw4fJry3ArW7CFW3Xr1kKrg_yoW8JFy8Jo
+	Wftr4xGw4xCr18Jay0kasFqryUZ3Wjv3Z8Ar98Kw4DZryaya15Jr47Ja13Xw42vr48Ar4U
+	Ary8tw1Y9FW2g3Zxn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+	AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvjxU5a0mUUUUU
+X-CM-SenderInfo: rpryjkyvrrlimvzbiqqrwthudrp/xtbCxAVG6Wn8rgU6egAA3Q
 
-On 5/6/2026 3:42 PM, Jens Remus wrote:
-> On 5/5/2026 2:49 PM, sashiko-bot@kernel.org wrote:
 
->> [ ... ]
->>> +	sec = kzalloc(sizeof(*sec), GFP_KERNEL);
->>> +	if (!sec)
->>> +		return -ENOMEM;
+
+On 5/7/26 20:31, Aksh Garg wrote:
+> 
+> 
+> On 07/05/26 09:18, Hans Zhang wrote:
+>>
+>>
+>> On 5/7/26 11:31, Hans Zhang wrote:
+>>>
+>>>
+>>> On 5/7/26 01:12, Bjorn Helgaas wrote:
+>>>> On Thu, May 07, 2026 at 12:04:34AM +0800, Hans Zhang wrote:
+>>>>> On 5/6/26 05:23, Bjorn Helgaas wrote:
+>>>>>> On Mon, May 04, 2026 at 04:22:26PM +0800, Hans Zhang wrote:
+>>>>>>> On 5/4/26 00:52, sashiko-bot@kernel.org wrote:
+>>>>>>>> Thank you for your contribution! Sashiko AI review found 1
+>>>>>>>> potential issue(s) to consider:
+>>>>>>>>
+>>>>>>>> - [Critical] cdns_pcie_find_capability() searches the wrong
+>>>>>>>> register space in Host mode and its return value is not validated,
+>>>>>>>> leading to Root Port configuration space corruption.
+>>>>>>>> -- 
+>>>>>>>>
+>>>>>>>> commit 09b3c64b8f5892eb365acd13030a8067652a15e8
+>>>>>>>> Author: Hans Zhang <18255117159@163.com>
+>>>>>>>>
+>>>>>>>> PCI: cadence: Use cdns_pcie_find_capability() to get PCIe Cap 
+>>>>>>>> offset in host driver
+>>>>>>>>
+>>>>>>>> This commit replaces the hardcoded CDNS_PCIE_RP_CAP_OFFSET with 
+>>>>>>>> a dynamic
+>>>>>>>> lookup using cdns_pcie_find_capability() in Cadence PCIe host- 
+>>>>>>>> related
+>>>>>>>> functions. The goal is to ensure correct operation across 
+>>>>>>>> various SoC designs
+>>>>>>>> where the capability might not reside at offset 0xC0.
+>>>>>>>>
+>>>>>>>>> diff --git a/drivers/pci/controller/cadence/pcie-cadence-host- 
+>>>>>>>>> common.c b/drivers/pci/controller/cadence/pcie-cadence-host- 
+>>>>>>>>> common.c
+>>>>>>>>> index 2b0211870f02..5013d3fe23b5 100644
+>>>>>>>>> --- a/drivers/pci/controller/cadence/pcie-cadence-host-common.c
+>>>>>>>>> +++ b/drivers/pci/controller/cadence/pcie-cadence-host-common.c
+>>>>>>>>> @@ -26,14 +26,14 @@ EXPORT_SYMBOL_GPL(bar_max_size);
+>>>>>>>>>     int cdns_pcie_host_training_complete(struct cdns_pcie *pcie)
+>>>>>>>>>     {
+>>>>>>>>> -    u32 pcie_cap_off = CDNS_PCIE_RP_CAP_OFFSET;
+>>>>>>>>>         unsigned long end_jiffies;
+>>>>>>>>>         u16 lnk_stat;
+>>>>>>>>> +    u8 cap = cdns_pcie_find_capability(pcie, PCI_CAP_ID_EXP);
+>>>>>>>>
+>>>>>>>> Does this capability search scan the correct register space when
+>>>>>>>> operating in host mode?
+>>>>>>>>
+>>>>>>>> Looking at the helper function, it uses cdns_pcie_read_cfg() which
+>>>>>>>> reads directly from the base address without the Root Port offset:
+>>>>>>>>
+>>>>>>>> drivers/pci/controller/cadence/pcie- 
+>>>>>>>> cadence.c:cdns_pcie_find_capability() {
+>>>>>>>>        return PCI_FIND_NEXT_CAP(cdns_pcie_read_cfg, 
+>>>>>>>> PCI_CAPABILITY_LIST,
+>>>>>>>>                                 cap, NULL, pcie);
+>>>>>>>> }
+>>>>>>>>
+>>>>>>>> However, the Root Port configuration registers are physically
+>>>>>>>> located at pcie->reg_base + CDNS_PCIE_RP_BASE. Could this cause
+>>>>>>>> the search to scan the Local Management register space instead,
+>>>>>>>> failing to find PCI_CAP_ID_EXP and returning 0?
+>>>>>>>
+>>>>>>> I don't think we need to worry about this issue.
+>>>>>>>
+>>>>>>> As per PCIe r7.0, sec 7.5.1.1.11, Since all PCI Express Functions
+>>>>>>> are required to implement the PCI Express Capability structure,
+>>>>>>> which must be included somewhere in this linked list;
+>>>>>>>
+>>>>>>> So, it won't return 0 here.
+>>>>>>
+>>>>>> It's true that all Root Ports must have a PCIe Capability, but
+>>>>>> that's not related to this issue.
+>>>>>>
+>>>>>> cdns_pcie_host_init_root_port() accesses PCI_EXP_LNKCAP at the
+>>>>>> address:
+>>>>>>
+>>>>>>     pcie->reg_base + CDNS_PCIE_RP_BASE + CDNS_PCIE_RP_CAP_OFFSET + 
+>>>>>> PCI_EXP_LNKCAP
+>>>>>>
+>>>>>> but when we search with cdns_pcie_find_capability(pcie, 
+>>>>>> PCI_CAP_ID_EXP),
+>>>>>> we start reading at:
+>>>>>>
+>>>>>>     pcie->reg_base + PCI_CAPABILITY_LIST
+>>>>>>
+>>>>>> It should be starting at:
+>>>>>>
+>>>>>>     pcie->reg_base + CDNS_PCIE_RP_BASE + PCI_CAPABILITY_LIST
+>>>>>>
+>>>>>> Previously, cdns_pcie_find_capability() and
+>>>>>> cdns_pcie_find_ext_capability() were only used for endpoints, and I
+>>>>>> assume they work fine there.  There is pcie->is_rc, so there 
+>>>>>> should be
+>>>>>> a way to make this work for both endpoints and Root Ports.
+>>>>>
+>>>>> The reason for using the "is_rc" tag is that for Cadence IP, it is 
+>>>>> not only
+>>>>> applicable to the RC or EP mode, but also there are significant 
+>>>>> differences
+>>>>> between the LGA and HPA generations of IP. Including register 
+>>>>> offset values,
+>>>>> definitions, etc., it fails to achieve good compatibility. It is 
+>>>>> not like
+>>>>> Synopsys IP, where compatibility has been handled very well. It was 
+>>>>> truly
+>>>>> out of necessity.
+>>>>
+>>>> I think cdns_pcie_find_capability(pcie, PCI_CAP_ID_EXP) fails on Root
+>>>> Ports because it doesn't include the CDNS_PCIE_RP_BASE offset.  Do you
+>>>> have hardware where you can test that?
+>>
+>> Hi Siddharth,
+>>
+>> Could you please test the functions mentioned above? It would be great 
+>> if you could help test it and give us your feedback. (pci-j721e.c)
+>>
+>> I guess the following changes might need to be made.
+>>
+>> diff --git a/drivers/pci/controller/cadence/pcie-cadence.h b/drivers/ 
+>> pci/controller/cadence/pcie-cadence.h
+>> index 574e9cf4d003..bb01761749f1 100644
+>> --- a/drivers/pci/controller/cadence/pcie-cadence.h
+>> +++ b/drivers/pci/controller/cadence/pcie-cadence.h
+>> @@ -298,6 +298,9 @@ static inline int cdns_pcie_read_cfg_byte(struct 
+>> cdns_pcie *pcie, int where,
+>>   {
+>>          void __iomem *addr = pcie->reg_base + where;
+>>
+>> +       if ((pcie->is_rc) && (!pcie->is_hpa))
+>> +               addr += CDNS_PCIE_RP_BASE;
+>> +
+>>          *val = cdns_pcie_read_sz(addr, 0x1);
+>>          return PCIBIOS_SUCCESSFUL;
+>>   }
+>> @@ -307,6 +310,9 @@ static inline int cdns_pcie_read_cfg_word(struct 
+>> cdns_pcie *pcie, int where,
+>>   {
+>>          void __iomem *addr = pcie->reg_base + where;
+>>
+>> +       if ((pcie->is_rc) && (!pcie->is_hpa))
+>> +               addr += CDNS_PCIE_RP_BASE;
+>> +
+>>          *val = cdns_pcie_read_sz(addr, 0x2);
+>>          return PCIBIOS_SUCCESSFUL;
+>>   }
+>> @@ -314,7 +320,12 @@ static inline int cdns_pcie_read_cfg_word(struct 
+>> cdns_pcie *pcie, int where,
+>>   static inline int cdns_pcie_read_cfg_dword(struct cdns_pcie *pcie, 
+>> int where,
+>>                                             u32 *val)
+>>   {
+>> -       *val = cdns_pcie_readl(pcie, where);
+>> +       void __iomem *addr = pcie->reg_base + where;
+>> +
+>> +       if ((pcie->is_rc) && (!pcie->is_hpa))
+>> +               addr += CDNS_PCIE_RP_BASE;
+>> +
+>> +       *val = cdns_pcie_read_sz(addr, 0x4);
+>>          return PCIBIOS_SUCCESSFUL;
+>>   }
+>>
+>>
+>> "is_hpa" flag I added it in another series. As mentioned before, the 
+>> compatibility of Cadence IP is not very good. It is divided into LGA 
+>> and HPA IP. And there are many differences between the Root Port and 
+>> the Endpoint.
+>>
+>> https://patchwork.kernel.org/project/linux-pci/ 
+>> patch/20260406103237.1203127-2-18255117159@163.com/
+>>
+>> Best regards,
+>> Hans
+>>
+> 
+> Hi Hans,
+> 
+> I have tested this on J7200 and J721E SoCs, which uses pci-j721e.c
+> driver for their PCIe controllers. The patch alone fails to find the
+> capabilities using cdns_pcie_find_capability() for Root Port.
+> 
+> With the "is_hpa" flag patch, and the patch "PCI: cadence: Use
+> cdns_pcie_find_capability() to get PCIe Cap offset in host driver" along
+> with the diff suggested above:
+
+Thank you very much for your test. We need to wait for Bjorn's approval.
+
+> 
+> Tested-by: Aksh Garg <a-garg7@ti.com>
+
+When the future patch is sent to the PCI mailing list, if you test it at 
+that time, please reply to this tag again.
+
+> 
+> 
+> I would also like me to be included in the CC list for future
+> correspondence regarding Cadence PCIe Controller patches.
+> 
+
+Sure. In the future, when I send the patch, I will CC it to you in the 
+email.
+
+Best regards,
+Hans
+
+> Regards,
+> Aksh Garg
+> 
+>>>
+>>> Hi Bjorn,
+>>>
+>>> The attachment contains the dmesg and lspci -vvv log from the test.
+>>>
+>>> Here is the test code:
+>>>
+>>> diff --git a/drivers/pci/controller/cadence/pci-sky1.c b/drivers/pci/ 
+>>> controller/cadence/pci-sky1.c
+>>> index cd55c64e58a9..0d0c42309127 100644
+>>> --- a/drivers/pci/controller/cadence/pci-sky1.c
+>>> +++ b/drivers/pci/controller/cadence/pci-sky1.c
+>>> @@ -130,6 +130,39 @@ static const struct cdns_pcie_ops sky1_pcie_ops = {
+>>>       .link_up = sky1_pcie_link_up,
+>>>   };
+>>>
+>>> +void cix_pcie_test_cap(struct sky1_pcie *pcie)
+>>> +{
+>>> +    u16 offset;
 >>> +
->>> +	sec->sframe_start	= sframe_start;
->>> +	sec->sframe_end		= sframe_end;
->>> +	sec->text_start		= text_start;
->>> +	sec->text_end		= text_end;
+>>> +    printk(KERN_EMERG"[HANS] fun = %s, line = %d ........... \n", 
+>>> __func__, __LINE__);
+>>> +    /* capability */
+>>> +    offset = cdns_pcie_find_capability(pcie->cdns_pcie, PCI_CAP_ID_PM);
+>>> +    printk(KERN_EMERG"[HANS]pm offset = 0x%x\n", offset);
+>>> +    offset = cdns_pcie_find_capability(pcie->cdns_pcie, 
+>>> PCI_CAP_ID_MSI);
+>>> +    printk(KERN_EMERG"[HANS]msi offset = 0x%x\n", offset);
+>>> +    offset = cdns_pcie_find_capability(pcie->cdns_pcie, 
+>>> PCI_CAP_ID_MSIX);
+>>> +    printk(KERN_EMERG"[HANS]msix offset = 0x%x\n", offset);
+>>> +    offset = cdns_pcie_find_capability(pcie->cdns_pcie, 
+>>> PCI_CAP_ID_EXP);
+>>> +    printk(KERN_EMERG"[HANS]exp offset = 0x%x\n", offset);
 >>> +
->>> +	ret = sframe_read_header(sec);
->>> +	if (ret)
->>> +		goto err_free;
+>>> +    printk(KERN_EMERG"[HANS] fun = %s, line = %d ........... \n", 
+>>> __func__, __LINE__);
+>>> +    /* extend capability */
+>>> +    offset = cdns_pcie_find_ext_capability(pcie->cdns_pcie, 
+>>> PCI_EXT_CAP_ID_ERR);
+>>> +    printk(KERN_EMERG"[HANS]aer offset = 0x%x\n", offset);
+>>> +    offset = cdns_pcie_find_ext_capability(pcie->cdns_pcie, 
+>>> PCI_EXT_CAP_ID_VC);
+>>> +    printk(KERN_EMERG"[HANS]Virtual Channel offset = 0x%x\n", offset);
+>>> +    offset = cdns_pcie_find_ext_capability(pcie->cdns_pcie, 
+>>> PCI_EXT_CAP_ID_DSN);
+>>> +    printk(KERN_EMERG"[HANS]Device Serial Number offset = 0x%x\n", 
+>>> offset);
+>>> +    offset = cdns_pcie_find_ext_capability(pcie->cdns_pcie, 
+>>> PCI_EXT_CAP_ID_PWR);
+>>> +    printk(KERN_EMERG"[HANS]pwr offset = 0x%x\n", offset);
+>>> +    offset = cdns_pcie_find_ext_capability(pcie->cdns_pcie, 
+>>> PCI_EXT_CAP_ID_REBAR);
+>>> +    printk(KERN_EMERG"[HANS]resize bar offset = 0x%x\n", offset);
+>>> +    offset = cdns_pcie_find_ext_capability(pcie->cdns_pcie, 
+>>> PCI_EXT_CAP_ID_SECPCI);
+>>> +    printk(KERN_EMERG"[HANS]second exp offset = 0x%x\n", offset);
+>>> +    offset = cdns_pcie_find_ext_capability(pcie->cdns_pcie, 
+>>> PCI_EXT_CAP_ID_L1SS);
+>>> +    printk(KERN_EMERG"[HANS]L1ss offset = 0x%x\n", offset);
+>>> +}
+>>> +
+>>>   static int sky1_pcie_probe(struct platform_device *pdev)
+>>>   {
+>>>       struct cdns_plat_pcie_of_data *reg_off;
+>>> @@ -141,6 +174,7 @@ static int sky1_pcie_probe(struct platform_device 
+>>> *pdev)
+>>>       struct sky1_pcie *pcie;
+>>>       int ret;
+>>>
+>>> +    printk(KERN_EMERG"[HANS] fun = %s, line = %d ........... \n", 
+>>> __func__, __LINE__);
+>>>       pcie = devm_kzalloc(dev, sizeof(*pcie), GFP_KERNEL);
+>>>       if (!pcie)
+>>>           return -ENOMEM;
+>>> @@ -202,6 +236,8 @@ static int sky1_pcie_probe(struct platform_device 
+>>> *pdev)
+>>>
+>>>       dev_set_drvdata(dev, pcie);
+>>>
+>>> +    cix_pcie_test_cap(pcie);
+>>> +
+>>>       ret = cdns_pcie_hpa_host_setup(rc);
+>>>       if (ret < 0) {
+>>>           pci_ecam_free(pcie->cfg);
+>>> @@ -230,7 +266,7 @@ static struct platform_driver sky1_pcie_driver = {
+>>>       .driver = {
+>>>           .name = "sky1-pcie",
+>>>           .of_match_table = of_sky1_pcie_match,
+>>> -        .probe_type = PROBE_PREFER_ASYNCHRONOUS,
+>>> +        // .probe_type = PROBE_PREFER_ASYNCHRONOUS,
+>>>       },
+>>>   };
+>>>   module_platform_driver(sky1_pcie_driver);
+>>>
+>>>
+>>> For the LGA IP, an offset address CDNS_PCIE_RP_BASE needs to be 
+>>> added. And the HPA IP requires an offset address of 
+>>> CDNS_PCIE_HPA_RP_BASE, but it is equal to 0;
+>>>
+>>> drivers/pci/controller/cadence/pcie-cadence-hpa-regs.h
+>>>
+>>> /* Root Port register base address */
+>>> #define CDNS_PCIE_HPA_RP_BASE            0x0
+>>>
+>>> Therefore, for "drivers/pci/controller/cadence/pci-sky1.c", it is 
+>>> normal.
+>>>
+>>>
+>>>
+>>> Using the following code for work is also normal. Later, I will re- 
+>>> unify it into the same operation.
+>>>
+>>> diff --git a/drivers/pci/controller/cadence/pcie-cadence.h b/drivers/ 
+>>> pci/controller/cadence/pcie-cadence.h
+>>> index 574e9cf4d003..723ea79fb02e 100644
+>>> --- a/drivers/pci/controller/cadence/pcie-cadence.h
+>>> +++ b/drivers/pci/controller/cadence/pcie-cadence.h
+>>> @@ -314,7 +314,9 @@ static inline int cdns_pcie_read_cfg_word(struct 
+>>> cdns_pcie *pcie, int where,
+>>>   static inline int cdns_pcie_read_cfg_dword(struct cdns_pcie *pcie, 
+>>> int where,
+>>>                                             u32 *val)
+>>>   {
+>>> -       *val = cdns_pcie_readl(pcie, where);
+>>> +       void __iomem *addr = pcie->reg_base + where;
+>>> +
+>>> +       *val = cdns_pcie_read_sz(addr, 0x4);
+>>>          return PCIBIOS_SUCCESSFUL;
+>>>   }
+>>>
+>>>
+>>> Best regards,
+>>> Hans
+>>>
+>>>
 >>
->> Is it acceptable to mix goto error handling with scoped_guard() cleanup
->> helpers in the same function?
->>
->> The kernel's cleanup subsystem guidelines generally suggest that usage of
->> goto and cleanup helpers shouldn't be mixed in the same routine.
-> 
-> This references to the following comment in include/linux/cleanup.h:
-> 
->   Lastly, given that the benefit of cleanup helpers is removal of
->   "goto", and that the "goto" statement can jump between scopes, the
->   expectation is that usage of "goto" and cleanup helpers is never
->   mixed in the same function. I.e. for a given routine, convert all
->   resources that need a "goto" cleanup to scope-based cleanup, or
->   convert none of them.
-> 
->>
->> Could sec be allocated using __free(kfree) to avoid the goto entirely?
-> 
-> The goto error handling is used outside the scoped_guard().  So I think
-> it is fine.
-
-Let's do that.
-
-> Do you see any value in converting it as follows (my naive attempt):
-> 
-> diff --git a/kernel/unwind/sframe.c b/kernel/unwind/sframe.c
-> @@ -722,13 +722,14 @@ static int sframe_read_header(struct sframe_section *sec)
->         return 0;
->  }
-> 
-> +DEFINE_FREE(free_section, struct sframe_section *, if (_T) free_section(_T))
->  int sframe_add_section(unsigned long sframe_start, unsigned long sframe_end,
->                        unsigned long text_start, unsigned long text_end)
->  {
->         struct maple_tree *sframe_mt = &current->mm->sframe_mt;
->         struct vm_area_struct *sframe_vma, *text_vma;
->         struct mm_struct *mm = current->mm;
-> -       struct sframe_section *sec;
-> +       struct sframe_section *sec __free(free_section) = NULL;
-
-Obviously this whole approach does not work, as it causes the section
-to get freed once set goes out of scope.  Just learned the hard way,
-that I had not thought this through well enough...
-
-Regards,
-Jens
--- 
-Jens Remus
-Linux on Z Development (D3303)
-jremus@de.ibm.com / jremus@linux.ibm.com
-
-IBM Deutschland Research & Development GmbH; Vorsitzender des Aufsichtsrats: Wolfgang Wendt; Geschäftsführung: David Faller; Sitz der Gesellschaft: Ehningen; Registergericht: Amtsgericht Stuttgart, HRB 243294
-IBM Data Privacy Statement: https://www.ibm.com/privacy/
 
