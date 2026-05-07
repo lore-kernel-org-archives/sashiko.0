@@ -1,60 +1,60 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B7A939FCCC;
-	Thu,  7 May 2026 14:14:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FD5B15ECCC;
+	Thu,  7 May 2026 14:55:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778163273; cv=none; b=KNq5Voe8Vr8S1Zb26N9OBY5iQo+Vj3eTOvCPu1ObuzwwD1YdSk1vG984nBdsh6SAz2SIJkqUTQK6UWQS33v8OEYGG94dpo9VlKbD1EvGvRBSeR+SXb5vYPqDuey8vfB8zUDayUfLHjpuhNF2jKu6PVzXgchEpOJCS/7nHm+FzyY=
+	t=1778165730; cv=none; b=qq43J2wGSx66T93hg2GgqKj00/Yka68gZqjMulydvCtwfUltRSZfQlvFXwLAfrjxQkAIHI7rM3XR0JeF9WJ00Wk/Fz9sDqbZVcEI1O130OrMW/i2+R6l6eQ67N1lRKJU8lKzwd7vlFtu2/K33NC+JRWsVoO7KxweY8/oMO0UQbg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778163273; c=relaxed/simple;
-	bh=oyso3nExNrG4BywlWTOYcyfA7BLXnZvv6aLfX2RV21g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QPfKOujhUGP+k2F9uij5xeNGn0Q8QQQcB1Gq14Qu+q7yZ40JCGAcodiF8x7YZjRUQAVD/9SR0GNcVKfLqvZY16lCrpsM04swajKmTv8+GkqbCogN7YP7betBVa1J4GRGs6l6Q5GhjrQyVWg5I3zZ6k+l3D3fau4zq+uU+debo0Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=Y4gOc3Mx; arc=none smtp.client-ip=148.163.158.5
+	s=arc-20240116; t=1778165730; c=relaxed/simple;
+	bh=2ZVajmPaSkGvuA/yHVKgEbcelNRw5s50vYsWkiOJxdE=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=nMfOVY1udn2P9k4ZsfYtBUjUbGuLJeaCQ4GaTQnccF0p7bRpfeOsT8DWQkubHOVwstOKr0lO2XdK97SfqnB22Mp/as3cvO/KHFhu6qT64C0xkKaZ8fR0cBCLKFCdB/tOTwc0C8px8KbEl5NHbV3Qm2tcI4dLFyx2Dp5ewBB6VYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=c/fkqRoA; arc=none smtp.client-ip=148.163.156.1
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="Y4gOc3Mx"
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6475dgmY989845;
-	Thu, 7 May 2026 14:14:28 GMT
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="c/fkqRoA"
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6479vfh81496151;
+	Thu, 7 May 2026 14:55:27 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=jtZgxZ
-	SPXnz+TforHqnmNEhazlwAO2Wl0iHCtSJM0nU=; b=Y4gOc3MxVgbUQ5IdNcg9Ij
-	uDe34sb9OMhv0sv/APflAVozPFp/NDlMbT3yNiyyA8PoMuAjaybocxgdI5a1OzWO
-	rP1WsWHJ8Uh0dnEKNeJaRtw4suCjg7+yxwMuR9J6NykwCyGq6b68ar4MIINbg0fu
-	9nKE+bF09CRkHeEEeo0ERrMiHoTztxEwX+71atg9fxjAcsy3Djk0rLQlVlEyho3x
-	g8MV6goYAvp+3KJz1O+8nZh0QSQN4pICHxmqrgkO7nN46N2Q2U7608WMV7Y244GR
-	dedCxP45hvcVsvwFlg/B0JEoJwKTOllyNNrDODXbYAAcIvl1/F4qPVnjr4PK7gWA
+	:message-id:mime-version:references:subject:to; s=pp1; bh=lWiIA9
+	h8T8iXeuIwUqmNWo/xrWHHXLraLrEMf2skmsM=; b=c/fkqRoA9JDMeFkn6x8Lf0
+	dCdNz0ZzT+ghTtIGBSvD1rDmNdnoGSWmyLTakW37lw2ZBTy0fdzaRPGs/aK3SHNC
+	Dj1PZqVl9/Kd03cwI0ABek8ZzM12t6WnALI0ftJmuSdQnRVqW+NLFqxzMeQNGEXa
+	q4ejkaO7oKW5/j/P+BG93/WSHINkIyTVKVtrjxbfnjtb3tFIbiSJqF/+r/L5gLyz
+	eAvPFvuTRSeWaEvu4TyijRJhEdA1h3ZIefXyFz5J3yKiM2YKNnJVKjjW3Cr8I75n
+	YDPnVzghoSP4ILvkBS8NTI8wxDOT4tyhxitAKL7u+FaqjECKeSL7qPDuW19KLJ2g
 	==
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4dw9w6p099-1
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4dw9x4y4w4-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 07 May 2026 14:14:27 +0000 (GMT)
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 647E9RHS021713;
-	Thu, 7 May 2026 14:14:27 GMT
-Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4dwvkk3y1y-1
+	Thu, 07 May 2026 14:55:26 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 647EsfIx002160;
+	Thu, 7 May 2026 14:55:25 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4dwwtgkxeq-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 07 May 2026 14:14:27 +0000 (GMT)
+	Thu, 07 May 2026 14:55:25 +0000 (GMT)
 Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
-	by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 647EEPB321496358
+	by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 647EtN0u62325000
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 7 May 2026 14:14:25 GMT
+	Thu, 7 May 2026 14:55:23 GMT
 Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 369E020043;
-	Thu,  7 May 2026 14:14:25 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id BFD302004E;
+	Thu,  7 May 2026 14:55:23 +0000 (GMT)
 Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 1297820040;
-	Thu,  7 May 2026 14:14:25 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id 9EAE02004D;
+	Thu,  7 May 2026 14:55:23 +0000 (GMT)
 Received: from [9.52.200.195] (unknown [9.52.200.195])
 	by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Thu,  7 May 2026 14:14:25 +0000 (GMT)
-Message-ID: <a59bec51-007a-436f-905f-dfdd54f5bceb@linux.ibm.com>
-Date: Thu, 7 May 2026 16:14:24 +0200
+	Thu,  7 May 2026 14:55:23 +0000 (GMT)
+Message-ID: <8809f550-1dcf-4e47-96fe-74e85c522418@linux.ibm.com>
+Date: Thu, 7 May 2026 16:55:22 +0200
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
@@ -62,97 +62,107 @@ List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v14 19/19] unwind_user/sframe: Add prctl() interface for
- registering .sframe sections
-To: Steven Rostedt <rostedt@kernel.org>
-Cc: bpf@vger.kernel.org, sashiko@lists.linux.dev,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Indu Bhagat <ibhagatgnu@gmail.com>
-References: <20260505121718.3572346-20-jremus@linux.ibm.com>
- <20260505184556.B94A0C2BCB4@smtp.kernel.org>
-Content-Language: en-US
+Subject: Re: [PATCH v14 02/19] unwind_user/sframe: Add support for reading
+ .sframe headers
 From: Jens Remus <jremus@linux.ibm.com>
+To: Steven Rostedt <rostedt@kernel.org>, Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: bpf@vger.kernel.org, sashiko@lists.linux.dev,
+        Indu Bhagat <ibhagatgnu@gmail.com>
+References: <20260505121718.3572346-3-jremus@linux.ibm.com>
+ <20260505124948.669E2C2BCB4@smtp.kernel.org>
+ <f106e4a1-4f60-4c65-97bc-2257005765e5@linux.ibm.com>
+Content-Language: en-US
 Organization: IBM Deutschland Research & Development GmbH
-In-Reply-To: <20260505184556.B94A0C2BCB4@smtp.kernel.org>
+In-Reply-To: <f106e4a1-4f60-4c65-97bc-2257005765e5@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
 X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Authority-Analysis: v=2.4 cv=XPQAjwhE c=1 sm=1 tr=0 ts=69fc9e44 cx=c_pps
- a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA3MDE0NiBTYWx0ZWRfXztIuCT/MGSyv
+ 6B9CI6Wy/FYuMZUwce4LeXnB5JL7KZkq8ltFbxD/r4KTLNijEvQ10BX1/sOAJZ772CdtCPkZPCZ
+ RitHY27A0xw0WB3L5Z6JXRUwdc8N5b88CHa0x7xRlvNyC9IwHd0lU/xCLLyqrKwpVLNiQPL2Qml
+ 0s+1vL39GhOqVWs/XiMbOYThOKtLRS6d17F62LYdSFmKv6E84NcQ1jUhZo78iU0Js06++cJmMfj
+ 7MlvtE3A2BAnHtZvAR7YeTg+LHXq9OVEpFHcd480yPA+w8f1HpYh1D69YX18Nv+RE8L7yorLYbf
+ VGiPr5MO1YzdrcK++tI10rwFQikGhOwnW54SBJcBaZ0ppFrwPPLlHSsAAnwX6fqirQOuD06aKwg
+ qBF4g95vKw+qypnkxX1qVZUHv+eBGNZh/rHBkOXYiuqoi9/6hZCIMFR4D9Rpb1MFMzblQrmWqtb
+ lbb9OK8+82PXeS8rslQ==
+X-Proofpoint-ORIG-GUID: AxTHEVNvyk6uLsp_uzrXGwTza0T2jt6y
+X-Proofpoint-GUID: zXMZSxucn2v49XcB23sObOmHP0dJA1RS
+X-Authority-Analysis: v=2.4 cv=W7UIkxWk c=1 sm=1 tr=0 ts=69fca7de cx=c_pps
+ a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
  a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=VwQbUJbxAAAA:8
- a=VnNF1IyMAAAA:8 a=LBgWG6ceKceDMaZCywwA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-ORIG-GUID: VdNAbrooQrd6lHdZPp91T2Nlqj3LFnpD
-X-Proofpoint-GUID: ZWcFR8ylTy7n-FHybeIGLNofyJIW4xbx
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA3MDE0MSBTYWx0ZWRfXxRejzSSfA+Q9
- CAMXc/4kBaFgHaXFMkeNHy3FYAY8v6ks6AszNdsfVLcmoJIi4CXfTzGxudzIXq5RhRLheWuG71i
- H4qTHouVVT7qNV3upJqM+lVQX7jgysSXCURdPFgA3MrsHjOPFYsRHP9W92gjHeVbUppMDk2i03n
- sA/TN9mPfgT1ypIUc3WSHJBIv7Rqn6C3QN4xdTryIEth0181luRVNl4vIizA0O/BjM6gdcJiqy3
- k0rRQvkwYBRoq8RbCtfgvUGPcdqD6l2HmsFQbSVv1T2aHo7CUNXUsd/z/KucIbyE5fZ0I47QX+s
- K/sIpZfGvDqhL7YJXXZ8oltLTVmG9SmgDck5tx/t05Sj9qoJMOZL9dyNIyNOFMVxa+C2d0bS5Qg
- gNvI5puxD1hEVd9HKkLEuDq60wYjgNUzE6oV7DCtWlviAR+SQLwoJfQaQxIUhpcZ2zc9PrvvW5L
- DdTspjT3RDU78wCa9Fw==
+ a=RnoormkPH1_aCDwRdu11:22 a=uAbxVGIbfxUO_5tXvNgY:22 a=VnNF1IyMAAAA:8
+ a=VwQbUJbxAAAA:8 a=LFt20mCCc4CE-LtB3JUA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-05-07_01,2026-05-06_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 lowpriorityscore=0 suspectscore=0 adultscore=0 spamscore=0
- priorityscore=1501 impostorscore=0 phishscore=0 malwarescore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2605070141
+ priorityscore=1501 adultscore=0 lowpriorityscore=0 malwarescore=0
+ suspectscore=0 spamscore=0 clxscore=1015 phishscore=0 bulkscore=0
+ impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2604200000
+ definitions=main-2605070146
 
-On 5/5/2026 8:45 PM, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 2 potential issue(s) to consider:
-> - [High] Missing `break;` statement causes `PR_SET_CFI` to fall through to `PR_ADD_SFRAME`.
-> - [Medium] Patch introduces a test-only interface into the permanent UAPI.
-> --
-> 
-> commit 9171aa16917963dd1070d9ca3467d9086cd66393
-> Author: Josh Poimboeuf <jpoimboe@kernel.org>
-> 
-> unwind_user/sframe: Add prctl() interface for registering .sframe sections
-> 
-> The commit adds prctl() interfaces which allow glibc to tell the kernel
-> where to find .sframe sections. It mentions that the patch is for testing
-> purposes only.
-> 
->>     [
->>       This adds an interface for prctl() for testing loading of sframes for
->>       libraries. But this interface should really be a system call. This patch
->>       is for testing purposes only and should not be applied to mainline.
->>     ]
-> 
-> Is it intended to include this in a mainline patch series? Adding temporary
-> or test-only interfaces into the UAPI represents a permanent ABI commitment
-> once released.
+On 5/6/2026 3:42 PM, Jens Remus wrote:
+> On 5/5/2026 2:49 PM, sashiko-bot@kernel.org wrote:
 
-This patch will get replaced by a new syscall that Steven is working on:
-
-[RFC][PATCH] unwind: Add stacktrace_setup system call
-https://lore.kernel.org/all/20260429114355.6c712e6a@gandalf.local.home/
-
+>> [ ... ]
+>>> +	sec = kzalloc(sizeof(*sec), GFP_KERNEL);
+>>> +	if (!sec)
+>>> +		return -ENOMEM;
+>>> +
+>>> +	sec->sframe_start	= sframe_start;
+>>> +	sec->sframe_end		= sframe_end;
+>>> +	sec->text_start		= text_start;
+>>> +	sec->text_end		= text_end;
+>>> +
+>>> +	ret = sframe_read_header(sec);
+>>> +	if (ret)
+>>> +		goto err_free;
+>>
+>> Is it acceptable to mix goto error handling with scoped_guard() cleanup
+>> helpers in the same function?
+>>
+>> The kernel's cleanup subsystem guidelines generally suggest that usage of
+>> goto and cleanup helpers shouldn't be mixed in the same routine.
 > 
->> diff --git a/kernel/sys.c b/kernel/sys.c
->> index 62e842055cc9c..6e81e82bc9911 100644
->> --- a/kernel/sys.c
->> +++ b/kernel/sys.c
-> [ ... ]
->> @@ -2906,6 +2907,13 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
->>  			break;
->>  		if (arg3 & PR_CFI_LOCK && !(arg3 & PR_CFI_DISABLE))
->>  			error = arch_prctl_lock_branch_landing_pad_state(me);
->> +	case PR_ADD_SFRAME:
->> +		error = sframe_add_section(arg2, arg3, arg4, arg5);
->> +		break;
+> This references to the following comment in include/linux/cleanup.h:
 > 
-> Does this cause the previous case to fall through into PR_ADD_SFRAME?
+>   Lastly, given that the benefit of cleanup helpers is removal of
+>   "goto", and that the "goto" statement can jump between scopes, the
+>   expectation is that usage of "goto" and cleanup helpers is never
+>   mixed in the same function. I.e. for a given routine, convert all
+>   resources that need a "goto" cleanup to scope-based cleanup, or
+>   convert none of them.
 > 
-> It appears the new case was inserted before the break statement of the
-> previous case. This would cause execution to unintentionally continue into
-> sframe_add_section and overwrite the original error status.
+>>
+>> Could sec be allocated using __free(kfree) to avoid the goto entirely?
+> 
+> The goto error handling is used outside the scoped_guard().  So I think
+> it is fine.
 
-Doh!  Stupid mistake during rebase.  Fixed in next version.
+Let's do that.
+
+> Do you see any value in converting it as follows (my naive attempt):
+> 
+> diff --git a/kernel/unwind/sframe.c b/kernel/unwind/sframe.c
+> @@ -722,13 +722,14 @@ static int sframe_read_header(struct sframe_section *sec)
+>         return 0;
+>  }
+> 
+> +DEFINE_FREE(free_section, struct sframe_section *, if (_T) free_section(_T))
+>  int sframe_add_section(unsigned long sframe_start, unsigned long sframe_end,
+>                        unsigned long text_start, unsigned long text_end)
+>  {
+>         struct maple_tree *sframe_mt = &current->mm->sframe_mt;
+>         struct vm_area_struct *sframe_vma, *text_vma;
+>         struct mm_struct *mm = current->mm;
+> -       struct sframe_section *sec;
+> +       struct sframe_section *sec __free(free_section) = NULL;
+
+Obviously this whole approach does not work, as it causes the section
+to get freed once set goes out of scope.  Just learned the hard way,
+that I had not thought this through well enough...
 
 Regards,
 Jens
