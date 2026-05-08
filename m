@@ -1,159 +1,204 @@
-Received: from mail-dl1-f50.google.com (mail-dl1-f50.google.com [74.125.82.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C827C3D9DAF
-	for <sashiko@lists.linux.dev>; Fri,  8 May 2026 20:26:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778271994; cv=pass; b=GfXTe3K9FdawVf4C+YWi1A7CtRf1MJChxyO0zkViBZER/MjBS+XkXu7pugg0aMoKY7PPa2ROS1iMOyyJcoousPNtnBSoIfnKOS8e3asf7T2fybdBgt6G8W1l47tjzuTn3khMKQWWpIucmWjEfw1MmflNqxmzF61wz8UhetgtnlI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778271994; c=relaxed/simple;
-	bh=lxuW3j4GqHcptgKyL/J2NALd6wSfGcijzfrXHbAVRVY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UqNfWivw3Oi7IX3yYB8ld5jTIafI1+vQNmh2M7NCseigFMbXG/ruAOvOqW35lg5ToHJIHb1VH+M0AdNfPJnUfLkh0oI5gyRwx7bKc9bfNW4yUyhw+lRBiXvY/rbJoZdPVM/OIq/NUzo198Y75jHYPrJkwetUPAYMyJl0Vw+Gu+o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=dRfodaac; arc=pass smtp.client-ip=74.125.82.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A5F130171A;
+	Fri,  8 May 2026 21:43:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778276591; cv=none; b=IrZUuMNk/5CMVlbmGovuB8B2iwDlckJE5TgjFnOKvthir2BQ9HmjVFgwxbGY/JVeODIX7HJNqjZI+eqokdQVNsPqcPgV/58CryZp9Y5dbomj0+AHd3BwE3K0ciKQT7sbsW9zPcqyZTD8+drV2FwkJ3IRktuMRiQaEZEFDtACbww=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778276591; c=relaxed/simple;
+	bh=3FlxDe9og/Uf8FICT2+xgDoU1qSHSCjeRNrP9tt0wcc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=aw1CI5e5xAWaVQIO0vAsiQ3hAYVckb8sTQsMv4Mt0ypN4mHlGTyX5IQEvjROCz9aPOpgNEVVf1hihjyqq4C/FdNZp8pO4wkEiBKhf0OZPy3DQe3OrlJFaSdrfQ2A6NdHB9A5J6SQIssajZ3anO9GJzx661smF80CiMe/xLTl5ls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YojPhLFw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dRfodaac"
-Received: by mail-dl1-f50.google.com with SMTP id a92af1059eb24-1329fc4bf77so353872c88.1
-        for <sashiko@lists.linux.dev>; Fri, 08 May 2026 13:26:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778271992; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Lvhu12oa9/9aMfbz9whGBGl0As9CuxurXhSvkV4Q1P/T8xAJBNho0iJ6L3YSXPqRtZ
-         jaF73Q0Z8jQwduan5//GnFPMFHjiO0+RmFgt5iVFrKgZBO5rafgYgEmOs7dmkVZP//4e
-         tryyt/s8Tk7DIh2xmrxfK2PPV6H8taPbatDPTOXTqyRV4qSs9mKxFyokXlWqC+66hXdE
-         m2541aYDSTnTa9aQKfDyUtA+wh2Ins4xpNmnKI2ijE6pII940FnQL0VgKJJhA6tPz3Bc
-         MJDlrCdUlnammR+a60c3l3u1Gf36r63aKyYQAsBbqTq765K1Wtwc2gE29gNwZnJWveBq
-         F07g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=3odDrbDW8wBjms51QgSiFASGVEEXp49Os/e0qhZVjuQ=;
-        fh=7pQPbM1mTaKjUbZ75iTISJbipA72wUVZwkXXTYMxzFw=;
-        b=ITpHaXMukHJE2X3zjc39fqIF/kBMIX9/KzW8pMKyMYnDEigXXvTAljLehipsgiLTVs
-         hrTcT9Mmn8pUv5FW60a3d/ZVS+7/5R8F3wCYNupaZmTE7+AHZ4W1YX9R6VHdDzMMSn8/
-         4WIuu9xxSOsMU+ZhJz3NTnjA955tRPJeCRyw/da1Q13uM2U92TzKP1eQBxCDhoDxHApX
-         fwStCBsw4tX7+ghBXwCXLizc1TcNKNfgBoWcJumBVR7VttvuoIveWrrZ3LmFTsvE9GXR
-         IDeWLnCeja+2Tzx4AlvMyLtpX/Gz4huaAO+8BZEAySJlo7Xs+ukJa2tmb8RLbxeIhqQc
-         fS5g==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1778271992; x=1778876792; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3odDrbDW8wBjms51QgSiFASGVEEXp49Os/e0qhZVjuQ=;
-        b=dRfodaac3mC5AeIPCyv80OPf7PQkV52gxWh8/A4/P1kqixpf82WXXr+BbrG8X8LY0K
-         tPCsRZH7RBETpxj9k1yANygGZNErY5fTC8vZ91aqVtj8MHNoJMthGp4UpS9P1p77xS+A
-         B5plQ5OJQ7yu7yW0MrWm2+NZgv4jfsBYiP8v5mpBiCx6doSqLG8sxIU9ozzfs58hgwAv
-         R0uSvZJvSRGG+go1Fl4FSIS1xJkZ65VtSC/T2orQKvyZOoDFBTKZeYsjARQEvixN+Woc
-         wO3cr0obenUxEfHmnxD180X1Z00s1ZPwOhdsTvoncK2hA05NwTkUzE67Uy7Q/bU7D3oc
-         TZaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778271992; x=1778876792;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=3odDrbDW8wBjms51QgSiFASGVEEXp49Os/e0qhZVjuQ=;
-        b=Vq+P5xzRCni47TjHKMSd5GKPJMDA7WJZ4l+FADAfuiH0vhwvR9i8o0gZGZNqoMOH/I
-         m8XsPUy5tqo7IQVitbclSbNHCCGck4hZwDMcWWoHV6O8SCtFZkJ3VQWfloSJZOmIrl16
-         3aXl9m1zsfDhR6pPVfT5dsDJMWZmCkXf5tpJZ5Oq+SeHKVAMlk5+CBIJA+78Ij6axdKW
-         bBcw2UB73f0aI0sP5S/pKEDtuZhTKTJzfwDCDqBlFOKl0slHnGbkPkRiC113zzg4GH16
-         pOAoEL6Hg0ZUtBSx0Cn6yftwEe4FgB2DqNwUle1MTL4jBAwZQvtaUBfuL6HwA/4z+qYB
-         bStw==
-X-Gm-Message-State: AOJu0YyD1J6v3p6lGLFqvJoXmiyaFzo6t+GK74ILQJfOErDz2kpk+aIA
-	g0Xh72xYOKijzAWt4oDxBlU7tefRPoLduml8rGw57/UWjVTGs7Pl5U/8pawtoP2on/MOhq7hB9p
-	jdHhU3a8mGnfpNNGIeD5+EI/8w5FNjJzk+vjI5wVz08g0kBYv9Y7vTUWQkHM=
-X-Gm-Gg: AeBDiesfugfNmDZqWZ87kIpyuXdOLVT3TJGv1Ax1JVhSA8qWqBgds+lfYGFb++b4RsY
-	aH2KiWLQVNLbz2aYZTXgwI3Ay1s8q9dF68zMvMN1zM9WFWHkX31pZDc4n5Olvq504D1HS9LxuOo
-	w3RiGnjHDRkY3Prb26isiIcMFq7W9kuTswF4L7SfgWqlMj/6BhTDZYJ9B5w3I3GNZYSe7YCWTSV
-	LRbkZdHfBySVxJv3SQ+ssHc7PuVSJSZTW4qGKMviBSq3sfnvGuEoI8Naf1UxXqkVWzdZ13OiJNQ
-	r5o6BOxrT3MCJ9lQWpNyn4bnztWIw0YXr6YbEvgq5wzAafODZmzX4RluOS9P96pvuJ7RNXwABeb
-	hqa3Zrycq7GRJ3U3q9BQTCNvf3192p9s=
-X-Received: by 2002:a05:7022:ea24:b0:12c:87f1:f41a with SMTP id
- a92af1059eb24-1318e91771bmr7525230c88.21.1778271991253; Fri, 08 May 2026
- 13:26:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YojPhLFw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11F74C2BCB0;
+	Fri,  8 May 2026 21:43:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778276591;
+	bh=3FlxDe9og/Uf8FICT2+xgDoU1qSHSCjeRNrP9tt0wcc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=YojPhLFw6N9f/40AV81KdVEduyCu58hd3NrYX5sUi1lkHOFlhCiAaPuCVyab41Pdr
+	 HdIphTKEzyUhPMwXUaMPfW9iQQWcPM0xeOYoLqUWN90Y9vVmr9jeyI/2veNlnpSEsh
+	 9Z1X8a5AK8S4kWoTAwab+3yluEt3doi0EDeztwIeE5wzHaecL6wdhtY+afxEAs9RLn
+	 liAdHd0lAc9Z2O1/RK2lGihzfR10ntPIezxUro5iOjrn84pJIRhA3LVQ/zNPuvBm9X
+	 ZtH3yilS7+VdqLCWKrUhHTeloq43wTVwbwUtAyxX/CmvSuP9He37U7CaLRyRLxcFRF
+	 bnG6nKooVgKBQ==
+Date: Fri, 8 May 2026 16:43:09 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Lukas Wunner <lukas@wunner.de>, sashiko-bot@kernel.org,
+	linux-pci@vger.kernel.org, sashiko@lists.linux.dev,
+	Marco Nenciarini <mnencia@kcore.it>,
+	Michal Winiarski <michal.winiarski@intel.com>,
+	Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>,
+	Eric Chanudet <echanude@redhat.com>,
+	Jean Guyader <jean.guyader@gmail.com>,
+	Alex Williamson <alex@shazbot.org>, Sinan Kaya <okaya@kernel.org>,
+	Mario Limonciello <superm1@kernel.org>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>
+Subject: Re: [PATCH] PCI: Drop unnecessary retries when restoring BARs
+Message-ID: <20260508214309.GA14699@bhelgaas>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260508073355.3916746-3-kuniyu@google.com> <20260508191737.01190C2BCB0@smtp.kernel.org>
-In-Reply-To: <20260508191737.01190C2BCB0@smtp.kernel.org>
-From: Kuniyuki Iwashima <kuniyu@google.com>
-Date: Fri, 8 May 2026 13:26:19 -0700
-X-Gm-Features: AVHnY4ICHUHDZYm28szu71sFqY4e-p8Nj0_JIbZRlpsCllnhj2x6FBZx-tQgYqc
-Message-ID: <CAAVpQUAhzd6ocMBwKFxPAKkuHyB2D-HL5fjrwcBcLrxwQbaT2w@mail.gmail.com>
-Subject: Re: [PATCH v1 bpf-next 2/8] bpf: tcp: Introduce BPF_SOCK_OPS_RCVLOWAT_CB.
-To: sashiko@lists.linux.dev
-Cc: bpf@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJZ5v0iZN5NtUztqe=MxCRcXdBaaqzZ749OqSUkadwwBy0ugUQ@mail.gmail.com>
 
-On Fri, May 8, 2026 at 12:17=E2=80=AFPM <sashiko-bot@kernel.org> wrote:
->
-> Thank you for your contribution! Sashiko AI review found 1 potential issu=
-e(s) to consider:
-> - [High] The deliberate exclusion of BPF_SOCK_OPS_RCVLOWAT_CB from is_loc=
-ked_tcp_sock_ops() disables critical socket helpers, notably bpf_sock_ops_c=
-b_flags_set().
-> --
->
-> commit 2ab2e31caf792b1e7312616215a88ad7ae1ef4e1
-> Author: Kuniyuki Iwashima <kuniyu@google.com>
->
-> bpf: tcp: Introduce BPF_SOCK_OPS_RCVLOWAT_CB.
->
-> This commit introduces a new hook, BPF_SOCK_OPS_RCVLOWAT_CB, which allows
-> BPF programs to dynamically adjust sk->sk_rcvlowat upon recvmsg completio=
-n
-> or when packets are enqueued. The commit leaves is_locked_tcp_sock_ops
-> unchanged to prevent unnecessary enablement of bpf_setsockopt.
->
-> >     This will allow the BPF prog to dynamically adjust sk->sk_rcvlowat,
-> >     suppressing unnecessary EPOLLIN wakeups until sufficient data
-> >     (e.g., a full RPC frame) is available in the receive queue.
+On Fri, May 08, 2026 at 02:51:37PM +0200, Rafael J. Wysocki wrote:
+> On Fri, May 8, 2026 at 2:17 AM Bjorn Helgaas <helgaas@kernel.org> wrote:
+> > On Tue, May 05, 2026 at 12:43:17PM +0200, Rafael J. Wysocki wrote:
+> > > On Mon, May 4, 2026 at 11:17 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
+> > > ...
 > >
-> >     Note that is_locked_tcp_sock_ops() is left unchanged not to enable
-> >     bpf_setsockopt() unnecessarily.
->
-> Does leaving is_locked_tcp_sock_ops() unchanged also prevent the use of
-> bpf_sock_ops_cb_flags_set() from within the BPF_SOCK_OPS_RCVLOWAT_CB hook=
-?
+> > > > If pci_power_up() is doing D3cold -> D0, main power is initially
+> > > > off, so platform_pci_set_power_state(PCI_D0) would turn on main
+> > > > power, which is a Fundamental Reset leaving the device in
+> > > > D0uninitialized.  In general the device needs at least 100 ms
+> > > > after that reset before any access, e.g., before the PMCSR read.
+> > >
+> > > Yes, it does in general, but that should be covered by
+> > > platform_pci_set_power_state() because on some platforms the delay
+> > > can be shorter.
+> >
+> > It's surprising to me that platform_pci_set_power_state() takes
+> > care of that delay because there's so much PCIe infrastructure
+> > (dependencies on link speed, RRS polling, Immediate Readiness,
+> > Readiness Notifications, etc), much of which sounds more like
+> > OS-level support than firmware support.
+> 
+> It is kind of a mixed bag because it involves platform-specific
+> operations (the PCIe spec doesn't define a standard method of
+> transitioning devices in D3cold into D0).
+> 
+> The consensus in the industry appears to be that if AML is used for
+> carrying out D3cold->D0 transitions, it is expected to take the
+> requisite delays into account.
+> 
+> > But if platform_pci_set_power_state() does guarantee that the device
+> > is Configuration-Ready, we should document that somewhere.
+> 
+> It is more along the lines of what I said before: After
+> platform_pci_set_power_state() the device is either
+> Configuration-Ready, or inaccessible (in which case it can be assumed
+> to have dropped off the bus, but this is all platform-specific, so on
+> some platforms there may be ways to revive such devices).
 
-Good catch.
+If the device is Configuration-Ready or inaccessible after
+platform_pci_set_power_state(PCI_D0), then I agree we shouldn't add
+that delay in pci_power_up().
 
-I need to support BPF_SOCK_OPS_RCVLOWAT_CB in
-bpf_sock_ops_cb_flags_set().
+> That said, I'm all for documenting it.
 
+Strawman below.  "Inaccessible upon return" is bound to lead to
+questions, but if the PCI core can't do anything I don't know what
+else to say.
 
->
-> Because BPF_SOCK_OPS_RCVLOWAT_CB is appended to the enum after
-> BPF_SOCK_OPS_WRITE_HDR_OPT_CB, is_locked_tcp_sock_ops() returns false
-> for this new hook.
->
-> Both bpf_sock_ops_cb_flags_set() and bpf_setsockopt() require
-> is_locked_tcp_sock_ops() to return true. If it returns false, they fail
-> with -EOPNOTSUPP.
->
-> Since direct modification of bpf_sock_ops_cb_flags is disallowed by the
-> verifier, wouldn't a BPF program running in this context be entirely unab=
-le
-> to clear the BPF_SOCK_OPS_RCVLOWAT_CB_FLAG once it finishes parsing?
->
-> If the flag cannot be cleared, does this permanently trap the socket in t=
-he
-> fast-path hook for every enqueued packet and recvmsg() call, leading to
-> performance degradation?
->
-> While the potential UAF concern regarding bpf_skb_load_bytes() is a false
-> positive addressed later in the series by "bpf: tcp: Support
-> bpf_skb_load_bytes() for BPF_SOCK_OPS_RCVLOWAT_CB", and the hook omission
-> is fixed by "bpf: tcp: Add SOCK_OPS rcvlowat hook", this limitation
-> regarding is_locked_tcp_sock_ops() does not appear to be addressed later
-> in the series.
+  diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+  index ed1b1d7a7b46..2b0513c35387 100644
+  --- a/drivers/pci/pci.c
+  +++ b/drivers/pci/pci.c
+  @@ -1068,6 +1068,12 @@ static inline bool platform_pci_power_manageable(struct pci_dev *dev)
+	  return acpi_pci_power_manageable(dev);
+   }
+   
+  +/*
+  + * When setting power state to D0, platform_pci_set_power_state() ensures
+  + * main power is on and that any required delays after a transition to D0
+  + * have been completed.  The device is either Configuration-Ready or
+  + * inaccessible upon return.
+  + */
+   static inline int platform_pci_set_power_state(struct pci_dev *dev,
+						 pci_power_t t)
+   {
 
-Looks like Sashiko now has context of the series, nice.
+> > > > If pci_power_up() is doing D3hot -> D0, the device already has
+> > > > main power, so I suppose platform_pci_set_power_state(PCI_D0)
+> > > > doesn't do anything.
+> > >
+> > > It may or may not.  Some platforms supply AML to run during D3hot ->
+> > > D0 transitions (and the ACPI spec allows that).
+> >
+> > If the device started in D3hot, it never lost main power, and I
+> > assumed platform_pci_set_power_state(PCI_D0) might just leave it in
+> > D3hot.  It sounds like it takes it all the way to D0, although the
+> > subsequent code that checks the PMCSR state does suggest that the
+> > device might *not* be in D0:
+> 
+> On platforms using ACPI, platform_pci_set_power_state() carries out
+> the AML part of the transition which may do nothing for devices in
+> D3hot (for instance, there may be an ACPI power resource that needs to
+> be turned "on" in order to restore power to the device, but if the
+> power resource is "on" already, say because it is shared with another
+> device that is in D0 ATM, its state may not change).
+> 
+> platform_pci_set_power_state() may also be a no-op for the given
+> device (for example, if this is an add-on device without any
+> associated AML).
+> 
+> The rule of thumb is that if there is a programmatic way to remove
+> power from a PCIe device (so it can go into D3cold), it is generally
+> platform-specific and there should be a complementary programmatic way
+> to do the reverse (also generally platform-specific).  Otherwise, the
+> device can go only as deep as D3hot except when the system as a whole
+> is powered down or it is on a Thunderbolt link that can be
+> disconnected at any time etc.
+> 
+> >     platform_pci_set_power_state(dev, PCI_D0);
+> >
+> >     pci_read_config_word(dev, dev->pm_cap + PCI_PM_CTRL, &pmcsr);
+> >     state = pmcsr & PCI_PM_CTRL_STATE_MASK;
+> >     if (state == PCI_D0)
+> >       goto end;
+> >
+> >     pci_write_config_word(dev, dev->pm_cap + PCI_PM_CTRL, 0);
+> >     if (state == PCI_D3hot)
+> >       pci_dev_d3_sleep(dev);
+> >     ...
+> >
+> >   end:
+> >
+> > If platform_pci_set_power_state(PCI_D0) puts the device in D0 and
+> > takes care of all the delays, "state" should always be PCI_D0, and we
+> > shouldn't need the D3hot and D2 delays here.
+> 
+> Well, not quite, as per the above.
+
+OK, so after platform_pci_set_power_state(PCI_D0), the device may be
+in D3hot in some cases.  Then there's a D3hot -> D0 transition, and we
+do pci_dev_d3_sleep(), but not pci_dev_wait().  Sec 2.3.1 says RRS is
+permitted after a D3hot to D0uninitialized, and pci_dev_wait() is what
+waits and retries for the RRS case.
+
+It looks to me like we need pci_dev_wait() after that transition when
+No_Soft_Reset == 0, i.e., something like the below.  Do you think this
+is unnecessary?
+
+  diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+  index 8f7cfcc00090..ed1b1d7a7b46 100644
+  --- a/drivers/pci/pci.c
+  +++ b/drivers/pci/pci.c
+  @@ -1341,10 +1341,14 @@ int pci_power_up(struct pci_dev *dev)
+	  pci_write_config_word(dev, dev->pm_cap + PCI_PM_CTRL, 0);
+   
+	  /* Mandatory transition delays; see PCI PM 1.2. */
+  -	if (state == PCI_D3hot)
+  +	if (state == PCI_D3hot) {
+		  pci_dev_d3_sleep(dev);
+  -	else if (state == PCI_D2)
+  +		if (!(pmcsr & PCI_PM_CTRL_NO_SOFT_RESET))
+  +			pci_dev_wait(dev, "power up D3hot->D0",
+  +				     PCIE_RESET_READY_POLL_MS);
+  +	} else if (state == PCI_D2) {
+		  udelay(PCI_PM_D2_DELAY);
+  +	}
+   
+   end:
+	  dev->current_state = PCI_D0;
