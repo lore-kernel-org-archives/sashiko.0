@@ -1,163 +1,159 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F73236D9F6;
-	Fri,  8 May 2026 09:50:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF71634D3A9
+	for <sashiko@lists.linux.dev>; Fri,  8 May 2026 12:51:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778233810; cv=none; b=IEuczbP9I5VArezMpbm8DTlI7E48qcgwHCWY8BboD8Hc0Y4EiTFhLQmLZizZ7t60jP3WtQMg0HclthAWN8cm5KbMl7PKMQR5YzgDCnA3W9cvSgGV3nV3u42JmpgXESu0HBpVGxExnETEEI+msvWsZ2l2zTZNrdk63IzHwrdDM6Y=
+	t=1778244712; cv=none; b=GHzkwAZ9ZywC4W53V9fxw08sWkl63htnP8oA0llfU+wFFk7XfacxogafJkkIquiAzdsnwqRPX0yRsAfZQRXJ91oUeEmVv4SLcMa7uH4oCgpc4eswB+eLNW8dHo7RJlO320BjYy4KwXJYNCtTvRpbrO32saDPBKv9aiT3N5OkQAE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778233810; c=relaxed/simple;
-	bh=4lXGHkoNae75ldpkNyhiF6ThayX9DHKq38BLerD+tiE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SMgk8DOMwWrcJ0qG9DaAYg5a0fW3y9omTb+NsrRXfKuRUPwRRLPYs41vKggXEky/GHymBWlrsm2BVCftsBt482VfRt8xqBV4Wwx2xY2NDFuuT0/Pz5spwtk2MwNVvdzpUhTBhHY3dJTxMCZQILAjDrjuV3LqbEn+CWkPFb3uo1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=Q85I4ULI; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1778244712; c=relaxed/simple;
+	bh=b5hRY7E4eJ8rgy6jbk2EEW/Pk3YEWbLTn4ysMpU22L4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KE2I3KL0iESN4S2LLrxNELU4rtwxhghA+kSLesiAnAIOMclEzi0JI8rBhXAvMJLRPi9pU6OW2dw+w3pTwYToJIwsQAjzmOldrFmYOLo8Ifg72lZq4cb0CsxPEW7UgbJBqNs+DEUwiEHI9pYNCoJRqlKRpqETAximJnrHWyzuk38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Aj/3/jc8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="Q85I4ULI"
-Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 648052mt144785;
-	Fri, 8 May 2026 09:50:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=HEF4FJ
-	HCCmuCv/8hH25sOS7/QyfcR0fy008p5SfDaLE=; b=Q85I4ULIhFEiluDozl+K/O
-	z8V7rEXfHD+HfRx2szzWAcCzpsbeJqeqOORIJLoG6bIBL0PUY7GtqDcjpz3lrF4+
-	9qgBsJntWnEYQfwTK8QPQDcCOE+GAPjDi2PVjIelmyOoNdLc8i2Dpv/Cd8yutIdj
-	4BFMfMGJH1bBT4dlYPKMCfUPFGaCNramgtSEDTIN58bB5NZ96T5xwnFa0UGPoaZg
-	YQaPLUYhxsYwZmotOsHNQ8bXK+T8WDcNKySR0KmvDwG/X4njZY8QhvK95z9oflMT
-	pVeKLvRhGu+H+KABW0EjGuncR72CXudGT4vnAfhH+SgNYRdmGpEOhnw7bJRUwdzQ
-	==
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4dw9y51u46-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 08 May 2026 09:50:02 +0000 (GMT)
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 6489dVQg004377;
-	Fri, 8 May 2026 09:50:02 GMT
-Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4dwvkk7n1j-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 08 May 2026 09:50:01 +0000 (GMT)
-Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com [10.20.54.103])
-	by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6489o0ZL56230252
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 8 May 2026 09:50:00 GMT
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 0615F20065;
-	Fri,  8 May 2026 09:50:00 +0000 (GMT)
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B442F2006C;
-	Fri,  8 May 2026 09:49:59 +0000 (GMT)
-Received: from [9.111.146.58] (unknown [9.111.146.58])
-	by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Fri,  8 May 2026 09:49:59 +0000 (GMT)
-Message-ID: <3158dc1a-26cb-4942-b05e-6c60c092e588@linux.ibm.com>
-Date: Fri, 8 May 2026 11:49:59 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Aj/3/jc8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5B37C4AF09
+	for <sashiko@lists.linux.dev>; Fri,  8 May 2026 12:51:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778244712;
+	bh=b5hRY7E4eJ8rgy6jbk2EEW/Pk3YEWbLTn4ysMpU22L4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=Aj/3/jc8V9GABvkjzrdKTJ0B8rlOOiyHiNggJL80vJYjN9o8mKscCcyDktwyxE8Hl
+	 rsMoKg0/OFjq+R6tER33I4PDmKUylH3/48CZpoBZuRPEfBhg6FnOq3PTOYnbm0tWIm
+	 eb9mlRc1SusYPcgZDm9VBijW0L2Vbywqp7RSkZqP6kRr5/zX+e9sARc3pLiIXhN90y
+	 W+wV2SblGMOYAMPtGV9qY+ge1f2Y7BduPOEtmlI2EfMfI74Pi47f9w2OJXpsb4qFUy
+	 RCg1Ss3suPQIxsGakO+52cRB3pO7hlND8m8DuWYFTHFP5nMT6ogpli2BpDSNhfhz6/
+	 LRnO+Jsq85XuA==
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5a74ac8b40aso1821581e87.1
+        for <sashiko@lists.linux.dev>; Fri, 08 May 2026 05:51:52 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ9jKEET0pA8gbYHW9rQ/q4zw3RM63R+8HhscRL1oPwC3V+nJ912VrPYDcC7gSNG3p+n/1/34cR4@lists.linux.dev
+X-Gm-Message-State: AOJu0YytHQCsBNauV7+/zpWcVLwnyO1I3WQSAJn80quSfCpY3eoVBGva
+	45fVVfOAWJyXOU8qxLSAX/FbeHIUp21CSgTchBz/WXkPtuWSqZMTryxMQq+H5Eny2XyCWXC6L7U
+	KpaW5Og5iYxWr2JVvAV5NyyJuxeWNzDc=
+X-Received: by 2002:a05:6512:b2a:b0:5a7:4699:d851 with SMTP id
+ 2adb3069b0e04-5a887adce0amr4231056e87.7.1778244710812; Fri, 08 May 2026
+ 05:51:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v14 05/19] unwind_user/sframe: Add support for reading
- .sframe contents
-To: Steven Rostedt <rostedt@kernel.org>, Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: Indu Bhagat <ibhagatgnu@gmail.com>, bpf@vger.kernel.org,
-        sashiko@lists.linux.dev
-References: <20260505121718.3572346-6-jremus@linux.ibm.com>
- <20260505185932.C708CC2BCB4@smtp.kernel.org>
- <4e5d51f0-8f4c-4a07-9141-8b26d2c90fc6@linux.ibm.com>
- <20260506110142.7b2943d7@fedora>
-Content-Language: en-US
-From: Jens Remus <jremus@linux.ibm.com>
-Organization: IBM Deutschland Research & Development GmbH
-In-Reply-To: <20260506110142.7b2943d7@fedora>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA4MDA5OCBTYWx0ZWRfX0rCEV1aP+TIk
- +vtbaD5kVxXj1cmwdMzFNyQMfiYl+XZOeR+XyU4mabqjDaOlkDl1Ez7VbF2sedLJ0JMitoIKRG9
- ++C3B/Ha0d/s1t1l+KalI2QpSeeAPB8FS6DEqoAD5UrtvBFWW9waEaUYfSNJjs4p7lRqg2hfOl1
- MryfM+RFl8/ZlTiLS+KBNlSXNLdBnPZ1dR+wD2DO350or+zuSNKmZIxufxyb6PVz/C7aDnseYvu
- xIax6ershH3cgFqU/WffAZDxrj2Z/UPXTZT9lOCyXP/iki7r/ncd/4zUfqE8qYdlCF4tE0arVla
- 1/L2EfMRIb0i6p0mMsa3ZzdmlwnaA6RxnsJSYl5RFxgxIrPK/7/V1KWTIvCd63gVUgpltju9O29
- Omqadz9fcHY5zvxdpFKVZQqE6yKfQ1oSttsZJj2WInOXcJhRC74qefqaWcJdqOrmWZVRV4pbpZH
- aGyvOAQj5lQt1wPMmag==
-X-Authority-Analysis: v=2.4 cv=J4GaKgnS c=1 sm=1 tr=0 ts=69fdb1ca cx=c_pps
- a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
- a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=RzCfie-kr_QcCd8fBx8p:22 a=VnNF1IyMAAAA:8
- a=OuseVYRhBCIXfGPqWo0A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: EdltQbYL5lq8UREIR5SgdBX3HliFUCta
-X-Proofpoint-ORIG-GUID: zPzQkwolSqx0DnwyUw1HGGQgPOGb29-s
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-05-07_02,2026-05-06_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 clxscore=1015 malwarescore=0 bulkscore=0 suspectscore=0
- priorityscore=1501 spamscore=0 phishscore=0 adultscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2605080098
+References: <CAJZ5v0hngqvdi2vRB4n5T3sGSPc10eR=1X+UO2QAR=GHYmQo2w@mail.gmail.com>
+ <20260508001700.GA52868@bhelgaas>
+In-Reply-To: <20260508001700.GA52868@bhelgaas>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Fri, 8 May 2026 14:51:37 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0iZN5NtUztqe=MxCRcXdBaaqzZ749OqSUkadwwBy0ugUQ@mail.gmail.com>
+X-Gm-Features: AVHnY4JDm0NwQbvbIF57UXrSWpYkIi9GWtdbhq4uIIdxb7B3uf32C_ZBVih_N7M
+Message-ID: <CAJZ5v0iZN5NtUztqe=MxCRcXdBaaqzZ749OqSUkadwwBy0ugUQ@mail.gmail.com>
+Subject: Re: [PATCH] PCI: Drop unnecessary retries when restoring BARs
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Lukas Wunner <lukas@wunner.de>, sashiko-bot@kernel.org, 
+	linux-pci@vger.kernel.org, sashiko@lists.linux.dev, 
+	Marco Nenciarini <mnencia@kcore.it>, Michal Winiarski <michal.winiarski@intel.com>, 
+	Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>, Eric Chanudet <echanude@redhat.com>, 
+	Jean Guyader <jean.guyader@gmail.com>, Alex Williamson <alex@shazbot.org>, Sinan Kaya <okaya@kernel.org>, 
+	Mario Limonciello <superm1@kernel.org>, Mika Westerberg <mika.westerberg@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 5/6/2026 5:01 PM, Steven Rostedt wrote:
-> On Wed, 6 May 2026 16:34:34 +0200
-> Jens Remus <jremus@linux.ibm.com> wrote:
+On Fri, May 8, 2026 at 2:17=E2=80=AFAM Bjorn Helgaas <helgaas@kernel.org> w=
+rote:
+>
+> On Tue, May 05, 2026 at 12:43:17PM +0200, Rafael J. Wysocki wrote:
+> > On Mon, May 4, 2026 at 11:17=E2=80=AFPM Bjorn Helgaas <helgaas@kernel.o=
+rg> wrote:
+> > ...
+>
+> > > If pci_power_up() is doing D3cold -> D0, main power is initially
+> > > off, so platform_pci_set_power_state(PCI_D0) would turn on main
+> > > power, which is a Fundamental Reset leaving the device in
+> > > D0uninitialized.  In general the device needs at least 100 ms
+> > > after that reset before any access, e.g., before the PMCSR read.
+> >
+> > Yes, it does in general, but that should be covered by
+> > platform_pci_set_power_state() because on some platforms the delay
+> > can be shorter.
+>
+> It's surprising to me that platform_pci_set_power_state() takes
+> care of that delay because there's so much PCIe infrastructure
+> (dependencies on link speed, RRS polling, Immediate Readiness,
+> Readiness Notifications, etc), much of which sounds more like
+> OS-level support than firmware support.
 
->>> If a malicious user provides a large fre_len in the header, fres_end
->>> (calculated as fres_start + shdr.fre_len) could wrap around the 32-bit
->>> address space. This would bypass the bounds check in sframe_read_header(),
->>> allowing fres_start and fdes_start to point into kernel memory. Later, when
->>> __read_fde() and __find_fre() use unsafe_get_user(), this could lead to
->>> arbitrary kernel memory disclosure.  
->>
->> SFrame is currently only supported on 64-bit architectures (i.e. x86-64,
->> arm64, s390 64-bit).  So unsigned long fres_end should always be 64-bit.
->> Do we need to add the following to the header parsing?
->>
->> if (fdes_start >= fdes_end || fres_start >= fres_end) {
->> 	dbg_sec("inconsistent FDE/FRE start/end address\n");
->> 	return -EINVAL;
->> }
-> 
-> I guess this wouldn't hurt.
+It is kind of a mixed bag because it involves platform-specific
+operations (the PCIe spec doesn't define a standard method of
+transitioning devices in D3cold into D0).
 
-Reviewing my suggestion again I realize that this check would be
-superfluous.  The existing computation and check already ensures that
-the FDE table is within sframe section, the FRE table is within sframe
-section, and both tables do not overlap:
+The consensus in the industry appears to be that if AML is used for
+carrying out D3cold->D0 transitions, it is expected to take the
+requisite delays into account.
 
-	num_fdes   = shdr.num_fdes;
-	fdes_start = header_end + shdr.fdes_off;
-	fdes_end   = fdes_start + (num_fdes * sizeof(struct sframe_fde_v3));
+> But if platform_pci_set_power_state() does guarantee that the device
+> is Configuration-Ready, we should document that somewhere.
 
-	fres_start = header_end + shdr.fres_off;
-	fres_end   = fres_start + shdr.fre_len;
+It is more along the lines of what I said before: After
+platform_pci_set_power_state() the device is either
+Configuration-Ready, or inaccessible (in which case it can be assumed
+to have dropped off the bus, but this is all platform-specific, so on
+some platforms there may be ways to revive such devices).
 
-	if (fres_start < fdes_end || fres_end > sec->sframe_end) {
-		dbg_sec("inconsistent FDE/FRE offsets\n");
-		return -EINVAL;
-	}
+That said, I'm all for documenting it.
 
-- fdes_start and fres_start are computed from header_start and thus must
-  be larger sframe_start
-- fdes_end and fres_end are computed from their fdes_start and
-  fres_start and thus must be larger than sframe_start
-- fres_start < fdes_end ensures that the FDE table and FRE table do not
-  overlap
-- fres_end > sec->sframe_end ensures that fres_end (and fdes_end and both
-  fdes_start and fres_start) are smaller or equal sframe_end
+> > > If pci_power_up() is doing D3hot -> D0, the device already has
+> > > main power, so I suppose platform_pci_set_power_state(PCI_D0)
+> > > doesn't do anything.
+> >
+> > It may or may not.  Some platforms supply AML to run during D3hot ->
+> > D0 transitions (and the ACPI spec allows that).
+>
+> If the device started in D3hot, it never lost main power, and I
+> assumed platform_pci_set_power_state(PCI_D0) might just leave it in
+> D3hot.  It sounds like it takes it all the way to D0, although the
+> subsequent code that checks the PMCSR state does suggest that the
+> device might *not* be in D0:
 
-Regards,
-Jens
--- 
-Jens Remus
-Linux on Z Development (D3303)
-jremus@de.ibm.com / jremus@linux.ibm.com
+On platforms using ACPI, platform_pci_set_power_state() carries out
+the AML part of the transition which may do nothing for devices in
+D3hot (for instance, there may be an ACPI power resource that needs to
+be turned "on" in order to restore power to the device, but if the
+power resource is "on" already, say because it is shared with another
+device that is in D0 ATM, its state may not change).
 
-IBM Deutschland Research & Development GmbH; Vorsitzender des Aufsichtsrats: Wolfgang Wendt; Geschäftsführung: David Faller; Sitz der Gesellschaft: Ehningen; Registergericht: Amtsgericht Stuttgart, HRB 243294
-IBM Data Privacy Statement: https://www.ibm.com/privacy/
+platform_pci_set_power_state() may also be a no-op for the given
+device (for example, if this is an add-on device without any
+associated AML).
 
+The rule of thumb is that if there is a programmatic way to remove
+power from a PCIe device (so it can go into D3cold), it is generally
+platform-specific and there should be a complementary programmatic way
+to do the reverse (also generally platform-specific).  Otherwise, the
+device can go only as deep as D3hot except when the system as a whole
+is powered down or it is on a Thunderbolt link that can be
+disconnected at any time etc.
+
+>     platform_pci_set_power_state(dev, PCI_D0);
+>
+>     pci_read_config_word(dev, dev->pm_cap + PCI_PM_CTRL, &pmcsr);
+>     state =3D pmcsr & PCI_PM_CTRL_STATE_MASK;
+>     if (state =3D=3D PCI_D0)
+>       goto end;
+>
+>     pci_write_config_word(dev, dev->pm_cap + PCI_PM_CTRL, 0);
+>     if (state =3D=3D PCI_D3hot)
+>       pci_dev_d3_sleep(dev);
+>     ...
+>
+>   end:
+>
+> If platform_pci_set_power_state(PCI_D0) puts the device in D0 and
+> takes care of all the delays, "state" should always be PCI_D0, and we
+> shouldn't need the D3hot and D2 delays here.
+
+Well, not quite, as per the above.
+
+I guess the name is somewhat confusing, but I'm not sure what other
+name would be better.
