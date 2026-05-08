@@ -1,152 +1,92 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DDED39FCA7
-	for <sashiko@lists.linux.dev>; Fri,  8 May 2026 23:07:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9990A37C11E;
+	Fri,  8 May 2026 23:08:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778281650; cv=none; b=dRaJZu8Ml9XwvOd6+Mbdn1H6KxiOvXSzHICDMLOZSmmLEUxW5pe7oaikPMDK9Oqv4abYxZETCBNnNfpaYn+ncUV8vYM7PKY1f5VAJh9dCaLmFfhdlim/mdSdzfFFQS/jA4XmxpY4o2Pxm6+2vRgsdrrwCNMMyTuIQ26sx844Q08=
+	t=1778281680; cv=none; b=cttlnRZf8o3LlC1k5zvbIeiKTlULPPjvp31GQ3gA6OOXtK9/jaceGVdNyCulxgizqkcGqM/zofpvM9S1x0YPlCElpuCmhawhxNXzFzsmljfbwLXIJSkpCIANEOIWY/rLITZCLLDE3ElrFvs+Fp2ianNCJqT0OFlBpp3GkSKjtYQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778281650; c=relaxed/simple;
-	bh=O66MVGU3QDL+Cy3akNBxytOM3P+XmOPScObecOW3hrg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oNpssJ/MRyhmLc/ovPm1Ee0Ys468bWyjp68CHYjVnTaw66uVU69f2FCzXVgTi6l0q5zDIk90IhBc2BVt45gmemnwiw4BMHv+rskwDXVpG4Fd803eKxEu4edolhRGYU6djL5umM1yEDytcOCmPsuCQItm+2CxeHNaJfREmYuR7+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pzg5m973; arc=none smtp.client-ip=209.85.210.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778281680; c=relaxed/simple;
+	bh=kKuPOJ7nUnOEEIojrtLQ9x3wl9iYtJYU7Rqb3o04EvA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=GKQg+tPUXs5a3h851HxfL1rTkQSC/1mS6yavREc7puJDre/GjpvBpi5Qsc4QyDV+QRoP/99gQ8vkBviNLXhsvD594uJOuNrJpjnO4QqpscA8of4Hom5r/LRccH2hN6g14whhiMJLok1GKMI9OliI9r0YZr6a5IgG/ByS30ihPhc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RYaEi4xY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pzg5m973"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-837c09d2268so1135571b3a.0
-        for <sashiko@lists.linux.dev>; Fri, 08 May 2026 16:07:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778281649; x=1778886449; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=J/InWrOUOchm9lydjp+lzNN+EzfH6qLQxojHmTQooTE=;
-        b=pzg5m973ZkMx25ab7tzfKlQ2LaClDEtxNKXrlRDRAkFN8cFJUokVpCHoXSDiWm66nK
-         oRAHlyu0Tt6fSb+JEr6Pr7L31Q22D4R/FSFELSe8HHrzKXmMXDNnQt2EFWIEDjmEPpEE
-         AoL6nF3xCn14Fvo9PN7XAnsu7wO7dnG6HUo1S+eEtCx+l1b2SyuF5kvY0IDYklPHdTNC
-         Ah1KS9eb4IfzdzYv7euHpaknMwoiqQ16HHbqxAnricFAd5Vo3R+LAl5rONg89L/1x8VR
-         uN640GwcwR0mwqwmj3o1u4KiUEKziin2kBPX2rTGhlpttijqHRefQtNJfXJkMLRIffYP
-         7LNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778281649; x=1778886449;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=J/InWrOUOchm9lydjp+lzNN+EzfH6qLQxojHmTQooTE=;
-        b=LbeJ9ir0gKZRVLEO5QmJadWNC7zYf3FARrhrIHS2Tt6SoQZ9h548d3bkHYCNzRDHde
-         k3XjIq7yK4uWLZXwmLDVGVPcEWXBO5d6zBtNYFvVBhOVhEFTy1zVWkFfg8wtdeuHAvL1
-         3S7qI/bgRaD56c+/QK3i7SNJxubXKpkCmEpZOoznHRsPjogStUiGvi47thxhR5vVIs8x
-         SSjw+DktHdEszSs4r7UbQSuRPNOn4Cv1+ZLIXsFONv17Xq628mzcxSxcEdgWR6sJJ27x
-         kVPgSDIpaLCk4RoGJutBUG2JKWlVrvgwEiG7XGFNwXLaMgYEhrvTQK+OHu4MNSJ5BoAx
-         z+Fw==
-X-Forwarded-Encrypted: i=1; AFNElJ9cb5WBGtm/ZH30gsMWH4KWdRBY7gUApPDNpxACi24BevnjSKzLvG5JBNvnr2nirNWpAn2Pi9Qy@lists.linux.dev
-X-Gm-Message-State: AOJu0YzQ/5KV5oy/RyYZDiX4+96yYayFhdEIr7tjzP5zL0zSRiYL+9Zn
-	PNXeSV6A02gI3Bw/wj05tk38FQuov3fQgZjKDRXsolkSimR8CfezsRsm
-X-Gm-Gg: Acq92OFZUW9Dao4mpazRymEOEaNIrglWOe5aTfFKOAL6cu9RTND5V9ugqQVZk1C4fl2
-	WSQRlk6Gh7pTCo6xr0Y9bXY3kXsTf8CkkZbuDKqH7N2pmTp8jxTTJewiya8jckBKcpOl3E6CYna
-	7Pfejk8GNZwMXaIXcQmd7lwxp9fWg9gU1LHEQlBwu+dhC9Ck7I76/kObeA5ntmW4KCo9O1qttTl
-	OW9oJkvSvvnnaaBA3n58j0MqWORH2jy9m4M/0gKf3nM7XinQm8ZNTdO8H3ixOc93qi+VpqGXBNj
-	LBBaDhYc/NiQf6VdDyzn8VlE1Yl9GQtvDjK6c1PzelWVSRgpWuOnW6aOURHQNnaV4J9dyZFuCNS
-	BvUzatW4ZTeJwP0G3QFbIfV+RBxO3rSVhJ9A7u/hD1XlH6BJDba3Xiubu2IqNgZTxszmPvMWdyn
-	jdr/1hfGRPjAz+aFETiJETIHXWMLy1wPpP728ktA==
-X-Received: by 2002:a05:6a00:a8d:b0:82f:cfd2:6ca0 with SMTP id d2e1a72fcca58-83a5dd57ddemr13693442b3a.40.1778281648593;
-        Fri, 08 May 2026 16:07:28 -0700 (PDT)
-Received: from ?IPV6:2604:3d08:9582:1100::c7c9? ([2604:3d08:9582:1100::c7c9])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8396563ac51sm13518919b3a.2.2026.05.08.16.07.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 08 May 2026 16:07:28 -0700 (PDT)
-Message-ID: <a51c45c1-852b-41a6-ab59-9da186350e36@gmail.com>
-Date: Fri, 8 May 2026 16:07:27 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RYaEi4xY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36128C2BCB0;
+	Fri,  8 May 2026 23:08:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778281680;
+	bh=kKuPOJ7nUnOEEIojrtLQ9x3wl9iYtJYU7Rqb3o04EvA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=RYaEi4xYBEOuA5uXAcvKDv4TWKj8NrjAz0k6r0Mw572P7enUeZpAfzxmRTXV1/ouL
+	 TpOzgYxSKj0CwZ6GKw16/vZQHxNRtqCmzOpD3OmO8ACim9jJGp2g2u4N05lyAUhL3h
+	 QHNj9wzK2QNAKK2orCBHfTiqHlJ3p5s+0NBjkDhfHAJC7xUpSqaftL2qfoY7tdU8Yb
+	 z3Afej5m4AXAM/a4F5iT5j5cFmgwm7UwcDH1ySOarsvdlpwylfvWWAPxoUXzMb1+tZ
+	 1Sx2Xj8p14sCTeW61Rx+4wvK1gJMMvi4N6ZkCYkpkQPAYlPkNbRvWsu7T2z9kVpDYy
+	 4wGKLPHvXbR+w==
+Date: Fri, 8 May 2026 18:07:58 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>
+Cc: sashiko@lists.linux.dev, linux-pci@vger.kernel.org
+Subject: Re: [PATCH v7 15/24] alpha/PCI: Remove WARN from __pci_mmap_fits()
+ and __legacy_mmap_fits()
+Message-ID: <20260508230758.GA30814@bhelgaas>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v14 07/19] unwind_user/sframe: Wire up unwind_user to
- sframe
-To: Jens Remus <jremus@linux.ibm.com>, Steven Rostedt <rostedt@kernel.org>,
- Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: bpf@vger.kernel.org, sashiko@lists.linux.dev
-References: <20260505121718.3572346-8-jremus@linux.ibm.com>
- <20260505185528.8E529C2BCB4@smtp.kernel.org>
- <05adaec0-c2cc-4a16-b2da-ba3ed7437e7d@linux.ibm.com>
-Content-Language: en-US
-From: Indu Bhagat <ibhagatgnu@gmail.com>
-In-Reply-To: <05adaec0-c2cc-4a16-b2da-ba3ed7437e7d@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260508045824.GA3160093@rocinante>
 
-On 2026-05-07 09:18, Jens Remus wrote:
-> On 5/5/2026 8:55 PM,sashiko-bot@kernel.org wrote:
->> Thank you for your contribution! Sashiko AI review found 2 potential issue(s) to consider:
->> - [High] Unbounded linear scan of user-controlled sframe entries can cause a CPU hard lockup in NMI context.
->> - [Medium] The commit message claims to refactor `unwind_user_next_common()` by removing an unused `pt_regs` parameter, but this change is entirely absent from the code modifications.
->> --
->>
->> commit 2e1e17bbaa1c0426d41d66ce7930a944f3e86ae7
->> Author: Josh Poimboeuf<jpoimboe@kernel.org>
->>
->> unwind_user/sframe: Wire up unwind_user to sframe
->>
->> This commit hooks up the sframe infrastructure into the unwind_user interface
->> to support user-space stack unwinding via sframe. It adds the
->> UNWIND_USER_TYPE_SFRAME type and updates the unwind_user_next() logic to
->> attempt sframe unwinding when available.
->>
->>>      [ Jens Remus: Remove unused pt_regs from unwind_user_next_common() and
->>>      its callers.  Simplify unwind_user_next_sframe(). ]
->> This isn't a bug, but does this commit message match the changes?
->> Looking at the diff and the code, there are no modifications to
->> unwind_user_next_common() or its callers to remove a pt_regs parameter.
-> Sashiko AI review failed to understand this commit message comment.
+On Fri, May 08, 2026 at 02:04:57PM +0900, Krzysztof Wilczyński wrote:
+> Hello,
 > 
->>> diff --git a/kernel/unwind/user.c b/kernel/unwind/user.c
->>> index 90ab3c1a205ef..1fb2724197332 100644
->>> --- a/kernel/unwind/user.c
->>> +++ b/kernel/unwind/user.c
->> [ ... ]
->>> @@ -82,6 +83,16 @@ static int unwind_user_next_fp(struct unwind_user_state *state)
->>>   	return unwind_user_next_common(state, &fp_frame);
->>>   }
->>>   
->>> +static int unwind_user_next_sframe(struct unwind_user_state *state)
->>> +{
->>> +	struct unwind_user_frame frame;
->>> +
->>> +	/* sframe expects the frame to be local storage */
->>> +	if (sframe_find(state->ip, &frame))
->> Can this sequence cause a hard lockup in NMI context?
->>
->> Since this unwinder is often called from NMI context (like perf), sframe_find()
->> eventually calls __find_fre() to search for Frame Row Entries. If __find_fre()
->> performs a linear scan over an unbounded, user-controlled number of entries
->> (fde->fres_num), it could spin for a long time without yielding.
->>
->> If a malicious userspace program maps a large VMA and provides hundreds of
->> millions of FREs, would this loop calling unsafe_get_user() on every
->> iteration tie up the CPU long enough in NMI context to trigger the hard
->> lockup detector?
-> Please advise.
+> > >  static int __legacy_mmap_fits(struct pci_controller *hose,
+> > >  			      struct vm_area_struct *vma,
+> > > -			      unsigned long res_size, int sparse)
+> > > +			      unsigned long res_size)
+> > 
+> > This isn't a bug, but since the WARN() statement that used hose->index was
+> > removed below, is the hose parameter still needed? It appears to be completely
+> > unused in the function body now.
 > 
-> A user could craft .sframe with a large number of FDEs (up to UINT32_MAX)
-> and large number of FREs per FDE (up to UINT16_MAX).  Each FDE could point
-> at the same FDA and FREs to save section space.  Each FDE would require
-> 16 bytes in the FDE table. All FDEs could share a single FDA of 5 bytes
-> and share FREs of minimum 5 bytes each (when using the 16-bit start
-> address offset to have UINT16_MAX FREs) in the FRE table.
+> Ah, yes, darn.  Forgot to remove this one, too.  A quick fix:
 
-For the case of malicious .sframe with large number of FDEs, wouldnt the 
-existing checks of the various offsets being less than sframe section 
-size suffice and the following in sframe_read_header suffice:
+I squashed this in, but you should double-check it because it didn't
+apply cleanly.
 
-    if (fres_start < fdes_end || fres_end > sec->sframe_end)
-
-For malicious num fres, should we add a check that a function's num fres 
-is less than or equal to func size (available in the FDE index entry)? 
-It is an approximate check, but should provide some boundary check.
+> diff --git i/arch/alpha/kernel/pci-sysfs.c w/arch/alpha/kernel/pci-sysfs.c
+> index 7dae4999c5e3..94dbc470cd6c 100644
+> --- i/arch/alpha/kernel/pci-sysfs.c
+> +++ w/arch/alpha/kernel/pci-sysfs.c
+> @@ -143,8 +143,7 @@ static int sparse_mem_mmap_fits(struct pci_dev *pdev, int num)
+>  
+>  /* Legacy I/O bus mapping stuff. */
+>  
+> -static int __legacy_mmap_fits(struct pci_controller *hose,
+> -			      struct vm_area_struct *vma,
+> +static int __legacy_mmap_fits(struct vm_area_struct *vma,
+>  			      unsigned long res_size)
+>  {
+>  	unsigned long nr, start, size;
+> @@ -179,7 +178,7 @@ int pci_mmap_legacy_page_range(struct pci_bus *bus, struct vm_area_struct *vma,
+>  	if (sparse)
+>  		res_size <<= 5;
+>  
+> -	if (!__legacy_mmap_fits(hose, vma, res_size))
+> +	if (!__legacy_mmap_fits(vma, res_size))
+>  		return -EINVAL;
+>  
+>  	return hose_mmap_page_range(hose, vma, mmap_type, sparse);
+> 
+> Which can be applied/squashed later.
+> 
+> Thank you!
+> 
+> 	Krzysztof
