@@ -1,253 +1,161 @@
-Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0461A39098C
-	for <sashiko@lists.linux.dev>; Fri,  8 May 2026 22:47:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778280469; cv=pass; b=VrXvg6lnh28+4IsKs4wxH1F5KDobugyU+mMWGahptFmS3ShWhNrxYTRZeGVnDmynPwOb2GCU4J42KDwj3Y+Kl7Q6x/SnHD7l2/DZLw4CC88nsgAf3DxxBu9JFn3lBhaeNvIFgMZT/ZwpcqmYWTdtLIx641wA8Gcmn3tsJ4R/T8w=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778280469; c=relaxed/simple;
-	bh=ClpI8Jlme1QeRO8t/qIzKXdal214TarR5FWmGVqWkuE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KhAqVmCo5d/jYY6N1H8auiF0YAmAUXU9agak9QyNzC39a1gMiLRxrd2tPC2Rm/80PjRJk/uCYZG+Ju6h+JvIYsK51WQKugHsvVJhIj13W5TwmE7bCelkpDcNYAaw0xSMfgb83uhVkpM+Av/TVW+ofoz6wO9Z2t7z2hZ+spEaKEo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=rxxoMOO2; arc=pass smtp.client-ip=74.125.82.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C33E339935D
+	for <sashiko@lists.linux.dev>; Fri,  8 May 2026 23:02:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778281328; cv=none; b=nd50wtdVN6Ga62AjUetm33wn5w8RNLZcu4XJLV+1g4Q/kGK3rxAX2DCX/NsBvnOoYhRuX36VGpSf8MKwOE4elZ7GwsGAlU3hyuGsbKtsRt7XqYRn7L9tMjUyh3K1MM2oPxfZ4EqhW5aZW7vA3GnfCPGzc7t6uTCmlg45JEYcAnI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778281328; c=relaxed/simple;
+	bh=WqTEr6P7SFgnQakT6JXZbfbGPNMww6j9VukxRby8an4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rwUOHNyTPd6n/sEsta8Nec9gKi2oW0OUBUKBNfPDu2mseVTZaZdeOrBLp8DvReIQvcelqH/VhVUnER+mK66trrzHvT84SVcWv2UzQVHpTf/NVEiFjffpE1LWTQG+eZqobIOxoAnB8y4rTpfekGMpVlDpN3OsbTNHxgDSIApb9rU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MOCruHDh; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="rxxoMOO2"
-Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-12dfee30612so2623007c88.0
-        for <sashiko@lists.linux.dev>; Fri, 08 May 2026 15:47:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778280467; cv=none;
-        d=google.com; s=arc-20240605;
-        b=RcNDAUnLwmpugPYLay1h8ut5gkGL/SnPpwe5LzLBKI/5l+nT81XtaOyGzqOYGuLiXM
-         QWMN6Jn8DPROZDSTFAPLZ1OpWS0Lkk1Y1ESDCpcfwqVoDLxtR22Hmdf/IFq8rrG0q/bk
-         RHJJgQ4r5awkKDucKF4GKdg/Xxj93ljUdUfM4zC6b/rNt2Z+mJnlJzHEo1tJ3Ldd+AxT
-         3N7r4NbDizyKYSZrLJC1rj4DRNYR6DCYdIlSimGhFY1U8zj7+piZcZPvtuNYgGaDWllm
-         Fs1xkYnB/UjZyBO/ERLlKn+L8mpDoM5zpvdRpoH21GpWjininAsZi4evA28wPUsqj3WA
-         ib7w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=LO9HnjJ/HwzGlHuNioBxerXiRJfjT6Qmmmi8RvuKYZ0=;
-        fh=7pQPbM1mTaKjUbZ75iTISJbipA72wUVZwkXXTYMxzFw=;
-        b=fkSyBBhZkMPqNd3SwNhk1pbAVeOvE2vbRIZMw7gcfTU5qBSphOSc1zoZz40HVYCDdC
-         +r/G5gMbFQfPkC+9Bi+img7SqZ4xtWKDOhQSw2HZ7LdSnW2nwBDiYjNOpCq62PQJh4an
-         iiRhFOLE/2Lb6MO5OzIcmqiUyN+eddrBfA3z0XGrbl/l1jy5j8QHARNE8c7usEzsdKCv
-         DC+nC6HClAM1k00ig8IeIcSyBQrIaNoXhdakFJK6JkFyOAhjwxcq0NYpnC2XlmhHjwAi
-         G2Fm5mSOTZ1cFClYujKHxImXtvaKLpXeSSoczwINFdCJk8j0MOVPRq/XgLEY69no5wp+
-         T2sQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MOCruHDh"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2ba1e9d3687so15933515ad.3
+        for <sashiko@lists.linux.dev>; Fri, 08 May 2026 16:02:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1778280467; x=1778885267; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LO9HnjJ/HwzGlHuNioBxerXiRJfjT6Qmmmi8RvuKYZ0=;
-        b=rxxoMOO2EsWD7IxhkqTW6PNQgxAJfDZdZq5TUuUdYLsDb9l8QBptHW2Kk7lEx5k3Si
-         ntIGacPsmMDkeyBj8dlnJlBbP7vJKXORsDTwVVPnKTLNGX3Ibqpiz664eZV9ooiza2GM
-         huNsnbmj3Qumj6Rjjbak1GHp3NpMzAQ0GPlPB1RAf1tToh8XjDsQvoc9EzeNrdMuENGN
-         GWgZhNhKlHaqf9z5ki810dcGtmX8rkwlkwNcxppmYNWxJ6nMxzyfS79BTQvoYMaSUYii
-         Y3JH0jhRxCCdmw20+6SrNUHs+RgQRAAPF4w0MnQmWBWoTGLUENAYAabgWSXFspeayNQO
-         hGgA==
+        d=gmail.com; s=20251104; t=1778281326; x=1778886126; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=z6rNXzaWvzDqJsK/a0lBi5Sn7tj+GWzVcJ62JnTUubY=;
+        b=MOCruHDhRo6mBpkvuoAw6AHI4frmVWmD1Btwc/nzuLMljMfOdNAnJyA/GDKRLyrwx6
+         wjR5h2MJyFv1opYE3fUJeexbFB/BQi8lFIry50hMl5R0568Gz7mmfQDBAWYj7iftc4ip
+         /Nx/HalWIMo1mNGW2EjYecop0NEVAU9vpbWGzmiZtOmUZ1meMu/lThQkjMHzcSOcirjd
+         pMMjABTF+dFHL9D8ICx2VgUdtCfDA2/4CBQj9ALoAN1GBN34KCINFQ1cCASl1SZadL1T
+         1JTXeluOdqpNk1nUjTFE+omowKyk4zjr/Od5ae3rf/EiGgp/7d3yYwUFKzJXZ4HzgGXq
+         q5PA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778280467; x=1778885267;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=LO9HnjJ/HwzGlHuNioBxerXiRJfjT6Qmmmi8RvuKYZ0=;
-        b=c47N3DFBbgTm37ryRwn6BSVWAcZUguTlGSMe1yqY+xkZS9WlLQZRtLi1Od6Ih6rw6c
-         kdVcAo8QHYHjZ/tc8bo4OKdmcElbNjdrYi9d9akPILblROk96TXYVQVIym0YA1BpNzSN
-         081+bOryxFzlm+tM0WW/eMUiyGtS0G4Mc+cvbTpm6PYq28Arnoqz7Z1BNCvJ2fpu2pS8
-         qp5BSlLMg3kcLBnSxFhUhvri4XtVR1ZePqNfWjZd2tpS8ixOEgi1UxEzLjHdhfd8WvY4
-         znGnlJmq3VhEQaU061LaLxXGM7jbRt4Wrozcy+q3LBjzJS9gqN07hiELC5B/m26z5ocz
-         Bscg==
-X-Gm-Message-State: AOJu0Yw3cGfdOdMD/i8zGEpt0SdTgCy7/HziCXFAnBJXoKsKUFdIW4xv
-	ysqGlqepiLsybo1teKhq+isCrbZa1yffula8Q1g0sFLjgKCBjAzBraHpbRRZOops+0TEbxOPImG
-	zPLQRjiv8TEYtz4NnA38vuOK/xZoJX+e+22CbNMTu29+D/rWBhsO1QD21
-X-Gm-Gg: AeBDietWA+UhFxlRAID6SCIbdo0TyHfIgu+umR+bAMRlYcYm8nRI0SPaACQxlmtQM36
-	gbm/UtSLQQ5bpG7ToZP/IQQyyY0RQJYxzTptG3+0fWZW2J8DXpCZvbEmPhEFAFYk/g3FZUjXdmK
-	kKtH3VYdn+ypJ2zOLLZv2ehfqD/TtxPn/hnn8WtYkRl7JnaXMaMELRwQIcx+gaH0aabA6jnDC4W
-	uQniEv4ooemn7zNTTc/iXcelbvHlzgrzQl6dY35NbyNsNmXCUqEBY8kafSdv9XtLxQQsFTDs7xM
-	5uzy4OmbbflmrEPShM6ZIW1ahSB+IrSTSiPw+7YW0bgtYnEKPRr0rAy5UNjBJqYvAgLQ4Whfyku
-	aDKz2zT1uYKBX5lwtZ1+0hKDZrPj4rKc=
-X-Received: by 2002:a05:7022:6987:b0:130:68a1:a237 with SMTP id
- a92af1059eb24-13271cb33bcmr2739311c88.35.1778280466191; Fri, 08 May 2026
- 15:47:46 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1778281326; x=1778886126;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=z6rNXzaWvzDqJsK/a0lBi5Sn7tj+GWzVcJ62JnTUubY=;
+        b=OxyVzZ7HSted1kxBdKJ8FE++pFgy6+gT+sZ26HtFwQQ1+qRUNBjfyVQanZ+hv4BSWW
+         wLJY/wXsyiCxe3ZzlLshZyhc2H2q+SLTWUPzJmlNYPi2cKP20alvBX4sJujSE8TdQg9T
+         CwBFETLMbLUZz0Fd513ZE63HGz/RvakgutJPY1dnrzVdIFWmDsRd+8y0Z1jG2TNpOohF
+         /unlVPJ2ljihft/rRIBC9xaOXDapu+BdpGkI88fsasX3X+prwMnrKWTUEPuX9/bxZj9N
+         D1jVvrgWAwWlcdFN0SmI5/CDYg/MAdSYcbauzmFFK4URBfhORag5uT8Bq+C1nDZjgaeK
+         zHyQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/GrUFbreA2fguPcOs8FmN7mzWfRfEo7k+ptxhZUvjTx/R5JtenLAx11KRJ3iLUCUUox5bWviJV@lists.linux.dev
+X-Gm-Message-State: AOJu0YwHyDwN/6SUVgkL+IINicRFaZ42VTqDjoFUF98eAWDpjw30DEob
+	s2rgYr4nI1vZtw4XyM0HL+5SKbRzZrBExChf+cqqP8ZNm7FaXNrsndKZ
+X-Gm-Gg: Acq92OEfxS+wBqLQVXrSXTYalpxHJjcqsK4dIQ0Se/0dZkDFHwv81O9IbJ/DMkFfsc4
+	umKgxPvuqC18Q2XFY3ZC1zcd3b0UDB3rfPVMESitAqDE+g7ta9M4ZHR05O5caibyS9RKJg7hsmb
+	gRjoHOqMuVZZfJACwYMvshfRzL6BZnWR1U0ZDTKjZPDE1kLBPX1qkO1iEVRBLGLy8qiCN/NzmAH
+	nXRxHtD4KckTxbynI22ThxChe7jQjCoQVVZH79g1gI/NvE6tOv585E0TGrJpSAUXHxc6DuOCSi2
+	LIL2Gg8iGBz/7YZ59dX4JcP1mNVRXSeJGHFZK9XrkIDAWx6LvPwUo4ws/rYQqwVd1mY32S3B46Y
+	Rt87dSFQBvTFRiUFppmIP2u+kHzDsyB3KYKlC3F8D43oHUZEKEyC2S7+8RJfXJO+2i/bufSQ9E/
+	EoHFFcvWEnHYgReXjw/1DTwLGFhHCPbwpGTpQx3g==
+X-Received: by 2002:a17:903:1b07:b0:2b9:eb6a:68b5 with SMTP id d9443c01a7336-2ba7a36022amr140432425ad.38.1778281326002;
+        Fri, 08 May 2026 16:02:06 -0700 (PDT)
+Received: from ?IPV6:2604:3d08:9582:1100::c7c9? ([2604:3d08:9582:1100::c7c9])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2baf1d3ff52sm32984075ad.26.2026.05.08.16.02.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 08 May 2026 16:02:05 -0700 (PDT)
+Message-ID: <68676204-ba32-446d-a0fd-c2f39cea775e@gmail.com>
+Date: Fri, 8 May 2026 16:02:04 -0700
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260508073355.3916746-9-kuniyu@google.com> <20260508221719.EED64C2BCB0@smtp.kernel.org>
-In-Reply-To: <20260508221719.EED64C2BCB0@smtp.kernel.org>
-From: Kuniyuki Iwashima <kuniyu@google.com>
-Date: Fri, 8 May 2026 15:47:34 -0700
-X-Gm-Features: AVHnY4KKMq1w4Rg9ZKPKy6J_t8S5lTE6KZpSdpe5GwyyiTGMiekCJ7QG-AL3PAQ
-Message-ID: <CAAVpQUAwFPkS3rL_RtVgVy7PtzXtxCN=ZfkTn71Kb2-37D+sDg@mail.gmail.com>
-Subject: Re: [PATCH v1 bpf-next 8/8] selftest: bpf: Add test for BPF_SOCK_OPS_RCVLOWAT_CB.
-To: sashiko@lists.linux.dev
-Cc: bpf@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v14 02/19] unwind_user/sframe: Add support for reading
+ .sframe headers
+To: Jens Remus <jremus@linux.ibm.com>, Steven Rostedt <rostedt@kernel.org>,
+ Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: bpf@vger.kernel.org, sashiko@lists.linux.dev
+References: <20260505121718.3572346-3-jremus@linux.ibm.com>
+ <20260505124948.669E2C2BCB4@smtp.kernel.org>
+ <f106e4a1-4f60-4c65-97bc-2257005765e5@linux.ibm.com>
+Content-Language: en-US
+From: Indu Bhagat <ibhagatgnu@gmail.com>
+In-Reply-To: <f106e4a1-4f60-4c65-97bc-2257005765e5@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, May 8, 2026 at 3:17=E2=80=AFPM <sashiko-bot@kernel.org> wrote:
->
-> Thank you for your contribution! Sashiko AI review found 2 potential issu=
-e(s) to consider:
-> - [Medium] Flaky test design due to race condition between send() and epo=
-ll_wait()/getsockopt().
-> - [Medium] Pipelined data causes a TOCTOU race that permanently breaks an=
-d disables the BPF autolowat program.
-> --
->
-> commit 7be0b88b0617982ff63886ecdcf680fd3a6f0db8
-> Author: Kuniyuki Iwashima <kuniyu@google.com>
->
-> selftest: bpf: Add test for BPF_SOCK_OPS_RCVLOWAT_CB.
->
-> This commit adds a selftest simulating a production scenario where a BPF
-> program dynamically adjusts a socket's SO_RCVLOWAT based on the parsing
-> of RPC descriptors. The test exchanges partial and full RPC frames over
-> a local connection and verifies that epoll wakes up the application at
-> the correct boundaries.
->
-> > diff --git a/tools/testing/selftests/bpf/prog_tests/tcp_autolowat.c b/t=
-ools/testing/selftests/bpf/prog_tests/tcp_autolowat.c
-> > --- a/tools/testing/selftests/bpf/prog_tests/tcp_autolowat.c
-> > +++ b/tools/testing/selftests/bpf/prog_tests/tcp_autolowat.c
->
-> [ ... ]
->
-> > @@ -0,0 +1,350 @@
-> > +static void tcp_autolowat_run_rpc_test(struct tcp_autolowat_test_cb *c=
-b,
-> > +                                    struct rpc_test_case *test_case)
-> > +{
->
-> [ ... ]
->
-> > +             switch (event->type) {
-> > +             case RPC_EVENT_END:
-> > +                     return;
-> > +             case RPC_EVENT_AUTOLOWAT:
-> > +                     err =3D setsockopt(cb->child, SOL_BPF, BPF_TCP_AU=
-TOLOWAT,
-> > +                                      &event->val, sizeof(event->val))=
-;
-> > +                     if (!ASSERT_OK(err, "setsockopt"))
-> > +                             return;
-> > +                     break;
-> > +             case RPC_EVENT_SEND:
-> > +                     err =3D send(cb->client, ptr, event->len, 0);
-> > +                     if (!ASSERT_EQ(err, event->len, "send"))
-> > +                             return;
-> > +
-> > +                     ptr +=3D event->len;
-> > +                     break;
->
-> [ ... ]
->
-> > +             case RPC_EVENT_EPOLL:
-> > +                     err =3D epoll_wait(cb->epoll, &ev, 1, 0);
-> > +                     if (!ASSERT_EQ(err, event->nfds, "epoll_wait"))
-> > +                             return;
-> > +                     break;
-> > +             case RPC_EVENT_RCVLOWAT:
-> > +                     optval =3D 0;
-> > +                     optlen =3D sizeof(optval);
-> > +
-> > +                     err =3D getsockopt(cb->child, SOL_SOCKET, SO_RCVL=
-OWAT, &optval, &optlen);
-> > +                     if (!ASSERT_OK(err, "getsockopt") ||
-> > +                         !ASSERT_EQ(optval, event->rcvlowat, "rcvlowat=
-"))
-> > +                             return;
-> > +                     break;
-> > +             }
->
-> Are the epoll and getsockopt checks vulnerable to flaky failures
-> under load?
->
-> Since TCP loopback delivery can be deferred to softirq context, could
-> epoll_wait with a 0-millisecond timeout return 0 if the packet hasn't
-> been queued yet?
+On 2026-05-06 06:42, Jens Remus wrote:
+> On 5/5/2026 2:49 PM,sashiko-bot@kernel.org wrote:
+>> Thank you for your contribution! Sashiko AI review found 3 potential issue(s) to consider:
+>> - [Medium] Missing validation of shdr.abi_arch allows parsing SFrame data from mismatched architectures.
+>> - [Medium] VMA addresses are incorrectly evaluated as boolean flags to check for zero-length inputs.
+>> - [Low] Mixing goto error handling with scoped_guard scope-based cleanup.
+>> --
+>>
+>> commit afe7c9eb6f0e6fc3f73d0b6a555f8d3926cf6ccf
+>> Author: Josh Poimboeuf<jpoimboe@kernel.org>
+>>
+>> unwind_user/sframe: Add support for reading .sframe headers
+>>
+>> This commit introduces basic infrastructure for unwinding user space stacks
+>> with SFrame. It adds support for parsing the .sframe section header.
+>>
+>> Link:https://lore.kernel.org/all/ 
+>> f27e8463783febfa0dabb0432a3dd6be8ad98412.1737511963.git.jpoimboe@kernel.org/
+>>
+>>> diff --git a/kernel/unwind/sframe.c b/kernel/unwind/sframe.c
+>>> new file mode 100644
+>>> index 0000000000000..c128c1eeaca20
+>>> --- /dev/null
+>>> +++ b/kernel/unwind/sframe.c
+>> [ ... ]
+>>> +static int sframe_read_header(struct sframe_section *sec)
+>>> +{
+>>> +	unsigned long header_end, fdes_start, fdes_end, fres_start, fres_end;
+>>> +	struct sframe_header shdr;
+>>> +	unsigned int num_fdes;
+>>> +
+>>> +	if (copy_from_user(&shdr, (void __user *)sec->sframe_start, sizeof(shdr))) {
+>>> +		dbg("header usercopy failed\n");
+>>> +		return -EFAULT;
+>>> +	}
+>>> +
+>>> +	if (shdr.preamble.magic != SFRAME_MAGIC ||
+>>> +	    shdr.preamble.version != SFRAME_VERSION_3 ||
+>>> +	    !(shdr.preamble.flags & SFRAME_F_FDE_SORTED) ||
+>>> +	    !(shdr.preamble.flags & SFRAME_F_FDE_FUNC_START_PCREL) ||
+> 	    shdr.abi_arch != sframe_abi_arch() ||
+> 
+>>> +	    shdr.auxhdr_len) {
+>>> +		dbg("bad/unsupported sframe header\n");
+>>> +		return -EINVAL;
+>>> +	}
+>> Should we also validate shdr.abi_arch to ensure it matches the expected
+>> architecture?
+>>
+>> If malformed or foreign-architecture SFrame data is passed in (for instance,
+>> with an unexpected endianness or register mapping), the kernel might interpret
+>> it incorrectly and generate invalid stack traces.
+>>
+>> Furthermore, accepting arbitrary values here could risk ABI calcification if
+>> userspace starts supplying invalid values that we later want to reject.
+> I could introduce an architecture-specific sframe_abi_arch() and update
+> the SFrame header validation as above.  For x86 the implementation in
+> in unwind_user_sframe.h could look as follows:
+> 
+> #ifdef CONFIG_X86_64
+> #define sframe_abi_arch()	SFRAME_ABI_AMD64_ENDIAN_LITTLE
+> #endif
+> 
+> Given sframe.o is only linked in if CONFIG_HAVE_UNWIND_USER_SFRAME and
+> that is only selected if X86_64 this should be fine.
+> 
+> Do you see any value?
 
-No, it's over "lo", and TX/RX is in the same context.
+I dont see much value.  fs/binfmt_elf.c has done some admission control 
+for the user binary already.  For bi-endian systems, this doesnt add 
+value (wrt checking correct endianness).
 
->
-> Similarly, could getsockopt read a stale SO_RCVLOWAT value before the
-> BPF program gets a chance to update it?
->
-> Would using a polling loop or a positive epoll timeout prevent
-> intermittent test failures?
->
-> > diff --git a/tools/testing/selftests/bpf/progs/tcp_autolowat.c b/tools/=
-testing/selftests/bpf/progs/tcp_autolowat.c
-> > --- a/tools/testing/selftests/bpf/progs/tcp_autolowat.c
-> > +++ b/tools/testing/selftests/bpf/progs/tcp_autolowat.c
->
-> [ ... ]
->
-> > @@ -0,0 +1,316 @@
-> > +static int tcp_parse_descriptor(struct bpf_sock_ops *skops,
-> > +                             struct tcp_autolowat_cb *cb,
-> > +                             u32 seq, u32 end_seq)
-> > +{
-> > +     struct rpc_descriptor *rpc_desc;
-> > +     u32 rpc_copied_seq;
-> > +     u32 copy_len;
-> > +     u64 rpc_len;
-> > +     int err;
-> > +
-> > +     rpc_copied_seq =3D cb->rpc_desc_seq + cb->rpc_desc_buff_len;
-> > +
-> > +     if (before(cb->rpc_desc_seq + RPC_DESC_SIZE, end_seq))
-> > +             copy_len =3D RPC_DESC_SIZE - cb->rpc_desc_buff_len;
-> > +     else
-> > +             copy_len =3D end_seq - rpc_copied_seq;
-> > +
-> > +     /* Since LLVM commit 324e27e8bad83ca23a3cd276d7e2e729b1b0b8c7,
-> > +      * clang omits the "copy_len =3D=3D 0" check below, which is nece=
-ssary
-> > +      * to satisfy the BPF verifier's range check for bpf_skb_load_byt=
-es().
-> > +      */
-> > +     barrier_var(copy_len);
-> > +
-> > +     if (copy_len =3D=3D 0)
-> > +             goto disable; /* FIN. */
-> > +     if (copy_len > RPC_DESC_SIZE)
-> > +             goto disable; /* always false, only for verifier. */
-> > +     if (cb->rpc_desc_buf + cb->rpc_desc_buff_len >=3D &cb->rpc_desc_b=
-uf[RPC_DESC_SIZE])
-> > +             goto disable; /* always false, only for verifier. */
-> > +
-> > +     err =3D bpf_skb_load_bytes(skops, rpc_copied_seq - seq,
-> > +                              cb->rpc_desc_buf + cb->rpc_desc_buff_len=
-, copy_len);
-> > +     if (err)
-> > +             goto disable;
->
-> Is there a race condition if pipelined data is already in the receive
-> queue when BPF_TCP_AUTOLOWAT is enabled?
->
-> Looking at tcp_init_autolowat_cb(), cb->rpc_desc_seq is initialized to
-> tp->copied_seq. If there is already unread data in the queue, the next
-> packet arrival triggers BPF_SOCK_OPS_RCVLOWAT_CB.
->
-> Because seq (which comes from tcb->seq) corresponds to the new packet
-> and is greater than tp->copied_seq, will rpc_copied_seq - seq underflow?
->
-> If it underflows to a large positive value, won't bpf_skb_load_bytes()
-> fail with -EFAULT, causing the code to jump to the disable label and
-> permanently disable the autolowat functionality for this socket?
-
-This assumes the client will stop at a certain point; it will not
-send the next request speculatively before receiving the previous
-response.
-
-In such an irregular case, we want to fall back to no autolowat,
-so this is fine.
+For addressing the concern of a compromised SFrame section, we need to 
+ensure checks at SFrame information read/validation time (which the code 
+is doing already and additional checks that can be added are currently 
+being discussed).  Checking for the abi_arch value does not necessarily 
+safeguard much.
