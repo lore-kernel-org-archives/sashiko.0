@@ -1,159 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF71634D3A9
-	for <sashiko@lists.linux.dev>; Fri,  8 May 2026 12:51:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F18423E51CD
+	for <sashiko@lists.linux.dev>; Fri,  8 May 2026 14:36:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778244712; cv=none; b=GHzkwAZ9ZywC4W53V9fxw08sWkl63htnP8oA0llfU+wFFk7XfacxogafJkkIquiAzdsnwqRPX0yRsAfZQRXJ91oUeEmVv4SLcMa7uH4oCgpc4eswB+eLNW8dHo7RJlO320BjYy4KwXJYNCtTvRpbrO32saDPBKv9aiT3N5OkQAE=
+	t=1778251018; cv=none; b=EMLPiiwRcC+DGyL0ZF/jOuqbO8ISh3IGPX/XBazE2pTYkbyBekprzDOa8nRHaaEr6/PgJkk0uywNUucoKnGQWPsmGmrfVUH1PI0MdLUzxbeJcFrkYcuYP49HVXDljCYAiINrBV1Dlhq/1TFF9uFxP0Of5XGAZATDWD8ew93f1aU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778244712; c=relaxed/simple;
-	bh=b5hRY7E4eJ8rgy6jbk2EEW/Pk3YEWbLTn4ysMpU22L4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KE2I3KL0iESN4S2LLrxNELU4rtwxhghA+kSLesiAnAIOMclEzi0JI8rBhXAvMJLRPi9pU6OW2dw+w3pTwYToJIwsQAjzmOldrFmYOLo8Ifg72lZq4cb0CsxPEW7UgbJBqNs+DEUwiEHI9pYNCoJRqlKRpqETAximJnrHWyzuk38=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Aj/3/jc8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778251018; c=relaxed/simple;
+	bh=E5BdW2FcgH1ffGpN/yDvwtsYgsCucJdUnVpqN2OQpsQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=f9KOFcPHzLlH9Ad7SJ302mSdvhg62fUhTUDieDlpYMVS/w7ELeqACV2TSkR2nSsu88CIq2WJl73NbTtuwaUkzyFJmgTQsbzjDeY2yMX3eufw9OrCDkGPMbGIWhV85IB8DNg4KL7nPSi0b6NR8a6nm3puIV7I8MFXJQKjXEeHiFY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riscstar.com; spf=pass smtp.mailfrom=riscstar.com; dkim=pass (2048-bit key) header.d=riscstar-com.20251104.gappssmtp.com header.i=@riscstar-com.20251104.gappssmtp.com header.b=fNU3jpsS; arc=none smtp.client-ip=209.85.219.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riscstar.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riscstar.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Aj/3/jc8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5B37C4AF09
-	for <sashiko@lists.linux.dev>; Fri,  8 May 2026 12:51:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778244712;
-	bh=b5hRY7E4eJ8rgy6jbk2EEW/Pk3YEWbLTn4ysMpU22L4=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Aj/3/jc8V9GABvkjzrdKTJ0B8rlOOiyHiNggJL80vJYjN9o8mKscCcyDktwyxE8Hl
-	 rsMoKg0/OFjq+R6tER33I4PDmKUylH3/48CZpoBZuRPEfBhg6FnOq3PTOYnbm0tWIm
-	 eb9mlRc1SusYPcgZDm9VBijW0L2Vbywqp7RSkZqP6kRr5/zX+e9sARc3pLiIXhN90y
-	 W+wV2SblGMOYAMPtGV9qY+ge1f2Y7BduPOEtmlI2EfMfI74Pi47f9w2OJXpsb4qFUy
-	 RCg1Ss3suPQIxsGakO+52cRB3pO7hlND8m8DuWYFTHFP5nMT6ogpli2BpDSNhfhz6/
-	 LRnO+Jsq85XuA==
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5a74ac8b40aso1821581e87.1
-        for <sashiko@lists.linux.dev>; Fri, 08 May 2026 05:51:52 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ9jKEET0pA8gbYHW9rQ/q4zw3RM63R+8HhscRL1oPwC3V+nJ912VrPYDcC7gSNG3p+n/1/34cR4@lists.linux.dev
-X-Gm-Message-State: AOJu0YytHQCsBNauV7+/zpWcVLwnyO1I3WQSAJn80quSfCpY3eoVBGva
-	45fVVfOAWJyXOU8qxLSAX/FbeHIUp21CSgTchBz/WXkPtuWSqZMTryxMQq+H5Eny2XyCWXC6L7U
-	KpaW5Og5iYxWr2JVvAV5NyyJuxeWNzDc=
-X-Received: by 2002:a05:6512:b2a:b0:5a7:4699:d851 with SMTP id
- 2adb3069b0e04-5a887adce0amr4231056e87.7.1778244710812; Fri, 08 May 2026
- 05:51:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=riscstar-com.20251104.gappssmtp.com header.i=@riscstar-com.20251104.gappssmtp.com header.b="fNU3jpsS"
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-8b3d6b215cfso35486916d6.3
+        for <sashiko@lists.linux.dev>; Fri, 08 May 2026 07:36:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=riscstar-com.20251104.gappssmtp.com; s=20251104; t=1778251016; x=1778855816; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=I1eXzQgjFRPPJxicE/qQ6c85q3aMd0C62Q7xrxPUUZ8=;
+        b=fNU3jpsSCduzeF5cS0zY3DrRLt/GRGjwIs2s+W6n++3XewiH8vMI0zd4SNlxL3oK7Z
+         SVL30td460oUleMiDce7AY52Xi2eMy+wvVtR2jaQCFXtDKA21hMYFiD1Z70orJktBIhy
+         Qmm+ku01/YL6ZG/ktzz0RubZUPiwdZ51gHvDQbg79RoFKk3efd/5G0rEXYYbO7O4VjMr
+         6gIy0QaB23NOniTDzdmboY7MSUjv6ssLEuZ5wSInZmDP64AAebdYAq52RqgizM33APM2
+         6zcNLhd7f/RTyFFnb3u9GgsA1YM9cIdHd1RUA8cDKfnbx4rMk9rwCl4oN7sc9QNHcri+
+         q0Ig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778251016; x=1778855816;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=I1eXzQgjFRPPJxicE/qQ6c85q3aMd0C62Q7xrxPUUZ8=;
+        b=FZyrzy+tK14pRjRSmIpA9UEcIXa/EGe7QiKtR5jImXrut1mqxYv4MJEYmkh+uAlNUV
+         Myb6tklJqwdC5bqRMaii1LWn4qi60QIDOgJ3arLVK/r+GAdxOJm1S3Wa1ZJEhcBE6u0/
+         lBUjbUiIKwG/+i184HphQkWM5OOVu3C0A6H25j9ncbgbhUQxBOHjl4gWvBtwuZtxefk0
+         SB96wdKHm8KWulugujvE+VdlkS1g9bE/72Ca7vm2FZu6ZaiajRLJumLkS5xvizDsypxl
+         PlZ27nfyEjrlpz83SfSLqqrSkeovvOmY3NxZMphjsq/GH/V+WlLTKVLCrwehpXC4Szlv
+         RFsw==
+X-Forwarded-Encrypted: i=1; AFNElJ9uCD1KD6CkgDDx0XKG/jMuuxqSl6supNy+2ILbjpwYH+JTDhqeuQDcDQatRZnt89qrDHBrLv7w@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxmg4t1V7+w+9qwPm+s+2hyuJwsgQzA1vRhZqb14H8dMLK/lG+O
+	6/QlZQIPqdCeR+wIhCLTVsoWoKEF1pZskL/Fg98n/iBwiTXR1dqGJGYQOQYMPRkSy9w=
+X-Gm-Gg: AeBDiev91y4MCQl3RVUZozc66NvN/xq9sPcZGUfS/Fv4RFbiK8aKxRPzZs3uyQ3fIX/
+	ZPqG5ZwyC5SGZi0zwfpMImQrsz+V5XxZALfv9RYjqTX+lhM9Pd9PXsS6ZTyEQ2tH14RNzvWSNdH
+	8uO+dCyqrRR0NrB6rx35aToq1dLrgTiy+SF39xKTpJWj7Cz6tZwW3k032gAQnaT78PDh9MNbUVw
+	iIlTWjoSl3pFj8bWg4X1GG2Bhf2BRrdmiPtdLYVRjsBMCMKH86XjI5uXSNTabfNUrQP6KRombkE
+	ro/uUZ8lyKzDO5ASMEYk1wC/0MuvKEWg5Wa+/n3FbMX6MB15bQ7gdffxm4ydmIbi3ABDeyiVv3I
+	RYdDvTdn1KfN4JeQTN+pAALhVJzhqqIbmJTgO5rktYSA+LSBzIlewNPaQceXlHtNrA6AuzrslM/
+	mijzGkQ7JObw1UFMrKTeVCm0JjJp/u5S682pfJoVMwdoNclM3skL4y+q5kC3+I2t4=
+X-Received: by 2002:a05:622a:1145:b0:50d:2a98:2571 with SMTP id d75a77b69052e-51461e72ca8mr170662291cf.26.1778251015806;
+        Fri, 08 May 2026 07:36:55 -0700 (PDT)
+Received: from [172.22.22.28] (c-75-72-117-212.hsd1.mn.comcast.net. [75.72.117.212])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5148e814c7asm17553001cf.23.2026.05.08.07.36.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 08 May 2026 07:36:55 -0700 (PDT)
+Message-ID: <b301a613-a8f7-4d18-98db-aeac1201b902@riscstar.com>
+Date: Fri, 8 May 2026 09:36:54 -0500
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAJZ5v0hngqvdi2vRB4n5T3sGSPc10eR=1X+UO2QAR=GHYmQo2w@mail.gmail.com>
- <20260508001700.GA52868@bhelgaas>
-In-Reply-To: <20260508001700.GA52868@bhelgaas>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Fri, 8 May 2026 14:51:37 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0iZN5NtUztqe=MxCRcXdBaaqzZ749OqSUkadwwBy0ugUQ@mail.gmail.com>
-X-Gm-Features: AVHnY4JDm0NwQbvbIF57UXrSWpYkIi9GWtdbhq4uIIdxb7B3uf32C_ZBVih_N7M
-Message-ID: <CAJZ5v0iZN5NtUztqe=MxCRcXdBaaqzZ749OqSUkadwwBy0ugUQ@mail.gmail.com>
-Subject: Re: [PATCH] PCI: Drop unnecessary retries when restoring BARs
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Lukas Wunner <lukas@wunner.de>, sashiko-bot@kernel.org, 
-	linux-pci@vger.kernel.org, sashiko@lists.linux.dev, 
-	Marco Nenciarini <mnencia@kcore.it>, Michal Winiarski <michal.winiarski@intel.com>, 
-	Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>, Eric Chanudet <echanude@redhat.com>, 
-	Jean Guyader <jean.guyader@gmail.com>, Alex Williamson <alex@shazbot.org>, Sinan Kaya <okaya@kernel.org>, 
-	Mario Limonciello <superm1@kernel.org>, Mika Westerberg <mika.westerberg@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next 08/12] dt-bindings: net: toshiba,tc965x-dwmac:
+ add TC956x Ethernet bridge
+To: Rob Herring <robh@kernel.org>, sashiko@lists.linux.dev
+Cc: bpf@vger.kernel.org
+References: <20260501155421.3329862-9-elder@riscstar.com>
+ <20260502155615.AF378C19425@smtp.kernel.org>
+ <20260507190215.GA2243588-robh@kernel.org>
+Content-Language: en-US
+From: Alex Elder <elder@riscstar.com>
+In-Reply-To: <20260507190215.GA2243588-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, May 8, 2026 at 2:17=E2=80=AFAM Bjorn Helgaas <helgaas@kernel.org> w=
-rote:
->
-> On Tue, May 05, 2026 at 12:43:17PM +0200, Rafael J. Wysocki wrote:
-> > On Mon, May 4, 2026 at 11:17=E2=80=AFPM Bjorn Helgaas <helgaas@kernel.o=
-rg> wrote:
-> > ...
->
-> > > If pci_power_up() is doing D3cold -> D0, main power is initially
-> > > off, so platform_pci_set_power_state(PCI_D0) would turn on main
-> > > power, which is a Fundamental Reset leaving the device in
-> > > D0uninitialized.  In general the device needs at least 100 ms
-> > > after that reset before any access, e.g., before the PMCSR read.
-> >
-> > Yes, it does in general, but that should be covered by
-> > platform_pci_set_power_state() because on some platforms the delay
-> > can be shorter.
->
-> It's surprising to me that platform_pci_set_power_state() takes
-> care of that delay because there's so much PCIe infrastructure
-> (dependencies on link speed, RRS polling, Immediate Readiness,
-> Readiness Notifications, etc), much of which sounds more like
-> OS-level support than firmware support.
+On 5/7/26 2:02 PM, Rob Herring wrote:
+> Please answer sashiko reports because if maintainers are, it's just more
+> work for us. While agreeing with maintainer comments don't need a reply,
+> I think we're still at the point any AI review does. Though sashiko is
+> 2/2 here.
 
-It is kind of a mixed bag because it involves platform-specific
-operations (the PCIe spec doesn't define a standard method of
-transitioning devices in D3cold into D0).
+I plan to.  I've been responding to maintainer/reviewer things first,
+but I fully intend to treat sashiko as a "proper reviewer" and will
+respond to those as well.
 
-The consensus in the industry appears to be that if AML is used for
-carrying out D3cold->D0 transitions, it is expected to take the
-requisite delays into account.
-
-> But if platform_pci_set_power_state() does guarantee that the device
-> is Configuration-Ready, we should document that somewhere.
-
-It is more along the lines of what I said before: After
-platform_pci_set_power_state() the device is either
-Configuration-Ready, or inaccessible (in which case it can be assumed
-to have dropped off the bus, but this is all platform-specific, so on
-some platforms there may be ways to revive such devices).
-
-That said, I'm all for documenting it.
-
-> > > If pci_power_up() is doing D3hot -> D0, the device already has
-> > > main power, so I suppose platform_pci_set_power_state(PCI_D0)
-> > > doesn't do anything.
-> >
-> > It may or may not.  Some platforms supply AML to run during D3hot ->
-> > D0 transitions (and the ACPI spec allows that).
->
-> If the device started in D3hot, it never lost main power, and I
-> assumed platform_pci_set_power_state(PCI_D0) might just leave it in
-> D3hot.  It sounds like it takes it all the way to D0, although the
-> subsequent code that checks the PMCSR state does suggest that the
-> device might *not* be in D0:
-
-On platforms using ACPI, platform_pci_set_power_state() carries out
-the AML part of the transition which may do nothing for devices in
-D3hot (for instance, there may be an ACPI power resource that needs to
-be turned "on" in order to restore power to the device, but if the
-power resource is "on" already, say because it is shared with another
-device that is in D0 ATM, its state may not change).
-
-platform_pci_set_power_state() may also be a no-op for the given
-device (for example, if this is an add-on device without any
-associated AML).
-
-The rule of thumb is that if there is a programmatic way to remove
-power from a PCIe device (so it can go into D3cold), it is generally
-platform-specific and there should be a complementary programmatic way
-to do the reverse (also generally platform-specific).  Otherwise, the
-device can go only as deep as D3hot except when the system as a whole
-is powered down or it is on a Thunderbolt link that can be
-disconnected at any time etc.
-
->     platform_pci_set_power_state(dev, PCI_D0);
->
->     pci_read_config_word(dev, dev->pm_cap + PCI_PM_CTRL, &pmcsr);
->     state =3D pmcsr & PCI_PM_CTRL_STATE_MASK;
->     if (state =3D=3D PCI_D0)
->       goto end;
->
->     pci_write_config_word(dev, dev->pm_cap + PCI_PM_CTRL, 0);
->     if (state =3D=3D PCI_D3hot)
->       pci_dev_d3_sleep(dev);
->     ...
->
->   end:
->
-> If platform_pci_set_power_state(PCI_D0) puts the device in D0 and
-> takes care of all the delays, "state" should always be PCI_D0, and we
-> shouldn't need the D3hot and D2 delays here.
-
-Well, not quite, as per the above.
-
-I guess the name is somewhat confusing, but I'm not sure what other
-name would be better.
+					-Alex
