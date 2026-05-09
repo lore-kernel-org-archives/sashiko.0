@@ -1,127 +1,131 @@
-Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com [95.215.58.182])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9833726B75B
-	for <sashiko@lists.linux.dev>; Sat,  9 May 2026 16:31:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 034BC2F49F6
+	for <sashiko@lists.linux.dev>; Sat,  9 May 2026 17:09:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778344312; cv=none; b=Sqb/6CJf47VMKwZe4m7ebzTbrh+v5QiUONBlLVxGFcgS1jxcJfjjV1L7IEAyBhQkjQPh/SqswQghlTv2Q3EfS7OvOawhADXB8v2ltAZhi5yY9sYb9P8y2ZnpmCNCQA+X2Nd4VRxb6hzN9LrUZkrnHE4i+y8W/qzpwbPpTM/N6lM=
+	t=1778346558; cv=none; b=ZuPu95zaGTprzojajOOmAH+9/m21ehIx6JATKiD0+7eiUnOsnWpz94UEr3Fr4CStXm2vLaoDjw2BuidFDpv4Ub7kHaOpE0iAhV5PY2YeeP8Sly5X8Kh2eqDzlz8wMzQ/m++VQ+tGb1U1vx6vTSUVQtrD8CwXf+g4IMx6Sk1f8Es=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778344312; c=relaxed/simple;
-	bh=3p9mtDOsu54yImqp7m6vW0J3J5aU5TjcgORAP053Lb0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=YBa7uqaHU39OwQ6IKECTRwSK/whZiMAH6BkN3+dWDE66dqE22dgvkHX2jZoenrURPB/o3s1K/X52APWRQgkWXUOLYaVB9zp2KKX1imH9CoX1bSVyKpCqWMZe/S3947/JD6SuWajAl6b8sVmlXcn95CW9IzIiulRJ/9swZ5qtz1s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=oZBqJbd3; arc=none smtp.client-ip=95.215.58.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1778346558; c=relaxed/simple;
+	bh=aydzMJxboQYjq4+DyPvIdNpHPvziBZTyKnP98v6CeXw=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=iEMJSxaVpAzDXqxtobwLmJv27iC882EfEe89/XKCUWK1tHdz5lwmUgFlfiX0ai+0+Z48KYKT/b5cVRADLdWQQkcbERTNBXUYy6qw+GuoTE+LIhfua+cx/C1YQnUt2Sih9zeV1n7IJIMLoQsXpktdprm9KwhbhDWPVnqzCQdClXI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bXQu6a5p; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="oZBqJbd3"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1778344307;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=T9e9XE+f9ua+OrU/UiZMbmSYCkJOv7xf3wcgmaZDo+M=;
-	b=oZBqJbd3jzlkF0lmPhPsrPfddKHDZVAGxHfLS1ly9bnLcTJkX5wXfIDWNnTV82yFgqJnlF
-	/6n7v++fiNPKojWxQrzvyj5IoXlcfl1HCHO3tBICpn/L55542Phct8+KeLk0LhtEN0m4vc
-	R+MeUSRbMBYfZ2WlO267IdVUSEc5HeI=
-From: Roman Gushchin <roman.gushchin@linux.dev>
-To: Conor Dooley <conor@kernel.org>
-Cc: sashiko@lists.linux.dev,  Arnd Bergmann <arnd@kernel.org>,
-  conor+dt@kernel.org,  krzk+dt@kernel.org,  devicetree@vger.kernel.org,
-  robh@kernel.org
-Subject: Re: [PATCH 1/3] [v5 net-next] dt-bindings: net: add
- st,stlc4560/p54spi binding
-In-Reply-To: <20260509-magnifier-varnish-b948ef563e79@spud> (Conor Dooley's
-	message of "Sat, 9 May 2026 16:56:34 +0100")
-References: <20260507212451.3333185-2-arnd@kernel.org>
-	<20260508213255.60491C2BCB0@smtp.kernel.org>
-	<20260509-magnifier-varnish-b948ef563e79@spud>
-Date: Sat, 09 May 2026 09:31:24 -0700
-Message-ID: <877bpcmtnn.fsf@linux.dev>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bXQu6a5p"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82E01C2BCB2
+	for <sashiko@lists.linux.dev>; Sat,  9 May 2026 17:09:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778346557;
+	bh=aydzMJxboQYjq4+DyPvIdNpHPvziBZTyKnP98v6CeXw=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=bXQu6a5pg5i6kKOiNmLTHozb6qabUarVVeZtmLkdyXwwvNsxMv/9caBoDK8s+ajLn
+	 llEDlk/rTMtk7siQ7GjwQHnWiCN8Cbvo56003n3ze3mRx4jpUL+t+TjgDcDX0F2pnX
+	 J8k2Oq9oswAqWmLO2Go0dwOF8+c4XuknVqNFNWNun27hUZBg67bJ5gEx36GmZuTzOL
+	 RMiZyvP9El8psB/+K4OKDW2Nji2URtQDAWWMvtmMRX9gJmMVqp9ltc1G7ul/21jI6E
+	 eemIkwoSOZ1HqPqZulfM1qJxgsAtf80+rW6U1+UifOuCPv8ZMVygB7oL91g+RiF7Vp
+	 Ywa23aJBRLLww==
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 874D0F40080;
+	Sat,  9 May 2026 13:09:16 -0400 (EDT)
+Received: from phl-imap-12 ([10.202.2.86])
+  by phl-compute-04.internal (MEProxy); Sat, 09 May 2026 13:09:16 -0400
+X-ME-Sender: <xms:PGr_aUOthYmC8A6RWcVdBBQQdckhiDI32zo30fM55UXL4Kq7roNGWg>
+    <xme:PGr_aVzL51YGUI43vmcCu7EX0QwZFGG6TSNkO63FAQunKWe088uBOA1XJm-RPjeIb
+    A5RTLFfoJq9U21ChQUL4pIbB39GD8gedn7KzypYRV-WHDE_SuHAbJLE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduudefjeelucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedftehrnhgu
+    uceuvghrghhmrghnnhdfuceorghrnhgusehkvghrnhgvlhdrohhrgheqnecuggftrfgrth
+    htvghrnhepjeejffetteefteekieejudeguedvgfeffeeitdduieekgeegfeekhfduhfel
+    hfevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+    hrnhguodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduvdekhedujedtvdeg
+    qddvkeejtddtvdeigedqrghrnhgupeepkhgvrhhnvghlrdhorhhgsegrrhhnuggsrdguvg
+    dpnhgspghrtghpthhtohephedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheptgho
+    nhhorhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrhiikhdoughtsehkvg
+    hrnhgvlhdrohhrghdprhgtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghp
+    thhtohepshgrshhhihhkoheslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhope
+    guvghvihgtvghtrhgvvgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:PGr_aWb1L66282Sgg2ci13sgtBZnOOLPNYfzC8PNMEnqeCTL1zFTQw>
+    <xmx:PGr_aSV66fIiVVETk_yN1oQyulR_GipuDnV2IKrqAC4cU8o-EnjFag>
+    <xmx:PGr_aciHezfKRt9GtnkZn_1s4erP522qHBDMbyGWRyZvTPVAwkp_4g>
+    <xmx:PGr_aYvBZy-N-uK030DOWg27r5lTkjYlfv7JGUN4LTPidvrNMYn7Hw>
+    <xmx:PGr_ad6k96UlMg2VkKaSm3mSCppn2sUkEmbZcluHtd0YrszLDjQ8nwWy>
+Feedback-ID: i36794607:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 141391060065; Sat,  9 May 2026 13:09:16 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+X-ThreadId: Ap_j1q_rtJ4F
+Date: Sat, 09 May 2026 19:08:55 +0200
+From: "Arnd Bergmann" <arnd@kernel.org>
+To: sashiko@lists.linux.dev
+Cc: devicetree@vger.kernel.org, krzk+dt@kernel.org,
+ "Rob Herring" <robh@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>
+Message-Id: <936b128b-37cf-4674-82dd-fb5708b2e1e6@app.fastmail.com>
+In-Reply-To: <20260508213256.45BE6C2BCB0@smtp.kernel.org>
+References: <20260507212451.3333185-3-arnd@kernel.org>
+ <20260508213256.45BE6C2BCB0@smtp.kernel.org>
+Subject: Re: [PATCH 2/3] [v5 net-next] p54spi: convert to devicetree
 Content-Type: text/plain
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 7bit
 
-Conor Dooley <conor@kernel.org> writes:
-
-> On Fri, May 08, 2026 at 09:32:54PM +0000, sashiko-bot@kernel.org wrote:
->> Thank you for your contribution! Sashiko AI review found 2 potential issue(s) to consider:
->> - [Low] Typo in the binding description: 'STLC5460' is used instead of 'STLC4560'.
->> - [Low] The `interrupts-extended` and `powerdown-gpios` specifiers in the example lack standard secondary cells (flags/triggers).
->> --
->> 
->> commit b803e7cb976e6f9f5ea1b9d2c76cdffbb8fe0d67
->> Author: Arnd Bergmann <arnd@arndb.de>
->> 
->> dt-bindings: net: add st,stlc4560/p54spi binding
->> 
->> This commit adds a device tree binding for the SPI version of the Prism54
->> wireless device. It documents the known names of this device and the
->> properties sufficient for its use.
->> 
->> Link: https://lore.kernel.org/all/e8dc9acb-6f85-e0a9-a145-d101ca6da201@gmail.com/
->> 
->> > diff --git a/Documentation/devicetree/bindings/net/wireless/st,stlc4560.yaml b/Documentation/devicetree/bindings/net/wireless/st,stlc4560.yaml
->> > new file mode 100644
->> > index 0000000000000..a32265c07350d
->> > --- /dev/null
->> > +++ b/Documentation/devicetree/bindings/net/wireless/st,stlc4560.yaml
->> > @@ -0,0 +1,61 @@
->> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->> > +%YAML 1.2
->> > +---
->> > +$id: http://devicetree.org/schemas/net/wireless/st,stlc4560.yaml#
->> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> > +
->> > +title: ST/Intersil/Conexant stlc45xx/p54spi/cx3110x SPI wireless device
->> > +
->> > +maintainers:
->> > +  - Christian Lamparter <chunkeey@gmail.com>
->> > +
->> > +description:
->> > +  The SPI variant of the Intersil Prism54 wireless device was sold
->> > +  under a variety of names, including Conexant CX3110x and
->> > +  ST Microelectronics STLC5460.
->> 
->> This isn't a bug, but there's a typo in the description (STLC5460 instead
->> of STLC4560).
->> 
->> [ ... ]
->> 
->> > +examples:
->> > +  - |
->> > +    spi {
->> > +        #address-cells = <1>;
->> > +        #size-cells = <0>;
->> > +
->> > +        wifi@0 {
->> > +            compatible = "st,stlc4560";
->> > +            reg = <0>;
->> > +            spi-max-frequency = <48000000>;
->> > +            interrupts-extended = <&gpio 23>;
->> > +            powerdown-gpios = <&gpio 1>;
->> 
->> Do these specifiers need standard secondary cells for flags and triggers?
->> 
->> Real-world GPIO controllers typically require #gpio-cells = <2> or
->> #interrupt-cells = <2> to specify trigger types and active levels. While
->> dt_binding_check accepts this since the phandle cell sizes are unknown,
->> copying this example into a real device tree will result in a compilation
->> error.
+On Fri, May 8, 2026, at 23:32, sashiko-bot@kernel.org wrote:
+>> -static int p54spi_gpio_irq = 87;
+>> -module_param(p54spi_gpio_irq, int, 0444);
+>> -MODULE_PARM_DESC(p54spi_gpio_irq, "gpio number for irq line");
+>> -
+>>  static void p54spi_spi_read(struct p54s_priv *priv, u8 address,
+>>  			      void *buf, size_t len)
+>>  {
 >
-> Can we make this thing not whinge about stuff like this? It's an
-> /example/ and these fields cannot be copy-pasted anyway.
+> This problem wasn't introduced by this patch, but I noticed a pre-existing
+> issue in the context here. Does the p54spi_spi_read() function perform an SPI
+> transfer using a stack-allocated buffer?
+>
+> Looking at p54spi_spi_read(), the addr variable is allocated on the stack and
+> passed as a transfer buffer to spi_sync(). The SPI framework maps transfer
+> buffers for DMA. Passing a stack-allocated buffer is illegal, particularly with
+> CONFIG_VMAP_STACK enabled, because stack memory resides in vmalloc space and
+> cannot be safely DMA-mapped.
+>
+> Could this cause memory corruption or a kernel panic during the transfer?
 
-If you have an idea how to convert it into a rule, I'm happy to merge it
-into prompts. Something like "fields X and Y are not required for
-example dt records". Sorry, it's really far from my area of expertise, so
-I don't know what's right here and what's not.
+In theory it could, as passing long buffers on stack is not
+allowed for SPI drivers. In practice this seems to work because
+all SPI drivers that perform DMA check for short transfers and
+fall back to MMIO if possible. In this case, the spi-omap2-mcspi
+driver uses DMA_MIN_BYTES=160, while the on-stack transfers are
+only two or four bytes and will always be done through MMIO.
 
-Thanks!
+The driver has other flaws that I'm not trying to address either.
+
+>> -
+>> -	ret = request_irq(gpio_to_irq(p54spi_gpio_irq),
+>> -			  p54spi_interrupt, IRQF_NO_AUTOEN, "p54spi",
+>> -			  priv->spi);
+>> +	ret = request_irq(spi->irq, p54spi_interrupt, IRQF_NO_AUTOEN, "p54spi", priv->spi);
+>
+> Is there missing validation for spi->irq before calling request_irq()?
+>
+> If the device tree node lacks an interrupts property, the SPI core may set
+> spi->irq to 0 or a negative error code.
+>
+> Passing this directly to request_irq() without validation can successfully
+> hijack a core system interrupt like the system timer on some architectures,
+> leading to system instability or deadlocks.
+>
+> Should there be a check like if (spi->irq <= 0) to fail the probe gracefully?
+
+request_irq() fails with -EINVAL in this case, which is an appropriate
+return code. This is again the same behavior as before, if an invalid
+GPIO, or a GPIO that is not connected to an irqchip gets passed.
+
+     Arnd
