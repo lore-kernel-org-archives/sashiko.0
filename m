@@ -1,40 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE7FE2147F9;
-	Sat,  9 May 2026 15:51:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF60816132A;
+	Sat,  9 May 2026 15:56:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778341916; cv=none; b=pnOOdrQoAo/OWpgYXXpbWy40Ei31lvXyrjTzyRZJ6uKKHvO8TnPl54P2JkH9bW4vAFSV8wkdWTPLaKBHVW3+AHdLqNJxBlw0jmSROekQ+API0xveqYDOHnY0M/HurC5+dEPMOWikOAyfFGuTE7nP0y+MURP0lIgszJtZ0ywzwFo=
+	t=1778342197; cv=none; b=upJkNvmyeZELSLdRV2n2wvLyi6c5qTz9gv0Gd0Kg0HbAP27lWEj93UOT30cC8R7QuoqZzmg8QZtg/iqclrsxud413HjKggosIA0VvkUm6NdtjRH1xVeD2115HL4Yt6SLwcrBXukjBszjE8vaU5XKS2bGlcksGcMeEru+FPiIDi4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778341916; c=relaxed/simple;
-	bh=zJjKKHTb4SrtLoHbaArm6GPOqqA4Ze5oIcY9LLBALRw=;
+	s=arc-20240116; t=1778342197; c=relaxed/simple;
+	bh=J7xfoErg0M9bRKy1dNgrxcNZ10saKgbcbMhweq31ygo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oMlAQZpeMT01JZq8PAIk4alq4PLSKTjInXsV1KTFP7FKdjEOh50xbLGTxk416XbKxoD3+leo5aoeH6fHvA/SMA/7S8iJtYMgcIYoNNqb+suI4khrVdQuN5xH66yWt2ch+Mjp4+qq0M7xWP9e0VY1IPJ6NLDK7NNFAiSrjMRKsUU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RbT33PAp; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=pR2MrfSfHy7CRUsW5yvCHvClVx3wcA2JoNMRLiZ5ocSOYyBtumdJHW4/2UImODkjXF6ewLTVLZ5NhtKvCvtdM48hUJTr1DbkZ83rjUc08Jh9Fj5vIELJaOXwf+Nh91euvHcUzVW8BqDGzVDPWCA7nh6aeSODO94r3rCLtNAvNbQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BAHOq2LU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RbT33PAp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E771CC2BCB2;
-	Sat,  9 May 2026 15:51:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BAHOq2LU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3968BC2BCB2;
+	Sat,  9 May 2026 15:56:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778341916;
-	bh=zJjKKHTb4SrtLoHbaArm6GPOqqA4Ze5oIcY9LLBALRw=;
+	s=k20201202; t=1778342197;
+	bh=J7xfoErg0M9bRKy1dNgrxcNZ10saKgbcbMhweq31ygo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RbT33PApIs5B0I+9kaRW3dfbAvw0hnBQRgXUrraiS4mz+tUNy6HGIhWEyoRojA3zu
-	 3bT4Cx9OavPqdFxC3wnc4Ay8US/CPZ8zC97kHwQBCcH+VOSZmdfk1duP9vmB8vRc+5
-	 bHiVO2ltNen1BvbHjQN8aAIVcGAbK6j12pi6/ULaXjMqpOQMT3RS6JQI0rxkzVQ76z
-	 G8s4n6+CVb+oTUq0CoRHa8k09SZEtpjdfXKMQoRq8oId3LkiF3Hc7DMPBqKbZICKMb
-	 s6W0/agg/bqzw0QwkGfbx07pGewZQfuabbjJxta2kkCTh8NmIGdiN1TtDO7bPT4cIn
-	 YLTSAaLFZ5EaQ==
-Date: Sat, 9 May 2026 16:51:52 +0100
+	b=BAHOq2LU9evi4P+L7j+TqnukrEX0CORErJWx+CVMhkGhmrEOyXgJhxJ6sj7vxRAZ1
+	 iPLOUK+1EJGwMWqLQP7hOJ0TK+klF0Lwxva3m5sUuDWJc73IW/4qUSaJZikPIVdsi1
+	 pdzstJVLo8plQ0+BZDFlkA9Tsr4xZm6tcCbbprEkE/k/jcnz1isf06vO0kFxs17h1U
+	 9gXaQk6fagBXy8nM3y4aq4hfKIfp1FxnOHYKKNTx7oXJ2QEadqM1nd7K5lVzvEx+LB
+	 hIyMO7aIlf97xK4b1U9ECQh1o4o204vH5zGKgI5+oLP7kWGdtYY+JDBaSuyA2Hpc2s
+	 PIMt1E5IW0UiA==
+Date: Sat, 9 May 2026 16:56:34 +0100
 From: Conor Dooley <conor@kernel.org>
 To: sashiko@lists.linux.dev
-Cc: Udaya Kiran Challa <challauday369@gmail.com>, krzk+dt@kernel.org,
-	devicetree@vger.kernel.org, conor+dt@kernel.org, robh@kernel.org
-Subject: Re: [PATCH v2] dt-bindings: rtc: epson,rx6110: Convert to DT Schema
-Message-ID: <20260509-undusted-impromptu-d10fa94834ea@spud>
-References: <20260509095713.5818-1-challauday369@gmail.com>
- <20260509102703.33ED1C2BCB2@smtp.kernel.org>
+Cc: Arnd Bergmann <arnd@kernel.org>, conor+dt@kernel.org,
+	krzk+dt@kernel.org, devicetree@vger.kernel.org, robh@kernel.org
+Subject: Re: [PATCH 1/3] [v5 net-next] dt-bindings: net: add
+ st,stlc4560/p54spi binding
+Message-ID: <20260509-magnifier-varnish-b948ef563e79@spud>
+References: <20260507212451.3333185-2-arnd@kernel.org>
+ <20260508213255.60491C2BCB0@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
@@ -42,83 +43,103 @@ List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="RAZUb+SGi9k0iY6l"
+	protocol="application/pgp-signature"; boundary="bJrnYPUhUfooe3mG"
 Content-Disposition: inline
-In-Reply-To: <20260509102703.33ED1C2BCB2@smtp.kernel.org>
+In-Reply-To: <20260508213255.60491C2BCB0@smtp.kernel.org>
 
 
---RAZUb+SGi9k0iY6l
-Content-Type: text/plain; charset=us-ascii
+--bJrnYPUhUfooe3mG
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, May 09, 2026 at 10:27:02AM +0000, sashiko-bot@kernel.org wrote:
+On Fri, May 08, 2026 at 09:32:54PM +0000, sashiko-bot@kernel.org wrote:
 > Thank you for your contribution! Sashiko AI review found 2 potential issu=
 e(s) to consider:
-> - [Medium] The YAML binding omits a reference to the core RTC subsystem s=
-chema (`rtc.yaml`).
-> - [Medium] The strict requirement for SPI-specific properties was lost du=
-ring the schema conversion.
+> - [Low] Typo in the binding description: 'STLC5460' is used instead of 'S=
+TLC4560'.
+> - [Low] The `interrupts-extended` and `powerdown-gpios` specifiers in the=
+ example lack standard secondary cells (flags/triggers).
 > --
 >=20
-> commit 83ad9493a42cbad1f11db8ac3498c9be50a357d1
-> Author: Udaya Kiran Challa <challauday369@gmail.com>
+> commit b803e7cb976e6f9f5ea1b9d2c76cdffbb8fe0d67
+> Author: Arnd Bergmann <arnd@arndb.de>
 >=20
-> dt-bindings: rtc: epson,rx6110: Convert to DT Schema
+> dt-bindings: net: add st,stlc4560/p54spi binding
 >=20
-> This commit converts the Epson RX6110 Real Time Clock devicetree binding
-> from the legacy text format to DT schema.
+> This commit adds a device tree binding for the SPI version of the Prism54
+> wireless device. It documents the known names of this device and the
+> properties sufficient for its use.
 >=20
-> > diff --git a/Documentation/devicetree/bindings/rtc/epson,rx6110.yaml b/=
-Documentation/devicetree/bindings/rtc/epson,rx6110.yaml
+> Link: https://lore.kernel.org/all/e8dc9acb-6f85-e0a9-a145-d101ca6da201@gm=
+ail.com/
+>=20
+> > diff --git a/Documentation/devicetree/bindings/net/wireless/st,stlc4560=
+=2Eyaml b/Documentation/devicetree/bindings/net/wireless/st,stlc4560.yaml
 > > new file mode 100644
+> > index 0000000000000..a32265c07350d
 > > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/rtc/epson,rx6110.yaml
-> [ ... ]
-> > +allOf:
-> > +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
->=20
-> Should this also include a reference to rtc.yaml# in the allOf block?
-> Without it, since unevaluatedProperties is false, won't valid standard RTC
-> properties like start-year or aux-voltage-chargeable cause validation
-> errors? This omission appears to introduce a functional regression by
-> bypassing the standard nodename checks provided by the core schema.
->=20
-> [ ... ]
-> > +  spi-cpha: true
-> > +  spi-cpol: true
+> > +++ b/Documentation/devicetree/bindings/net/wireless/st,stlc4560.yaml
+> > @@ -0,0 +1,61 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/net/wireless/st,stlc4560.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > > +
-> > +required:
-> > +  - compatible
-> > +  - reg
+> > +title: ST/Intersil/Conexant stlc45xx/p54spi/cx3110x SPI wireless device
 > > +
-> > +unevaluatedProperties: false
+> > +maintainers:
+> > +  - Christian Lamparter <chunkeey@gmail.com>
+> > +
+> > +description:
+> > +  The SPI variant of the Intersil Prism54 wireless device was sold
+> > +  under a variety of names, including Conexant CX3110x and
+> > +  ST Microelectronics STLC5460.
 >=20
-> The legacy text binding listed spi-cs-high, spi-cpha, and spi-cpol as
-> mandatory required properties when the device operates in SPI mode.
+> This isn't a bug, but there's a typo in the description (STLC5460 instead
+> of STLC4560).
+>=20
+> [ ... ]
+>=20
+> > +examples:
+> > +  - |
+> > +    spi {
+> > +        #address-cells =3D <1>;
+> > +        #size-cells =3D <0>;
+> > +
+> > +        wifi@0 {
+> > +            compatible =3D "st,stlc4560";
+> > +            reg =3D <0>;
+> > +            spi-max-frequency =3D <48000000>;
+> > +            interrupts-extended =3D <&gpio 23>;
+> > +            powerdown-gpios =3D <&gpio 1>;
+>=20
+> Do these specifiers need standard secondary cells for flags and triggers?
+>=20
+> Real-world GPIO controllers typically require #gpio-cells =3D <2> or
+> #interrupt-cells =3D <2> to specify trigger types and active levels. While
+> dt_binding_check accepts this since the phandle cell sizes are unknown,
+> copying this example into a real device tree will result in a compilation
+> error.
 
-+ the fact that cpha/cpol are listed with : true, and spi-cs-high isn't
-which is confusing IMO.
+Can we make this thing not whinge about stuff like this? It's an
+/example/ and these fields cannot be copy-pasted anyway.
 
-> Because they are omitted from the required list to support I2C mode, won't
-> misconfigured SPI nodes missing these hardware configuration flags now
-> silently pass validation? Would adding a conditional allOf/if block be
-> appropriate to enforce these properties for SPI configurations and avoid
-> this regression?
+>=20
+> --=20
+> Sashiko AI review =B7 https://sashiko.dev/#/patchset/20260507212451.33331=
+85-1-arnd@kernel.org?part=3D1
 
-Don't do this, since it requires knowing what the parent node is.
-If anything, make it something like
-if: oneOf: <> then: allOf: <>
-
---RAZUb+SGi9k0iY6l
+--bJrnYPUhUfooe3mG
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaf9YEgAKCRB4tDGHoIJi
-0unrAPwMiCoAkQF0fT3m/O/baC8hdg3ydWz0NlslfeO/Mk/2lwD/dhaZ26m1AtRG
-S+PkxUC7bQNeI3E0OsPcVINdThq2Wgs=
-=NAap
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaf9ZMQAKCRB4tDGHoIJi
+0k9sAP9stjxEJKElSiyFpgtpPyogLYkUC2URiqGCBB27DRvy+wD+JiRxVbN0wI+O
+Jz/5lAgWxxjvcZs3/yJq1jssLcqWGgY=
+=gywH
 -----END PGP SIGNATURE-----
 
---RAZUb+SGi9k0iY6l--
+--bJrnYPUhUfooe3mG--
