@@ -1,224 +1,176 @@
-Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
+Received: from mail-dy1-f172.google.com (mail-dy1-f172.google.com [74.125.82.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46FED3AEF43
-	for <sashiko@lists.linux.dev>; Fri,  8 May 2026 23:15:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 813FE1C695
+	for <sashiko@lists.linux.dev>; Sat,  9 May 2026 00:12:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778282102; cv=none; b=s47ZlNnK/o2Fu0cCl9/OAq9u8oOWH9qsqB1SKQqPs5rrFIjsiP4ciB+R+LSNMkTw9ztpJBz3GJjzns5enThl+DSMfQNI0jDEuBVpInVpNjXkrYfDagvzpAW/b0RdDDSjIRrVEFx0kMgsaJkZAjI8Y6JcDb26ZvHHaLRVqXJW0aU=
+	t=1778285546; cv=none; b=heAVrqoY9Nobd/vctK8B0DvnAmO49B9lPur71xuKGH2eBlUX/DkM9SQdVq83znV4Y8UQSQgSMn5jjpEV5swNSiF3qWrrsx4mortsUqgVAEvRi/TNcW7AI8snOig7kCYCLFJBEB0cfQvI6TtSUfnSqpfSM+KtmmRg9DavOwxb5c8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778282102; c=relaxed/simple;
-	bh=GslUWQjb8lXkQkGCJR/2h5EObENy9MfwkOELfgp45lI=;
+	s=arc-20240116; t=1778285546; c=relaxed/simple;
+	bh=Cy7rshjd8p6YCEq83eNoVKZRQF6Dcg4yV7x7i4ezH3k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CVVxuVGLX1tP7NLU+hvwH1Lu416AcI2yD92eMil10qcN600t9g+gG/dOQ18L6chphB4nu15sJExeSBwbFikV4J1milNRNn7DNjwqTjfA36Qe+uHOOaUGF1ee6P8rUC5/G8fscHPiCPLv00vAzG4JgrN7lSycWKAlnF2w2jWjYEc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ru/q5BLV; arc=none smtp.client-ip=74.125.82.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Gk1Dv/0QROH24tq4FFx/JYjpo9a/IyfE97ghp5kx1aqZJ7Catr+FHrYbG5RMR+I7EfhjME+dPs4+wS6vF6cbbGIwm7GYUxh5wgCP9ZrJmfmIpisTR3pOkSEsU9qLiJCtmTV3ZLf4nt3RHWyGCtbf+sdQvojheYBHIxD5QGhr+go=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=AE7ZjN5l; arc=none smtp.client-ip=74.125.82.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ru/q5BLV"
-Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-2f03d6cf77bso2831487eec.0
-        for <sashiko@lists.linux.dev>; Fri, 08 May 2026 16:15:00 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="AE7ZjN5l"
+Received: by mail-dy1-f172.google.com with SMTP id 5a478bee46e88-2c156c4a9efso3460266eec.1
+        for <sashiko@lists.linux.dev>; Fri, 08 May 2026 17:12:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778282100; x=1778886900; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=PNKvSvnTe54+R1mDdjWe1QaVI/I11fgI7tYYbJpAvOw=;
-        b=Ru/q5BLVGxKuSAx33IxNjgD61sbprXo9YMjlDE67u+70IiQzfz6CmJDvFMqWNkdDW5
-         RG/49Pch6Jr4qTp9+GfYi8y7NQtTKE/Kbr8Js9UTXSvAiH7JG2wlJbL6YcZ01iDIBOUg
-         AWnavrJ/l/nOfstuZhIxyhWPrCaEbGIfmrgSReHDYp1C2WxF2WnndGMKSwAywbTOrhcF
-         7XUcUNeia3S7qZoeVHEJuezAZh7XB6SgQp3KGA8H57D+nNlCfNm4oWdeoxvMUCi9xbma
-         EYQLpv7sFyQ8yV2KMemFnvgswPJNZp4Ff9XsLS0ZeLkcDiGkwx/MylT92YSQCuH1q3rU
-         yoRA==
+        d=chromium.org; s=google; t=1778285543; x=1778890343; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=1MnanzWx/jcShdplf1MiPPMpO2mdcB+yybqSDTBHJrM=;
+        b=AE7ZjN5lkoQcvliyvNZQ3q+j7sWs4ntdiWJ0I0L7yp/aHzAGeX/pKTMKsg7iJUbM47
+         dWA/8y5RWu7K8wgTmgEcaZ/0KE4ry69ugRieVjMiXy46QHHjpF30Xofi5xziTWm8O9Du
+         7pfQ5wTsD4dhMQUKyZZENtm3noiQyyG3DbfJk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778282100; x=1778886900;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PNKvSvnTe54+R1mDdjWe1QaVI/I11fgI7tYYbJpAvOw=;
-        b=hWhaXj1IehQwvEW+dpKVZct62k5ERXkSa3TyfE4hdxE0M1i2O3IvxKLVI+cBwRjBWn
-         KzJRVCNlAuTfpGL1Q7CtEl10h2k8J1WrIAadMUAVro+9gOYkNrhcEgwcScYrzXYply0W
-         +QLIBFuydSchbGPNMQw2Bka0omFVLtB5J6YTIBALSQHSz9fSue/LI7I0hb+q/+HSH/vU
-         cOFIR/mL8Z9iGlhohQWtRqsrHHHAkYC5cEzjVA4ebzarsKcDk8+hQn4Q1tmug3TzLtt5
-         xeLCp0XJLXeGOAE6Gj4nBTtRDnNgJt4bur8erpO3CCcjI8xrpYEBEH8HwJ7gmGTw/B19
-         pCLg==
-X-Gm-Message-State: AOJu0YxSXXxGrmqfLYSG9U5Eg56jcDMbFVlx3FwrC5ToUkkdLhafHcYP
-	qdOUbQrnXhZyUZ7zEg84NCgs+gs5/5g3Hneu/TU3KTkf60MFgC3kY7Pg8dksTA==
-X-Gm-Gg: Acq92OGOg1yCGj77i3/oa6t3GraxnZ7Jb7VoEIsi3fhieOV7HHzOr1TewEoHnd0nZLe
-	PFA14mrwc22o+NWBoIsBC26M7Da6Cza6ucxX4zG6ppc76G5OyiddCHe5cYaV86JDdCtrh72kr0V
-	nYPj7N3/kteep+LXhuO7bfvpphte+XkNs/tmAhpCv+xhW1ak/oRKwLsWQ4uKRwSVUs/Xd3k9bsn
-	v6waX7XKl3dIs/wVCNlaAr69fB0KlXU656FyM+OwUqjSJorrf6Iar2Yjwbn/p2ZAJ2j7qmpb678
-	FBich2tijW+B4lbK2pH5TRedilrhn7CLeUiDv8xs2gzZHe6OmDclb0DmFVZHOWzK2+6eW7Z51Gz
-	yxPSif09lJ1JG/2vCy2ZXORwZAli8/o02LlWGEomfPcnF/0kjcFr63/prpoizpEpnrGB+s5awjX
-	SIllmkUCIB1dXCGwUityvw6+P9YGfcW2834ErGCaf7GBUbwIBd06IHaebigdryQeqS
-X-Received: by 2002:a05:7301:3d1a:b0:2d9:6f2f:9f6f with SMTP id 5a478bee46e88-2f54ae73308mr6156339eec.24.1778282099627;
-        Fri, 08 May 2026 16:14:59 -0700 (PDT)
-Received: from google.com ([2a00:79e0:2ebe:8:852e:ebf3:8de1:32e1])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2f8862d3047sm4897230eec.10.2026.05.08.16.14.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 May 2026 16:14:58 -0700 (PDT)
-Date: Fri, 8 May 2026 16:14:55 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: sashiko@lists.linux.dev
-Cc: Harald Judt <h.judt@gmx.at>, linux-input@vger.kernel.org
-Subject: Re: [PATCH RESEND 2] HID: Add force feedback support for Speedlink
- Cougar Vibration Flightstick
-Message-ID: <af5tJlRJr_GFTjVH@google.com>
-References: <b3bfa73b-0547-45f9-b6ae-f28815e6c632@gmx.at>
- <20260508225130.C6D33C2BCB0@smtp.kernel.org>
+        d=1e100.net; s=20251104; t=1778285543; x=1778890343;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=1MnanzWx/jcShdplf1MiPPMpO2mdcB+yybqSDTBHJrM=;
+        b=eMd5WTPX1GF5uR/ds/cPrPfTi8oFTtCbxI4LtUMs1Yu1xkIfSxBal7mFK4spbzEm5l
+         KumV/nPxJGCy2xqjJ/T2XU6pVsb0/TEol9SNyi1qv0PT7o3kEUNPB2hMfoLdhJ6quZ/I
+         3fWMhFnWvvMxwlubEkM3ryIoUQp0kcIuqMmowyBYg68nQjjsq6macKwThgfW52AR1wvp
+         Ors9bGNwGw4iLOfElB4oqpWeBKJaXs7CJZM4LTTEvBSSn8KKhxERWafrOoL/ZTZTe/O1
+         c+fu+KLJIabEmN2mKxVImcgrNeZxUGV9jdeosDeTRIwvOis0nG3zMcCY9ho/h1h88Htt
+         FdSg==
+X-Gm-Message-State: AOJu0YwjaseAgOqDnuaMHcHBZGVAxMbO0ufyn8GxkUVLT7wKffy0f0qt
+	vKLYWTNSaRKI2mfOz61Ey7eW/PyZKiq+RH3d2a1MwUuWUBFV5HNBTQ9TXWg0UGhIpEZfdydPjQE
+	Sep8=
+X-Gm-Gg: Acq92OGhFNIZ7Kd7WjP5BJ6dRNS3qwgnObxGwr24Y7waIf7L5Vw3Gb0d2c8jQZr9rCH
+	kvX0/kV6Ij7uqszgRFe502AvnwXwkduDx6DadZZnmbW08izvcyA/7DYsKdVTfKTOiQuYiEWR8C1
+	PXrOSDj4EXn2CFufaqbgy0t4NB34rxcW5UK+ZC5df3mWR1Ea95MjpzVfIZRelAWmC5k30ZLI96w
+	hnRb0osXuekJbT8DU4l+9gPz2vGff/o1pziqG6CkJcVIHTyOyRmOZJRIJMonYzK/960uJ3DbNRl
+	t8WrXpzOSZGN5KKu96RCWqM17UXhV6Dtc7mxnJl7K90EzK/T9vUrEKa8nAdYTEg9kaOS5M++Ah1
+	SUrfimoKNCMtdCF7crIs5Qf/VhYNsjTuIXpTc5C1w8zq4NfL7mKZnYdr2uMSsDLOFlulo1Y5iyL
+	o7sazUG1t/vvH6RJR8ifi+bvqXX5Tv+mwJy7A=
+X-Received: by 2002:a05:693c:2c01:b0:2de:c5ca:c1e8 with SMTP id 5a478bee46e88-2f54d696d50mr6840495eec.4.1778285542959;
+        Fri, 08 May 2026 17:12:22 -0700 (PDT)
+Received: from localhost ([100.119.51.253])
+        by smtp.gmail.com with UTF8SMTPSA id 5a478bee46e88-2f8862d43b4sm4285662eec.11.2026.05.08.17.12.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 08 May 2026 17:12:22 -0700 (PDT)
+Date: Fri, 8 May 2026 17:12:19 -0700
+From: Brian Norris <briannorris@chromium.org>
+To: sashiko@lists.linux.dev, Bjorn Helgaas <bhelgaas@google.com>
+Cc: linux-pci@vger.kernel.org, Lukas Wunner <lukas@wunner.de>
+Subject: Re: [PATCH v3] PCI/portdrv: Allow probing even without child services
+Message-ID: <af574zaysKnXjx15@google.com>
+References: <20260508133629.v3.1.I5fd5d83f518681b3949d8ab2f16ba8244fd3e774@changeid>
+ <20260508233022.D20A8C2BCB0@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20260508225130.C6D33C2BCB0@smtp.kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260508233022.D20A8C2BCB0@smtp.kernel.org>
 
-On Fri, May 08, 2026 at 10:51:30PM +0000, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 4 potential issue(s) to consider:
-> - [High] Race condition in force feedback initialization leading to a NULL pointer dereference.
-> - [High] Ignoring the return value of `gembird_joy_init()` causes a NULL pointer dereference when user-space interacts with the event device after an initialization failure.
-> - [High] Non-monotonic magnitude scaling logic severely breaks force feedback functionality.
-> - [Medium] Memory leak of the `gembird_joy_device` state structure upon device disconnect.
+Hi sashiko-bot and Bjorn,
+
+On Fri, May 08, 2026 at 11:30:22PM +0000, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
+> - [High] Moving `pci_set_master()` after child device registration causes child drivers to probe with Bus Mastering disabled, risking permanently lost MSI/MSI-X interrupts.
 > --
 > 
-> commit f9141496ab06cd22000d2487bbb234d7e91931b5
-> Author: Harald Judt <h.judt@gmx.at>
+> commit 9b851bf8faf271ab0b2daad51bfd51f89a1e87d4
+> Author: Brian Norris <briannorris@chromium.org>
 > 
-> HID: Add force feedback support for Gembird based joystick
+> PCI/portdrv: Allow probing even without child services
 > 
-> This commit adds force feedback (rumble) support for the SpeedLink Cougar
-> Vibration Flightstick (SL-6630) joystick, which uses a Gembird controller.
+> This commit modifies the PCIe port driver to allow probe to succeed even
+> if no child services are available. This ensures the port can still be
+> configured for runtime PM and low power modes on systems that only have
+> certain port services available or lack legacy INTx interrupts.
 > 
-> > diff --git a/drivers/hid/hid-gembird-joy.c b/drivers/hid/hid-gembird-joy.c
-> > new file mode 100644
-> > index 0000000000000..5a5afa02f8407
-> > --- /dev/null
-> > +++ b/drivers/hid/hid-gembird-joy.c
+> Link: https://lore.kernel.org/all/nyada24tqwlkzdceyoxbzitzygvp4elvj5oajnqdwb33xkcdwk@76vnrx45fsfd/
 > 
-> [ ... ]
-> 
-> > +static int hid_gembird_joy_play(struct input_dev *dev, void *data,
-> > +				struct ff_effect *effect)
-> > +{
-> > +	struct hid_device *hid = input_get_drvdata(dev);
-> > +	struct gembird_joy_device *joy = data;
-> > +	int strong, weak;
-> > +
-> > +	strong = effect->u.rumble.strong_magnitude;
-> > +	weak = effect->u.rumble.weak_magnitude;
+> > --- a/drivers/pci/pcie/portdrv.c
+> > +++ b/drivers/pci/pcie/portdrv.c
+> > @@ -343,7 +343,6 @@ static int pcie_port_device_register(struct pci_dev *dev)
+> >  	if (!capabilities)
+> >  		return 0;
+> >  
+> > -	pci_set_master(dev);
+> >  	/*
+> >  	 * Initialize service irqs. Don't use service devices that
+> >  	 * require interrupts if there is no way to generate them.
 > 
 > [ ... ]
 > 
-> > +	strong = (strong / 0xff) * 0x1f / 0xff;
-> > +	weak = (weak / 0xff) * 0x1f / 0xff;
-> > +
-> > +	/* ... and to support the notions of strong vs weak rumble effects,
-> > +	 * increase the magnitude for the strong rumble effect if it is below the
-> > +	 * half of the maximum value, as the strong motor has the same strength as
-> > +	 * the weak one. Likewise, decrease the magnitude for the weak effect.
-> > +	 */
-> > +	if (strong < 0x10 && !weak)         /* fftest effect 4 strong rumble */
-> > +		strong *= 2;
-> > +	else if (!strong && weak >= 0x10)   /* fftest effect 5 weak rumble */
-> > +		weak /= 2;
+> >  	/* Allocate child services if any */
+> > -	status = -ENODEV;
+> > -	nr_service = 0;
+> >  	for (i = 0; i < PCIE_PORT_DEVICE_MAXSERVICES; i++) {
+> >  		int service = 1 << i;
+> >  		if (!(capabilities & service))
+> >  			continue;
+> > -		if (!pcie_device_init(dev, service, irqs[i]))
+> > -			nr_service++;
+> > +		pcie_device_init(dev, service, irqs[i]);
+> >  	}
+> > -	if (!nr_service)
+> > -		goto error_cleanup_irqs;
+> >  
+> > -	return 0;
+> > +	pci_set_master(dev);
 > 
-> Will this cause issues with non-monotonic force feedback behavior and
-> unintended truncation?
+> Does moving pci_set_master() after the pcie_device_init() loop risk dropping
+> MSI/MSI-X interrupts during child driver probes?
 > 
-> Since the math uses integer division, any input value below 255 for strong
-> or weak will evaluate to zero during the first division by 0xff.
+> The pcie_device_init() function calls device_register(), which synchronously
+> invokes the probe routines of child service drivers like pciehp or aer.
+> During probe, these child drivers configure the hardware and enable their
+> interrupts.
 > 
-> Additionally, could the conditional scaling cause abrupt changes in rumble
-> strength? For instance, if a game requests a strong magnitude that scales
-> down to 15, it gets doubled to 30 because of the strong < 0x10 check.
-> However, a slightly stronger requested magnitude that scales to 16 will
-> remain 16, meaning an increase in requested strength results in a drop in
-> physical rumble.
+> Because PCIe MSI and MSI-X interrupts are memory write transactions, they
+> require the Bus Master Enable (BME) bit to be set in the PCI Command Register.
 > 
-> [ ... ]
+> If a hardware event occurs immediately after the child driver unmasks the
+> interrupt but before pci_set_master(dev) is called, will the hardware attempt
+> to send an MSI and drop the memory write because BME is 0?
 > 
-> > +static int gembird_joy_init(struct hid_device *hid)
-> > +{
-> 
-> [ ... ]
-> 
-> > +		joy = kzalloc(sizeof(struct gembird_joy_device), GFP_KERNEL);
-> > +		if (!joy)
-> > +			return -ENOMEM;
-> 
-> Does this memory leak when the device is disconnected or the driver is
-> unbound? The allocation doesn't use devm_kzalloc, and there isn't a
-> remove callback to free it. The input_ff_create_memless teardown
-> handles its own structures but not the user-provided private data.
+> Since PCIe interrupts are edge-triggered messages, could these dropped
+> interrupts result in permanently missed hotplug events or cause hardware error
+> handling regressions?
 
-Sashiko is wrong here.
+Ha, that's funny. It's all a great question I think, and that's pretty
+much what I asked Bjorn here when he suggested moving this:
 
-> 
-> > +
-> > +		dev = hidinput->input;
-> > +
-> > +		set_bit(FF_RUMBLE, dev->ffbit);
-> > +
-> > +		error = input_ff_create_memless(dev, joy, hid_gembird_joy_play);
-> > +		if (error) {
-> > +			kfree(joy);
-> > +			return error;
-> > +		}
-> > +
-> > +		joy->report = report;
-> 
-> Is there a window here where an ioctl could trigger a NULL pointer
-> dereference?
-> 
-> The device was already started earlier in gembird_joy_probe via
-> hid_hw_start, so userspace can issue an EVIOCSFF ioctl as soon as
-> input_ff_create_memless succeeds. If the ioctl triggers
-> hid_gembird_joy_play before joy->report is assigned on the next line,
-> the callback will try to access joy->report->field and dereference NULL.
+https://lore.kernel.org/all/aZfIfn9viQRj4uy4@google.com/
 
-Sashiko is wrong here as well. The device is not accessible from
-userspace until it is registered.
+He seems to think it's not a problem:
 
-> 
-> [ ... ]
-> 
-> > +static int gembird_joy_probe(struct hid_device *hdev, const struct hid_device_id *id)
-> > +{
-> > +	int ret;
-> > +
-> > +	ret = hid_parse(hdev);
-> > +	if (ret) {
-> > +		hid_err(hdev, "parse failed\n");
-> > +		return ret;
-> > +	}
-> > +
-> > +	ret = hid_hw_start(hdev, HID_CONNECT_DEFAULT & ~HID_CONNECT_FF);
-> > +	if (ret) {
-> > +		hid_err(hdev, "hw start failed\n");
-> > +		return ret;
-> > +	}
-> > +
-> > +	gembird_joy_init(hdev);
-> > +
+https://lore.kernel.org/all/20260220164046.GA3528004@bhelgaas/
+
+but I'm frankly not very convinced. I think it's perfectly possible that
+a child service will try to enable MSI, the device will try to write,
+and those writes will be dropped, producing a missing interrupt.
+
+Bjorn, what do you think? Personally, I'd go back to something closer to
+v2, where we enable mastering before initializing children. But maybe
+you know better than this bot and me.
+
+Frankly, this is all a distraction from the actual goal of my patch, so
+I'd rather not make arbitrary changes to the ordering if we're not sure.
+
+Brian
+
+> > -error_cleanup_irqs:
+> > -	pci_free_irq_vectors(dev);
+> > -error_disable:
+> > -	pci_disable_device(dev);
+> > -	return status;
 > > +	return 0;
-> > +}
+> >  }
 > 
-> What happens if gembird_joy_init fails?
-> 
-> If input_ff_create_memless returns an error, gembird_joy_init
-> propagates it, but the return value is ignored here and probe succeeds.
-> 
-> Because set_bit(FF_RUMBLE, dev->ffbit) was already called, the device
-> remains registered and advertises rumble support. If userspace then issues
-> an EVIOCSFF ioctl, the kernel will allow it, which could lead to a panic
-> when it tries to dereference the missing force feedback structures.
-> 
-
-Need to have error handling.
-
-Thanks.
-
--- 
-Dmitry
+> -- 
+> Sashiko AI review · https://sashiko.dev/#/patchset/20260508133629.v3.1.I5fd5d83f518681b3949d8ab2f16ba8244fd3e774@changeid?part=1
