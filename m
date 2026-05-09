@@ -1,106 +1,124 @@
-Received: from zg8tmja2lje4os4yms4ymjma.icoremail.net (zg8tmja2lje4os4yms4ymjma.icoremail.net [206.189.21.223])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31A55282F17
-	for <sashiko@lists.linux.dev>; Sat,  9 May 2026 05:28:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.21.223
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE7FE2147F9;
+	Sat,  9 May 2026 15:51:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778304527; cv=none; b=CeQJCqQ1L+toX2xkoa3OyHmby02Dwd78y0Kke7p6Hqd8mVlfmHQX4WhirkDaRZ6Mgn6ru6mz203IGrVQd2pNev4p4AFshbPfnmCZGOgN20vrzHdYlXKYWOzTr6I8DjTnwL0+4KZBLbTqdiWgln+VggBcn3N+QUa7KiMShvaJpYM=
+	t=1778341916; cv=none; b=pnOOdrQoAo/OWpgYXXpbWy40Ei31lvXyrjTzyRZJ6uKKHvO8TnPl54P2JkH9bW4vAFSV8wkdWTPLaKBHVW3+AHdLqNJxBlw0jmSROekQ+API0xveqYDOHnY0M/HurC5+dEPMOWikOAyfFGuTE7nP0y+MURP0lIgszJtZ0ywzwFo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778304527; c=relaxed/simple;
-	bh=YxCExB2durtz4CQcZ01XSPHb9t5CrusssfFiLoDVszw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 MIME-Version:Message-ID; b=rRw7pPUvvOMXderyPSDmOFKEUYGNUW2ZGzURfLNQvcIilw6bvB6lYbBq+7P7gDst9M2jKMWaZ3VtHyJ1bCxcSigN+epsuDVRdM97eMxawtxfBVpHUMfkGYJgWgWjsgGGinbBhN7CLwNOKIBLwoV4v2BM8YeESGFGKH79PzSkft8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=eswincomputing.com; spf=pass smtp.mailfrom=eswincomputing.com; arc=none smtp.client-ip=206.189.21.223
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=eswincomputing.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=eswincomputing.com
-Received: from lizhi2$eswincomputing.com ( [10.11.96.26] ) by
- ajax-webmail-app1 (Coremail) ; Sat, 9 May 2026 13:28:30 +0800 (GMT+08:00)
-Date: Sat, 9 May 2026 13:28:30 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From: =?UTF-8?B?5p2O5b+X?= <lizhi2@eswincomputing.com>
-To: sashiko@lists.linux.dev, conor+dt@kernel.org
-Cc: devicetree@vger.kernel.org, robh@kernel.org, krzk+dt@kernel.org,
-	linmin@eswincomputing.com
-Subject: Re: Re: [PATCH net v1 2/2] net: stmmac: eic7700: fix delay step
- calculation and ensure safe register initialization
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version 2024.2-cmXT6 build
- 20241203(6b039d88) Copyright (c) 2002-2026 www.mailtech.cn
- mispb-72143050-eaf5-4703-89e0-86624513b4ce-eswincomputing.com
-In-Reply-To: <20260508171433.20F87C2BCC7@smtp.kernel.org>
-References: <20260507083214.192-1-lizhi2@eswincomputing.com>
- <20260508171433.20F87C2BCC7@smtp.kernel.org>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+	s=arc-20240116; t=1778341916; c=relaxed/simple;
+	bh=zJjKKHTb4SrtLoHbaArm6GPOqqA4Ze5oIcY9LLBALRw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oMlAQZpeMT01JZq8PAIk4alq4PLSKTjInXsV1KTFP7FKdjEOh50xbLGTxk416XbKxoD3+leo5aoeH6fHvA/SMA/7S8iJtYMgcIYoNNqb+suI4khrVdQuN5xH66yWt2ch+Mjp4+qq0M7xWP9e0VY1IPJ6NLDK7NNFAiSrjMRKsUU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RbT33PAp; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RbT33PAp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E771CC2BCB2;
+	Sat,  9 May 2026 15:51:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778341916;
+	bh=zJjKKHTb4SrtLoHbaArm6GPOqqA4Ze5oIcY9LLBALRw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=RbT33PApIs5B0I+9kaRW3dfbAvw0hnBQRgXUrraiS4mz+tUNy6HGIhWEyoRojA3zu
+	 3bT4Cx9OavPqdFxC3wnc4Ay8US/CPZ8zC97kHwQBCcH+VOSZmdfk1duP9vmB8vRc+5
+	 bHiVO2ltNen1BvbHjQN8aAIVcGAbK6j12pi6/ULaXjMqpOQMT3RS6JQI0rxkzVQ76z
+	 G8s4n6+CVb+oTUq0CoRHa8k09SZEtpjdfXKMQoRq8oId3LkiF3Hc7DMPBqKbZICKMb
+	 s6W0/agg/bqzw0QwkGfbx07pGewZQfuabbjJxta2kkCTh8NmIGdiN1TtDO7bPT4cIn
+	 YLTSAaLFZ5EaQ==
+Date: Sat, 9 May 2026 16:51:52 +0100
+From: Conor Dooley <conor@kernel.org>
+To: sashiko@lists.linux.dev
+Cc: Udaya Kiran Challa <challauday369@gmail.com>, krzk+dt@kernel.org,
+	devicetree@vger.kernel.org, conor+dt@kernel.org, robh@kernel.org
+Subject: Re: [PATCH v2] dt-bindings: rtc: epson,rx6110: Convert to DT Schema
+Message-ID: <20260509-undusted-impromptu-d10fa94834ea@spud>
+References: <20260509095713.5818-1-challauday369@gmail.com>
+ <20260509102703.33ED1C2BCB2@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-ID: <55e2b11f.7dd4.19e0b356ba4.Coremail.lizhi2@eswincomputing.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:TAJkCgDHW3D_xf5pXRMYAA--.4666W
-X-CM-SenderInfo: xol2xx2s6h245lqf0zpsxwx03jof0z/1tbiAQECDGn+EBwM2wABsD
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
-	CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
-	daVFxhVjvjDU=
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="RAZUb+SGi9k0iY6l"
+Content-Disposition: inline
+In-Reply-To: <20260509102703.33ED1C2BCB2@smtp.kernel.org>
 
-CgoKPiAtLS0tLeWOn+Wni+mCruS7ti0tLS0tCj4g5Y+R5Lu25Lq6OiBzYXNoaWtvLWJvdEBrZXJu
-ZWwub3JnCj4g5Y+R6YCB5pe26Ze0OjIwMjYtMDUtMDkgMDE6MTQ6MzIgKOaYn+acn+WFrSkKPiDm
-lLbku7bkuro6IGxpemhpMkBlc3dpbmNvbXB1dGluZy5jb20KPiDmioTpgIE6IGRldmljZXRyZWVA
-dmdlci5rZXJuZWwub3JnLCBjb25vcitkdEBrZXJuZWwub3JnLCByb2JoQGtlcm5lbC5vcmcsIGty
-emsrZHRAa2VybmVsLm9yZwo+IOS4u+mimDogUmU6IFtQQVRDSCBuZXQgdjEgMi8yXSBuZXQ6IHN0
-bW1hYzogZWljNzcwMDogZml4IGRlbGF5IHN0ZXAgY2FsY3VsYXRpb24gYW5kIGVuc3VyZSBzYWZl
-IHJlZ2lzdGVyIGluaXRpYWxpemF0aW9uCj4gCj4gVGhhbmsgeW91IGZvciB5b3VyIGNvbnRyaWJ1
-dGlvbiEgU2FzaGlrbyBBSSByZXZpZXcgZm91bmQgMSBwb3RlbnRpYWwgaXNzdWUocykgdG8gY29u
-c2lkZXI6Cj4gLSBbQ3JpdGljYWxdIFVuY29uZGl0aW9uYWwgQUJJIGJyZWFrYWdlIHdpdGggb2xk
-ZXIgRGV2aWNlIFRyZWVzCj4gLS0KPiAKPiBjb21taXQgOGEzZTQwNWY3YmMzODBlMDJkMmQzM2Nk
-MzYyZDM1YTA0MDE4MmU5OQo+IEF1dGhvcjogWmhpIExpIDxsaXpoaTJAZXN3aW5jb21wdXRpbmcu
-Y29tPgo+IAo+IG5ldDogc3RtbWFjOiBlaWM3NzAwOiBmaXggZGVsYXkgc3RlcCBjYWxjdWxhdGlv
-biBhbmQgZW5zdXJlIHNhZmUgcmVnaXN0ZXIgaW5pdGlhbGl6YXRpb24KPiAKPiBUaGlzIGNvbW1p
-dCB1cGRhdGVzIHRoZSBFSUM3NzAwIERXTUFDIGdsdWUgZHJpdmVyIHRvIG1hdGNoIGhhcmR3YXJl
-IGRlbGF5Cj4gZ3JhbnVsYXJpdHkgYW5kIG1vdmVzIEhTUCBDU1IgY29uZmlndXJhdGlvbiB0byB0
-aGUgaW5pdGlhbGl6YXRpb24gcGF0aC4gSXQKPiBhbHNvIGludHJvZHVjZXMgbmV3IG9mZnNldHMg
-YW5kIGNsZWFycyB0aGUgVFhEL1JYRCBkZWxheSBjb250cm9sIHJlZ2lzdGVycwo+IGR1cmluZyBz
-ZXR1cCB0byBlbnN1cmUgZGV0ZXJtaW5pc3RpYyBSR01JSSB0aW1pbmcuCj4gCj4gPiBkaWZmIC0t
-Z2l0IGEvZHJpdmVycy9uZXQvZXRoZXJuZXQvc3RtaWNyby9zdG1tYWMvZHdtYWMtZWljNzcwMC5j
-IGIvZHJpdmVycy9uZXQvZXRoZXJuZXQvc3RtaWNyby9zdG1tYWMvZHdtYWMtZWljNzcwMC5jCj4g
-PiAtLS0gYS9kcml2ZXJzL25ldC9ldGhlcm5ldC9zdG1pY3JvL3N0bW1hYy9kd21hYy1laWM3NzAw
-LmMKPiA+ICsrKyBiL2RyaXZlcnMvbmV0L2V0aGVybmV0L3N0bWljcm8vc3RtbWFjL2R3bWFjLWVp
-Yzc3MDAuYwo+IFsgLi4uIF0KPiA+ICsJcmV0ID0gb2ZfcHJvcGVydHlfcmVhZF91MzJfaW5kZXgo
-cGRldi0+ZGV2Lm9mX25vZGUsCj4gPiArCQkJCQkgImVzd2luLGhzcC1zcC1jc3IiLAo+ID4gKwkJ
-CQkJIDMsICZkd2NfcHJpdi0+ZXRoX2Nsa19vZmZzZXQpOwo+ID4gKwlpZiAocmV0KQo+ID4gKwkJ
-cmV0dXJuIGRldl9lcnJfcHJvYmUoJnBkZXYtPmRldiwgcmV0LAo+ID4gKwkJCQkgICAgICJjYW4n
-dCBnZXQgZXRoX2Nsa19vZmZzZXRcbiIpOwo+ID4gIAo+ID4gKwlyZXQgPSBvZl9wcm9wZXJ0eV9y
-ZWFkX3UzMl9pbmRleChwZGV2LT5kZXYub2Zfbm9kZSwKPiA+ICsJCQkJCSAiZXN3aW4saHNwLXNw
-LWNzciIsCj4gPiArCQkJCQkgNCwgJmR3Y19wcml2LT5ldGhfdHhkX29mZnNldCk7Cj4gPiArCWlm
-IChyZXQpCj4gPiArCQlyZXR1cm4gZGV2X2Vycl9wcm9iZSgmcGRldi0+ZGV2LCByZXQsCj4gPiAr
-CQkJCSAgICAgImNhbid0IGdldCBldGhfdHhkX29mZnNldFxuIik7Cj4gCj4gV2lsbCB0aGlzIGJy
-ZWFrIGNvbXBhdGliaWxpdHkgd2l0aCBvbGRlciBkZXZpY2UgdHJlZXMgdGhhdCBvbmx5IHByb3Zp
-ZGUgMwo+IGluZGljZXMgZm9yIHRoZSBlc3dpbixoc3Atc3AtY3NyIHByb3BlcnR5Pwo+IAo+IElm
-IHRoZSBkcml2ZXIgYm9vdHMgd2l0aCBhbiBvbGRlciBkZXZpY2UgdHJlZSwgb2ZfcHJvcGVydHlf
-cmVhZF91MzJfaW5kZXgKPiB3aWxsIHJldHVybiBhbiBlcnJvciB3aGVuIGF0dGVtcHRpbmcgdG8g
-cmVhZCBpbmRleCA0LCBjYXVzaW5nIHRoZSBwcm9iZSB0bwo+IGZhaWwgZW50aXJlbHkgYW5kIHJl
-c3VsdGluZyBpbiBhIGxvc3Mgb2YgbmV0d29yayBmdW5jdGlvbmFsaXR5Lgo+IAo+IENvdWxkIHRo
-ZSBuZXcgb2Zmc2V0cyBhdCBpbmRleCA0IGFuZCA1IGJlIG1hZGUgb3B0aW9uYWwsIG9yIGhhbmRs
-ZWQgd2l0aCBhCj4gYmFja3dhcmQtY29tcGF0aWJsZSBmYWxsYmFjaywgdG8gcHJlc2VydmUgdGhl
-IGRldmljZSB0cmVlIEFCST8KPiAKCkdvb2QgcG9pbnQsIHRoYW5rcyBmb3IgY2F0Y2hpbmcgdGhp
-cy4KCllvdSdyZSByaWdodCB0aGF0IHJlcXVpcmluZyB0aGUgYWRkaXRpb25hbCBvZmZzZXRzIHdv
-dWxkIGJyZWFrCmNvbXBhdGliaWxpdHkgd2l0aCBvbGRlciBkZXZpY2UgdHJlZXMgdGhhdCBvbmx5
-IHByb3ZpZGUgdGhlIG9yaWdpbmFsCnRocmVlIG9mZnNldHMgaW4gdGhlIGVzd2luLGhzcC1zcC1j
-c3IgcHJvcGVydHkuCgpUbyBwcmVzZXJ2ZSB0aGUgRGV2aWNldHJlZSBBQkkgKOKAnG5ldyBrZXJu
-ZWxzIG11c3QgY29udGludWUgdG8gd29yayB3aXRoCm9sZCBkZXZpY2UgdHJlZXPigJ0pLCBJIHBs
-YW4gdG8gbWFrZSB0aGUgVFhEIGFuZCBSWEQgb2Zmc2V0cyBvcHRpb25hbCBpbgpib3RoIHRoZSBi
-aW5kaW5nIGFuZCB0aGUgZHJpdmVyLgoKSW4gdGhlIGJpbmRpbmcsIEkgcGxhbiB0byB1cGRhdGUg
-ZXN3aW4saHNwLXNwLWNzciB0byBzdXBwb3J0IGJvdGggdGhlCmxlZ2FjeSByZXByZXNlbnRhdGlv
-biBhbmQgdGhlIGV4dGVuZGVkIHJlcHJlc2VudGF0aW9uICh1cCB0byA2IGNlbGxzKQpieSBhZGRp
-bmc6CgotIG1pbkl0ZW1zOiA0CgphbmQgbWFya2luZyB0aGUgbGFzdCB0d28gZW50cmllcyBhcyBv
-cHRpb25hbDoKCi0gT3B0aW9uYWwgb2Zmc2V0IG9mIHJlZ2lzdGVyIGNvbnRyb2xsaW5nIFRYRCBk
-ZWxheQotIE9wdGlvbmFsIG9mZnNldCBvZiByZWdpc3RlciBjb250cm9sbGluZyBSWEQgZGVsYXkK
-CkluIHRoZSBkcml2ZXIsIGlmIGluZGljZXMgNCBhbmQgNSBhcmUgbm90IHByZXNlbnQsIEkgd2ls
-bCBmYWxsIGJhY2sgdG8KdGhlIGV4aXN0aW5nIHNoYXJlZCBUWC9SWCBjbG9jayBkZWxheSByZWdp
-c3RlciBvZmZzZXQuIFRoaXMgZW5zdXJlcwpvbGRlciBkZXZpY2UgdHJlZXMgcmVtYWluIGZ1bGx5
-IGZ1bmN0aW9uYWwgd2l0aCBuZXdlciBrZXJuZWxzLgoKQ29ub3IsIGRvZXMgdGhpcyBsb29rIGFj
-Y2VwdGFibGUgdG8geW91LCBhbmQgd291bGQgdGhpcyBiYWNrd2FyZC0KY29tcGF0aWJsZSBjbGFy
-aWZpY2F0aW9uIGFmZmVjdCB5b3VyIHByZXZpb3VzIEFja2VkLWJ5PwoKUGxlYXNlIGxldCBtZSBr
-bm93IGlmIHlvdSBzZWUgYW55IG90aGVyIGlzc3VlcyB3aXRoIHRoaXMgYXBwcm9hY2guCg==
+
+--RAZUb+SGi9k0iY6l
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Sat, May 09, 2026 at 10:27:02AM +0000, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 2 potential issu=
+e(s) to consider:
+> - [Medium] The YAML binding omits a reference to the core RTC subsystem s=
+chema (`rtc.yaml`).
+> - [Medium] The strict requirement for SPI-specific properties was lost du=
+ring the schema conversion.
+> --
+>=20
+> commit 83ad9493a42cbad1f11db8ac3498c9be50a357d1
+> Author: Udaya Kiran Challa <challauday369@gmail.com>
+>=20
+> dt-bindings: rtc: epson,rx6110: Convert to DT Schema
+>=20
+> This commit converts the Epson RX6110 Real Time Clock devicetree binding
+> from the legacy text format to DT schema.
+>=20
+> > diff --git a/Documentation/devicetree/bindings/rtc/epson,rx6110.yaml b/=
+Documentation/devicetree/bindings/rtc/epson,rx6110.yaml
+> > new file mode 100644
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/rtc/epson,rx6110.yaml
+> [ ... ]
+> > +allOf:
+> > +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
+>=20
+> Should this also include a reference to rtc.yaml# in the allOf block?
+> Without it, since unevaluatedProperties is false, won't valid standard RTC
+> properties like start-year or aux-voltage-chargeable cause validation
+> errors? This omission appears to introduce a functional regression by
+> bypassing the standard nodename checks provided by the core schema.
+>=20
+> [ ... ]
+> > +  spi-cpha: true
+> > +  spi-cpol: true
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +
+> > +unevaluatedProperties: false
+>=20
+> The legacy text binding listed spi-cs-high, spi-cpha, and spi-cpol as
+> mandatory required properties when the device operates in SPI mode.
+
++ the fact that cpha/cpol are listed with : true, and spi-cs-high isn't
+which is confusing IMO.
+
+> Because they are omitted from the required list to support I2C mode, won't
+> misconfigured SPI nodes missing these hardware configuration flags now
+> silently pass validation? Would adding a conditional allOf/if block be
+> appropriate to enforce these properties for SPI configurations and avoid
+> this regression?
+
+Don't do this, since it requires knowing what the parent node is.
+If anything, make it something like
+if: oneOf: <> then: allOf: <>
+
+--RAZUb+SGi9k0iY6l
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaf9YEgAKCRB4tDGHoIJi
+0unrAPwMiCoAkQF0fT3m/O/baC8hdg3ydWz0NlslfeO/Mk/2lwD/dhaZ26m1AtRG
+S+PkxUC7bQNeI3E0OsPcVINdThq2Wgs=
+=NAap
+-----END PGP SIGNATURE-----
+
+--RAZUb+SGi9k0iY6l--
