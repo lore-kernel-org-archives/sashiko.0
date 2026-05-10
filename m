@@ -1,169 +1,134 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D7783164BA
-	for <sashiko@lists.linux.dev>; Sun, 10 May 2026 19:11:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778440314; cv=none; b=jowQy2NTH6rebkefqKRdmD7jcobxkv1w/F87/6BkdCGpWR6nrilM2WdvyhdICqiRYDzJHyeJjFSPp06if9ZDllSWVMtpXXogCA0VOlwJAVDu0TbFHqUqJBx2ppZLdqv3W7Aohls6k4AxP+KRgWKWdluvgmHBfjgu+Gab3SIePbk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778440314; c=relaxed/simple;
-	bh=AyGz9so4c6OwRNB0n9cDDWEbXteFpW8uza+zO1Fw3XE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bWCT8REDdQ02VrCX+r0Wr+KwuDw18wYrI1hWua44+wSp3jrxOtEE5H/3YmmxdP2BQDgdOiWzA9awNHRjYrD+vRsGTv/W5iLYOYUiJThjpkMS9WDQCzKiLSBhtBkolzrb3v0PdaoJr3T4PWo/kyvnolifsnkS0iT/T6f49F/Vqm4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L5mTmqN9; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB1D036828A
+	for <sashiko@lists.linux.dev>; Sun, 10 May 2026 22:38:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.45
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778452707; cv=pass; b=uqnxPhDfAAAsTTeu43t1RCC85rIH11TIVmHBRYrTwy41zIU2jvibXMS2HPy0Fpe/y9b1pKvswCpYa8K/ZjGTSCTzwDay7XhRuVwZb1DcaIiLi+UtmYoUI7mCwmOCp9Muy6RUzLuhauj1GsnKqBTR+Bd0kaXy1G00EQLsPoBevhA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778452707; c=relaxed/simple;
+	bh=+RCvzX3O/zZVOe06+QEUzmxxLt4XHCNKPDCKitF87/E=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MbGTVh+ApR0WUuxz7REUeJCGDLspAHZFX/Bd9foRR+uBjm0KNVKzcrLPtUEQWtULITyN+a2eA4Vd0qOxwWrbHxW6vCNPrym+BY8YFkkua6oC8dw5aM1mEOZsIM2syUg4M+tbhZcv/UO4iSm+Iq0v9A12DHAbHCxjFdAYRTnSboo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CxUiq/H4; arc=pass smtp.client-ip=209.85.221.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L5mTmqN9"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-488ba840146so31493785e9.1
-        for <sashiko@lists.linux.dev>; Sun, 10 May 2026 12:11:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CxUiq/H4"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-44b330c5cc6so2664512f8f.1
+        for <sashiko@lists.linux.dev>; Sun, 10 May 2026 15:38:21 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778452699; cv=none;
+        d=google.com; s=arc-20240605;
+        b=ctdGiBBqWashrEXJ8ypKhn6DYXQl8zKBY6gJt3eTPr4cPbKrCsSaF9wT4d3S46BwDh
+         t7srZoBQuyHGfcdf4cU8RCk4URnYcb5+F7N0DflkPRNL0KNhJTsZ72dHLHmt4Ufq7SRy
+         9k5IX+TQO99wtCZ1XO+WPC8pb9vrvhU1gxHR667r9mWrvCAAkEVz8TiTHv4PACI0V75U
+         Qm2Djt31wTPOHt8SCPefzsP+P7jGZQqV36qfhIT7z/c+cpZ1PuWJ0w0YVr6ewEqAHFIl
+         JMKGQE0QnAAY12bAIxKN2g4drdTA++dVjh1ndTE8563d6Ly6chTJPAyy21sV7KLRpzmb
+         Q2Vw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Q742UBUVfHxlrrxIFoluJHcHiucEjbpkj0zuBBjRUjA=;
+        fh=6jAZCwCb0wk0XryB5IsHORzFHzZnUZ44mjzC+X7gNx8=;
+        b=i8LzCIpv+RCxMh+qhD03GDv8HN2gqpvmGeYCKHSgmLvjWiYkPmTlcl7rR6ZOyUW6Ez
+         jaekHy8+K/YQztoJxZhA22hnnreGVwNyysR2IjEjR46f5Bnfbc0/ZGCdF77pLYMoCpJa
+         z6hK/DrJW3X/d9MkM5dQhTK3jCgX9NWmnkWCkGa21QWUTwOnxdW9OowEmVRTMbzKveUq
+         RVJpy6ZUp7ko2oK2yKMyg2rJMNU4/QXZNd05XWCsABGw21IkY1c+GGXaiLcEsvsCbh+q
+         I0QzRXTQ7ltoD3JQTqxYV+5JPKakpPH4brtFjzX3/y9US1EAFW63sluHrzsHA3qBCiXa
+         Ukug==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778440312; x=1779045112; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1778452699; x=1779057499; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=iqXXwGhWAIu7FOeb/7si1xrgwWH1dKQB5oTnVjCGc+c=;
-        b=L5mTmqN9aApqRwh8Ukiyce/K2RG38RBM6QYab7q35iK7sjxB9mN3+UvGVpkiJmfluI
-         ajUAHd5Dr/eTQoGhiBhBhW63XNukmM4bKpH48W/3PZz+xMVYItRTIAKgMsi85uo0Y+EZ
-         lSq4Dnbm+KrL9E+r7NtzadlTRz5gJOHGmKp8m15tXsbRjyr4fVRvdXMbD7e/vf470K+Q
-         2X+dnQgu9sPP400xeQ7dcVU1wbU3vDyyJKwSszeCxI7KFSb6yES9QoLFhwrfBXTHXAYA
-         KyLdQgt3yElNVYO8HMid7UNxFyrpa+o+DYLlNw1ECUlaL2n1Oc2mkoPcUVJtxcUa0b0i
-         vBtA==
+        bh=Q742UBUVfHxlrrxIFoluJHcHiucEjbpkj0zuBBjRUjA=;
+        b=CxUiq/H4E0ZxNm9XL44JtzqsB0wTE1wO5hOY9u1TUvy7nV+EfOgkK6HrTj7rvo8j82
+         gWoDOUqAZkWUjjYEhcgsPgzouEZHMTHkb00Yvj3g1OUZuNZacdL0sXKw4oSTWG8iOll3
+         etn5YzOocaWCzgR95ECV9uX7HylIeH4cC/G6vfpnJHFsSXXZWjtN6v81vf7v7G6cVqnQ
+         BhsGiUa7fhEOsZwgCc5uYLzMr9jIIoWbw5BrMuH6CAzZM5AvB3LDAYWjK5Wcc1+BKqhP
+         J2UTgrKeTsqmS+Vk2ZeaEUHQ6L2oz2NfrtPbEDrMp18hng1lyQx6tvjnxUJm5HAtbgXk
+         yRJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778440312; x=1779045112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20251104; t=1778452699; x=1779057499;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=iqXXwGhWAIu7FOeb/7si1xrgwWH1dKQB5oTnVjCGc+c=;
-        b=SVeq94tQ8ywd1tKyMVEy5VOeSV15l4KxdpcTHotJ7EzZVrW145zJvXb6Y/pd1VarIo
-         dRSKYnTSC9tbUV1VTP0Sx67Zcm2TyLWG9hxzNweLJMr0gjWU85HIioQcT+4V6iEpAFqC
-         9+RKaPgGwgS6VPv2UrF8d6Tj8rh93uiItjuxDMIpzUeyeqwhWmIp2fNWfDfVWmQBk6uc
-         d3KFbr7EHZlO0k2bUjPa/LCgeMlttlbF4cKtk8VzngdwLmq4WKQxm2+gGA2G6WlGqS72
-         rg5q4meTxCz8E5tKQMyEEnN4u2zPuxRcDRwheH2etIW+2YtCjlOpUnvS9ojdL4LpV9Mo
-         LkuQ==
-X-Gm-Message-State: AOJu0Yy8gZaHNirNXHpos5Jn6XeH82KxyASZnQvDEIXVcZqpSOAV4TS8
-	VqNCePCG9UrezoxPYNPwGkcIJiU096MWDFmSpyH0RkD/6SMuYoITkO+V86s8aw==
-X-Gm-Gg: Acq92OHS+pX76SaPvFi3IbFlBrCXkwRqdvyDzpvHbyOdm39grxJ3TuKjhGgZQ71FC5c
-	1qAngfyTj3KZ2xoUxrxjYZ5dkYLXeAHeikabtcWWHWM1eFa0P3aUG3FwpQAd0OOqmWymtvMY5yc
-	SdPnolguqcnqTbVl9/uTPZw7GGggmuAs5x9Kpi0Ar3WuEh48WLA2GpUUG+L2qZ2kYpBddfS/UvL
-	q4PKk73WEWAxnoCVhNcyZcaS+/qRVkYSALvD/s2sdKHKSIG9eKvnz3R/jE7jfDGz7m+yww2w6j+
-	+8cR9Rs6TYAIhcI4Js5DeKj4CK/Am1tbwkTdB6asyAa366iCsPyxJo06PxB+q7eislOM0lPvhEK
-	LruhwWpjoqoloj6uTKSahwM8TqGzYKTqu067BQOFBOsUTePw2mEtO9YQgdGpWC60hJ0dfEXu2Va
-	pUM+bWv4stBglbW726Bxrwd3WXdgIbG1Ft6F+3b6y9kUTkZGhxJsGhsSfm241B1uHR04/NFfmM3
-	5OgSnKqIRDURkX12g==
-X-Received: by 2002:a05:600c:c166:b0:48e:6f39:f7be with SMTP id 5b1f17b1804b1-48e6f39f7d2mr125053585e9.10.1778440311754;
-        Sun, 10 May 2026 12:11:51 -0700 (PDT)
-Received: from jernej-laptop.localnet (46-150-62-216.dynamic.telemach.net. [46.150.62.216])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45491da03a7sm20304842f8f.33.2026.05.10.12.11.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 May 2026 12:11:51 -0700 (PDT)
-From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: sashiko@lists.linux.dev
-Cc: devicetree@vger.kernel.org, krzk+dt@kernel.org, robh@kernel.org,
- conor+dt@kernel.org
-Subject:
- Re: [PATCH v2 1/8] clk: sunxi-ng: de2: Fix Display Engine 3.3 definitions
-Date: Sun, 10 May 2026 21:11:50 +0200
-Message-ID: <2WzKBHuPSreDENZ3eIUvdg@gmail.com>
-In-Reply-To: <20260509194402.EB552C2BCB2@smtp.kernel.org>
-References:
- <20260509190015.79086-2-jernej.skrabec@siol.net>
- <20260509194402.EB552C2BCB2@smtp.kernel.org>
+        bh=Q742UBUVfHxlrrxIFoluJHcHiucEjbpkj0zuBBjRUjA=;
+        b=MBuFX8+xV+zlfMUooFGTH1P7EYQBPwuDRbNSPHG2hy9ekChD6XZpM74/GYe1vTMGQo
+         EWRIKOj1f1GK2LIAKBHxT3VeHMJsxR87rtG/TqOcgE+GDMHdEqWdRnkV99bgGIm1GF83
+         r2hQ+bWDY11kRJpE3blTbr55dMwD884t8EGq6QuS700mZK8TLJjDb/QWJ+DxbbUhnckm
+         fDihnnnje27NIyRA/Jn1l7bQsHgrJ7Oo0CAb4m1EfCu2zL1O0rpVbmGbRzW5K9PUq5xd
+         wqBxfxu5jRBkelgRsNxPNJouygWRYL0FNXHJ5h78BNwYi0h0A8jf2rZS6qnwJ4RDsyzo
+         +xEQ==
+X-Gm-Message-State: AOJu0YwYSUm/J/izyJ8r3/YeIWAI7sgsHzw5rx6iNahQdwHSAixLPL7h
+	AsJH+KXCOpOClFf+jv4kkWbB5ntSgxtexr2oDxbDxMxPHhw3pEDrQrbc4Tw8ZKSr3Oku0f0En4J
+	Ji090to4JB98xKcSYmeT0c5Rn7F5D3YI=
+X-Gm-Gg: Acq92OGNjmEFvp+AsUfzdgb3V+VqJkRSr0Q9ri8RKDsN+ZMGr5E32jHjpThGvPFDjs1
+	nZFzETw+V3/V2zBDxqTGBs6MrYDR7PsJcgGM4U4a0T3dTCgr+NgsrsdsCNLJneUJsPNEtHJa6fX
+	ng7ZsmlRsBlT1lSNlQ5RNlEqPzW+0GhTvvcF5L0GpdhCaUyRveFg//KjxcgNS3SWjAEAs9Cq8i3
+	/5obWu56s9cBD2nszsf+Y1Pp+y+stpO/wNTwGAlUgLnTXR4vm63IfgK/6s73BKPNPTH1sfWS8ie
+	jA/cIHdYYaTnc0wqb+V7RtRvnoxyL26R43Jamuh6AaVRJPi8GnfMSF0tszAcTPwKG/YZnQXDj//
+	s88z9noBwj4hwlK2hQPenm3iSFkR1N2uvHbJnJ9sazzxbV2E=
+X-Received: by 2002:a05:6000:144b:b0:43d:714:34e5 with SMTP id
+ ffacd0b85a97d-4515ce1bd58mr33450874f8f.24.1778452699023; Sun, 10 May 2026
+ 15:38:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+References: <20260507175453.1140400-2-utilityemal77@gmail.com>
+ <20260507234520.646C4C2BCB2@smtp.kernel.org> <agCXEJKJh-JGMhjG@zenbox>
+In-Reply-To: <agCXEJKJh-JGMhjG@zenbox>
+From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date: Sun, 10 May 2026 15:38:08 -0700
+X-Gm-Features: AVHnY4JtWp5-wHurTbGbNe4pndwrP5XL9-KsYnPlCg2TVbgg5WbvM4DrSuh5aYM
+Message-ID: <CAADnVQJdFCFJcg0Pqdnx=D2h5vHj_q4mrwSJYxRC5RW0NTFNvQ@mail.gmail.com>
+Subject: Re: [bpf-next v3 1/2] bpf: Offload kptr destructors that run from NMI
+To: Justin Suess <utilityemal77@gmail.com>
+Cc: sashiko@lists.linux.dev, bpf <bpf@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
 
-Dne sobota, 9. maj 2026 ob 21:44:02 Srednjeevropski poletni =C4=8Das je sas=
-hiko-bot@kernel.org napisal(a):
-> Thank you for your contribution! Sashiko AI review found 1 potential issu=
-e(s) to consider:
-> - [High] The new DE33 clock definitions omit the bus clocks for MIXER1 an=
-d WB, leaving their bus interfaces unclocked and breaking hardware support.
-> --
->=20
-> commit 7e5df4616faf2d32c9447b44291572215aac8a17
-> Author: Jernej Skrabec <jernej.skrabec@gmail.com>
->=20
-> clk: sunxi-ng: de2: Fix Display Engine 3.3 definitions
->=20
-> This commit fixes the Display Engine 3.3 resets and clocks to match
-> the vendor driver, as the positions of clocks and resets changed in
-> version 3.3.
->=20
-> > diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-de2.c b/drivers/clk/sunxi-n=
-g/ccu-sun8i-de2.c
-> > index a6cd0f988859d..6ec6c0dc4c261 100644
-> > --- a/drivers/clk/sunxi-ng/ccu-sun8i-de2.c
-> > +++ b/drivers/clk/sunxi-ng/ccu-sun8i-de2.c
->=20
-> [ ... ]
->=20
-> > @@ -54,6 +61,9 @@ static SUNXI_CCU_M(wb_div_a83_clk, "wb-div", "pll-de"=
-, 0x0c, 8, 4,
-> >  static SUNXI_CCU_M(rot_div_a83_clk, "rot-div", "pll-de", 0x0c, 0x0c, 4,
-> >  		   CLK_SET_RATE_PARENT);
-> > =20
-> > +static SUNXI_CCU_GATE(bus_mixer0_h616_clk, "bus-mixer0", "bus-de",
-> > +		      0x08, BIT(0), 0);
-> > +
->=20
-> Will this omission cause a regression for mixer1 and wb?
+On Sun, May 10, 2026 at 8:14=E2=80=AFAM Justin Suess <utilityemal77@gmail.c=
+om> wrote:
+>
+>
+> Any help or guidance on this would be appreciated!
 
-No, I should explain in commit message that there is only one bus clock,
-shared among mixer0, mixer1 and wb. CLK_BUS_MIXER0 is used for all
-cores.
+sorry for the delay. Everyone was at lsfmmbpf for a week+.
 
->=20
-> It looks like the bus clocks for mixer1 (BIT(1)) and wb (BIT(4)) at regis=
-ter
-> offset 0x08 are missing here.
->=20
-> Since RST_MIXER1 was previously mapped to 0x08 BIT(1), the DRM driver
-> deasserting that reset was inadvertently enabling the DE33 bus clock for
-> mixer1.
->=20
-> Now that RST_MIXER1 is correctly moved to 0x00, will accessing the
-> unclocked MIXER1 or WB hardware blocks cause a hard system hang due to MM=
-IO
-> access failures?
+All of the solutions so far are way too complicated.
+bpf_kptr_xchg() has to remain inlined as single atomic xchg
+without slowpath otherwise it ruins the concept
+and makes usage unpredictable.
 
-There are no such issues, as hardware testing showed. Old code worked by lu=
-ck.
+Let's step back.
+What is the issue you're trying to solve?
 
-Best regards,
-Jernej
+the commit log say:
 
->=20
-> [ ... ]
->=20
-> > @@ -147,6 +163,17 @@ static struct clk_hw_onecell_data sun50i_a64_de2_h=
-w_clks =3D {
-> >  	.num	=3D CLK_NUMBER_WITH_ROT,
-> >  };
-> > =20
-> > +static struct clk_hw_onecell_data sun50i_h616_de33_hw_clks =3D {
-> > +	.hws	=3D {
-> > +		[CLK_MIXER0]		=3D &mixer0_h616_clk.common.hw,
-> > +		[CLK_MIXER1]		=3D &mixer1_h616_clk.common.hw,
-> > +		[CLK_WB]		=3D &wb_h616_clk.common.hw,
-> > +
-> > +		[CLK_BUS_MIXER0]	=3D &bus_mixer0_h616_clk.common.hw,
->=20
-> Similarly, should the bus clocks for mixer1 and wb be populated in this
-> array so the DRM driver can properly request and enable them?
->=20
-> > +	},
-> > +	.num	=3D CLK_NUMBER_WITHOUT_ROT,
-> > +};
->=20
->=20
+> A BPF program attached to tp_btf/nmi_handler can delete map entries or
+> swap out referenced kptrs from NMI context. Today that runs the kptr
+> destructor inline. Destructors such as bpf_cpumask_release() can take
+> RCU-related locks, so running them from NMI can deadlock the system.
 
+and looking at selftest from patch 2 you do:
 
+old =3D bpf_kptr_xchg(&value->mask, old);
+if (old)
+  bpf_cpumask_release(old);
 
+so?
+bpf_cpumask_release() is fine to call from any context,
+because bpf_mem_cache_free_rcu() is safe everywhere including NMI.
 
+hashtab introduced dtor in bpf_mem_alloc,
+so bpf_obj_free_fields() and corresponding dtor's of kptr-s
+are called from valid context.
+
+What is the problematic sequence?
