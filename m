@@ -1,65 +1,32 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out30-130.freemail.mail.aliyun.com (out30-130.freemail.mail.aliyun.com [115.124.30.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AC7735E943
-	for <sashiko@lists.linux.dev>; Sun, 10 May 2026 07:11:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12981378D70
+	for <sashiko@lists.linux.dev>; Sun, 10 May 2026 09:44:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778397091; cv=none; b=COiE6IaJmCuMmukSCIAkqaQYjj5YECFYjlAPTI1+i+ggaBP6l6++uJbFsHxoNYCKKsI5kDyNjS2+SA24DklTbznz63ef+tlnye2xTFTd0Abb8pS7hhT85JoRg4Pz7LUn2W47KLlBVm4H+ES+mOBiP7W7hMaEErtiT3Lszt8j4CI=
+	t=1778406284; cv=none; b=Y5WT1Q1c9eZD9qde5BXTyi/0ipev8JOKSx+4kfXQJ3UZ5nDj5krJXVRFOt27uK5JJ/xKiyxtxLujxtuXX5QQEjuF+Bd4Bq870QImaeCxbJ446V97f7aDJiEs9lFdHUU5dg8eR2L16NNYJ3/3v6+oLbvjtkui3xdCD0zwnVn2UZc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778397091; c=relaxed/simple;
-	bh=EleGY3vgTfeFTin94EwbWKxMKGx9dC00TvNm+PCjBFg=;
+	s=arc-20240116; t=1778406284; c=relaxed/simple;
+	bh=wkNZg53DlXRlT+CxxgRTGAOmwaZwY2AkcYihOzIllcA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=f/h/GN6weEqx9cE4C4TDy9ItT7o9NWb0EV1yBgyu9zaqO2CATxci+ffJNAKY+DFnD9xvXKrShPBzjOGAm0niPUonffcoUGkHu52bn9WXQfY9rrUS7/U+RBgG/nmgD9o3k6x9omjaWKmQl4DuNc2DlGNv3JeSszn7S3uNWpwimCA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FgoQ3Hxa; arc=none smtp.client-ip=209.85.216.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=DPl9roEpBGBEmTE8IUIIx1RSuCxjE93d4hn+GSmA7AuxzwJbaEWwN/sogptoFtNEtMNGKh3tMtck0MsPnQU6bw3/zAil9PHUeIJdqb7viJThIa8K7QZdj8IU48XHuCZafghrpFScWkpaaJ4BeOnFHqvugjWhnFLx070Smz6fNn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=HOK32OB6; arc=none smtp.client-ip=115.124.30.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FgoQ3Hxa"
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-365eecc5885so3215241a91.0
-        for <sashiko@lists.linux.dev>; Sun, 10 May 2026 00:11:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778397089; x=1779001889; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=NBksUd3TRhC53VHUdaPee5fHFL6bRQ8cdTbc+yWXtmA=;
-        b=FgoQ3HxaqdGzff4LkILNdnaDUx2bOtK13crQ4wvj9jXGrAPkHND7PubEHZyi2YhODg
-         w5kZN8jmW+duSBZjouYLJrTNDqEFdKSsMtRKh85L3mOEv4/gj06tj1i6q0w4CGc4EIRb
-         XmtIs0JLzJ3DZnss9xRDK1n4Miq30KxGGISW/kaDp7r0jvnbLxEarGVC2zeFNN/BCogV
-         8AHeOzkPzScTdqkaLz+eWpkpwx8QUDs+LpZgGC1KGlve8IAUBYeilDjkyUUu0/20A4zV
-         cHLx9CFe4dISNgyF/N712X7tHTneKdgCYHe6sa0ZMD5jGfAGQmJ9X7QZrtB8UQBm1sBp
-         xDrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778397089; x=1779001889;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NBksUd3TRhC53VHUdaPee5fHFL6bRQ8cdTbc+yWXtmA=;
-        b=CpTGmYtrEAJ1tQSJyZNiFMYKu5/dP/KWNxoHwA9WvakdZKksKHSqDe/BeZdgPHNdSE
-         56tZ2Onu7VzjauWf0rbepnaIQK1KDcrPih6+40k7Q8dFUav4C/IYJVIQ71O40nsEfQBG
-         Tdbw/KQWS6bV6lkvJSd6WAKWPEHQ/LYa3R9C0WjAH0YOHw+oHAGtiaaG315vzbbwhn15
-         c34Sn/ZhqNyFdfybmay2Fd/NurIHGQBqS3p/CxHLJ/63NYzth20CsyhKyATlJ5gE0fkd
-         NOqO2qEKGzRP0czjbCDt6d2LVPDWC4B/4DnLCXpaQKyTzDeswXT7XuQRNdJKRffxg3Zz
-         7cEw==
-X-Gm-Message-State: AOJu0YypFIY+M80s/OGrBjTTa27P3/TkgS5NrdN+F8J61vs+EqhBzBqO
-	KuKGvZdb8mUBRCEHuyezsR6WpMeT8Swo77Uv7z5WggEaey6OyyRC+CP3rw5IJw==
-X-Gm-Gg: Acq92OGktTBlK+1Q/5MQDFTJc16EsXUQOtBCJscYHSawoO9xtk+cS5GZFBZJEr1lbTA
-	31WgFyxMvXoYL7zFpJqM9sZz6z+r6wnooDAYZR3Ew0aOWMI+piA314zCBaRUfrNDnsuAdFmnIXm
-	27RX7u2JEPWBBHeUUeDm1dJrLRdrqEnQ4iNe2xRTbi3yFVRlMkJboRDOhCDM8lZtMqIq4otF6WY
-	BvxfH3IuZmD5L04mtMGimYEKr5+ufldbaMsZH/eArpjAjwdGc8H3MAJke2J9RE0xaxx7+/RciZq
-	WnVCJwbDrPuEM15RNqhE0t9qJRa38rmNAlXyq8wYXp+426ocAEUjXK1tCdtrYe0cmEn7vv2CR93
-	sHoTL+9hyoqoTQroNjs+/U28J31Fm1QPKE1EZzdVEYzIfFYlarJDPOkzPeb1XK8HhCgHOP8ox9E
-	BJ04iJhqz4mul6Zf4ffwZU9X4Q/I2PmJ038EclsP2P19yxxQ==
-X-Received: by 2002:a17:90b:1651:b0:366:3d97:74a9 with SMTP id 98e67ed59e1d1-367d3c7153amr5332804a91.0.1778397089420;
-        Sun, 10 May 2026 00:11:29 -0700 (PDT)
-Received: from [192.168.1.5] ([60.243.224.75])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-367d629c17esm3678111a91.6.2026.05.10.00.11.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 10 May 2026 00:11:28 -0700 (PDT)
-Message-ID: <6235faf8-fbdd-468a-ae2d-a4a3f7ee50fa@gmail.com>
-Date: Sun, 10 May 2026 12:41:25 +0530
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="HOK32OB6"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1778406272; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=kOWnmNp7Aj4p8oW2Ietdg9zcy366aUlnySjOKWihkuE=;
+	b=HOK32OB6P14kHEBx3zwAk6ZlfWoyJD4aYeH8SUfb4Vxkm+W7FjfW0Wng+dW5iMJFg9G7goHBs9CV+vB3gsLsWrmyylmJ9ISmrfQX6IXhAxqANROIEB+AYsfzcgu+3A0HQhPqiEGbSJLzG9fWobXzUvp2fikXOF10WDb9uLJWRKE=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R661e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045098064;MF=libaokun@linux.alibaba.com;NM=1;PH=DS;RN=2;SR=0;TI=SMTPD_---0X2cPgH4_1778406270;
+Received: from 30.43.150.40(mailfrom:libaokun@linux.alibaba.com fp:SMTPD_---0X2cPgH4_1778406270 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Sun, 10 May 2026 17:44:31 +0800
+Message-ID: <2763fc46-3342-48ac-bc57-3a46efd84844@linux.alibaba.com>
+Date: Sun, 10 May 2026 17:44:27 +0800
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
@@ -67,102 +34,81 @@ List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/2] dt-bindings: mmc: st,sdhci: convert to DT schema
+Subject: Re: [PATCH RFC 01/17] lib/crc: add crc32c_flip_range() for
+ incremental CRC update
 To: sashiko@lists.linux.dev
-Cc: robh@kernel.org, devicetree@vger.kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org
-References: <20260508-st-mmc-v3-2-81c329ed28e8@gmail.com>
- <20260508222225.1E854C2BCB4@smtp.kernel.org>
-Content-Language: en-US
-From: Charan Pedumuru <charan.pedumuru@gmail.com>
-In-Reply-To: <20260508222225.1E854C2BCB4@smtp.kernel.org>
+Cc: tytso@mit.edu
+References: <20260508121539.4174601-2-libaokun@linux.alibaba.com>
+ <20260508204019.9E5A5C2BCB0@smtp.kernel.org>
+From: Baokun Li <libaokun@linux.alibaba.com>
+In-Reply-To: <20260508204019.9E5A5C2BCB0@smtp.kernel.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-
-
-On 09-05-2026 03:52, sashiko-bot@kernel.org wrote:
+在 2026/5/9 04:40, sashiko-bot@kernel.org 写道:
 > Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
-> - [Medium] Missing `minItems: 1` for `clock-names` and `reg-names` restricts them to exactly two items, breaking schema validation for existing device trees.
+> - [High] Integer overflow in `bit_off + nbits` bypasses bounds checks, leading to out-of-bounds kernel memory reads.
 > --
-> 
-> commit 66ec88f9e00b102af921864d0e0bf8b1b9e7f38d
-> Author: Charan Pedumuru <charan.pedumuru@gmail.com>
-> dt-bindings: mmc: st,sdhci: convert to DT schema
-> 
-> This commit converts the STMicroelectronics sdhci-st MMC/SD controller
-> binding to DT schema. It updates the clock and register properties to
-> support backward compatibility for single-item entries.
-> 
->>     - In the legacy text binding, 'icn' was optional. Keep the clock list
->>       flexible to preserve compatibility, although all existing in-tree DTS
->>       files already provide both clocks.
->>     - Document the optional "top-mmc-delay" register region and corresponding
->>       reg-name in the YAML binding, as existing in-tree DTS files already use
->>       both "mmc" and "top-mmc-delay" entries.
-> 
-> Are these descriptions accurate regarding all existing in-tree DTS files?
-
-Yes
-
-> 
-> In arch/arm/boot/dts/st/stih407-family.dtsi, the mmc1 node defines only a
-> single register name (reg-names = "mmc"). Other device trees such as
-> arch/powerpc/boot/dts/fsp2.dts also define a single clock and register.
-> 
->> diff --git a/Documentation/devicetree/bindings/mmc/st,sdhci.yaml b/Documentation/devicetree/bindings/mmc/st,sdhci.yaml
+>
+> commit 23c49b9c6860184b707e1c64499ef573ebaa8332
+> Author: Baokun Li <libaokun@linux.alibaba.com>
+>
+> lib/crc: add crc32c_flip_range() for incremental CRC update
+>
+> This commit introduces crc32c_flip_range() to compute a CRC32c delta for
+> flipped bits using precomputed GF(2) shift matrices. It gives O(log N)
+> complexity for incremental updates, which is useful for situations like
+> bitmap updates in filesystems.
+>
+>> diff --git a/lib/crc/crc32c-incr.c b/lib/crc/crc32c-incr.c
 >> new file mode 100644
->> index 0000000000000..10e0e1ee6d5cd
+>> index 0000000000000..b6258231cc0df
 >> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/mmc/st,sdhci.yaml
-> 
+>> +++ b/lib/crc/crc32c-incr.c
 > [ ... ]
-> 
->> +  reg:
->> +    minItems: 1
->> +    items:
->> +      - description: MMC controller registers
->> +      - description: MMC delay/auxiliary registers
+>> +u32 crc32c_flip_range(u32 old_crc, u32 total_bits,
+>> +		      u32 bit_off, u32 nbits)
+>> +{
+>> +	u32 delta, trailing_bits;
 >> +
->> +  reg-names:
->> +    items:
->> +      - const: mmc
->> +      - const: top-mmc-delay
-> 
-> Because items lists without an explicit minItems default to the length of
-> the list, does this strictly require two items for reg-names?
-
-Yes, but I can add minItems as 1 to accept the nodes that define only 1 reg-names. but the existing DTS uses both.
-
-> 
-> Will this cause make dtbs_check to fail for existing nodes like mmc1 that
-> only provide "mmc"? Should minItems: 1 be added here to allow single entries?
-
-Yes, I will add minItmes to allow singe entries.
-
-> 
-> [ ... ]
-> 
->> +  clocks:
->> +    minItems: 1
->> +    items:
->> +      - description: Clock for the MMC controller
->> +      - description: Interconnect (ICN) clock
+>> +	if (!nbits)
+>> +		return old_crc;
 >> +
->> +  clock-names:
->> +    items:
->> +      - const: mmc
->> +      - const: icn
-> 
-> Similarly, does clock-names require minItems: 1 to match the flexibility
-> added to the clocks property and prevent schema validation errors on
-> single-clock configurations?
+>> +	/*
+>> +	 * total_bits must not exceed 2^INCR_MAX_ORDER bits (64KB).
+>> +	 * bit_off + nbits must not exceed total_bits.
+>> +	 */
+>> +	if (WARN_ON_ONCE(total_bits > (1UL << INCR_MAX_ORDER)))
+>> +		return old_crc;
+>> +	if (WARN_ON_ONCE(bit_off + nbits > total_bits))
+> Could this addition overflow since both bit_off and nbits are u32?
+>
+> If an external caller provides a very large nbits (such as 0xFFFFFFFF) and
+> a small bit_off, their sum wraps around to a small value, which passes the
+> greater-than total_bits check.
+>
+> If this occurs, the function proceeds to call crc32c_incr_get_ones_delta()
+> with the large nbits value:
+>
+>> +		return old_crc;
+>> +
+>> +	trailing_bits = total_bits - (bit_off + nbits);
+>> +
+>> +	/* 1. Calculate CRC of the flip-mask (all 1s of length nbits) */
+>> +	delta = crc32c_incr_get_ones_delta(nbits);
+> Is it possible this leads to an out-of-bounds read?
+>
+> Looking at crc32c_incr_get_ones_delta(), passing a large nbits like
+> 0xFFFFFFFF results in __fls(num_bits) evaluating to 31. This would be used
+> to access indexes in crc32c_incr_ones_lookup[] (size 20) and
+> crc32c_incr_nibble_table[] (size 19), reading past the end of the arrays.
+>
+> A bounds check like nbits > total_bits || bit_off > total_bits - nbits
+> might prevent this overflow.
+>
+>
+Indeed, I will fix this issue in the next version.
 
-I can add minItmes as 1 if the node only requires 1 clock, but the current DTS uses both of them.
-
-> 
-
--- 
-Best Regards,
-Charan.
+Thanks,
+Baokun
 
