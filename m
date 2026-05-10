@@ -1,133 +1,139 @@
-Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com [91.218.175.185])
+Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com [91.218.175.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B7C23AEF33
-	for <sashiko@lists.linux.dev>; Sun, 10 May 2026 16:41:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F21013B3886
+	for <sashiko@lists.linux.dev>; Sun, 10 May 2026 16:47:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778431282; cv=none; b=hw/OO3ufFJ0hRclI50QOLJUw2mFI3Cc1/JOJBQ1fqqFeHm+2SeOAeI0CMhhizvUVyauzW2H3/pU/UwHyamHpkzpkPKxO5QNCL+yQFvzyzP2ukF29nUA2HMUgq9BhuXExqqMRLkt6o6HXcfX7ZD+/xe15pEm/ABb89OS/+3x9P1o=
+	t=1778431675; cv=none; b=JI1oSZ58DzKfnh4lx3BjJnONW8bEGfRxHj1JEc9EaEH+IWKOpMUeCUehpM5D9/REHH3wHMGkRQ4wxdFbJcd8o2Rhhih7NzzIjrlZV9nvV4OIt040RNbyfKQlROwtv9R40PMFMtcxepLEQ+Kq5Jml6ccysTzQ4OvCrM+6VM4cZVI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778431282; c=relaxed/simple;
-	bh=kINXlYj0ZqFhDqV5Kh8bif5NJW8WYWpdXrgfmFjbOhA=;
+	s=arc-20240116; t=1778431675; c=relaxed/simple;
+	bh=v9ic3i2Ojj7qslrLK6Pg1tVAxKhA6dpWmMslwhh1yjs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HNSfX5f4hynknOjvMQNyeiTAilXBcAtBKnQqNNEfnTPk53tDFd9evcnJhlzGNWzuDJNK09xLPHfGB9AMhy4DUj2tsVsWw0bFZunENpH/OSk+gjM+tbfvAbae5HwUooVQyZBo9ChKcpCoPkB230YbCEaMDXUhiEfTjmGtWWZrf40=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=VElKCbdx; arc=none smtp.client-ip=91.218.175.185
+	 In-Reply-To:Content-Type; b=g7YueUk7YntMu/6n5D80SfciloLmwbinPrGPt+UgCOWZiiYh821WLZmGC5i0FXwXGdUJVMqyEBF0pZUCKErWPEJ9H4lcWaKbMjGKqI2ipmjI1AV2NWUtzk23aTCghs+UK58GO8Zk91+pbaks9EtEDStS5dQ9Vt6X8VELT+HoKZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=azrHYVas; arc=none smtp.client-ip=91.218.175.189
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="VElKCbdx"
-Message-ID: <b59b83fa-a762-4a97-91d6-3b28094fa65f@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="azrHYVas"
+Message-ID: <19287dff-648c-4721-b8af-1beb75267b52@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1778431277;
+	t=1778431661;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=brqs3vlEAOl86BNBrmMrWEk4dDnUwWS00c323bfHDXU=;
-	b=VElKCbdx9z5kUVE+NYAFBFdJeOWFfEdp/kRCiWQRA4Lq9nYosbQ3rmw89Fxd9HuExb+lpm
-	kA1nzaEU/Dcpm8Syh8QrX03ymWUVPGUOFZQfBTvSzUXxMxorkbExwLn5bxcEJAH23LQCwA
-	q2gkvRijxXeL7KPbWCggWoK0SNQPkGc=
-Date: Sun, 10 May 2026 09:41:12 -0700
+	bh=tRk826Wgf+u3SOUBqGt75iN3jg0GqcF68Va4lRIKWpQ=;
+	b=azrHYVasved1wOyqgPn8E+W7ctsrjaqM7b9fStAc+nxMWBuvdEFPydN01vTZ9ApxkhkNd7
+	iXiqGKufZBFb3M1dj+XVpgMUsPaiPlkojnQSKBKkMTbniMxrHs5sWpFFU5bS3yPvLhyrjn
+	WmS1DKxBSXVqZtt2SJX4NIYmXwZPazM=
+Date: Sun, 10 May 2026 09:47:38 -0700
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH bpf-next v2 07/23] bpf: Add precision marking and
- backtracking for stack argument slots
+Subject: Re: [PATCH bpf-next v2 09/23] bpf: Extend liveness analysis to track
+ stack argument slots
 Content-Language: en-GB
 To: sashiko@lists.linux.dev
 Cc: bpf@vger.kernel.org
-References: <20260507213018.1128602-1-yonghong.song@linux.dev>
- <20260509040551.C9E2AC2BCB2@smtp.kernel.org>
+References: <20260507213029.1130085-1-yonghong.song@linux.dev>
+ <20260509005916.E22DAC2BCB4@smtp.kernel.org>
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Yonghong Song <yonghong.song@linux.dev>
-In-Reply-To: <20260509040551.C9E2AC2BCB2@smtp.kernel.org>
+In-Reply-To: <20260509005916.E22DAC2BCB4@smtp.kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
 
 
 
-On 5/9/26 6:05 AM, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
-> - [High] Incorrect tracking and propagation of stack argument precision at subprogram boundaries in `backtrack_insn()`.
+On 5/9/26 2:59 AM, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 2 potential issue(s) to consider:
+> - [High] record_load_store_access() mistakenly uses the tracking state of stack argument slot 0 as the base pointer for R11-based memory accesses, leading to spurious liveness marks.
+> - [Low] Missing verifier logging for stack argument liveness state transitions.
 > --
 >
-> commit 82222fc9756a9a239fae1b810efc4aa155d2973f
+> commit 00a5fce117daa13f26c61ec5ffa3622241608fc1
 > Author: Yonghong Song <yonghong.song@linux.dev>
 >
->      bpf: Add precision marking and backtracking for stack argument slots
+> bpf: Extend liveness analysis to track stack argument slots
 >
-> This commit extends the precision marking and backtracking infrastructure to
-> support stack argument slots (r11-based accesses). It ensures precision
-> demands for scalar values passed through stack arguments are properly
-> tracked.
+> This commit extends liveness analysis to handle stack argument slots, preventing
+> pointers passed through stack args from incorrectly poisoning the pointed-to
+> stack slots. It explicitly handles BPF_REG_PARAMS (R11) to avoid out-of-bounds
+> accesses and extends tracking arrays.
 >
->> diff --git a/kernel/bpf/backtrack.c b/kernel/bpf/backtrack.c
->> index 93738a076c888..17f254a02831f 100644
->> --- a/kernel/bpf/backtrack.c
->> +++ b/kernel/bpf/backtrack.c
-> [ ... ]
->> @@ -336,6 +351,19 @@ static int backtrack_insn(struct bpf_verifier_env *env, int idx, int subseq_idx,
->>   			return 0;
->>   		bt_clear_reg(bt, load_reg);
+>> diff --git a/kernel/bpf/liveness.c b/kernel/bpf/liveness.c
+>> index de0b4c6263ff2..eed7260f2bb0a 100644
+>> --- a/kernel/bpf/liveness.c
+>> +++ b/kernel/bpf/liveness.c
+>> @@ -610,6 +610,24 @@ enum arg_track_state {
+>>   /* Track callee stack slots fp-8 through fp-512 (64 slots of 8 bytes each) */
+>>   #define MAX_ARG_SPILL_SLOTS 64
 >>   
->> +		if (hist && hist->flags & INSN_F_STACK_ARG_ACCESS) {
->> +			spi = hist->spi;
->> +			/*
->> +			 * Stack arg read: callee reads from r11+off, but
->> +			 * the data lives in the caller's stack_arg_regs.
->> +			 * Set the mask in the caller frame so precision
->> +			 * is marked in the caller's slot at the callee
->> +			 * entry checkpoint.
->> +			 */
->> +			bt_set_frame_stack_arg_slot(bt, bt->frame - 1, spi);
->> +			return 0;
->> +		}
+>> +/* Track stack arg slots: outgoing starts at -(i+1)*8, incoming at +(i+1)*8 */
+>> +#define MAX_STACK_ARG_SLOTS (MAX_BPF_FUNC_ARGS - MAX_BPF_FUNC_REG_ARGS)
 >> +
-> When backtracking a callee's read of an incoming stack argument via BPF_LDX,
-> the logic correctly sets the mask in the caller frame (bt->frame - 1).
+>> +/*
+>> + * Combined register + stack arg tracking: R0-R10 at indices 0-10,
+>> + * outgoing stack arg slots at indices MAX_BPF_REG..MAX_BPF_REG+6.
+>> + */
+>> +#define MAX_AT_TRACK_REGS (MAX_BPF_REG + MAX_STACK_ARG_SLOTS)
+> Could this repurposed index cause a spurious liveness mark in
+> record_load_store_access()?
+>
+> Because at[MAX_BPF_REG] is repurposed to track the value stored in outgoing
+> stack argument slot 0, what happens when record_load_store_access() processes
+> stack argument instructions like is_stack_arg_stx()?
+>
+> record_load_store_access() does this:
+>
+> 	case BPF_STX:
+> 		if (BPF_MODE(insn->code) == BPF_ATOMIC) {
+> 			...
+> 		} else {
+> 			ptr = &at[insn->dst_reg];
+> 			sz = -sz;
+> 		}
+>
+> If the instruction is a stack argument access, insn->dst_reg is BPF_REG_PARAMS
+> (which equals MAX_BPF_REG). It will fetch &at[MAX_BPF_REG]. If a BPF program
+> previously stored a frame pointer (FP) into slot 0, at[MAX_BPF_REG] will reflect
+> that FP.
+>
+> Does this mean record_load_store_access() will spuriously treat this FP as the
+> base pointer and incorrectly mark the resulting local stack frame slot as
+> accessed, corrupting the local stack liveness mask?
+
+In this case, if the insn is r11-based insn in record_load_store_access(),
+we should just return since record_load_store_access() is for fp based stacks.
+
 >
 > [ ... ]
->> @@ -426,6 +465,18 @@ static int backtrack_insn(struct bpf_verifier_env *env, int idx, int subseq_idx,
->>   						bpf_bt_set_frame_reg(bt, bt->frame - 1, i);
->>   					}
->>   				}
->> +				/*
->> +				 * propagate callee's incoming stack arg precision
->> +				 * to caller's outgoing stack arg slots
->> +				 */
->> +				if (bt_stack_arg_mask(bt)) {
->> +					for (i = 0; i < MAX_BPF_FUNC_ARGS - MAX_BPF_FUNC_REG_ARGS; i++) {
->> +						if (!bt_is_frame_stack_arg_slot_set(bt, bt->frame, i))
->> +							continue;
->> +						bt_clear_frame_stack_arg_slot(bt, bt->frame, i);
->> +						bt_set_frame_stack_arg_slot(bt, bt->frame - 1, i);
->> +					}
->> +				}
-> Does this propagation logic operate on the correct mask?
+>> @@ -1616,7 +1663,8 @@ static int compute_subprog_args(struct bpf_verifier_env *env,
+>>   		memcpy(at_out, at_in[i], sizeof(at_out));
+>>   		memcpy(at_stack_out, at_stack_in[i], MAX_ARG_SPILL_SLOTS * sizeof(*at_stack_out));
+>>   
+>> -		arg_track_xfer(env, insn, idx, at_out, at_stack_out, instance, callsites);
+>> +		arg_track_xfer(env, insn, idx, at_out, at_stack_out,
+>> +			       at_stack_arg_entry, instance, callsites);
+>>   		arg_track_log(env, insn, idx, at_in[i], at_stack_in[i], at_out, at_stack_out);
+> Are the state transitions for stack arguments logged here?
 >
-> Since the callee's BPF_LDX instructions already marked the incoming stack
-> arguments directly in the caller's frame (bt->frame - 1),
-> bt_stack_arg_mask(bt) for the current frame (bt->frame) shouldn't contain
-> any incoming stack arguments here.
-
-You are right here. bt_is_frame_stack_arg_slot_set(bt, bt->frame, i) should be 0 so
-the above whole loop is not necessary.
-
+> In arg_track_log(), the loop for logging register transitions is strictly
+> bounded by MAX_BPF_REG:
 >
-> If bt_stack_arg_mask(bt) is non-zero at this point, wouldn't that indicate
-> leftover uninitialized outgoing stack arguments from the callee that were
-> never matched by a BPF_STX?
+> 	for (i = 0; i < MAX_BPF_REG; i++) {
+> 		if (arg_track_eq(&at_out[i], &at_in[i]))
+> 			continue;
 >
-> Instead of propagating these leftovers to the caller frame, should this
-> condition be treated as a verifier_bug(), similar to how leftover stack
-> slots are handled just above this code?
+> Since the tracking arrays at_in and at_out were extended to MAX_AT_TRACK_REGS to
+> include state for outgoing stack arguments at indices MAX_BPF_REG through
+> MAX_AT_TRACK_REGS - 1, does arg_track_log() silently omit logging their state
+> transitions?
 
-Yes, verifier_bug() makes sense to capture potential issues. This will
-be similar to potential bugs with register spills.
-
->
+Missed the logging issue for stack argument tracking. Will fix.
 
