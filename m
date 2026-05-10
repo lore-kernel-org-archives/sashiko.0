@@ -1,118 +1,195 @@
-Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com [91.218.175.180])
+Received: from polaris.svanheule.net (polaris.svanheule.net [84.16.241.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BBEB39F19C
-	for <sashiko@lists.linux.dev>; Sun, 10 May 2026 17:32:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 860EF2F549C
+	for <sashiko@lists.linux.dev>; Sun, 10 May 2026 18:12:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.16.241.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778434349; cv=none; b=YeAwNgmGaJaz+76mQEeUwfwrkHrnAxA2sqfREyV9Bnw/Gdzyk6U0KBITTMLVBXqpMRfS/2PITyQYEGSYPu//J+e/cfyHeQgQuKWn+NgryqjL4l2lYLLhHdR4T8H9jlGu/6Nc9EeaEf66z/ww3IqM+/b3F87BWdgtAmBI3Cp5dX0=
+	t=1778436782; cv=none; b=aqwivZBN8LLqaIP/6mC5/VxUUa/iQ/rdwq6MZ9tTRt5Mgs1sXZ8irIKQ43OjRezt83ug/rd9jSHloSMU8ogrStJ8gPZgX3OUo877zIhrC/IleZ6cxpOTtdRvY0rOdpQR3Q6mzxOAM+q3RzCqmGOYU++aonAdu66TYa6WvZdUyhk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778434349; c=relaxed/simple;
-	bh=7GMnzWSaDNhd6/EV0b8rV2T4tn+XiXwnUD0komXA3ik=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rhl4OwjIUWFyd50MncJFb7ugnuqqPbsFHUekMbVhIPUbJZVsAUowxfTMaDOqofDQcBBaouF+c+jkMiKNFVvl4/3jUFByu3+7JzncSJJBrUiGZuaj55fpR3CfONOGYt4579yY1dhvs96QVvkfpaAUuL+rUtYbeadLeVNPigmoCMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=vKSrh0fU; arc=none smtp.client-ip=91.218.175.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1778436782; c=relaxed/simple;
+	bh=qsyD3I6m0aYHwlbpWVtGkgGX/TkgLNlICdUUhmBiUGY=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=kTPaFDpKZpGk0dRPaNHfdAi4aCVt7QIKIuqzSqRrVIHA0MiR4COxdJSTR7nkNvSVfBvGn2axShZkbuvuH7sCCrqCDu9WEzN7nRfBCnxUlH7n/UwAKScnLL21x7pOav4H+GVA08q0sHXI3m/bqrk1pNeROySVuLUSzkW0bwJCK1M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svanheule.net; spf=pass smtp.mailfrom=svanheule.net; dkim=pass (2048-bit key) header.d=svanheule.net header.i=@svanheule.net header.b=T29cU3w/; arc=none smtp.client-ip=84.16.241.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svanheule.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svanheule.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="vKSrh0fU"
-Message-ID: <03b6017c-b3a5-42ea-8b07-55b60d841d5d@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1778434346;
+	dkim=pass (2048-bit key) header.d=svanheule.net header.i=@svanheule.net header.b="T29cU3w/"
+Received: from [IPv6:2a02:1812:162d:3d00:649f:659d:f6c1:d42] (2a02-1812-162d-3d00-649f-659d-f6c1-d42.ip6.access.telenet.be [IPv6:2a02:1812:162d:3d00:649f:659d:f6c1:d42])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sander@svanheule.net)
+	by polaris.svanheule.net (Postfix) with ESMTPSA id 57FDC77CBCB;
+	Sun, 10 May 2026 20:12:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svanheule.net;
+	s=mail1707; t=1778436777;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=2ml0BL4tw3ctbkSHF3iuPJfu2VttE/KYGtFWvRp3YGU=;
-	b=vKSrh0fUu7+Py5D7jIIZSoyCodYa4QBhkj/ZZRdNtP/ynFWYQV2knlO3w4Th0Wn4fMRZxN
-	3R2ws5OHWjMAvfIT9qffxiAu4C/KwBM8dph9sEHErpVj+2TSd68Ybhh63w/GG0umeSvdr5
-	F8IeV3QJeqJfIuwTMme6DV0sJhprWkM=
-Date: Sun, 10 May 2026 10:32:22 -0700
+	bh=sPDSwDWYGFC4ZvqTJL7L1M9W/nS9QedFSnGeXH+buYo=;
+	b=T29cU3w/ivCu6KMnlDb+v9KZHaCb5K6iKlxQaRcNu7ur8ieQWZpKShnHNL12+vml7g34aj
+	qfVyiFppFFhhHuqVNQUdxlWlhR0pUG22FgKUhIHub2Qh76bPHJkfdKmXm0+vAynQ06c/kM
+	HQeLZFiJcuWstC3bUi4s+cLewW51I0MyWblAkMqs9cFSxA+fMz6RISlZpDYZUvjlfdvCD+
+	SYCXCL8ur7IfMajWtVaTC2v8LfE5QY6X/vGBrYGUbZH7SnMD/uDZfdMaR1MTcj/fh+NjDO
+	ZkPNU96QpVTmnyfpgCWy/p9LdUR2uTG9EYtQsJm7+up4VfkEfDYFFac8rINvqQ==
+Message-ID: <fdc1a60dcde1cf8c36877be062badbf2a7f72835.camel@svanheule.net>
+Subject: Re: [PATCH 3/3] watchdog: realtek-otto: add RTL9607C support
+From: Sander Vanheule <sander@svanheule.net>
+To: sashiko@lists.linux.dev, Rustam Adilov <adilov@disroot.org>
+Cc: Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck
+	 <linux@roeck-us.net>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+	 <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	linux-watchdog@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Date: Sun, 10 May 2026 20:12:56 +0200
+In-Reply-To: <20260509172748.54B33C2BCB2@smtp.kernel.org>
+References: <20260509163101.722793-4-adilov@disroot.org>
+	 <20260509172748.54B33C2BCB2@smtp.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH bpf-next v2 22/23] bpf, arm64: Add JIT support for stack
- arguments
-Content-Language: en-GB
-To: sashiko@lists.linux.dev
-Cc: bpf@vger.kernel.org
-References: <20260507213201.1140284-1-yonghong.song@linux.dev>
- <20260509021523.D4469C2BCB0@smtp.kernel.org>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Yonghong Song <yonghong.song@linux.dev>
-In-Reply-To: <20260509021523.D4469C2BCB0@smtp.kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+
+As a general remark, it would be good if this bot could use the original To=
+/Cc
+list of the message this was sent in reply to.
 
 
-
-On 5/9/26 4:15 AM, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
-> - [High] In `emit_stack_arg_load()`, `bpf_off` is not negated, causing a negative index that fails array bounds checks and results in the JIT embedding an invalid instruction (BRK), leading to a kernel panic.
+On Sat, 2026-05-09 at 17:27 +0000, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 3 potential issu=
+e(s)
+> to consider:
+> - [High] Registers accessed before peripheral clock is enabled
+> - [High] Sleeping function `disable_irq()` called in atomic restart handl=
+er
+> - [High] Integer underflow in timeout calculation causes massively delaye=
+d
+> watchdog reset
 > --
->
-> commit 6ccf042549a3902757c6335313c905e99fb41292
-> Author: Puranjay Mohan <puranjay@kernel.org>
->
-> bpf, arm64: Add JIT support for stack arguments
->
-> This commit implements stack argument passing for BPF-to-BPF and kfunc
-> calls with more than 5 parameters on arm64, following the AAPCS64 calling
-> convention.
->
->> diff --git a/arch/arm64/net/bpf_jit_comp.c b/arch/arm64/net/bpf_jit_comp.c
->> index 085e650662e3d..9b9d2501d2d36 100644
->> --- a/arch/arm64/net/bpf_jit_comp.c
->> +++ b/arch/arm64/net/bpf_jit_comp.c
+>=20
+> commit be1a33571f33f241ada324d2648ec90cdf1e9b91
+> Author: Rustam Adilov <adilov@disroot.org>
+>=20
+> watchdog: realtek-otto: add RTL9607C support
+>=20
+> The RTL9607C SoC has a watchdog timer identical to the already
+> supported SoCs. The peripheral is memory mapped at 0x18003260
+> and driven by the Lexra bus clock.
+>=20
+> > diff --git a/drivers/watchdog/realtek_otto_wdt.c
+> > b/drivers/watchdog/realtek_otto_wdt.c
+> > index e5e9cb480f4f9..7ad196802eeb5 100644
+> > --- a/drivers/watchdog/realtek_otto_wdt.c
+> > +++ b/drivers/watchdog/realtek_otto_wdt.c
+> > @@ -355,6 +355,7 @@ static const struct of_device_id otto_wdt_ids[] =3D=
+ {
+> > =C2=A0	{ .compatible =3D "realtek,rtl8390-wdt" },
+> > =C2=A0	{ .compatible =3D "realtek,rtl9300-wdt" },
+> > =C2=A0	{ .compatible =3D "realtek,rtl9310-wdt" },
+> > +	{ .compatible =3D "realtek,rtl9607-wdt" },
+>=20
+> This isn't a bug introduced by this patch, but enabling this driver for t=
+he
+> new SoC exposes a few existing regressions in the code.
+>=20
+> For example, can the driver safely access the peripheral's memory-mapped
+> registers before its clock domain is enabled?
+>=20
+> otto_wdt_probe() {
 > [ ... ]
->
->> @@ -1191,6 +1207,41 @@ static int add_exception_handler(const struct bpf_insn *insn,
->>   	return 0;
->>   }
->>   
->> +static const u8 stack_arg_reg[] = { A64_R(5), A64_R(6), A64_R(7) };
->> +
->> +#define NR_STACK_ARG_REGS	ARRAY_SIZE(stack_arg_reg)
->> +
->> +static void emit_stack_arg_load(u8 dst, s16 bpf_off, struct jit_ctx *ctx)
->> +{
->> +	int idx = bpf_off / sizeof(u64) - 1;
-> Does this missing negation for bpf_off lead to an invalid instruction being
-> emitted?
+> 	/* Clear any old interrupts and reset initial state */
+> 	regmap_write(ctrl->regmap, OTTO_WDT_REG_INTR,
+> 		=C2=A0=C2=A0=C2=A0=C2=A0 OTTO_WDT_INTR_PHASE_1 | OTTO_WDT_INTR_PHASE_2)=
+;
+> 	regmap_write(ctrl->regmap, OTTO_WDT_REG_CTRL, OTTO_WDT_CTRL_DEFAULT);
+>=20
+> 	ret =3D otto_wdt_probe_clk(ctrl);
+> [ ... ]
+> }
+>=20
+> Writing to OTTO_WDT_REG_INTR and OTTO_WDT_REG_CTRL before calling
+> otto_wdt_probe_clk() might violate hardware access requirements and could
+> cause a synchronous external bus abort or system hang during driver probe=
+.
 
-For stack argument load, the offset is positive number and it is multiple of 8.
-So it should be okay here.
+otto_wdt_probe_clk() can be moved up to come before the first bus accesses.
 
->
-> Since BPF stack arguments use negative offsets from BPF_REG_PARAMS (such as
-> -8 for arg 6), the calculation bpf_off / sizeof(u64) - 1 will result in a
-> negative idx.
->
-> Because NR_STACK_ARG_REGS uses ARRAY_SIZE, it evaluates to an unsigned
-> size_t. Comparing a negative idx to it will result in a false condition,
-> falling through to the else block.
->
-> In the else block, the negative idx generates a negative offset for
-> A64_LDR64I. Since A64_LDR64I expects an unsigned 12-bit scaled immediate,
-> could this cause the instruction encoder to fail and embed an
-> AARCH64_BREAK_FAULT into the JIT image?
->
->> +
->> +	if (idx < NR_STACK_ARG_REGS)
->> +		emit(A64_MOV(1, dst, stack_arg_reg[idx]), ctx);
->> +	else
->> +		emit(A64_LDR64I(dst, A64_FP, (idx - NR_STACK_ARG_REGS) * sizeof(u64) + 16), ctx);
->> +}
->> +
->> +static void emit_stack_arg_store(u8 src_a64, s16 bpf_off, struct jit_ctx *ctx)
->> +{
->> +	int idx = -bpf_off / sizeof(u64) - 1;
-> For comparison, emit_stack_arg_store() correctly negates bpf_off here.
->
->> +
->> +	if (idx < NR_STACK_ARG_REGS)
+This would not cause issues on real hardware, as the bootloader will have
+ensured the watchdog's bus is up since it is shared with the UART=C2=A0cons=
+ole.
 
+
+
+> Also, does the system restart handler sleep in an atomic context?
+>=20
+> otto_wdt_restart() {
+> [ ... ]
+> 	disable_irq(ctrl->irq_phase1);
+> [ ... ]
+> }
+>=20
+> The otto_wdt_restart() function is a system restart handler executed in a=
+n
+> atomic context with local interrupts disabled. Since disable_irq() intern=
+ally
+> invokes synchronize_irq(), which uses wait_event() to wait for executing
+> interrupt handlers to finish, it can sleep.
+>=20
+> Calling a sleeping function with local interrupts disabled triggers a ker=
+nel
+> panic, and waiting for an IRQ handler to complete while other CPUs are st=
+opped
+> during a machine restart can result in a hard deadlock. Should this use
+> disable_irq_nosync() instead?
+
+I don't see why it couldn't use disable_irq_nosync().
+
+
+> Finally, is there an integer underflow in the timeout calculation?
+>=20
+> otto_wdt_determine_timeouts() {
+> [ ... ]
+> 		total_ticks =3D div_round_ticks(timeout_ms, tick_ms, 2);
+> 		phase1_ticks =3D div_round_ticks(timeout_ms - pretimeout_ms,
+> tick_ms, 1);
+> 		phase2_ticks =3D total_ticks - phase1_ticks;
+> [ ... ]
+> 	val |=3D FIELD_PREP(OTTO_WDT_CTRL_PHASE2, phase2_ticks - 1);
+> [ ... ]
+> }
+>=20
+> If the pretimeout is configured to 0 (or a value small enough that it map=
+s to
+> the same tick interval), total_ticks and phase1_ticks evaluate to the exa=
+ct
+> same value, resulting in phase2_ticks =3D 0.
+>=20
+> Since phase2_ticks is an unsigned integer, 0 - 1 underflows to 0xFFFFFFFF=
+,
+> which FIELD_PREP masks to the maximum field value of 31. Does this config=
+ure
+> the hardware to delay the system reset by 32 ticks (over 5 seconds) inste=
+ad
+> of the intended minimum of 1 tick?
+
+While this does indeed delay the system reset to the maximum time, the
+pretimeout interrupt (end of PHASE1) would still occur at the intended time=
+.
+During PHASE2, the watchdog cannot be pinged anymore and system reset remai=
+ns
+inevitable.
+
+I'll send a set of patches to resolve these issues, as they don't really re=
+late
+to adding RTL9706C support.
+
+Best,
+Sander
