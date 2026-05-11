@@ -1,41 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3B293A5430;
-	Mon, 11 May 2026 07:47:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 983AD3A6EFE;
+	Mon, 11 May 2026 07:54:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778485629; cv=none; b=WkQr2kidUQcGr4Gym7wkil19N6vVIJABnabAFOWWbIHKxX3CTwjU7+FThX36dATznAgEYrDNqO6xhGHndTWp5n2PWDYpCHlPb9K8IUbsRbwET9gW0AjunnTVwKtpupQff/QAlcuoiuTxYJSyt0JxYmD5+TxwvGxtbQVK04GUwTs=
+	t=1778486062; cv=none; b=VhyZfiQJ9PLC0jx9JU92ibahJrHHbu3WFAnpl0Zoay0fl3iaFKWY+/rgjIbBk/2wvP/Rwo5WZ2iLXEHGD28fxAhmdDapfXiXkZRjPiJg8RLH9CP03gulNi39gPmYrALjB/K4D48k4YXGCLSyvmr7cVydCjg93VkhFvw16ssVGB8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778485629; c=relaxed/simple;
-	bh=W6aPnQGxFvV5pxspo8KdT3OU3FU42+Tsl5qJ9Cz1T2s=;
+	s=arc-20240116; t=1778486062; c=relaxed/simple;
+	bh=E5OPf2SDqQ00xjJWpfbMQbDpFigCPNo4Of0MT3coKB8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HMxOJ69tDXMgcGGN7ZNKo45Ac68k5Qjlzj9/HB6j3VNHlCq+uqie9WWeo9ZHgH11dXogN6Wsg0JlO8Zk/VNAGukp4sQj0xIGAZHB2SIXIldzmXFfJPErJYsKIZ55h0FtKjbNKq8n8wLvjsTdgmEWno2llvSgYmUBoeK2MuhksW0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qJi/rCct; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=jfv15CpEIb9sWo/9F7S2dZ94DYSeVgKLpeixHpeL5jeOvn92f3KXR13KDTcr7dqtx3xmx7gLtraL3xsXCc/ZXNkAkYpvp4Y0emCIYNBRX916ct0X9d7BA8pCz4BHhxRxpI83JrDhOknHEop1EQvxkXShtg63Vxw8alkZIRGryLg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D6J9hkPj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qJi/rCct"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFB21C2BCF5;
-	Mon, 11 May 2026 07:47:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D6J9hkPj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99B92C2BCB0;
+	Mon, 11 May 2026 07:54:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778485627;
-	bh=W6aPnQGxFvV5pxspo8KdT3OU3FU42+Tsl5qJ9Cz1T2s=;
+	s=k20201202; t=1778486061;
+	bh=E5OPf2SDqQ00xjJWpfbMQbDpFigCPNo4Of0MT3coKB8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qJi/rCctlOINEtcmwwKI0m1Qyw7ZipkxQA9/9UewVsJVEH6L32P1GLYxN+jYdeU4S
-	 E3dlLGK5mg8ccrMBBfFw/8QMyUoheooWdP3ZBZpRKkq8J5FoC0oUq4m59sQEirx09Q
-	 7azeMg4EYT+vhpOUQI4PFAToG37dC4kg1WukjV0LgwXtGiFMQYOe/33FmTELtc51jZ
-	 4CauPM4USfteYm9Dt1rrj2c0BLvC7TQ87Qx5GQfrMY4rKjUgiUkXXGjX2dqpUd+jYO
-	 y77V85MCeJCQ6NGVAMvm5EdmswCDkpmSkdKQzqTN1lcwcYTptoADYXU/Dc0an0Ev+B
-	 hqGndeYF7Vr1w==
-Date: Mon, 11 May 2026 09:47:04 +0200
+	b=D6J9hkPjKWEbNx+OsdlIBLga2ANasCWijD7hwSoJJZrC2Pbc7+kxM8y5gJvfEQC+1
+	 NUQ9gsky83wC01EmUHjv1a/xzsYbMLEsNj88y/0qAL1/3XR7cJQIQScz8Tj+6iM7rA
+	 ZEtBTjpSmjp8pJWvJ17IC4fnyoEV5580K30uEhFXtLo/YUJH1fVYbKeJ450F+WRc8i
+	 1igBevsIlSchptcloIi3h4TD6uqWnuVkHgbfU3RdZPpYC7qye0q/0e1PryZdUQhKVh
+	 PaWEzoK//2D8xlwSLWOcVP55o9BGX7dEtc1MLi07xUHxNYeYtA4vptPONsfiOd0sNQ
+	 xkNfoPrdnR7sw==
+Date: Mon, 11 May 2026 09:54:18 +0200
 From: Lorenzo Bianconi <lorenzo@kernel.org>
 To: sashiko@lists.linux.dev
-Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, robh@kernel.org,
-	krzk+dt@kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH net-next v5 09/12] net: airoha: Do not stop GDM port if
- it is shared
-Message-ID: <agGJeIrmDdRmHoAA@lore-desk>
-References: <20260509-airoha-eth-multi-serdes-v5-9-805e38edc2aa@kernel.org>
- <20260510140505.2C772C2BCF6@smtp.kernel.org>
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	devicetree@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH net-next v5 08/12] net: airoha: Support multiple
+ net_devices for a single FE GDM port
+Message-ID: <agGLKkphZ0VhIywY@lore-desk>
+References: <20260509-airoha-eth-multi-serdes-v5-8-805e38edc2aa@kernel.org>
+ <20260510140503.958BDC2BCFF@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
@@ -43,123 +43,135 @@ List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="AoE5hKwc3VX7KL8z"
+	protocol="application/pgp-signature"; boundary="I86ZFwpODncJaq/I"
 Content-Disposition: inline
-In-Reply-To: <20260510140505.2C772C2BCF6@smtp.kernel.org>
+In-Reply-To: <20260510140503.958BDC2BCFF@smtp.kernel.org>
 
 
---AoE5hKwc3VX7KL8z
+--I86ZFwpODncJaq/I
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 > Thank you for your contribution! Sashiko AI review found 2 potential issu=
 e(s) to consider:
-> - [High] The `GDM_STAG_EN_MASK` configuration is port-global but is modif=
-ied unconditionally per net_device, leading to silent clobbering when multi=
-ple devices share a port.
-> - [Medium] The hardware MTU (`REG_GDM_LEN_CFG`) is not recalculated when =
-a device sharing the port is stopped, leaving the MAC configured to accept =
-inappropriately large frames.
+> - [High] Bringing up a device overwrites the global WAN port and GDM loop=
+back configuration of previously opened devices sharing the same port.
+> - [Medium] Standard netdev statistics and ethtool MAC/RMON stats return t=
+he combined hardware counters for the entire GDM port instead of per-interf=
+ace statistics.
 > --
 >=20
-> commit b896e320dcf0d56db7e0654191126c23e6f485fd
+> commit 6b561eda8762bee9a19daa9304286dbd64cc6eac
 > Author: Lorenzo Bianconi <lorenzo@kernel.org>
-> net: airoha: Do not stop GDM port if it is shared
 >=20
-> This commit introduces a users counter to the GDM port structure to allow
-> multiple independent net_device instances to share the same hardware port
-> without prematurely stopping it. It also conditionally updates the MTU so
-> that the largest MTU requested by any sharing device is used.
+> net: airoha: Support multiple net_devices for a single FE GDM port
+>=20
+> Introduce support for multiple net_devices connected to the same Frame En=
+gine
+> (FE) GDM port (GDM3 or GDM4) via an external hw arbiter.
 >=20
 > > diff --git a/drivers/net/ethernet/airoha/airoha_eth.c b/drivers/net/eth=
 ernet/airoha/airoha_eth.c
-> > index be31f639f4be3..ebb24e60f1de3 100644
+> > index 904f8da936005..be31f639f4be3 100644
 > > --- a/drivers/net/ethernet/airoha/airoha_eth.c
 > > +++ b/drivers/net/ethernet/airoha/airoha_eth.c
-> > @@ -1733,10 +1733,20 @@ static int airoha_dev_open(struct net_device *n=
-etdev)
-> >  		airoha_fe_clear(qdma->eth, REG_GDM_INGRESS_CFG(port->id),
-> >  				GDM_STAG_EN_MASK);
->=20
-> Since GDM_STAG_EN_MASK is a port-global configuration, will this clear th=
-e=20
-> flag for the entire port if a secondary non-DSA net_device is brought up?
->=20
-> If the primary master device relies on this hardware tag parsing, it appe=
-ars
-> a secondary device could silently break it by clearing the mask during
-> its open routine. Should this configuration be protected or refcounted wh=
-en
-> multiple devices share a port?
-
-This is not a real issue since the hw design supports DSA just on GDM1 wher=
-e we
-can't configure multiple net_devices.
-
->=20
-> > -	airoha_fe_rmw(qdma->eth, REG_GDM_LEN_CFG(port->id),
-> > -		      GDM_SHORT_LEN_MASK | GDM_LONG_LEN_MASK,
-> > -		      FIELD_PREP(GDM_SHORT_LEN_MASK, 60) |
-> > -		      FIELD_PREP(GDM_LONG_LEN_MASK, len));
-> > +	cur_len =3D airoha_fe_get(qdma->eth, REG_GDM_LEN_CFG(port->id),
-> > +				GDM_LONG_LEN_MASK);
-> > +	if (!port->users || len > cur_len) {
-> > +		/* Opening a sibling net_device with a larger MTU updates the
-> > +		 * MTU of already running devices. This is required to allow
-> > +		 * multiple net_devices wht different MTUs to share the same
-> > +		 * QDMA block.
-> > +		 */
-> > +		airoha_fe_rmw(qdma->eth, REG_GDM_LEN_CFG(port->id),
-> > +			      GDM_SHORT_LEN_MASK | GDM_LONG_LEN_MASK,
-> > +			      FIELD_PREP(GDM_SHORT_LEN_MASK, 60) |
-> > +			      FIELD_PREP(GDM_LONG_LEN_MASK, len));
-> > +	}
-> > +	port->users++;
->=20
 > [ ... ]
->=20
-> > @@ -1766,8 +1776,10 @@ static int airoha_dev_stop(struct net_device *ne=
-tdev)
-> >  	for (i =3D 0; i < netdev->num_tx_queues; i++)
-> >  		netdev_tx_reset_subqueue(netdev, i);
+> > @@ -1829,7 +1833,7 @@ static int airoha_set_gdm2_loopback(struct airoha=
+_gdm_dev *dev)
+> >  	airoha_fe_clear(eth, REG_FE_VIP_PORT_EN, BIT(AIROHA_GDM2_IDX));
+> >  	airoha_fe_clear(eth, REG_FE_IFC_PORT_EN, BIT(AIROHA_GDM2_IDX));
 > > =20
-> > -	airoha_set_gdm_port_fwd_cfg(qdma->eth, REG_GDM_FWD_CFG(port->id),
-> > -				    FE_PSE_PORT_DROP);
-> > +	if (!--port->users)
-> > +		airoha_set_gdm_port_fwd_cfg(qdma->eth,
-> > +					    REG_GDM_FWD_CFG(port->id),
-> > +					    FE_PSE_PORT_DROP);
+> > -	src_port =3D eth->soc->ops.get_sport(port, port->nbq);
+> > +	src_port =3D eth->soc->ops.get_sport(port, dev->nbq);
 >=20
-> If multiple devices are sharing the port and the device with the largest =
-MTU
-> is stopped, the hardware MTU in REG_GDM_LEN_CFG doesn't appear to be
-> recalculated or shrunk.
+> Does bringing up a device overwrite the global WAN port and GDM loopback
+> configuration of previously opened devices sharing the same port?
 >=20
-> Since the MTU is only expanded in airoha_dev_open() and airoha_dev_change=
-_mtu(),
-> does this leave the MAC configured to accept inappropriately large frames
-> for the remaining devices indefinitely?
+> Since multiple devices can now share the same GDM port and each has a
+> different nbq (and therefore a different src_port), wouldn't the
+> initialization of the second device clobber the WAN port configuration of=
+ the
+> first one, breaking its forwarding behavior?
+>=20
+> I noticed this is fixed later in the series in commit 8e8f8223af5be ("net:
+> airoha: Introduce WAN device flag"), but wanted to confirm the regression
+> between commits.
 
-ack, I will fix it in v6.
+Correct, airoha_set_gdm2_loopback() is run just for WAN net_device and a
+subsequent patch limits the support to a single WAN device.
+
+>=20
+> >  	if (src_port < 0)
+> >  		return src_port;
+> > =20
+> [ ... ]
+> > diff --git a/drivers/net/ethernet/airoha/airoha_eth.h b/drivers/net/eth=
+ernet/airoha/airoha_eth.h
+> > index 694e83bfd1e70..8d6887e334130 100644
+> > --- a/drivers/net/ethernet/airoha/airoha_eth.h
+> > +++ b/drivers/net/ethernet/airoha/airoha_eth.h
+> [ ... ]
+> > @@ -539,19 +540,20 @@ struct airoha_qdma {
+> >  struct airoha_gdm_dev {
+> >  	struct airoha_gdm_port *port;
+> >  	struct airoha_qdma *qdma;
+> > -	struct net_device *dev;
+> >  	struct airoha_eth *eth;
+> > +	struct net_device *dev;
+> > =20
+> >  	DECLARE_BITMAP(qos_sq_bmap, AIROHA_NUM_QOS_CHANNELS);
+> >  	/* qos stats counters */
+> >  	u64 cpu_tx_packets;
+> >  	u64 fwd_tx_packets;
+> > +
+> > +	int nbq;
+> >  };
+> > =20
+> >  struct airoha_gdm_port {
+> > -	struct airoha_gdm_dev *dev;
+> > +	struct airoha_gdm_dev *devs[AIROHA_MAX_NUM_GDM_DEVS];
+> >  	int id;
+> > -	int nbq;
+> > =20
+> >  	struct airoha_hw_stats stats;
+>=20
+> Since standard netdev statistics and ethtool MAC/RMON stats are tied to t=
+he
+> hardware counters on the GDM port, do they now return the combined hardwa=
+re
+> counters for the entire GDM port instead of per-interface statistics?
+>=20
+> Prior to this patch, each GDM port mapped to a single net_device, making
+> port-wide hardware stats accurate for the interface. With multiple net_de=
+vices
+> sharing a single GDM port, querying statistics for one interface might
+> incorrectly return the aggregated traffic of all interfaces connected to =
+that
+> port, violating standard rtnl_link_stats64 semantics.
+>=20
+> I noticed this is fixed later in the series in commit 29334a9bde18f ("net:
+> airoha: Better handle MIB for GDM with multiple port attached").
+>=20
+
+Correct, this is fixed by a subsequent patch.
 
 Regards,
 Lorenzo
 
->=20
 > --=20
 > Sashiko AI review =B7 https://sashiko.dev/#/patchset/20260509-airoha-eth-=
-multi-serdes-v5-0-805e38edc2aa@kernel.org?part=3D9
+multi-serdes-v5-0-805e38edc2aa@kernel.org?part=3D8
 
---AoE5hKwc3VX7KL8z
+--I86ZFwpODncJaq/I
 Content-Type: application/pgp-signature; name=signature.asc
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQTquNwa3Txd3rGGn7Y6cBh0uS2trAUCagGJeAAKCRA6cBh0uS2t
-rIC0AQCB4vNpyNwAWhilwrdVKDSwmfIC2mmckVm7kjpBYSFVZwD8Cx27ZuqAmZWr
-5tnKUNCiIHou0///+CnTMfZQZvocXwc=
-=XNlR
+iHUEABYKAB0WIQTquNwa3Txd3rGGn7Y6cBh0uS2trAUCagGLKgAKCRA6cBh0uS2t
+rMF3AP0RLVH1BUBktGa8mzV8rfg1YVHHkb0u2MSuklmwoqDnxwD/f21aDQk4lpzG
+k6fW/ysM0wQA78uX4Sh42xeIMjGA6wQ=
+=jThD
 -----END PGP SIGNATURE-----
 
---AoE5hKwc3VX7KL8z--
+--I86ZFwpODncJaq/I--
