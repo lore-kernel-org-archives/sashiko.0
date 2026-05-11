@@ -1,72 +1,72 @@
-Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
+Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com [74.125.82.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CBEF472767
-	for <sashiko@lists.linux.dev>; Mon, 11 May 2026 21:55:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2EFA4D9913
+	for <sashiko@lists.linux.dev>; Mon, 11 May 2026 21:59:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778536510; cv=none; b=DD9i7vk0NJLe64P39TPEgXH0eF9LE4rnxCTI/6g607UZre5E5Kn5gW9syILchcsPX8Dothnz/o6L15CHJGka8tWyOINLhbP2EgLW+PKQpJJEFFXg/uCvjzSDVvBOsOsiSFSbtJpKDDRWBDecnUx0UhI2V7SmqDrXcOVRoozyBKU=
+	t=1778536794; cv=none; b=U73db6IcBUOnEps13U5TqrzQKK8OyA+FF0QFYqT/AEvB6ojedJ4zZZzEKNc/quO4B0h4ctXY663MaP4Mn/KZr18fp4I0B0vtA6guoZxBWDnU4D0GJ/HDlEirIpdeFi2k0opeJ+uiRuAMrY9lqKHz1pLWF5VmgRa1jX7SRqsW6bc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778536510; c=relaxed/simple;
-	bh=NzRrgdqz4nEIoMnqLvi98xvutqhcVqw1QpBUiFoB1uc=;
+	s=arc-20240116; t=1778536794; c=relaxed/simple;
+	bh=PaQlJJH+b7e+/sFYjOpkFY//rP69dq1K/SjdJHxvTMQ=;
 	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=o+XRQkK/1+aMqH+aUAoPnMy7Yc1fc/bpLyzl9AknQLJBEnNZTI6KZOURaGONq48E2roj98+L8xCR9u5kWGDwTPSbZorElF5UYXsgOvGWokLMXt8TrVn91CK5Y8AUyN9FRsJ6UacfuRd2YzQfoBm8wYHViNG6oBf+WDzPi99lwQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=POxXY4d7; arc=none smtp.client-ip=74.125.82.173
+	 MIME-Version:Content-Type; b=AICH74zhsrbOpws+WkLQVvWtldm/rE4OKwsXHNOkJRJIkCAgWB0mJs9EUC7iZfmrjD/LzBUNO30pbZNpb7Feu4cVHir83c9owbyFJGMPL1/Zt8A9Y7CK9gAbDNEfV2/HRncMFutPElyvAT6qucgw/mVPxWD1mP5dgBHtwUWLdp8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b7fiPmu7; arc=none smtp.client-ip=74.125.82.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="POxXY4d7"
-Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-2f7020a928eso6731848eec.1
-        for <sashiko@lists.linux.dev>; Mon, 11 May 2026 14:55:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b7fiPmu7"
+Received: by mail-dy1-f174.google.com with SMTP id 5a478bee46e88-2c15849aa2cso6337341eec.0
+        for <sashiko@lists.linux.dev>; Mon, 11 May 2026 14:59:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778536508; x=1779141308; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1778536792; x=1779141592; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:references
          :in-reply-to:user-agent:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=BmUOZb/0iJu7cUFvnyBMuIAtVRaC6aw3BvJ4ZeLGelE=;
-        b=POxXY4d7ZNNgN5mUAWwF971sMx9W/QfHQKC1bdD7dsiNafpFXv0YVqAeH+yjSaVWlO
-         jHSWezFVdN7+cD8NaUQh+n0jJH25yp25sQ1YWWwTPL0w/XLmEzx8AlLrl57Rc6EaDgWm
-         1T+y0S1jwJ8CL9Unt1pQMVl+jcV+jRK3EP3PkTX261BTCmJO3qGi5kCox/wdf+0lZhQh
-         RUhVTMq5XVcWxilrITuhz3UcX5FwL5Ez2sUaIAl8PqluOu2S4g+pE2gVCQBQcRCGxfgV
-         l0AXjRfDFdPEVG3dqCFrB81lwFAdjXsqnCaRNLGqzUJkf5Nh+KZ36USVaG77TD0O38kn
-         +F4A==
+        bh=HGG70aLyZXbkyXVoX5cx1ZHQlf1r1TQ7U3Duak5bUAQ=;
+        b=b7fiPmu7Q0xdx5cBtQHMN722ns6dsYQe0bFida6B6LBi0wd6e7DTKMaNX4fhCnQzs1
+         5Nh4UIweTAPTdnd7SivPsRxWldet/X41ugOrgJKXg2OmBJ/sVn9s9JznzqOyyeLEJo4C
+         KXrnc0CZRMJnuzkVqW/q1Fe0hugO1phuExOBHraqeSWzRiP3HHjMWm007rj6yrlmPiDm
+         dR3TGU2Fwy7AI0B4/dzppstKQBSsPnNM8KvYB7qLFJVgZsZBItaSXTT+T+3qMH82UHVr
+         RdWRdxlzFM9zUF45RkiXimFTY4bMOOrh/+tgsSlT0o6FvJNUpQl4JaAivKXuKLtMKzgJ
+         bNhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778536508; x=1779141308;
+        d=1e100.net; s=20251104; t=1778536792; x=1779141592;
         h=content-transfer-encoding:mime-version:message-id:references
          :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BmUOZb/0iJu7cUFvnyBMuIAtVRaC6aw3BvJ4ZeLGelE=;
-        b=F7Fo+lzNoB7RaZ/WmheAOCuPirH2Vk9DSL/1Qz7ArQ3xkKv6xyQ/UAATvpXk44m1tA
-         PkWq7zdeOMUgsZKEl+d4yyBNqI9hFo+kOmpXfeo99AQYQOiDpZBnEjH8H861XYy0/R8U
-         JBN6//OO8pNsVZoo+nnRhMU8qbKuTPfSsdGSE07Ll2lCCaQ3MGAaWmX5yhOdjX/zEGX8
-         CYY+6xmHRBNPAc38HG52s9ul+Fuo7cyWbfMLyhGFgfYgyKI+lha1+T9dwJ/Pqcw7RTtw
-         vcBFRI3sFRA7qeAKC8hIxW8gToUD/G6HhxxfYTmSYWIB80fEKd79Dbq5rUUhuYqS/01P
-         fn1Q==
-X-Gm-Message-State: AOJu0YzroGB9JUnSh6h/VR+kopqSZyFEBEzwuWSsYRGe0DaIt3ijN8I6
-	hPKojmQIqjLwL2Urf4k/ci14ceRDGI78JV6tz4KYAghiaThoudzUiumgoYdEKQ==
-X-Gm-Gg: Acq92OH/risZqycuqlXTX5MU/SyUiA7xGhgTEPMJmrq5cXzUYqtZaUq3bTnfrlcn5JZ
-	EZ+q4liM1vRtQ23Yg5e7wO1uTnqwnEZ3KLmudlQIPOTvg2Xkzcnee4z1MuT3pWUV9fI1/sqQX1u
-	+pBxELcmmPana6++aBaTFr9LaNJHgiG72ojfwP8E1LDpRQIHrgPlWazzxZEihPY5f1OPaYu/SWV
-	TpYeYfxS13EXdzAK2XfhzD4nrSNZ/RbmM7UDPmaaJCaLuwD//PZPMoWbopR7Iy3R3Gzzi9Ipnyq
-	hCxk5nt84gxqM4BbA1jZRDhHaVuiadm4MHM2/bhfezyBNeX0HjmtyVxFEjIhrzLcock59SF2WcL
-	hk/sW+L6u1oKgcgjHw00lOscI8n25IHjorfpTRoKV9CMCDaLQb7pypnU1N4AJFMAv91b4+ReYHq
-	PxpzMAAGa6q4qzT7JNaibKcc0qicRczWJ5numEmxrZwQvegZ+UWJSzNQK2r8k0p0AMcUeEsp058
-	X6DIevnPdNtXlga9XuGeg==
-X-Received: by 2002:a05:7300:e404:b0:2dd:c066:c02 with SMTP id 5a478bee46e88-2ffd77e6eb6mr240084eec.22.1778536508388;
-        Mon, 11 May 2026 14:55:08 -0700 (PDT)
+        bh=HGG70aLyZXbkyXVoX5cx1ZHQlf1r1TQ7U3Duak5bUAQ=;
+        b=j4LP7g5ecpRwdRUUseJ7hqDJ3A72jifYF2T0hXMF1ztAgQMf5nzjwe1FTk4YuBKuiU
+         wZRWqOrR3+LefftOGwufBHTld8mmunZcvNcDWNafabr5VdiAU8lg2TKoOxB8zcMHvI9i
+         ozlGH/QUgBvxx5Y1PokKNHSndWC4BbVYB5aXKDAZUal8oiZovUuYzhOFkTGjQfzdjRdC
+         J8kKR0ixYH7QRS7pROtGx4WGefApg73+nuT9WZ1HdNZCGiZLExXPm0yiqjL9i4q+RoLA
+         izgqvO52gYnyi2lxUmHV1Ea4xIEtJBTB3rq/JnoCwJCndUkL3LZJPO599ydE2EyXuSH0
+         wAFg==
+X-Gm-Message-State: AOJu0YyVgF/aHj+xyQAC0xd54vFcIpR8QM4wDT3YzRDL1e5jDnE4cEJl
+	BbHyUE+G97B6sv9N7qL3DFRefiQ54UhacrIIjIk1L9ezvCF6/zB/MHbZgRg0jQ==
+X-Gm-Gg: Acq92OF8kqz5u8I/s4H/e4BOAhy7ky+21iXr3bv2occeXGlTitihIfN6lN1BSEDefaz
+	gMzrNU4HwXcaP2JhooRmYTRhFGRljiKQhN88aX9aWmUU4eIaC+IbHGIBGSE1yWfAuAfg2nk4vsO
+	IcZLDkDrAqvJq101hHs78QgJFEv5AImK+L7qneJLcEQkVuFK7bAdvJKYORiA/zU908W3Wsbwe2u
+	RBBSig5u/PrQu8WPyq6gklp3ej38PbQp6vZt3xuWS/fVrc1F0rMHOZms6ecOcdTmL4Rsm0kJZeY
+	keR0whkzVC96GS4ipCYSzaFqHXyEiAunJiACYQpAoX/GPar31k7iwcD+ttMoDt3Dj0TwaKxP0pj
+	+nwAWfGg/+wZYcu0sjWU0LEeyLBYwnPbpiJ9MH/0lStuiK7zzrxCK1lK22eYJ15r4hgvNtBOSBz
+	U9bzQHsZjrrpI/2aFUYJ0OeoBNqJxtFWlvC632C0qfSyPBnIFB3HPbU3bmfGSrvNYjADGFH82c9
+	QLFFXud6bO4nSbaRYIq+w==
+X-Received: by 2002:a05:7301:4b18:b0:2ed:e14:42e9 with SMTP id 5a478bee46e88-2ffd88bcd1amr222141eec.34.1778536791780;
+        Mon, 11 May 2026 14:59:51 -0700 (PDT)
 Received: from ehlo.thunderbird.net (108-228-232-20.lightspeed.sndgca.sbcglobal.net. [108.228.232.20])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2f8859eb034sm15357293eec.5.2026.05.11.14.55.07
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2f8859eafacsm15107022eec.1.2026.05.11.14.59.51
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 May 2026 14:55:08 -0700 (PDT)
-Date: Mon, 11 May 2026 14:55:09 -0700
+        Mon, 11 May 2026 14:59:51 -0700 (PDT)
+Date: Mon, 11 May 2026 14:59:52 -0700
 From: "Derek J. Clark" <derekjohn.clark@gmail.com>
 To: sashiko@lists.linux.dev, sashiko-bot@kernel.org
-CC: dmitry.torokhov@gmail.com, linux-input@vger.kernel.org
-Subject: Re: [PATCH 3/4] HID: hid-msi-claw: Add RGB control interface
+CC: linux-input@vger.kernel.org, dmitry.torokhov@gmail.com
+Subject: Re: [PATCH 2/4] HID: hid-msi-claw: Add M-key mapping attributes
 User-Agent: Thunderbird for Android
-In-Reply-To: <20260511212230.21800C2BCB0@smtp.kernel.org>
-References: <20260510043510.442807-4-derekjohn.clark@gmail.com> <20260511212230.21800C2BCB0@smtp.kernel.org>
-Message-ID: <EAA30E51-66FB-4772-AEBB-4A94402FA9F5@gmail.com>
+In-Reply-To: <20260511205107.C2030C2BCB0@smtp.kernel.org>
+References: <20260510043510.442807-3-derekjohn.clark@gmail.com> <20260511205107.C2030C2BCB0@smtp.kernel.org>
+Message-ID: <70F3879B-AEFF-4CFD-9CC3-2BA477D97D9F@gmail.com>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
@@ -77,162 +77,88 @@ Content-Type: text/plain;
  charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On May 11, 2026 2:22:29 PM PDT, sashiko-bot@kernel=2Eorg wrote:
->Thank you for your contribution! Sashiko AI review found 5 potential issu=
+On May 11, 2026 1:51:07 PM PDT, sashiko-bot@kernel=2Eorg wrote:
+>Thank you for your contribution! Sashiko AI review found 1 potential issu=
 e(s) to consider:
->- [High] `speed_show()` incorrectly casts the LED class device pointer to=
- a `hid_device`, leading to an out-of-bounds memory read and kernel crash=
-=2E
->- [High] Deadlock and missing return in `cfg_setup_fn` when handling init=
-ialization errors=2E
->- [High] Sysfs attributes re-arm the cancelled delayed work after device =
-teardown, leading to a Use-After-Free=2E
->- [High] Racy nullification of `brightness_set` causes a TOCTOU NULL poin=
-ter dereference=2E
->- [Medium] Communication failure in `claw_read_rgb_config` leaves the pro=
-file parser in a corrupted state=2E
+>- [High] Data race on `drvdata->profile_pending` and lack of transaction =
+atomicity during concurrent sysfs accesses=2E
 >--
 >
->commit 9663adbabcba6be0b443e7073133d650a790c871
+>commit b9bc6d29326e3dd3ed065aca7059668a1b674bc8
 >Author: Derek J=2E Clark <derekjohn=2Eclark@gmail=2Ecom>
 >
->HID: hid-msi-claw: Add RGB control interface
->   =20
->Adds RGB control interface for MSI Claw devices with 9 total zones and
->supports up to 8 sequential frames of RGB zone data=2E
+>HID: hid-msi-claw: Add M-key mapping attributes
+>
+>Adds sysfs attributes to remap the M1 and M2 rear buttons to up to 5 even=
+ts
+>(gamepad, keyboard, or mouse) when in macro mode=2E
 >
 >> diff --git a/drivers/hid/hid-msi-claw=2Ec b/drivers/hid/hid-msi-claw=2E=
 c
->> index 60694d075d56f=2E=2Ef4fe74a784c29 100644
+>> index 7a3cd940ec49e=2E=2E60694d075d56f 100644
 >> --- a/drivers/hid/hid-msi-claw=2Ec
 >> +++ b/drivers/hid/hid-msi-claw=2Ec
->
 >[ =2E=2E=2E ]
->
->> @@ -743,6 +836,389 @@ static const struct attribute_group claw_gamepad_=
-attr_group =3D {
->>  	=2Eis_visible =3D claw_gamepad_attr_is_visible,
->>  };
->> =20
->> +/* Read RGB config from device */
->> +static int claw_read_rgb_config(struct hid_device *hdev)
+>> +static int claw_buttons_store(struct device *dev, const char *buf, u8 =
+mkey_idx)
 >> +{
->> +	u8 data[4] =3D { 0x01, 0x00, 0x00, CLAW_RGB_FRAME_OFFSET };
->> +	struct claw_drvdata *drvdata =3D hid_get_drvdata(hdev);
->> +	u16 read_addr =3D drvdata->rgb_addr;
->> +	size_t len =3D ARRAY_SIZE(data);
->> +	int ret, i;
+>[ =2E=2E=2E ]
+>> +set_buttons:
+>> +	ret =3D mcu_property_out(hdev, CLAW_COMMAND_TYPE_WRITE_PROFILE_DATA, =
+data, len, 8);
+>> +	if (ret < 0)
+>> +		goto err_free;
 >> +
->> +	if (!drvdata->rgb_addr)
->> +		return -ENODEV;
->> +
->> +	/* Loop through all 8 pages of RGB data */
->> +	for (i =3D 0; i < 8; i++) {
->> +		drvdata->profile_pending =3D CLAW_RGB_PENDING;
->> +		data[1] =3D (read_addr >> 8) & 0xff;
->> +		data[2] =3D read_addr & 0x00ff;
->> +		ret =3D mcu_property_out(hdev, CLAW_COMMAND_TYPE_READ_PROFILE, data,=
- len, 8);
->> +		if (ret)
->> +			return ret;
+>> +	ret =3D mcu_property_out(hdev, CLAW_COMMAND_TYPE_SYNC_TO_ROM, NULL, 0=
+, 0);
 >
->If mcu_property_out() fails here, does drvdata->profile_pending remain se=
-t
->to CLAW_RGB_PENDING? If a subsequent unrelated profile event or stray ACK
->arrives, could claw_profile_event() incorrectly parse its payload as an R=
-GB
->frame?
+>Is it possible for concurrent writers to interleave these commands?
 >
-Hi AI bot,
+>Looking at mcu_property_out(), it takes the cfg_mutex internally, but the=
+re
+>is no lock held across both calls here=2E If a second writer executes its
+>WRITE_PROFILE_DATA before the first writer executes SYNC_TO_ROM, could th=
+e MCU
+>be left in an inconsistent state?
+>
 
-I am responding for the humans that will be reading this=2E
-
-Valid=2E Pending should be reset after errors=2E TBS, I need to find a way=
- to push pending assignment into the mutex, or there will be issues as foun=
-d in the other message=2E
+No, the sync to rom simply writes the state to permanent memory so it rema=
+ins in the same configuration after a power cycle=2E The first call writes =
+it to temporary storage=2E
 
 >[ =2E=2E=2E ]
->
->> +static ssize_t speed_show(struct device *dev, struct device_attribute =
-*attr,
->> +			  char *buf)
+>> +static int claw_buttons_show(struct device *dev, char *buf, enum claw_=
+key_index m_key)
 >> +{
->> +	struct hid_device *hdev =3D to_hid_device(dev);
->> +	struct claw_drvdata *drvdata =3D hid_get_drvdata(hdev);
->
->Since the rgb_attr_group attributes are attached to the LED class device
->rather than the HID device, does to_hid_device(dev) result in an invalid
->pointer dereference here? Other sysfs functions in this patch seem to
->correctly use dev_get_drvdata(dev) to retrieve the led_classdev=2E
->
-
-Also valid, though it doesn't crash when run it would be more proper to tr=
-eat the led cdev as the parent=2E
-
->
->> @@ -758,6 +1234,13 @@ static void cfg_setup_fn(struct work_struct *work=
-)
->>  		claw_remove(drvdata->hdev);
->>  	}
->> =20
->> +	ret =3D claw_read_rgb_config(drvdata->hdev);
->> +	if (ret) {
->> +		dev_err(drvdata->led_mc=2Eled_cdev=2Edev,
->> +			"Failed to setup device, can't read RGB config: %d\n", ret);
->> +		claw_remove(drvdata->hdev);
->> +	}
->
->If claw_remove() is called from within the cfg_setup worker thread, and
->claw_remove() calls cancel_delayed_work_sync(&drvdata->cfg_setup), won't
->this deadlock waiting for itself to complete?
-
-Since it's a void function I can't return an error=2E I suppose it can jus=
-t dev_err and return without initializing any sysfs attributes=2E
-
->Also, since there is no return statement after claw_remove() is called in
->these error blocks, will this proceed to execute the rest of the function=
- on
->a stopped device?
->
 >[ =2E=2E=2E ]
+>> +	codes =3D (m_key =3D=3D CLAW_KEY_M1) ? drvdata->m1_codes : drvdata->m=
+2_codes;
+>> +	drvdata->profile_pending =3D (m_key =3D=3D CLAW_KEY_M1) ? CLAW_M1_PEN=
+DING : CLAW_M2_PENDING;
+>> +
+>> +	ret =3D mcu_property_out(hdev, CLAW_COMMAND_TYPE_READ_PROFILE, data, =
+len, 8);
 >
->> @@ -881,6 +1405,9 @@ static void claw_remove(struct hid_device *hdev)
->> =20
->>  	if (drvdata->endpoint =3D=3D CLAW_XINPUT_CFG_INTF_IN ||
->>  	    drvdata->endpoint =3D=3D CLAW_DINPUT_CFG_INTF_IN) {
->> +		/* Block writes to brightness/multi_intensity during teardown */
->> +		drvdata->led_mc=2Eled_cdev=2Ebrightness_set =3D NULL;
+>Can concurrent reads of button_m1 and button_m2 race and corrupt the
+>profile_pending state?
 >
->Is it safe to dynamically nullify the brightness_set callback here? If a
->concurrent brightness update in the LED core checks the pointer, sees it =
-as
->valid, and then this nullification happens before the actual function cal=
-l,
->could it result in a NULL pointer dereference?
-
-This was done specifically to address a timing issue with the LED core and=
- userspace writing to brightness during teardown=2E Without this we will ge=
-t a null pointer dereference when the brightness function calls mcu_propert=
-y_out=2E
-
->> +		cancel_delayed_work_sync(&drvdata->rgb_queue);
+>If Thread A and Thread B access the sysfs attributes simultaneously,
+>profile_pending is updated locklessly here before mcu_property_out() take=
+s
+>the cfg_mutex=2E
 >
->Since the LED class device is registered with devres
->(devm_led_classdev_multicolor_register), the sysfs attributes like effect=
-,
->speed, and enabled remain accessible until after claw_remove() completes=
-=2E
+>Could Thread B overwrite profile_pending to CLAW_M2_PENDING before Thread=
+ A's
+>command executes? If so, when the hardware replies to Thread A's M1 comma=
+nd,
+>claw_profile_event() might route Thread A's data into Thread B's m2_codes
+>buffer and clear the state to CLAW_NO_PENDING=2E
 >
->If userspace writes to any of those attributes in this window, could
->mod_delayed_work() re-arm rgb_queue, leading to a use-after-free when
->drvdata is subsequently freed?
+>This would cause Thread B's subsequent reply to be dropped and trigger th=
+e
+>"Got profile event without changes pending" warning=2E
 >
-
-Swapping this and the sysfs remove after should solve it=2E
-
--=20
->>  		sysfs_remove_group(&hdev->dev=2Ekobj, &claw_gamepad_attr_group);
->>  		cancel_delayed_work_sync(&drvdata->cfg_setup);
->>  		cancel_delayed_work_sync(&drvdata->cfg_resume);
->
+Possible=2E I'll look at improving this pattern by managing the pending fl=
+ag with a mutex=2E
+- Derek
 
