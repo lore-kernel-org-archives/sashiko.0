@@ -1,181 +1,176 @@
-Received: from mail-yx1-f45.google.com (mail-yx1-f45.google.com [74.125.224.45])
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4ECE4CA295
-	for <sashiko@lists.linux.dev>; Mon, 11 May 2026 19:22:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.45
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778527360; cv=none; b=Vx+1vIs1ETgsgEX5PNMmRI9pQRe8EdZbiamoPOrLM0B5EKJj6Fk2bCVwe9t7eciL18aT7WKfjVnIrdn94nffMbb2l9KMnaMqhLVlQnz7hMVuEeWkgMmutoSzCF/vmpkTeDSViP2fOvm6jSo4NdsAh7NffohZNr2axPpiDg30tTA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778527360; c=relaxed/simple;
-	bh=1Go7AkwpmkJBIvk/bDaA/aiLVxiJzm2LezpYLlLteKg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iqj4J8CGgoGiIbJcDZyfzDPVt4CCJ9GHjFN83s8Lh3SospcCM1UIGKwiO54NUZP9Yo6ojhRUGCIe9TRfPWdVPXZoHVLUKeVawDmm8kadJsIAYpVGdgz3kU6Nmeji7EVsOYuzoasoSqbhZQsaGfBmU10/HZMYpKRi7kdsWFkZkek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cOvDNF0B; arc=none smtp.client-ip=74.125.224.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CA5C37F739
+	for <sashiko@lists.linux.dev>; Mon, 11 May 2026 20:10:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.67
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778530246; cv=pass; b=aAYwI/JBMl1L/kyomT17UrllMm4rl8hmN7lleoLninAu/Qb1z6AglJr7buHADapeVQqJY52yr8Hidj6t+z2SgKH7lT19todItXjx8QdR5P/LHJmpyvkjwN/LaJoVAcKt1DE2qxGolHCRPONOOrdn9tAleYce2XE7mNPq/noMcr0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778530246; c=relaxed/simple;
+	bh=O3q+sWm+2qH8YKJrtBOMduCqmSL8cmGP3auMa2HveU4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gaaY0yAWkIWpik2kVxSF+j7pOrxHoZdLMjntVd95DA6pCPOW/blc/Su4lTQf/KIsZ1W66xIAjzE7JuYO0gZmq2ZhLhICMZ6fX6/9Qz6E/l0x3SX3utDhPdlK7oAxGFFVxMSLt0XUe+V21TPOD8tdcTUB5U4+1TH45LVFZ8GRE6Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ktq7uOyw; arc=pass smtp.client-ip=209.85.128.67
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cOvDNF0B"
-Received: by mail-yx1-f45.google.com with SMTP id 956f58d0204a3-64eb84d1e37so3768290d50.2
-        for <sashiko@lists.linux.dev>; Mon, 11 May 2026 12:22:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ktq7uOyw"
+Received: by mail-wm1-f67.google.com with SMTP id 5b1f17b1804b1-488e1a8ac40so46742745e9.2
+        for <sashiko@lists.linux.dev>; Mon, 11 May 2026 13:10:45 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778530244; cv=none;
+        d=google.com; s=arc-20240605;
+        b=dfzIY6CBDECvhfBnaknF2L01tgVNkWij2BlFMRAn/wqE+JOxCJzQzXEcLEc5mkafgM
+         rSS7EeSgDh2T9AEbwJOauL4LVi5YE8bgk1GeqFgVYeUYwyYXbkQHJ+g9AIBs0+xY6ke9
+         h5ZCFWF9pE4Stioey+8CkHOECMjD4sj5EjJTYE1nSO4jBJfkWADykd4y53BnkghDOksp
+         vlEqHV4zqk/1TcRNH5hvZskPEDYpRBdjuidjON/iC6se4iJTTshXzSqMvoG3utVC4/3h
+         mzqhJvMKR2JhizF4KkKzEPg7LQ16WDeDiO1eDgl/G9v3l0s5/ATEuSxKMctGeYklxIR5
+         ki+A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=ZeAu1KBS/N3eyE3IFqT3qbkaYSHyiTjllPRUlF208lo=;
+        fh=zLD4DZDzdRbmEbmrwbqf6PIQUoXOzw55uC7na1NMzIM=;
+        b=S3SikqcVZlQJi83Rqtl5LDpp8Ea3NZ3xyev6SMnhA8GMTEXrdVx/vLfl3t9CeboyK+
+         T9aLKx5rMkYCJfWllZ9o86i28n407dQAiTXFtv8HDSbquh9bLrauStGnfNvx6tQu1Bbu
+         zj1c7Ozaq0E73pWSG+Gwfo0OtO/lNHO/DTNGEYDuVjE/0dNhtDDcFQj5Lnh0zA0uUg3X
+         thb25acXjt3gxGXzmXr/iI3ZXUfGJCeU2xckDjpfbe6cuC7An+ARHemU3QLjYBKNK19b
+         gF0k4Rtsdmz+5l/r++S+7YqOX35vqJX9jXgylYak/uWbWVNifIXXW5H8jz3K9nnhB6Kg
+         wuzA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778527358; x=1779132158; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=/a2/tf3pJlvTRKWq0xdAAEeDOGA4QAmtV52+9YCkorE=;
-        b=cOvDNF0BIE8PMSC8gYSgF/0nJPhAmwLT/rEg0SEVQ5jZgqLsY4FRY+9mVzSTqhmz7/
-         lj/0VZqmY+DMYSkwR3ERRFqGPUU5Saau0enNRtC73s4oFnYBvVoPr4RRTtZLlbMCsED/
-         ubzYXAJmwVBC3oitvWfEZHxO+Zw+ggzsk727pFvdThuIU4xDBx0MMmiAWNqTVpOCHkpK
-         vXu5t8p44tBCfFABCaUIaVH54kev3d+GchaqE4Fd4DjK085qWEM9B79NPe56G/v/YrQH
-         +BoCYOQQ0DlZJhKCnbVWEM8U5DkLdOyLZ7TA2zBrJ7gdDXCI/xOfEXfF+3zbW6eh3xaF
-         J03Q==
+        d=gmail.com; s=20251104; t=1778530244; x=1779135044; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZeAu1KBS/N3eyE3IFqT3qbkaYSHyiTjllPRUlF208lo=;
+        b=Ktq7uOywuRQFA1KOEdEmgnwelXafYQNYGc2tTU7hinm4Uwt5u1VprUB8fQY6h82gDT
+         461R/wUTDHZEWEgg/2AUaSQT4oD1Fl5hR4E/pebF6uqz6+bQJANnkW4MRqcEwX5tlU+e
+         fhDqwwTlohATSwnifF9dXgE1ixQXbOHEUa26X75mgFbRFIEjFu2n0JyAteU87gyoKEsO
+         xhbP+o+mNiwCKlO87h0hN9CRTXRVyH2MptScn5imwIeFz7CdepNgYOfRyIaDmAQ17ylX
+         /GkGlVU0a+suWIHBmjzblL/eyCetfs5DijZK122X1Sn0fd14XmN3phPv/pe7no6VE4xS
+         RGYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778527358; x=1779132158;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/a2/tf3pJlvTRKWq0xdAAEeDOGA4QAmtV52+9YCkorE=;
-        b=Piq4kdZHIQHW7YzkdUnya0Zeu1GnuhBRItNQuRdooEFOr63xW1m+YPP+iPlVcZf5g3
-         ZBKBGjFWXo/MICUzG2oervB6C1cSvn/IdgSieMhBW0KuPpQX0PljOP/beqdH56zcwYw4
-         GpCytvcRChhVQzz21JdyKdsgd/+bYKpgUU9XbiLcBLNqlufF8/mPWv9FBcljaAqaGLbe
-         fc9W3KzMgo7YHM+XkeruEA+FfFYHteSn3MxVeP3dh/2ZPifxJz0VE25j0EZ5+m1SqQ02
-         YBhTzPE0kcscrAkOBk5ws5UBF7Hy9AqtAWHsKkzRw4QPWdwrl6qIt3C4vsTTe5BE4ltr
-         Bb1A==
-X-Gm-Message-State: AOJu0YzxM0qU+lRneAblsmjezRtR8EKTctRMVIbAljciwjGk0SxG+P07
-	ZPdaGpo+Yc34F8B/5eg5Uv5gH1IcRmWIGq82+h59G444pwLXWMIpwJoE
-X-Gm-Gg: Acq92OEvs8ICUPX1NHw9P8ZHUBgAxPm91KP2sCpmewSk2biU3IJgYwEQLUK7TLLQP/e
-	YTU0vgDxaV8k578P7HufjAEOAbH4HA8oVqyejqTTcsL7+rbE/GOP37Cs8kJymiYKw6RIKXZOidU
-	smN296sloxy8cab0c9Tsdi53LIwbIE4+NejsEyovODTdC4UnZBqS6pqE7Pxo+gckrfYnYymn4aY
-	nRnqUeT/Z1ekbI+hYeDjSnYVv0CNSXSDmVb2mPfDuKI6bEdVU5mWrwT6TL9xFO0mFiEgayz5g0k
-	L6D7gCCALjNTl0c4Tz13BEwlAqSQ+jO3cwJqmk66Fl33keuuZ6SCz6LQhD25TqGPyd0ggk0zIO6
-	tTnI+r0AGG73xXdim5ypz2PSgoPT2T3zqCTzCMyaX9iw1WdulRekjOvJ+mz2Q8ZdX/VzpEwitKe
-	qXdXXYOZ4CXk3mdMaM+aIxYpormpqAxsV1ExY++dRnnShbIP3VC8NKBa9kxA==
-X-Received: by 2002:a05:690c:6d83:b0:7bd:8d1b:b2d8 with SMTP id 00721157ae682-7c102760192mr98515307b3.10.1778527357715;
-        Mon, 11 May 2026 12:22:37 -0700 (PDT)
-Received: from zenbox ([2600:1700:18fb:6011:e8b3:b34c:911c:3e07])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7bd665464ccsm153207707b3.11.2026.05.11.12.22.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2026 12:22:37 -0700 (PDT)
-Date: Mon, 11 May 2026 15:22:36 -0400
-From: Justin Suess <utilityemal77@gmail.com>
-To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc: sashiko@lists.linux.dev, bpf <bpf@vger.kernel.org>
-Subject: Re: [bpf-next v3 1/2] bpf: Offload kptr destructors that run from NMI
-Message-ID: <agInlPe_e8Mpp3Nq@zenbox>
-References: <20260507175453.1140400-2-utilityemal77@gmail.com>
- <20260507234520.646C4C2BCB2@smtp.kernel.org>
- <agCXEJKJh-JGMhjG@zenbox>
- <CAADnVQJdFCFJcg0Pqdnx=D2h5vHj_q4mrwSJYxRC5RW0NTFNvQ@mail.gmail.com>
- <agEnc0aYMhuIeDlq@zenbox>
- <DIFYUK5DKGAT.189D9YYSQFCUZ@gmail.com>
+        d=1e100.net; s=20251104; t=1778530244; x=1779135044;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZeAu1KBS/N3eyE3IFqT3qbkaYSHyiTjllPRUlF208lo=;
+        b=JVECPHDnuG5dXnkoP2PKciL3LkvfJ7oJP8xml6Dp3GCbvdVJZb7YcTjpJqy415NKOi
+         RQhvjCDoXxbp1hVUov6onkW0TKghcEeyHR+43kFRwa4os9rdEl5+iTp5hXtdKvnMVeNU
+         sdhyT6ZpksvW/5eP7yH8pD5KcWNLaJ+0wFha0aNF/gsbjiYCz+WwGATYJ0aSp6WP+ph4
+         m4KBV6LHK6EbrpEjW3PnSXFhd5xYzWkt3vplfad3r3xU1HuRhSrVDq7MV4MTA8DCLURs
+         e9yo+8askNpa2MXMRZUvyQfcVU/kJLAv57ZWmGos8Dez3iTAyHaCpEWCyzuJva3eRT4H
+         V6GA==
+X-Forwarded-Encrypted: i=1; AFNElJ9wHzU4RRe9bew5tgv9PPP9RgJd8Pf8BcwN3x25ZQX5tpfICwduzkFKuGbp5aSynW9f/P1MxaW0@lists.linux.dev
+X-Gm-Message-State: AOJu0YznCFx1NJ07spSIBsSNZAU0bUDykIWG97uPM1sLnN9nGMobYCXX
+	3q0byJRWPUCUB7r5F8yKCbCSeMd4wUAGWbOUd3cdTh7s1T2A8lAJLgkfDkQkjxWZcJKn5zTLSnd
+	VX8UdGKsreqKlsrgSjD0/iileSp0aSTo=
+X-Gm-Gg: Acq92OFgJxCuoJO0ItDzc6gnOCLve/7XmZLQqANLRe1R2wGE2OBx8pqgj9prE05kzNJ
+	GbpOIueim1qiR9j63FPx12KPEc/w5jVO81zCswVhtU0olCywaOEFtjcNO3DDcyPxA0irZyXUfPM
+	BlvuZrnixpspN+YjznvMhWMLS4w+cbrXGRKU6wHDdU/kZggEw7i2xupn+X1jrqC7QA+zrb42Hg/
+	Ske4lyPo5tUQL+sez+WD0Zv+L1zKVkS9wY13GvPOXwn8M9Ts8fJ0+90UNNuOgBtZmd5eernnTaT
+	VUmDgzz08EFVeE8uS77Z8teBuZppCk7m0wiDC/2OgCfZm+OntA4GIsw2/iLoiFmPuVJ/nKSMWsG
+	VEPkkDyUnZbIrQzbfKyJXGBVZPV/NtH80H0Ux7PNdZ/w9F8vVKj2fNR91fg==
+X-Received: by 2002:a05:600c:4f8e:b0:48a:f18:ece4 with SMTP id
+ 5b1f17b1804b1-48e8fe7d245mr627405e9.24.1778530243488; Mon, 11 May 2026
+ 13:10:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <DIFYUK5DKGAT.189D9YYSQFCUZ@gmail.com>
+References: <20260507175453.1140400-2-utilityemal77@gmail.com>
+ <20260507234520.646C4C2BCB2@smtp.kernel.org> <agCXEJKJh-JGMhjG@zenbox>
+ <CAADnVQJdFCFJcg0Pqdnx=D2h5vHj_q4mrwSJYxRC5RW0NTFNvQ@mail.gmail.com>
+ <agEnc0aYMhuIeDlq@zenbox> <DIFYUK5DKGAT.189D9YYSQFCUZ@gmail.com>
+ <agH_0MEw4b0pB11-@suesslenovo> <DIG0ONMVOP0L.3QFYUPWFSKWI4@gmail.com>
+In-Reply-To: <DIG0ONMVOP0L.3QFYUPWFSKWI4@gmail.com>
+From: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+Date: Mon, 11 May 2026 22:10:07 +0200
+X-Gm-Features: AVHnY4L-r9S0lVWrMl22FV0Sj1kUhVTnj6E46hXmJB-Pmw77jkoGnRhHec5qAa8
+Message-ID: <CAP01T75942V+wKJD0yhs8yb7U5vj+y9s6efJ+UdpTMfzP31CWg@mail.gmail.com>
+Subject: Re: [bpf-next v3 1/2] bpf: Offload kptr destructors that run from NMI
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc: Justin Suess <utilityemal77@gmail.com>, sashiko@lists.linux.dev, 
+	bpf <bpf@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, May 11, 2026 at 08:51:53AM -0700, Alexei Starovoitov wrote:
-> On Sun May 10, 2026 at 6:49 PM PDT, Justin Suess wrote:
-> > On Sun, May 10, 2026 at 03:38:08PM -0700, Alexei Starovoitov wrote:
-> >> On Sun, May 10, 2026 at 8:14 AM Justin Suess <utilityemal77@gmail.com> wrote:
-Here's a reproducer for the cgroup case:
+On Mon, 11 May 2026 at 19:29, Alexei Starovoitov
+<alexei.starovoitov@gmail.com> wrote:
+>
+> On Mon May 11, 2026 at 9:38 AM PDT, Justin Suess wrote:
+> >   [   21.604660] Call Trace:
+> >   [   21.604662]  <TASK>
+> >   [   21.604663]  dump_stack_lvl+0x5d/0x80
+> >   [   21.604666]  print_usage_bug.part.0+0x22b/0x2c0
+> >   [   21.604669]  lock_acquire+0x295/0x2e0
+> >   [   21.604671]  ? terminate_walk+0x33/0x160
+> >   [   21.604674]  ? __call_rcu_common.constprop.0+0x309/0x730
+> >   [   21.604679]  _raw_spin_lock+0x30/0x40
+> >   [   21.604680]  ? __call_rcu_common.constprop.0+0x309/0x730
+> >   [   21.604682]  __call_rcu_common.constprop.0+0x309/0x730
+> >   [   21.604686]  bpf_obj_free_fields+0x118/0x250
+> >   [   21.604691]  free_htab_elem+0x85/0xd0
+> >   [   21.604694]  htab_map_delete_elem+0x168/0x230
+> >   [   21.604698]  bpf_prog_f6a7136050cb5431_clear_task_kptrs_from_nmi+0xeb/0x144
+> >   [   21.604700]  bpf_trace_run3+0x126/0x430
+>
+> that's better.
+> Looks like we moved bpf_obj_free_fields() into htab_mem_dtor(),
+> but left check_and_free_fields() in free_htab_elem().
+>
+> I think the fix is to remove check_and_free_fields() from ma path in free_htab_elem()
+> and fallback to bpf_mem_alloc at map create time when map has kptrs
+> with dtors. Even when BPF_F_NO_PREALLOC is not specified.
+>
+> Kumar,
+>
+> thoughts?
+>
+>
 
-https://gist.githubusercontent.com/RazeLighter777/5f77cdfe035a4e22ee2642ae7db6387d/raw/10898d27040a07098cccc5d0785d9ad6620344e7/cgroup_kptr_nmi_deadlock_repro
+Yeah, removing it from the path that helpers can invoke seems simpler.
+Remember though, this splat is just for hashtab, we have similar
+bpf_obj_free_fields() in array map on update. I think fundamentally
+the main issue here is that we logically free special fields when a
+map value is freed or deleted. When updating array maps we logically
+'free' and then 'update' the same map value together. For hashtab, it
+happens on update/delete.
 
-Hacked together with an AI prompt but functional.
+We could relax this behavior to avoid eagerly freeing these special
+fields on update or deletion. The only worry is how this would impact
+programs that have come to rely on the existing behavior. There are
+patterns where people expect kptr to be NULL on some new map value,
+which causes programs to return errors when that expectation is not
+met. Just doing the skip when irqs_disabled() doesn't save us from the
+surprise side-effect. We need to decide upon this first before
+discussing the shape of the solution.
 
-Exercises a different path, but more consistently splats even without
-CONFIG_RCU_NOCB_CPU / CONFIG_RCU_EXPERT since this dtor uses workqueue.
+This is the theoretical concern; In practice, I think most people who
+depend on such behavior use kptr in local storage maps (in
+schedulers). So it probably won't be a problem in practice, even
+though we can't judge this ahead of time. Also, we eagerly reuse map
+values when using memalloc, so the guarantees are already pretty weak
+I guess.
 
-Had to use an fexit hook to get the timing condition right to release
-the last cgroup reference.
+So, if we are not going to go through a grace period (like local
+storage) and free back to kernel allocator before reuse, we should
+relax field freeing behavior. At best, we should cancel work for
+timer, wq, task_work, and task_work, leaving other items as-is. E.g.
+BPF_UPTR is used in task storage which I think is accessible to
+tracing programs, I am not sure how safe unpin_user_page() is when
+called from random reentrant contexts. We might have more cases in the
+future, we cannot guarantee we can handle everything in NMIs
+universally.
 
-But this lets you see the deadlock is indeed in the dtor in NMI.
+So the best course of action seems to be relaxing
+bpf_obj_free_fields() to bpf_obj_cancel_fields() that just does cancel
+on async work (timer, wq, task_work) for delete / update and let other
+fields be as-is. We likely need to do bpf_obj_free_fields()
+additionally before prealloc_destroy() now, but that should be simple.
+Whether or not to use bpf_ma when kptrs are used in prealloc map is a
+separate change.
 
-This is on the same bpf-next/master
-7e033543a2ab4c72319201298ed458e3bbddd82f:
-
-  [   15.160694] ================================
-  [   15.160695] WARNING: inconsistent lock state
-  [   15.160695] 7.1.0-rc2-g7e033543a2ab-dirty #130 Not tainted
-  [   15.160697] --------------------------------
-  [   15.160697] inconsistent {INITIAL USE} -> {IN-NMI} usage.
-  [   15.160698] test_progs/434 [HC1[1]:SC0[0]:HE0:SE1] takes:
-  [   15.160700] ffff9096fd66ced8 (&pool->lock){-.-.}-{2:2}, at: __queue_work+0xde/0x720
-  [   15.160707] {INITIAL USE} state was registered at:
-  [   15.160708]   lock_acquire+0xbf/0x2e0
-  [   15.160711]   _raw_spin_lock+0x30/0x40
-  [   15.160715]   __queue_work+0xde/0x720
-  [   15.160716]   queue_work_on+0x54/0xa0
-  [   15.160716]   start_poll_synchronize_rcu_expedited+0xaf/0x110
-  [   15.160719]   rcu_init+0x958/0x990
-  [   15.160722]   start_kernel+0x746/0x980
-  [   15.160725]   x86_64_start_reservations+0x24/0x30
-  [   15.160727]   __pfx_reserve_bios_regions+0x0/0x10
-  [   15.160729]   common_startup_64+0x12c/0x138
-  [   15.160731] irq event stamp: 18704
-  [   15.160732] hardirqs last  enabled at (18703): [<ffffffffa200148a>] asm_sysvec_apic_timer_interrupt+0x1a/0x20
-  [   15.160734] hardirqs last disabled at (18704): [<ffffffffa30e3f8f>] exc_nmi+0x7f/0x110
-  [   15.160737] softirqs last  enabled at (18698): [<ffffffffa22e5800>] __irq_exit_rcu+0xc0/0x100
-  [   15.160739] softirqs last disabled at (18687): [<ffffffffa22e5800>] __irq_exit_rcu+0xc0/0x100
-  [   15.160741] 
-  [   15.160741] other info that might help us debug this:
-  [   15.160741]  Possible unsafe locking scenario:
-  [   15.160741] 
-  [   15.160742]        CPU0
-  [   15.160742]        ----
-  [   15.160742]   lock(&pool->lock);
-  [   15.160743]   <Interrupt>
-  [   15.160743]     lock(&pool->lock);
-  [   15.160744] 
-  [   15.160744]  *** DEADLOCK ***
-  [   15.160744] 
-  [   15.160744] no locks held by test_progs/434.
-  [   15.160745] 
-  [   15.160745] stack backtrace:
-  [   15.160747] CPU: 1 UID: 0 PID: 434 Comm: test_progs Not tainted 7.1.0-rc2-g7e033543a2ab-dirty #130 PREEMPT(full) 
-  [   15.160749] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS rel-1.17.0-0-gb52ca86e094d-prebuilt.qemu.org 04/01/2014
-  [   15.160750] Call Trace:
-  [   15.160751]  <TASK>
-  [   15.160753]  dump_stack_lvl+0x5d/0x80
-  [   15.160757]  print_usage_bug.part.0+0x22b/0x2c0
-  [   15.160760]  lock_acquire+0x295/0x2e0
-  [   15.160762]  ? srso_alias_return_thunk+0x5/0xfbef5
-  [   15.160763]  ? __queue_work+0xde/0x720
-  [   15.160767]  _raw_spin_lock+0x30/0x40
-  [   15.160768]  ? __queue_work+0xde/0x720
-  [   15.160769]  __queue_work+0xde/0x720
-  [   15.160772]  queue_work_on+0x54/0xa0
-  [   15.160774]  bpf_cgroup_release_dtor+0x12e/0x140
-  [   15.160778]  bpf_obj_free_fields+0x118/0x250
-  [   15.160782]  free_htab_elem+0x85/0xd0
-  [   15.160785]  htab_map_delete_elem+0x168/0x230
-  [   15.160790]  bpf_prog_23fcbbeb395ac6b4_clear_cgroup_kptrs_from_nmi+0x54/0x74
-  [   15.160792]  bpf_trace_run3+0x126/0x430
-  [   15.160795]  ? __pfx_perf_event_nmi_handler+0x10/0x10
-  [   15.160799]  nmi_handle.part.0+0x15b/0x250
-  [   15.160802]  ? __pfx_perf_event_nmi_handler+0x10/0x10
-  [   15.160804]  default_do_nmi+0x120/0x180
-  [   15.160807]  exc_nmi+0xe3/0x110
-  [   15.160809]  asm_exc_nmi+0xb7/0x100
-  [   15.160810] RIP: 0033:0x5607a669541b
-  [   15.160813] Code: c7 45 f0 00 00 00 00 eb 1a 8b 55 f0 8b 45 f4 01 d0 48 63 d0 48 8b 45 a8 48 01 d0 48 89 45 a8 83 45 f0 01 81 7d f0 3f 42 0f 00 <7e> dd e8 7e f5 ff ff 48 89 45 f8 48 8b 45 f8 48 3b 45 e8 73 16 83
-  [   15.160814] RSP: 002b:00007ffdb09c1dc0 EFLAGS: 00000293
-  [   15.160816] RAX: 0000003aced4e2f4 RBX: 00007f1d8d574000 RCX: 000000000000000f
-  [   15.160816] RDX: 00000000000ad857 RSI: 00007f1d8d577000 RDI: 0000000000000001
-  [   15.160817] RBP: 00007ffdb09c1e30 R08: 00007ffdb09c1da0 R09: 00007f1d8d577010
-  [   15.160818] R10: 0000000000001614 R11: 0009718b9187183f R12: 0000000000000003
-  [   15.160818] R13: 00007f1d8d5b6000 R14: 00007ffdb09c3358 R15: 00005607a9daf890
-  [   15.160824]  </TASK>
-  [   15.214040] perf: interrupt took too long (2501 > 2500), lowering kernel.perf_event_max_sample_rate to 79000
-  [   15.246002] perf: interrupt took too long (3135 > 3126), lowering kernel.perf_event_max_sample_rate to 63000
-  [   15.308032] perf: interrupt took too long (3928 > 3918), lowering kernel.perf_event_max_sample_rate to 50000
-  [   15.500072] perf: interrupt took too long (4912 > 4910), lowering kernel.perf_event_max_sample_rate to 40000
-
-Justin
+This should hopefully resolve the issue, unless I missed other cases.
