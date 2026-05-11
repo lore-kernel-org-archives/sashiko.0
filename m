@@ -1,64 +1,62 @@
-Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011002.outbound.protection.outlook.com [52.101.70.2])
+Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012071.outbound.protection.outlook.com [52.101.66.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A720B29CE1;
-	Mon, 11 May 2026 02:22:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 534661339B1;
+	Mon, 11 May 2026 03:14:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.71
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778466126; cv=fail; b=Wg6LDr0KewstrfICoISkbBo6gP2oIBsaKZgCeFC66PPGjwQfI4BPG3L5HsFmxGNM/jWKK8X7+k9yli4zpZ/ISRsFHTE9RLT8frA9UVBpEqCvHVFbtq+Kd6g+u0fK32mqRj0O2VRuwVMXg1qANHfstlRzbKKm+YLFiavCLUo7R+Y=
+	t=1778469285; cv=fail; b=Vv48BPXnQNm4iomW0CdngEpYxbNkngwYDPZ6YMfMBwz7pOJXdelzOrIdR8tkdGib4LGl7U6TK6B+5Dk2YM03+Uq6LliNZ2ES115RJBaPEPSXa60EIHVyzDJAFsVcRMGJmd3uLzLXE2s6d5ngI7xYR8bT4ymspyDjRVnD6WHGHD0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778466126; c=relaxed/simple;
-	bh=vyQDkI5xSVjRBHYFmDwtSVyiLGgDEBzfjyCFd+2QiRc=;
+	s=arc-20240116; t=1778469285; c=relaxed/simple;
+	bh=iqTAuW2Se1nBDqvl9tAKb82A/sK1jGE6R67OhI+GNmo=;
 	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=LOXU6/u59g2QJYSlAfAH0DserN04HDXXYChuhpRnwPiwwG3dMym1MU9QSoqZ0ANaTUak9aP7HfE+ThFIq8bwAHvL1KoRJSbu8tuBrZqIy0W+LayT+4qlI6R8j/6a4OhtST6hGDHzzwAkibFRt5A7wujaGP7Q05o0OZF2qlQbp9Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=MmCevei+; arc=fail smtp.client-ip=52.101.70.2
+	 Content-Type:MIME-Version; b=tAOSeQ8zcnR4XBPG9bgsDVjze1jk/KdPPkjxXpvJapsnzN6EyhFuBNCE8kF3rjjC6Y1IaFLhNQJC4b625qyAHHFhXoArYn8T5XxBGyEx17TCflPygvqg2zwD+qVZn4v7iIpZT8EoXXe9Xffm/R04Lcm6PAGnt1ofmKPJgD5pLOQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=P94sOQnr; arc=fail smtp.client-ip=52.101.66.71
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="MmCevei+"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="P94sOQnr"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=YLi6TrlmNjDSsbs/Eg5A+UchWEACsDhHstg5H6LptN3DbbrCeabGaElgWNVLwDqnbV+YRjtkhWhnlAZ0kdSdnMW6zkTipuABz9SsQFvaIg4UuJbnQeoBeDZmpFhH+sL0vdJVvacNkgPGhWXmlWLGFuzdYkGnfJuO5CT0x+FJFjGATkGay1RdG9tITAe1/YE70ma6jQojw0Hhax4sGFsfzRRYcDQ8fME6NRnLRrVpBEE8ji3goLLVi+inINYN1ReJGHukNXnJ1CobSaJ1d8XUZvmNfrFmShnO5eDMWzYg6N+T2ZxQ3xAJa0g6jJLtThS4qJeaZ+vBDN3ygLX+pqhYdg==
+ b=LOv8GSBEAqVRHMFtU9fodHd1Ay8iE0jxcEu+TYK9YtcZwu2Afe3z8V17xopOSeO67TzOGsjH/qWEj09xVabg2TpvfsaXoSH2w1ZSLRsedBFedJj7lplelEHbwK+IAJt1uclDYrQUhDJECBpPRx5UCiceX4Dwee6cp+l97UEndGvJUXt3JSQ18hL2X3wXtsDZaPk+VhLlsvWiFhE9jVG6pF7+ovFHfaRyTsJP0q47KcJBFEFQnRSNFPlq1jPStrAt3FeD2Sg6o19TCJEex0prK5o/XrrZPqfbNKJVizF5iYyoky/IxMb7JwzbSio1orf/npDo0q8uXEETwSBlex2t5g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RaLCmDK2jHthFvTZwqN4aKTA1TOMs7yiZieu+sX7Ivs=;
- b=LsdO513s6IiDtjeSzfkee4oUrTHeYyg6302pw+gjMuS1uB1iq7jUzb4O3YnDmVFVNXcfuDVINNYhoLf/ZlLx5OJF/Y75HQjmUr3pS4awr46i0+eS8yQELF1hcHaR3BcUqe8fWK/b75tRVvEFtnbUCkGhhWMLEQtJjh3CSJm6D29LAJH6tMAuzA3r+hNNPss4YyFKWKVdayQ9SBB5kZsPNCkW/xf++Q8byexG8RF1CKPQ1qAcDiPMPPidX9D4jUvQ1IiJvqstCLD3cXJoVPyPOBcdGz7b/jJKuWg5kcvGM9ylWePd+pseSiQA9Bs8MN8rV/A3/YIxVVJ74S5WOvo0tA==
+ bh=s+T+NALi8eKjps8Rx7LU1yMxmFMmrqoHmeGjfboVY8k=;
+ b=dzOXttmt5jJqBU/5FlAiD1nufAgGu1VnEok+gPaNrxAPxEF/HS3vDsiUJZz181SUB/AkQHNq+EgRc1xXo5/48JcWhP11lHjyQIABvQPidi9/FwBxiHPdzroPRRv9tNGKT15zRMftdLFBc+69CWoeE2egpzHwKRODN7W+c6RVUJj+u2dlUpaUAi3+vWlXoEOGUmzPo0RdqLZEuqba2OBdQ0jGW3ZWD2703xQcw7CSY30U5wxkPX4WJpDNcwD0OUGVi1luXGyg8zv1d/7fy3L52pn65L2JwhLeCY9l/9Wsr/l83xnrLuPi2Raf2yhkzTxwQPt51cw5d/wphhqdi3rFHA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RaLCmDK2jHthFvTZwqN4aKTA1TOMs7yiZieu+sX7Ivs=;
- b=MmCevei+n1hepEv+FjNTaTxzw/r3oI5ba2CdceU2HmyL8GZWtFkPIKczm9n7FvDGoaFs16t9vpk6r+mQLCLnRuRGkvWrrepwtQDlQklqLPWiQ0J05IQ688aPzHE/lfHVsrEaENi8eZAdosxxQ94mIFWicYpNM8vsFrK1vBoF8n8rk6jUE+gFzxlaccsSiuqNOyNQDp0zJgGWWvREBNU870ubsqO3JnGEeOk5iqnQcgsXG+qQ7aTSUAnGsAUqpar3N7ZYtlqZZVi/3gv1F57Ki+IkIadJi0pVI5XCuJgYmLONGLtTmRKHWv6xKtDY39QaXHd6VzcuEAsMhXZ+Oh1cEQ==
+ bh=s+T+NALi8eKjps8Rx7LU1yMxmFMmrqoHmeGjfboVY8k=;
+ b=P94sOQnrOfmriyzbZhcl6UhdTSJ43RkNQvEKAQTJ0EVKf87YNaHs4BTWBHxPm/H06o9k9yY8v+3o80FPweeosg0H2WueT8E6SJuOirE36I2V6DphaKzFaftoOZK+uvo+pIAilSiCCHnXV6vb3C7VAjskvN8uWzwvP0Wb62lglzT/AYzMiLVLCwYzApYzgoK3dYeIJzZTOKHPmW0TYxd5c5rw9kqkUcYZOZQmjnNzSTFWkRuE8qdsEhdjJeaNclps5SntPL2/DLEzrOdfNx2eI82JPwIm1IRjaZFNuIozJG/Av6DSz34k+xC12+QV48qx2X7v9MEDROn7e4B6HqyC2g==
 Received: from DBBPR04MB7500.eurprd04.prod.outlook.com (2603:10a6:10:1f4::16)
- by AS4PR04MB9574.eurprd04.prod.outlook.com (2603:10a6:20b:4fc::12) with
+ by DB5PR04MB12203.eurprd04.prod.outlook.com (2603:10a6:10:64b::16) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.22; Mon, 11 May
- 2026 02:22:01 +0000
+ 2026 03:14:40 +0000
 Received: from DBBPR04MB7500.eurprd04.prod.outlook.com
  ([fe80::c291:543b:4bde:cee7]) by DBBPR04MB7500.eurprd04.prod.outlook.com
  ([fe80::c291:543b:4bde:cee7%6]) with mapi id 15.20.9891.021; Mon, 11 May 2026
- 02:22:01 +0000
+ 03:14:40 +0000
 From: Wei Fang <wei.fang@nxp.com>
 To: "sashiko@lists.linux.dev" <sashiko@lists.linux.dev>
-CC: "Frank.Li@kernel.org" <Frank.Li@kernel.org>, "krzk+dt@kernel.org"
-	<krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"imx@lists.linux.dev" <imx@lists.linux.dev>, "robh@kernel.org"
-	<robh@kernel.org>, Networking <netdev@vger.kernel.org>
-Subject: RE: [PATCH v6 net-next 06/15] net: enetc: add support for the
- "Update" operation to buffer pool table
-Thread-Topic: [PATCH v6 net-next 06/15] net: enetc: add support for the
- "Update" operation to buffer pool table
-Thread-Index: AQHc356QOmzuSm991Uy4YWZhyqKJfbYHFdkAgAD8S+CAAAh3gA==
-Date: Mon, 11 May 2026 02:22:01 +0000
+CC: "imx@lists.linux.dev" <imx@lists.linux.dev>, "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+	"robh@kernel.org" <robh@kernel.org>, "conor+dt@kernel.org"
+	<conor+dt@kernel.org>, "Frank.Li@kernel.org" <Frank.Li@kernel.org>,
+	Networking <netdev@vger.kernel.org>
+Subject: RE: [PATCH v6 net-next 12/15] net: dsa: netc: add FDB, STP, MTU, port
+ setup and host flooding support
+Thread-Topic: [PATCH v6 net-next 12/15] net: dsa: netc: add FDB, STP, MTU,
+ port setup and host flooding support
+Thread-Index: AQHc356oJ+jsDHmt5Eqn9ujFEA7UKbYHFeAAgAEMFuA=
+Date: Mon, 11 May 2026 03:14:40 +0000
 Message-ID:
- <DBBPR04MB7500D3E90AF38CE5BF20A5D688382@DBBPR04MB7500.eurprd04.prod.outlook.com>
-References: <20260509102954.4116624-7-wei.fang@nxp.com>
- <20260510104833.5F0AEC2BCB8@smtp.kernel.org>
- <DBBPR04MB7500D614C25B584703C43BDD88382@DBBPR04MB7500.eurprd04.prod.outlook.com>
-In-Reply-To:
- <DBBPR04MB7500D614C25B584703C43BDD88382@DBBPR04MB7500.eurprd04.prod.outlook.com>
+ <DBBPR04MB75004982323B70E4E942331688382@DBBPR04MB7500.eurprd04.prod.outlook.com>
+References: <20260509102954.4116624-13-wei.fang@nxp.com>
+ <20260510104838.8514DC2BCB8@smtp.kernel.org>
+In-Reply-To: <20260510104838.8514DC2BCB8@smtp.kernel.org>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach:
@@ -66,47 +64,47 @@ X-MS-TNEF-Correlator:
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DBBPR04MB7500:EE_|AS4PR04MB9574:EE_
-x-ms-office365-filtering-correlation-id: 03e88ec0-72cf-409f-0e53-08deaf0415fd
+x-ms-traffictypediagnostic: DBBPR04MB7500:EE_|DB5PR04MB12203:EE_
+x-ms-office365-filtering-correlation-id: 75a0fb54-f26f-44af-090d-08deaf0b70a1
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam:
- BCL:0;ARA:13230040|376014|19092799006|1800799024|366016|38070700021|56012099003|18002099003|22082099003;
+ BCL:0;ARA:13230040|376014|366016|19092799006|1800799024|38070700021|3023799003|56012099003|22082099003|18002099003;
 x-microsoft-antispam-message-info:
- asH7qXsKAspsx3KvOHKNfATfS1wJ0VjPAdAp6UCuF9gdvPScE1XmRF5tUneOfb1ifKMHe7/6HPx1m1UE4+rpz1/2XHULs+teeS8w30t2wnooYjdEfNIHL2QtKVjfP0QZCBtK0bZ529u7scqU/63Mb/DzsuCQOutaHndI0oXqlLGmLTQKUjYrUWMHdus6OQmK8Yq50JnVK31s3e5R9C0oLVkoFfL6VktlxqsKdEYZve51ajsJm/ACRiY7NI8FnlvgtgLb0g017YYD0r9tuUJXzjPeRB2Q0HfNV0UsV3ypWoAOYlJBgzvfyfH01YwqpwRnOsbh4GsZkwKFfy86Ih4fHsomtKUMr+5hyMYGBDdOBmAeaeBExpsfuIFdAE3Y7VbAbbnlAYJ3VxLkqN/cQeyY5z/4gzhmjZHNRlTHJ13or7Bfg8XKp18Og2/eElOhoO4B1PkrmDxGO2kxPKZOc9/GVIgJH3BlvXCSnrQWQKzbxlTtMJyLmzfxSls9DqFPFP+I9/YhN16k59RlVGJxFmKH2HoiS9MttQgbv2qTCU6TjniHYRajfjV+Jel8Vm1n+RvPPBAKBaEMLQEBJ0ZHB/MVoQGCbklWaiiCs1e6w3aCARxyassxoaHTMxhq8fV+OkrXT9tlyqPZQrQySXN145DTf6ZZ/f09bSioAiMTrgyRMkkwKkknLZwgZGReNQeAS1ht0LiKQ+iamB7TTBbnB5Wo9RSWzREiP+Uky4YkScd5eXmzLSXsfc3PQ0nuLCMU63yg
+ SH4Yb/5M+finmqj7OfQvBn9n/KcHVcjvMJa27ltQMeNyuZIQd3YopIpwpjzzkpY83kD4M95YhKcKSmfgAwt5j223DPZSlGSp1c+OThH3v6RxPfUCaguZjyhMi6SDlsvZFv6evGjIQXw5fOTypbuzYock32PAkUSTTbY3CqfgTK55tHRDai3eLVyAeioOjonwRtPpRchx68Hv3+UgEmpC7qZVuVykvoSSWMdlzJSWQhkXUzTCWX40jv376vdV5RWZ9JcNRqkAaI1iHTLNMB9SQZbnyRyo02Ew8m6LKgQC1sxYaFLnM1nE8Oe/9SdLVQ+UFrafVbPDLwjfuE/JOM1y7xEF6Xf31cTx5vyY2mViO9mjd2gIWVglfuVZeLg797RmFmCUQuLL8xZmOgFXVWsJTOq9b9nYtamgpVUMmSFzJW8R3E12LrpZL6rGphIh54fepbWR8on65ILOJ+gZRVZ9xczmY4msesOl9/UNLtcFKJEfXihkV9AVuzh56v+u3JsnAySP/URARAQiPQJGQBZNAj/pftFUTFnkR0zgoGn3ZUzbm5V+HYgQoe176f9/Kg4LAM29wLl+QJ+LmndD+kjkNQQQD86ASX5naxZM4wNeLLysdWY1CbYjmtFMdY4dwruWO8fC2gkOCkXw8iZtodZ1LHMan6cDGnTOVMPUmVajUDmc7ywMsnZ8RIEE9Lh23FHLMGC/h4tFgaphQsa2nKE9QEowEKddb1Z2SRj4yjThllFSU8UUc5RnALanMzxFXVal
 x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DBBPR04MB7500.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(19092799006)(1800799024)(366016)(38070700021)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DBBPR04MB7500.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(19092799006)(1800799024)(38070700021)(3023799003)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?ZDQxTtaMTzOcYC8Yq39dgF8Y4H5tiDU4LJyWFtHW7u/oZVmB6CTe+VPbWLLA?=
- =?us-ascii?Q?Lw2rrBhqcW3+P64ExtTfxefDAKHQRC5HyWhjNKHh6Ifz3SvbLdZaXTJ6v8Gn?=
- =?us-ascii?Q?US+fMhkAt9gKXzNCXXr7tSjVlvTkkSzjx9HdSuSqFhnkRVhGONbmkHbqHQsN?=
- =?us-ascii?Q?AUDH2+cRUwe0orb7GTB/4OFWEOL5kc/7AEcRQ0w9x5Y6nXBdkOtieVXjK1fJ?=
- =?us-ascii?Q?ROFivZqRksT2a0ukIl+jmiTB6pQWx6f8xWdcsMN0kLCGLVpU1XIXMvqzlWWI?=
- =?us-ascii?Q?iVeEMVISlMSJ1W0ccyYlFlXlR58FobQGxAN5SVcUoKgs8AIzX5EYiD6lniNq?=
- =?us-ascii?Q?Mu66LPWAFuFHuwADmSuqcvr8zUwT0iLlpbaUDfVo8AS67uh2WrpYEGKB0LdZ?=
- =?us-ascii?Q?ed0a2s1XjCCt1FeVGkWCcdW3gXnHLDcDcueus+/4YFVUUr+0wUwOxw6y1hPn?=
- =?us-ascii?Q?7i/jKGNqjUoNkHpqcUbZ/7mnYQLsxNsSSJJfi2wmEzHVz12OAHC7NHJhhB+2?=
- =?us-ascii?Q?8Q3LeUnMcouvBOVsViDMgVCp3PYk8ZAfzoTdlhwMvYCh620OYPrsj5n7cSwn?=
- =?us-ascii?Q?+BndwL0yZHTL8li9WryxBhEsf0hD9rMjz6wNacOfljTvENlY0TkTJRQPBDCC?=
- =?us-ascii?Q?UkVAP2aFjhTaUO7nLwxRi3laNZvcEiQZu7iGa/h2FSMlji/f8G/vh5TyBX1f?=
- =?us-ascii?Q?38vi5AXFzIRdtmxK8dV9XDlQwHVQzOP+LnHZc3+8DL5/72cqvhyEWuHF5CvN?=
- =?us-ascii?Q?n66iT9r7anX2gb9wHSJhcxwe98tVSpe8l36i5iDTndoWcucOF59HnuWL40C3?=
- =?us-ascii?Q?NWNp92THxbLPuZ1nR8jAesCF14GWJxBjUpr/sAwP0lBItnvAzmKisUlh2asV?=
- =?us-ascii?Q?zCHxMmc85erNx5YQHU2V8Jj3wqQ9euUV6t+0+Zfr4RT+1hMenDa4De+Gbf8P?=
- =?us-ascii?Q?fk+4saf0fyBm0sgs2bUvLQRK+uv/vxBviWJ4QFj1Ie0nNPo7KJxagGavQbTJ?=
- =?us-ascii?Q?2ExQJ22b7p6zEJ84YNryOEaMTxiFcF6lJEDwlqDB6buBZK1oMcdBDj9UkwG7?=
- =?us-ascii?Q?DPXDukuta3V5HXnJpZ+EttOHIvIPl4XnHzno1mZEk+rObQECKRBKJd/g3N6a?=
- =?us-ascii?Q?cVJIPy57oCT3338+W+dzHE91I4fznR4w/sI68hvSsLknnm8KLPwmilNNgcrP?=
- =?us-ascii?Q?xUZhvNokBW5Lpy5T3X2Urd978AQc9oKqV51HM43MClptlN1Ek3clW7HrbQi+?=
- =?us-ascii?Q?ERoGBigCF5rYoztsAjgS21gYzufPdEBI+4GkTZwys6bp5+lCiLhjewsz9FQG?=
- =?us-ascii?Q?re4++euBzo9DegVVIbIdSiGz6yFhRALLHU87Sng7GyU/gdLVMKznf6Umhzgz?=
- =?us-ascii?Q?X0oYoT5z+n90NJzYiWj0xJC7JC40O/xhmbFyEciB313s2OjfNL9WeGjQZxpC?=
- =?us-ascii?Q?gmWR7POQ4JZznxft+fPdnMvWmRR/Ut1+wUyUBPiFCDbJz6T+eXV+4NjUsaPZ?=
- =?us-ascii?Q?e0pG9g96YmIlT4crQ9TKKEo0EUt3zQGqkbdpw0CZncmzgba7VczFogcQUATz?=
- =?us-ascii?Q?1ThcpGzcg/Dv73AsthR8PfAZBhza2t/FUEuh78lQjgrryrhxV46atksaK2hR?=
- =?us-ascii?Q?S3+m6ie2lXyju2vvPzuGrLxhVHaEkbxpm5aavmye7jKsO//S8/AfBPDIZG3e?=
- =?us-ascii?Q?8vFwEXUvP9XJQj8AbsX3AT87cnqCd6FS+CQdPCRTVH1gOQXn?=
+ =?us-ascii?Q?o98GmBOCT0+0UBINaMpewNSGq6dXfvrGe0gTEoaJsZ1rorz3Fe2Et9ANt01Z?=
+ =?us-ascii?Q?3l8/GuvckNwZwyvokTjD8gRduuyeKY+qMdsGVkwQeJkJhqjK6qbaLHnKfkgL?=
+ =?us-ascii?Q?QcQr4uKKFsHT5VtXT7qMk1rWryri+6l67Q9f4904yiKZO9x0dCJQKf615JkQ?=
+ =?us-ascii?Q?IZRRQO/6enXswwMGWOlYaEICKAQU4J358f0xFzrx9hBJtTTNgb4Q3lLc8CX6?=
+ =?us-ascii?Q?OuaLhaimAP2LkKEg5ZePsCBdKcw1fZBhiSP5iEe7fbWrfbn9P3++w6sOKWfw?=
+ =?us-ascii?Q?cMUscpfyqxvCAYmdduN/mYWmB2GfwhvbmZhbKQXSnrs5YpXvbEHTCf0ZNjcb?=
+ =?us-ascii?Q?DBaE7UZ7gQiApeXj5fPQPy9/c4IjfJVR/90Uuw6FZExKGBlKWtOvWsFzcusa?=
+ =?us-ascii?Q?JC+tmd7B59nXQ/wPES2i1nfhpg9Mi3rRXIRC0DCPY7CQk3L1gT/xOcW+JNFJ?=
+ =?us-ascii?Q?IbS4WIer+seeTQrwlY/aGUEnsj4o5EIRZJgmqHgPrHvnW9HoqSVHfTIITLty?=
+ =?us-ascii?Q?2NaOITmrrMpOWglgSoe9eQ3x4n1Dga6K3gZeP8xVd/bWAUz7lKS/zCCMMf/+?=
+ =?us-ascii?Q?IBko+POIZUShjccbTuFtfH0xqk4uWmlyWjjyIaxi9ImYGSor5DAOeSKZkfNr?=
+ =?us-ascii?Q?LAqgyNXNl53GYBzV7BrhmOA+zQYH16J/sU9tzYna65Vh3JK+gyTuiW+UjCRU?=
+ =?us-ascii?Q?4GPttJxjHypbe40KahtFiFvhaatqhleBPC9cousO/qXBcpyCF2KoZDzaUta/?=
+ =?us-ascii?Q?bUxBI+qqTmUkJgWkMAUXletvi5+VBkdmT7kUiccqoFLy4AshSzy5ZyLcankK?=
+ =?us-ascii?Q?gZ0wJKLNEwpgRBgySSwuSoiy+DgdCv9ugSWErLUCMw9L1vqx9K8sfBzXeHY0?=
+ =?us-ascii?Q?kXnSVvJQ0cs3EyYrJl8f09yogbWuC4DmJRAzP52iXWakfQlcS6IQQ3k2C9N4?=
+ =?us-ascii?Q?zOIrOY3Lt0bBRA2bdCSJJXCF9C4142L4prbryTw8jVO5CBYZMb8w5G4CJUnH?=
+ =?us-ascii?Q?OwZJcJFe0w4+qG72RRLdqF8aS8JerE0B4oxhNbImVMokL6/9ubmyudKBKW8Z?=
+ =?us-ascii?Q?H6+uGJkWSXDTAvBHXXRjwZnnC83ElvhEkp84l6sFOcvjtqzv14QbSZbcY9vh?=
+ =?us-ascii?Q?+BzZ8VWa533Q1PujtUT/jImihA/9YIJ9G1kPTlq4+e/2Sc/G7ohVzxNF833a?=
+ =?us-ascii?Q?aMoZucVYEvE9lLW7b1N33A9l7cqCeNUafex2w9fMP0skolErGmzjhvOr4+pw?=
+ =?us-ascii?Q?2s2sP5CVZReCiX3dpnRHmD56X04ivNDqNOgBy5z1BOSF+83B7KjYtVKcBiZS?=
+ =?us-ascii?Q?uDSlr5BRELmrDs7tvBDSznmh3ag9RxNF7yaj+A83igmBTzXY8JsK6PKU0/9s?=
+ =?us-ascii?Q?4OMewbnlURCdCURz4iGUnroehBiiTw3xG/hK9rJ+DcXowkCncv0jxO239Mki?=
+ =?us-ascii?Q?it96Laai3BErQ+7A5PzdfWa9xAQGNmILrH3zByrbMGCerL5ZzYBerfV3toOx?=
+ =?us-ascii?Q?0sPVHABtltWnq9Dea8sJ028fh1wJMaF+xkSi+Ez5dC1AERlsRPUkNaaEYvee?=
+ =?us-ascii?Q?9qb5druUQqE4oYiVCBArx0bR5ZD0cSwP22YdksLcKyfemRdbCbXBvrQ8P441?=
+ =?us-ascii?Q?NkEqStwhj+eN156d7pWPnKUJE7jNUJ13ujS7jPOkwWDrWjU5lakkpUb1j54E?=
+ =?us-ascii?Q?QtIRYqqMGSF5hh/2xi2yFSiYkGMGV7M/z0cyTUNfE7X+2RVR?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
@@ -118,97 +116,185 @@ MIME-Version: 1.0
 X-OriginatorOrg: nxp.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: DBBPR04MB7500.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 03e88ec0-72cf-409f-0e53-08deaf0415fd
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 May 2026 02:22:01.6757
+X-MS-Exchange-CrossTenant-Network-Message-Id: 75a0fb54-f26f-44af-090d-08deaf0b70a1
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 May 2026 03:14:40.2206
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ES0kC+Fci/oziOWcaFD9vAUJJViwtyuBOC5AhyC81KeZs79TKY5UY6rPb8/Yc8KM7nk6Frrm8aZKdu1o2oXBBQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4PR04MB9574
+X-MS-Exchange-CrossTenant-userprincipalname: Pp5SHJxnPKBLLV8Zv2cR3ONquehysWiPIcUaUGDYVlprw0vbkc23XsUUtct1wUdYaSW2d5OEeG1ZiFkg5BWdKA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB5PR04MB12203
 
-CC netdev to avoid the same comments
+> Thank you for your contribution! Sashiko AI review found 3 potential issu=
+e(s) to
+> consider:
+> - [High] Incorrect FDB port bitmap update causes roaming unicast entries =
+to be
+> flooded to multiple ports.
+> - [High] Local `u8` arrays `bcast` and `dmac_mask` are passed to
+> `ether_addr_copy` without ensuring 16-bit alignment.
+> - [Medium] The driver silently fails to delete dynamically learned FDB en=
+tries.
+> --
+>=20
+> commit 5ef406cd4ab0e5005f26e470e33265be68b4fe54
+> Author: Wei Fang <wei.fang@nxp.com>
+>=20
+> net: dsa: netc: add FDB, STP, MTU, port setup and host flooding support
+>=20
+> Expand the NETC switch driver with foundational features including FDB
+> management, STP, MTU configuration, and host flooding support. The driver
+> operates in standalone port mode.
+>=20
+> diff --git a/drivers/net/dsa/netc/netc_main.c
+> b/drivers/net/dsa/netc/netc_main.c
+> --- a/drivers/net/dsa/netc/netc_main.c
+> +++ b/drivers/net/dsa/netc/netc_main.c
+> [ ... ]
+> > @@ -363,6 +418,206 @@ static void netc_port_default_config(struct
+> netc_port *np)
+> [ ... ]
+> > +static int netc_port_set_fdb_entry(struct netc_port *np,
+> > +				   const unsigned char *addr, u16 vid)
+> > +{
+> [ ... ]
+> > +	cfge =3D &entry->cfge;
+> > +	/* If the entry already exists on the port, return 0 directly */
+> > +	if (unlikely(cfge->port_bitmap & cpu_to_le32(BIT(port))))
+> > +		goto unlock_fdbt;
+> > +
+> > +	/* If the entry already exists, but not on this port, we need to
+> > +	 * update the port bitmap. In general, it should only be valid
+> > +	 * for multicast or broadcast address.
+> > +	 */
+> > +	cfge->port_bitmap |=3D cpu_to_le32(BIT(port));
+>=20
+> Does this correctly handle roaming unicast MAC addresses?
+>=20
+> When a unicast MAC address roams from one port to another, or when a user
+> replaces a static unicast FDB entry using bridge fdb replace, the bridge =
+core
+> requests adding the entry on the new port.
+>=20
+> Because this unconditionally ORs the port into the bitmap, the unicast ad=
+dress
+> becomes associated with both the old and new ports simultaneously. This w=
+ill
+> cause the switch hardware to duplicate and flood unicast frames to multip=
+le
+> ports.
+>=20
+> Should this check is_multicast_ether_addr() and replace the port_bitmap
+> instead of ORing it for unicast addresses?
 
-> > Thank you for your contribution! Sashiko AI review found 1 potential
-> > issue(s) to
-> > consider:
-> > - [High] The BPT update command incorrectly sets the `BPT_UA_BPSEU`
-> > flag without providing the required BPSE payload in the DMA buffer.
-> > --
-> >
-> > commit 04028be08f5e1d61341410aae72c568ebdb38953
-> > Author: Wei Fang <wei.fang@nxp.com>
-> >
-> > net: enetc: add support for the "Update" operation to buffer pool
-> > table
-> >
-> > This commit adds the ntmp_bpt_update_entry helper to support updating
-> > the specified entry of the buffer pool table.
-> >
-> > > diff --git a/drivers/net/ethernet/freescale/enetc/ntmp_private.h
-> > b/drivers/net/ethernet/freescale/enetc/ntmp_private.h
-> > > --- a/drivers/net/ethernet/freescale/enetc/ntmp_private.h
-> > > +++ b/drivers/net/ethernet/freescale/enetc/ntmp_private.h
-> >
-> > [ ... ]
-> >
-> > > @@ -175,4 +175,10 @@ struct vft_req_ua {
-> > >  	struct vft_cfge_data cfge;
-> > >  };
-> > >
-> > > +/* Buffer Pool Table Request Data Buffer Format of Update action */
-> > > +struct bpt_req_update {
-> > > +	struct ntmp_req_by_eid rbe;
-> > > +	struct bpt_cfge_data cfge;
-> > > +};
-> > > +
-> >
-> > [ ... ]
-> >
-> > > diff --git a/drivers/net/ethernet/freescale/enetc/ntmp.c
-> > b/drivers/net/ethernet/freescale/enetc/ntmp.c
-> > > --- a/drivers/net/ethernet/freescale/enetc/ntmp.c
-> > > +++ b/drivers/net/ethernet/freescale/enetc/ntmp.c
-> >
-> > [ ... ]
-> >
-> > > @@ -749,5 +755,38 @@ int ntmp_vft_add_entry(struct ntmp_user *user,
-> > u16 vid,
-> > >  }
-> > >  EXPORT_SYMBOL_GPL(ntmp_vft_add_entry);
-> > >
-> > > +int ntmp_bpt_update_entry(struct ntmp_user *user, u32 entry_id,
-> > > +			  const struct bpt_cfge_data *cfge) {
-> > > +	struct bpt_req_update *req;
-> > > +	struct netc_swcbd swcbd;
-> > > +	struct netc_cbdr *cbdr;
-> > > +	union netc_cbd cbd;
-> > > +	int err;
-> > > +
-> > > +	swcbd.size =3D sizeof(*req);
-> > > +	err =3D ntmp_alloc_data_mem(user->dev, &swcbd, (void **)&req);
-> > > +	if (err)
-> > > +		return err;
-> > > +
-> > > +	ntmp_fill_crd_eid(&req->rbe, user->tbl.bpt_ver, 0,
-> > > +			  NTMP_GEN_UA_CFGEU | BPT_UA_BPSEU, entry_id);
-> >
-> > Will this command fail due to a missing payload for the Buffer Pool
-> > Status Entry?
-> >
-> > The update action is instructed to process both CFGE and BPSE data by
-> > setting NTMP_GEN_UA_CFGEU | BPT_UA_BPSEU, but the allocated struct
-> > bpt_req_update shown above does not contain a struct bpt_bpse_data
-> > field.
-> >
-> > Because the provided swcbd.size is only sizeof(*req), does this cause
-> > the hardware to either reject the command with a length mismatch
-> > error, or unintentionally read past the end of the provided buffer?
+netc_port_set_fdb_entry() is an interface shared by single port mode and br=
+idge
+mode. Currently, since only single port mode is supported, it doesn't have =
+any
+impact, as this mode only allows setting FDB entries on CPU ports. However,=
+ for
+future support of bridge mode, this is indeed a potential issue, and I will=
+ improve
+this shared interface in the next version.
+
 >=20
-> According to the NETC reference manual, there is no BPSE_DATA in the requ=
-est
-> data, this data is maintained by the hardware's internal buffer. The
-> BPT_UA_BPSEU flag is used to indicate that the hardware should reset the
-> BPSE_DATA of the entry.
+> > +	err =3D ntmp_fdbt_update_entry(&priv->ntmp, entry->entry_id, cfge);
+> [ ... ]
+> > +static int netc_port_del_fdb_entry(struct netc_port *np,
+> > +				   const unsigned char *addr, u16 vid)
+> > +{
+> > +	struct netc_switch *priv =3D np->switch_priv;
+> > +	struct ntmp_user *ntmp =3D &priv->ntmp;
+> > +	struct netc_fdb_entry *entry;
+> > +	struct fdbt_cfge_data *cfge;
+> > +	int port =3D np->dp->index;
+> > +	int err =3D 0;
+> > +
+> > +	mutex_lock(&priv->fdbt_lock);
+> > +
+> > +	entry =3D netc_lookup_fdb_entry(priv, addr, vid);
+> > +	if (unlikely(!entry))
+> > +		goto unlock_fdbt;
 >=20
-> This is a false positive, please ignore it.
+> Can this silently fail to delete dynamically learned FDB entries?
+>=20
+> The netc_lookup_fdb_entry() function searches priv->fdb_list, which only
+> tracks static entries explicitly added by software.
+>=20
+> If the bridge core or user attempts to delete a hardware-learned dynamic =
+MAC
+> address, the lookup will return NULL. The function will then jump to
+> unlock_fdbt and silently return 0 (success) without actually issuing a de=
+lete
+> command to the hardware FDB.
+
+Currently, this patch set only supports single port mode, the MAC learning =
+is
+disabled, so there is no dynamically learned FDB entry. This interface will
+be improved when the bridge mode support is added. So please ignore this
+warning as we do not support bridge mode yet.
+
+>=20
+> > +
+> > +	cfge =3D &entry->cfge;
+> [ ... ]
+> > +static int netc_add_standalone_fdb_bcast_entry(struct netc_switch *pri=
+v)
+> > +{
+> > +	const u8 bcast[ETH_ALEN] =3D {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
+>=20
+> Are local byte arrays guaranteed to be 16-bit aligned?
+>=20
+> The ether_addr_equal() macro (used inside netc_lookup_fdb_entry which is
+> subsequently called by netc_port_set_fdb_entry) expects its pointer argum=
+ents
+> to be 16-bit aligned.
+>=20
+> Because bcast is declared as a simple u8 array on the stack, the compiler
+> only guarantees a 1-byte alignment by default. On architectures with stri=
+ct
+> alignment requirements, this could trigger an unaligned access exception.
+>=20
+
+The switch runs on ARM64 SoCs, CONFIG_HAVE_EFFICIENT_UNALIGNED_ACCESS
+is always selected, so there is no need to align bcast to 16-bit. This is a=
+ false
+positive, please ignore it
+
+> > +	struct dsa_port *dp, *cpu_dp =3D NULL;
+> > +
+> > +	dsa_switch_for_each_cpu_port(dp, priv->ds) {
+> > +		cpu_dp =3D dp;
+> > +		break;
+> > +	}
+> > +
+> > +	if (!cpu_dp)
+> > +		return -ENODEV;
+> > +
+> > +	/* If the user port acts as a standalone port, then its PVID is 0,
+> > +	 * MLO is set to "disable MAC learning" and MFO is set to "discard
+> > +	 * frames if no matching entry found in FDB table". Therefore, we
+> > +	 * need to add a broadcast FDB entry on the CPU port so that the
+> > +	 * broadcast frames received on the user port can be forwarded to
+> > +	 * the CPU port.
+> > +	 */
+> > +	return netc_port_set_fdb_entry(NETC_PORT(priv->ds, cpu_dp->index),
+> > +				       bcast, NETC_STANDALONE_PVID);
+> > +}
+> [ ... ]
+> > +static int netc_port_add_host_flood_rule(struct netc_port *np,
+> > +					 bool uc, bool mc)
+> > +{
+> > +	const u8 dmac_mask[ETH_ALEN] =3D {0x1, 0, 0, 0, 0, 0};
+>=20
+> This has the same alignment concern as the bcast array above.
+>=20
+> The ether_addr_copy() macro expects its pointer arguments to be 16-bit
+> aligned. Passing a stack-allocated u8 array without explicit alignment co=
+uld
+> cause unaligned access faults on certain architectures.
+
+Likewise.
+
+--
+pw-bot: cr
