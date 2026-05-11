@@ -1,135 +1,124 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out30-119.freemail.mail.aliyun.com (out30-119.freemail.mail.aliyun.com [115.124.30.119])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FE5C3B52E3;
-	Mon, 11 May 2026 08:13:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2881B3B7760
+	for <sashiko@lists.linux.dev>; Mon, 11 May 2026 08:15:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.119
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778487213; cv=none; b=I/+CnAef+PzUH7IMY6lDc83C7sfKZWWGiTVaka4uERagMJUhaptL0T0XUyT6zo/d1Qsaf0C//W7BU2YWN3d266eUrA6QEj5ISOMG8yBJDzvvTy9ij2atnsWktfaZy2yKcy/GFBnno18lP9ew6qn7nIglLixbI/CGFVOfqKO11F8=
+	t=1778487357; cv=none; b=JEJDnL7N7A4LwGQIFqq6uzxNJcBQTccfBLrwaP7RYZ/pO74qIGzCdy3qKAfnMrBmUpjjHkx91RVFCVgvnqwqBfe22HNev36C3VUzvnqh5CjHsOt/J2xSVdu08EdnorkUbX0r5LGDiV4JBbwyyqcDAFf3+37e8vUNJjC9SEEj7xo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778487213; c=relaxed/simple;
-	bh=2dphLYFLCvVUOzZNHaPCmUqQfVBRlR+I9k+BZWO5l2k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DfcF7SGUeeVOdO13A8QQIRmHkX7fOh57ZoMt/9VnRID80Sa4oT1r1EBc7tBkvM9E38b8H9QPx1lHxKrJuTzeR8X+IeqGG9UK9nG+bumghd2bReRvan62y4wX2zZXymTUp5Nt6XmuPDZoA+agkHSInL76/RMWXMPyIsCxYz25vE8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tF/hmwi3; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778487357; c=relaxed/simple;
+	bh=xnXZ0uLr7S7SI2QyJwJmBux1+SSZJWg1LBvM+oP+7U8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MjMoBtTDXPlSVh6fC819Tweb1aj0i4yZGlkLFeHn8R8d+gO5ETyD0nrQyb9K1uw/Qx9cTwixuExCSrB3g+kOvS49RbyivM2AzabQcx6w346P0qVGGsvjTRbogtUFNFrFDx6fquKQiJPS5CQIJJl9gkXOfH1JAFS4OLPYgfLCpj4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=FB/Sad0c; arc=none smtp.client-ip=115.124.30.119
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tF/hmwi3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 857A8C2BCB0;
-	Mon, 11 May 2026 08:13:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778487211;
-	bh=2dphLYFLCvVUOzZNHaPCmUqQfVBRlR+I9k+BZWO5l2k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tF/hmwi3wxtVVGYtNUIUCxMAsZ8/d7Xk6yHYI/AISGSFV/PSFAL4P4ot3P0h18wxp
-	 jjGBz8s7T01LkT31rxLXgnEb8OszYNFb/dqj4RGT1DeS8B7rKK2oo96fKH289G3ixg
-	 Q7u+mCE4BrmrqPP7vWMu1CuHkDzZK2cedB+BHJrbLw+TGoif7QrJFERLb7fQgseAT/
-	 y7vkpy/nAoiq3Wbd+D5xB+TX/SUplURmO648NwZRWhqJHea6kQhkx8zriP4uaUnqmL
-	 RawiNji04HT9Jr37LdYRzguSUFXNi+aof7TAIM4k4qvSgUAoFa5P0xETeAQLR0cAKi
-	 ZJKg4389Oy2DQ==
-Date: Mon, 11 May 2026 10:13:29 +0200
-From: Lorenzo Bianconi <lorenzo@kernel.org>
-To: sashiko@lists.linux.dev
-Cc: conor+dt@kernel.org, devicetree@vger.kernel.org, krzk+dt@kernel.org,
-	robh@kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH net-next v5 02/12] net: airoha: Reserve RX headroom to
- avoid skb reallocation
-Message-ID: <agGPqVvwyCbVbROt@lore-desk>
-References: <20260509-airoha-eth-multi-serdes-v5-2-805e38edc2aa@kernel.org>
- <20260510140502.B244EC4AF0B@smtp.kernel.org>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="FB/Sad0c"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1778487339; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=UJzZwa/FJOPht8x0ggVOfGkosBRAlmhlBAhqMQk4ppo=;
+	b=FB/Sad0c5dMuZHkZAw7xRmkhhLqjsgHss7bndiOctY99cHOM6+t55sZ2mnWQXZL4poreXU3HSiQjziojYwgj4f8mHPi9UC4Vj6MSXPxE+ux+Q1dEmPRKTokhzEyaSuwuKj1DZ2BXFLnCjNG7iY/boVGO11Bx/wUyw3QHK0VhFlQ=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R991e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037026112;MF=libaokun@linux.alibaba.com;NM=1;PH=DS;RN=3;SR=0;TI=SMTPD_---0X2gsaIY_1778487337;
+Received: from 30.221.130.252(mailfrom:libaokun@linux.alibaba.com fp:SMTPD_---0X2gsaIY_1778487337 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Mon, 11 May 2026 16:15:38 +0800
+Message-ID: <bb60b44b-2527-4994-99cf-0757eabfeccc@linux.alibaba.com>
+Date: Mon, 11 May 2026 16:15:37 +0800
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="qZEFo0epdC7n3CCp"
-Content-Disposition: inline
-In-Reply-To: <20260510140502.B244EC4AF0B@smtp.kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 07/17] ext4: use fast incremental CRC update in
+ ext4_mb_mark_context()
+To: sashiko@lists.linux.dev
+Cc: tytso@mit.edu, libaokun@linux.alibaba.com
+References: <20260508121539.4174601-8-libaokun@linux.alibaba.com>
+ <20260508223130.20E7AC2BCB0@smtp.kernel.org>
+From: Baokun Li <libaokun@linux.alibaba.com>
+In-Reply-To: <20260508223130.20E7AC2BCB0@smtp.kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-
---qZEFo0epdC7n3CCp
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On May 10, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 1 potential issu=
-e(s) to consider:
-> - [High] Missing bounds check adjustment for RX packet length allows buff=
-er overflows
+在 2026/5/9 06:31, sashiko-bot@kernel.org 写道:
+> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
+> - [High] The fast incremental CRC update in ext4_mb_mark_context() corrupts the block bitmap checksum when a double-free or double-allocation occurs.
 > --
->=20
-> commit f34e8812cb62dd63f96801a39b0d65ee905cd258
-> Author: Lorenzo Bianconi <lorenzo@kernel.org>
->=20
-> net: airoha: Reserve RX headroom to avoid skb reallocation
->=20
-> This commit reserves NET_SKB_PAD + NET_IP_ALIGN bytes of headroom for
-> received packets to avoid skb head reallocation when pushing protocol
-> headers into the skb.
->=20
-> > diff --git a/drivers/net/ethernet/airoha/airoha_eth.c b/drivers/net/eth=
-ernet/airoha/airoha_eth.c
-> > --- a/drivers/net/ethernet/airoha/airoha_eth.c
-> > +++ b/drivers/net/ethernet/airoha/airoha_eth.c
+>
+> commit 09892d15c378eafad6a406a3bb75ec38cfead08f
+> Author: Baokun Li <libaokun@linux.alibaba.com>
+>
+> ext4: use fast incremental CRC update in ext4_mb_mark_context()
+>
+> This commit introduces a fast incremental block bitmap checksum update using
+> ext4_block_bitmap_csum_set_range() to avoid re-scanning the entire bitmap.
+> It falls back to a full recalculation only when EXT4_MB_BITMAP_MARKED_CHECK
+> or BLOCK_UNINIT are present.
+>
+>> diff --git a/fs/ext4/mballoc.c b/fs/ext4/mballoc.c
+>> index ff2023c9f52c6..77f6309916d1e 100644
+>> --- a/fs/ext4/mballoc.c
+>> +++ b/fs/ext4/mballoc.c
 > [ ... ]
-> > @@ -627,10 +629,12 @@ static int airoha_qdma_rx_process(struct airoha_q=
-ueue *q, int budget)
-> > =20
-> >  		port =3D eth->ports[p];
-> >  		if (!q->skb) { /* first buffer */
-> > -			q->skb =3D napi_build_skb(e->buf, q->buf_size);
-> > +			q->skb =3D napi_build_skb(e->buf - AIROHA_RX_HEADROOM,
-> > +						q->buf_size);
-> >  			if (!q->skb)
-> >  				goto free_frag;
-> > =20
-> > +			skb_reserve(q->skb, AIROHA_RX_HEADROOM);
-> >  			__skb_put(q->skb, len);
->=20
-> Does this code overlook adjusting the bounds check for the RX packet
-> length?
->=20
-> Earlier in airoha_qdma_rx_process(), the software validation check
-> uses the unadjusted lengths:
->=20
->         data_len =3D q->skb ? q->buf_size
->                           : SKB_WITH_OVERHEAD(q->buf_size);
->         if (!len || data_len < len)
->                 goto free_frag;
->=20
-> If the hardware descriptor returns a len that is larger than the newly
-> adjusted dma_len but smaller than or equal to the old data_len, the
-> check will pass.
->=20
-> Since skb_reserve() shifts the skb->tail forward by AIROHA_RX_HEADROOM,
-> will calling __skb_put(q->skb, len) with this unvalidated oversized len
-> push skb->tail past skb->end and overflow the skb_shared_info structure?
->=20
-> Similarly for scattered fragments, could an oversized len passed to
-> skb_add_rx_frag() cause out-of-bounds memory accesses beyond the allocated
-> page fragment?
+>
+>> @@ -4127,12 +4128,28 @@ ext4_mb_mark_context(handle_t *handle, struct super_block *sb, bool state,
+>>  			goto out_err;
+>>  	}
+>>  
+>> +	/*
+>> +	 * fast_crc: Use incremental CRC update via crc32c_flip_range().
+>> +	 * This is only valid when all bits in [blkoff, blkoff+len) are
+>> +	 * guaranteed to be in the opposite state (i.e., every bit will
+>> +	 * actually flip). When EXT4_MB_BITMAP_MARKED_CHECK is set,
+>> +	 * mb_set_bits/mb_clear_bits are idempotent, so some bits may not
+>> +	 * change and incremental CRC would produce incorrect results.
+>> +	 */
+>> +	fast_crc = !(flags & EXT4_MB_BITMAP_MARKED_CHECK);
+> Since EXT4_MB_BITMAP_MARKED_CHECK is typically not passed during normal
+> operations like ext4_free_blocks() (unless AGGRESSIVE_CHECK is defined),
+> fast_crc defaults to true.
+>
+> If a block is double-freed or double-allocated due to an earlier filesystem
+> corruption or bug, mb_clear_bits() and mb_set_bits() will leave the
+> already-modified bits unchanged.
+>
+> Because fast_crc evaluates to true in this case, does this apply the
+> incremental CRC update assuming the bits flipped, resulting in a bogus
+> checksum that no longer matches the block bitmap data?
+>
+> [ ... ]
+>
+>>  	if (state) {
+>>  		mb_set_bits(bitmap_bh->b_data, blkoff, len);
+>>  		ext4_free_group_clusters_set(sb, gdp,
+>>  			ext4_free_group_clusters(sb, gdp) - changed);
+>>  	} else {
+>>  		mb_clear_bits(bitmap_bh->b_data, blkoff, len);
+>>  		ext4_free_group_clusters_set(sb, gdp,
+>>  			ext4_free_group_clusters(sb, gdp) + changed);
+>>  	}
+>>  
+>> -	ext4_block_bitmap_csum_set(sb, gdp, bitmap_bh);
+>> +	if (fast_crc)
+>> +		ext4_block_bitmap_csum_set_range(sb, gdp, blkoff, len);
+> While the buddy allocator might subsequently detect the double-free (for
+> example, in mb_free_blocks() via ext4_grp_locked_error()), it appears the
+> block bitmap buffer has already been dirtied with the corrupted CRC here.
+>
+> Could this cause the entire block group to fail checksum validation on the
+> next mount, unnecessarily escalating a localized error into a metadata
+> corruption that requires fsck?
+>
 
-ack, I will fix it in v6.
+Yes, I missed the case of errors=continue. In the next version, I will
+revert to full calculation when EXT4_ERROR_FS is set.
 
-Regards,
-Lorenzo
+Thanks,
+Baokun
 
->=20
-> --=20
-> Sashiko AI review =B7 https://sashiko.dev/#/patchset/20260509-airoha-eth-=
-multi-serdes-v5-0-805e38edc2aa@kernel.org?part=3D2
 
---qZEFo0epdC7n3CCp
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTquNwa3Txd3rGGn7Y6cBh0uS2trAUCagGPqQAKCRA6cBh0uS2t
-rO72AQDvA7/niPO4yeyKs0rtSPk8+ow7Dxz9QLxaPhPQyzVw5QD/eRwgM68iCKuS
-xVwvKSRijfyXRKGUmKBzERC8c8PwHwg=
-=DNP2
------END PGP SIGNATURE-----
-
---qZEFo0epdC7n3CCp--
