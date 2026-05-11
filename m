@@ -1,62 +1,62 @@
-Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013029.outbound.protection.outlook.com [40.107.159.29])
+Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012041.outbound.protection.outlook.com [52.101.66.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA67D3603D3;
-	Mon, 11 May 2026 03:16:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.29
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D56DF37AA98;
+	Mon, 11 May 2026 03:24:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.41
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778469380; cv=fail; b=kJZFWw1yNqv347twAqb1+CYvgZR4/yLess+RE706OgaqhcOddXNStlXK1b09zp4ZPYVmt7HksHPcwHOP20bW9efnzVW/PuOU4WMMHrs2gPqxNrCWgFogGhcIW7R2NvgzuFoCXW9UFAtC2UMhDIn8IYCkl0OxTWUhQPYayr1R4D0=
+	t=1778469859; cv=fail; b=fx4zU5MEpCnjfa0qzeuyDoR0VwY1WdxY9PDe+XQP5lBduL8QgjekqTvStq7XctQJNLll0353R0b7vjmKuyrFmzVCS45maAoSVbaInOrawW/0t0JLmbG36BtN3FUdAJmU0bQE9zd4WL0YCPP3hRa2Oz0gqWLHdhG0ijZN3FS+cV8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778469380; c=relaxed/simple;
-	bh=emVenGvszNF+sWSCz4UEfECocl1hYHvaRhqmMiYLmXQ=;
+	s=arc-20240116; t=1778469859; c=relaxed/simple;
+	bh=3xNYEEq6dr76Wl4oVBXu0QwZO1UNAlS0bJ0s4knZ0/s=;
 	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=NMGpWgTLawUtUUKmQlKJ28c2KA11m55E1mrAxpmBKH2SzhY2ogubWBlhc+QeLh2I5r/fl1oCeUGk1WPMxYEBDuQNlrjCPjnDJ6iUJiY2WMYdctGTOrbcxEisRfpFH8K7riZjsz+vmA48JgQx9++QG6m9M2PwjJYn7imhV6Fg18g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=ctkVSdzM; arc=fail smtp.client-ip=40.107.159.29
+	 Content-Type:MIME-Version; b=orBy0e/uAsapZWNXVH6Jp09DCslOwvx+Ik5tmpNpHNeo0rTqrJhlnM8WpjII4X8bosEef9UheDwIOQaxhevBu0yrsFld3nqE4C+dcZIq6qj8F0S1Z9RBpM/EDkGvGkPiuzek8gtepP/5CPJRF0UzKdBrdrA5bwjGbYYQ5tu6O34=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=U5NYELuA; arc=fail smtp.client-ip=52.101.66.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="ctkVSdzM"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="U5NYELuA"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hf3c6y/pRU+tWaJKod1s5qv20nh4D7lkeO3FhpoH0BKfNsIL0ADPV1EJN9+M8bXmICuSz1S5dSLGtxERDBCd2KD70kEg5wlXKzMTx1Wp8nQQeZFoHsKmwVhDJrssIYaaEye0ooIU0O/esq9GlI7ajriTdI0ZCY+tUxdLUz9tufISZ0V64vs572LG1YhskirTfev5WpIbSrVx4OJ3MjgwqmbBWb18cskgvjWz3tYjFmVrqomB1hzCmhC8IL6Xui8UunAHpM5mixwKOaHC9PDSh9kwvo5N1F6V2P+8a7fooSGhbgePm37kL6vZVbOxCaLwRuEA5MNiRgwRH2QMraMUlg==
+ b=rhx/YkaY94y1ev+OIP9YdaJBAVSDwBrbZ7UB8UnN7R4/zaZJl5i3JsDaVCIXnIBWuI/DigWVvl4VFJT8iQHHTn4kcS03mne8hs3qLAttRzcc4QrCEvB8YKAm5kgX1IcnR8kOOK9Rqlpi9u9yXcthSwzC1SEL0Zgu+WPFFpgS0GgF1bODwORxwGiiH5iq/5sff6La1E0X0jk3hprq5QyC+/m35cGo+JA97TOmhO/n+UsoJF5eYyATpW9AJnNO12sUzItcQ+nBTciGGOzMrrIIOZ02QcfblM+2A9yA98K4Nl00ECMkwZMo5HMjwETJrmfFCKYesSp4crypeuy4kEZgjQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SC9RISrKH+fzgH+m3J3kAo8Adz+BpZRe1eN6bnjeG1o=;
- b=kTtmoJyxk3ehlPv+YWvM1Xyt3+LRKPwQU8o/Fj9t8589RyWI5D/A8LlaRy5MNj64wa3xwfx3pFKllq8GGqD2VEBAXSUQ00gsrHSsOVC+HD7NTvTEDUC+Ra+t7Fpz9RX1vCm0n3atzzDUtKHeGUhYlQH1ZaF0RwpcmpVCzOUjL/7UeFnY13Ir4kSdp3WIolxYKDj4b0Lenr8LqHeIbxxTrk5ysUazMbE2KT8SslGztT/Pdd/iZu9HgwI2AvBuGA4k7zgZzNFzdsyx+abX1aUV4I/kpcI0CbL7iw+LjjbEat1+uFX0RDsh2Jj2JxWlKAgeQ+GQIFf9HmPCY8ym6qRI5A==
+ bh=fHqAcWG+CHZUM+k58Ae11bPs7zg90su5861ckaEQa20=;
+ b=QjDfqUkCgpti5bGcDiCZVHa0K8HWUJlqeNrTDydokOxFRdkAuJE/WUDt/yA4LMesSeDiUtF8JbKp/Eul5gjmc02KiaixlpuYj96UuK2SvOcyWJTJtxLyQF+hA27ZPs4VkA8ecVqr1SkI2C6L/+7SlBuNWhZfBEwHFhunkRJT6py6C20y4FkbuhpwnQgSYN9mCur/xTQUdF0bDJ7xj3DQFU1JMw6JIir1+Ui6oDuK7Fzg9jj1fkf+jplw0zOkDBHpIw5LJhu3uAcsxJlGueMgro4Vjgwk5pIfAtKKqU1RD9uzo2TUEaXFHbs213qO8nzvIWHAJGhh0g9q7XrRx+aMMw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SC9RISrKH+fzgH+m3J3kAo8Adz+BpZRe1eN6bnjeG1o=;
- b=ctkVSdzMAiVrLp33+hbuPG8VnL5KdTfIlTrkzEp3v5Mq3mUjhyJvAzlxLYwVoVgtTeYdBr7gJCRlNlnDefKPtD/SLpQDEfvdtDbLEwp+xCWbXH3jqRCmz4SxjYO08d7sI8DM811DH6HGJjtmNWiGkouusyc1v/xpsb3nDRuOkf2BwT2TSEHykAhi5RskYrWlt1DR/DHr5a5gkUCbOMEI9ziazMlzJkBwXDDow1HTuc/Ng8Jgmvh3nAnhMJk0vaWuXo027SS9ejUbhM+2+nfn6uqdv+xB+ky1kgKY2+ma6zcNri/Un23Fu7K24e9Jjdk5Zw4i6YbJRV4MGdfopukECQ==
+ bh=fHqAcWG+CHZUM+k58Ae11bPs7zg90su5861ckaEQa20=;
+ b=U5NYELuAmQEufRGMGotwpO142jxbl5/6Vhc6oD1/IoKuzIWa7E24amLZR8DtLbi/zJuovpKvGomRO4RBfqfcKMmE1IaGBUU6Z9xVpmxmZJfl1wSUrjN/bflNwkeEyZf/gWW/oloj3ENfheT/Vj2QEO03ffoG4HdT9o1zDrMrOSN02Ec65gur6CnoBJM4oJ2D7AD7T1UK+3XYA/C+EDt+kg6VEUClscb+TU0qxE66IPUHV7MsBMHYIhx4e/AAR3m4Q/hVzjQp1c00tibhMiM9oFp8icqo659wXHapV8HSn7ai5Pw3yxrkkfV3loxgQccm5rtOz/IEDziJ45zi1NsxdQ==
 Received: from DBBPR04MB7500.eurprd04.prod.outlook.com (2603:10a6:10:1f4::16)
  by AS8PR04MB8199.eurprd04.prod.outlook.com (2603:10a6:20b:3f6::21) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.23; Mon, 11 May
- 2026 03:16:15 +0000
+ 2026 03:24:15 +0000
 Received: from DBBPR04MB7500.eurprd04.prod.outlook.com
  ([fe80::c291:543b:4bde:cee7]) by DBBPR04MB7500.eurprd04.prod.outlook.com
  ([fe80::c291:543b:4bde:cee7%6]) with mapi id 15.20.9891.021; Mon, 11 May 2026
- 03:16:14 +0000
+ 03:24:14 +0000
 From: Wei Fang <wei.fang@nxp.com>
 To: "sashiko@lists.linux.dev" <sashiko@lists.linux.dev>
-CC: "robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
-	<krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"Frank.Li@kernel.org" <Frank.Li@kernel.org>, "imx@lists.linux.dev"
+CC: "robh@kernel.org" <robh@kernel.org>, "conor+dt@kernel.org"
+	<conor+dt@kernel.org>, "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>, "Frank.Li@kernel.org" <Frank.Li@kernel.org>,
+	"krzk+dt@kernel.org" <krzk+dt@kernel.org>, "imx@lists.linux.dev"
 	<imx@lists.linux.dev>, Networking <netdev@vger.kernel.org>
-Subject: RE: [PATCH v6 net-next 13/15] net: dsa: netc: initialize buffer pool
- table and implement flow-control
-Thread-Topic: [PATCH v6 net-next 13/15] net: dsa: netc: initialize buffer pool
- table and implement flow-control
-Thread-Index: AQHc356s80TAE5PL8EOgKeZnF5D4K7YHFeAAgAETsDA=
-Date: Mon, 11 May 2026 03:16:14 +0000
+Subject: RE: [PATCH v6 net-next 14/15] net: dsa: netc: add support for the
+ standardized counters
+Thread-Topic: [PATCH v6 net-next 14/15] net: dsa: netc: add support for the
+ standardized counters
+Thread-Index: AQHc356w4gnydCGti0+5DvSwEQw5J7YHFeGAgAEV3jA=
+Date: Mon, 11 May 2026 03:24:14 +0000
 Message-ID:
- <DBBPR04MB75003B8627FD78829C98433688382@DBBPR04MB7500.eurprd04.prod.outlook.com>
-References: <20260509102954.4116624-14-wei.fang@nxp.com>
- <20260510104839.696E9C2BCB8@smtp.kernel.org>
-In-Reply-To: <20260510104839.696E9C2BCB8@smtp.kernel.org>
+ <DBBPR04MB7500D5D6CEC358A5C49DEB8488382@DBBPR04MB7500.eurprd04.prod.outlook.com>
+References: <20260509102954.4116624-15-wei.fang@nxp.com>
+ <20260510104840.437A8C2BCC9@smtp.kernel.org>
+In-Reply-To: <20260510104840.437A8C2BCC9@smtp.kernel.org>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach:
@@ -65,46 +65,46 @@ authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 x-ms-publictraffictype: Email
 x-ms-traffictypediagnostic: DBBPR04MB7500:EE_|AS8PR04MB8199:EE_
-x-ms-office365-filtering-correlation-id: fc122c99-e640-47a2-3aec-08deaf0ba8fe
+x-ms-office365-filtering-correlation-id: 1df56eae-e89b-47c8-4d3d-08deaf0cc728
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam:
  BCL:0;ARA:13230040|376014|19092799006|1800799024|366016|38070700021|56012099003|18002099003|22082099003;
 x-microsoft-antispam-message-info:
- wjjAJKv+0CkqlmhC27DVNlzrk4/03Rru2j6DD+Yz9m6iSyDPlwKziEd0nReHEDImrCePxLcbOSYgw/OkkPYzSmzGV1zBNxstGUyHAcP/cPGy6NvD9G/6nGCdBICWo3zeBhY+WCE6hwQ4QpYRWhxYD2/c4c0t2y1AkPe5tj9Rx9zyFeoQQe9bqKDMKuM6nKG0zDnNVUgpPZxHxEL1Hbc/XcAgindAknTIFDvdb8FWYjp8Gl6achZ9NSxaYL7cUqMPxQzSVc9r08WxheQFEtORhK5d85qtVwXQUTcsfJFnXVeq+I84iRjPTOHV2AVa6gXwSR9Cs61pHP7rHtu9yydE98sCoJmOuw33203GQsqc13KiD0XKsOu7ObXjEGA4O0DAefSPO4LCdNU6ARDD3Q2W7pQazykBweIQ9inDaA3NzQ4Vzn7G0cVce99YqKwwBuH3d5jEJGBqH3VuzjjhnlR8Tq91HDdeQnVIAjedxQhpKB+VikehiwSo3Gqr3O9omipZrIxNCT/42+MlHGeLdlLTSJzQGnuS4hYB/AvgMDGChq92YoXon1RW2d6fJj962swqvCEnTHFCQv/ejyEGom7B0Menf6tKtqSyjFKHHLLQIhyFByjJMS+6AFH85wD57blv8RzAP/mBP1i+UXQt323J7T5tPjmIqIg88mMImBMi6Fgqakr8ePzHG/Pf3u9pZurxpm9Ex8pN/LhogrhssOihCpCYViQ3N76IAhICJXnlGmbENBNtrcESUKHOMYP5Vfud
+ iIhcAjiTY8DmKNGmKEIGhX2vWB8xzbgQf5VWnPIP8FadpWA0KmdWxNTU1aO4jkOgnR5zVnbT5wjl7bl4h4VaCSksiW15D8/K8IC7fL0DOMMa16+V2BgYWfdl953kzFh4i4aqz0wBn/oq72+u7YHso9Kk1hqjjqbtl3sGyloJvIHN9az21F0QmYW5SjTukGyb32AtWp4OA+5sIOo1PWM44n20ZelNt+xcXlVqZ3eq93Stuz+cdOUllNAJCJl2ViB5rZE5I2YRzFT+MnAAjHxHsn/FNY0jgVJBABwWiHVHBrISLefVqKcfh02znc+qPsrGvXQFhkN2ddhFVj3/u+D8jloHsOUhWTygkTzgx8M41F/vcpDtBTLGocvwg3PREWKXkafWIsFUcO9P33V+okpK9QALl4YHN29+Hjx0LI3W8P1MAtftWMxNtq7vZRCPwDkjrmZCKaDUyxPIBWsYfstMlqRiHYs6TiFOrQPIgXFvcfAn+5NWA/F4i3OPodtZtNc/8B0mV/vJNPWxgVk0mqzzJgi5vTeGktO5Sc8G5yXm2YOp3VkJAnx1Xz+JRLG5KhEh11U3DdrZ7ZhUbqx6MLU4N62x/R3mRvOk1sJL/1NqRlQlz5fliRIgy9DKIpqG/jAdTDU8mi056wOe28RMzPedfA0tq5OPSHNMZTotib2A6QyNI1N7/z4mKMf7wUXYa0r/U0OCYb/epfzD2BxJ+ODQjURMuHtR0S4pWMfTJ/+bX3a+8y0t//oIEbVFpo+ZJxRw
 x-forefront-antispam-report:
  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DBBPR04MB7500.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(19092799006)(1800799024)(366016)(38070700021)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?+AF6OXHQ/6EY4wex8ZaMxHYq1rMw4e6Z2WUWn2Dn76T/3BAx1BCq71SL4Q6k?=
- =?us-ascii?Q?zKdJhAoqJ3zWEP0oP9XyvLHC1Hwv2b9CNRWR/uzXoij9xsBeApJ91OL8mKy7?=
- =?us-ascii?Q?xHrJZ8ps0jH5zLShFnOGk9d+Nf2WIanQrasdemuR0112eacyW896HpGnztwm?=
- =?us-ascii?Q?Keh5rd2GCk9EIktz+0CZarDKXT9JQADQ5wHuZKQv3hJtOZrIIb8gVL+ta2IF?=
- =?us-ascii?Q?QPcoacz9ANYHFLgDY2zo4cgXq67yKK2cNAZUX5Zp9OZRP3MyV1N/YxgaP0he?=
- =?us-ascii?Q?wbRT8uYclh+lHX2qMdQ4tjZXpzhCw92z4Zx6Di1Z7+JwasQvY7/Y6tXE3qOW?=
- =?us-ascii?Q?KtnwnRKT06Ex7XPD3S7xrBFOTw0NjYz0XMIl/UcpjizBM6mrmPlyPDPnVQlR?=
- =?us-ascii?Q?gEDGS3eVZwurLcnqEnfdcIciC7mMv0lwpUL2on3b3f0cSV6U0TzQrHA1iJXs?=
- =?us-ascii?Q?tlDhDxGQ4XtpMEWemK+6t6f3j1vJp4guoUImOLpV+KIcVtmOojwA9C+KM8MM?=
- =?us-ascii?Q?m2f82AhliEGRyHThft2wg2cJo906sNjk51NwxV8/Wt2uxo+JMHbNWcYOWf5r?=
- =?us-ascii?Q?uRYLdL0t0Z+d3UVg1q9SVE0BlOtIEKVPvGJE1Y8SNzGKH/mOMv0bVs3xmB7J?=
- =?us-ascii?Q?o90Q6XHSKy76dLTYB1u/xyLx4ThF9IzkNU7fbPiNEjsOLhra24+/Zbh0P85y?=
- =?us-ascii?Q?B1y3YGi7NDtx6faFWK5IyqOucF1GYEl2V96fytz2rJYx9gRKDkC4zO16lwB3?=
- =?us-ascii?Q?T3UwxYl2qcB0NJUEIVL070VlMxk5x3rk3rsVPKLeweoV1I/ZdNSZtNAyGVDD?=
- =?us-ascii?Q?uomoXtlJETvW516FwNgmxzZLeNhTVemPe7RFf7bNLZB6xivm51ypRIja+mKg?=
- =?us-ascii?Q?0LkviqJq5aSjcw10Zhs/U5vlkVlkkN10Chpi/b4Syt1xbVPt62PyWLcJoxlV?=
- =?us-ascii?Q?kcdOjSisFp0swEEugr3Yn991vswOxZj0e1lrwA4meKoriGAO6HTrtSJcmlZx?=
- =?us-ascii?Q?hm7QSUtSkQJMuiEhLHn5EJKMuckZZ9FqmxKe9420LrpGssWI5pczRYUBjTl6?=
- =?us-ascii?Q?16Pg8hb3ezYb5/ScBUTH1QK2l1uqsH6xHidI1sGyf5NHZ3VdYG+IFwoLvwlb?=
- =?us-ascii?Q?2QX97lEEIwhZc2h0tdgJnOjvehANs4Qe/zH9t4PfcDmyXnel/Hqvk4fBRaZ8?=
- =?us-ascii?Q?ppFaI90H4p674LK0YhdBVkMYouRWctJG1d03+M9dvJLwOm6xRKNkOdzrrGy7?=
- =?us-ascii?Q?pHVuXnm6Q5FaqhT1sqXVWT6e9QQtvKrh1nqeKXtoFoBeydTU/aK7M78s0KyI?=
- =?us-ascii?Q?AOoB9pkOaWjaBqE8E1DejfiT08yb9jbN7LccI77831OAPjC3zbexguspgYvi?=
- =?us-ascii?Q?+BaGa2Q6nTCK7gthDBMZyYcJJz+4F4hftihrIPftPauFjIrItj7ZUJj1Mn3g?=
- =?us-ascii?Q?iCJ6VVqViMyjs5fAwrVR/k5BVazuTfQpPYKf9M36UxpeP+/u4Jo7NN8KuvY7?=
- =?us-ascii?Q?rz95zcFTFrhAih9eG6Oz0GNlCoHmxxsC/hJ61xFaKv9itWIMOjHarBEoEkx3?=
- =?us-ascii?Q?4C+r3G7wmIp3q3t4RX41chnlusC+HSef9F1qR0901b9OPIBglP5nGIp1SW+x?=
- =?us-ascii?Q?Zr0mvqK0D+evy/Xd+FqmSH+7CJS1frlMoUuzwo6vjzmS5aeOlvU4H8VAubxF?=
- =?us-ascii?Q?w9oXVw7qNCDT5beVRQWjDbSnIvGRXacPoXaNEHcF8dPgygnM?=
+ =?us-ascii?Q?n6YcAfl1V4XCN0HCqomm5Zn9+4ov66SZ2tpp2BhTN8g8ZwyJI1TedeACE5tN?=
+ =?us-ascii?Q?adqCQk61VhFETEULkhC3gTUpGe0LP9hFn5NXV35eMnqYodKRcGgdVIaFLSBV?=
+ =?us-ascii?Q?s2zuTi9QFUxdGoxmWNRNctceRjnQXla61z2vbBI45LKF2544oaM67LeDgWyY?=
+ =?us-ascii?Q?YHqmJ+ZkNPUUJKDhjfbNP5+880Z3AVJUIqKD4RGsnDnOn+s/m5gUex4RYgmj?=
+ =?us-ascii?Q?WJX5k05ewy20+P683C3R1OY68vKbMjpUYdJQfTXuYKVvSY2XzH+Dm+Br8Fyi?=
+ =?us-ascii?Q?8/NKhRspiTMfI153bSmZojUVd8ng8uscmnwgu5zZgGnxKj1fT44zZsB2mj4O?=
+ =?us-ascii?Q?+FnqBsXH2yncLVo+GLlthAgsDEvpyf/zkF825oV5GKpXIQ+mO73/A7eymB/o?=
+ =?us-ascii?Q?LKtNDaNxYSaqoLotmhtEBG4DpLz8uBBNEWQ4FAlj2xSB+4eP2tc6YTW/UkVF?=
+ =?us-ascii?Q?mLRODcDAvX09KnwHWQuYh51PSzBlPMggM+Bgyh+058Nb3KkdY1r7PjlW8Khw?=
+ =?us-ascii?Q?6tQ6ibAZaoWTgdlI03zj2lk+1YVLv2QUcCegDmL+UEpv0eGfg6zbhUfu2UFM?=
+ =?us-ascii?Q?sms6ZSMtqzxPXdQSES0LtXToXh2kXWxS8/SvIztPTBed5ZTpxztIGHoiAkIv?=
+ =?us-ascii?Q?6XkpouuAueJgAnnbPfDhnVjNUrDTuwHEMkp7AYPnH9FddEm5UIHEppQ2abWX?=
+ =?us-ascii?Q?g8r272brLNTDayKHcu8ae/fmvxsOEU21VX8GbouTFrsgyFhEzkOg0W0HWf5I?=
+ =?us-ascii?Q?rasghRr2R0sU2yYQ1rUnQkw+TSEkOzMSqZ+YpG+lTSFvCa4KDb0PM6H1trrz?=
+ =?us-ascii?Q?YIRcD3yBCsEGgAPdL7ErQmnQ/qP/sU+RlItgukd6ByULpGznjw6ekUl1ltfM?=
+ =?us-ascii?Q?YDs59dKhfdUDHesYPYFz5nuKXXL/IGo668DJoo42NnrCJFjAiFzrM59f3APr?=
+ =?us-ascii?Q?qme2I02ohsFygFeVS8SCJpSarjT5g/jdPEsX9T9I0RA3ylGYuNscjy+89tQL?=
+ =?us-ascii?Q?M3M5Ckqoe9RPWtP03OjKSlkGHQbPp++PT4iZS4rAQHGmvnr89WsPxuzuOvgR?=
+ =?us-ascii?Q?DA1vD76h5vW8PyFRDYpqY437HbuMZw8JtkGSQnsmwg6uyvKZ1Qr4ksxYEWdv?=
+ =?us-ascii?Q?hFlzFbd+xxWLCekKG/9ZMue9qoCz/tNXTEWonNB+jHNtjdvl/7fv4iHllRec?=
+ =?us-ascii?Q?BqaGtSZXAWGPi9Tfcrzyz5gDsqbB7tekAQkiZvSOtJ8uON+B60S6WVe9kdjw?=
+ =?us-ascii?Q?5O9pYFAUeRJZwbnh5ak6wj9695bXljHAnsr9sJFY1LEze5wZj7c8GaIz0eQE?=
+ =?us-ascii?Q?4y8N+upGU7uJGefsAar8yfxeG8QhAh6FY8yDSu0rziq2zDjQIm+ktRrlIPDC?=
+ =?us-ascii?Q?RozZu7y5Tv0fSpv5OnmEiGJGwszNJfkr/ZqxMOyA4gjQuennuDFF4RyrgwL1?=
+ =?us-ascii?Q?egN2TJ+MIW/hU57aLJTLK/OWRl+ufQemY+96xkPmk07MQlVLPyopOCARepaq?=
+ =?us-ascii?Q?zCez0f+nabvp4UDd5mxLqYT0eBsKOiUPHpwjJlRWgrI0Q24ZaXO0bdzW1d72?=
+ =?us-ascii?Q?mpPdctYOAegxslwzWiPm6pxjVSax7p/Qys9oEi001E3IE5aXGVulE659MlEY?=
+ =?us-ascii?Q?Qjr7ImsUejNTOtKVqIdKHU2/gycsfhxVch3Al9LJayvE4blshWrPIAp/icUD?=
+ =?us-ascii?Q?KDaCgtgI0T5Dnbxuu+UYXrPnJS6mBc8bKFL8ZemapdZ0Suv3?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
@@ -116,88 +116,66 @@ MIME-Version: 1.0
 X-OriginatorOrg: nxp.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: DBBPR04MB7500.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fc122c99-e640-47a2-3aec-08deaf0ba8fe
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 May 2026 03:16:14.7713
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1df56eae-e89b-47c8-4d3d-08deaf0cc728
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 May 2026 03:24:14.8607
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: xUQqK+eiaLjHc0OPsKfXeVvCNDYyVtngSHZq5943sPC5JAkjbNfbZIhlcxecKwh6YZeEFAX/SmH9HbKzNiqJYQ==
+X-MS-Exchange-CrossTenant-userprincipalname: NC7EaclOIF6I9UCM2nazPo1yPPbv0N5kao2qxofEqJE6DNW1bQLAZXdnYZ2zSwLZiwlQ/aqIItccmQHYLohKsg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8199
 
 > Thank you for your contribution! Sashiko AI review found 1 potential issu=
 e(s) to
 > consider:
-> - [Medium] The IPV-to-buffer-pool mapping algorithm fails when a port is
-> allocated more than 8 buffer pools, silently routing all traffic to a sin=
-gle pool.
+> - [Medium] Reading 64-bit hardware statistics registers via `ioread64()` =
+can
+> result in torn reads on 32-bit platforms.
 > --
 >=20
-> commit 0b5e4aba36a49ce1de9eb84ec706f482331550cf
+> commit cc14b24b819aeb13f3bfcafbea26c9b2150e232c
 > Author: Wei Fang <wei.fang@nxp.com>
 >=20
-> net: dsa: netc: initialize buffer pool table and implement flow-control
+> net: dsa: netc: add support for the standardized counters
 >=20
-> This commit initializes the buffer pool table and implements flow control
-> for the NXP netc DSA driver. It adds logic to dynamically map the 8 inter=
-nal
-> priority values (IPVs) to the available buffer pools per port based on
-> hardware capabilities.
+> This commit adds support for 802.3 basic and mandatory managed objects
+> statistic counters, along with MIB and RMON counters for the NETC switch.
+> These are 64-bit registers read via a newly added ethtool implementation.
 >=20
-> > diff --git a/drivers/net/dsa/netc/netc_main.c
-> b/drivers/net/dsa/netc/netc_main.c
-> > --- a/drivers/net/dsa/netc/netc_main.c
-> > +++ b/drivers/net/dsa/netc/netc_main.c
+> > diff --git a/include/linux/fsl/netc_global.h b/include/linux/fsl/netc_g=
+lobal.h
+> > index fdecca8c90f0c..5b8ff528d3699 100644
+> > --- a/include/linux/fsl/netc_global.h
+> > +++ b/include/linux/fsl/netc_global.h
+> > @@ -5,6 +5,7 @@
+> >  #define __NETC_GLOBAL_H
+> >
+> >  #include <linux/io.h>
+> > +#include <linux/io-64-nonatomic-lo-hi.h>
 >=20
 > [ ... ]
 >=20
-> > +static void netc_ipv_to_buffer_pool_mapping(struct netc_switch *priv)
+> > +static inline u64 netc_read64(void __iomem *reg)
 > > +{
-> > +	int bp_per_port =3D priv->num_bp / priv->info->num_ports;
-> > +	int q =3D NETC_IPV_NUM / bp_per_port;
-> > +	int r =3D NETC_IPV_NUM % bp_per_port;
-> > +	int num =3D q + r;
-> > +
-> > +	/* IPV-to-buffer-pool mapping per port:
-> > +	 * Each port is allocated 'bp_per_port' buffer pools and supports 8
-> > +	 * IPVs, where a higher IPV indicates a higher frame priority. Each
-> > +	 * IPV can be mapped to only one buffer pool.
-> > +	 *
-> > +	 * The mapping rule is as follows:
-> > +	 * - The first 'num' IPVs share the port's first buffer pool (index
-> > +	 * 'base_id').
-> > +	 * - After that, every 'q' IPVs share one buffer pool, with pool
-> > +	 * indices increasing sequentially.
-> > +	 */
-> > +	for (int i =3D 0; i < priv->info->num_ports; i++) {
-> > +		u32 base_id =3D i * bp_per_port;
-> > +		u32 bp_id =3D base_id;
-> > +		u64 mapping =3D 0;
-> > +
-> > +		for (int ipv =3D 0; ipv < NETC_IPV_NUM; ipv++) {
-> > +			/* Update the buffer pool index */
-> > +			if (ipv >=3D num)
-> > +				bp_id =3D base_id + ((ipv - num) / q) + 1;
+> > +	return ioread64(reg);
+> > +}
 >=20
-> What happens if a future hardware revision allocates more than 8 buffer p=
-ools
-> per port?
+> Since ioread64() is backed by ioread64_lo_hi() on 32-bit platforms via
+> <linux/io-64-nonatomic-lo-hi.h>, can this sequence result in torn reads
+> when accessing the live 64-bit hardware counters?
 >=20
-> If bp_per_port is greater than NETC_IPV_NUM (8), q evaluates to 0 and num
-> evaluates to 8.
+> If a hardware counter increments from 0x00000000_FFFFFFFF to
+> 0x00000001_00000000 between the lower and upper 32-bit reads, would the
+> result be incorrectly returned as 0x00000001_FFFFFFFF?
 >=20
-> Because ipv loops from 0 to 7, the condition ipv >=3D num will never be t=
-rue.
-> As a result, all 8 traffic priorities would be mapped to a single buffer =
-pool
-> (base_id), leaving the remaining pools unused instead of maximizing
-> utilization.
+> Unless the NETC hardware provides an atomic shadow latch mechanism for
+> these
+> counters upon the first read, might this require a read-retry loop to ens=
+ure
+> consistency on 32-bit architectures?
 >=20
-> Should bp_per_port be clamped to NETC_IPV_NUM before calculating q to
-> prevent this?
 
-From hardware perspective, each port has 8 IPVs, each IPV can only be
-mapped to one buffer pool, it is impossible that the hardware provides
-more than 8 buffer pools per port. This is a false positive, please ignore =
-it.
+NETC runs on ARM64 SoCs, so please ignore this warning, it is a false posit=
+ive.
+
 
