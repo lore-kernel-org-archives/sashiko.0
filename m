@@ -1,161 +1,150 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DC8B2F8EAD
-	for <sashiko@lists.linux.dev>; Mon, 11 May 2026 06:45:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778481918; cv=pass; b=RKhkdAEpt8xvACUMprZegyq8oHl6q39Xn39QN174/RAeD5jm1hS7opDJhdUPvK7Uw39xpXq+Ni9mScxyxsBeoomzkspzGMwFxxXEdj6I3dOXGyxAowvCquK/w9FB+pr0muNnQAMpUIRTxaflv1+FNO6O001BFm4ECSJ4aB1Rtz8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778481918; c=relaxed/simple;
-	bh=97cJOwK3KCzHfauaYQfhuSYb6J7hf4uXsLX2UHCLHkg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DuKOsUc79owLqs1m5V3sGqBNo8VUbGkPpsm1tQ2rUQGgg91NqIYyQ44rLhh2BuQ2NlxCaUP3qnmGY32b6WArE1sgRXYevkWCzAVm59uPK++0pe3Ev9SzEFoiUy1gITLJk4OMrOVvr/B7b+EnjCH9XlOjF12ODz5T0NcpXYtoQ00=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=S4LDL5nx; arc=pass smtp.client-ip=209.85.167.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C09D929B78D;
+	Mon, 11 May 2026 06:51:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778482269; cv=none; b=GnUFN7WUxxZNj9axcHkcjcdKyZa5jDD8MUiZ1AXnSdaWVxO8uIPsVZZ7W7GkOXrebfe2abFz7YgagXHFeHJYAyhbSvBXgbMPFkAW5YyewjVtRiDiNKi2xGD+c/jhbqffFdgdTN2K2qfc+ZZ5lYBrlMxSTzmLTbutaetpm3c0+BI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778482269; c=relaxed/simple;
+	bh=wqD98MO+dMAu60i5VFJSDqQmQqZN+ELhw7sRVp/bcAU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QfjSNSuvTdr8vaiNIsWCuiIPdD7J97Kj+Del9CQllx17E5uS3z6qkZ+LvCp9dIMM7PediaQpEKfwvcdytLmsGwA4VDGLG85uCbDa/yMzyINQTdcrWMRWr7r6HfzovfnAKOkxTJ13b3xRqtQR4xymInbiGZKbtG0SCg1hxKp+2jA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sgoQUKY+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="S4LDL5nx"
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5a88de2b52eso5067751e87.2
-        for <sashiko@lists.linux.dev>; Sun, 10 May 2026 23:45:17 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778481915; cv=none;
-        d=google.com; s=arc-20240605;
-        b=MFptfW4FOI5idLXOxlxqlHJxrBMGiWdqK/CNw1/ud0zqOERH1qvazXODgOzG17INsN
-         bdBIIkhPYGCwvakjqJljWiuhecchS0Mb4NTY5C35liOv41i6nfE4fQt01i4Uzrs6KmM3
-         LtH30xg1KOXygAGPSphvIqM6m+YNj3yfWtOcIgCzTV7Pwcvph4tdskV7jzDNXEhLsV/q
-         VxrtAKiybmBZHB8sMmo4GzLCKlpUiBNUkBWMbA7G2S0O7rrP0YodXpNdBKZdBQxCWhmM
-         Z/5I/XpGX7oVnkTp/70O0zEQqNy/e2kSMG8nKamEUP776UYUTdwIEInpbwQiifW/Zahg
-         Sf3w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=VMPlEPi9zf9RVpC6UEP+/+vrS9JgpaFFDnRGG82wjDA=;
-        fh=QdhIDWiwxlcL1884ITP/mcjlzeo+qogBsKxF+LZAApQ=;
-        b=BwSdtDp3Wnkx7enh15JYitF0O8uZkORnsUvd3PQrjiiTfV+ttrEcy0KpLg6ImQ31bI
-         A6ijEaH77UEj3BQqvKxrNZwSWR+7rBuQ62h0Bp0hMZMpBsUfeAvaUhUQHx3HmgU1V3PY
-         HRTJDU9xrWPbZeaLbiSOwWSJrQX6c5Cq+uFBcVExKuynBvGVCzqL/d27vfYR9T7RjivF
-         ygKj+hAGDHiSS6/fIfC2sNRSo2OZs2vTTgeRQyLN+y/XzBYk7UXyVRKNG5ttewe3Ob89
-         515cGvV0lujOGQ14ysgFX1UbTupJdh1Di6tACXGYmindqIMud+Kvo2YGeNPMhpzvBWYx
-         L5fg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1778481915; x=1779086715; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VMPlEPi9zf9RVpC6UEP+/+vrS9JgpaFFDnRGG82wjDA=;
-        b=S4LDL5nxDQEaAWyQwoY087R6s6dUWA34Ah+2cY/oynDfrBx8glPNkdal9lwQDgxSvf
-         Tipa35RJraLvWV2LjxkVqxndTjfyvqFi57i7RG2cNKb+PmUPVKvgZpUhCsFCCaC81lKu
-         5zEJ4+JxLd2QdoUyYfMQN0g3683UXkUa/thG4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778481915; x=1779086715;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=VMPlEPi9zf9RVpC6UEP+/+vrS9JgpaFFDnRGG82wjDA=;
-        b=JBICkxEDXBapfdag0Diw8cqPqe2NGI85X1ZsnkqssoHmav1mVEen+f1byhq2xAsNIz
-         IC/AlxWYp5MNongLeTjdRyP3gyBrvtDa0GQn0csEjTuEs/dHt94zNZdsbTmxTunxc05H
-         RaxvQhsCQnILzNToF/NvD8UYjMC1xpasFVpp2t1K3LYlFdBUi9iVh+iH899MG4GRGv9S
-         o8Vt+Rb02pvzU2L1zA+vwtya9SjmVsssVOgRNsTbN96V/a+efPa7Wsb27gML+X2OEBJF
-         e25OSnfu+kFvIJOD7Sfv6OqiDvzkp0kOaFcvAG6yZ2jZHoDTO24+JYJ4FF0PZGT7HqEH
-         nLVQ==
-X-Gm-Message-State: AOJu0Ywy58Nf8/HgRU/8WdPT5AyY7rYz5MuDSyTpQEe8tpU2ktJ0fSul
-	N6fR6d/GC0woYr6hpU+s50zA25WoKPUksQkqq2D2mBE7Gr0+DCt2UUebd1BbGSwKVtX4FnNIOg1
-	MQQJ1kCoao5LWZX4hA3utThZkGxtgP3cD0Lp3wefM2LGJQz42HOU=
-X-Gm-Gg: Acq92OE0k47oVSblQLNZauNZI1USLJKBhRDfAaKpwILZjBYhWpiMQfP+k77oY2z4cdB
-	G6DXA6aqZ5ugrTBbc3//aXOejQ78bS7gxB/LDIQWBERJH+0EhreAvLJc2yncALSwB3bf+jfn0am
-	Z8ChhwLkeA/ah04lnhuNaHMiUSJK08lNm9mr+8KnwoxIFR88AUIjpaflYModxTy73O3qfc1y81X
-	X/ohqy6CkM7QLCQCDKEe9hRjrZJKD77n+7lgV6gAN/buwpmTgyYh5jdijfKz9SsIPJsXgeaHSHs
-	nXqE35334AR5fGUJPucH91F+CrTLjGGFFC6P6Q==
-X-Received: by 2002:a05:6512:158e:b0:5a8:63e0:971b with SMTP id
- 2adb3069b0e04-5a887ceaff8mr7299552e87.35.1778481914968; Sun, 10 May 2026
- 23:45:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sgoQUKY+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C666C2BCB0;
+	Mon, 11 May 2026 06:51:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778482269;
+	bh=wqD98MO+dMAu60i5VFJSDqQmQqZN+ELhw7sRVp/bcAU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=sgoQUKY+dNMX4qe0bwx56KsZt1+o1oCVmbamrfA/i8MIeLcGzKOOvlUz5fT68zfDg
+	 Nx2R/065A3nb6QP5ZvZUpYbhj8aWIZxc48+p2DswiOs2l/JSJSb9AfXjQb9JrBN/Rg
+	 9/Fpltgjic1sELX+YeNVUp1AYC0MyLLjF0nvZz4bBwxcUed5ZKieXCpmFwgleng3HR
+	 Is3Ks7DwuWa9kJQ8QLAxhYYzZB4BBB541SewjgYBO8rAor4e+Az3MvJpFZV2cqru9u
+	 ezYLWloIvOQ31eU8noTtxp7Cer0B0KJ4ODGR+hud7ZVT0LH0sxpsRPq4PopcnDoHyj
+	 VzkNWD37CLi1g==
+Date: Mon, 11 May 2026 08:51:06 +0200
+From: Lorenzo Bianconi <lorenzo@kernel.org>
+To: sashiko@lists.linux.dev
+Cc: krzk+dt@kernel.org, robh@kernel.org, conor+dt@kernel.org,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH net-next v5 12/12] net: airoha: Better handle MIB for GDM
+ with multiple port attached
+Message-ID: <agF8WhrU8lTIyOjX@lore-desk>
+References: <20260509-airoha-eth-multi-serdes-v5-12-805e38edc2aa@kernel.org>
+ <20260510140506.DBBDCC2BCC9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260505105918.1823170-1-wenst@chromium.org> <20260505112419.B9151C2BCC7@smtp.kernel.org>
-In-Reply-To: <20260505112419.B9151C2BCC7@smtp.kernel.org>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Mon, 11 May 2026 14:45:03 +0800
-X-Gm-Features: AVHnY4KR-6Tf06R_RWua_y8Uai9EMagjSCzvJrMvpn9ggprlRnV50GcWLq8tPyw
-Message-ID: <CAGXv+5Gp90XUHNk7S+ePJmymrHeLDagw+s604FZjKWZgDS49XQ@mail.gmail.com>
-Subject: Re: [PATCH] PCI: mediatek-gen3: Do full device power down on removal
-To: sashiko@lists.linux.dev
-Cc: linux-pci@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Yak5kKSg5+tzS0K4"
+Content-Disposition: inline
+In-Reply-To: <20260510140506.DBBDCC2BCC9@smtp.kernel.org>
+
+
+--Yak5kKSg5+tzS0K4
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-FTR,
-
-On Tue, May 5, 2026 at 7:24=E2=80=AFPM <sashiko-bot@kernel.org> wrote:
->
 > Thank you for your contribution! Sashiko AI review found 1 potential issu=
 e(s) to consider:
-> - [High] Asserting PERST# and disabling clocks before deregistering the i=
-nterrupt handler introduces a race condition that can cause a bus fault (ke=
-rnel panic).
+> - [Medium] Moving the statistics lock from the port level to the device l=
+evel introduces a race condition on shared hardware registers, causing cros=
+s-interface statistics corruption.
 > --
->
-> commit 392cdae7adde07f3a5a5cd47d941a62a1d778a2b
-> Author: Chen-Yu Tsai <wenst@chromium.org>
->
-> PCI: mediatek-gen3: Do full device power down on removal
->
-> This commit updates the driver removal path to follow a proper power down
-> sequence for downstream devices. It calls mtk_pcie_devices_power_down()
-> on driver removal so that PERST# is asserted.
->
-> > diff --git a/drivers/pci/controller/pcie-mediatek-gen3.c b/drivers/pci/=
-controller/pcie-mediatek-gen3.c
-> > index b0accd8285892..e6acca7e79a0f 100644
-> > --- a/drivers/pci/controller/pcie-mediatek-gen3.c
-> > +++ b/drivers/pci/controller/pcie-mediatek-gen3.c
-> > @@ -1260,7 +1260,7 @@ static void mtk_pcie_remove(struct platform_devic=
-e *pdev)
-> >       pci_remove_root_bus(host->bus);
-> >       pci_unlock_rescan_remove();
-> >
-> > -     pci_pwrctrl_power_off_devices(pcie->dev);
-> > +     mtk_pcie_devices_power_down(pcie);
-> >       mtk_pcie_power_down(pcie);
->
-> Could this sequence cause a regression by introducing a race condition
-> with the interrupt handler?
->
-> Calling mtk_pcie_devices_power_down() asserts the PERST# pin, which force=
-s
-> the downstream PCIe link down. This can trigger a link-down or MAC error
-> interrupt at the controller level.
->
-> Immediately following this, mtk_pcie_power_down() disables the transactio=
-n
-> layer clocks via clk_bulk_disable_unprepare().
->
-> If an interrupt fires during this window, the top-level chained interrupt
-> handler will execute because mtk_pcie_irq_teardown() hasn't been called y=
-et.
->
-> If the handler attempts to read controller registers while its clocks are
-> disabled:
->
-> mtk_pcie_irq_handler()
->         status =3D readl_relaxed(pcie->base + PCIE_INT_STATUS_REG);
->
-> Could this cause a synchronous external abort and crash the kernel?
->
-> >       pci_pwrctrl_destroy_devices(pcie->dev);
-> >       mtk_pcie_irq_teardown(pcie);
->
-> Should the interrupt handler be deregistered or masked before the clocks
-> are disabled?
+>=20
+> commit 29334a9bde18f0777df549f0d135356a4b8bd3ee
+> Author: Christian Marangi <ansuelsmth@gmail.com>
+>=20
+> net: airoha: Better handle MIB for GDM with multiple port attached
+>=20
+> This commit enables a split MIB feature for GDM3/4 to track counters per
+> hardware channel instead of per GDM port. It moves the statistics structu=
+re,
+> including its protecting lock, from the port level to the device level.
+>=20
+> > diff --git a/drivers/net/ethernet/airoha/airoha_eth.c b/drivers/net/eth=
+ernet/airoha/airoha_eth.c
+> > index 623cac42dfb71..b1a6586293457 100644
+> > --- a/drivers/net/ethernet/airoha/airoha_eth.c
+> > +++ b/drivers/net/ethernet/airoha/airoha_eth.c
+> > @@ -1621,143 +1621,150 @@ static void airoha_update_hw_stats(struct air=
+oha_gdm_dev *dev)
+> >  	struct airoha_eth *eth =3D dev->eth;
+> >  	u32 val, i =3D 0;
+> > =20
+> > -	spin_lock(&port->stats.lock);
+> > -	u64_stats_update_begin(&port->stats.syncp);
+> > +	spin_lock(&dev->stats.lock);
+> > +	u64_stats_update_begin(&dev->stats.syncp);
+> > +
+> > +	/* Read relevant MIB for GDM with multiple port attached */
+> > +	if (port->id =3D=3D AIROHA_GDM3_IDX || port->id =3D=3D AIROHA_GDM4_ID=
+X)
+> > +		airoha_fe_rmw(eth, REG_FE_GDM_MIB_CFG(port->id),
+> > +			      FE_TX_MIB_ID_MASK | FE_RX_MIB_ID_MASK,
+> > +			      FIELD_PREP(FE_TX_MIB_ID_MASK, dev->nbq) |
+> > +			      FIELD_PREP(FE_RX_MIB_ID_MASK, dev->nbq));
+>=20
+> Does moving the lock from the port to the device level introduce a race
+> condition on the shared port MIB registers?
+>=20
+> Because ndo_get_stats64 can be called concurrently without the RTNL lock,=
+ if two
+> CPUs request stats for two different devices on the same port:
+>=20
+> CPU1 calls airoha_update_hw_stats() for dev_A:
+>     spin_lock(&dev_A->stats.lock);
+>     airoha_fe_rmw(..., REG_FE_GDM_MIB_CFG(port->id), ... dev_A->nbq);
+>=20
+> CPU2 concurrently calls airoha_update_hw_stats() for dev_B:
+>     spin_lock(&dev_B->stats.lock);
+>     airoha_fe_rmw(..., REG_FE_GDM_MIB_CFG(port->id), ... dev_B->nbq);
+>=20
+> Could CPU1 then read the hardware counters for dev_B instead of dev_A?
 
-The driver only handles chained IRQs, i.e. the INTX and MSI interrupts.
-By the time this function is called, the downstream PCIe devices should
-all have been stopped and removed, meaning all chained interrupts would
-have been disabled already.
+ack, I will fix it in v6.
 
-ChenYu
+>=20
+> [ ... ]
+>=20
+> >  	/* reset mib counters */
+> >  	airoha_fe_set(eth, REG_FE_GDM_MIB_CLEAR(port->id),
+> >  		      FE_GDM_MIB_RX_CLEAR_MASK | FE_GDM_MIB_TX_CLEAR_MASK);
+>=20
+> When CPU1 then clears the counters here, could it wipe out the unread
+> hardware statistics for dev_B?
+>=20
+> Is a port-level lock still needed to exclusively protect access to these =
+shared
+> hardware MIB registers across multiple devices?
+
+ack, I will fix it in v6.
+
+Regards,
+Lorenzo
+
+>=20
+> --=20
+> Sashiko AI review =B7 https://sashiko.dev/#/patchset/20260509-airoha-eth-=
+multi-serdes-v5-0-805e38edc2aa@kernel.org?part=3D12
+
+--Yak5kKSg5+tzS0K4
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTquNwa3Txd3rGGn7Y6cBh0uS2trAUCagF8WgAKCRA6cBh0uS2t
+rLKuAQCVHo9zxxc0/M/2vdNjL4owOrzT2rbvhRnV2L78lFsMGQEAwZmw0aUtbQ2O
+JQuPuqSO4Bf8fRR28FMUTzXWBp1DRgM=
+=4akk
+-----END PGP SIGNATURE-----
+
+--Yak5kKSg5+tzS0K4--
