@@ -1,176 +1,238 @@
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
+Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CA5C37F739
-	for <sashiko@lists.linux.dev>; Mon, 11 May 2026 20:10:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.67
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778530246; cv=pass; b=aAYwI/JBMl1L/kyomT17UrllMm4rl8hmN7lleoLninAu/Qb1z6AglJr7buHADapeVQqJY52yr8Hidj6t+z2SgKH7lT19todItXjx8QdR5P/LHJmpyvkjwN/LaJoVAcKt1DE2qxGolHCRPONOOrdn9tAleYce2XE7mNPq/noMcr0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778530246; c=relaxed/simple;
-	bh=O3q+sWm+2qH8YKJrtBOMduCqmSL8cmGP3auMa2HveU4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gaaY0yAWkIWpik2kVxSF+j7pOrxHoZdLMjntVd95DA6pCPOW/blc/Su4lTQf/KIsZ1W66xIAjzE7JuYO0gZmq2ZhLhICMZ6fX6/9Qz6E/l0x3SX3utDhPdlK7oAxGFFVxMSLt0XUe+V21TPOD8tdcTUB5U4+1TH45LVFZ8GRE6Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ktq7uOyw; arc=pass smtp.client-ip=209.85.128.67
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CBEF472767
+	for <sashiko@lists.linux.dev>; Mon, 11 May 2026 21:55:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.173
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778536510; cv=none; b=DD9i7vk0NJLe64P39TPEgXH0eF9LE4rnxCTI/6g607UZre5E5Kn5gW9syILchcsPX8Dothnz/o6L15CHJGka8tWyOINLhbP2EgLW+PKQpJJEFFXg/uCvjzSDVvBOsOsiSFSbtJpKDDRWBDecnUx0UhI2V7SmqDrXcOVRoozyBKU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778536510; c=relaxed/simple;
+	bh=NzRrgdqz4nEIoMnqLvi98xvutqhcVqw1QpBUiFoB1uc=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=o+XRQkK/1+aMqH+aUAoPnMy7Yc1fc/bpLyzl9AknQLJBEnNZTI6KZOURaGONq48E2roj98+L8xCR9u5kWGDwTPSbZorElF5UYXsgOvGWokLMXt8TrVn91CK5Y8AUyN9FRsJ6UacfuRd2YzQfoBm8wYHViNG6oBf+WDzPi99lwQw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=POxXY4d7; arc=none smtp.client-ip=74.125.82.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ktq7uOyw"
-Received: by mail-wm1-f67.google.com with SMTP id 5b1f17b1804b1-488e1a8ac40so46742745e9.2
-        for <sashiko@lists.linux.dev>; Mon, 11 May 2026 13:10:45 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778530244; cv=none;
-        d=google.com; s=arc-20240605;
-        b=dfzIY6CBDECvhfBnaknF2L01tgVNkWij2BlFMRAn/wqE+JOxCJzQzXEcLEc5mkafgM
-         rSS7EeSgDh2T9AEbwJOauL4LVi5YE8bgk1GeqFgVYeUYwyYXbkQHJ+g9AIBs0+xY6ke9
-         h5ZCFWF9pE4Stioey+8CkHOECMjD4sj5EjJTYE1nSO4jBJfkWADykd4y53BnkghDOksp
-         vlEqHV4zqk/1TcRNH5hvZskPEDYpRBdjuidjON/iC6se4iJTTshXzSqMvoG3utVC4/3h
-         mzqhJvMKR2JhizF4KkKzEPg7LQ16WDeDiO1eDgl/G9v3l0s5/ATEuSxKMctGeYklxIR5
-         ki+A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=ZeAu1KBS/N3eyE3IFqT3qbkaYSHyiTjllPRUlF208lo=;
-        fh=zLD4DZDzdRbmEbmrwbqf6PIQUoXOzw55uC7na1NMzIM=;
-        b=S3SikqcVZlQJi83Rqtl5LDpp8Ea3NZ3xyev6SMnhA8GMTEXrdVx/vLfl3t9CeboyK+
-         T9aLKx5rMkYCJfWllZ9o86i28n407dQAiTXFtv8HDSbquh9bLrauStGnfNvx6tQu1Bbu
-         zj1c7Ozaq0E73pWSG+Gwfo0OtO/lNHO/DTNGEYDuVjE/0dNhtDDcFQj5Lnh0zA0uUg3X
-         thb25acXjt3gxGXzmXr/iI3ZXUfGJCeU2xckDjpfbe6cuC7An+ARHemU3QLjYBKNK19b
-         gF0k4Rtsdmz+5l/r++S+7YqOX35vqJX9jXgylYak/uWbWVNifIXXW5H8jz3K9nnhB6Kg
-         wuzA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="POxXY4d7"
+Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-2f7020a928eso6731848eec.1
+        for <sashiko@lists.linux.dev>; Mon, 11 May 2026 14:55:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778530244; x=1779135044; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZeAu1KBS/N3eyE3IFqT3qbkaYSHyiTjllPRUlF208lo=;
-        b=Ktq7uOywuRQFA1KOEdEmgnwelXafYQNYGc2tTU7hinm4Uwt5u1VprUB8fQY6h82gDT
-         461R/wUTDHZEWEgg/2AUaSQT4oD1Fl5hR4E/pebF6uqz6+bQJANnkW4MRqcEwX5tlU+e
-         fhDqwwTlohATSwnifF9dXgE1ixQXbOHEUa26X75mgFbRFIEjFu2n0JyAteU87gyoKEsO
-         xhbP+o+mNiwCKlO87h0hN9CRTXRVyH2MptScn5imwIeFz7CdepNgYOfRyIaDmAQ17ylX
-         /GkGlVU0a+suWIHBmjzblL/eyCetfs5DijZK122X1Sn0fd14XmN3phPv/pe7no6VE4xS
-         RGYg==
+        d=gmail.com; s=20251104; t=1778536508; x=1779141308; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:references
+         :in-reply-to:user-agent:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=BmUOZb/0iJu7cUFvnyBMuIAtVRaC6aw3BvJ4ZeLGelE=;
+        b=POxXY4d7ZNNgN5mUAWwF971sMx9W/QfHQKC1bdD7dsiNafpFXv0YVqAeH+yjSaVWlO
+         jHSWezFVdN7+cD8NaUQh+n0jJH25yp25sQ1YWWwTPL0w/XLmEzx8AlLrl57Rc6EaDgWm
+         1T+y0S1jwJ8CL9Unt1pQMVl+jcV+jRK3EP3PkTX261BTCmJO3qGi5kCox/wdf+0lZhQh
+         RUhVTMq5XVcWxilrITuhz3UcX5FwL5Ez2sUaIAl8PqluOu2S4g+pE2gVCQBQcRCGxfgV
+         l0AXjRfDFdPEVG3dqCFrB81lwFAdjXsqnCaRNLGqzUJkf5Nh+KZ36USVaG77TD0O38kn
+         +F4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778530244; x=1779135044;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZeAu1KBS/N3eyE3IFqT3qbkaYSHyiTjllPRUlF208lo=;
-        b=JVECPHDnuG5dXnkoP2PKciL3LkvfJ7oJP8xml6Dp3GCbvdVJZb7YcTjpJqy415NKOi
-         RQhvjCDoXxbp1hVUov6onkW0TKghcEeyHR+43kFRwa4os9rdEl5+iTp5hXtdKvnMVeNU
-         sdhyT6ZpksvW/5eP7yH8pD5KcWNLaJ+0wFha0aNF/gsbjiYCz+WwGATYJ0aSp6WP+ph4
-         m4KBV6LHK6EbrpEjW3PnSXFhd5xYzWkt3vplfad3r3xU1HuRhSrVDq7MV4MTA8DCLURs
-         e9yo+8askNpa2MXMRZUvyQfcVU/kJLAv57ZWmGos8Dez3iTAyHaCpEWCyzuJva3eRT4H
-         V6GA==
-X-Forwarded-Encrypted: i=1; AFNElJ9wHzU4RRe9bew5tgv9PPP9RgJd8Pf8BcwN3x25ZQX5tpfICwduzkFKuGbp5aSynW9f/P1MxaW0@lists.linux.dev
-X-Gm-Message-State: AOJu0YznCFx1NJ07spSIBsSNZAU0bUDykIWG97uPM1sLnN9nGMobYCXX
-	3q0byJRWPUCUB7r5F8yKCbCSeMd4wUAGWbOUd3cdTh7s1T2A8lAJLgkfDkQkjxWZcJKn5zTLSnd
-	VX8UdGKsreqKlsrgSjD0/iileSp0aSTo=
-X-Gm-Gg: Acq92OFgJxCuoJO0ItDzc6gnOCLve/7XmZLQqANLRe1R2wGE2OBx8pqgj9prE05kzNJ
-	GbpOIueim1qiR9j63FPx12KPEc/w5jVO81zCswVhtU0olCywaOEFtjcNO3DDcyPxA0irZyXUfPM
-	BlvuZrnixpspN+YjznvMhWMLS4w+cbrXGRKU6wHDdU/kZggEw7i2xupn+X1jrqC7QA+zrb42Hg/
-	Ske4lyPo5tUQL+sez+WD0Zv+L1zKVkS9wY13GvPOXwn8M9Ts8fJ0+90UNNuOgBtZmd5eernnTaT
-	VUmDgzz08EFVeE8uS77Z8teBuZppCk7m0wiDC/2OgCfZm+OntA4GIsw2/iLoiFmPuVJ/nKSMWsG
-	VEPkkDyUnZbIrQzbfKyJXGBVZPV/NtH80H0Ux7PNdZ/w9F8vVKj2fNR91fg==
-X-Received: by 2002:a05:600c:4f8e:b0:48a:f18:ece4 with SMTP id
- 5b1f17b1804b1-48e8fe7d245mr627405e9.24.1778530243488; Mon, 11 May 2026
- 13:10:43 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1778536508; x=1779141308;
+        h=content-transfer-encoding:mime-version:message-id:references
+         :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=BmUOZb/0iJu7cUFvnyBMuIAtVRaC6aw3BvJ4ZeLGelE=;
+        b=F7Fo+lzNoB7RaZ/WmheAOCuPirH2Vk9DSL/1Qz7ArQ3xkKv6xyQ/UAATvpXk44m1tA
+         PkWq7zdeOMUgsZKEl+d4yyBNqI9hFo+kOmpXfeo99AQYQOiDpZBnEjH8H861XYy0/R8U
+         JBN6//OO8pNsVZoo+nnRhMU8qbKuTPfSsdGSE07Ll2lCCaQ3MGAaWmX5yhOdjX/zEGX8
+         CYY+6xmHRBNPAc38HG52s9ul+Fuo7cyWbfMLyhGFgfYgyKI+lha1+T9dwJ/Pqcw7RTtw
+         vcBFRI3sFRA7qeAKC8hIxW8gToUD/G6HhxxfYTmSYWIB80fEKd79Dbq5rUUhuYqS/01P
+         fn1Q==
+X-Gm-Message-State: AOJu0YzroGB9JUnSh6h/VR+kopqSZyFEBEzwuWSsYRGe0DaIt3ijN8I6
+	hPKojmQIqjLwL2Urf4k/ci14ceRDGI78JV6tz4KYAghiaThoudzUiumgoYdEKQ==
+X-Gm-Gg: Acq92OH/risZqycuqlXTX5MU/SyUiA7xGhgTEPMJmrq5cXzUYqtZaUq3bTnfrlcn5JZ
+	EZ+q4liM1vRtQ23Yg5e7wO1uTnqwnEZ3KLmudlQIPOTvg2Xkzcnee4z1MuT3pWUV9fI1/sqQX1u
+	+pBxELcmmPana6++aBaTFr9LaNJHgiG72ojfwP8E1LDpRQIHrgPlWazzxZEihPY5f1OPaYu/SWV
+	TpYeYfxS13EXdzAK2XfhzD4nrSNZ/RbmM7UDPmaaJCaLuwD//PZPMoWbopR7Iy3R3Gzzi9Ipnyq
+	hCxk5nt84gxqM4BbA1jZRDhHaVuiadm4MHM2/bhfezyBNeX0HjmtyVxFEjIhrzLcock59SF2WcL
+	hk/sW+L6u1oKgcgjHw00lOscI8n25IHjorfpTRoKV9CMCDaLQb7pypnU1N4AJFMAv91b4+ReYHq
+	PxpzMAAGa6q4qzT7JNaibKcc0qicRczWJ5numEmxrZwQvegZ+UWJSzNQK2r8k0p0AMcUeEsp058
+	X6DIevnPdNtXlga9XuGeg==
+X-Received: by 2002:a05:7300:e404:b0:2dd:c066:c02 with SMTP id 5a478bee46e88-2ffd77e6eb6mr240084eec.22.1778536508388;
+        Mon, 11 May 2026 14:55:08 -0700 (PDT)
+Received: from ehlo.thunderbird.net (108-228-232-20.lightspeed.sndgca.sbcglobal.net. [108.228.232.20])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2f8859eb034sm15357293eec.5.2026.05.11.14.55.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 May 2026 14:55:08 -0700 (PDT)
+Date: Mon, 11 May 2026 14:55:09 -0700
+From: "Derek J. Clark" <derekjohn.clark@gmail.com>
+To: sashiko@lists.linux.dev, sashiko-bot@kernel.org
+CC: dmitry.torokhov@gmail.com, linux-input@vger.kernel.org
+Subject: Re: [PATCH 3/4] HID: hid-msi-claw: Add RGB control interface
+User-Agent: Thunderbird for Android
+In-Reply-To: <20260511212230.21800C2BCB0@smtp.kernel.org>
+References: <20260510043510.442807-4-derekjohn.clark@gmail.com> <20260511212230.21800C2BCB0@smtp.kernel.org>
+Message-ID: <EAA30E51-66FB-4772-AEBB-4A94402FA9F5@gmail.com>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260507175453.1140400-2-utilityemal77@gmail.com>
- <20260507234520.646C4C2BCB2@smtp.kernel.org> <agCXEJKJh-JGMhjG@zenbox>
- <CAADnVQJdFCFJcg0Pqdnx=D2h5vHj_q4mrwSJYxRC5RW0NTFNvQ@mail.gmail.com>
- <agEnc0aYMhuIeDlq@zenbox> <DIFYUK5DKGAT.189D9YYSQFCUZ@gmail.com>
- <agH_0MEw4b0pB11-@suesslenovo> <DIG0ONMVOP0L.3QFYUPWFSKWI4@gmail.com>
-In-Reply-To: <DIG0ONMVOP0L.3QFYUPWFSKWI4@gmail.com>
-From: Kumar Kartikeya Dwivedi <memxor@gmail.com>
-Date: Mon, 11 May 2026 22:10:07 +0200
-X-Gm-Features: AVHnY4L-r9S0lVWrMl22FV0Sj1kUhVTnj6E46hXmJB-Pmw77jkoGnRhHec5qAa8
-Message-ID: <CAP01T75942V+wKJD0yhs8yb7U5vj+y9s6efJ+UdpTMfzP31CWg@mail.gmail.com>
-Subject: Re: [bpf-next v3 1/2] bpf: Offload kptr destructors that run from NMI
-To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc: Justin Suess <utilityemal77@gmail.com>, sashiko@lists.linux.dev, 
-	bpf <bpf@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 11 May 2026 at 19:29, Alexei Starovoitov
-<alexei.starovoitov@gmail.com> wrote:
+On May 11, 2026 2:22:29 PM PDT, sashiko-bot@kernel=2Eorg wrote:
+>Thank you for your contribution! Sashiko AI review found 5 potential issu=
+e(s) to consider:
+>- [High] `speed_show()` incorrectly casts the LED class device pointer to=
+ a `hid_device`, leading to an out-of-bounds memory read and kernel crash=
+=2E
+>- [High] Deadlock and missing return in `cfg_setup_fn` when handling init=
+ialization errors=2E
+>- [High] Sysfs attributes re-arm the cancelled delayed work after device =
+teardown, leading to a Use-After-Free=2E
+>- [High] Racy nullification of `brightness_set` causes a TOCTOU NULL poin=
+ter dereference=2E
+>- [Medium] Communication failure in `claw_read_rgb_config` leaves the pro=
+file parser in a corrupted state=2E
+>--
 >
-> On Mon May 11, 2026 at 9:38 AM PDT, Justin Suess wrote:
-> >   [   21.604660] Call Trace:
-> >   [   21.604662]  <TASK>
-> >   [   21.604663]  dump_stack_lvl+0x5d/0x80
-> >   [   21.604666]  print_usage_bug.part.0+0x22b/0x2c0
-> >   [   21.604669]  lock_acquire+0x295/0x2e0
-> >   [   21.604671]  ? terminate_walk+0x33/0x160
-> >   [   21.604674]  ? __call_rcu_common.constprop.0+0x309/0x730
-> >   [   21.604679]  _raw_spin_lock+0x30/0x40
-> >   [   21.604680]  ? __call_rcu_common.constprop.0+0x309/0x730
-> >   [   21.604682]  __call_rcu_common.constprop.0+0x309/0x730
-> >   [   21.604686]  bpf_obj_free_fields+0x118/0x250
-> >   [   21.604691]  free_htab_elem+0x85/0xd0
-> >   [   21.604694]  htab_map_delete_elem+0x168/0x230
-> >   [   21.604698]  bpf_prog_f6a7136050cb5431_clear_task_kptrs_from_nmi+0xeb/0x144
-> >   [   21.604700]  bpf_trace_run3+0x126/0x430
+>commit 9663adbabcba6be0b443e7073133d650a790c871
+>Author: Derek J=2E Clark <derekjohn=2Eclark@gmail=2Ecom>
 >
-> that's better.
-> Looks like we moved bpf_obj_free_fields() into htab_mem_dtor(),
-> but left check_and_free_fields() in free_htab_elem().
+>HID: hid-msi-claw: Add RGB control interface
+>   =20
+>Adds RGB control interface for MSI Claw devices with 9 total zones and
+>supports up to 8 sequential frames of RGB zone data=2E
 >
-> I think the fix is to remove check_and_free_fields() from ma path in free_htab_elem()
-> and fallback to bpf_mem_alloc at map create time when map has kptrs
-> with dtors. Even when BPF_F_NO_PREALLOC is not specified.
+>> diff --git a/drivers/hid/hid-msi-claw=2Ec b/drivers/hid/hid-msi-claw=2E=
+c
+>> index 60694d075d56f=2E=2Ef4fe74a784c29 100644
+>> --- a/drivers/hid/hid-msi-claw=2Ec
+>> +++ b/drivers/hid/hid-msi-claw=2Ec
 >
-> Kumar,
+>[ =2E=2E=2E ]
 >
-> thoughts?
+>> @@ -743,6 +836,389 @@ static const struct attribute_group claw_gamepad_=
+attr_group =3D {
+>>  	=2Eis_visible =3D claw_gamepad_attr_is_visible,
+>>  };
+>> =20
+>> +/* Read RGB config from device */
+>> +static int claw_read_rgb_config(struct hid_device *hdev)
+>> +{
+>> +	u8 data[4] =3D { 0x01, 0x00, 0x00, CLAW_RGB_FRAME_OFFSET };
+>> +	struct claw_drvdata *drvdata =3D hid_get_drvdata(hdev);
+>> +	u16 read_addr =3D drvdata->rgb_addr;
+>> +	size_t len =3D ARRAY_SIZE(data);
+>> +	int ret, i;
+>> +
+>> +	if (!drvdata->rgb_addr)
+>> +		return -ENODEV;
+>> +
+>> +	/* Loop through all 8 pages of RGB data */
+>> +	for (i =3D 0; i < 8; i++) {
+>> +		drvdata->profile_pending =3D CLAW_RGB_PENDING;
+>> +		data[1] =3D (read_addr >> 8) & 0xff;
+>> +		data[2] =3D read_addr & 0x00ff;
+>> +		ret =3D mcu_property_out(hdev, CLAW_COMMAND_TYPE_READ_PROFILE, data,=
+ len, 8);
+>> +		if (ret)
+>> +			return ret;
 >
+>If mcu_property_out() fails here, does drvdata->profile_pending remain se=
+t
+>to CLAW_RGB_PENDING? If a subsequent unrelated profile event or stray ACK
+>arrives, could claw_profile_event() incorrectly parse its payload as an R=
+GB
+>frame?
+>
+Hi AI bot,
+
+I am responding for the humans that will be reading this=2E
+
+Valid=2E Pending should be reset after errors=2E TBS, I need to find a way=
+ to push pending assignment into the mutex, or there will be issues as foun=
+d in the other message=2E
+
+>[ =2E=2E=2E ]
+>
+>> +static ssize_t speed_show(struct device *dev, struct device_attribute =
+*attr,
+>> +			  char *buf)
+>> +{
+>> +	struct hid_device *hdev =3D to_hid_device(dev);
+>> +	struct claw_drvdata *drvdata =3D hid_get_drvdata(hdev);
+>
+>Since the rgb_attr_group attributes are attached to the LED class device
+>rather than the HID device, does to_hid_device(dev) result in an invalid
+>pointer dereference here? Other sysfs functions in this patch seem to
+>correctly use dev_get_drvdata(dev) to retrieve the led_classdev=2E
 >
 
-Yeah, removing it from the path that helpers can invoke seems simpler.
-Remember though, this splat is just for hashtab, we have similar
-bpf_obj_free_fields() in array map on update. I think fundamentally
-the main issue here is that we logically free special fields when a
-map value is freed or deleted. When updating array maps we logically
-'free' and then 'update' the same map value together. For hashtab, it
-happens on update/delete.
+Also valid, though it doesn't crash when run it would be more proper to tr=
+eat the led cdev as the parent=2E
 
-We could relax this behavior to avoid eagerly freeing these special
-fields on update or deletion. The only worry is how this would impact
-programs that have come to rely on the existing behavior. There are
-patterns where people expect kptr to be NULL on some new map value,
-which causes programs to return errors when that expectation is not
-met. Just doing the skip when irqs_disabled() doesn't save us from the
-surprise side-effect. We need to decide upon this first before
-discussing the shape of the solution.
+>
+>> @@ -758,6 +1234,13 @@ static void cfg_setup_fn(struct work_struct *work=
+)
+>>  		claw_remove(drvdata->hdev);
+>>  	}
+>> =20
+>> +	ret =3D claw_read_rgb_config(drvdata->hdev);
+>> +	if (ret) {
+>> +		dev_err(drvdata->led_mc=2Eled_cdev=2Edev,
+>> +			"Failed to setup device, can't read RGB config: %d\n", ret);
+>> +		claw_remove(drvdata->hdev);
+>> +	}
+>
+>If claw_remove() is called from within the cfg_setup worker thread, and
+>claw_remove() calls cancel_delayed_work_sync(&drvdata->cfg_setup), won't
+>this deadlock waiting for itself to complete?
 
-This is the theoretical concern; In practice, I think most people who
-depend on such behavior use kptr in local storage maps (in
-schedulers). So it probably won't be a problem in practice, even
-though we can't judge this ahead of time. Also, we eagerly reuse map
-values when using memalloc, so the guarantees are already pretty weak
-I guess.
+Since it's a void function I can't return an error=2E I suppose it can jus=
+t dev_err and return without initializing any sysfs attributes=2E
 
-So, if we are not going to go through a grace period (like local
-storage) and free back to kernel allocator before reuse, we should
-relax field freeing behavior. At best, we should cancel work for
-timer, wq, task_work, and task_work, leaving other items as-is. E.g.
-BPF_UPTR is used in task storage which I think is accessible to
-tracing programs, I am not sure how safe unpin_user_page() is when
-called from random reentrant contexts. We might have more cases in the
-future, we cannot guarantee we can handle everything in NMIs
-universally.
+>Also, since there is no return statement after claw_remove() is called in
+>these error blocks, will this proceed to execute the rest of the function=
+ on
+>a stopped device?
+>
+>[ =2E=2E=2E ]
+>
+>> @@ -881,6 +1405,9 @@ static void claw_remove(struct hid_device *hdev)
+>> =20
+>>  	if (drvdata->endpoint =3D=3D CLAW_XINPUT_CFG_INTF_IN ||
+>>  	    drvdata->endpoint =3D=3D CLAW_DINPUT_CFG_INTF_IN) {
+>> +		/* Block writes to brightness/multi_intensity during teardown */
+>> +		drvdata->led_mc=2Eled_cdev=2Ebrightness_set =3D NULL;
+>
+>Is it safe to dynamically nullify the brightness_set callback here? If a
+>concurrent brightness update in the LED core checks the pointer, sees it =
+as
+>valid, and then this nullification happens before the actual function cal=
+l,
+>could it result in a NULL pointer dereference?
 
-So the best course of action seems to be relaxing
-bpf_obj_free_fields() to bpf_obj_cancel_fields() that just does cancel
-on async work (timer, wq, task_work) for delete / update and let other
-fields be as-is. We likely need to do bpf_obj_free_fields()
-additionally before prealloc_destroy() now, but that should be simple.
-Whether or not to use bpf_ma when kptrs are used in prealloc map is a
-separate change.
+This was done specifically to address a timing issue with the LED core and=
+ userspace writing to brightness during teardown=2E Without this we will ge=
+t a null pointer dereference when the brightness function calls mcu_propert=
+y_out=2E
 
-This should hopefully resolve the issue, unless I missed other cases.
+>> +		cancel_delayed_work_sync(&drvdata->rgb_queue);
+>
+>Since the LED class device is registered with devres
+>(devm_led_classdev_multicolor_register), the sysfs attributes like effect=
+,
+>speed, and enabled remain accessible until after claw_remove() completes=
+=2E
+>
+>If userspace writes to any of those attributes in this window, could
+>mod_delayed_work() re-arm rgb_queue, leading to a use-after-free when
+>drvdata is subsequently freed?
+>
+
+Swapping this and the sysfs remove after should solve it=2E
+
+-=20
+>>  		sysfs_remove_group(&hdev->dev=2Ekobj, &claw_gamepad_attr_group);
+>>  		cancel_delayed_work_sync(&drvdata->cfg_setup);
+>>  		cancel_delayed_work_sync(&drvdata->cfg_resume);
+>
+
