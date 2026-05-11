@@ -1,109 +1,135 @@
-Received: from out30-110.freemail.mail.aliyun.com (out30-110.freemail.mail.aliyun.com [115.124.30.110])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00F503B8920
-	for <sashiko@lists.linux.dev>; Mon, 11 May 2026 08:09:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.110
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FE5C3B52E3;
+	Mon, 11 May 2026 08:13:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778486999; cv=none; b=FCnlkRQ6rgJ/uIj/+rokPRtrLmwKC3OJleMXo3AvgYK2a82tMRetR3HVicyXrJf18X/jkNPNmffpjcUvH1QckfZetbxzmDJoFh4UbJpZHON+6Qrpos2HITsyAA6vpuTL7L6F4ODks0fBI+Qd8NmH5k1beldZ7ioftfL/uEyAXiU=
+	t=1778487213; cv=none; b=I/+CnAef+PzUH7IMY6lDc83C7sfKZWWGiTVaka4uERagMJUhaptL0T0XUyT6zo/d1Qsaf0C//W7BU2YWN3d266eUrA6QEj5ISOMG8yBJDzvvTy9ij2atnsWktfaZy2yKcy/GFBnno18lP9ew6qn7nIglLixbI/CGFVOfqKO11F8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778486999; c=relaxed/simple;
-	bh=3apolpNw/Uot1Mew/dfntezwhcHoTTsyXV7Xv39xeyA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iA9VJ7ArIjNjzjW2EKZlBeLKq9ovfsSylDjYjFz6CoG07oklUB7mxCKVdHZGCFNBB5a0XFYxYzD1Uv5PxSbF90uKXlyBx32PfsgRjz3FO6CtX4trqQSv+WLOB0SIesn1EUk+3tu7yp4azFxX+pyrAuQA9DQJf3wJMI3F5B9R+Z4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=C5ChmlH0; arc=none smtp.client-ip=115.124.30.110
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1778487213; c=relaxed/simple;
+	bh=2dphLYFLCvVUOzZNHaPCmUqQfVBRlR+I9k+BZWO5l2k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DfcF7SGUeeVOdO13A8QQIRmHkX7fOh57ZoMt/9VnRID80Sa4oT1r1EBc7tBkvM9E38b8H9QPx1lHxKrJuTzeR8X+IeqGG9UK9nG+bumghd2bReRvan62y4wX2zZXymTUp5Nt6XmuPDZoA+agkHSInL76/RMWXMPyIsCxYz25vE8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tF/hmwi3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="C5ChmlH0"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1778486984; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=26U6XQqkytPzWwcpRZHHBwYf3uM7hp6Nk0BAiW6aV0c=;
-	b=C5ChmlH02RV+dDOkkkuXb02Y2MK95/cQecHuH+ijF5rOkgUHvIhKwzJQxNyTcRgBOasR0IGLYf6ds3gRm/YrpMjT1YYpEyyrqQq6z+BLX9/TEYgCNG12tcBgpZ4ATMOzdSv61Aqo3OaDDDbfNz+4snqqk8Xh7m7HQtCVKn7zTVg=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R991e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045133197;MF=libaokun@linux.alibaba.com;NM=1;PH=DS;RN=3;SR=0;TI=SMTPD_---0X2gsYFS_1778486982;
-Received: from 30.221.130.252(mailfrom:libaokun@linux.alibaba.com fp:SMTPD_---0X2gsYFS_1778486982 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Mon, 11 May 2026 16:09:43 +0800
-Message-ID: <6176eb67-3f64-43a1-a18d-db5d93fd26d4@linux.alibaba.com>
-Date: Mon, 11 May 2026 16:09:42 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tF/hmwi3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 857A8C2BCB0;
+	Mon, 11 May 2026 08:13:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778487211;
+	bh=2dphLYFLCvVUOzZNHaPCmUqQfVBRlR+I9k+BZWO5l2k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=tF/hmwi3wxtVVGYtNUIUCxMAsZ8/d7Xk6yHYI/AISGSFV/PSFAL4P4ot3P0h18wxp
+	 jjGBz8s7T01LkT31rxLXgnEb8OszYNFb/dqj4RGT1DeS8B7rKK2oo96fKH289G3ixg
+	 Q7u+mCE4BrmrqPP7vWMu1CuHkDzZK2cedB+BHJrbLw+TGoif7QrJFERLb7fQgseAT/
+	 y7vkpy/nAoiq3Wbd+D5xB+TX/SUplURmO648NwZRWhqJHea6kQhkx8zriP4uaUnqmL
+	 RawiNji04HT9Jr37LdYRzguSUFXNi+aof7TAIM4k4qvSgUAoFa5P0xETeAQLR0cAKi
+	 ZJKg4389Oy2DQ==
+Date: Mon, 11 May 2026 10:13:29 +0200
+From: Lorenzo Bianconi <lorenzo@kernel.org>
+To: sashiko@lists.linux.dev
+Cc: conor+dt@kernel.org, devicetree@vger.kernel.org, krzk+dt@kernel.org,
+	robh@kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH net-next v5 02/12] net: airoha: Reserve RX headroom to
+ avoid skb reallocation
+Message-ID: <agGPqVvwyCbVbROt@lore-desk>
+References: <20260509-airoha-eth-multi-serdes-v5-2-805e38edc2aa@kernel.org>
+ <20260510140502.B244EC4AF0B@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 06/17] ext4: add ext4_block_bitmap_csum_set_range()
- for incremental checksum update
-To: sashiko@lists.linux.dev
-Cc: tytso@mit.edu, libaokun@linux.alibaba.com
-References: <20260508121539.4174601-7-libaokun@linux.alibaba.com>
- <20260508214640.B3A74C2BCB0@smtp.kernel.org>
-From: Baokun Li <libaokun@linux.alibaba.com>
-In-Reply-To: <20260508214640.B3A74C2BCB0@smtp.kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="qZEFo0epdC7n3CCp"
+Content-Disposition: inline
+In-Reply-To: <20260510140502.B244EC4AF0B@smtp.kernel.org>
 
-在 2026/5/9 05:46, sashiko-bot@kernel.org 写道:
-> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
-> - [High] ext4_block_bitmap_csum_set_range() passes an incorrect `total_bits` value to `crc32c_flip_range()` when `EXT4_CLUSTERS_PER_GROUP(sb)` is not a multiple of 8, leading to corrupted checksums.
+
+--qZEFo0epdC7n3CCp
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On May 10, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 1 potential issu=
+e(s) to consider:
+> - [High] Missing bounds check adjustment for RX packet length allows buff=
+er overflows
 > --
->
-> commit 49b9ace366232b1d340c2393c53c09a694007211
-> Author: Baokun Li <libaokun@linux.alibaba.com>
->
-> ext4: add ext4_block_bitmap_csum_set_range() for incremental checksum update
->
-> This commit adds a helper function to incrementally update the block bitmap
-> checksum using crc32c_flip_range(). This efficiently computes the CRC delta
-> for a range of flipped bits without re-scanning the entire bitmap buffer.
->
->> diff --git a/fs/ext4/bitmap.c b/fs/ext4/bitmap.c
->> index 46affc9e80ca3..00b0a3c748596 100644
->> --- a/fs/ext4/bitmap.c
->> +++ b/fs/ext4/bitmap.c
+>=20
+> commit f34e8812cb62dd63f96801a39b0d65ee905cd258
+> Author: Lorenzo Bianconi <lorenzo@kernel.org>
+>=20
+> net: airoha: Reserve RX headroom to avoid skb reallocation
+>=20
+> This commit reserves NET_SKB_PAD + NET_IP_ALIGN bytes of headroom for
+> received packets to avoid skb head reallocation when pushing protocol
+> headers into the skb.
+>=20
+> > diff --git a/drivers/net/ethernet/airoha/airoha_eth.c b/drivers/net/eth=
+ernet/airoha/airoha_eth.c
+> > --- a/drivers/net/ethernet/airoha/airoha_eth.c
+> > +++ b/drivers/net/ethernet/airoha/airoha_eth.c
 > [ ... ]
->> +void ext4_block_bitmap_csum_set_range(struct super_block *sb,
->> +				      struct ext4_group_desc *gdp,
->> +				      ext4_grpblk_t offset, ext4_grpblk_t len)
->> +{
->> +	__u32 new_csum, old_csum;
->> +
->> +	if (!ext4_has_feature_metadata_csum(sb))
->> +		return;
->> +
->> +	old_csum = ext4_block_bitmap_csum_get(sb, gdp);
->> +	new_csum = crc32c_flip_range(old_csum, EXT4_CLUSTERS_PER_GROUP(sb),
->> +				     offset, len);
-> Does passing EXT4_CLUSTERS_PER_GROUP(sb) here cause a checksum mismatch if
-> the clusters per group is not a multiple of 8?
->
-> In ext4_block_bitmap_csum_set(), the full checksum is calculated over exactly
-> EXT4_CLUSTERS_PER_GROUP(sb) / 8 bytes, ignoring fractional trailing bits:
->
-> fs/ext4/bitmap.c:ext4_block_bitmap_csum_set() {
->     int sz = EXT4_CLUSTERS_PER_GROUP(sb) / 8;
->     ...
->     csum = ext4_chksum(sbi->s_csum_seed, (__u8 *)bh->b_data, sz);
-> }
->
-> If crc32c_flip_range() uses the unaligned bit count as total_bits, the
-> trailing_bits shift calculation will use the wrong baseline length. This
-> could result in an incorrect checksum delta being applied for bit flips
-> within the byte-aligned region.
->
-> Would this also erroneously apply a CRC delta if an allocation or free occurs
-> in the fractional trailing bits that the full recalculation ignores?
->
-When formatting, it is ensured that EXT4_CLUSTERS_PER_GROUP is a multiple
-of 8, so this is an implicit guarantee, and there are no explicit checks
-in the kernel or fsck.
+> > @@ -627,10 +629,12 @@ static int airoha_qdma_rx_process(struct airoha_q=
+ueue *q, int budget)
+> > =20
+> >  		port =3D eth->ports[p];
+> >  		if (!q->skb) { /* first buffer */
+> > -			q->skb =3D napi_build_skb(e->buf, q->buf_size);
+> > +			q->skb =3D napi_build_skb(e->buf - AIROHA_RX_HEADROOM,
+> > +						q->buf_size);
+> >  			if (!q->skb)
+> >  				goto free_frag;
+> > =20
+> > +			skb_reserve(q->skb, AIROHA_RX_HEADROOM);
+> >  			__skb_put(q->skb, len);
+>=20
+> Does this code overlook adjusting the bounds check for the RX packet
+> length?
+>=20
+> Earlier in airoha_qdma_rx_process(), the software validation check
+> uses the unadjusted lengths:
+>=20
+>         data_len =3D q->skb ? q->buf_size
+>                           : SKB_WITH_OVERHEAD(q->buf_size);
+>         if (!len || data_len < len)
+>                 goto free_frag;
+>=20
+> If the hardware descriptor returns a len that is larger than the newly
+> adjusted dma_len but smaller than or equal to the old data_len, the
+> check will pass.
+>=20
+> Since skb_reserve() shifts the skb->tail forward by AIROHA_RX_HEADROOM,
+> will calling __skb_put(q->skb, len) with this unvalidated oversized len
+> push skb->tail past skb->end and overflow the skb_shared_info structure?
+>=20
+> Similarly for scattered fragments, could an oversized len passed to
+> skb_add_rx_frag() cause out-of-bounds memory accesses beyond the allocated
+> page fragment?
 
-To be safe, in the next version, I will, like ext4_block_bitmap_csum_set,
-align it down to 8.
+ack, I will fix it in v6.
 
+Regards,
+Lorenzo
 
-Thanks,
-Baokun
+>=20
+> --=20
+> Sashiko AI review =B7 https://sashiko.dev/#/patchset/20260509-airoha-eth-=
+multi-serdes-v5-0-805e38edc2aa@kernel.org?part=3D2
 
+--qZEFo0epdC7n3CCp
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTquNwa3Txd3rGGn7Y6cBh0uS2trAUCagGPqQAKCRA6cBh0uS2t
+rO72AQDvA7/niPO4yeyKs0rtSPk8+ow7Dxz9QLxaPhPQyzVw5QD/eRwgM68iCKuS
+xVwvKSRijfyXRKGUmKBzERC8c8PwHwg=
+=DNP2
+-----END PGP SIGNATURE-----
+
+--qZEFo0epdC7n3CCp--
