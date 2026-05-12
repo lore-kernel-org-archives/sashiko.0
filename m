@@ -1,63 +1,63 @@
-Received: from mail-dl1-f53.google.com (mail-dl1-f53.google.com [74.125.82.53])
+Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D171F2F0C74
-	for <sashiko@lists.linux.dev>; Tue, 12 May 2026 08:34:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B3F24B8DDF
+	for <sashiko@lists.linux.dev>; Tue, 12 May 2026 08:42:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778574859; cv=none; b=cg2JvkfejXb2pTeDM/QnOJfDVVLBWZsVnaD2xXey0wZ2rj14OPwDDXbAffvElLYYjaBhJ5lwY8GdTd4i2YOkohDOK7pRRqrBpXWKKF24zMlHuNzh3847eGlhXs1JHaUo0lLkfVogvfYrLGLFbGn4KPEmHhImae9fQNX1q7BeBbI=
+	t=1778575364; cv=none; b=jTZbOlyJgBLDmXzOjSAXpEhosJeTSqyxAgVuiHdIfcx9jJfdb4NVrPFOKZQ34gWxBxrFb832lrSlbwNrFpzb1FSVHWY1jPXIVkrUaC620uFsfTHK3bUpCYEw77phSM3SbxptnvOk7JDkTIxz+orYhr3VlfOL+rfEDRvnbTSV0VI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778574859; c=relaxed/simple;
-	bh=hlKgQBYPJErWMN4WsJktuJRGbS9W6kWbE2xCMtQGw0c=;
+	s=arc-20240116; t=1778575364; c=relaxed/simple;
+	bh=lq+/2jh4vsMC5QGD+Xb1leAx79zaNi8OYDy5lVugXcI=;
 	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
-	 References:In-Reply-To; b=IUI0ycE68M67mAJVNv6lRqY0G6a0FNDLooxoRYDQ/UA5Xzfo1LaIiYGJ8E/ZMKpJICFtSbgv6U2HggQjjAr2JN/GYQuDUK+8Uyt1b2X/5Oo7GSBjXHiDv2I92edSviD/sT01eHORCwQZKYILuvShFpfPXKWlJ/ddfCZLjzBm3oM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nexthop.ai; spf=pass smtp.mailfrom=nexthop.ai; dkim=pass (2048-bit key) header.d=nexthop.ai header.i=@nexthop.ai header.b=coPS7Ztz; arc=none smtp.client-ip=74.125.82.53
+	 References:In-Reply-To; b=kwiAG0Vp1dJXh+giAzVMz21xUoyeoRMUoTiIU2F6LpOkzYgy0M23NTFTN9a3/yV5ME+7o9uT5AIhO+Ie1YlLTQkMlHx1sU83i9JE9B78Sx8ubJOrybz9msda3sSDgKxrOd/gPOSPaNkmOiL5iIS2dnJtleCuJHahInt9ymJD9XI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nexthop.ai; spf=pass smtp.mailfrom=nexthop.ai; dkim=pass (2048-bit key) header.d=nexthop.ai header.i=@nexthop.ai header.b=hVoD9tlt; arc=none smtp.client-ip=74.125.82.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nexthop.ai
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nexthop.ai
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nexthop.ai header.i=@nexthop.ai header.b="coPS7Ztz"
-Received: by mail-dl1-f53.google.com with SMTP id a92af1059eb24-1334825de43so498167c88.0
-        for <sashiko@lists.linux.dev>; Tue, 12 May 2026 01:34:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=nexthop.ai header.i=@nexthop.ai header.b="hVoD9tlt"
+Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-2bdcf5970cdso3817151eec.0
+        for <sashiko@lists.linux.dev>; Tue, 12 May 2026 01:42:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=nexthop.ai; s=google; t=1778574857; x=1779179657; darn=lists.linux.dev;
+        d=nexthop.ai; s=google; t=1778575349; x=1779180149; darn=lists.linux.dev;
         h=in-reply-to:references:cc:to:from:subject:message-id:date
          :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=TSkxtKATHOt5lKJR5tZag8mNdNkA7wEcZE9Z1iwG/uw=;
-        b=coPS7ZtzkLvJYs6lb+InEnmP9RF9v5GSoQD4h8W6SwttJc36zw9IsMDjhK/i7HB6cy
-         jewZbobkCovuTIfkq988gN83Bx6PoUnw9rM5bvBTzvBZ7f75kBmIZ2n6SdwfjIRRpF3T
-         qVow6xP0GBQYg9q4mrxXtY709eXKlM1d+C/sLqQ/s8h1R3VE9MNT8q4/mWX1uMBW3td0
-         OvKCOYT/Tr5sFeIkHo1HYeq6K+pb5KavkiQ7SciiFzV/dE7XLmipNqtXsw8EZs7UY070
-         P4hg9sM+Gao+7LVYF/qzlQhjjlG8iRvfodmsZtIpVA1uGbq1p0Nw7HbX8vtuPjPAhIWk
-         Cv/g==
+        bh=8nV86GhwDOWsGDhN/ru26Dzx9121SYap+YK8888DQW0=;
+        b=hVoD9tltekXDWANYwt8TIQafl6w1xQCIN6tHpybW4ZCIXi7lFZ224elkmlqk9mUOjF
+         dJH5W2gFXhVxx+0YO7f30PNvZIGm/oQwDOdVf2ehJiSdzxD2ZmpYEVg/rKLnKQ63KCJK
+         EUnPi21x+1JBN5InN9bhuCbYjOtR6Zg8OR8BbRQOogGzl3KGUYtt/6zJNCZnAOQH7BlA
+         8eabUyTMlsoO4HAdydQai+JGLt+Hdp+evAjXIWCqCcJ8MtoTEHsOCxGKpnL5f6nhDsCX
+         2pD8uyPbZHfalVI3IFqQq6IKKmJN5YfwyhJRTpyLltMGRY14ey3+mdDNGVipp+dE4eX2
+         tVCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778574857; x=1779179657;
+        d=1e100.net; s=20251104; t=1778575349; x=1779180149;
         h=in-reply-to:references:cc:to:from:subject:message-id:date
          :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=TSkxtKATHOt5lKJR5tZag8mNdNkA7wEcZE9Z1iwG/uw=;
-        b=c7kKB1qjIyvw/mAiXfB30bDkBfJvSZO5axHdQk6tWfsHrZRR3Q0Cyosx2BB+K3RVyS
-         CfMpVp5DEf4B0hyV/+0DbQLR1EYze74TQDXT8CBm5+siynQNnZ/2Gik7t2gQKDGdarMh
-         FOrf1eW2Mpgv7LMKDyiLqvYdG92BSHTOrSE04NSoc/nMYSfqgZlSWVf+1T+hv+ch6+/7
-         EJJvrI0/cC5/bD+pM+NWVb0dNkEHjNAgzcfJsbjNPDvWYZh6Z3Pou5AtYoZqofdXPVAd
-         0jTxqhRTlVmnGc/+ZvYzpWzApFDKuGvbtTwfEOZdJI7t/r6X55eB+yYtis4v1k1Kwn8a
-         p90A==
-X-Gm-Message-State: AOJu0Yz2MXsmF9KaAB+CD8cPIbJFWSG5T3gpbQOqMu2KZ7Z159HcZIgq
-	DIRmE852a5ZfrKP5+iJiWXPu+7+a2rWo30xv+I1dCflxB8TcSDrm4v/U3onclFFmu4bL/04wQlz
-	96Sectq8=
-X-Gm-Gg: Acq92OH0RaDyLFfKUhPO67mgc+Ccm70oz7s7Hke4SQSGWv0lxTxoD9NQrvoSgWf2UpJ
-	32dYpfEjGnc26dX0Cd34aXwTP1BEDLNU5+JD1nb8ah5RnkE7WeGAEmWJP+gB7wkG1RwYkpOqPSw
-	yEoyIcTnXaawzNlD3i6BTeri7vMOXhPChL8ClVJ018+e4lUpEzg8PHwxzuIWqOIgiWiTTUwRIPA
-	n0ffsppZfb6b/NKwe+8adPZCRtnDiis4qksd1MtC/z46MVgya9e8owaV395ZdjLwCKHcU7Qb2nj
-	48jcGmDGJ53siEC+RQTV1iVhRMcZUg/utL1NioHXi5fteEs69CUBetNv55BFEhLEZ3l/yodPNVb
-	FL7p+9vW6ZfsZW2lcQeEBPPusshiWwaDg7WXK2rOCo1KtKlETRxeuppkgb2VpilbODfkvIaCjfZ
-	Po514+Q7JC1cE7EMwhAeoM1XU=
-X-Received: by 2002:a05:7022:390:b0:12d:b2e9:b20f with SMTP id a92af1059eb24-132a83f775cmr6843540c88.21.1778574856454;
-        Tue, 12 May 2026 01:34:16 -0700 (PDT)
+        bh=8nV86GhwDOWsGDhN/ru26Dzx9121SYap+YK8888DQW0=;
+        b=h14pFzpiWrF16K1Kl+uaCn/QPGn17LDufj3nG2HgbsEvakctg5l+ByUqNumG6SH3B3
+         9e3+TdyMIheR9yPII/zVJTnqJ7KAv0VRDpucnF7LN1qq3R57avE8wbEqxSXx4E9f2Gxv
+         8jJxi7AA5R5WwK0hdMq5i2UKOkcHdgQVog0u3sFK1Y1PdP1vPYkV6YuRHNIniaeZpX7x
+         Nt7DHTIpNCsnG6hfhW0eYCcX229oAqLCWX8MgGR9PBoP2y4KCwIHTAKbuMGJVxaG+u5T
+         Jyn8gQ5RLU1YeaAXKem4630SJcuNnYIpfaF7yCDMagYWNhbMCyKq5F17NzznurjqmRM6
+         EmEA==
+X-Gm-Message-State: AOJu0Yzb00wtdUubyH/4wZ2QcqdZE3DvCdx+bgwUjDQ9d8lFgaXGlkIi
+	d6lXh2CaoiLWcGj9+LJ2obA8ObqvLJxeWggHzeRX9hUNSY/4Lqj6F5/QUJWF7nBufrlZAe5ZDLt
+	632WyX0Q=
+X-Gm-Gg: Acq92OFFdN/iRoD+GaHgkDkp2Ke7QsZPyA677TS8WahULBORzTfan32tsavPovUmh1S
+	2ioIpoVUFh8jJp1t+gjGUON75OHIBO38Xs9ONPrZ7s5rgyUtqDSQVUOVYBE0fWFpUk+TGinEfJ8
+	lc+zF7q6PLxdbGt16YN0G50I3+jrvepidoOPwJ1dzBGs3xnAivnpPTPBEYTZZEQZtdxlw/3d4ZN
+	yHVKfv/YyPAUVCqwXNQmp6Q7OpbPPiQmWtmfXd0vquVspz+S3QLdSd5hIcmIVrpZE8Vh7kwFjpq
+	FpxtkZwEdfg+dxk9oIZS+0/0yUFQ5xsuerfSFq0AW6S0rcYTFoZceoQwJTCj+YJGStXQ9tcAtaH
+	Zc2Hf5m1TXqNoaILoi2BMIg35GmHdoH4F1rqb+nddWcoJZU2wubLN+MuqlAb0n8UgFhlptPBOkn
+	UDstOB7TwV5BTeCNG4B9fu1kM=
+X-Received: by 2002:a05:7300:324b:b0:2f3:5d44:eeba with SMTP id 5a478bee46e88-2ff93d089efmr1476347eec.6.1778575348498;
+        Tue, 12 May 2026 01:42:28 -0700 (PDT)
 Received: from localhost ([50.145.100.174])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-132781103e7sm21968628c88.1.2026.05.12.01.34.15
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2f8864c37basm16695078eec.13.2026.05.12.01.42.27
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 May 2026 01:34:16 -0700 (PDT)
+        Tue, 12 May 2026 01:42:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
@@ -66,123 +66,131 @@ List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Tue, 12 May 2026 01:34:15 -0700
-Message-Id: <DIGK60W195YF.11EIRC3QZABA2@nexthop.ai>
-Subject: Re: [PATCH RESEND v2 3/5] hwmon: (pmbus/adm1266) add
- powerup_counter debugfs entry
+Date: Tue, 12 May 2026 01:42:27 -0700
+Message-Id: <DIGKCAWMW65P.1GSNT49V8KH98@nexthop.ai>
+Subject: Re: [PATCH RESEND v2 4/5] hwmon: (pmbus/adm1266) replace probe-time
+ RTC seed with rtc_class device
 From: "Abdurrahman Hussain" <abdurrahman@nexthop.ai>
 To: <sashiko@lists.linux.dev>, "Abdurrahman Hussain"
  <abdurrahman@nexthop.ai>
 Cc: <linux-hwmon@vger.kernel.org>
 X-Mailer: aerc 0.21.0
-References: <20260511-adm1266-v2-3-7a6d34f0de5d@nexthop.ai>
- <20260512012940.BCF82C2BCB0@smtp.kernel.org>
-In-Reply-To: <20260512012940.BCF82C2BCB0@smtp.kernel.org>
+References: <20260511-adm1266-v2-4-7a6d34f0de5d@nexthop.ai>
+ <20260512033233.6868FC2BCB0@smtp.kernel.org>
+In-Reply-To: <20260512033233.6868FC2BCB0@smtp.kernel.org>
 
-On Mon May 11, 2026 at 6:29 PM PDT, sashiko-bot wrote:
-> Thank you for your contribution! Sashiko AI review found 1 potential issu=
+On Mon May 11, 2026 at 8:32 PM PDT, sashiko-bot wrote:
+> Thank you for your contribution! Sashiko AI review found 2 potential issu=
 e(s) to consider:
-> - [High] Missing lock in debugfs read function violating hwmon subsystem =
-guidelines.
+> - [High] Missing locking in RTC callbacks causes race condition with PMBu=
+s transactions.
+> - [Medium] Premature exposure of the RTC device before hardware initializ=
+ation is complete.
 > --
 >
-> commit 59d29098021812d7f7bd1712ee63ceafd8397c54
+> commit 20e4a34f4a236495f598a1957552fb4fea44b3d3
 > Author: Abdurrahman Hussain <abdurrahman@nexthop.ai>
 >
->     hwmon: (pmbus/adm1266) add powerup_counter debugfs entry
->    =20
->     The ADM1266 maintains a 16-bit non-volatile POWERUP_COUNTER register
->     (0xE4, datasheet Rev. D, Table 93) that increments on every power
->     cycle and cannot be reset by the host. Each blackbox record already
->     embeds the counter at record time, so the standalone live value is
->     primarily useful for matching a captured record back to the boot it
->     came from when correlating logs.
+>     hwmon: (pmbus/adm1266) replace probe-time RTC seed with rtc_class dev=
+ice
+>
+> This commit replaces the probe-time RTC seeding with an rtc_class device
+> backed by SET_RTC. This allows userspace tooling to drive the re-sync aga=
+inst
+> /dev/rtcN once it trusts the system clock.
 >
 >> diff --git a/drivers/hwmon/pmbus/adm1266.c b/drivers/hwmon/pmbus/adm1266=
 .c
->> index 31aefa8fc75f5..99e92a8365fb7 100644
+>> index 99e92a8365fb7..0dfb02db86837 100644
 >> --- a/drivers/hwmon/pmbus/adm1266.c
 >> +++ b/drivers/hwmon/pmbus/adm1266.c
 > [ ... ]
->> @@ -356,6 +357,31 @@ static int adm1266_firmware_revision_read(struct se=
-q_file *s, void *pdata)
->>  	return 0;
->>  }
->> =20
->> +/*
->> + * POWERUP_COUNTER (0xE4) is a 2-byte little-endian non-volatile counte=
-r
->> + * that increments on every device power cycle (datasheet Rev. D, Table
->> + * 93). It saturates at 65535 and cannot be reset by the host. Each
->> + * blackbox record embeds the counter value at record time, so this liv=
-e
->> + * read is mainly useful for matching a record back to its boot.
->> + */
->> +static int adm1266_powerup_counter_read(struct seq_file *s, void *pdata=
-)
+>> +static int adm1266_rtc_read_time(struct device *dev, struct rtc_time *t=
+m)
 >> +{
->> +	struct device *dev =3D s->private;
 >> +	struct i2c_client *client =3D to_i2c_client(dev);
 >> +	u8 buf[I2C_SMBUS_BLOCK_MAX];
+>> +	u32 secs;
 >> +	int ret;
->> +
->> +	ret =3D i2c_smbus_read_block_data(client, ADM1266_POWERUP_COUNTER, buf=
-);
+>> +	int i;
+>> =20
+>> -	memset(write_buf, 0, sizeof(write_buf));
+>> +	ret =3D i2c_smbus_read_block_data(client, ADM1266_SET_RTC, buf);
 >
-> Does this debugfs read need to be protected by hwmon_lock()?
+> Since this RTC device is exposed to userspace, can this callback be invok=
+ed
+> concurrently with hwmon sysfs attributes managed by the PMBus core?
 >
-> According to the hwmon subsystem guidelines:
+> The PMBus core uses pmbus_lock to serialize multi-step sequences. If an R=
+TC
+> I2C transaction interleaves in the middle of a PMBus sequence, can it dis=
+rupt
+> the device's internal state machine or cause unpredictable behavior?
 >
-> "The hardware monitoring subsystem core serializes sysfs operations
-> for attributes registered with the info parameter of
-> hwmon_device_register_with_info() and
-> devm_hwmon_device_register_with_info().
-> Drivers must implement locking required for interrupt handling and for
-> attributes registered by any other means. Drivers should use hwmon_lock()
-> and hwmon_unlock() for this purpose."
->
-> Since this attribute is registered via debugfs rather than the info
-> parameter, concurrent I2C operations here could potentially interleave
-> with multi-part transactions from the hwmon core (like PMBus page switchi=
-ng),
-> which could disrupt the device's state machine or cause cross-page data
-> corruption.
+> Should this callback acquire pmbus_lock(client) (or its interruptible
+> variant) around the I2C transfer to prevent a race condition?
 >
 >> +	if (ret < 0)
 >> +		return ret;
->> +	if (ret !=3D 2)
->> +		return -EIO;
+> [ ... ]
+>> +static int adm1266_rtc_set_time(struct device *dev, struct rtc_time *tm=
+)
+>> +{
+>> +	struct i2c_client *client =3D to_i2c_client(dev);
 >> +
->> +	seq_printf(s, "%u\n", buf[0] | (buf[1] << 8));
->> +
->> +	return 0;
+>> +	return adm1266_write_rtc(client, rtc_tm_to_time64(tm));
 >> +}
+>
+> Does this callback also need to acquire pmbus_lock(client) around the I2C
+> transfer to prevent concurrent access with PMBus transactions?
+>
+> [ ... ]
 
-POWERUP_COUNTER (0xE4) is a global, non-paged register. The read here
-is a single i2c_smbus_read_block_data() call, which the i2c core
-already serialises at the bus level for that transfer. There is no
-driver-side multi-step sequence to interleave with, and PMBus PAGE
-state has no bearing on the value returned, so an extra lock around
-this read would not be protecting anything.
+Agreed. In v3 both callbacks wrap their I2C transfer in
+pmbus_lock_interruptible() / pmbus_unlock(). adm1266_write_rtc() is
+no longer reachable from probe (the probe-time SET_RTC seed is what
+this patch removes), so the new lock acquisition is purely on the
+userspace path and a signal can interrupt a contended wait cleanly.
 
-(For what it's worth, hwmon_lock()/hwmon_unlock() aren't exported as
-a generic kernel API. The relevant primitive for a PMBus driver is
-pmbus_lock() / pmbus_unlock() from drivers/hwmon/pmbus/pmbus.h, which
-fences against the PMBus core's own PAGE+register sequences.)
+>> @@ -553,7 +603,7 @@ static int adm1266_probe(struct i2c_client *client)
+>>  	if (ret < 0)
+>>  		return ret;
+>> =20
+>> -	ret =3D adm1266_set_rtc(data);
+>> +	ret =3D adm1266_register_rtc(data);
+>>  	if (ret < 0)
+>>  		return ret;
+>
+> By registering the RTC device here, is the /dev/rtcX interface exposed to
+> userspace before pmbus_do_probe() completes the hardware discovery and
+> initialization sequence?
+>
+> If a userspace process immediately opens the RTC device and issues read/w=
+rite
+> commands, can the resulting I2C traffic interleave with the driver's
+> initial setup?
+>
+> Should adm1266_register_rtc() be called at the end of the probe function,
+> after pmbus_do_probe() succeeds, to ensure the device is fully initialize=
+d
+> before it is accessed externally?
 
-I have added pmbus_lock_interruptible() coverage in v3 for the paths
-where it is justified:
+The ordering follows the existing pattern for the GPIO and nvmem
+registrations in this driver. None of the three registration helpers
+performs I2C at registration time =E2=80=94 devm_{gpiochip,nvmem,rtc}_*()
+only install callbacks that fire later when userspace touches the
+interface. With the v3 locking in place, any userspace RTC access
+that lands during pmbus_do_probe() will serialise on
+pmbus_lock_interruptible() against the core's PAGE+register
+sequences rather than interleave with them, so the
+window-without-protection that the original concern describes is
+closed by the locking change.
 
-- clear_blackbox (patch 2/5) shares command 0xDE with
-  adm1266_nvmem_read_blackbox(), and the read path walks records
-  one at a time; a concurrent clear could land between records, so
-  both paths now hold the lock across the full sequence.
-- The RTC read_time/set_time callbacks (patch 4/5) can fire while
-  the PMBus core has a PAGE write outstanding, so the I2C transfer
-  is wrapped in pmbus_lock_interruptible() to avoid interleaving.
-
-I would prefer to keep the powerup_counter read lock-free unless
-there is a specific scenario I am missing.
+I would prefer to leave the registration ordering as-is for
+consistency with the GPIO and nvmem paths, but I am happy to move
+all three after pmbus_do_probe() if you would rather have a stricter
+"nothing visible to userspace until probe is done" invariant across
+the driver. Happy to do that in a follow-up if so.
 
 Best regards,
 Abdurrahman
