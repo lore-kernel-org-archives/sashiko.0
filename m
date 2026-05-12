@@ -1,242 +1,118 @@
-Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com [209.85.161.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5E5E299AAB
-	for <sashiko@lists.linux.dev>; Tue, 12 May 2026 02:10:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1572C29BDB4
+	for <sashiko@lists.linux.dev>; Tue, 12 May 2026 02:11:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778551810; cv=none; b=JMJCx/TOdHYHJA+11WK0KhKIbNBYcGacBYOCiW5GeDKhk5bGBxrl4fIeYlpUWwIQ7Nm71NJ+5XrD+r48MRP99cqsZJdx4P/GS9rEgR3cQb/u1ZS/Bi9F8bFUK8xpSvhiadHSnLefuGWRsuuG8xY+Hk+rm3d5fjDd7xddRPbhrHs=
+	t=1778551885; cv=none; b=OiHiK+G6qSreUsmCAhBBgPcDAsl9tzsYfYZXpa+crnx3VLNMJKvPrUit0tlUs4Guu6U2f905yVgoA39tEuFsUm4QlkEhmbbpHYn/wwLe4Iw1ze0PQrj5VPY3x1wGkLYrmB024xKdLHSBBWAhPNPlE4+X1L5D/8uPact2qxo3Ygc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778551810; c=relaxed/simple;
-	bh=UBhn1vwUk4WxqGcZnaK53kTgzYUb9Kb115VU9CY0MKQ=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=Xr+qWHiXlonIdUg8ywwjSJG6WMOlVgQ9jJqPRiB/6LYkYUYZVoVpEVXTPGpZG8A7NQC/6e4uVr6u5LXxCZOM9hFpA3CDI96EllN1O8xgGopRe9eEXgBV4mT9dzW/fzw24zIKlFUqkMx/zXHtBaigkVseN/DEWGp0ld8AsfYXdAU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kkzVNnEz; arc=none smtp.client-ip=209.85.161.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778551885; c=relaxed/simple;
+	bh=y6yQ6HM0XyM5CHXUndby/A+KEehTP2dSwQ8ng2pGSwY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EqkZ4xp+Y5k6v6G5q9Hu9Mo+yyvxydGF/R9bvbyiO6pCdXzx+tCYG29TlnhvQtEvTSYF/We9zi1hNWJLCaayrwvmtyO4IGev+uaKVdodtkXTmnvbK3rPCIWOYSBmoM4RTmYgUSuTvM9bk4BuQUeLx1tE/eWiytiPwd4r1YdEHWQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=fl0nAvyJ; arc=none smtp.client-ip=220.197.31.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kkzVNnEz"
-Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-6967080e6c0so3114133eaf.2
-        for <sashiko@lists.linux.dev>; Mon, 11 May 2026 19:10:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778551807; x=1779156607; darn=lists.linux.dev;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FLM1QLN4XrHoS3pMLkMNSND5wUkA9TnChdpIRxhmBd8=;
-        b=kkzVNnEzfFzAsc0SibADKJkkSwiIi1253HXh1whFOigKs1YN9wYs+rTPA+Bm4imIDp
-         06a35voYoDgLiouVKZedkf0RLVtD5VFQnZ+CfFfrD7Tp6W2tswV0jzS7vNwkQYJ5dvlB
-         QmzaKUQ2Kqr8WlPzLk/zIY6h8QBtOBpqsKo/8Uxc+m3SlFHZCdRHZsUvBkRRh/QUulxF
-         eRhoDUPK+46+65NhFE4uVc27yDEG5OrZhQThLSt1v29GjEFwH3NDS7JXhpYFlPRxufSs
-         DcnlJyyZsh52nsHB5HYADiDQ1CZyqTLvUK0r+oNxNxlYC/jtVVKI2392BEp0JP5EFCUR
-         NXhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778551807; x=1779156607;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=FLM1QLN4XrHoS3pMLkMNSND5wUkA9TnChdpIRxhmBd8=;
-        b=a3QJFCYrUib2ZXjJXRvv1cEZwaL6JmjPiNWpRQ0KL9dZiHuw6/66l2xAxOnSmpXjvL
-         0gFAK8HjgO8yiFiaB9aAELCKEN/MbstQsl8zdwiSF64krYtB3R20mKZQm0kkqfw9AAUO
-         8O3OcMGc+ukXyL9imcZQfazDr3IcKQjsnXf21YIuP4ir1m93ydJ6oeQLLVF4N16QTvVb
-         zLZ+eRwjtfMlDjZa+gc2k1o4w1GsY0AcfKVpau2/34lrKO6Zl4GN83cxm0VuwmqOItY+
-         IOMZr/J5C6EwgtALnnHDIgPdIxVQ1KO6X4fSp7jfW7vShxlh3uR2A6CX6QuU+MmuEj4y
-         3EnQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/Aa9Dn1b0S+PV6lzrAQlO9urGPrtdQSEX68mIzAJm+h6Z29I4z40QosVQNebOOo0oCKQ9R0QIA@lists.linux.dev
-X-Gm-Message-State: AOJu0YwQ9fdrKWx5zHF3LxpGqohHkO3AJIHHYbhNHv6CsGwmUs2xW1jP
-	CZHUC/HOq/f/iHKtmIAQT743FUCVUiOV4wcb3Y2YFeTurS95j+FB8eN3
-X-Gm-Gg: Acq92OGENsca1gnda5/RNZ0alQzVJxrM4RpdF9Il4dQ5/FKZZKTA5hk8mKW8+zRwt2A
-	GTQcBo87c2d8NuvJNeORPoFZFhHcwgH/w2hrlesyyYE1Rzc+25dNKVsVb/iuyvHRuu+S4v1bFgo
-	0hv2TisK5ff8wn9auv+31GY0MwADodvFqf3jeioalTGn0WjASITZ6VFSISz1zqRDV2uyIn8u3dE
-	+5HuS/jB363FbXMxswdsF7akSq/xBc2ueunbGrM8IXHb2CmCcCefJ1aJ7YjALMUqhqAF5ebF/dx
-	0/oVrUCKgmf9ujKTT6ifzJsrt+H9iwlIAGExpDq44SUOnjXlhkYwzPo/KEtRK7HV01N9ipdQ/96
-	DTQRn7k/XF9pqmuqQB/X920dOfAa8T32UzfJ8coBl7v6Bre0Pv+6GmTriui29wSlu03vJpz3sEy
-	8g5NnOeG1qxklO5pzWITsjp5z9RsvoZ8JxIh0aANd7shfV1FdxdrkTdvbME+uS6uILZE6MjSfLH
-	uCFHDd13ApnQdPu
-X-Received: by 2002:a05:6820:c3ca:b0:699:b131:d587 with SMTP id 006d021491bc7-699b131d797mr7676281eaf.11.1778551807444;
-        Mon, 11 May 2026 19:10:07 -0700 (PDT)
-Received: from localhost ([2a03:2880:10ff:6::])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-69b25956231sm6647252eaf.0.2026.05.11.19.10.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 May 2026 19:10:07 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="fl0nAvyJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Message-ID:Date:MIME-Version:Subject:To:From:
+	Content-Type; bh=+Z8makgKmcfdp697EY64x32KShxUw//enrX43GpQF5E=;
+	b=fl0nAvyJXKttn7RUqT4Vv92mVVO1eEQLlpOXBqk6dgmWnPYRJ12yRuEOpVdvut
+	3NjK/PvNukHb/4On+1xnD3WHKOKFpRALDyXR6LWuq7F6RgQDhCUjtv3g4zeHQ2fB
+	62S+9O5mWr52DTmajOxVq0Y7LdrUE06oFkIWcOkU8DaFw=
+Received: from [192.168.56.102] (unknown [])
+	by gzga-smtp-mtada-g0-2 (Coremail) with SMTP id _____wBH9+E2jAJqJL1qAw--.3266S2;
+	Tue, 12 May 2026 10:11:03 +0800 (CST)
+Message-ID: <f64bdace-15c0-43e6-98eb-12628cdfbf33@163.com>
+Date: Tue, 12 May 2026 10:11:02 +0800
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 11 May 2026 19:10:05 -0700
-Message-Id: <DIGBZVSAOXGC.VA20SWFV4R74@gmail.com>
-Cc: "Justin Suess" <utilityemal77@gmail.com>, <sashiko@lists.linux.dev>,
- "bpf" <bpf@vger.kernel.org>
-Subject: Re: [bpf-next v3 1/2] bpf: Offload kptr destructors that run from
- NMI
-From: "Alexei Starovoitov" <alexei.starovoitov@gmail.com>
-To: "Kumar Kartikeya Dwivedi" <memxor@gmail.com>
-X-Mailer: aerc
-References: <20260507175453.1140400-2-utilityemal77@gmail.com>
- <20260507234520.646C4C2BCB2@smtp.kernel.org> <agCXEJKJh-JGMhjG@zenbox>
- <CAADnVQJdFCFJcg0Pqdnx=D2h5vHj_q4mrwSJYxRC5RW0NTFNvQ@mail.gmail.com>
- <agEnc0aYMhuIeDlq@zenbox> <DIFYUK5DKGAT.189D9YYSQFCUZ@gmail.com>
- <agH_0MEw4b0pB11-@suesslenovo> <DIG0ONMVOP0L.3QFYUPWFSKWI4@gmail.com>
- <CAP01T75942V+wKJD0yhs8yb7U5vj+y9s6efJ+UdpTMfzP31CWg@mail.gmail.com>
- <agKBE4Ci4_LmJ1Dc@zenbox>
- <CAP01T76i3S93kvXnQvK+NU1ee82s+ka2jQfmf-yL86r9AS2tuQ@mail.gmail.com>
- <DIGBOYWXZ95S.3GAGVQGUJNQD4@gmail.com>
- <CAP01T75y1CuPQ9af9SgYqY=c+3q7ZXTKJJu=znAE3HtEEBMwOw@mail.gmail.com>
-In-Reply-To: <CAP01T75y1CuPQ9af9SgYqY=c+3q7ZXTKJJu=znAE3HtEEBMwOw@mail.gmail.com>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 v4 2/3] ext4: use atomic operations for s_mb_stats
+ accesses
+To: sashiko@lists.linux.dev, libaokun@linux.alibaba.com,
+ adilger.kernel@dilger.ca, tytso@mit.edu
+Cc: linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org,
+ adilger@dilger.ca, wangguanyu@vivo.com
+References: <20260508093428.5814-3-liubaolin12138@163.com>
+ <20260508200245.A703BC2BCC7@smtp.kernel.org>
+Content-Language: en-US
+From: liubaolin <liubaolin12138@163.com>
+In-Reply-To: <20260508200245.A703BC2BCC7@smtp.kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wBH9+E2jAJqJL1qAw--.3266S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7CFyfGrWUZrWrtry7XF4DCFg_yoW8uw1kpr
+	s5Jay5KFsFvwn3C39rCFs5Gw4Fv342k347GrWayryjkFZ09r1vyryxKFy5ZFy5ArWDGF1I
+	vF4kK34DC3y3uaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07U3hL5UUUUU=
+X-CM-SenderInfo: xolxutxrol0iasrtmqqrwthudrp/xtbC6RdLFmoCjDeqIgAA34
 
-On Mon May 11, 2026 at 7:03 PM PDT, Kumar Kartikeya Dwivedi wrote:
-> On Tue, 12 May 2026 at 03:55, Alexei Starovoitov
-> <alexei.starovoitov@gmail.com> wrote:
->>
->> On Mon May 11, 2026 at 6:46 PM PDT, Kumar Kartikeya Dwivedi wrote:
->> > On Tue, 12 May 2026 at 03:43, Justin Suess <utilityemal77@gmail.com> w=
-rote:
->> >>
->> >> On Mon, May 11, 2026 at 10:10:07PM +0200, Kumar Kartikeya Dwivedi wro=
-te:
->> >> > On Mon, 11 May 2026 at 19:29, Alexei Starovoitov
->> >> > <alexei.starovoitov@gmail.com> wrote:
->> >> > >
->> >> > > On Mon May 11, 2026 at 9:38 AM PDT, Justin Suess wrote:
->> >> > > >   [   21.604660] Call Trace:
->> >> > > >   [   21.604662]  <TASK>
->> >> > > >   [   21.604663]  dump_stack_lvl+0x5d/0x80
->> >> > > >   [   21.604666]  print_usage_bug.part.0+0x22b/0x2c0
->> >> > > >   [   21.604669]  lock_acquire+0x295/0x2e0
->> >> > > >   [   21.604671]  ? terminate_walk+0x33/0x160
->> >> > > >   [   21.604674]  ? __call_rcu_common.constprop.0+0x309/0x730
->> >> > > >   [   21.604679]  _raw_spin_lock+0x30/0x40
->> >> > > >   [   21.604680]  ? __call_rcu_common.constprop.0+0x309/0x730
->> >> > > >   [   21.604682]  __call_rcu_common.constprop.0+0x309/0x730
->> >> > > >   [   21.604686]  bpf_obj_free_fields+0x118/0x250
->> >> > > >   [   21.604691]  free_htab_elem+0x85/0xd0
->> >> > > >   [   21.604694]  htab_map_delete_elem+0x168/0x230
->> >> > > >   [   21.604698]  bpf_prog_f6a7136050cb5431_clear_task_kptrs_fr=
-om_nmi+0xeb/0x144
->> >> > > >   [   21.604700]  bpf_trace_run3+0x126/0x430
->> >> > >
->> >> > > that's better.
->> >> > > Looks like we moved bpf_obj_free_fields() into htab_mem_dtor(),
->> >> > > but left check_and_free_fields() in free_htab_elem().
->> >> > >
->> >> > > I think the fix is to remove check_and_free_fields() from ma path=
- in free_htab_elem()
->> >> > > and fallback to bpf_mem_alloc at map create time when map has kpt=
-rs
->> >> > > with dtors. Even when BPF_F_NO_PREALLOC is not specified.
->> >> > >
->> >> > > Kumar,
->> >> > >
->> >> > > thoughts?
->> >> > >
->> >> > >
->> >> >
->> >> > Yeah, removing it from the path that helpers can invoke seems simpl=
-er.
->> >> > Remember though, this splat is just for hashtab, we have similar
->> >> > bpf_obj_free_fields() in array map on update. I think fundamentally
->> >> > the main issue here is that we logically free special fields when a
->> >> > map value is freed or deleted. When updating array maps we logicall=
-y
->> >> > 'free' and then 'update' the same map value together. For hashtab, =
-it
->> >> > happens on update/delete.
->> >> >
->> >> > We could relax this behavior to avoid eagerly freeing these special
->> >> > fields on update or deletion. The only worry is how this would impa=
-ct
->> >> > programs that have come to rely on the existing behavior. There are
->> >> > patterns where people expect kptr to be NULL on some new map value,
->> >> > which causes programs to return errors when that expectation is not
->> >> > met. Just doing the skip when irqs_disabled() doesn't save us from =
-the
->> >> > surprise side-effect. We need to decide upon this first before
->> >> > discussing the shape of the solution.
->> >> >
->> >> > This is the theoretical concern; In practice, I think most people w=
-ho
->> >> > depend on such behavior use kptr in local storage maps (in
->> >> > schedulers). So it probably won't be a problem in practice, even
->> >> > though we can't judge this ahead of time. Also, we eagerly reuse ma=
-p
->> >> > values when using memalloc, so the guarantees are already pretty we=
-ak
->> >> > I guess.
->> >> >
->> >> > So, if we are not going to go through a grace period (like local
->> >> > storage) and free back to kernel allocator before reuse, we should
->> >> > relax field freeing behavior. At best, we should cancel work for
->> >> > timer, wq, task_work, and task_work, leaving other items as-is. E.g=
-.
->> >> > BPF_UPTR is used in task storage which I think is accessible to
->> >> > tracing programs, I am not sure how safe unpin_user_page() is when
->> >> > called from random reentrant contexts. We might have more cases in =
-the
->> >> > future, we cannot guarantee we can handle everything in NMIs
->> >> > universally.
->> >> >
->> >> > So the best course of action seems to be relaxing
->> >> > bpf_obj_free_fields() to bpf_obj_cancel_fields() that just does can=
-cel
->> >> > on async work (timer, wq, task_work) for delete / update and let ot=
-her
->> >> > fields be as-is. We likely need to do bpf_obj_free_fields()
->> >> > additionally before prealloc_destroy() now, but that should be simp=
-le.
->> >> > Whether or not to use bpf_ma when kptrs are used in prealloc map is=
- a
->> >> > separate change.
->> >> >
->> >> > This should hopefully resolve the issue, unless I missed other case=
-s.
->> >> This does sound good, so you'd set the bpf_obj_free_fields up in the
->> >> htab allocator dtor for the final free and rely on the allocators
->> >> existing nmi deferral?
->> >
->> > It is already set, except for prealloc maps. But we can call it before
->> > destroying the pcpu freelist etc.
->>
->> htab_map_free->htab_free_prealloced_fields does bpf_obj_free_fields alre=
-ady.
->> So scratch my suggestion to force bpf_mem_alloc on preallocated hash map=
-s.
->>
->> >>
->> >> The missing piece is whether to handle this differently in NMI or jus=
-t
->> >> always do it with the deferral. Also the prealloc question needs
->> >> answering.
->> >
->> > There is no deferral here. I'm saying that we just cancel for timer,
->> > wq, task work, and leave other fields as is. So we don't have active
->> > work pending for async items.
->> >
->> > So as long as the item keeps getting recycled in the allocator, we
->> > don't free these fields. Once the memalloc is destroyed, the dtor runs
->> > in a known safe context where we can assume bpf_obj_free_fields won't
->> > deadlock or run into any problems.
->>
->> So the plan is to do
->> if (in_nmi()) && case BPF_KPTR* | BPF_LIST_HEAD | BPF_RB_ROOT
->> just ignore it?
->> And no other changes anywhere at all?
->>
->> That would be too good to be true :)
->
-> I don't know whether in_nmi() would be sufficient, we likely need
-> irqs_disabled()?=20
+Dear All,
+    Sashiko AI reviewed the patch and provided two points. I will take 
+these into consideration and submit a revised version for v5 as soon as 
+possible.
 
-fair irqs_disabled() is safer.
+Thanks,
+Baolin
 
-> At that point, why not always ignore it, since
-> freeing the fields is dependent on where you're running. I would still
-> cancel async fields, since they're already any-context safe.
+在 2026/5/9 04:02, sashiko-bot@kernel.org 写道:
+> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
+> - [Low] Architectural Anti-pattern: Using `atomic_t` for a simple configuration flag
+> --
+> 
+> commit 4ef770887d49b5db285ae4848dba912e51abd333
+> Author: Baolin Liu <liubaolin@kylinos.cn>
+> ext4: use atomic operations for s_mb_stats accesses
+> 
+> This commit converts the s_mb_stats configuration flag in ext4 from an
+> unsigned int to an atomic_t to fix data races between sysfs updates and
+> mballoc reads.
+> 
+>> diff --git a/fs/ext4/ext4.h b/fs/ext4/ext4.h
+>> index 94283a991e5c4..4fb19fcb1f5f3 100644
+>> --- a/fs/ext4/ext4.h
+>> +++ b/fs/ext4/ext4.h
+> [ ... ]
+>> @@ -1622,7 +1622,7 @@ struct ext4_sb_info {
+>>   	unsigned int s_mb_stream_request;
+>>   	unsigned int s_mb_max_to_scan;
+>>   	unsigned int s_mb_min_to_scan;
+>> -	unsigned int s_mb_stats;
+>> +	atomic_t s_mb_stats;
+> 
+> Since s_mb_stats is only loaded and stored concurrently without any
+> read-modify-write operations (like atomic_inc), would it be better to retain
+> the unsigned int type and use READ_ONCE() and WRITE_ONCE() instead? Using
+> atomic_t for simple configuration flags can add unnecessary conceptual
+> overhead.
+> 
+>> diff --git a/fs/ext4/sysfs.c b/fs/ext4/sysfs.c
+>> index 923b375e017fa..fad2819f36319 100644
+>> --- a/fs/ext4/sysfs.c
+>> +++ b/fs/ext4/sysfs.c
+> [ ... ]
+>> @@ -540,6 +541,12 @@ static ssize_t ext4_generic_attr_store(struct ext4_attr *a,
+>>   			return ret;
+>>   		*((unsigned long *) ptr) = lt;
+>>   		return len;
+>> +	case attr_pointer_atomic:
+>> +		ret = kstrtoint(skip_spaces(buf), 0, &i);
+>> +		if (ret)
+>> +			return ret;
+>> +		atomic_set((atomic_t *)ptr, i);
+>> +		return len;
+>>   	}
+>>   	return 0;
+> 
+> Does migrating from attr_pointer_ui (which uses kstrtouint) to
+> attr_pointer_atomic unintentionally allow logically invalid negative
+> values to be written to s_mb_stats, since kstrtoint accepts negative numbers?
+> 
 
-you mean never touch case BPF_KPTR* | BPF_LIST_HEAD | BPF_RB_ROOT
-regardless of running context and rely on final cleanup?
-That's an idea to consider, but I suspect some rbtree, link list
-tests will fail.
