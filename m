@@ -1,133 +1,155 @@
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19D3128504D
-	for <sashiko@lists.linux.dev>; Tue, 12 May 2026 12:23:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6082139E9DD
+	for <sashiko@lists.linux.dev>; Tue, 12 May 2026 12:35:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.48
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778588582; cv=pass; b=byqYtlf0QIWE7MV3dGOGzFi70isSFRlG/UY2ANG7fvhURw7S0fbGzezHW9fQEv7qEG5LHbm+plSb85Hc5WkOl0rNDw/KBRAK1V0OvT1YsMsmHO6KtAU9vCZMHhWfYsomjJHzws5Kb8LU+TAo10MXbg0Wmg8SlTv4lihh8FLNKRU=
+	t=1778589344; cv=pass; b=Q/315o2A8HRjsHV/mC0iqxt+NKlhxwoC54frqZZbJWBa4PyY6vbDBtR83+oqV6wzqAOfbEZiV46r+/2htNAqF6mTITCo2L3IARpjyVPeLXrBwBoDo+XbItK29+trt+szwsbBfcMs6w50O07GcB6ihIKqxb8sM5H2CK4mXrTw8c4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778588582; c=relaxed/simple;
-	bh=snpZtaiuehEpdah6YhTE1cMUtD/Ycgzgmd0f2xm4N5k=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=QtB7/NJ1UycARAn5mvaf42gB2ifqeifzKZ/rLJzj8TOW8jeCDoWN1aPSOet9aEredn641YTzcegAuhGMc6edIa4NhjWoaJ3lGkE5f94e9OlAEbo16qkxZFuAi7OmN5RdClxlAP83l5KQ+Kgi+kNs2/brmM9lWo7pxO3uMthnNPs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.beauty; spf=pass smtp.mailfrom=linux.beauty; dkim=pass (1024-bit key) header.d=linux.beauty header.i=me@linux.beauty header.b=b3TPlRC0; arc=pass smtp.client-ip=136.143.188.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.beauty
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.beauty
+	s=arc-20240116; t=1778589344; c=relaxed/simple;
+	bh=zmP1rFX6qc3fWMYwls1hzVQH7Xwp2zzFxeWDcYKJoJ4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BZCo7maM0LOiK74goGn/y52Jii7kZcil0lw8xLfN3oyeh78/kgk3FQdOKDrOWb6h062SpLX6fN1OyxcvGKlQJwwuVR5dGxDZl411yxXlRKswqiIIEMC1n4Q+WnCd0cz2fLYzyWfTAa6bb1v0l84qXwRGvledh0YblkDjIuXAtFE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PaxvtUdr; arc=pass smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.beauty header.i=me@linux.beauty header.b="b3TPlRC0"
-ARC-Seal: i=1; a=rsa-sha256; t=1778588579; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=krVCyxV1oDyPzzZ4ixQxLhwCeRzCKhSJN7Gi5B0L6WiM4Nn/msPmU2ethZxq7k0/rh6Lfyp7ykNKAf45R63dT54huq8M7u7Gvx2SaCg6g+U2hoW5QKpTICUV1ePLm4mcxACsy9SnfsXAPolxuszaPYn1lqWiw3yQzEmRxvHLpIQ=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1778588579; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=tftwGdSYOF+SPOXairbdqYm2g/X90ABFg53gvL5xLxo=; 
-	b=ltklMV4mbUb9dwijde5eX3SckCx6tuxn/jp4aex0Kcbo2T8Or5TiJFdFrxlckLec8eDk7q5ccRJkfOPD5mV8TBXIJ85Gg3RIlKwX+E19bhkaqHb7xaNOGMOm6hqB4cloxZSVufCJ1gEFddlv402aHWKmqs1TxNQOpbLwXxsnb0Y=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=linux.beauty;
-	spf=pass  smtp.mailfrom=me@linux.beauty;
-	dmarc=pass header.from=<me@linux.beauty>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1778588579;
-	s=zmail; d=linux.beauty; i=me@linux.beauty;
-	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=tftwGdSYOF+SPOXairbdqYm2g/X90ABFg53gvL5xLxo=;
-	b=b3TPlRC0L6Cr5RtYVJGozNmnqtMKKUHDp93SFyXLD/eiqT5wLTqM/dIjaSTPSAKi
-	OFhfpsZlvr0KVg7xeCfi0+stCU2WrJfrXeJ3VViYwr3DXqs37VUyQMXfEyTs6hlPc4j
-	BRJV7dMcpXhbDuplzervU17vpgLGEf/aMBNYtN3Y=
-Received: from mail.zoho.com by mx.zohomail.com
-	with SMTP id 1778588576731782.4163117919959; Tue, 12 May 2026 05:22:56 -0700 (PDT)
-Date: Tue, 12 May 2026 20:22:56 +0800
-From: Li Chen <me@linux.beauty>
-To: "sashiko" <sashiko@lists.linux.dev>
-Cc: "tytso" <tytso@mit.edu>, "Linux ext4" <linux-ext4@vger.kernel.org>
-Message-ID: <19e1c23ebca.6a3c475d372729.498530157652304808@linux.beauty>
-In-Reply-To: <20260512022525.BD660C2BCF5@smtp.kernel.org>
-References: <20260511084304.1559557-4-me@linux.beauty> <20260512022525.BD660C2BCF5@smtp.kernel.org>
-Subject: Re: [RFC v7 3/7] ext4: fast commit: avoid waiting for FC_COMMITTING
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PaxvtUdr"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-448528f4e69so3258776f8f.3
+        for <sashiko@lists.linux.dev>; Tue, 12 May 2026 05:35:30 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778589326; cv=none;
+        d=google.com; s=arc-20240605;
+        b=VUi7a0qbKG75SAWc6x2QXHFo4M4NqnVNZE3XV4VJp6PBB3vlb4syTggEUsHoa6oQlk
+         NEZx2Co3YJQ217uZQIgbVUl56H+028n1TJCFA3Pke6YiRabWxHTeIOh9LbdYB6gRsy7O
+         Snr0fLd4hRANEGs26yp/Q1qC64uS3ZztxHtNqYV53A+ZHgluIj41vdHYcBFeTbTLD2Dj
+         oPdF+ufgzR3xrqGL+s5//z0xHYpvsAiqs3EMKIl6JaRQ5UExWCe5FlD/d25twh1HA3Dh
+         k1NQT0SnpvgLlRKOoa2ncuzq7aSSu79fwUBZ0YNu+4efEfpPyPu1cVTgnIqjZqUblA9D
+         B6YA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Zoj54LTJUq55xyS7TD5R4Dc+Opd/luBrG056DdUpw1A=;
+        fh=1fTFRV/ZfumOq5o+zS71Juec+XsQgpIGtZ9Q/sQM5XE=;
+        b=LTQsV+4oMq+R7Gu9/L5z+b+AeyXGpt33F98lSJT5NYFiC4tKa8D5knoGM/vFjGd3/l
+         jZ0skHH+NZO6CdAGFUM+1cdXvqGsHNl6D6j94dzXaENKyMe00qoPI9y+jPRhojJAtWMn
+         ngPfyFQhv38IR7Xs6u70O3gsjjcP/mllRAqP50h45CL+KOV0wBN2NG+HXmsMxilFhoH8
+         lwm0BIqTfG14Ql2MvIDAyFCsYHNZ+6fFETETQEmKA1SN2UAXaGVciv8Rgb5EXiy4cDue
+         DHlu2HIwXSVOSBoQpaXNnYRgSoVjiNuaKD3/Ebi7EicO/REEQR2FsCAUkzzPNBr6owLt
+         DB/Q==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778589326; x=1779194126; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Zoj54LTJUq55xyS7TD5R4Dc+Opd/luBrG056DdUpw1A=;
+        b=PaxvtUdrrOW9A65+o1tccEDR6cHVH3zrw18u8rR9aTPXRDPuNpIeNpesdbWhmG/sBi
+         FZ3iGVhs5+mTyxVuVmmsoKmLi1ue8/ZUzi+6XMhi27pdnbTgS7GlkhiXhfEHb2X01sBM
+         PsjS8hGkX2+3gmjemKi7WenjV5WrJxgO2GaODs0mYlmSXHmlqQrimNyY7BSGtR/vAsdT
+         EYc8PGBdMoHh237LYyg3kzC48RVgaZMBjdsQFhcRdh2mgJeRZT5YPLdNJxQdFjPV1EpI
+         gTPpFcnVEUluiiFkn1/X8WDYiX7bRcXppw/o0FUI90y4Rvpp+yL+Lj6QfUI9PncWjR3z
+         yEFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778589326; x=1779194126;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Zoj54LTJUq55xyS7TD5R4Dc+Opd/luBrG056DdUpw1A=;
+        b=X+5umhUdeMYaCyrjkOOL4x6o+UgExZAgP+zwA0mBkWvDofq7I8Z7t3FHjLmZbKRuDW
+         If1VS4dl1EhzY51WBTEWPBvU1YP57Vep37G+dOpVH2xcEgvV8WPS3PVjqyPhoYi9dA9p
+         xbMWWL+GhTKdXyJCbhT02C+fKM2xdHgJQP1WxVABTspYqVJKATkj+nhC6qApsH2ZOQ5g
+         la5gvzWrqlTyy0odpjGxhsyNkRXFK96VmTdNpWAvwdOYNf+weBWtSNh/WBjvNN3Z1bBV
+         hHmjeMz5bs5c1Toxvso91LLRHfD9rEkE3Tt0iV93YnQB2K9jBjqZLRc85ixJ0LS7XFdB
+         VPnw==
+X-Gm-Message-State: AOJu0YwdWZSsRBUfHzA7mx9lh6RvWUHTxhv0z/POSQOIFECKqYNuGEPZ
+	+JZ/zh7H1LYpCTaPaB4d5wdF1wPYAYcvq1ft57jdWl4ImaNzaL+acV0dSZ0/boVLhBCWXLN0bwc
+	QXhLVzvHdX5QyYG297UQM3hya8cIL0R2A+b2/f7w=
+X-Gm-Gg: Acq92OFq+v+mVrT5TdL3W2Tpyq8kpibUq11EhqfPDNJLkdv4zQDpS6hIvaxIZiPfsNE
+	92nMkv59kYVe43OEgaLFEWjYmhY8cuNVBTsk7LE3GvrYfXwentIxSjn/jiEVGQP+xluUaJMDa8U
+	SQVwZue+OL3AgVEvMMdqx+oghdZqxCoEx1/T6WCSZu+JX6wJ8CW9W9EA8FQJouxtqLpWxon7I4c
+	v31ZlgtH+MPWpRz/gFTeX6XXu5/zD7wYYnXfMjjxtGirt1hA2Jq4I5OCkTS7nRuzUjG/eg9Ew7W
+	Gh6+Fz9fcdRBzgbBtMV42bVIaCc23PGkQqLe31n7JXsm5yfFIwPNc4Zz+bQAqC0hTgFMyA==
+X-Received: by 2002:a05:6000:268a:b0:43d:7a97:78b5 with SMTP id
+ ffacd0b85a97d-454633e9851mr28949302f8f.33.1778589325997; Tue, 12 May 2026
+ 05:35:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+References: <20260508111744.771659-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <20260508202233.47B7DC2BCB0@smtp.kernel.org>
+In-Reply-To: <20260508202233.47B7DC2BCB0@smtp.kernel.org>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Tue, 12 May 2026 13:34:59 +0100
+X-Gm-Features: AVHnY4KcjeUlz5_VrrYuyeAhSs9sgkTFkN7i4yolbWX6Jfpg-kNjrphJi5Tlddk
+Message-ID: <CA+V-a8sw3uG-6+h1v+fJweR5SqF=aS9GjQqn2CajQEKyn8CxTA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/4] dt-bindings: display: renesas,rzg2l-du: Add RZ/T2H
+ and RZ/N2H support
+To: sashiko@lists.linux.dev
+Cc: krzk+dt@kernel.org, robh@kernel.org, conor+dt@kernel.org, 
+	devicetree@vger.kernel.org, wsa+renesas@sang-engineering.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
 
-Hi sashiko,
+On Fri, May 8, 2026 at 9:22=E2=80=AFPM <sashiko-bot@kernel.org> wrote:
+>
+> Thank you for your contribution! Sashiko AI review found 1 potential issu=
+e(s) to consider:
+> - [Low] The conditional constraints for renesas,r9a09g077-du fail to expl=
+icitly disallow port@1, permitting invalid device trees to silently pass va=
+lidation.
+> --
+>
+> commit cd9bf5724c5d57e0dd67fd27e0187153179b0578
+> Author: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> dt-bindings: display: renesas,rzg2l-du: Add RZ/T2H and RZ/N2H support
+>
+> This commit documents the Display Unit (DU) support for the RZ/T2H and RZ=
+/N2H
+> SoCs. It adds new compatible strings and updates the allOf constraints to
+> handle the SoCs' specific register differences and lack of reset control.
+>
+> > diff --git a/Documentation/devicetree/bindings/display/renesas,rzg2l-du=
+.yaml b/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
+> > index 2cc66dcef870a..18776ac9e7c7e 100644
+> > --- a/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
+> > +++ b/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
+> [ ... ]
+> > @@ -95,7 +98,9 @@ allOf:
+> >        properties:
+> >          compatible:
+> >            contains:
+> > -            const: renesas,r9a07g043u-du
+> > +            enum:
+> > +              - renesas,r9a07g043u-du
+> > +              - renesas,r9a09g077-du
+> >      then:
+> >        properties:
+> >          ports:
+> > @@ -137,6 +142,17 @@ allOf:
+> >
+> >            required:
+> >              - port@0
+>
+> Should we also explicitly set port@1 to false here?
+>
+> The base schema for 'ports' allows both 'port@0' and 'port@1' via the
+> patternProperty '^port@[0-1]$'. By not explicitly disallowing port@1 in t=
+his
+> conditional block for the single-port RZ/T2H DU variant, would a malforme=
+d
+> device tree containing an extra port@1 incorrectly pass schema validation=
+?
+>
+A patch for this fix already exists [0]; I'll post this fix as part of
+this series.
 
- ---- On Tue, 12 May 2026 10:25:25 +0800   <sashiko-bot@kernel.org> wrote -=
---=20
- > Thank you for your contribution! Sashiko AI review found 1 potential iss=
-ue(s) to consider:
- > - [High] Wait loops using `bit_waitqueue` test the wrong bit on 64-bit p=
-latforms, causing permanent deadlocks due to ignored wakeups for files with=
- certain on-disk flags (e.g., encrypted or uncompressed files).
- > --
- >=20
- > Note: The standard inline-diff format for this LKML report has been alte=
-red
- > to a free-form summary due to automated system recitation restrictions.
- >=20
- > commit 6a0b3a4122c0edab1e98d39dcec0cf8e11e66265
- > Author: Li Chen <chenl311@chinatelecom.cn>
- > ext4: fast commit: avoid waiting for FC_COMMITTING
- >=20
- > This commit removes the block on FC_COMMITTING during fast commit inode
- > tracking to avoid deadlocks. It instead requeues modified inodes via a n=
-ew
- > state flag and adds wait loops in the eviction path to block while a com=
-mit
- > is actively using the inode.
- >=20
- > Looking at the newly added wait loop in ext4_fc_del() and the wakeup in
- > ext4_fc_cleanup(), could the use of bit_waitqueue() and DEFINE_WAIT_BIT(=
-)
- > with EXT4_STATE_FC_COMMITTING and EXT4_STATE_FC_FLUSHING_DATA cause task=
-s
- > to sleep forever on 64-bit systems?
- >=20
- > On 64-bit platforms, the EXT4_INODE_BIT_FNS macro maps dynamic state fla=
-gs
- > to bits 32 and above in the i_flags field. For example, the enum values =
-for
- > EXT4_STATE_FC_COMMITTING (10) and EXT4_STATE_FC_FLUSHING_DATA (11) are
- > actually evaluated as bits 42 and 43 when accessed through the proper
- > ext4_test_inode_state() helpers.
- >=20
- > However, the 64-bit fallback paths for the wait queues and wake_up_bit()
- > calls in this patch act directly on i_flags using the unshifted enum
- > values 10 and 11. In the context of the raw i_flags field, bit 10
- > corresponds to EXT4_NOCOMPR_FL, and bit 11 corresponds to EXT4_ENCRYPT_F=
-L.
- >=20
- > If a file has the encrypted or no-compress on-disk flags set, test_bit()=
- in
- > the kernel's wake_bit_function() will return true because the on-disk fl=
-ags
- > are set, rather than checking the intended dynamic state flags. Will thi=
-s
- > cause wake_bit_function() to assume the condition is still pending and
- > ignore the wakeup, leaving the task in ext4_fc_del() deadlocked in an
- > uninterruptible sleep?
- >=20
- > --=20
- > Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260511084304.1=
-559557-1-me@linux.beauty?part=3D3
- >=20
+https://lore.kernel.org/all/d1e0d4e0fe74e60345a3d043fb4f9128c1057638.177814=
+1145.git.tommaso.merciai.xr@bp.renesas.com/
 
-Thanks, good catch. This bug was already in 857d32f26181 ("ext4: rework
-fast commit commit path"); this patch just moved the same wait/wake code
-into ext4_fc_del().
-
-I think it's cleaner to send a small standalone fix patch first, instead
-of folding this into v8. I'll add a helper to map EXT4_STATE_* to the
-real wait word/bit, and use it for both bit_waitqueue() and wake_up_bit()
-so it matches ext4_test_inode_state() on 64-bit.
-
-I'll look at the other two review mails tomorrow.
-
-Li=E2=80=8B
-
+Cheers,
+Prabhakar
