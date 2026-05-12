@@ -1,240 +1,208 @@
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from TYPPR03CU001.outbound.protection.outlook.com (mail-japaneastazon11022139.outbound.protection.outlook.com [52.101.126.139])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29F283002A9
-	for <sashiko@lists.linux.dev>; Tue, 12 May 2026 02:13:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A560375AA8
+	for <sashiko@lists.linux.dev>; Tue, 12 May 2026 03:10:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.126.139
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778552020; cv=pass; b=Ub6YxnbaQQnnWqGu55GXy5c8Os442Wk5h7EftpGOBgaPnvMSuARs4+sCEpIbzgPcSKxpo4ag25W5YLJn87cvbA135LRxFzx6vruopgK57eexp8DaxCmsKSBbZQUQeWdnx5Z44XQXVzc6+VlZr+dTN6nP1QG/QjKHYA5Ui3R12E8=
+	t=1778555420; cv=fail; b=FZA0RwLwibvOWce4YRUbfvIe0W6xQc0H9JoCNluh++piwh3dCmdjLuz1Jy/pjK+u5YoIiGOn7Bhk4t8KCCTgk6oGxl8970yFAsSWB3TwxbrgMOk81DLHwD1rtfcaArWkGdK6eEh+Fkh7cCUGlL56KYPiAcKECrx1QQmDLTcrHqI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778552020; c=relaxed/simple;
-	bh=P4+Zr1GIkEfutwCczqL5o+kD/OEMgVRPert8Uyv35a0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=T3GUGHNvafClnlQuNsh21EW2Zi2yvRTubWPgmVZqMF4s8CvGfifXFKtHhoV5nlanD/LmFXbq73j4fpWVUy99jJNESmNuroj0H0aEPm2uRdRmSPM6kWn6lH2hsG1T9Uh9X2Ju6yHyRHgC8YcNiRbI3F4W06ks0KjKD9BBANZ0/kg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Quuyajxb; arc=pass smtp.client-ip=209.85.128.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Quuyajxb"
-Received: by mail-wm1-f68.google.com with SMTP id 5b1f17b1804b1-488a8ca4aadso45275965e9.3
-        for <sashiko@lists.linux.dev>; Mon, 11 May 2026 19:13:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778552017; cv=none;
-        d=google.com; s=arc-20240605;
-        b=MF9TLlGMrQXIuCZvfpQZj6Z7BpMVJA0LL0Vatv9cKKAkJsisl5RLjutHgZT2Q65Wwd
-         p/1MVbEBHCgLhlPfauGuingShZLIlt/GFX+XK1KE4UtasCq84DwlApfoBjyxPwk1RRZZ
-         Qw4T5p5aDbQOXLImCywcXSvvJQkBBKVmTzEfdzEHBLgHgB5S/gNKy/7oficQ01UbXYjQ
-         cmV6j2hQHuFHa5mPo3ioNChwcbghA1yt1JV8/pTa7GZSUD//yXaanHUwRbfGjDqdsjwP
-         OUgfvR9FO1PmDii1SDJQ2BmlyrVkvLu2zDPD14UdLkDcqGTJfJGdwtHyLi3KCOwYqULw
-         ijEA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=yvmEPWhcfTWxDEchg5ZkewS+3/xfIv7Hmhbhu8n+gyc=;
-        fh=a5bAX6l9j47bvk2xTdFSd7rnAE6Qhb8TBBbxEdqoytA=;
-        b=OQZwdMh9DIEfhWCyP3483Zku6ZyOYZQ8t1c+7QXygRe5z9t2g4dGSMTfsLb2SIH0Sz
-         0n9UTBNojMGyvTh34RPSzvR0nfc16VngwIGuiDDkhGEMJbkbVrguL9KjYSySaslDl1Vk
-         +jtnwBjuPZ1LiF1Fwg+ZC9idKnGQ53TqXTMUyvgcnIp0HOm8xL2Q69YzpLuxUr7g/n9e
-         lmpLUzu8m0H+YoraiZhFJWKs/6/Y29HVPiBIvXkLhPj/XH6g03RH30Oaep5V4V95QGl7
-         FEz9XQmwjn8qvW5gelfKf9tNaOVjp7nQdiLyexhizvOlXxUPjlQKpecd7YaukVgWkuqp
-         b1Jg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778552017; x=1779156817; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=yvmEPWhcfTWxDEchg5ZkewS+3/xfIv7Hmhbhu8n+gyc=;
-        b=Quuyajxbd3997Uhk308Tg3+8lMM5aFKS2/QbpcXEDhmJbi2HYmxBZJ7dIUhZ0vbfY7
-         YWj8OL6aXv83BsXGqu8b2kimNJStRNJscAViQg/cc6EaMOZolMIgaZ8+dcHQ/kYFTnfA
-         GkaWzsUBEY4kajB3GLm+lm9JYa7D4+aC9kz+LBgzTuiuCfmX+uvlUop3EcYyU4Jbq6yJ
-         FEmv61vlLXcQHYjxDnf7whwy0llJ5JtrusF0CRArhohsePANc2lhb8934hC0HcUTrw8E
-         KWAW8CI1R+03Y0OYKy0EYopPI1+npVU6IKIYciBiuEw8D1ScHHMN/xBe0kEcQd3lRSnH
-         SQTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778552017; x=1779156817;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yvmEPWhcfTWxDEchg5ZkewS+3/xfIv7Hmhbhu8n+gyc=;
-        b=dIqfagjInUvSMdsobgU+W3iBe0sfD7AZjBRmX1aMCqhirF/1eEYewhegpqgrPVeSb1
-         1BT/eQfgJfgSVcsDoLgWTQFNexL5AIAVaFX2nMpqop8pmaJc+/te6hA19C69P6K9wA7K
-         UzWqNSIug5w+w/PWrK6WIjfKDo/eUcUnGOGGMaoLV2IuEmys/L/y8Hu8tLUAkP6UVxZs
-         vvuO5+x46+wzk3gs5GES7+PVhAiR+ABBT0JQ98qJLGRxjvKfcf/i0n/5rrrIF+UsJDsz
-         XCRXbsJ7pfa6osBMx1jLZvE3igbikEsrU8GlJzGcxkV7ZQ4w3uVQ11JyF/07xOgYj3xD
-         PKTg==
-X-Forwarded-Encrypted: i=1; AFNElJ9FwOz+bz4eQyJ46kkrVPmrpQXWFnZIydMEsQVscm/5A5eaUkUHbRuyIiPRR7UaDQ8hWzEwpnNG@lists.linux.dev
-X-Gm-Message-State: AOJu0YyTxJRzTVroKi/o0i5xv/CxBHryOEDxkzAWxzujq03YaWtgqKwV
-	yivgCM5z8C6RcuUZuZtclxnySPqlJhx9ZR25whBzv3lm23caGuP1ONWn7aKxFDmMS+zAcY45eMV
-	yFuJ2IRdpWzncTeCm6oUOopksnRMs/go=
-X-Gm-Gg: Acq92OGnOtVP7luOwPU0PAf1E9Z9TfhwtqvKDZNe2jRrYlzvTkQqBUVhRFB9KhWGHH6
-	bjkCF3pLJ6NsJth/maWKWih0oMQ1TAP8IHNGw+wHzwL/ulM78v8fKa9JGoM/hnCPPCdA5jiimEm
-	SCfz3HMqTvuKabVPD6fcDCp2zlrtLsStRA+UWFP9S/Az0DcRp4jHZ0FJoAoNeI9+BuDfzSrK3tc
-	o57L5NYvqPqLFH0PokHLnTuYo6zMeHkVviSxB3K/C/Y/sj5CmUha81Jb838vlAm3Lhmxr2WwMV1
-	gyRPTcoaL3X7uSHOVYIZ8gAQyuRMdDW7Ghh/jd/P8DyS7+el+XxRzXWIaee3wvrr4VXWq7mWJoW
-	q6PPdLf4PNBDHz/wRTZiYlumQa0fo4LhDvTaSkSnHKa2wUEVKdo1kBN3K
-X-Received: by 2002:a05:600c:8b08:b0:48a:5501:7995 with SMTP id
- 5b1f17b1804b1-48e51f32ca9mr449429875e9.18.1778552017165; Mon, 11 May 2026
- 19:13:37 -0700 (PDT)
+	s=arc-20240116; t=1778555420; c=relaxed/simple;
+	bh=dEsZgbx3wkGPMkS1eDRfdeS9KaVMBDlDOj5xPHB/BuY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=t+UTx/vGzQcBwL/XlFBxwcsfLnZ//+e1PlHIh1iw50w8xl2sZ5BYLT/b9ZoaZg9IextRNaWU7HupovkvCwbio8qgt7XhJ5ckInDQouBwnDkLPsuqbLK7P262SDe/RsiEu3IKydi/3U0pdYBi6PnaOtx+/8IPqIfVLmbmWzTUyAM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cixtech.com; spf=pass smtp.mailfrom=cixtech.com; arc=fail smtp.client-ip=52.101.126.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cixtech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cixtech.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=nuwIuB2FJD5n/ptrwS4pO5czRfh3ciHEytxvc2nHsmduH6O5ocqC0A+ew+WIog4AdQKhNaayWqsFnbsCyUyMnY5e7xDAvvp6PrVIoAapGYGOyl3s8GHPK5RI0Cdla0gim4c0V3qTs2TVQFRkwezs8XBXsQZw18Xu6ux/5XZlTrgEYGvaOxRvklR0XbLey6BXt3aXokXUMiD2/2QPoA5zDGF7DPc0v4yk6U7mKf3rPMMGY4L9CPPramuEjo7do5rQT0d5a27ywyZeFHjGjWXvfgDCAqrveYw4KKWoXv/zboP9JvSLkmgixr74xZMrvIV7Gh7fJxlDuwzrFWDaCHM4ug==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=D9qboRB4YsZAE0Rs5np0kWBycjCD+IfQSJVLmIak0EY=;
+ b=U4ioEDei55/c9uhuyspCuyXDpN9EKLXo/TOKbkrvTokwikc9HljB+9Gp7kBsRl+uu3PHy3D9lkF4+fXTbhdgBg3OPKxDcaBeKjvvyjoUUclJ1ch4vQb1ypyhCX7/uEsCWvkMPo9DznDbjx+OFjJXBf40F6QXkTrH0rOE43BZLF9kaHHzNMC/ZJ74nvPAvfI+23DSj64ZIrUjj4guizL5T+yIwZMnVDud8s7cFEfjnAU9uBmujtjFoKd4vkMJHelTLIOFKTWXjcRkZLmVQitMnCyLgiUhgkWOz5/Y551SVc3jexobm4rg7mdqYc8Apov3SLbhnOzfy2A0H5D8TZzQtA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 222.71.101.198) smtp.rcpttodomain=kernel.org smtp.mailfrom=cixtech.com;
+ dmarc=bestguesspass action=none header.from=cixtech.com; dkim=none (message
+ not signed); arc=none (0)
+Received: from SI2PR02CA0024.apcprd02.prod.outlook.com (2603:1096:4:195::18)
+ by KL1PR0601MB5549.apcprd06.prod.outlook.com (2603:1096:820:c0::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.23; Tue, 12 May
+ 2026 03:10:14 +0000
+Received: from OSA0EPF000000C7.apcprd02.prod.outlook.com
+ (2603:1096:4:195:cafe::ac) by SI2PR02CA0024.outlook.office365.com
+ (2603:1096:4:195::18) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9913.11 via Frontend Transport; Tue,
+ 12 May 2026 03:10:13 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 222.71.101.198)
+ smtp.mailfrom=cixtech.com; dkim=none (message not signed)
+ header.d=none;dmarc=bestguesspass action=none header.from=cixtech.com;
+Received-SPF: Pass (protection.outlook.com: domain of cixtech.com designates
+ 222.71.101.198 as permitted sender) receiver=protection.outlook.com;
+ client-ip=222.71.101.198; helo=smtprelay.cixcomputing.com; pr=C
+Received: from smtprelay.cixcomputing.com (222.71.101.198) by
+ OSA0EPF000000C7.mail.protection.outlook.com (10.167.240.53) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.25.13 via Frontend Transport; Tue, 12 May 2026 03:10:12 +0000
+Received: from nchen-desktop (unknown [172.16.64.25])
+	by smtprelay.cixcomputing.com (Postfix) with ESMTPSA id 4D25F41609D5;
+	Tue, 12 May 2026 11:10:10 +0800 (CST)
+Date: Tue, 12 May 2026 11:10:09 +0800
+From: Peter Chen <peter.chen@cixtech.com>
+To: sashiko@lists.linux.dev
+Cc: robh@kernel.org, devicetree@vger.kernel.org, conor+dt@kernel.org,
+	krzk+dt@kernel.org
+Subject: Re: [PATCH 4/4] arm64: dts: cix: add Sky1 USB4 and USB5 controllers
+Message-ID: <agKaEePSFknhDBg2@nchen-desktop>
+References: <20260511024244.981941-5-peter.chen@cixtech.com>
+ <20260511235922.10315C2BCB0@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260507175453.1140400-2-utilityemal77@gmail.com>
- <20260507234520.646C4C2BCB2@smtp.kernel.org> <agCXEJKJh-JGMhjG@zenbox>
- <CAADnVQJdFCFJcg0Pqdnx=D2h5vHj_q4mrwSJYxRC5RW0NTFNvQ@mail.gmail.com>
- <agEnc0aYMhuIeDlq@zenbox> <DIFYUK5DKGAT.189D9YYSQFCUZ@gmail.com>
- <agH_0MEw4b0pB11-@suesslenovo> <DIG0ONMVOP0L.3QFYUPWFSKWI4@gmail.com>
- <CAP01T75942V+wKJD0yhs8yb7U5vj+y9s6efJ+UdpTMfzP31CWg@mail.gmail.com>
- <agKBE4Ci4_LmJ1Dc@zenbox> <CAP01T76i3S93kvXnQvK+NU1ee82s+ka2jQfmf-yL86r9AS2tuQ@mail.gmail.com>
- <DIGBOYWXZ95S.3GAGVQGUJNQD4@gmail.com> <CAP01T75y1CuPQ9af9SgYqY=c+3q7ZXTKJJu=znAE3HtEEBMwOw@mail.gmail.com>
- <DIGBZVSAOXGC.VA20SWFV4R74@gmail.com>
-In-Reply-To: <DIGBZVSAOXGC.VA20SWFV4R74@gmail.com>
-From: Kumar Kartikeya Dwivedi <memxor@gmail.com>
-Date: Tue, 12 May 2026 04:13:00 +0200
-X-Gm-Features: AVHnY4K9JXZZiEZVpzNn98npD_32lbPWj41MQ2Ugi4yey-pKI9TCGJcYBQxGMlc
-Message-ID: <CAP01T772FHr6q3oD+AyUigdiPhVPdShP5qUyU2qCZrTGU1HZyQ@mail.gmail.com>
-Subject: Re: [bpf-next v3 1/2] bpf: Offload kptr destructors that run from NMI
-To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc: Justin Suess <utilityemal77@gmail.com>, sashiko@lists.linux.dev, 
-	bpf <bpf@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260511235922.10315C2BCB0@smtp.kernel.org>
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: OSA0EPF000000C7:EE_|KL1PR0601MB5549:EE_
+X-MS-Office365-Filtering-Correlation-Id: 200f9507-7816-4633-758d-08deafd3fc19
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|36860700016|1800799024|82310400026|18002099003|22082099003|3023799003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	uFYJio34+FfkvTyoCUr6B8KLCuDH6PxT83Crm9SoRvorzuyuNY4+vugxVYp+rjFlcNMsvQMYd1CBU+IlrCwKLysa+5qVUkqyZ/qMzgDCkne2TfRURFLHN9zE20zuWCdx4lvyeYIKDJT/xFDDjlMHyVn3ilh7mNz2o9y/3rSkyV9R/jXEzw2NXfCMqFuBqU3PQWy2GCPZM4GXNtdsJ+xomL18KOiI4ikg81Remig/4iVxy4dLW9CPuDz1jgtAeLzKPPAYGcXArc+92uBV1WWHt7f3X2TyiaZwuVikwLLwTYNIq81+guYvQYQa1QE1swAhYPYIK15UhleTSaSoywt1JfsH4pB+LnIRgIuqmjUV9PBV5YfLh+hCoJCAk7OL3vDTX+fuxt18CneIHcLePQorZr6NpNoF1lBGQOtNKshSPdQ9IZE3/950B5oft4x9SPs7VriXFMJ+bx0st1aqcMaeM/QQ2A6ZgPZ80n3q3na7t69QxwjZcLmIEc6ghqujIcbR3fymzty0IYaiHie62Bm+5nVPFIsy0Sf2lTZImri6pDMvEbrs9f9OdW8+Qo/lu1HeCJ3Am2c2PeSlmZXuIRmqoJnjm0Qy05oT2ROf9P2r5rbnNbP5aDMHfIe3dtpUwdOz4NDx3mPJwiZhq4JLDclnSAD/snRCl2MD7S9Z+QTcVJp91WR01lZvTtBGT/rrbukC/pyc2re7fJ2S+Wl02wojnSinwTC3P6MXdEfI3eMUL6U=
+X-Forefront-Antispam-Report:
+	CIP:222.71.101.198;CTRY:CN;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:smtprelay.cixcomputing.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(36860700016)(1800799024)(82310400026)(18002099003)(22082099003)(3023799003)(56012099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	IEp7ZktDzYS31hWvKYQMbNcD3LS4N49R+m4YIsSLgrA6ehp9bDvk/UOqVfp1+UuRaVNYuaLGbe9iyWJOJh4kEeJ2d+eVwH0aXzva5OtBTZ/C/pRfaDiWumLhfygBjjT1MUKYRmE0sZD7TR+w3yQVC9H1eQUsV61Q/GvdLbrBz5+cWdXeTOxGJKvgOfHWU5zRZAx3yrGfOtHlu9vnB1j9tVuAEAHF/nG3ynsgx2j2f46G2EhkYZoszt00pEHlq6Fx6I9hZEqlAFdfx2KHp7aOW5B0gK23h9JlNRSvOIaCdkAAejIUxfKTdY5czXzzlmPgo2AB3G0B+vsY/56tJqOKpqqy4ITJoxLrSO3s9ZlBpJQo/8yHP+XaO2kV1WhiErFrxp6M+xG88nCY4qsWmdY6gAAx7KmfhZt2UpcmSsGEL+BTxwazEzqHDXk8T+dmUOaS
+X-OriginatorOrg: cixtech.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2026 03:10:12.9818
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 200f9507-7816-4633-758d-08deafd3fc19
+X-MS-Exchange-CrossTenant-Id: 0409f77a-e53d-4d23-943e-ccade7cb4811
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=0409f77a-e53d-4d23-943e-ccade7cb4811;Ip=[222.71.101.198];Helo=[smtprelay.cixcomputing.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	OSA0EPF000000C7.apcprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR0601MB5549
 
-On Tue, 12 May 2026 at 04:10, Alexei Starovoitov
-<alexei.starovoitov@gmail.com> wrote:
->
-> On Mon May 11, 2026 at 7:03 PM PDT, Kumar Kartikeya Dwivedi wrote:
-> > On Tue, 12 May 2026 at 03:55, Alexei Starovoitov
-> > <alexei.starovoitov@gmail.com> wrote:
-> >>
-> >> On Mon May 11, 2026 at 6:46 PM PDT, Kumar Kartikeya Dwivedi wrote:
-> >> > On Tue, 12 May 2026 at 03:43, Justin Suess <utilityemal77@gmail.com> wrote:
-> >> >>
-> >> >> On Mon, May 11, 2026 at 10:10:07PM +0200, Kumar Kartikeya Dwivedi wrote:
-> >> >> > On Mon, 11 May 2026 at 19:29, Alexei Starovoitov
-> >> >> > <alexei.starovoitov@gmail.com> wrote:
-> >> >> > >
-> >> >> > > On Mon May 11, 2026 at 9:38 AM PDT, Justin Suess wrote:
-> >> >> > > >   [   21.604660] Call Trace:
-> >> >> > > >   [   21.604662]  <TASK>
-> >> >> > > >   [   21.604663]  dump_stack_lvl+0x5d/0x80
-> >> >> > > >   [   21.604666]  print_usage_bug.part.0+0x22b/0x2c0
-> >> >> > > >   [   21.604669]  lock_acquire+0x295/0x2e0
-> >> >> > > >   [   21.604671]  ? terminate_walk+0x33/0x160
-> >> >> > > >   [   21.604674]  ? __call_rcu_common.constprop.0+0x309/0x730
-> >> >> > > >   [   21.604679]  _raw_spin_lock+0x30/0x40
-> >> >> > > >   [   21.604680]  ? __call_rcu_common.constprop.0+0x309/0x730
-> >> >> > > >   [   21.604682]  __call_rcu_common.constprop.0+0x309/0x730
-> >> >> > > >   [   21.604686]  bpf_obj_free_fields+0x118/0x250
-> >> >> > > >   [   21.604691]  free_htab_elem+0x85/0xd0
-> >> >> > > >   [   21.604694]  htab_map_delete_elem+0x168/0x230
-> >> >> > > >   [   21.604698]  bpf_prog_f6a7136050cb5431_clear_task_kptrs_from_nmi+0xeb/0x144
-> >> >> > > >   [   21.604700]  bpf_trace_run3+0x126/0x430
-> >> >> > >
-> >> >> > > that's better.
-> >> >> > > Looks like we moved bpf_obj_free_fields() into htab_mem_dtor(),
-> >> >> > > but left check_and_free_fields() in free_htab_elem().
-> >> >> > >
-> >> >> > > I think the fix is to remove check_and_free_fields() from ma path in free_htab_elem()
-> >> >> > > and fallback to bpf_mem_alloc at map create time when map has kptrs
-> >> >> > > with dtors. Even when BPF_F_NO_PREALLOC is not specified.
-> >> >> > >
-> >> >> > > Kumar,
-> >> >> > >
-> >> >> > > thoughts?
-> >> >> > >
-> >> >> > >
-> >> >> >
-> >> >> > Yeah, removing it from the path that helpers can invoke seems simpler.
-> >> >> > Remember though, this splat is just for hashtab, we have similar
-> >> >> > bpf_obj_free_fields() in array map on update. I think fundamentally
-> >> >> > the main issue here is that we logically free special fields when a
-> >> >> > map value is freed or deleted. When updating array maps we logically
-> >> >> > 'free' and then 'update' the same map value together. For hashtab, it
-> >> >> > happens on update/delete.
-> >> >> >
-> >> >> > We could relax this behavior to avoid eagerly freeing these special
-> >> >> > fields on update or deletion. The only worry is how this would impact
-> >> >> > programs that have come to rely on the existing behavior. There are
-> >> >> > patterns where people expect kptr to be NULL on some new map value,
-> >> >> > which causes programs to return errors when that expectation is not
-> >> >> > met. Just doing the skip when irqs_disabled() doesn't save us from the
-> >> >> > surprise side-effect. We need to decide upon this first before
-> >> >> > discussing the shape of the solution.
-> >> >> >
-> >> >> > This is the theoretical concern; In practice, I think most people who
-> >> >> > depend on such behavior use kptr in local storage maps (in
-> >> >> > schedulers). So it probably won't be a problem in practice, even
-> >> >> > though we can't judge this ahead of time. Also, we eagerly reuse map
-> >> >> > values when using memalloc, so the guarantees are already pretty weak
-> >> >> > I guess.
-> >> >> >
-> >> >> > So, if we are not going to go through a grace period (like local
-> >> >> > storage) and free back to kernel allocator before reuse, we should
-> >> >> > relax field freeing behavior. At best, we should cancel work for
-> >> >> > timer, wq, task_work, and task_work, leaving other items as-is. E.g.
-> >> >> > BPF_UPTR is used in task storage which I think is accessible to
-> >> >> > tracing programs, I am not sure how safe unpin_user_page() is when
-> >> >> > called from random reentrant contexts. We might have more cases in the
-> >> >> > future, we cannot guarantee we can handle everything in NMIs
-> >> >> > universally.
-> >> >> >
-> >> >> > So the best course of action seems to be relaxing
-> >> >> > bpf_obj_free_fields() to bpf_obj_cancel_fields() that just does cancel
-> >> >> > on async work (timer, wq, task_work) for delete / update and let other
-> >> >> > fields be as-is. We likely need to do bpf_obj_free_fields()
-> >> >> > additionally before prealloc_destroy() now, but that should be simple.
-> >> >> > Whether or not to use bpf_ma when kptrs are used in prealloc map is a
-> >> >> > separate change.
-> >> >> >
-> >> >> > This should hopefully resolve the issue, unless I missed other cases.
-> >> >> This does sound good, so you'd set the bpf_obj_free_fields up in the
-> >> >> htab allocator dtor for the final free and rely on the allocators
-> >> >> existing nmi deferral?
-> >> >
-> >> > It is already set, except for prealloc maps. But we can call it before
-> >> > destroying the pcpu freelist etc.
-> >>
-> >> htab_map_free->htab_free_prealloced_fields does bpf_obj_free_fields already.
-> >> So scratch my suggestion to force bpf_mem_alloc on preallocated hash maps.
-> >>
-> >> >>
-> >> >> The missing piece is whether to handle this differently in NMI or just
-> >> >> always do it with the deferral. Also the prealloc question needs
-> >> >> answering.
-> >> >
-> >> > There is no deferral here. I'm saying that we just cancel for timer,
-> >> > wq, task work, and leave other fields as is. So we don't have active
-> >> > work pending for async items.
-> >> >
-> >> > So as long as the item keeps getting recycled in the allocator, we
-> >> > don't free these fields. Once the memalloc is destroyed, the dtor runs
-> >> > in a known safe context where we can assume bpf_obj_free_fields won't
-> >> > deadlock or run into any problems.
-> >>
-> >> So the plan is to do
-> >> if (in_nmi()) && case BPF_KPTR* | BPF_LIST_HEAD | BPF_RB_ROOT
-> >> just ignore it?
-> >> And no other changes anywhere at all?
-> >>
-> >> That would be too good to be true :)
+On 26-05-11 23:59:21, sashiko-bot@kernel.org wrote:
+> EXTERNAL EMAIL
+> 
+> Thank you for your contribution! Sashiko AI review found 4 potential issue(s) to consider:
+> - [Medium] Missing `status = "disabled";` for `usb4` and `usb5` device nodes in the SoC-level device tree.
+
+Ack
+> - [Medium] Invalid double-vendor prefix in compatible string and squashing of SoC-specific glue layer with generic IP core.
+
+Nak
+
+> - [Low] Unnecessary inclusion of `<dt-bindings/phy/phy.h>` in `sky1.dtsi` without associated PHY definitions.
+
+Ack
+
+> - [Low] Redundant/duplicate interrupt mappings for the `wakeup` interrupt.
+
+Nak
+
+> --
+> 
+> commit a270480764c96a27fe2e14e30bfb46b99527fcfb
+> Author: Peter Chen <peter.chen@cixtech.com>
+> 
+> arm64: dts: cix: add Sky1 USB4 and USB5 controllers
+> 
+> Add the Sky1 USB4 and USB5 Cadence USB3 controller nodes with their
+> registers, interrupts, clocks, resets and S5 syscon control. Enable both
+> ports on the Orion O6 board in host mode with the required VBUS pinctrl.
+> 
+> > diff --git a/arch/arm64/boot/dts/cix/sky1.dtsi b/arch/arm64/boot/dts/cix/sky1.dtsi
+> > index bb5cfb1f21133..9f7d9ad6586c3 100644
+> > --- a/arch/arm64/boot/dts/cix/sky1.dtsi
+> > +++ b/arch/arm64/boot/dts/cix/sky1.dtsi
+> > @@ -6,6 +6,8 @@
 > >
-> > I don't know whether in_nmi() would be sufficient, we likely need
-> > irqs_disabled()?
->
-> fair irqs_disabled() is safer.
->
-> > At that point, why not always ignore it, since
-> > freeing the fields is dependent on where you're running. I would still
-> > cancel async fields, since they're already any-context safe.
->
-> you mean never touch case BPF_KPTR* | BPF_LIST_HEAD | BPF_RB_ROOT
-> regardless of running context and rely on final cleanup?
-> That's an idea to consider, but I suspect some rbtree, link list
-> tests will fail.
+> >  #include <dt-bindings/interrupt-controller/arm-gic.h>
+> >  #include <dt-bindings/clock/cix,sky1.h>
+> > +#include <dt-bindings/phy/phy.h>
+> 
+> Since there are no phys properties or macros from this header used in the
+> patch, is this inclusion needed?
 
-Yeah, but we should see which ones do, some of them were written with
-expectation to test kernel clean up on map value delete / update etc.,
-those don't count as much. Unless this change triggers a real example
-in tests, it will likely go unnoticed (famous last words).
+Ack, will delete.
+
+> 
+> > +#include <dt-bindings/reset/cix,sky1-s5-system-control.h>
+> >  #include "sky1-power.h"
+> >
+> >  / {
+> 
+> [ ... ]
+> 
+> > @@ -504,6 +506,72 @@ mbox_ap2sfh: mailbox@80a0000 {
+> >                       cix,mbox-dir = "tx";
+> >               };
+> >
+> > +             usb4: usb@91d0000 {
+> > +                     compatible = "cix,sky1-usb3", "cix,cdns-usb3";
+> 
+> Does the "cix,cdns-usb3" string incorrectly combine two vendor prefixes?
+> Should the generic fallback be "cdns,usb3"?
+
+No. sky1-usb for specific SoCs "sky1", "cdns-usb3" for general CIX SoCs using
+Cadence IP.
+
+> 
+> > +                     reg = <0x00 0x91d0000 0x00 0x4000>,
+> > +                                     <0x00 0x91d4000 0x00 0x4000>,
+> > +                                     <0x00 0x91d8000 0x00 0x8000>,
+> > +                                     <0x00 0x91c0314 0x00 0x4>;
+> > +                     reg-names = "otg", "dev", "xhci", "glue";
+> 
+> Does adding the "glue" register and cix,syscon-usb to the generic core
+> break the generic upstream schema which expects only three reg entries?
+> 
+> Should the SoC-specific glue logic be implemented as a parent wrapper node
+> with a child node for the generic Cadence USB3 core instead?
+
+For sky1 USB, it uses Cadence USB3 core as library, so all register regions
+need pass from one parent node.
+
+> 
+> > +
+> > +                     interrupts = <GIC_SPI 252 IRQ_TYPE_LEVEL_HIGH 0>,       /* host irq */
+> > +                                     <GIC_SPI 252 IRQ_TYPE_LEVEL_HIGH 0>,    /* peripheral irq */
+> > +                                     <GIC_SPI 253 IRQ_TYPE_LEVEL_HIGH 0>,    /* otgirq */
+> > +                                     <GIC_SPI 252 IRQ_TYPE_LEVEL_HIGH 0>;    /* wakeup irq */
+> 
+> The wakeup interrupt uses the same GIC SPI line as the main host and
+> peripheral interrupts. Is this redundant, and could it lead to conflicting
+> interrupt registration?
+> 
+
+Not redundant, they are different interrupt handlers and knows itself at code.
+
+> [ ... ]
+> 
+> > +                     cix,syscon-usb = <&s5_syscon>;
+> > +                     dma-coherent;
+> > +                     maximum-speed = "super-speed-plus";
+> > +                     dr_mode = "otg";
+> > +             };
+> 
+> Should this node include a status = "disabled" property so the USB drivers do
+> not probe unconditionally on all boards using this SoC?
+
+Ack
+
+-- 
+
+Best regards,
+Peter
