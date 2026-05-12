@@ -1,319 +1,174 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E956F368D6F
-	for <sashiko@lists.linux.dev>; Tue, 12 May 2026 06:42:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.176
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778568148; cv=pass; b=mPrRC5AaNgqdbJEQoObI0PYm05VnYsSJLUCe7EmQfXdlrxn371jP3XlNzn/d6xe7/KrA4Exub+IuAZu6EUt8Nqy/4N+1HoGXpYsqfHp5N779xEOPPpoSSl3Wyx47REbiRa3sbqj4B/BOnw/RuImZTdl91TF7Qq+YgoAzUKOkS5E=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778568148; c=relaxed/simple;
-	bh=JW+i/pVE71OvGEL5VzIECpn0VkCbGmOKNADt617MGsQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lsuAH5gZavaXVOdCYrJrQFvF73qJHdVir6me2DG/9eQun2PQXwi8vES6bzuN/NNNi264nNsynJo3SDTFiX7yw/uzYjwUfLYLs+x2zDA8KkzDNDtcYBNNlGD11N2XFphJQu3OyGHxBIz+RnIe2D5keIFLlUC6CLI4ydLlMosBnuc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ayUekGDC; arc=pass smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 001552DE70D
+	for <sashiko@lists.linux.dev>; Tue, 12 May 2026 06:51:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778568694; cv=none; b=eW9kkfJJnEfwOBXPTXk/prFDrzun1800k6X8nPRRAJKu/Vvi7Mlg/e9AFzGnB/uPBvLDXV2t1cuY0FqS3wdyJiwZtEYK3dRrll3ggDjbHi/7BycMh2q4m4HDbPM1FHy/ddnP7cqeUo7O616fmMKTxB35xIwObGs0FAc06uId5Ow=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778568694; c=relaxed/simple;
+	bh=lxi8xLajakE0Tg6T6kpLZptB0G8Ab6aOA9iB5uI4H74=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FvV5nEE4/ikAFcj7iwgFnX1dflIvSzCSL1x+NLr/nSaKY+O0s+Byw4SSeBNcrirt9rmVdcjkSQSutdgea9zrwoYrtd65fvDgEpWZe40qBncY6UlzWOgm/sPSwSSB2BaKTv6bImUsgXP6+qpR4Ru4i78XspDTrP1uzG0hT/dkjR0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Pem2Luxw; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ayUekGDC"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2bcd730e090so11990505ad.2
-        for <sashiko@lists.linux.dev>; Mon, 11 May 2026 23:42:19 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778568137; cv=none;
-        d=google.com; s=arc-20240605;
-        b=LVihlzEQYWNnazUoo3nkfoygMHzWg3zR+oXZym4pbues2oJR99KiF0Dt+Nga3p0g1e
-         lusaak6Z1KseWPHaH2SZo9B/wRpMQUcuTIrmIehrh2a71bSz/u9E6kTqEY1umBAAiHkW
-         OlkpbGroh9gBMpnJ4qdsMD9ZIzoOMgiKCKmBP5+2uFTKZzQYQwNlIb2lc7nm/cRiPcCN
-         z/+vh2Lij0wEVvDxKu/loc5kyYjfD69jT81gUeD8NjIMVJzCCQy63xnX12+NfQuCbE5Y
-         1EjRlBsjYtT7AshSJCv7oecNf9uRyNGPT/Tf/zK0bEJ1zeGAwyBjTwfNys5mFFQCqB0f
-         GWRA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=5TjPcoUMcuCxioj/5ldLRrHNHcGi2KwtoRGUoSJPPFU=;
-        fh=nhVBLBX+dAch6do4vzWmq29JHs0Rl8rF4V4sv1WM/bY=;
-        b=f0ETowBwUCuybHHqy9yDTfybFEN0WC5SWV6spScquGsjP7RKum9FQLMzsat7LOhu02
-         TxqI/uRy+3V9cEQK+8QaNZIijfooSgphFEaBHXeObf/5fmpRbbOctu10okTxMdPC/yl5
-         +ZkDwF7WKODurgKd6C0q7UuGTFrOFnsqOKE53FraTC3mubFxUGgBzIoic1LMgsV8tJVs
-         XAZEiBW1gQnEX+39O0ymg5LZQHbWjVHqZD5n+68VOaZjBeGrypXKs1g+8r9lseiAXEhq
-         OPCH0UnpjM8dK2+KgdsL/NsT98rZrAwqYi2z0bp7EcgabrYiqAHCfWYzxRH67jFS5rg+
-         58uQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Pem2Luxw"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-48a3e9862f0so34159735e9.1
+        for <sashiko@lists.linux.dev>; Mon, 11 May 2026 23:51:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778568137; x=1779172937; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5TjPcoUMcuCxioj/5ldLRrHNHcGi2KwtoRGUoSJPPFU=;
-        b=ayUekGDCxNVefAxaoMz4xMwVkQ3nk9A6wTV8FHuLeVOqk/KNeFn0UmRslwu5yjbWeZ
-         jV+nN2hlK2HYisM3Q7anVfx1r4xaNmdp94B52l20CjvzvsFlUsKLkfSYSVgOruohsDE+
-         SQMtEe4dvPOWyVFxIuXO9iYpEOWijFUMdLkqo7H28YGPzMEy4nf15m7A9tEqCLjNCkwa
-         0CxZBBklKbMnceHTKRK84fh4n9hMARxy0opoYSe5J1gCF3/n6+UL6i0Ka4skEIZrKBlp
-         Qzob8jdKCLYNLZfl9EbzTBWsXl0EsAT8+kLA4CPGEeV0o+ONLyr+ATFhcjua9h/uYfBC
-         yKAg==
+        d=gmail.com; s=20251104; t=1778568685; x=1779173485; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=YJOHNlOoAOdzligbsnHZC6gf4IGYAZ6NxFSliiwy9bU=;
+        b=Pem2LuxwTNpPdkCnaM6ZVxyfjNY4N7TWTjuLBFgmdJs8IPeZ1eLRfJxuYYCJHnnxrG
+         3sc5+bcVhhCx4Gutnm76m3qJcxPRYj7Hv+NjboHMGRPx3cg4ApWeR81BPuIJcblLzmUW
+         f3ulNc42o++zrPGJ5WhDpRinAHm842onDOwHxK3a5DAbwkTzacopml6JRNoBshvn1aYM
+         tcCrkr3UD7WMAKxKsp0Q38hgElyEwCVToRiS1W/nm2fzL6XMsXYVcphpbBzN5l4Ki39/
+         /Z4Ro1zRNA5vrP8YPTo9YMP2WNn88fzc5tnQenuLbbmVnAF0mrIe+lMeIGwdvB0J7h9J
+         KQYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778568137; x=1779172937;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=5TjPcoUMcuCxioj/5ldLRrHNHcGi2KwtoRGUoSJPPFU=;
-        b=bHJUZm7Spm5NvQ8hPO0HfuUV9DV2Ws76HIrG+SDYsWfAVKL3WgTZsPV0CdbX3vFEuH
-         louzkmDzkhAnTymqaBYDaAQGQk2YVkHlNxowEv/MrEP4bLV5a5qiSrojnrgRYrU76B8F
-         tVv4lJKZYwaS7K+TxGS2D0mUo9qVKkWMJHCwosE3CHsqNrysgE6G8qzo8EmGan2bi0lI
-         DmevUfvM7NMPGpFF1NrZO65Bz3XLIftBW1148jv4FngfMo4OQBYMhseUwhlEmcFSpptZ
-         5sVX+frQLmbV+pGu7IsawdcjMaEdJF4F7NX/dJ9fXzCFwK0ET6VRAVacDBzl/6FVxZD8
-         jyBQ==
-X-Gm-Message-State: AOJu0YwBt95wa5bkbqgdRNiLhVK1q9Wus0t/rqiF1acWmuxFRNyd8Z0J
-	0vjYKr/oHizukl91Cd+0qkQEyrlB67KGGmdTBO32xE5ojr2OeOCVq8qwjYPDi/74nS8IKy5HvAD
-	k0Kwddb6YwXBNShtrsCLBfKkqRCtUbBTVbSwg
-X-Gm-Gg: Acq92OGLbtH9DCXkzhxDZhCcfS+F2PYM/XhP+NCwBcQtgXX6RWpwRbeuY2T8mKuHkzP
-	lYKPSy32A5jp6yZPoUnHt4s17l3n5dHdSgQbIg8u89LQhhumxV+yQQ6BOZ3NTqbfPoKYA3rXuUj
-	dRCe+tzOjxrP3mgWp7m/idmr/MrOPg82dLn5OMlfP7mHITJ2BI9yFHk4sHRTdH6sEgeIxNXY8gv
-	cjRnq18ElZF0AdwswYPf9C44CSEEp0OvKKS7NCnro+EH3UuetWkYRcHG7KzxOsk1QYpy/3NwyGf
-	Ef8i/45gM3gTEpLTfM1S5vHwxrQ+fYzBCiwWhGKpeQpRZL0+
-X-Received: by 2002:a17:902:e54e:b0:2ba:4e84:966 with SMTP id
- d9443c01a7336-2ba7a358d4amr307940265ad.36.1778568137174; Mon, 11 May 2026
- 23:42:17 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1778568685; x=1779173485;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YJOHNlOoAOdzligbsnHZC6gf4IGYAZ6NxFSliiwy9bU=;
+        b=M/cGbGeU8rlpRV1wHF0i9o+Xc/LIM96WeQPAtwV/6qf8NfK2wrAZwZMnAcvQFlSTKD
+         mApc4Vw0/N2YJwHCbuswG+3k4Xgf0iG8N9MZP6NKE/UF9Ctw/02ODiQZdxt00n9zUwXQ
+         FD1ld1zIwZDhkt+r9QUFZfFKyCIK3VfrO8LlAXeEucRiniSC7lcWqpHiG85xD8GdWqoo
+         klhQ2G5tIAfv9rD5w65ZoeMTgwgbBFkqm9OedywfPBmTyQgJyVPEb01lZlxD3POq7u3q
+         xR3GBb6iagQilIwvD9+9RArV2ozDOMIkbVLpC4uYv5PYsJ5zOaYOL0O8jIWL9igA7nTN
+         K+Eg==
+X-Gm-Message-State: AOJu0YwrgGsHHLaxWD+thKgnjvwXJ5j5Ex0ZquN+upRtKU+n3OUDKNxp
+	jC89qX8swZlC/A6iFL0RMUmKNpOj4Y5VVxcc/PSL/Lqc4sBLqP8mFkWrA2riIikw
+X-Gm-Gg: Acq92OF/LLcvkNz37EDMn3mckLYqf3F9SHLRgq7dp16JjSymz5iehhEMKoudj97uB0s
+	1k6jb06yMGw+Ky8wm3aZcrnsOElcNC2kwDuDWhowvWS4Egkbmd9HDgMElcMraAO4DfmjSeWQfMO
+	ndCXQ9khOyquaYh2IQXRmCK/9L4wn4R+jv2kIzcgPTteU1n9uZrAsVC0Z8K5XszQyL0p/4RgNN7
+	84Zh+52/WU3ms2rZreQFGxsVwv4CGrFyCM7x1HAVTiDZ4LGcf7/LuVydBoua9RsFHmU63126oVn
+	/lgoErVo9qZF4UI9Ilq/3PcotUEfR8lM3W4CFr8UrOfE5Q+ohc7Vwd/EjaUV1CZ2Rz+k0dZCgXx
+	kRXizriD962R/hoWTixVB4IRuPhR25SFyslJ+AnhCB9FubgFjceWPEftkklXzxFUQh4OaEpiOE5
+	UXckLjdWusR6XcAyfkp6Y/Xafj0Uz8vJWxxzkE412nLb1m8+xoBymUOBojiISPBIY=
+X-Received: by 2002:a05:600c:8888:b0:489:32b:ac0b with SMTP id 5b1f17b1804b1-48e8e200421mr24540905e9.6.1778568685238;
+        Mon, 11 May 2026 23:51:25 -0700 (PDT)
+Received: from [192.168.0.40] (a89-182-129-90.net-htp.de. [89.182.129.90])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e8e634362sm12208715e9.10.2026.05.11.23.51.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 May 2026 23:51:24 -0700 (PDT)
+Message-ID: <4ac5bd1a-ac7a-420b-b0ce-acdcee4b20e2@gmail.com>
+Date: Tue, 12 May 2026 08:51:23 +0200
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260510084303.122426-2-phucduc.bui@gmail.com> <20260511204528.14632C2BCB0@smtp.kernel.org>
-In-Reply-To: <20260511204528.14632C2BCB0@smtp.kernel.org>
-From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Tue, 12 May 2026 13:42:06 +0700
-X-Gm-Features: AVHnY4I84EJDkO3xEZHB99KhLWC30tC31OgwdWSjgxMsmVdXgk751IHSnHRgLEA
-Message-ID: <CAABR9nEhOTz1-0NmCMTbz=-+782Pto0yovSQhBXrXqhLwMg80Q@mail.gmail.com>
-Subject: Re: [PATCH v3 01/10] ASoC: dt-bindings: renesas,fsi: add support
- multiple clocks
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/6] riscv: dts: spacemit: k1-musepi-pro: enable QSPI
+ and add SPI NOR
 To: sashiko@lists.linux.dev
-Cc: devicetree@vger.kernel.org, wsa+renesas@sang-engineering.com, 
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
-	Geert Uytterhoeven <geert@linux-m68k.org>, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Cc: krzk+dt@kernel.org, devicetree@vger.kernel.org, conor+dt@kernel.org,
+ robh@kernel.org
+References: <20260511111116.1109643-4-a.heider@gmail.com>
+ <20260512022817.879A3C2BCB0@smtp.kernel.org>
+From: Andre Heider <a.heider@gmail.com>
+Content-Language: de-DE
+In-Reply-To: <20260512022817.879A3C2BCB0@smtp.kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi all,
-
-Based on the Sashiko AI review, I am thinking of adding the following
-constraints specifically for renesas,fsi2-r8a7740 to address the
-reported issues.
-
-I think this may also help balance both Geert's and Krzysztof's
-comments from the previous v2 review.
-
-Does this approach look reasonable to you?
-
----------------------------------------------
-
--allOf:
--  - $ref: dai-common.yaml#
--
- properties:
-   $nodename:
-     pattern: "^sound@.*"
-@@ -94,6 +91,78 @@ required:
-
- unevaluatedProperties: false
-
-+allOf:
-+  - $ref: dai-common.yaml#
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: renesas,fsi2-r8a7740
-+    then:
-+      properties:
-+        clock-names:
-+          oneOf:
-+            - items: # FSIA & FSIB is slave
-+                - const: fck
-+                - const: spu
-+            - items: # FSIA slave & FSIB master use internal clock
-+                - const: fck
-+                - const: spu
-+                - const: ickb
-+                - const: divb
-+            - items: # FSIA slave & FSIB master use external clock
-+                - const: fck
-+                - const: spu
-+                - const: ickb
-+                - const: xckb
-+            - items: # FSIB slave & FSIA master use internal clock
-+                - const: fck
-+                - const: spu
-+                - const: icka
-+                - const: diva
-+            - items: # FSIB slave & FSIA master use external clock
-+                - const: fck
-+                - const: spu
-+                - const: icka
-+                - const: xcka
-+            - items: # FSIA master ex-clk  & FSIB master ex-clk
-+                - const: fck
-+                - const: spu
-+                - const: icka
-+                - const: xcka
-+                - const: ickb
-+                - const: xckb
-+            - items: # FSIA master in-xlk  & FSIB master in-clk
-+                - const: fck
-+                - const: spu
-+                - const: icka
-+                - const: diva
-+                - const: ickb
-+                - const: divb
-+            - items: # FSIA master in-clk  & FSIB master ex-clk
-+                - const: fck
-+                - const: spu
-+                - const: icka
-+                - const: diva
-+                - const: ickb
-+                - const: xckb
-+            - items: # FSIA master ex-clk  & FSIB master in-clk
-+                - const: fck
-+                - const: spu
-+                - const: icka
-+                - const: xcka
-+                - const: ickb
-+                - const: divb
-+            - items: # FSIA & FSIB  full clock support
-+                - const: fck
-+                - const: spu
-+                - const: icka
-+                - const: xcka
-+                - const: diva
-+                - const: ickb
-+                - const: xckb
-+                - const: divb
-+
- examples:
-   - |
-     #include <dt-bindings/clock/r8a7740-clock.h>
-@@ -102,7 +171,11 @@ examples:
-             compatible =3D "renesas,fsi2-r8a7740", "renesas,sh_fsi2";
-             reg =3D <0xfe1f0000 0x400>;
-             interrupts =3D <GIC_SPI 9 0x4>;
--            clocks =3D <&mstp3_clks R8A7740_CLK_FSI>;
-+            clocks =3D <&mstp3_clks R8A7740_CLK_FSI>, <&spu_clk>,
-+                    <&fsia_clk>, <&fsiack_clk>, <&fsidiva_clk>,
-+                    <&fsib_clk>, <&fsibck_clk>, <&fsidivb_clk>;
-+            clock-names =3D "fck", "spu", "icka", "xcka", "diva",
-+                          "ickb", "xckb", "divb";
-             power-domains =3D <&pd_a4mp>;
-
----------------------------------------------------------------------------=
---------------
-
-
-Best regard,
-Phuc
-
-
-
-
-On Tue, May 12, 2026 at 3:45=E2=80=AFAM <sashiko-bot@kernel.org> wrote:
->
-> Thank you for your contribution! Sashiko AI review found 2 potential issu=
-e(s) to consider:
-> - [High] The schema fails to enforce the mandatory SPU clock for the r8a7=
-740 hardware variant, and the example provides a functionally broken config=
-uration.
-> - [Medium] Mismatch between strictly positional `clocks` descriptions and=
- unordered `clock-names`, combined with missing `clock-names` enforcement.
+On 12.05.26 4:28 AM, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 2 potential issue(s) to consider:
+> - [High] Potential overvoltage risk for the W25Q64FW SPI NOR flash via the 'buck4_3v3' supply.
+> - [Low] The unit-address in the 'uboot' partition node name does not match the base address in its 'reg' property.
 > --
->
-> commit 3adcf4902a5e62b71566ef5381f002fd5338a399
-> Author: bui duc phuc <phucduc.bui@gmail.com>
->
->     ASoC: dt-bindings: renesas,fsi: add support multiple clocks
->
-> This commit updates the FSI bindings to support multiple clocks to proper=
-ly
-> describe the hardware clock tree. It adds the SPU bus/bridge clock requir=
-ed
-> for the r8a7740 SoC, as well as definitions for functional clocks, intern=
-al
-> dividers, and external clock inputs.
->
-> > diff --git a/Documentation/devicetree/bindings/sound/renesas,fsi.yaml b=
-/Documentation/devicetree/bindings/sound/renesas,fsi.yaml
-> > index df91991699a72..c50e7115b21a0 100644
-> > --- a/Documentation/devicetree/bindings/sound/renesas,fsi.yaml
-> > +++ b/Documentation/devicetree/bindings/sound/renesas,fsi.yaml
-> > @@ -38,7 +38,32 @@ properties:
-> >      maxItems: 1
-> >
-> >    clocks:
-> > -    maxItems: 1
-> > +    minItems: 1
-> > +    items:
-> > +      - description: Main FSI module clock
-> > +      - description: |
-> > +          SPU bus/bridge clock. On R8A7740, this clock must be enabled=
- to allow
-> > +          register access as the FSI block is connected behind the SPU=
- bus.
->
-> Should we add an allOf block with an if-then condition to enforce the
-> presence of the SPU clock for the renesas,fsi2-r8a7740 hardware variant?
->
-> Without it, incomplete device trees might silently pass schema validation=
- but
-> fail catastrophically at runtime, as the commit message notes that missin=
-g
-> this clock causes a system hang.
->
-> The examples section of this file demonstrates this:
->
->     sh_fsi2: sound@fe1f0000 {
->             compatible =3D "renesas,fsi2-r8a7740", "renesas,sh_fsi2";
->             ...
->             clocks =3D <&mstp3_clks R8A7740_CLK_FSI>;
->
-> This example only supplies a single clock and omits both the required SPU
-> clock and the clock-names property, which contradicts the commit message.
->
-> > +      - description: CPG DIV6 functional clocks for FSI port A
-> > +      - description: CPG DIV6 functional clocks for FSI port B
-> > +      - description: Internal FSI dividers for port A used for audio c=
-lock generation
-> > +      - description: Internal FSI dividers for port B used for audio c=
-lock generation
-> > +      - description: External clock inputs for FSI port A provided by =
-the board
-> > +      - description: External clock inputs for FSI port B provided by =
-the board
-> > +
-> > +  clock-names:
-> > +    minItems: 1
-> > +    maxItems: 8
-> > +    items:
-> > +      enum:
-> > +        - fck  # Main FSI module clock
-> > +        - spu  # optional SPU bus/bridge clock
->
-> Does defining clock-names with an enum correctly map sparse clocks?
->
-> Because clocks defines an items array with eight fixed descriptions, it
-> acts as a strict positional tuple. If a board provides the Main clock and
-> the icka clock but omits the optional spu clock, icka shifts to index
-> 1. The dt-schema tooling will then incorrectly map it to the SPU descript=
-ion.
->
-> Additionally, using an enum here allows arbitrary ordering and does not
-> enforce uniqueItems: true.
->
-> Could we add clock-names to the required list when multiple clocks are
-> provided? Since it is not required, a device tree could specify multiple =
-clocks
-> without names, leaving the driver unable to reliably map the phandles to =
-their
-> respective internal functions.
->
-> --
-> Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260510084303.12=
-2426-1-phucduc.bui@gmail.com?part=3D1
+> 
+> commit 470f9c74bd3cfec41ed69dd8c4e22535a7e8164f
+> Author: Andre Heider <a.heider@gmail.com>
+> 
+> riscv: dts: spacemit: k1-musepi-pro: enable QSPI and add SPI NOR
+> 
+> This commit adds the QSPI controller node and describes the attached
+> SPI NOR flash. It also provides a corresponding vendor flash partition
+> layout.
+> 
+>> diff --git a/arch/riscv/boot/dts/spacemit/k1-musepi-pro.dts b/arch/riscv/boot/dts/spacemit/k1-musepi-pro.dts
+>> --- a/arch/riscv/boot/dts/spacemit/k1-musepi-pro.dts
+>> +++ b/arch/riscv/boot/dts/spacemit/k1-musepi-pro.dts
+> 
+> [ ... ]
+> 
+>> @@ -166,7 +166,7 @@ buck3_1v8: buck3 {
+>>   				regulator-always-on;
+>>   			};
+>>   
+>> -			buck4 {
+>> +			buck4_3v3: buck4 {
+>>   				regulator-min-microvolt = <500000>;
+>>   				regulator-max-microvolt = <3300000>;
+>>   				regulator-ramp-delay = <5000>;
+> 
+> [ ... ]
+> 
+>> @@ -249,6 +249,47 @@ dldo7 {
+>>   	};
+>>   };
+>>   
+>> +&qspi {
+>> +	pinctrl-names = "default";
+>> +	pinctrl-0 = <&qspi_cfg>;
+>> +	status = "okay";
+>> +
+>> +	flash@0 {
+>> +		compatible = "jedec,spi-nor";
+>> +		reg = <0>;
+>> +		spi-max-frequency = <26500000>;
+>> +		spi-rx-bus-width = <4>;
+>> +		spi-tx-bus-width = <4>;
+>> +		vcc-supply = <&buck4_3v3>; /* QSPI_VCC1833 */
+> 
+> The commit message notes this flash is a Winbond W25Q64FWSSAQ, which is a
+> strict 1.8V part. Could this vcc-supply assignment cause hardware damage?
+> 
+> The buck4 regulator has a maximum voltage of 3.3V. If the regulator defaults
+> to 3.3V or is configured to 3.3V dynamically, it exceeds the absolute maximum
+> ratings for the 1.8V W25Q series flash.
+
+As per the comment, there's a the non controllable regulator QSPI_VCC1833 in between.
+k1-milkv-jupiter.dts matches in this regard.
+I'll keep it unchanged unless someone has an idea how to express that in a better way.
+
+> 
+> Is the board actually using the 3V equivalent (W25Q64JV), or does the
+> regulator need stricter constraints if it exclusively powers this flash?
+> 
+>> +		m25p,fast-read;
+>> +
+>> +		partitions {
+>> +			compatible = "fixed-partitions";
+>> +			#address-cells = <1>;
+>> +			#size-cells = <1>;
+> 
+> [ ... ]
+> 
+>> +			opensbi@70000 {
+>> +				reg = <0x70000 0x30000>;
+>> +			};
+>> +			uboot@a00000 {
+>> +				reg = <0xa0000 0x760000>;
+> 
+> This isn't a regression, but there is a mismatch between the unit-address in
+> the node name and the base address in the reg property.
+> 
+> Should the node be named uboot@a0000 to match the 0xa0000 address and prevent
+> a compiler warning?
+> 
+>> +			};
+>> +		};
+>> +	};
+>> +};
+> 
+
