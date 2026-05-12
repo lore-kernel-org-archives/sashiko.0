@@ -1,162 +1,136 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 374703EF673
-	for <sashiko@lists.linux.dev>; Tue, 12 May 2026 11:30:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4025395AD2
+	for <sashiko@lists.linux.dev>; Tue, 12 May 2026 11:55:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778585428; cv=none; b=OyZg9yCcsBzzsKdCvWV+Vmo7lpgCLIHzOYI5/XBvlB1ctBAE5Q1il0kEA9duZhjwRVQVyXU3SuI56Y0Uzwx30QtRazb4jVlTu6aN3PSu96gFNbPa7IU6iQc/sxjjpsfLoKsWRsNbnFq+Y3ZXGDJ3vFi/00Gc3q6fDuS9sHN6NYM=
+	t=1778586939; cv=none; b=jU4l1oDfJq+jTOjuxIRUihWB2f2TJZCI1yXBl1dlySXKc8Ik0aWWuYum2X0tddQJcH6paB92D1uHWb+KLKy8CylFX/OMm96R5MXmuodtNE/FWK005kGvGlnX6a30hZL1+cFmg5GMZ4DriX2sUyPJewSHs1nFyxviABBVo8unJtM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778585428; c=relaxed/simple;
-	bh=8UPDKRZGWDzfyCi7rDkw0Wazc2MlAb8AibQFNpCSEIo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iBx4kFKkgTK7gqki+h8lZ3vO8WGsKyEBZQh2MGdis4baaZXVVythekltzP4P96vENDGblNsjKb5B9nZt+t5moxTowbjTKINK094UfoEEXdz1C/oJxOndb0dhRYQYjuDlEnWsMmuqBpDjRTX/W/LZ2otz3/0feq46dKv2B4tWkwc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A+G8/GQh; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1778586939; c=relaxed/simple;
+	bh=j+DsivULN9fsFBCX66MvkwLgGPE+FN39iQmBiisOpy0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pfqXJ0SSJtXCbp4YZopeBSZjOqwZcJRYDjBMufX4Y8H6TwSMvo+YduxPgpPc96JxbrkeTnvjG1EKb80h4K1WeJda1QMhHVoxtjdOlvaxtqwPRWq1wBs8fGEUQ3r7wqGGKLtKBRPfdO3Zv+AL8fudYXirajq7uO9JXAgn4jvvB/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SWy0Itmm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A+G8/GQh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778585427; x=1810121427;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=8UPDKRZGWDzfyCi7rDkw0Wazc2MlAb8AibQFNpCSEIo=;
-  b=A+G8/GQhgsUw5HZ1n9m/5y2V82p/TvqqJaxkd/GXXA8nXmGaG+qqpIrI
-   jDCPypAmu1mxCtQL6yh94n1QsIjWpcByD6RwXL46U5CFRuCUdeYeLwZG3
-   nTeLXSmrgMHYnalJJ/uitFs4fgsznpfW+6k6rxdJcbGulhy8dnZJ8lNI5
-   ypFjaZ8YMqqaIquxsfZ4ySeDdnbEKYwa668KK6jijiZr0cuBeqN0JKkUm
-   HGsb2pK9PUHUP6NYojmq0aQ+vqLQc+v3QBEJEdzYwHul8nhLlIZmbTdgs
-   EL6fcTTEp379OfjYTzpAWMBIf3vtsWhOJ3n3l7fFqOuw5oAuLtRGtsT+Y
-   Q==;
-X-CSE-ConnectionGUID: jHtrRuYdT4CAGBywBtf0eQ==
-X-CSE-MsgGUID: Xmh4kK0NTfG4jgoN7ojBgQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11783"; a="89794754"
-X-IronPort-AV: E=Sophos;i="6.23,230,1770624000"; 
-   d="scan'208";a="89794754"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2026 04:30:27 -0700
-X-CSE-ConnectionGUID: RjFYg+HTTCOWlChXoDcRAQ==
-X-CSE-MsgGUID: lSck8ZzdTVO7EKmykDn9RQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,230,1770624000"; 
-   d="scan'208";a="242096049"
-Received: from dapengmi-mobl1.ccr.corp.intel.com (HELO [10.124.241.147]) ([10.124.241.147])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2026 04:30:26 -0700
-Message-ID: <ccea937f-8ad5-4a6e-b6a4-917f2ee02579@linux.intel.com>
-Date: Tue, 12 May 2026 19:30:23 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SWy0Itmm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A732C2BCF5
+	for <sashiko@lists.linux.dev>; Tue, 12 May 2026 11:55:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778586939;
+	bh=j+DsivULN9fsFBCX66MvkwLgGPE+FN39iQmBiisOpy0=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=SWy0ItmmVisT7bAIZ3ra/BAiOfNQl78R4tfUSBBz19vx5uCkI3khqpCsqLBkbUajq
+	 /lPTxBbyvYxemiViMDwaC8+9h4IHbqeuLu2hH7BS9pvcD4qW35dM/GdlURMEzAKKMa
+	 h7h35eAP1XR7kIdS5MS1xT8tgdbnwsqj9jLkFQlyNULlBhBL+Wfv/65/QfBd9ZwxtJ
+	 g49U0xU6vjTPmdSg15qFpiITtmkkVLUnwLKsvfMj0pdE8BPv4dhZm0pnmhauNJt1Xv
+	 u2BB2+YtMWn0/tAggApRqHY5/Zav0jtdD+SpP7lyF0WCcpmM4PPs9h1KgmJ8Smy739
+	 bMBNr9TWsy0/g==
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-67cac5ece75so8935456a12.2
+        for <sashiko@lists.linux.dev>; Tue, 12 May 2026 04:55:39 -0700 (PDT)
+X-Gm-Message-State: AOJu0YwdUMU4AtjRiOhKBQ+sS5tiV9k1w5ai6v02NxpDVv3NO+RRQTlX
+	Bj5JKcDWb2ckyw/sLmXu7QhUUp1aQ3ahGYbr+4B9klGJ++4IRsccgbLggIQL2Qy7Qn9ZkABdDgn
+	Hok0LOp0mrPGdabhaxOeO8dQX7F57Ug==
+X-Received: by 2002:a05:6402:28cb:b0:67c:7697:1ee8 with SMTP id
+ 4fb4d7f45d1cf-680cdd250cbmr1451214a12.5.1778586938007; Tue, 12 May 2026
+ 04:55:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/9] perf/x86/intel: Ensure guest PEBS path doesn't set
- unwanted PERF_GLOBAL_CTRL bits
-To: sashiko@lists.linux.dev, Sean Christopherson <seanjc@google.com>
-Cc: linux-perf-users@vger.kernel.org
-References: <20260508231353.406465-2-seanjc@google.com>
- <20260508234018.F06AEC2BCB0@smtp.kernel.org>
-Content-Language: en-US
-From: "Mi, Dapeng" <dapeng1.mi@linux.intel.com>
-In-Reply-To: <20260508234018.F06AEC2BCB0@smtp.kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20260511111116.1109643-4-a.heider@gmail.com> <20260512022817.879A3C2BCB0@smtp.kernel.org>
+ <4ac5bd1a-ac7a-420b-b0ce-acdcee4b20e2@gmail.com>
+In-Reply-To: <4ac5bd1a-ac7a-420b-b0ce-acdcee4b20e2@gmail.com>
+From: Rob Herring <robh@kernel.org>
+Date: Tue, 12 May 2026 06:55:26 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqLx6uwsjTHgcmqRKu32Mh4vJPu=u=N7DjVeGAaK04mOWg@mail.gmail.com>
+X-Gm-Features: AVHnY4ID7a0_3CCCWYxK655cEtAfDuW2yCI_keSpCnp5egP8iN4fy14pBjhwNhk
+Message-ID: <CAL_JsqLx6uwsjTHgcmqRKu32Mh4vJPu=u=N7DjVeGAaK04mOWg@mail.gmail.com>
+Subject: Re: [PATCH v2 3/6] riscv: dts: spacemit: k1-musepi-pro: enable QSPI
+ and add SPI NOR
+To: Andre Heider <a.heider@gmail.com>
+Cc: sashiko@lists.linux.dev, krzk+dt@kernel.org, devicetree@vger.kernel.org, 
+	conor+dt@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-
-On 5/9/2026 7:40 AM, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
-> - [High] The host PEBS collision check fails to mask non-counter bits, incorrectly disabling guest PEBS for events like Store Latency.
-> --
+On Tue, May 12, 2026 at 1:51=E2=80=AFAM Andre Heider <a.heider@gmail.com> w=
+rote:
 >
-> Note: The format of this report has been altered due to recitation
-> restrictions. The original patch code is not quoted directly, and findings are
-> provided as a free-form summary.
+> On 12.05.26 4:28 AM, sashiko-bot@kernel.org wrote:
+> > Thank you for your contribution! Sashiko AI review found 2 potential is=
+sue(s) to consider:
+> > - [High] Potential overvoltage risk for the W25Q64FW SPI NOR flash via =
+the 'buck4_3v3' supply.
+> > - [Low] The unit-address in the 'uboot' partition node name does not ma=
+tch the base address in its 'reg' property.
+> > --
+> >
+> > commit 470f9c74bd3cfec41ed69dd8c4e22535a7e8164f
+> > Author: Andre Heider <a.heider@gmail.com>
+> >
+> > riscv: dts: spacemit: k1-musepi-pro: enable QSPI and add SPI NOR
+> >
+> > This commit adds the QSPI controller node and describes the attached
+> > SPI NOR flash. It also provides a corresponding vendor flash partition
+> > layout.
+> >
+> >> diff --git a/arch/riscv/boot/dts/spacemit/k1-musepi-pro.dts b/arch/ris=
+cv/boot/dts/spacemit/k1-musepi-pro.dts
+> >> --- a/arch/riscv/boot/dts/spacemit/k1-musepi-pro.dts
+> >> +++ b/arch/riscv/boot/dts/spacemit/k1-musepi-pro.dts
+> >
+> > [ ... ]
+> >
+> >> @@ -166,7 +166,7 @@ buck3_1v8: buck3 {
+> >>                              regulator-always-on;
+> >>                      };
+> >>
+> >> -                    buck4 {
+> >> +                    buck4_3v3: buck4 {
+> >>                              regulator-min-microvolt =3D <500000>;
+> >>                              regulator-max-microvolt =3D <3300000>;
+> >>                              regulator-ramp-delay =3D <5000>;
+> >
+> > [ ... ]
+> >
+> >> @@ -249,6 +249,47 @@ dldo7 {
+> >>      };
+> >>   };
+> >>
+> >> +&qspi {
+> >> +    pinctrl-names =3D "default";
+> >> +    pinctrl-0 =3D <&qspi_cfg>;
+> >> +    status =3D "okay";
+> >> +
+> >> +    flash@0 {
+> >> +            compatible =3D "jedec,spi-nor";
+> >> +            reg =3D <0>;
+> >> +            spi-max-frequency =3D <26500000>;
+> >> +            spi-rx-bus-width =3D <4>;
+> >> +            spi-tx-bus-width =3D <4>;
+> >> +            vcc-supply =3D <&buck4_3v3>; /* QSPI_VCC1833 */
+> >
+> > The commit message notes this flash is a Winbond W25Q64FWSSAQ, which is=
+ a
+> > strict 1.8V part. Could this vcc-supply assignment cause hardware damag=
+e?
+> >
+> > The buck4 regulator has a maximum voltage of 3.3V. If the regulator def=
+aults
+> > to 3.3V or is configured to 3.3V dynamically, it exceeds the absolute m=
+aximum
+> > ratings for the 1.8V W25Q series flash.
 >
-> commit 39adc53b360e88595a3be6fc59b18b048d9e9921
-> Author: Sean Christopherson <seanjc@google.com>
->
-> perf/x86/intel: Ensure guest PEBS path doesn't set unwanted PERF_GLOBAL_CTRL bits
->
-> This commit masks the pebs counter values being reinstated into the global
-> control msr for a guest with perf's desired value. This is done to ensure the
-> hypervisor doesn't unintentionally enable counters.
->
-> In intel_guest_get_msrs(), the host pebs collision check evaluates the host
-> field of the pebs_enable array entry to determine if the host is actively
-> using pebs. If it is, guest pebs is disabled.
->
-> Is it possible for this check to falsely detect a host collision due to
-> non-counter bits being set?
->
-> When a guest configures a store latency pebs event, a backing perf event is
-> created. In intel_pmu_pebs_enable(), this sets both the counter index bit
-> and bit 63 in cpuc->pebs_enabled.
->
-> Because the host field is calculated as cpuc->pebs_enabled masked against
-> the inverse of cpuc->intel_ctrl_guest_mask, and the guest mask exclusively
-> tracks valid counter indices (never including bit 63), bit 63 remains set in
-> the host field.
->
-> Consequently, the check for whether the host is actively using pebs will
-> evaluate to true even when only the guest is using pebs. This introduces a
-> regression where guest pebs is completely disabled, silently breaking guest
-> store latency events.
->
-> Should the host pebs usage evaluation also be masked by intel_ctrl to prevent
-> non-counter bits from triggering a false collision?
+> As per the comment, there's a the non controllable regulator QSPI_VCC1833=
+ in between.
+> k1-milkv-jupiter.dts matches in this regard.
+> I'll keep it unchanged unless someone has an idea how to express that in =
+a better way.
 
-Hmm, I suspect if the issue could happen on real hardwares.  
+That's what we have fixed-regulator binding for. It can take an input suppl=
+y.
 
-The function intel_pmu_pebs_enable() indeed sets extra bits into
-cpuc->pebs_enabled for load latency and specific store events, like below
-code shows.
-
-```
-
-......
-
-    if ((event->hw.flags & PERF_X86_EVENT_PEBS_LDLAT) && (x86_pmu.version < 5))
-        cpuc->pebs_enabled |= 1ULL << (hwc->idx + 32);
-    else if (event->hw.flags & PERF_X86_EVENT_PEBS_ST)
-        cpuc->pebs_enabled |= 1ULL << 63;
-
-......
-
-```
-
-But these 2 cases should only be hit on quite old platforms (prior to
-Icelake). On these platforms, only GP counters support PEBS sampling and
-pebs_capable would be set PEBS_COUNTER_MASK, and so these extra bits would
-be filtered out by the pebs_capable and pebs_mask won't really contain
-these extra bits. 
-
-Anyway, we could optimize the code further like below and thoroughly filter
-away these extra bits. (only building, not test on real HW)
-
-diff --git a/arch/x86/events/intel/core.c b/arch/x86/events/intel/core.c
-index 854881b5e696..6eee7636a822 100644
---- a/arch/x86/events/intel/core.c
-+++ b/arch/x86/events/intel/core.c
-@@ -4997,7 +4997,7 @@ static struct perf_guest_switch_msr
-*intel_guest_get_msrs(int *nr,
-        struct cpu_hw_events *cpuc = this_cpu_ptr(&cpu_hw_events);
-        struct perf_guest_switch_msr *arr = cpuc->guest_switch_msrs;
-        u64 intel_ctrl = hybrid(cpuc->pmu, intel_ctrl);
--       u64 pebs_mask = cpuc->pebs_enabled & x86_pmu.pebs_capable;
-+       u64 pebs_mask = cpuc->pebs_enabled & x86_pmu.pebs_capable & intel_ctrl;
-        u64 guest_pebs_mask;
-        int global_ctrl;
-
-@@ -5049,7 +5049,7 @@ static struct perf_guest_switch_msr
-*intel_guest_get_msrs(int *nr,
-         * the guest wants to use for PEBS, (c) are not excluded from counting
-         * in the guest, and (d) _are_ excluded from counting in the host.
-         */
--       guest_pebs_mask = pebs_mask & intel_ctrl & guest_pebs->enable &
-+       guest_pebs_mask = pebs_mask & guest_pebs->enable &
-                          ~cpuc->intel_ctrl_exclude_guest_mask &
-                          cpuc->intel_ctrl_exclude_host_mask;
-
->
+Rob
