@@ -1,196 +1,135 @@
-Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010036.outbound.protection.outlook.com [52.101.56.36])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B3F24B8DDF
-	for <sashiko@lists.linux.dev>; Tue, 12 May 2026 08:42:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.181
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778575364; cv=none; b=jTZbOlyJgBLDmXzOjSAXpEhosJeTSqyxAgVuiHdIfcx9jJfdb4NVrPFOKZQ34gWxBxrFb832lrSlbwNrFpzb1FSVHWY1jPXIVkrUaC620uFsfTHK3bUpCYEw77phSM3SbxptnvOk7JDkTIxz+orYhr3VlfOL+rfEDRvnbTSV0VI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778575364; c=relaxed/simple;
-	bh=lq+/2jh4vsMC5QGD+Xb1leAx79zaNi8OYDy5lVugXcI=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
-	 References:In-Reply-To; b=kwiAG0Vp1dJXh+giAzVMz21xUoyeoRMUoTiIU2F6LpOkzYgy0M23NTFTN9a3/yV5ME+7o9uT5AIhO+Ie1YlLTQkMlHx1sU83i9JE9B78Sx8ubJOrybz9msda3sSDgKxrOd/gPOSPaNkmOiL5iIS2dnJtleCuJHahInt9ymJD9XI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nexthop.ai; spf=pass smtp.mailfrom=nexthop.ai; dkim=pass (2048-bit key) header.d=nexthop.ai header.i=@nexthop.ai header.b=hVoD9tlt; arc=none smtp.client-ip=74.125.82.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nexthop.ai
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nexthop.ai
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 272BE38B7A6
+	for <sashiko@lists.linux.dev>; Tue, 12 May 2026 08:49:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.36
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778575764; cv=fail; b=XxHrQjTJysJkDHCGQsSmdWdx60lRDHwL/qJmDWzgepvSoZdxE31q0E3rF3nHPwFqnfx9vmZ5SCBOkVpXZCk7FcsdaWED6tgbx1APEHtztoCEq9Ca6FLoFHXRDXHliGja+lPch0iaPtrgeTSGgkYzX3ZJPYrMuhdze8TesvQ6tvI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778575764; c=relaxed/simple;
+	bh=wNnDvc6JgKrAK82LDjHyeXPOZJhLXcwHX9tIxhpjVFI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=dR9PewqKJkZsCM7G8Atr1/lP56qIHEjdz3iRdVFlbU6qprvI5AD+Yb2xFW27x9+nPNlgMMVFimfXtMx5eyNwEBsp4C8VEUm9P6OtDcIwkY4xnbU7B9mk1dd7Ab8dvSlmg9X/FnQLVZ2lUxVW3jMmn7N3Uoi3ZEqXinNnIXfOtcM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=1oJzmaUE; arc=fail smtp.client-ip=52.101.56.36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nexthop.ai header.i=@nexthop.ai header.b="hVoD9tlt"
-Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-2bdcf5970cdso3817151eec.0
-        for <sashiko@lists.linux.dev>; Tue, 12 May 2026 01:42:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=nexthop.ai; s=google; t=1778575349; x=1779180149; darn=lists.linux.dev;
-        h=in-reply-to:references:cc:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8nV86GhwDOWsGDhN/ru26Dzx9121SYap+YK8888DQW0=;
-        b=hVoD9tltekXDWANYwt8TIQafl6w1xQCIN6tHpybW4ZCIXi7lFZ224elkmlqk9mUOjF
-         dJH5W2gFXhVxx+0YO7f30PNvZIGm/oQwDOdVf2ehJiSdzxD2ZmpYEVg/rKLnKQ63KCJK
-         EUnPi21x+1JBN5InN9bhuCbYjOtR6Zg8OR8BbRQOogGzl3KGUYtt/6zJNCZnAOQH7BlA
-         8eabUyTMlsoO4HAdydQai+JGLt+Hdp+evAjXIWCqCcJ8MtoTEHsOCxGKpnL5f6nhDsCX
-         2pD8uyPbZHfalVI3IFqQq6IKKmJN5YfwyhJRTpyLltMGRY14ey3+mdDNGVipp+dE4eX2
-         tVCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778575349; x=1779180149;
-        h=in-reply-to:references:cc:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8nV86GhwDOWsGDhN/ru26Dzx9121SYap+YK8888DQW0=;
-        b=h14pFzpiWrF16K1Kl+uaCn/QPGn17LDufj3nG2HgbsEvakctg5l+ByUqNumG6SH3B3
-         9e3+TdyMIheR9yPII/zVJTnqJ7KAv0VRDpucnF7LN1qq3R57avE8wbEqxSXx4E9f2Gxv
-         8jJxi7AA5R5WwK0hdMq5i2UKOkcHdgQVog0u3sFK1Y1PdP1vPYkV6YuRHNIniaeZpX7x
-         Nt7DHTIpNCsnG6hfhW0eYCcX229oAqLCWX8MgGR9PBoP2y4KCwIHTAKbuMGJVxaG+u5T
-         Jyn8gQ5RLU1YeaAXKem4630SJcuNnYIpfaF7yCDMagYWNhbMCyKq5F17NzznurjqmRM6
-         EmEA==
-X-Gm-Message-State: AOJu0Yzb00wtdUubyH/4wZ2QcqdZE3DvCdx+bgwUjDQ9d8lFgaXGlkIi
-	d6lXh2CaoiLWcGj9+LJ2obA8ObqvLJxeWggHzeRX9hUNSY/4Lqj6F5/QUJWF7nBufrlZAe5ZDLt
-	632WyX0Q=
-X-Gm-Gg: Acq92OFFdN/iRoD+GaHgkDkp2Ke7QsZPyA677TS8WahULBORzTfan32tsavPovUmh1S
-	2ioIpoVUFh8jJp1t+gjGUON75OHIBO38Xs9ONPrZ7s5rgyUtqDSQVUOVYBE0fWFpUk+TGinEfJ8
-	lc+zF7q6PLxdbGt16YN0G50I3+jrvepidoOPwJ1dzBGs3xnAivnpPTPBEYTZZEQZtdxlw/3d4ZN
-	yHVKfv/YyPAUVCqwXNQmp6Q7OpbPPiQmWtmfXd0vquVspz+S3QLdSd5hIcmIVrpZE8Vh7kwFjpq
-	FpxtkZwEdfg+dxk9oIZS+0/0yUFQ5xsuerfSFq0AW6S0rcYTFoZceoQwJTCj+YJGStXQ9tcAtaH
-	Zc2Hf5m1TXqNoaILoi2BMIg35GmHdoH4F1rqb+nddWcoJZU2wubLN+MuqlAb0n8UgFhlptPBOkn
-	UDstOB7TwV5BTeCNG4B9fu1kM=
-X-Received: by 2002:a05:7300:324b:b0:2f3:5d44:eeba with SMTP id 5a478bee46e88-2ff93d089efmr1476347eec.6.1778575348498;
-        Tue, 12 May 2026 01:42:28 -0700 (PDT)
-Received: from localhost ([50.145.100.174])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2f8864c37basm16695078eec.13.2026.05.12.01.42.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 May 2026 01:42:28 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="1oJzmaUE"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=hoN/LBqiSIxYEl7/YmIpKRwxrOJcQiPmVptKp9Qcsm2h9qM43OWsqzbVr5M5l8oUBUqefo3GNAxnLto7Q0ycp2ertpdp9tQEpcWcAgamebnPJRkEKcBLNz7qdiFMP4tLVeA0ToG1F1PUmJ5ycL9CB15pLUEaGM6EKL+HxpbVmbHqIOFvZ/UM2dKhqu1mo06vt8ibYkObho+YEjoJo4UETFrmQ/Mt+OSTdu9ZEKtX6WwxH7AyZ4CKmXYmAfHiWJk0THofWy4yRep0ts0Ch58+IVD3vE/Cw86tHJrfsM54PAEvtxJVb9SvzSRoRz6Jm8pEBsmwrM7V7gBdbz8nuDGp9A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Ut7px7khvzGVg7jd85JrV4BJvH9VWwCre6LvFmju3As=;
+ b=BrO/yWu3f6H4xeCs9fV+B2DhgOxabJp3sB8cygGQ3NIIOif60R/iqJ6PN6sj1vcNUKQEXIdSS9NdQpSgdMwqt7n/uftmlS2CWN89VuWeoxIYZzyQhu8evkWjieIdde2tIxgJlpgSaVdo2Ronavnx3mkkerMzTluYLYGxzelkbyApCEc5or66Yzm8FziR9PH4LNoz+oy3T4AqM8MNyPoTuWDqqOE6CaEbmvTR1NcrlQEQnFGWFLKlBJk2PNB5GyIWwyYlvF4IDE/4N1azVUxJmBdT9N7crMDpcv0ojcTJiqS26xZLxQEmlbZo6AgPwzNHXsDi6DuEaTxsW+ja2RscuA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.linux.dev smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ut7px7khvzGVg7jd85JrV4BJvH9VWwCre6LvFmju3As=;
+ b=1oJzmaUEQXqu6MMssUcS+1nkCsoZzSM9G1gp1LeDLnTRvP6ZVhxhPxzKISBKO7bjk8beBwbuRfEJbYpNW6xRTqkQrsod3Pl+mQqy6i2IPwL3kQSvcSXcEm1AbrrshHiV3IX7TWXdm9a5LV3vfaAkABEzDsxMTHV8bUxevikg0r0=
+Received: from BYAPR02CA0060.namprd02.prod.outlook.com (2603:10b6:a03:54::37)
+ by BL3PR12MB6403.namprd12.prod.outlook.com (2603:10b6:208:3b3::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.23; Tue, 12 May
+ 2026 08:49:12 +0000
+Received: from SJ1PEPF000023D6.namprd21.prod.outlook.com
+ (2603:10b6:a03:54:cafe::8c) by BYAPR02CA0060.outlook.office365.com
+ (2603:10b6:a03:54::37) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9913.11 via Frontend Transport; Tue,
+ 12 May 2026 08:49:11 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
+Received: from satlexmb08.amd.com (165.204.84.17) by
+ SJ1PEPF000023D6.mail.protection.outlook.com (10.167.244.71) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.48.3 via Frontend Transport; Tue, 12 May 2026 08:49:11 +0000
+Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Tue, 12 May
+ 2026 03:49:10 -0500
+Received: from [10.136.40.102] (10.180.168.240) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.41 via Frontend
+ Transport; Tue, 12 May 2026 03:49:10 -0500
+Message-ID: <6e7b96a8-f053-4f2c-b15e-0e798a3514cf@amd.com>
+Date: Tue, 12 May 2026 14:19:04 +0530
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 12 May 2026 01:42:27 -0700
-Message-Id: <DIGKCAWMW65P.1GSNT49V8KH98@nexthop.ai>
-Subject: Re: [PATCH RESEND v2 4/5] hwmon: (pmbus/adm1266) replace probe-time
- RTC seed with rtc_class device
-From: "Abdurrahman Hussain" <abdurrahman@nexthop.ai>
-To: <sashiko@lists.linux.dev>, "Abdurrahman Hussain"
- <abdurrahman@nexthop.ai>
-Cc: <linux-hwmon@vger.kernel.org>
-X-Mailer: aerc 0.21.0
-References: <20260511-adm1266-v2-4-7a6d34f0de5d@nexthop.ai>
- <20260512033233.6868FC2BCB0@smtp.kernel.org>
-In-Reply-To: <20260512033233.6868FC2BCB0@smtp.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 4/8] perf amd ibs: Suppress bogus TlbRefillLat and
+ DCPhysAd on Zen4+
+To: <sashiko@lists.linux.dev>, <linux-perf-users@vger.kernel.org>
+References: <20260508060004.2575-5-ravi.bangoria@amd.com>
+ <20260508182027.F2DF1C2BCC7@smtp.kernel.org>
+Content-Language: en-US
+From: Ravi Bangoria <ravi.bangoria@amd.com>
+In-Reply-To: <20260508182027.F2DF1C2BCC7@smtp.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF000023D6:EE_|BL3PR12MB6403:EE_
+X-MS-Office365-Filtering-Correlation-Id: 347ce0ea-b97b-4933-d542-08deb0035661
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|36860700016|1800799024|82310400026|22082099003|56012099003|18002099003|11063799003;
+X-Microsoft-Antispam-Message-Info:
+	ORmCFj25AUJdzmlgCC4EQxTnKgidKGKIwe6oRfmA0IWfNJaxDfB8PCVt7TBkgdC5AeoOirGSXKnXu2sqBUOEu/Jy4uC+GUmlcPn8FYqLwdlQr0StNZMj1OYPw16DSvGLMhEQZLJReayp79e9/+G9ud62cjjkRT/LmPhIiyvEgmqheUrxK9xseNCc9v0ueLdLu6lmsM+IKYM4oxD9/XYfStKyW9ONSaUsSlSRREdyDIZat4O15tuj/SyPMrM9+gt/HHJe8i6mpatFVP/kwPm8bn9zRdr4FOD81+spQoWz58n2x4NnCAdmVnXwSE0uoaic/YAnQ+79VJYxcbtorno8oD399T969GHFLExqi12Ij6MMIosV1rRX8k/6slPvLdr7YuyCVO9hh1uxsYteXFhkL+noGEYioKabm1z+iWjIvi8tyO7UHkyu5++KHAZ6aaUaN0QD+Nvo2Dcoj93RI+20/0EW6Euo+7Ffn/iyK/HogM2FcVi4eev1Jw1U7NIuwTp4cz3Z1Zf/cZlacbCUDMs/ACNSt/NMc3AwKKRYFmYqGSn3K5C7tEuhpQsGMC233A7d68duFAHLmeccTnpaXotGCbSXhZsCZwLAUxla4WOb4AaozbsOXI1mRxZ9gVrMywOMNV6zZbZY4TQYiZluUVvv1OHbFPsG7TsfQW1ILbEZbPwmebJ9wO7LqNaY4hnXmeRoqC2zDiB+wAddXHRA7+v8rt179IfBMm41vIeCFVlxDwI=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb08.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(36860700016)(1800799024)(82310400026)(22082099003)(56012099003)(18002099003)(11063799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	QPAhmYgJ6wuEE81/oJ9g5GjWXz2y09bjfGs8pLkCw/X6PcdE+8YZ8RsJIP2us6TsddUn+yZXilGhQaBPz039JXsbkp6+Pxt/TeDQ+9KCUEUHr9JWL1XrOmzohxQWGpdUI9CxyleUpIHEhggln/fk7SQ7COi5QUkcXbbOz6T2DI6+l4MiabVtbnAZ0WFY+RpawQkWmoJJrh6fszAXXtNoUnyUpCycETfgBKSZg/3DTxIvmk+DzoIVpsG9gp0fmcON0sDorF/wL2fHFa0XL7uYzUcOHmsjFdG7Y/Dv2sZyIHhElUAPUfLcLZJlCpjqC+Vc0gIzZA8qEfJsPFxtXeDp4A1bczdZPTxlkkoapSnTjTBfhOg8q6/SxU/x1sRQ2VQsT92B6BwnyaxXt26QiOgmWo5KVy8aEevBTioMTqYe36lc6M2BPDqpp3iR0kq2fDPV
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2026 08:49:11.3041
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 347ce0ea-b97b-4933-d542-08deb0035661
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb08.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SJ1PEPF000023D6.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6403
 
-On Mon May 11, 2026 at 8:32 PM PDT, sashiko-bot wrote:
-> Thank you for your contribution! Sashiko AI review found 2 potential issu=
-e(s) to consider:
-> - [High] Missing locking in RTC callbacks causes race condition with PMBu=
-s transactions.
-> - [Medium] Premature exposure of the RTC device before hardware initializ=
-ation is complete.
-> --
->
-> commit 20e4a34f4a236495f598a1957552fb4fea44b3d3
-> Author: Abdurrahman Hussain <abdurrahman@nexthop.ai>
->
->     hwmon: (pmbus/adm1266) replace probe-time RTC seed with rtc_class dev=
-ice
->
-> This commit replaces the probe-time RTC seeding with an rtc_class device
-> backed by SET_RTC. This allows userspace tooling to drive the re-sync aga=
-inst
-> /dev/rtcN once it trusts the system clock.
->
->> diff --git a/drivers/hwmon/pmbus/adm1266.c b/drivers/hwmon/pmbus/adm1266=
-.c
->> index 99e92a8365fb7..0dfb02db86837 100644
->> --- a/drivers/hwmon/pmbus/adm1266.c
->> +++ b/drivers/hwmon/pmbus/adm1266.c
-> [ ... ]
->> +static int adm1266_rtc_read_time(struct device *dev, struct rtc_time *t=
-m)
->> +{
->> +	struct i2c_client *client =3D to_i2c_client(dev);
->> +	u8 buf[I2C_SMBUS_BLOCK_MAX];
->> +	u32 secs;
->> +	int ret;
->> +	int i;
->> =20
->> -	memset(write_buf, 0, sizeof(write_buf));
->> +	ret =3D i2c_smbus_read_block_data(client, ADM1266_SET_RTC, buf);
->
-> Since this RTC device is exposed to userspace, can this callback be invok=
-ed
-> concurrently with hwmon sysfs attributes managed by the PMBus core?
->
-> The PMBus core uses pmbus_lock to serialize multi-step sequences. If an R=
-TC
-> I2C transaction interleaves in the middle of a PMBus sequence, can it dis=
-rupt
-> the device's internal state machine or cause unpredictable behavior?
->
-> Should this callback acquire pmbus_lock(client) (or its interruptible
-> variant) around the I2C transfer to prevent a race condition?
->
->> +	if (ret < 0)
->> +		return ret;
-> [ ... ]
->> +static int adm1266_rtc_set_time(struct device *dev, struct rtc_time *tm=
-)
->> +{
->> +	struct i2c_client *client =3D to_i2c_client(dev);
+>> @@ -253,8 +260,12 @@ static void amd_dump_ibs_op(struct perf_sample *sample)
+>>       pr_ibs_op_data3(*op_data3);
+>>       if (op_data3->dc_lin_addr_valid)
+>>               printf("IbsDCLinAd:\t%016llx\n", *(rip + 4));
+>> -     if (op_data3->dc_phy_addr_valid)
 >> +
->> +	return adm1266_write_rtc(client, rtc_tm_to_time64(tm));
->> +}
->
-> Does this callback also need to acquire pmbus_lock(client) around the I2C
-> transfer to prevent concurrent access with PMBus transactions?
->
-> [ ... ]
+>> +     /* Use !zen4_ibs_extensions as a proxy for Zen3 and earlier */
+>> +     if (op_data3->dc_phy_addr_valid && *(rip + 5) &&
+>> +         (!zen4_ibs_extensions || op_data3->dc_lin_addr_valid)) {
+>>               printf("IbsDCPhysAd:\t%016llx\n", *(rip + 5));
+>> +     }
+> 
+> Does checking *(rip + 5) here suppress valid memory accesses to physical
+> address 0x0?
+> 
+> While this successfully hides kernel-zeroed addresses for unprivileged users,
+> it seems like it cannot distinguish between software-zeroed values and actual
+> 0x0 addresses. Could this silently discard valid diagnostic data during
+> privileged profiling sessions if an actual hardware access to physical page 0
+> occurs?
 
-Agreed. In v3 both callbacks wrap their I2C transfer in
-pmbus_lock_interruptible() / pmbus_unlock(). adm1266_write_rtc() is
-no longer reachable from probe (the probe-time SET_RTC seed is what
-this patch removes), so the new lock acquisition is purely on the
-userspace path and a signal can interrupt a contended wait cleanly.
+This doesn't seem like a genuine concern. The first physical page is reserved
+on x86 systems, so normal workload should never access it.
 
->> @@ -553,7 +603,7 @@ static int adm1266_probe(struct i2c_client *client)
->>  	if (ret < 0)
->>  		return ret;
->> =20
->> -	ret =3D adm1266_set_rtc(data);
->> +	ret =3D adm1266_register_rtc(data);
->>  	if (ret < 0)
->>  		return ret;
->
-> By registering the RTC device here, is the /dev/rtcX interface exposed to
-> userspace before pmbus_do_probe() completes the hardware discovery and
-> initialization sequence?
->
-> If a userspace process immediately opens the RTC device and issues read/w=
-rite
-> commands, can the resulting I2C traffic interleave with the driver's
-> initial setup?
->
-> Should adm1266_register_rtc() be called at the end of the probe function,
-> after pmbus_do_probe() succeeds, to ensure the device is fully initialize=
-d
-> before it is accessed externally?
+  $ head -1 /proc/iomem
+  00000000-00000fff : Reserved
 
-The ordering follows the existing pattern for the GPIO and nvmem
-registrations in this driver. None of the three registration helpers
-performs I2C at registration time =E2=80=94 devm_{gpiochip,nvmem,rtc}_*()
-only install callbacks that fire later when userspace touches the
-interface. With the v3 locking in place, any userspace RTC access
-that lands during pmbus_do_probe() will serialise on
-pmbus_lock_interruptible() against the core's PAGE+register
-sequences rather than interleave with them, so the
-window-without-protection that the original concern describes is
-closed by the locking change.
-
-I would prefer to leave the registration ordering as-is for
-consistency with the GPIO and nvmem paths, but I am happy to move
-all three after pmbus_do_probe() if you would rather have a stricter
-"nothing visible to userspace until probe is done" invariant across
-the driver. Happy to do that in a follow-up if so.
-
-Best regards,
-Abdurrahman
+Thanks,
+Ravi
