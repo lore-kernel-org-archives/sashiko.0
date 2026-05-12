@@ -1,292 +1,347 @@
-Received: from OS8PR02CU002.outbound.protection.outlook.com (mail-japanwestazon11022078.outbound.protection.outlook.com [40.107.75.78])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D50E6368D7B
-	for <sashiko@lists.linux.dev>; Tue, 12 May 2026 07:03:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.75.78
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778569405; cv=fail; b=u2Uv3wRQ+KF8rt3ESFMC/2kNeHnDvRoDs2tBa419y7cpBwV/zl1XWhBDtaI81fXeTy0clD3gdsyps3YGle+fPifVfjWxEp5NtoRq9C8zfhZM7ZVxQVafCyfD4J4v2vdAVSJWEF4RcRxWmwRqMzNeFuc8GM2x/aiPGGyptpKDW4w=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778569405; c=relaxed/simple;
-	bh=rhajQpPRgpzkUEisfsLfB842D7rj+IZ1wgzOSrNXQMg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=L5p8CMml0/tfa+uDDZU/TQoFdBupeuHdsYSAsGaXbD7cKrfT7NCB1tgQT4+qA4Jbfw0iKelqQ5XvM2JFQhJwDM5GsFkLyXhbyKz1im4S7ohhINP56JWtANbIYtVflyxPqRY55aCGlSjk0RxS5xhFld5qAm46pYnwZqFNoxDRJio=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cixtech.com; spf=pass smtp.mailfrom=cixtech.com; arc=fail smtp.client-ip=40.107.75.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cixtech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cixtech.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WmVAuZNDOTtf52AQ2+LuXTvMyfJZzYibWrWYv3fmZs9gDZInkY0rYM5R3xl3Xoxla4MRt+T2rUVTF9Vo642lhhVqaRCocE/2AoScSFqiRbGk9rpuzLSKLq3tYXmH84DsoAzmOpo+MGrz7BQJphhRuLL2rtOZo4DB3Y2A6ZeWFPA3QSAH9xLykKzxTvMwXH1/tO02AG1GuG0xeQdgLd7ewyycgEWEhCF2OcEcpwqG0+xTwoh3G2FO/Vn0LMGoLLUMIrZCM7eUBCx0kenFNOC8ha0v/J3rgN3jmo7p5F+qYkRHbQ8tMFAVOuhS+197+EtKlXw3EVU2N9vsVwG1qYYNSQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fSMGU1m5YxERnFRSL2fqaYHMDQ8GygXs0jsooy5SeXc=;
- b=rbMSSX382f3TejUUo2pzL5JHKxOuqugJCLCR/5Ht1t5Qf5BbncKidz4xgovzKu2gsZcxFF0z1SS+pIwgg6lrtVXfUdG/IHW0pyqlIoWshhI2Ep1ZcQOyz1ft649z8JnS+7+f9jvFMjrBkhv+79MA8l31D1P5NfrVd4I95KDTq9MgQ0SgnIhVXhQDqpdeThliEZIgEkTA4DUPgLVX7xG1Ey6mSru4e7K0sIGZH5wCBQKHg6hvcXxzDuoFEGr5vpg3Oo2t13pVl841d09pgVIJnP1B7XOPWY8r12k2ytbmBaaGkrWpwK/wh965m7NO2P2V7ZQCCrRZ6DqLSzHnnxXEyA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 222.71.101.198) smtp.rcpttodomain=kernel.org smtp.mailfrom=cixtech.com;
- dmarc=bestguesspass action=none header.from=cixtech.com; dkim=none (message
- not signed); arc=none (0)
-Received: from PS2PR01CA0005.apcprd01.prod.exchangelabs.com
- (2603:1096:300:2d::17) by SEYPR06MB8065.apcprd06.prod.outlook.com
- (2603:1096:101:2d6::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.23; Tue, 12 May
- 2026 07:03:17 +0000
-Received: from TY2PEPF0000AB84.apcprd03.prod.outlook.com
- (2603:1096:300:2d:cafe::17) by PS2PR01CA0005.outlook.office365.com
- (2603:1096:300:2d::17) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9913.11 via Frontend Transport; Tue,
- 12 May 2026 07:03:17 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 222.71.101.198)
- smtp.mailfrom=cixtech.com; dkim=none (message not signed)
- header.d=none;dmarc=bestguesspass action=none header.from=cixtech.com;
-Received-SPF: Pass (protection.outlook.com: domain of cixtech.com designates
- 222.71.101.198 as permitted sender) receiver=protection.outlook.com;
- client-ip=222.71.101.198; helo=smtprelay.cixcomputing.com; pr=C
-Received: from smtprelay.cixcomputing.com (222.71.101.198) by
- TY2PEPF0000AB84.mail.protection.outlook.com (10.167.253.9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.25.13 via Frontend Transport; Tue, 12 May 2026 07:03:16 +0000
-Received: from nchen-desktop (unknown [172.16.64.25])
-	by smtprelay.cixcomputing.com (Postfix) with ESMTPSA id A77A841609D5;
-	Tue, 12 May 2026 15:03:15 +0800 (CST)
-Date: Tue, 12 May 2026 15:03:14 +0800
-From: Peter Chen <peter.chen@cixtech.com>
-To: sashiko@lists.linux.dev
-Cc: robh@kernel.org, conor+dt@kernel.org, krzk+dt@kernel.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH 1/4] usb: cdns3: plat: Expose platform core driver as
- library
-Message-ID: <agLQst47wI/vC3pp@nchen-desktop>
-References: <20260511024244.981941-2-peter.chen@cixtech.com>
- <20260511230233.B40E6C2BCB0@smtp.kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 268F136F900
+	for <sashiko@lists.linux.dev>; Tue, 12 May 2026 07:28:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778570925; cv=none; b=htrZsEeUj3KTt/oeI0ACukqu7xiueujpDUCsq/E7eZ54wfusiImaZbddd6HK/sksPhAT+m03Yov8S6x9F+Nh96nheMyKXsWyNIe/Xg0QmYvEGzjNvHj2+UUZsimmLVfPVTvUbx5oh7JhVaIujROSnePjxcjDB3tLm2LMTChX3EQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778570925; c=relaxed/simple;
+	bh=84A22km1KJS7ohvLcn8NFUzDOJ5WRQI7XtWD+bqnCbc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RRM7n6fX1mK2Ct0vZMONJ8F4bwtvMrxzJcNzp3nh8Ms8gTFubZ8CFSBe1lB0l7jt1oQYu6B39F1yS8FV5qQhURU25POOzp+/XYliC0caFHflOr/ai1JogNmsFMFEkLzanYyRObIv/SsezYj514mJ89uuNpZDUtRuMQeDYGPaP38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Yeka63cf; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Yeka63cf"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-488b0046078so42792855e9.1
+        for <sashiko@lists.linux.dev>; Tue, 12 May 2026 00:28:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1778570921; x=1779175721; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:from:references:cc:to:subject:reply-to:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zWvTL0tj1UiSp5XvFkKfJfNmF1yoJumXRSTgl3CBIdU=;
+        b=Yeka63cfwwIN03M+RHI6OPc/sqsxdXLYw8lOgyyr+GFvsmtR0Zql1RUmImtBhVUSrW
+         qiHGOD7FoquGEQF19oFvomC4lWxDK1ebUCMSwtvA4g9PRlMJsvouOpo2uN/oJsbCAH5J
+         hZSxWkNiDwOkkUEjP1Q6oSaENeORk6znT2/3rfNoNFRYTICM15NAneMZavRKcVoPpmus
+         uWrxelsLB32BB5jb2gLs0lmz6Y/XnvrptqS6gDlKrho5uolk6lyLvzrXf4hZICPlawxa
+         fnKpEAuopaSMnu3OM4t9nk5A8vVHNFuEZA6jQKxk41+wOyzXTwdoeaWmbdrlna4UX/sJ
+         3wQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778570921; x=1779175721;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:from:references:cc:to:subject:reply-to:user-agent
+         :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zWvTL0tj1UiSp5XvFkKfJfNmF1yoJumXRSTgl3CBIdU=;
+        b=VlPCU36Ewugs9989YhnMUW9ayiJLZbJXkxj4SBX27OESIRDAWa6VLPhPKS8IKZWuHI
+         NcxubUd376d0K4SAbn+N+pRKCFtqOpo7EJcIrNotMnOXsH9XC+eWylipFpMBFWalw+Ql
+         LUDSOdGKg/BXlKWsAN6DyBYhVv1zEl1wS210Wnz8isBbtiyI8CPbL2A++ezus99ZC/Pw
+         v6ntmDz+onsiV593zomyrVGTF6UHs3VGONhVLVoBHa+Qq4Nbu1N7OYV299MkvE28J1ob
+         jZPtBmCeZFmFC3YSlFVZYEzou3xx8hQBxdtzhc0jwwspQIEVvmgTEf5VDjH6tQSdU7iR
+         3CoA==
+X-Forwarded-Encrypted: i=1; AFNElJ+bZsJ61a1H69rjrDbtEmSvPZ2WT472/9GBDFiUPQGDyr9EineC0yYOBpG10SQO+jOow9L6Oyv6@lists.linux.dev
+X-Gm-Message-State: AOJu0YzHi6oFVO5zjYn7tTHHgWfE0xkDxRRCHacA9y3M0Piimy1z/XL+
+	g9HquAXm1icdAah2mTRrVmulZSH3a6/CG4xA4oiv0n3tG7Ab7Kp3sjJJ6KUKAY5OsqU=
+X-Gm-Gg: Acq92OGdX8DIZJancUILLqZTl2LJ5xklUQ8nmAQ6svvEDqrJDqsQmtFDVi4VnjAEhWY
+	3hCOOsStEZyBQV0OWWJvhiiCmeFZ5WC7G6lFpvTwtLXaVxUqcd+2RGkZKFTqinVziuv1c5OHnZZ
+	9mu7UUi32zHlzL/DM9CK/08k/CVCSSVtoMPupxHGUytSx/PtOReCJiCfNjTbO1zZrIo40CCcflw
+	Yyz+ds31lmnZoXdivHRrktYNRvYh4g3yeGb4SRrpAYv2SDAWXWj6beXrWMc51+QE+mUw/datBKf
+	fO/UX51uEvxOn4EN1KII+woVr/Y5tiFqge63YG/zhgpnKNhjO7wjq7twx2/WVSIdpI5XPyd+/od
+	ubYse9hqXJgpYKwLRxnSPxT0gM6kglKvIeOzIHJOXwm5rH5eR7cw+zFq/mUqg9k5ALCSJItsZVK
+	v3AM4IS7L1tZLSsqAdbxbzoOvLgm1bUyWwKNV/17Qx0rQTd+qh1knheX7burqIMIyXVKFOm207D
+	NP9u9M=
+X-Received: by 2002:a05:600c:4fc4:b0:48a:5342:36b5 with SMTP id 5b1f17b1804b1-48e706c48d5mr195702525e9.21.1778570921279;
+        Tue, 12 May 2026 00:28:41 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:106d:1080:7b25:be71:cc9e:5d64? ([2a01:e0a:106d:1080:7b25:be71:cc9e:5d64])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4548e6a66bfsm26994509f8f.4.2026.05.12.00.28.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 12 May 2026 00:28:40 -0700 (PDT)
+Message-ID: <1d04c00d-ee66-4467-b60e-f36326b90f11@linaro.org>
+Date: Tue, 12 May 2026 09:28:40 +0200
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260511230233.B40E6C2BCB0@smtp.kernel.org>
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY2PEPF0000AB84:EE_|SEYPR06MB8065:EE_
-X-MS-Office365-Filtering-Correlation-Id: bd6d669a-2503-4cbe-12eb-08deaff48b14
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|36860700016|82310400026|56012099003|3023799003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	/tjdQZ90mVkfnVgxxLx17goLq+S0LsZyiT8i9daJ8Dnr5FABmRMegAM3QeIjB8CQAyZwQujOsRXzws/53HKm6HaZvM+CmultBMg7TbUfE4gWtrEpwG18M8f3B5yrw1PkYnjvHyIzJ62WRHKc5wxhQLTaOsBch9PCcmHLW62rARidWTxsmOdyvJZ+QVRqUBd1p/EAzUyMjgYzvGzINKGTe+EotMxtekxnS1DT4ijjldeJ6GIwKNkuqRcdM6LePhuF81k37071h17w/5uDVKMPopwHQ+e8LgNFJGWt8PHqHIGEbCxxqeDAx/lWoy3T2aDfibXvoqWb8uMNCy4drDXedXcKsO3y/7YFNUJCuqdk1aqlG9cz8+aScM9UW2fJCMebllAItaL/WVJD31ggmk435qPi12n9u9BESSXA5hDJ5jjsnB9adSbBYx5UzFmM199aoC1VQrWi+ZcIGza7r0px7AaARkRz9HKhlfST9rhYN0Vzy10AVWvmGFx19v/Yzv7jvcnufvmS0XyS2XhEqQJO6gh0v8OM1VPFuRmnJFfTIUlnB+VGYv4gBdt6wxIgUIS+dpNiAPgKahD+QGFJqw+0o/TVEgiE8HffogeNbycDlT/kJXjmw7oAGMhs5t/eQtmX8p8Iip6QUWVd2VXeH8aE3i4gCW04+jSNEKlvrviBOHVXjsQlXHmS5vFivFjFsGzyWVCn8sTsNbMVSUNH+mxorV3xUpbhclxrWuRZ3+1fq74=
-X-Forefront-Antispam-Report:
-	CIP:222.71.101.198;CTRY:CN;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:smtprelay.cixcomputing.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(376014)(36860700016)(82310400026)(56012099003)(3023799003)(18002099003)(22082099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	z+JtBNttoJWfAGirwkySqwvIw8YNGiIcWdYw8B79h5B2bpYiZrKI2tE3R6RWean7kA8edu34pmBUgV2cJC02NGD6aN9wF7aF0btthVFxR4Bh7AUqk6VXk8ezZM/HINPNTBJd0jqqoDEafD243+xvuAdpRYC4+7MzBbOEUN24Q/2CPbtW+/ALbUCNoLlvIx2izmBNp5qObUOKb84o8jOWS0LzYvg2WUjRtc4CUAjq9vRTQBQdxTWzTPUlofyextfmsRdhZnDG22BOnrZLeIraKgeO1+nTFbMf47/I6ST8ZMZBnndNkkM9vt1kvkiiAbMrpoG6QWcj7oTRwYID0rVxeUFqsvrDlEJyAKVmYowRfeq7P5SrUae2sJVYcQ1kM867H9mhKuQ71RZ2cpnG0lCO643L+qBt0wy1E5jl1xSyUZ1V0/pnivbC/WcHNolf3OzZ
-X-OriginatorOrg: cixtech.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2026 07:03:16.9606
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: bd6d669a-2503-4cbe-12eb-08deaff48b14
-X-MS-Exchange-CrossTenant-Id: 0409f77a-e53d-4d23-943e-ccade7cb4811
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=0409f77a-e53d-4d23-943e-ccade7cb4811;Ip=[222.71.101.198];Helo=[smtprelay.cixcomputing.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	TY2PEPF0000AB84.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR06MB8065
+User-Agent: Mozilla Thunderbird
+Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v2 3/3] arm64: dts: qcom: add basic devicetree for Ayaneo
+ Pocket DS gaming console
+To: Alexandre Hamamdjian via B4 Relay
+ <devnull+azkali.limited.gmail.com@kernel.org>
+Cc: krzk+dt@kernel.org, devicetree@vger.kernel.org, robh@kernel.org,
+ conor+dt@kernel.org, sashiko@lists.linux.dev
+References: <20260511-pocketds-v2-3-299dd4247f2f@gmail.com>
+ <20260512035021.60C11C2BCB0@smtp.kernel.org>
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <20260512035021.60C11C2BCB0@smtp.kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 26-05-11 23:02:32, sashiko-bot@kernel.org wrote:
-> EXTERNAL EMAIL
-> 
-> Thank you for your contribution! Sashiko AI review found 5 potential issue(s) to consider:
-> - [High] Leaked usb2_phy initialization on usb3_phy acquisition failure.
-> - [High] Leaked role switch and DRD resources on core role initialization failure.
-> - [High] Unbalanced pm_runtime_forbid() call permanently leaks the runtime PM usage counter across bind/unbind cycles.
-> - [High] Hardware PHY is powered off without calling synchronize_irq() during runtime suspend.
-> - [Medium] Exported PM helpers in glue.h lack static inline stubs for disabled PM configurations.
+Hi,
+
+On 5/12/26 05:50, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 10 potential issue(s) to consider:
+> - [Medium] Missing DisplayPort AUX (SBU) Routing in Type-C connector.
+> - [Medium] Missing thermal `cooling-maps` and incorrect trip point types.
+> - [Medium] Invalid DAPM widget in `audio-routing`.
+> - [Medium] Missing `pinctrl-1` property in `pwm_fan` node.
+> - [Medium] Improper Audio Amplifier Initialization via pinctrl.
+> - [Low] Downstream device tree property `rocknix-u-boot-dt-id` included in root node.
+> - [Low] Missing `compatible` string in `panel@0` node.
+> - [Low] Unreferenced `volume_up_n` pinctrl state, missing Volume Up button.
+> - [Low] Extraneous `orientation-gpios` property in `pmic-glink`.
+> - [Low] Deprecated `gpio` property used in fixed regulators.
 > --
 > 
-> commit a327903170c6c0082aaebdb421558ca806f906da
-> Author: Peter Chen <peter.chen@cixtech.com>
+> commit 22f111b3d5157012d6f5d9d466cfb26e61ed3b56
+> Author: Teguh Sobirin <teguh@sobir.in>
 > 
-> usb: cdns3: plat: Expose platform core driver as library
+> arm64: dts: qcom: add basic devicetree for Ayaneo Pocket DS gaming console
 > 
-> This commit splits the Cadence USB3 platform probe, remove, and PM paths into
-> exported core functions. It also adds a new header glue.h to document the
-> probe data structure and public entry points, allowing SoC glue code to
-> instantiate the core deterministically.
+> Add initial Device Tree for the Ayaneo Pocket DS gaming console based
+> on the Qualcomm QCS8550 platform.
 > 
-> > diff --git a/drivers/usb/cdns3/cdns3-plat.c b/drivers/usb/cdns3/cdns3-plat.c
-> > index 3fe3109a3688a..2219cbff1c592 100644
-> > --- a/drivers/usb/cdns3/cdns3-plat.c
-> > +++ b/drivers/usb/cdns3/cdns3-plat.c
+>> diff --git a/arch/arm64/boot/dts/qcom/qcs8550-ayaneo-pocketds.dts b/arch/arm64/boot/dts/qcom/qcs8550-ayaneo-pocketds.dts
+>> new file mode 100644
+>> --- /dev/null
+>> +++ b/arch/arm64/boot/dts/qcom/qcs8550-ayaneo-pocketds.dts
+>> @@ -0,0 +1,1861 @@
+>> +// SPDX-License-Identifier: BSD-3-Clause
 > [ ... ]
-> > @@ -59,29 +60,21 @@ static int cdns3_plat_host_init(struct cdns *cdns)
-> >  }
-> >
-> >  /**
-> > - * cdns3_plat_probe - probe for cdns3 core device
-> > - * @pdev: Pointer to cdns3 core platform device
-> > + * cdns3_core_probe - Initialize the Cadence USB3 platform core
-> > + * @data: Controller context and platform device supplied by the glue layer
-> >   *
-> >   * Returns 0 on success otherwise negative errno
-> >   */
-> > -static int cdns3_plat_probe(struct platform_device *pdev)
-> > +int cdns3_core_probe(const struct cdns3_probe_data *data)
-> >  {
-> > +     struct platform_device *pdev = data->pdev;
-> >       struct device *dev = &pdev->dev;
-> > -     struct resource *res;
-> > -     struct cdns *cdns;
-> > +     struct cdns *cdns = data->cdns;
-> > +     struct resource *res;
-> >       void __iomem *regs;
-> >       int ret;
-> >
-> > -     cdns = devm_kzalloc(dev, sizeof(*cdns), GFP_KERNEL);
-> > -     if (!cdns)
-> > -             return -ENOMEM;
-> > -
-> > -     cdns->dev = dev;
-> > -     cdns->pdata = dev_get_platdata(dev);
-> > -     if (cdns->pdata && cdns->pdata->override_apb_timeout)
-> > -             cdns->override_apb_timeout = cdns->pdata->override_apb_timeout;
-> > -
-> > -     platform_set_drvdata(pdev, cdns);
-> > +     dev_set_drvdata(dev, cdns);
-> >
-> >       ret = platform_get_irq_byname(pdev, "host");
+>> +/ {
+>> +	model = "AYANEO Pocket DS";
+>> +	compatible = "ayaneo,pocketds", "qcom,qcs8550", "qcom,sm8550";
+>> +	rocknix-u-boot-dt-id = "u-boot-pocket-ds";
 > 
-> Further down in this function, if devm_phy_optional_get() for cdns->usb3_phy
-> fails (e.g. with -EPROBE_DEFER), it returns directly via dev_err_probe(),
-> bypassing the error cleanup path in err_phy3_init.
-> 
-> Does this leak the usb2_phy initialization since phy_exit(cdns->usb2_phy) is
-> never called?
-> 
-> If probe is deferred and retried, will this repeatedly increment the PHY's
-> init_count, preventing it from ever powering down?
-> 
-> Also in this function, after cdns_init(cdns) successfully registers resources
-> like a role switch, if cdns_core_init_role(cdns) fails, the error path
-> jumps to err_cdns_init:
-> 
-> err_cdns_init:
->         set_phy_power_off(cdns);
-> err_phy_power_on:
-> ...
-> 
-> This error path only powers off the PHYs. Can this permanently leak the role
-> switch and DRD resources by omitting a call to cdns_remove(cdns) or
-> usb_role_switch_unregister()?
+> Is this downstream U-Boot property intended for upstream submission?
+> It does not appear to be documented in the upstream DT bindings.
 
-Ack.
-
-It is the issue current code exists, I will fix it first.
+It's right, please drop this
 
 > 
-> Towards the end of this function, pm_runtime_forbid(dev) is conditionally
-> called to increase the device's runtime PM usage count:
-> 
->         if (!(cdns->pdata && (cdns->pdata->quirks & CDNS3_DEFAULT_PM_RUNTIME_ALLOW)))
->                 pm_runtime_forbid(dev);
-> 
-> Should there be a corresponding pm_runtime_allow(dev) in the remove path to
-> balance this count?
-
-Ack.
-
-> 
+>> +
+>> +	aliases {
 > [ ... ]
-> > @@ -195,14 +188,41 @@ static int cdns3_plat_probe(struct platform_device *pdev)
-> [ ... ]
-> > +/**
-> > + * cdns3_core_remove - Tear down the Cadence USB3 platform core
-> > + * @cdns: Controller context previously initialized by cdns3_core_probe()
-> > + */
-> > +void cdns3_core_remove(struct cdns *cdns)
-> >  {
-> > -     struct cdns *cdns = platform_get_drvdata(pdev);
-> >       struct device *dev = cdns->dev;
-> >
-> >       pm_runtime_get_sync(dev);
-> > @@ -213,24 +233,30 @@ static void cdns3_plat_remove(struct platform_device *pdev)
-> >       phy_exit(cdns->usb2_phy);
-> >       phy_exit(cdns->usb3_phy);
-> >  }
-> > +EXPORT_SYMBOL_GPL(cdns3_core_remove);
+>> +	tca6424_vcc: regulator-tca6424-vcc {
+>> +		compatible = "regulator-fixed";
+>> +		regulator-name = "tca6424_vcc";
+>> +
+>> +		regulator-min-microvolt = <3300000>;
+>> +		regulator-max-microvolt = <3300000>;
+>> +
+>> +		gpio = <&tlmm 168 GPIO_ACTIVE_HIGH>;
 > 
-> Since pm_runtime_forbid(dev) was called in the probe function, could the
-> absence of pm_runtime_allow(dev) here permanently leak the runtime PM usage
-> counter across bind/unbind cycles?
-> 
-> If the driver is repeatedly unbound and bound, will the usage counter
-> continuously increment, eventually preventing the device from entering a
-> runtime suspended state?
+> This isn't a bug, but could we use gpios here instead of the deprecated
+> gpio property? This also applies to vdd_ts and vdd_fan_5v0 later in the file.
 
-The same comments for above issue.
+"gpio" is still valid but we use gpios now
+
+> 
+>> +		enable-active-high;
+>> +		regulator-boot-on;
+> [ ... ]
+>> +	pmic-glink {
+>> +		compatible = "qcom,sm8550-pmic-glink", "qcom,pmic-glink";
+>> +		#address-cells = <1>;
+>> +		#size-cells = <0>;
+>> +		orientation-gpios = <&tlmm 11 GPIO_ACTIVE_HIGH>;
+> 
+> Does the qcom,pmic-glink driver read orientation-gpios?
+> 
+> The driver appears to rely on IPC with the firmware to determine Type-C
+> orientation, which would make this property unused here.
+
+This is plain false, we use orientation-gpios since sm8550 since can't have the orientation
+via ucsi messages.
+
+> 
+>> +
+>> +		connector@0 {
+>> +			compatible = "usb-c-connector";
+>> +			reg = <0>;
+>> +			power-role = "dual";
+>> +			data-role = "dual";
+>> +
+>> +			ports {
+>> +				#address-cells = <1>;
+>> +				#size-cells = <0>;
+>> +
+>> +				port@0 {
+>> +					reg = <0>;
+>> +
+>> +					pmic_glink_hs_in: endpoint {
+>> +						remote-endpoint = <&usb_1_dwc3_hs>;
+>> +					};
+>> +				};
+>> +
+>> +				port@1 {
+>> +					reg = <1>;
+>> +
+>> +					pmic_glink_ss_in: endpoint {
+>> +						remote-endpoint = <&redriver_ss_out>;
+>> +					};
+>> +				};
+>> +			};
+>> +		};
+> 
+> The commit message states DisplayPort is muxed over the USB-C connector, but
+> port@2 (SBU) is missing. Is SBU routing needed here for the DP AUX channel
+> (link training and EDID) to ensure DisplayPort Alt Mode functions correctly?
+
+Yeah please check, an SBU mux is certainly missing, or maybe the redriver is used
+as SBU mux, the nb7vpq904m supports SBU muxing on port2/
+
+> 
+>> +	sound {
+>> +		compatible = "qcom,sm8550-sndcard", "qcom,sm8450-sndcard";
+>> +		model = "SM8550-APS";
+>> +		audio-routing = "SpkrLeft IN", "WSA_SPK1 OUT",
+>> +				"SpkrRight IN", "WSA_SPK2 OUT",
+>> +				"VA DMIC0", "vdd-micb",
+>> +				"VA DMIC1", "vdd-micb";
+> 
+> Is vdd-micb a valid DAPM widget name here?
+> 
+> It looks like the regulator supply name for the VA macro. Will DAPM fail to
+> parse this route and leave the digital microphones' bias voltage disabled?
+
+It's right, drop this
 
 > 
 > [ ... ]
-> > @@ -242,7 +268,7 @@ static int cdns3_controller_suspend(struct device *dev, pm_message_t msg)
-> >       else
-> >               wakeup = device_may_wakeup(dev);
-> >
-> > -     cdns3_set_platform_suspend(cdns->dev, true, wakeup);
-> > +     cdns3_set_platform_suspend(cdns, true, wakeup);
-> >       set_phy_power_off(cdns);
-> >       spin_lock_irqsave(&cdns->lock, flags);
+>> +	pwm_fan: pwm-fan {
+>> +		compatible = "pwm-fan";
+>> +
+>> +		pinctrl-0 = <&fan_pwm_active>, <&fan_int>;
+>> +		pinctrl-names = "default", "sleep";
 > 
-> The controller uses shared IRQs, such as IRQF_SHARED for cdns->wakeup_irq.
-> The PM subsystem guidelines require drivers using shared IRQs to call
-> synchronize_irq() before powering down hardware.
+> Are we missing pinctrl-1 here?
 > 
-> Might calling set_phy_power_off(cdns) here before synchronize_irq() risk
-> hardware PHY being powered off while an interrupt handler is executing
-> concurrently on another CPU?
+> Since pinctrl-names defines a sleep state, won't the PM core fail when
+> attempting to look up pinctrl-1 during transitions?
 
-Ack.
-
-Will call synchronize_irq() at the beginning of function cdns3_controller_suspend.
+It's right, please fix
 
 > 
 > [ ... ]
-> > diff --git a/drivers/usb/cdns3/glue.h b/drivers/usb/cdns3/glue.h
-> > new file mode 100644
-> > index 0000000000000..67cd1073b5551
-> > --- /dev/null
-> > +++ b/drivers/usb/cdns3/glue.h
-> > @@ -0,0 +1,51 @@
+>> +&cpuss0_thermal {
+>> +	polling-delay = <200>;
+>> +
+>> +	trips {
+>> +		cpuss0_fan0: trip-point2 {
+>> +			temperature = <40000>;
+>> +			hysteresis = <3000>;
+>> +			type = "passive";
+>> +		};
+> 
+> Should the trip point type be active instead of passive since these are
+> intended for a fan?
+
+Yes, please link those to the fan like on Ayaneo PS2
+
+> 
+> Also, are the cooling-maps omitted intentionally across the thermal zones?
+> Without them, the kernel thermal framework cannot bind these trip points
+> to the pwm_fan cooling device.
+> 
 > [ ... ]
-> > +/*
-> > + * The following callbacks are for glue drivers to invoke from their own
-> > + * &dev_pm_ops, so platform-specific work can wrap the shared controller logic.
-> > + */
-> > +int cdns3_runtime_suspend(struct cdns *cdns);
-> > +int cdns3_runtime_resume(struct cdns *cdns);
-> > +int cdns3_pm_suspend(struct cdns *cdns);
-> > +int cdns3_pm_resume(struct cdns *cdns);
-> > +
-> > +#endif /* __DRIVERS_USB_CDNS3_GLUE_H */
+>> +&pm8550_gpios {
+> [ ... ]
+>> +	volume_up_n: volume-up-n-state {
+>> +		pins = "gpio6";
+>> +		function = "normal";
+>> +		power-source = <1>;
+>> +		bias-pull-up;
+>> +		input-enable;
+>> +	};
 > 
-> These functions are conditionally compiled in cdns3-plat.c depending on
-> CONFIG_PM and CONFIG_PM_SLEEP. However, they are unconditionally declared
-> here without empty static inline fallback stubs.
+> This pinctrl state is defined but does not appear to be referenced anywhere.
+> Are we missing a gpio-keys device node to instantiate the Volume Up button?
+
+Add the gpios keys for the volume+
+
 > 
-> If a glue driver uses __maybe_unused annotations instead of #ifdef CONFIG_PM
-> for its own callbacks, will the compiler still attempt to resolve these calls
-> and produce undefined reference linker errors when PM is disabled?
+> [ ... ]
+>> +&tlmm {
+> [ ... ]
+>> +	spkr_1_sd_n_active: spkr-1-sd-n-active-state {
+>> +		pins = "gpio7";
+>> +		function = "gpio";
+>> +		drive-strength = <16>;
+>> +		bias-disable;
+>> +		output-high;
+>> +	};
+> 
+> Will setting output-high statically configure the active-low speaker shutdown
+> pins to drive high at boot?
+> 
+> This might prematurely power up the amplifiers before the audio framework is
+> initialized, potentially causing an audible pop noise.
+
+Drop all the output-high in tlmm, this comes from downstream
+
+> 
+> [ ... ]
+>> +&mdss_dsi0 {
+>> +	vdda-supply = <&vreg_l3e_1p2>;
+>> +
+>> +	status = "okay";
+>> +
+>> +	display_panel: panel@0 {
+>> +		reg = <0>;
+>> +
+>> +		pinctrl-0 = <&sde_dsi_active>, <&sde_te_active>;
+>> +		pinctrl-1 = <&sde_dsi_suspend>, <&sde_te_suspend>;
+>> +		pinctrl-names = "default", "sleep";
+>> +	};
+>> +};
+> 
+> Does this panel node need a compatible string?
+> 
+> Even if panel support is being added later, leaving a child node on an
+> enabled DSI host incomplete violates the DT schema and will likely cause
+> the DSI core to fail when parsing child devices.
 > 
 
-Ack
+Please drop all DSI related stuff including this panel and associated regulator &
+pinctrl nodes and add them when the panel stuff is ready.
 
-The PM helper declarations in glue.h should indeed be made robust for glue
-drivers using __maybe_unused PM callbacks. The current Sky1 glue driver uses
-CONFIG_PM/CONFIG_PM_SLEEP guards, but the public glue header should not rely
-on every user doing that. I will add static inline stubs for the disabled PM
-configurations in v2.
+It seems you never tested your DT, please run :
+make CHECK_DTBS=yes qcom/qcs8550-ayaneo-pocketds.dtb
+before sending a v3.
 
--- 
+Neil
 
-Best regards,
-Peter
