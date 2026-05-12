@@ -1,127 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B009186A;
-	Tue, 12 May 2026 00:01:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B7621448D5
+	for <sashiko@lists.linux.dev>; Tue, 12 May 2026 00:44:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778544074; cv=none; b=vCxEURjI5AtzB0rkmSB1erjKUkBsvd0qg2hnfMWb6Log2xoGwfLoImZ+LWN0eA88KTV/xWsodmAWGUIqklL83WCRFQ0ngP/9ZETXXE3vELg4FmxVP4vFfsood3OttRQLI96Ga0TrXJZGUDaeQccKXElv+yF0Fv+8uxEpFNEbkmQ=
+	t=1778546687; cv=none; b=Ufe1m3TUgDlQSf6wuMNRVg3uasZI9L1M0/L8Hc4kBx7MG/bugYbgiS7dnZ3d4XbXKfYuf3ZmiC+awnOaywJhFDuFpESJCEVhx5Z6AM0XKdukfkysRmjx0392VN22v0RaWe3hJuqifMZ8cLxUWzPDSQt71tjHKdCbV9wrY1Yy7bg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778544074; c=relaxed/simple;
-	bh=6QhPxi1Bpzo7VZXAI2HFsk3GhApkVtrmWh/bdauxZAI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=BgdFbV/T86yojctOZrF3Uk+XhNFIDgEA9B5wca4TvP5z7t4jf+bVs7/XxjJfM4lzg2kOZ35gB3NGn5Iz8Nk5f3VqiOJHlz+Er322qd9QhBd5XEjQnFlzWiiySNhTiwaxmW2cO+cQRO0L5N3U6RxA6vPR2JDNtvdnYGp11+hGcdg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=om+9AuqH; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778546687; c=relaxed/simple;
+	bh=Qb6skaRFvARfQituJbTnVTEdzNhiETeENg6NcMq2z3o=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ltZP+a3pPpbmzs+zXk5CWMC+V6en5zC3QsoNSYbpXrOktNiWrmxPbB2uuclAroxqNGw3nDJyXh2G1ar8S8QCzzRheVmKBG5G8GqT1YtuUOBf/hFuSBYxEr2BfwHbB+1Ozh8E2XlDHcfPpS4+RP0PX1DdKI7ZUJO87oOfDZMn3jU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=nnNhBqO+; arc=none smtp.client-ip=220.197.31.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="om+9AuqH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABA63C2BCB0;
-	Tue, 12 May 2026 00:01:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778544073;
-	bh=6QhPxi1Bpzo7VZXAI2HFsk3GhApkVtrmWh/bdauxZAI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=om+9AuqHRa3ATwMB7jiREjGMmiBsOa/KTwgHlOIaTRFSo3rvE/UuJwUAAYaKFp9Q6
-	 xfHeAZyGx3VNMCWcdjQXoynPEC/KCKvnbMg6Sqo7YCFwAcd1qD7EjDIZgm9Twqdlyh
-	 gN/fGkN5wNq4Ivk2BQYHh3NmyiOCvmk0S2eAWJnUejbRXHTP/kxW/W5nSK4RaQWOON
-	 mdCJ7QPMZA3YJaU1wOEodj+BmRSXm32VnfN4EZnv9iZdGrM7dEwx+yM1PzS9k4Xc/F
-	 9xDGHumnWTkrNUWBk9/z8ET7aQ9Z+NaABvVtTorYX7jghgdjglXmDbIcWPy/GCyrz3
-	 LKP/ducZLGHkA==
-Date: Mon, 11 May 2026 19:01:12 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Lukas Wunner <lukas@wunner.de>, sashiko-bot@kernel.org,
-	linux-pci@vger.kernel.org, sashiko@lists.linux.dev,
-	Marco Nenciarini <mnencia@kcore.it>,
-	Michal Winiarski <michal.winiarski@intel.com>,
-	Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>,
-	Eric Chanudet <echanude@redhat.com>,
-	Jean Guyader <jean.guyader@gmail.com>,
-	Alex Williamson <alex@shazbot.org>, Sinan Kaya <okaya@kernel.org>,
-	Mario Limonciello <superm1@kernel.org>,
-	Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: Re: [PATCH] PCI: Drop unnecessary retries when restoring BARs
-Message-ID: <20260512000112.GA194667@bhelgaas>
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="nnNhBqO+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Message-ID:Date:MIME-Version:Subject:To:From:
+	Content-Type; bh=IVtRKKYH3GrG84xaJANJeNCyAfAgs7lgPSkb+N9RnpQ=;
+	b=nnNhBqO+Iyc5SeW2Sewqpuzwcr/jesOwtA13DiAOXzfxus0/YO+6lilE435+vL
+	eatKs8hbQLgH5+TfllMLAh277tO3q/ikO80MHIMYK/EP7iAyxFA35qUFsdk7w8Wi
+	SNtlo/aOGTxmGkMnPYPvyaLgpIx/GFZx+3JW49wfdvJtA=
+Received: from [192.168.50.71] (unknown [])
+	by gzsmtp2 (Coremail) with SMTP id PSgvCgC3qgv0dwJqg4yVEA--.4946S2;
+	Tue, 12 May 2026 08:44:36 +0800 (CST)
+Message-ID: <7bbe1c68-6829-4d1b-ba81-acc5af89d5a1@163.com>
+Date: Tue, 12 May 2026 08:44:35 +0800
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJZ5v0gU3fjh0czpp+7gC9EfRSwT2dUZQj0hSJR8VNwBLXM4PQ@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/7] PCI: cadence: Add post-link delay for LGA and
+ j721e glue driver
+To: sashiko@lists.linux.dev
+Cc: wsa+renesas@sang-engineering.com, linux-pci@vger.kernel.org
+References: <20260511055923.37117-3-18255117159@163.com>
+ <20260512002408.101ADC2BCB0@smtp.kernel.org>
+Content-Language: en-US
+From: Hans Zhang <18255117159@163.com>
+In-Reply-To: <20260512002408.101ADC2BCB0@smtp.kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:PSgvCgC3qgv0dwJqg4yVEA--.4946S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7KFW8KFWUJw4xWryrKrykZrb_yoW8ArWfpF
+	W7u3yfWF48XrW5WanrA3W5X3Waq3Z5C3yUGrsagw18XF1akr9xGFy2qFyfCa9akFZrAw1x
+	Xwnxtw12gw1avFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pKYLyiUUUUU=
+X-CM-SenderInfo: rpryjkyvrrlimvzbiqqrwthudrp/xtbC6xQ22WoCd-TncQAA3t
 
-On Mon, May 11, 2026 at 05:24:49PM +0200, Rafael J. Wysocki wrote:
-> On Fri, May 8, 2026 at 11:43 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
-> > On Fri, May 08, 2026 at 02:51:37PM +0200, Rafael J. Wysocki wrote:
-> > > On Fri, May 8, 2026 at 2:17 AM Bjorn Helgaas <helgaas@kernel.org> wrote:
-> > > > On Tue, May 05, 2026 at 12:43:17PM +0200, Rafael J. Wysocki wrote:
-> > > > > On Mon, May 4, 2026 at 11:17 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
-> ...
 
-> > > >     platform_pci_set_power_state(dev, PCI_D0);
-> > > >
-> > > >     pci_read_config_word(dev, dev->pm_cap + PCI_PM_CTRL, &pmcsr);
-> > > >     state = pmcsr & PCI_PM_CTRL_STATE_MASK;
-> > > >     if (state == PCI_D0)
-> > > >       goto end;
-> > > >
-> > > >     pci_write_config_word(dev, dev->pm_cap + PCI_PM_CTRL, 0);
-> > > >     if (state == PCI_D3hot)
-> > > >       pci_dev_d3_sleep(dev);
-> > > >     ...
-> > > >
-> > > >   end:
-> ...
 
-> > OK, so after platform_pci_set_power_state(PCI_D0), the device may be
-> > in D3hot in some cases.  Then there's a D3hot -> D0 transition, and we
-> > do pci_dev_d3_sleep(), but not pci_dev_wait().  Sec 2.3.1 says RRS is
-> > permitted after a D3hot to D0uninitialized, and pci_dev_wait() is what
-> > waits and retries for the RRS case.
-> >
-> > It looks to me like we need pci_dev_wait() after that transition when
-> > No_Soft_Reset == 0, i.e., something like the below.  Do you think this
-> > is unnecessary?
+On 5/12/26 08:24, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
+> - [Low] Compilation error in `j721e_pcie_set_link_speed` due to incorrect structure member access on a pointer.
+> --
 > 
-> Well, let me turn this around: Is there any evidence that it is necessary?
+> commit b3897a7e50194e1f9cc94b232c615c7f8f651006
+> Author: Hans Zhang <18255117159@163.com>
+> 
+> PCI: cadence: Add post-link delay for LGA and j721e glue driver
+> 
+> The Cadence LGA PCIe host controller lacks the mandatory 100 ms delay after
+> link training completes for speeds > 5.0 GT/s. This commit adds a
+> max_link_speed field to struct cdns_pcie and inserts the required delay
+> after the link has been successfully established.
+> 
+>> diff --git a/drivers/pci/controller/cadence/pci-j721e.c b/drivers/pci/controller/cadence/pci-j721e.c
+>> index bfdfe98d5aba7..ee85b8e04f5b8 100644
+>> --- a/drivers/pci/controller/cadence/pci-j721e.c
+>> +++ b/drivers/pci/controller/cadence/pci-j721e.c
+>> @@ -206,6 +206,7 @@ static int j721e_pcie_set_link_speed(struct j721e_pcie *pcie,
+>>   	    (pcie_get_link_speed(link_speed) == PCI_SPEED_UNKNOWN))
+>>   		link_speed = 2;
+>>   
+>> +	pcie->cdns_pcie.max_link_speed = link_speed;
+> 
+> Will this cause a compilation error?
 
-PCIe r7.0, sec 2.3.1, includes this:
+Sorry. Will change.
 
-  ◦ For Configuration Requests only, if Device Readiness Status is not
-    supported, following reset it is permitted for a Function to
-    terminate the request and indicate that it is temporarily unable
-    to process the Request, but will be able to process the Request in
-    the future - in this case, the Request Retry Status (RRS)
-    Completion Status must be used (see § Section 6.6 ). Valid reset
-    conditions after which a device/Function is permitted to return
-    RRS in response to a Configuration Request are:
+Best regards,
+Hans
 
-    ▪ Cold, Warm, and Hot Resets
-    ▪ FLRs
-    ▪ A reset initiated in response to a D3Hot to D0uninitialized
-      device state transition
+> 
+> Looking at struct j721e_pcie, cdns_pcie is defined as a pointer:
+> 
+> struct j721e_pcie {
+> 	struct cdns_pcie	*cdns_pcie;
+> 	struct clk		*refclk;
+> 	...
+> };
+> 
+> Does this need to use the arrow operator instead of a dot
+> (pcie->cdns_pcie->max_link_speed) so it correctly accesses the
+> max_link_speed member?
+> 
+>>   	val = link_speed - 1;
+>>   	ret = regmap_update_bits(syscon, offset, GENERATION_SEL_MASK, val);
+>>   	if (ret)
+> 
 
-When No_Soft_Reset == 0, the D3hot->D0 transition is to
-D0uninitialized, so I think the device is allowed to respond with RRS.
-
-For the D3hot->D0 case, pci_power_up() already calls
-pci_dev_d3_sleep(), which waits the 10ms required by sec 5.9, but it
-does not currently account for an RRS response after that.
-
-My argument is that if the device *does* respond with RRS, subsequent
-config reads in callers of pci_power_up() will see invalid ~0 data
-even though the device may become ready in the future.
-
-For example, pci_set_full_power_state() reads PCI_PM_CTRL and may
-incorrectly complain "Refused to change power state from D3hot to D0".
-
-> I guess if it is not necessary, there will be no harm, but this is a
-> performance-sensitive code path.
-
-If the device is already Configuration-Ready, pci_dev_wait() will do
-one additional config read, see a valid Vendor/Device ID, and won't
-wait at all.
-
-Bjorn
