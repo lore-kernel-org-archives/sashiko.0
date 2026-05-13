@@ -1,236 +1,477 @@
-Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11013014.outbound.protection.outlook.com [52.101.72.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 211373A640A;
-	Wed, 13 May 2026 05:40:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.72.14
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778650808; cv=fail; b=QljAGIbL5/TYvXo6hs1mZJCYCKlsr7sztXKMos/W5hqSKbQs3SYcrhSOP7l3tisbfQJQutsZLWKSLydz2gUE7aG6qul+Xfzr2K1tjevT26uYN9JIduQbs9awo5XF1CCTiP8r/Re2r/Vv5kbQuyiYqeZe0rs3I6XoKTXrOVnVqeg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778650808; c=relaxed/simple;
-	bh=qSZCDzX9M5DE+nsliI7p4t6n9hhgZoIBUgN6CjOdpMg=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=R7hU/L7VaYhRbkGYYp+VrIokEKdjzx5L4wwDaAElCMrU86T808D1mfxKePBssKcIwFqtGmIjq6M6HBsW7ml71cSS7uVmnB16CPmkO3HxNLFnrcOq7+6Wgd32oxFZGRMvlZhUiK4Q7U8gyo+/M8BKGSmP5AnJ6HLN9SX098oYhbM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=Q95rC5rF; arc=fail smtp.client-ip=52.101.72.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 904323D3305
+	for <sashiko@lists.linux.dev>; Wed, 13 May 2026 06:26:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778653591; cv=none; b=b4ksSE7R4NTv/sTM1E21e7OKvz+K9C01iLRkhtPsT3bcIH/M7mQU/f0brqyl6+AEMwTiU4KYoFWoS5A12dPRVryU+zqivg3D5xQ+vAzbe0UeBvD8JhJ8vRGS6iNItefMRrFB3LDreEsrrbqTSHGl0Ge/nXxh4t7o4vEz+8UgVZQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778653591; c=relaxed/simple;
+	bh=L1meuBnTATeCE7naJLP4jSqrIb78/RPPU43L+0CmyJk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FyKbKAQMqyQj5Lz/tbnhFNr9uKtr6d82LnPtOCqbdeDpJG+ioxAuPkm3VK8tTpDkDczI2ZgKvP9+Om5LfPX7m0NrYAFxCmVSQ0EAQBwEI/9DFAw15gZCmEE9tRTxKlfMBTgk3fJFVrCdCsjq4TW/yPtnvut6zNciwx0eLpKKhJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sU0j+am1; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="Q95rC5rF"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=IwdT8YDHRPG43XziNd5eUvCWyWsm1a3tfvTvTSXIS/umyciVBStUZj04rEwf37hNCwq5652zcwFRk72JORw7p1jtJz8NGD+6OxpjAjOF5x86RslCiWzhel3c2Zr1XJrJcOBEp+DYtSvjEsMxLWv0kI6sQifHDAKmCwJ8gaRInJZsIH6zxhzM+hoPq16i5c7L2FZHK5vSLKAldu7vcoi+EZN3kx+MNHdYrab26TQCqJ6NRYIIzOs7rgbCaKOaE5P5wjRgEDQRejHMGJDCmvAz8eOw0sBnO7jcBnY5+FNZKJAV110TrHJg/N5iT7js2zzgdXlXJIozgO98p9YjAHKa0A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=g/pUm9Is7WhE9sRHj2xf3GWqWj2wOggO6mbOBo1C5fg=;
- b=RibuAtqh1Y7v84mZztLnbMbO8ZrZCIZOi5CTxBD/xC09kY5007EWQTwCpporQpe8xdiI7SXwFOwIWXWJup39aKVPAUf2/6sctyusWXSThPLA8b4zQEjDOoTFc2beGOVjvTaE93gv1LT6Kj7m/zXnIL/DWoV9+Q7W2EVshFTtfAhOChuYx7hzHZMGI61mHCO77f8XqGY/uKw4k9BMECdVNzJjSGkoXOpk/EnUwh9EDHl0B2mRLEvgl+t/t2vwqS4cRJYbwjxhk/sQtBvXxga3NFOUdMYMddCSIL9MLBCu+PPICt3M5ddZDsfXIxfxuDfVxmxOk7Ktbhw2aqGoetl5vQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=g/pUm9Is7WhE9sRHj2xf3GWqWj2wOggO6mbOBo1C5fg=;
- b=Q95rC5rF/pjUK7LwQ9or2+1fe0LGVjgQ771KubckOcVDCM93OA6LN9dMQRq4gdejkLMqvJrcF7LSO26EKBqhc3HKtCnqkDxyePTQVJQl0gmAY/jtgWRG5z4x0pgwuowFJxOsJ5/SelI57iLPplqbDWACxDMCNsS/RZQcJpJ9W6H81SKfu6fa7vTiaZ1UZKxsqUP/+47gIoT+kmrkgrzy81CqSP0E7D+rhG1UelPlGoTxby2c7b7TN4G3QpXoG++GRYU9KhzTamgjysuogUumPV5xdio2TkfLsvz75SEKEs3nnFaqtNx3GTUKOJ0TSq4EocCNnJI1bOlg+yFmKzfwyg==
-Received: from AM9PR04MB8353.eurprd04.prod.outlook.com (2603:10a6:20b:3ef::22)
- by PAXPR04MB8815.eurprd04.prod.outlook.com (2603:10a6:102:20e::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.21; Wed, 13 May
- 2026 05:40:02 +0000
-Received: from AM9PR04MB8353.eurprd04.prod.outlook.com
- ([fe80::46ae:f774:f04c:a1bc]) by AM9PR04MB8353.eurprd04.prod.outlook.com
- ([fe80::46ae:f774:f04c:a1bc%5]) with mapi id 15.20.9870.023; Wed, 13 May 2026
- 05:40:02 +0000
-From: Chancel Liu <chancel.liu@nxp.com>
-To: "sashiko@lists.linux.dev" <sashiko@lists.linux.dev>
-CC: "conor+dt@kernel.org" <conor+dt@kernel.org>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "robh@kernel.org" <robh@kernel.org>,
-	"krzk+dt@kernel.org" <krzk+dt@kernel.org>, "Frank.Li@kernel.org"
-	<Frank.Li@kernel.org>, "imx@lists.linux.dev" <imx@lists.linux.dev>
-Subject: RE: Re: [PATCH 2/5] dt-bindings: connector: Add fsl,io-connector
- binding
-Thread-Topic: Re: [PATCH 2/5] dt-bindings: connector: Add fsl,io-connector
- binding
-Thread-Index: AQHc4prx7F7mxT83Wkq0mLT7Ufb4hg==
-Date: Wed, 13 May 2026 05:40:02 +0000
-Message-ID:
- <AM9PR04MB8353B5A99F294D4F59797437E3062@AM9PR04MB8353.eurprd04.prod.outlook.com>
-References: <20260509024846.2094049-3-chancel.liu@nxp.com>
- <20260509031855.1973DC2BCB0@smtp.kernel.org>
-In-Reply-To: <20260509031855.1973DC2BCB0@smtp.kernel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AM9PR04MB8353:EE_|PAXPR04MB8815:EE_
-x-ms-office365-filtering-correlation-id: d09eb735-af41-4f18-c78c-08deb0b21425
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|376014|366016|19092799006|1800799024|38070700021|3023799003|56012099003|22082099003|18002099003|11063799003;
-x-microsoft-antispam-message-info:
- mo9X51HTcU2iLvglopX+jdNMz/dGKn1tHjqVtlG1L5GvELDNiq92xuWG48aR4LFewRYk34fT7CfmfRmDXPwiSqDwP3zafkfCL8mOhZrq39EapJZ/xvXYKraBW/kza3aO2H80P4jC/bs8YBzrBOHe8tIrR9enhU7MKyqCY/Dj5az1sBACJBe0DncqG3sGZajcly/T3zcwxPUS4/LSvzq/60xLiu0JbdP5BlSCVQmtcVFKOVle+IRo1Qj28WJjVqyyX9XBPkEUTNZmlAIP3LLBR/E5k2tP59nJ6aFDtsEpYannaQjNk67sj6lsZUDC6MWy1njEARerkMC3/T02R90oUaiV1tnjkLfv8vCEPJihVh30pnWnSPRk04IBzJ+NX8mCFFBbxhUXH/f0rH9QMKIQUJPpcoM7J5A1orNY6MRf/6iB8J+qJEq7qrbZ7Tv6LAPGYoH3W7qCjCqSDvP/V2+1bw5trVGOeyKmdsi/1CAGu4DV3Tw8SCreHdk1TBnoYEU+CaHkO7CZJFQpDYjTS1sbro0B8+Seha1Ycw8QNKz3NW09zoGMK/pThwk9Bjb4PGJQL19Y1kf7LpCYBPA6K3Dx8VQp/z6HDO1TZPvHB/zSvA8ozOq7jgYsKPwEfJVgUairhMVlBT6KNiq0uufdJEJ1YMbP4Q1c25m19peLVq1cR91TcyNiTlk4LflitgdYiATu0B5XWFS1oRxjEqihqknE4oQeYq7tKHRpOI3O/NJhGMpMtkpd+kSrgaJ7SLy8oLcE
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8353.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(19092799006)(1800799024)(38070700021)(3023799003)(56012099003)(22082099003)(18002099003)(11063799003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?ulo/5UDyC6HQoKdihV60E4mlJI3UjUt2QR3Bf7PzPC5fhaWWqZKLO1ZYla82?=
- =?us-ascii?Q?pUzrmjyoCBVpWn8pLUQrG6n73NOC3Wi/bQMosLn8S4Kweg3CjVAeIZ96QiMc?=
- =?us-ascii?Q?B/A4nY2jW6CN1i+CDBddtWmlQqrZgHjOU5WdpcebdAWRJzam+txUxflaOE3N?=
- =?us-ascii?Q?etBbDGmrKMxtDwCVL6PbaO+qyO3GWr4a4zfSiq2+ORgYB0KDiT5G4hxzW6Xj?=
- =?us-ascii?Q?mdpYN1LajHuztHI3ZkJXKZFqPG09JRszpCI6umtzX390HFyW9g8aC+2MFJu0?=
- =?us-ascii?Q?NeNqzJsOXAEmOLTORw22XBh6iSRjQBOYuWocQMMm4fDDPFGupSUhCQswgpEq?=
- =?us-ascii?Q?BbI8VWbJ3t93NxvKfYvk/0/lZSCpRmRVEidipQdlRLmBGoos9x2CTEuoehFu?=
- =?us-ascii?Q?9FTrMiiFn/oI0XodlP0Km+eWKKG4P6GRCcYaGJBIjbA8aRnwVqvP54t9mjla?=
- =?us-ascii?Q?+0Jozp0b+y2BKbn3dusDe2XzqvkpTiYiQ7/L/0edNBhj1DKLItSqRtdHIsKZ?=
- =?us-ascii?Q?7i3Fo8/41T2WGeMh6BQqVgoi9sfo+7TZl9c6YG46DrhgrV6N85y7TFMwkpy7?=
- =?us-ascii?Q?u3kPtoS2OOFfnt3A6Qs8/LXrb0kM6jioeGWf8c/c3v59YuGwlyVnK4lAGu8z?=
- =?us-ascii?Q?U9w/WsEwKdpVCFH5TL0CBdralyS2eFT8CKbY0kt8eVKkF9M25lrNY3ms9oLm?=
- =?us-ascii?Q?nC+BQ+8xUyB77E5LGNHcUOjNiGkEZLscALUpYAyKiAGCYSc1KUL94tEm2XG+?=
- =?us-ascii?Q?F5BmcYjuc83PGI4U4PZ40eE8Cxso4s7jMyh14mS9k7njJaY7lXrbwqhNGzDa?=
- =?us-ascii?Q?389QGv/sJGVabXTCEmTbpzMo68YNe3/VoFDD+fnLguSBlQl/4f2nYBZDXTV4?=
- =?us-ascii?Q?+HXygKjYzVF1Lwmzvt/K19iycoM1o7+wqJO2yv7qDjYLulb6AJX2tUc4VVKE?=
- =?us-ascii?Q?9rBAKY/CVpu1VEWz9seziNUxSbZqjIbPzs/6SwuHCsRkIMARxwpzA84VrV5S?=
- =?us-ascii?Q?SBnZOILQTPJJmivE2ZQKBNMavVT7RWbI3Ii91pR+oFA8F9QzqiM6EWwyqg8P?=
- =?us-ascii?Q?oJKtNWihYJmM1PMVru4dQ216M5cVN8NLNzo9LTboKNnyQHJRmwrB4v6lcl2F?=
- =?us-ascii?Q?013ByTdlMVPZgZ/kGZMShV5BoWJPzCWFDbzuHiUMirOuAgNSRBAyUID2TTQy?=
- =?us-ascii?Q?zZ6CNEVpAKi+JYR8JejCBCzdd1cQr9d4NIGCajJdw1Xz7GY7cCw0gIG2jUUb?=
- =?us-ascii?Q?PMlvVoRzg+mvwZj20DS7BV1+9k+P36qi1YZ5pNE9OJD/fLymL/tnnt0F8GDx?=
- =?us-ascii?Q?jt6NbI9dfnIJPt6ACu+sZNNmPwgBlu8Vw1CpzcHUAkfYYgHrAH8kCYh/MRFm?=
- =?us-ascii?Q?5pGnPT9t9Q2iJF8Yc6oBZus6XP5un7wtSmAlYMgwECbxaJIC1RGTUKvjWlMi?=
- =?us-ascii?Q?1NxcACJatJfkw4ai9pn6XSYsygW98C52EgDv9xvYUjNPRZfL01NsskqtS3Lu?=
- =?us-ascii?Q?XGEoOnDCZDyGFlbsJr+fPqbdCPFyvvBwpmb4x4h1xVQel3u4qEfMFu8HeKvd?=
- =?us-ascii?Q?gm17U+qxoQg+duwoxpqCBEeNu0cddBRjxAC7of8W9XJwqvE/C8gzWG1U4ddP?=
- =?us-ascii?Q?G/XQT3KRkaTE4hkuXW87lnbnjx5Kubv0LTogIf4AaiFzrY1nqIzXU1w6Yj0p?=
- =?us-ascii?Q?cCl1ApmNPNh13PdkrsPMQ7t3RR4C1RTTWMM2BNrzVOaCrif+?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sU0j+am1"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2b458ca2296so42610745ad.0
+        for <sashiko@lists.linux.dev>; Tue, 12 May 2026 23:26:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778653589; x=1779258389; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Ep83jt+OM8P/+jtbt5r2tBIY+pKdA2ouS001Dlu0TG8=;
+        b=sU0j+am1VazpW+siegnJ4gdxKKKJNh38avNdr1WX60oTI58pRdcXVVTw8Y3wTVXSEp
+         jBozPxrodV3mLJxvBLrm5VtcqNmy0I/q4j6QDJLl6felSLHxCCzNKdkQbEGnx9kW/QEo
+         1MSXWRVi5g9zybnLseRVBsXjAr1xbYCn/+4chNG+8v1XQaXAMsoXX1Dvm+Xsonl9re/D
+         lVksVq+30dA5cHq29L7fD2Xi+iE+s77WGAXxn7AvQLprA4wPLqXNhOhyDLkKTy+10tsB
+         nk2rZT4D3tudoiF6whcuXig8snDVIRs3zg1TsgDf+KqycLe0vnZi76s7m8po9z3wMGhF
+         TKBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778653589; x=1779258389;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Ep83jt+OM8P/+jtbt5r2tBIY+pKdA2ouS001Dlu0TG8=;
+        b=bvcVDtKbgtQ65kH95FjPwzbrPGYP7FKjadaHOxhFRZGkyV1RhvWzPJXYHricdiroTm
+         8o2xNR/5orf5so5GkSFkbZ60SbRtMPsTSkxPAldMApSEaRCdzSi3zYhfAqvwyCW3G/1Y
+         XI8bssoTVWdTcAe98uTNmMMfvf9QJX08P91HSDQo8oipkkENS7PA/6zvkwdgfAH5sYoU
+         yNtCBJ3iqb8qOhD1qpFUugRn5qwOAKVNK1Mxg6XmPHyGSd0C4M/VZx3EInZjQLdo0Grm
+         t2F8e9g90YWoGpUli3vZuIqLSf+naAhn8y2oHSnUOl8yhWphinvqOPmShI0yJWRW0iyT
+         /aZg==
+X-Forwarded-Encrypted: i=1; AFNElJ9zwCK+vhRSMlQX1kDsYzDDBZwvmFExtKVh12eIUNVANPpDb/tYClED4NUcUuwjCcvo8OOktKiC@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx3FIWY1l0uMnOn1iKs/piHna+Dl9+NPHwcRaaVyoUTC+k3F1My
+	m4lwJZE434qLRsHDsVxtv818JWAhf+bfp1VwruZ2LYMAOZEe66k8iK4d
+X-Gm-Gg: Acq92OFyBjHk9yywwttfoAh2oNKevnXRstORwEefOxVhc9uAoNN3lx+/XZLdqI3qBvQ
+	f6Fd8BXXu8Q+tknjna2RCF3FXek3tO8H9cFhmTkUR4SCqM6U3egX05O8K/QngKnPmVwc2jGKWVP
+	hDvE/woKmwt0na8QOf8bXbB9Fz0++yGxlQDBr6F5xcE7He9erQ1xfSeJJMnR9SET28A7sfNYeBN
+	6qZfnNsLxP/ZJ2KwG00CpG83FSPLaL71FoLZYvPAGbWID7jTcx0zbC6FLsPeL7Stel/V8gicVGW
+	f8aYY1nFbxLEf2/HzZ3vJhsvkgz3AKtrBCJh1QEDYagA728j8MMUmtU9S4K+eyEvmehLmayR81X
+	sMCK+VelHUS5yidYsidhbn37bgRv0L+Vl2DePCNy/RUIG/qQFHCNBeEpEOtpIKEGPRilQ6VW5Q9
+	S6Ak98kChlf/Rx+2sR3wTRrnJovcIGbjAEX3+dtA==
+X-Received: by 2002:a17:903:bc2:b0:2b0:c45a:bc2 with SMTP id d9443c01a7336-2bd27139901mr17598235ad.16.1778653588704;
+        Tue, 12 May 2026 23:26:28 -0700 (PDT)
+Received: from ?IPV6:2604:3d08:9582:1100::c7c9? ([2604:3d08:9582:1100::c7c9])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2baf1ec6e7dsm159310935ad.82.2026.05.12.23.26.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 12 May 2026 23:26:28 -0700 (PDT)
+Message-ID: <b76a0b89-3cef-4f72-90b1-7029b989cb63@gmail.com>
+Date: Tue, 12 May 2026 23:26:27 -0700
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8353.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d09eb735-af41-4f18-c78c-08deb0b21425
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 May 2026 05:40:02.1399
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: QV3h1o7K9plIsKMBRIfUB3+b5mwDtKjSEPYulWTjrdwXsjNOC4VSMc7eZO/sziTwfszVsDFvbRBWgrrzsMsCLg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8815
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v14 16/19] unwind_user/sframe: Add support for SFrame V3
+ flexible FDEs
+To: Jens Remus <jremus@linux.ibm.com>, Steven Rostedt <rostedt@kernel.org>,
+ Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: bpf@vger.kernel.org, sashiko@lists.linux.dev
+References: <20260505121718.3572346-17-jremus@linux.ibm.com>
+ <20260505185502.CB501C2BCB4@smtp.kernel.org>
+ <fc085657-a79c-422d-afd5-4b5f2c55cec2@linux.ibm.com>
+Content-Language: en-US
+From: Indu Bhagat <ibhagatgnu@gmail.com>
+In-Reply-To: <fc085657-a79c-422d-afd5-4b5f2c55cec2@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-> Thank you for your contribution! Sashiko AI review found 2 potential issu=
-e(s)
-> to consider:
-> - [Medium] Missing `#pwm-cells` property definition causes valid PWM nexu=
-s
-> configurations to fail schema validation.
-> - [Medium] Subsystem guide violation: Provider capabilities are missing f=
-rom
-> the `required` list.
-> --
->=20
-> commit b88adcce540a59e2da49df7e20b99d2c52021962
-> Author: Chancel Liu <chancel.liu@nxp.com>
->=20
-> dt-bindings: connector: Add fsl,io-connector binding
->=20
-> The commit adds a device tree binding for the NXP I/O connector. It acts
-> as a nexus node for routing GPIOs, clocks, PWMs, and interrupts through
-> index-based mappings.
->=20
-> > diff --git a/Documentation/devicetree/bindings/connector/fsl,io-
-> connector.yaml b/Documentation/devicetree/bindings/connector/fsl,io-
-> connector.yaml
-> > new file mode 100644
-> > index 0000000000000..8b5038a2332e3
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/connector/fsl,io-connector.yaml
->=20
-> [ ... ]
->=20
-> >   pwm-map:
-> >     $ref: /schemas/types.yaml#/definitions/uint32-matrix
-> >
-> >   pwm-map-mask:
-> >     $ref: /schemas/types.yaml#/definitions/uint32-array
-> >
-> >   pwm-map-pass-thru:
-> >     $ref: /schemas/types.yaml#/definitions/uint32-array
-> >
-> >   '#address-cells':
-> >     const: 0
->=20
-> Will this fail schema validation for valid PWM nexus nodes? Since
-> additionalProperties is false, omitting #pwm-cells from the properties li=
-st
-> means device trees including #pwm-cells will fail validation. The #pwm-ce=
-lls
-> property is required by the nexus mapping logic to parse PWM specifiers.
-> Should #pwm-cells be added to the properties block?
->=20
+On 2026-05-07 08:30, Jens Remus wrote:
+> On 5/5/2026 8:55 PM, sashiko-bot@kernel.org wrote:
+>> Thank you for your contribution! Sashiko AI review found 3 potential issue(s) to consider:
+>> - [High] Valid flexible FREs ending in a single padding data word are incorrectly rejected.
+> 
+> Those are invalid as per SFrame spec.
+> 
+>> - [High] Valid flexible FRE rules for CFA and FP/RA produce unhandled enums, triggering user-controlled WARN_ON_ONCE().
+> 
+> Fix below.
+> 
+>> - [High] Outermost frame unwinding is unconditionally broken, causing unintended fallback to frame pointers.
+> 
+> Fix below.
+> 
+>> --
+>>
+>> commit 7d3289b2e756d08c38877458400ce276ff3f5994
+>> Author: Jens Remus <jremus@linux.ibm.com>
+>>
+>> unwind_user/sframe: Add support for SFrame V3 flexible FDEs
+>>
+>> SFrame V3 introduces flexible FDEs in addition to the regular FDEs.
+>> The key difference is that flexible FDEs encode the CFA, RA, and FP
+>> tracking information using two FRE data words, a control word and an
+>> offset, or a single padding data word of zero.
+>>
+>>> diff --git a/kernel/unwind/sframe.c b/kernel/unwind/sframe.c
+>>> index 2721f4af53fd3..2ba2c8b385f96 100644
+>>> --- a/kernel/unwind/sframe.c
+>>> +++ b/kernel/unwind/sframe.c
+>> [ ... ]
+>>> @@ -189,16 +193,147 @@ static __always_inline int __find_fde(struct sframe_section *sec,
+>> [ ... ]
+>>> +static __always_inline int
+>>> +__read_flex_fde_fre_datawords(struct sframe_section *sec,
+>>> +			      struct sframe_fde_internal *fde,
+>>> +			      unsigned long cur,
+>>> +			      unsigned char dataword_count,
+>>> +			      unsigned char dataword_size,
+>>> +			      struct sframe_fre_internal *fre)
+>>> +{
+>>> +	u32 cfa_ctl, ra_ctl, fp_ctl;
+>>> +	s32 cfa_off, ra_off, fp_off;
+>>> +
+>>> +	if (dataword_count < 2)
+>>> +		return -EFAULT;
+>>> +	UNSAFE_GET_USER_INC(cfa_ctl, cur, dataword_size, Efault);
+>>> +	UNSAFE_GET_USER_INC(cfa_off, cur, dataword_size, Efault);
+>>> +	dataword_count -= 2;
+>>> +
+> 
+> 	/*
+> 	 * Each RA/FP location info consumes either two datawords
+> 	 * (control word + offset) or one padding word substituting
+> 	 * for that pair.  Padding is only valid as substitution if
+> 	 * followed by further non-padding location info.  Therefore
+> 	 * decoding only proceeds with at least two datawords.  Any
+> 	 * leftover trailing datawords are invalid and rejected by
+> 	 * the final check.
+> 	 */
+> 
+>>> +	ra_off = sec->ra_off;
+>>> +	ra_ctl = ra_off ? 2 : 0; /* regnum=0, deref_p=(ra_off != 0), reg_p=0 */
+>>> +	if (dataword_count >= 2) {
+>>
+>> The commit message mentions that flexible FDEs can use a single padding
+>> data word of zero. However, this code checks dataword_count >= 2 for both
+>> the RA and FP blocks.
+> 
+> That is ok, as a padding dataword for RA is only valid if followed by
+> two datawords (control and offset) for FP.  In case of a valid padding
+> dataword for RA only one dataword is consumed.  In case of an invalid
+> trailing padding dataword for RA it is not consumed.  The same logic is
+> then used for FP, as that ensures that a leftover trailing padding for
+> for both RA or FP is not consumed (and then rejected by the final check)
+> and that any future extension e.g. to convey SP location info can use
+> the same logic.  This helps reducing the number of checks at the cost
+> of a slow error path.  Otherwise the checks would be:
+> 
+> 	/* RA */
+> 	if (!dataword_count)
+> 		goto done;
+> 	if (dataword_count == 1)
+> 		return -EFAULT; /* Trailing RA padding */
+> 	... consume RA dataword(s) ...
+> 
+> 	/* FP */
+> 	if (!dataword_count)
+> 		goto done;
+> 	if (dataword_count == 1)
+> 		return -EFAULT; /* Trailing FP padding */
+> 	... consume FP dataword(s) ...
+> 
+> 	if (dataword_count)
+> 		return -EFAULT; /* Trailing extra dataword(s) */
+> 
+> done:
+> 	fre->cfa_ctl	= cfa_ctl;
+> 	...
+> 
+>>
+>> If an FRE ends with a single padding data word, it will bypass both of these
+>> blocks and reach the check below:
+>>
+>>> +		UNSAFE_GET_USER_INC(ra_ctl, cur, dataword_size, Efault);
+>>> +		dataword_count--;
+>>> +		if (ra_ctl) {
+>>> +			UNSAFE_GET_USER_INC(ra_off, cur, dataword_size, Efault);
+>>> +			dataword_count--;
+>>> +		} else {
+>>> +			/* Padding RA location info */
+>>> +			ra_ctl = ra_off ? 2 : 0; /* re-deduce (see above) */
+>>> +		}
+>>> +	}
+>>> +
+>>> +	fp_off = sec->fp_off;
+>>> +	fp_ctl = fp_off ? 2 : 0; /* regnum=0, deref_p=(fp_off != 0), reg_p=0 */
+>>> +	if (dataword_count >= 2) {
+>>> +		UNSAFE_GET_USER_INC(fp_ctl, cur, dataword_size, Efault);
+>>> +		dataword_count--;
+>>> +		if (fp_ctl) {
+>>> +			UNSAFE_GET_USER_INC(fp_off, cur, dataword_size, Efault);
+>>> +			dataword_count--;
+>>> +		} else {
+>>> +			/* Padding FP location info */
+>>> +			fp_ctl = fp_off ? 2 : 0; /* re-deduce (see above) */
+>>> +		}
+>>> +	}
+>>> +
+> 	/* Reject trailing padding or unknown extra datawords */
+> 
+>>> +	if (dataword_count)
+>>> +		return -EFAULT;
+>>
+>> Could this incorrectly reject valid FREs ending in a single padding data word
+>> since dataword_count would be 1 here?
+>>
+>>> +
+>>> +	fre->cfa_ctl	= cfa_ctl;
+>>> +	fre->cfa_off	= cfa_off;
+>>> +	fre->ra_ctl	= ra_ctl;
+>>> +	fre->ra_off	= ra_off;
+>>> +	fre->fp_ctl	= fp_ctl;
+>>> +	fre->fp_off	= fp_off;
+>>> +
+>>> +	return 0;
+>>> +
+>>> +Efault:
+>>> +	return -EFAULT;
+>>> +}
+>> [ ... ]
+>>>   static __always_inline int __read_fre(struct sframe_section *sec,
+>>>   				      struct sframe_fde_internal *fde,
+>>>   				      unsigned long fre_addr,
+>>>   				      struct sframe_fre_internal *fre)
+>>>   {
+>> [ ... ]
+>>>   	if (!dataword_count) {
+>>>   		/*
+>>>   		 * A FRE without data words indicates RA undefined /
+>>>   		 * outermost frame.
+>>>   		 */
+>>> -		cfa_off	= 0;
+>>> -		ra_off	= 0;
+>>> -		fp_off	= 0;
+>>> -		goto done;
+>>> -	}
+>>> +		fre->cfa_ctl	= 0;
+> 
+> 	/*
+> 	 * A FRE without datawords indicates an outermost
+> 	 * frame.  Zero-initialize CFA, RA, and FP location
+> 	 * info, except for the CFA control word, which
+> 	 * must not cause sframe_init_cfa_rule_data() to fail.
+> 	 */
+> 	fre->cfa_ctl    = (SFRAME_REG_SP << 3) | 1; /* regnum=SP, deref_p=0, reg_p=1 */
+> 
+>>> +		fre->cfa_off	= 0;
+>>> +		fre->ra_ctl	= 0;
+>>> +		fre->ra_off	= 0;
+>>> +		fre->fp_ctl	= 0;
+>>> +		fre->fp_off	= 0;
+>>>   
+>>> -	UNSAFE_GET_USER_INC(cfa_off, cur, dataword_size, Efault);
+>>
+>> When __read_fre() processes an outermost frame, it zeroes out fre->cfa_ctl.
+>> In __find_fre(), this is later passed to sframe_init_cfa_rule_data():
+>>
+>>> -static __always_inline void
+>>> +static __always_inline int
+>>>   sframe_init_cfa_rule_data(struct unwind_user_cfa_rule_data *cfa_rule_data,
+>>> -			  unsigned char fre_info,
+>>> -			  s32 offset)
+>>> +			  u32 ctlword, s32 offset)
+>>>   {
+>>> -	if (SFRAME_V3_FRE_CFA_BASE_REG_ID(fre_info) == SFRAME_BASE_REG_FP)
+>>> -		cfa_rule_data->rule = UNWIND_USER_CFA_RULE_FP_OFFSET;
+>>> -	else
+>>> -		cfa_rule_data->rule = UNWIND_USER_CFA_RULE_SP_OFFSET;
+>>> +	bool deref_p = SFRAME_V3_FLEX_FDE_CTRLWORD_DEREF_P(ctlword);
+>>> +	bool reg_p = SFRAME_V3_FLEX_FDE_CTRLWORD_REG_P(ctlword);
+>>> +
+>>> +	if (reg_p) {
+>>> +		unsigned int regnum = SFRAME_V3_FLEX_FDE_CTRLWORD_REGNUM(ctlword);
+>>> +
+>>> +		switch (regnum) {
+>>> +		case SFRAME_REG_SP:
+>>> +			cfa_rule_data->rule = UNWIND_USER_CFA_RULE_SP_OFFSET;
+>>> +			break;
+>>> +		case SFRAME_REG_FP:
+>>> +			cfa_rule_data->rule = UNWIND_USER_CFA_RULE_FP_OFFSET;
+>>> +			break;
+>>> +		default:
+>>> +			cfa_rule_data->rule = UNWIND_USER_CFA_RULE_REG_OFFSET;
+>>> +			cfa_rule_data->regnum = regnum;
+>>> +		}
+>>> +	} else {
+>>> +		return -EINVAL;
+>>> +	}
+>>
+>> Because ctlword is 0 for an outermost frame, reg_p will evaluate to false,
+>> and this unconditionally returns -EINVAL.
+>>
+>> Does this unintentionally break outermost frame unwinding? Returning an
+>> error here will cause __find_fre() to fail before it can reach the
+>> frame->outermost check, resulting in a fallback to frame pointer unwinding
+>> instead of stopping gracefully.
+> 
+> Good catch!  That was broken.  I did not notice during my testing on
+> s390, as the fallback to FP-based (back chain on s390) unwinding then
+> also detected an outermost frame.  Suggested fix see above.
+> 
+>>
+>>> +
+>>> +	if (deref_p)
+>>> +		cfa_rule_data->rule |= UNWIND_USER_RULE_DEREF;
+>>> +
+>>
+>> Also, does this append UNWIND_USER_RULE_DEREF to CFA rules in a way that is
+>> not supported by the unwinder?
+>>
+>> If a CFA rule uses SP/FP with deref_p=1, this creates a combined enum like
+>> UNWIND_USER_CFA_RULE_SP_OFFSET | UNWIND_USER_RULE_DEREF. Because .sframe
+>> sections are user-supplied, could an attacker use this to trigger an
+>> unhandled enum path and hit a WARN_ON_ONCE() during unwinding?
+> 
+> Good catch!  The generic unwinding logic in unwind_user_next_common()
+> actually needs to support both UNWIND_USER_CFA_RULE_SP_OFFSET_DEREF and
+> UNWIND_USER_CFA_RULE_FP_OFFSET_DEREF, as those are valid to be encoded
+> in SFrame flexible FDE and sframe_init_cfa_rule_data() converts
+> deref_p=1, reg_p=1, regnum=SP/FP into those.  The reason for the
+> conversion is that arbitrary registers are only available in the topmost
+> frame, whereas SP and FP are available in any frame.
+> 
+>>
+>>>   	cfa_rule_data->offset = offset;
+>>> +
+>>> +	return 0;
+>>>   }
+>>>   
+>>>   static __always_inline void
+> 
+> static __always_inline int
+> 
+>>>   sframe_init_rule_data(struct unwind_user_rule_data *rule_data,
+>>> -		      s32 offset)
+>>> +		      u32 ctlword, s32 offset)
+>>>   {
+>>> -	if (offset) {
+>>> -		rule_data->rule = UNWIND_USER_RULE_CFA_OFFSET_DEREF;
+>>> -		rule_data->offset = offset;
+>>> -	} else {
+>>> +	bool deref_p = SFRAME_V3_FLEX_FDE_CTRLWORD_DEREF_P(ctlword);
+> i>> +	bool reg_p = SFRAME_V3_FLEX_FDE_CTRLWORD_REG_P(ctlword);
+> 
+> 	bool reserved_p = SFRAME_V3_FLEX_FDE_CTRLWORD_RESERVED_P(ctlword);
+> 	unsigned int regnum = SFRAME_V3_FLEX_FDE_CTRLWORD_REGNUM(ctlword);
+> 
+>>> +
+>>> +	if (!ctlword && !offset) {
+>>>   		rule_data->rule = UNWIND_USER_RULE_RETAIN;
+>>> +		return;
+> 
+> 		return 0;
+> 
+>>> +	}
+> 
+> 	if (reserved_p)
+> 		return -EINVAL;
+> 
+> @Indu:  Although the SFrame spec does only state "unused Unused bit." I
+> think it would be good for the logic to reject any value other than zero
+> as that could be used in future extensions of the SFrame format.  Do you
+> agree?
+> 
 
-Yes. The PWM nexus mapping relies on #pwm-cells. Will add in next revision.
+For unused bits, it will be ideal to not associate any "observable" 
+behaviour on the consumer side, before the bits find their use.  So I 
+suggest the recommended way is to ignore the unused bits completely, 
+i.e., mask them out and not report any error (if they are set).
 
-> [ ... ]
->=20
-> >   interrupt-map: true
-> >
-> >   interrupt-map-mask: true
-> >
-> > required:
-> >   - compatible
->=20
-> Are there missing required provider capabilities here? According to the
-> dt-bindings subsystem guidelines, when hardware gains provider capabiliti=
-es
-> like a GPIO controller, interrupt controller, or clock provider, the
-> corresponding standard properties like gpio-controller, #gpio-cells,
-> #clock-cells, interrupt-controller, #interrupt-cells, and #pwm-cells must=
- be
-> included in the required list. Could these be added to ensure incomplete
-> nodes do not accidentally pass validation?
->=20
+On the producer side, unused bits should be set to zero (which I think 
+we are doing).
 
-The connector can expose different sets of the provider domains
-(GPIO/clock/PWM/interrupt) depending on the connector usage. So I think
-it's not necessary to make all provider capability properties required.
+>>> +	if (reg_p) {
+>>> +		unsigned int regnum = SFRAME_V3_FLEX_FDE_CTRLWORD_REGNUM(ctlword);
+> 
+> Drop line above.
+> 
+>>> +
+>>> +		rule_data->rule = UNWIND_USER_RULE_REG_OFFSET;
+>>> +		rule_data->regnum = regnum;
+>>> +	} else {
+> 
+> 		if (regnum)
+> 			return -EINVAL;
+> 
+> @Indu:  Is that too strict?  The SFrame spec does only state that regnum
+> is "Effective only if reg_p is 1.".  Shall I better ignore any non-zero
+> value if reg_p=0?
+> 
 
-> >
-> > additionalProperties: false
-> >
-> > examples:
-> >   - |
-> >     #include <dt-bindings/interrupt-controller/irq.h>
-> >
-> >     connector {
-> >         compatible =3D "fsl,io-connector";
-> >         gpio-controller;
-> >         #gpio-cells =3D <2>;
-> >         gpio-map =3D <0 0 &gpio1 8 1>;
-> >         gpio-map-mask =3D <0xff 0x0>;
-> >         gpio-map-pass-thru =3D <0x0 0x1>;
-> >         #clock-cells =3D <1>;
-> >         clock-map =3D <0 &clk 1>;
-> >         #address-cells =3D <0>;
-> >         interrupt-controller;
-> >         #interrupt-cells =3D <2>;
-> >         interrupt-map-mask =3D <0xff 0x0>;
-> >         interrupt-map =3D <0 0 &gpio2 27 IRQ_TYPE_LEVEL_LOW>;
-> >     };
->=20
-> Should this example section include the PWM properties as well? The
-> subsystem guidelines require the example to include all required properti=
-es
-> to pass dt_binding_check.
->=20
+Yes, ignoring the bits if reg_p = 0 is better behaviour.
 
-Will extend examples to cover PWM as well.
+Thanks
 
-Regards,=20
-Chancel Liu
+>>> +		rule_data->rule = UNWIND_USER_RULE_CFA_OFFSET;
+>>>   	}
+>>> +
+>>> +	if (deref_p)
+>>> +		rule_data->rule |= UNWIND_USER_RULE_DEREF;
+>>> +
+>>> +	rule_data->offset = offset;
+> 
+> 	return 0;
+> 
+>>>   }
+> 
+> Likewise checks of reserved_p and regnum in sframe_init_cfa_rule_data().
+> 
+>>
+>> Similarly, if a rule for FP/RA is set to *(CFA + offset) with reg_p=0
+>> and deref_p=0, this assigns UNWIND_USER_RULE_CFA_OFFSET without the
+>> UNWIND_USER_RULE_DEREF flag.
+> 
+> Huh?  *(CFA + offset) is reg_p=0 and deref_p=1 and thus with the
+> UNWIND_USER_RULE_DEREF flag (i.e. *() denotes dereference).
+> 
+>>
+>> Is this combination handled by the rest of the unwinding logic, or will
+>> it fall through to an unsupported state and abort unwinding?
+> 
+> The unwinding logic only handles UNWIND_USER_RULE_CFA_OFFSET_DEREF for
+> RA and FP.  It does not handle UNWIND_USER_RULE_CFA_OFFSET (that is
+> without the UNWIND_USER_RULE_DEREF flag).  The reason is that SFrame
+> cannot represent the rule CFA + offset for RA/FP.  Additionally it
+> would not be valid for RA, as a return address cannot legitimately be
+> a stack address.
+> 
+> sframe_init_rule_data() can be improved to reject the invalid encodings
+> reg_p==0 with regnum!=0 as well as reserved_p!=0 (unused control word
+> bit 2) as shown above.
+> 
+>>
+>>>   
+>>>   static __always_inline int __find_fre(struct sframe_section *sec,
+>>> @@ -344,9 +492,10 @@ static __always_inline int __find_fre(struct sframe_section *sec,
+>>>   		return -EINVAL;
+>>>   	fre = prev_fre;
+>>>   
+>>> -	sframe_init_cfa_rule_data(&frame->cfa, fre->info, fre->cfa_off);
+>>> -	sframe_init_rule_data(&frame->ra, fre->ra_off);
+>>> -	sframe_init_rule_data(&frame->fp, fre->fp_off);
+>>> +	if (sframe_init_cfa_rule_data(&frame->cfa, fre->cfa_ctl, fre->cfa_off))
+>>> +		return -EINVAL;
+>>> +	sframe_init_rule_data(&frame->ra, fre->ra_ctl, fre->ra_off);
+> 
+> 	if (sframe_init_rule_data(&frame->ra, fre->ra_ctl, fre->ra_off))
+> 		return -EINVAL;
+> 
+>>> +	sframe_init_rule_data(&frame->fp, fre->fp_ctl, fre->fp_off);
+> 
+> Likewise.
+> 
+>>>   	frame->outermost = SFRAME_V3_FRE_RA_UNDEFINED_P(fre->info);
+>>>   
+>>>   	return 0;
+>>
+> 
+> Regards,
+> Jens
+
