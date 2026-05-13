@@ -1,104 +1,140 @@
-Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F0003AE70A
-	for <sashiko@lists.linux.dev>; Wed, 13 May 2026 08:36:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.176
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778661411; cv=pass; b=P8Mi3zmDoQzTQg+BBstjoofVzfE+FwmpCN6p+NXa3xtEFhoaVHeAbc4POiuoksh8oF2cQep/7O9aQZsKSYFIrbMjww7LtEUd4pGSqqTf6w++EHO37rJo0WPU2r48haoktg2l28Wxl+B7u1OILewkXRyyTwIinefaPe2VY57l6j0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778661411; c=relaxed/simple;
-	bh=Jjm9bQfuF7SmgMw1JUCEvkV8aeZQ1nKBrU5ALxUNHi8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZPr9weLXVmFx5yV3+E6E4bLNl4GAxSqDMqxHmpGrB2//xAwHb6tyUxqNzw56xJzAXzqEjA7MD8ecPi573SLxTJ94F8NkL53P4u9CrpGAJT/JKuxV6BTWd6/h+AsmRlEi+QZSGoUCFf0+CTbi7ywHOCh3H51zXSqb96DdLulH5wk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZaC/rtwy; arc=pass smtp.client-ip=74.125.82.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0BFA3E6DDD;
+	Wed, 13 May 2026 09:20:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778664053; cv=none; b=fbGaKM+SCGk47iErNVV3LtmkuG2fB9Nr1o3Ypmq/AtelVXB7y3AexjVD+Mc5UeUFw2W0nwCgdqZD8nCz7HssTza0LPjG0AATff63PONo936OCdWSPetPSHBcQxr5FPEqgU3p3SNAUGSC3n+8Afh/ujqpl/FTLMDuNaLGkwmIBNI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778664053; c=relaxed/simple;
+	bh=voKyE5RZ6JydcnsVAPGVmM88R7mBpWV6dEqnB2yU1cc=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=MfFR14dyJ12e++L3dCS6EdlIAyYI+tGLe4YW1EcTIReG2bZGIbnwmCFON76rP8Bg7zzXtnsW5gqINiP+Pm0/3yvNmc5DB3XDjav0hafDmcF91HnQqo3cqwH76xTdXv/7/qxSVpEQOj9JjnxUWI0MYdiPHlFnahksMuI1cGWYyoo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=tCvflfaN; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZaC/rtwy"
-Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-2c15849aa2cso8607498eec.0
-        for <sashiko@lists.linux.dev>; Wed, 13 May 2026 01:36:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778661409; cv=none;
-        d=google.com; s=arc-20240605;
-        b=kWwqm3FFFtbkkiFynUGX4bq5K164lF2RIAyGOJWC6pX3eq7HLt4rj+51HIbpwKJj0V
-         6FHTTpAFxR7W2lTIE0HQkPpv8cPalkJzpsbbccTdV4nfanLZj1zYBVQJvB5FZUNpCGV/
-         1yNj/MG7Jim6GqcejN7yvK5vTOQhK9eH9gZOTe8IzoCdy8ueqWOiQctmwmnk6JDUkRg7
-         4AIDKzCPNgD7DbsqhMPr+4bmLYtUKsZxNozmxReooYY/sLa46hSE0H6aO8h5dcMLLcd9
-         4njR3raNGWqc9QJ158bYHbeZ36203ReT9ieIaPrZPIePiDaKapsyIQY4uE65OGkcUlGf
-         CPIg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=Jjm9bQfuF7SmgMw1JUCEvkV8aeZQ1nKBrU5ALxUNHi8=;
-        fh=jwOSEAHLG8b2VNV0QpzkD8FIQ/F+Bo2rr6OoXatxGXs=;
-        b=NLDpC7VZZ0DYW3YjOKRVneZs8P8ThlcQ7Y4mVT8DC/aDvoAI3AgQc5sS4Xe0xU3rVz
-         q5zpw+rptCivzYylcYNBL22zNnNsme1Tf5zqDN2mX4zsxlTS/tQTH0HuFKMBMZ0MEamA
-         IXo+YhRVNzZ9y4QOwfv/gCSnSXwzEEE1XO2m5bQDDbEhf3ieLP94iYpiPyU8yInq4xKW
-         YR+XWpWSUQv4sWR+XfBfmaTyTaRPYGqw8GnxNs3aztzNcJpKs7njTrzw5VEXN96XRJtc
-         vw32q6Iz9CbGnrTlq8mHL0Cx1a+a+oynZP9Ca/ktmhJJ3OMi08f6eM1JBPTLI01GoqPE
-         hr5Q==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778661409; x=1779266209; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Jjm9bQfuF7SmgMw1JUCEvkV8aeZQ1nKBrU5ALxUNHi8=;
-        b=ZaC/rtwyaR186Dn4aLtFb32t/7P/VqFHzhHm04lGP6CbtSmqY3mQtpy+V7617n4NT4
-         XT3WPYCaOh6RcmzIUPVfhB+mBFu3WgXTge1OHnKPES8cMjlriRryP0cxmYRmTrgaPSTs
-         brAJu1zB+biX3jmVuUWOxjl/I39t8x3619RhnPcJ3MUiX7k8R5qQxpc8mMd3L9alx12V
-         0ExalKsA0YmDMn3xYkdG4B5ZmQ/oBgHngy/G+lC+1qHTYWT0jzPn3HVGGPY0pf7hwjGk
-         /7EcDkeUVPN5CMxzPjOwYLhnRc5sDYS63qDokbxSnchrBdtIJjUFkQArrMKcuc4KMd2K
-         TjLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778661409; x=1779266209;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Jjm9bQfuF7SmgMw1JUCEvkV8aeZQ1nKBrU5ALxUNHi8=;
-        b=Bj07MjUkKDvvBv5DsOYDL045695C9rg6o5+qtAc09jALkSXpgyEF5gqNqlqwT0UO7J
-         1ssVhomPeVU0VQs/v3Vts3Ih51MgdbMrXaa82x1zLtCQ3qhO8cSCGoqB37hw/dgdQXc9
-         Eq/bgZfBtaSdpAFW10uB5UwZ0KCm4YNf9zFPW03uf3kSiHeYwltMgbIOFp1ou6BCKd7D
-         krxy62ZjmS/1zTDLvoDawK5Je4BS4HOTuZl9Od2z2AIAjiMrOG0GXqFp4JeRtmAMJ6qO
-         +Iz+eHrO4Fo1U0vH3azjmOQTVSMBhdzugtgvN9hlcanu3yJca6WIaJpEbVDwKXs1mKbr
-         et2g==
-X-Gm-Message-State: AOJu0Ywi/jfobxq63FBPRexo3XszyN6om8Jh09CMrzW/UjHrwnTLr3Rv
-	O53d+HvP1Bpsu5jrPA0YRRu6faKHnHIDtrKtz2zSrayCCcIuU4BqzWvZGmFO2Y3+ytfkuGtwEPF
-	FPQP+Ve0ohPGrJJqjBdgczHVYk6ynkISa5w==
-X-Gm-Gg: Acq92OELJ7JFuV6wQc4GL7gDbZwyH4bivatd17M/P9C4Y2TUm3t5Inyx8IImYssFy5K
-	n/I8tX3n4MdMck2tswTNsPnFFPJw+JqqR+o3X0/b/HnhWNx43uxJ4Wa8al1bHTZss9LP/1PCb7G
-	+u84av9+bFL2VB1lVELBQ2QN/Y1CZj45DqqXlt36VFmerA9nEcyV8svUyvY6MvXJhYTIS3iRpCd
-	7k14fxUDmmWoFFGl0Hqv/R9tiphc38mg8B5mRErVOL9K1HbUQ6+pe9/okjUN0hfiaFb81ByMeSr
-	0HMrmfolWGPWFWYczIBKZ5WE6pNXhAA5ARDrFbA5l4W9i/eThw==
-X-Received: by 2002:a05:7301:198c:b0:2da:d4b4:c85a with SMTP id
- 5a478bee46e88-3011747e13bmr1542733eec.11.1778661408933; Wed, 13 May 2026
- 01:36:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="tCvflfaN"
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64D3EBp83049159;
+	Wed, 13 May 2026 09:20:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=OwwYCU
+	FV8IC7PJ+SwxrCJWMwcLyhDqU2CKCyoIp9u9Y=; b=tCvflfaNy90crswhQ9vlp4
+	3/KL468JkhZ88h1fBbsIpIh/GO3edj0JNZMJ9/x+da0mV4xxYulxRK4G1mbdnkdo
+	UPT1IPrwHe5MdscEyjMk+8LpDfddgkFx8r76q35zzJuXewPPJQg33+d0qecQPTu/
+	HVmf3gEuISV5Et9NSeKG4HEgrrd79Fz217JDHk1JobNaCLKOtncFygAKatyR64yV
+	NXvRCTKjk+prnxemf+TR849Ly+Fn6pAwi+WHbBig8bN6q4HJgNjdQbr0trgwq7Cj
+	MkKcjZpmw4N2v3U/i/pkaQnQYa7I4bjoXBUB1DshjV1WVScB2nUtlC+j1QT6UDiA
+	==
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4e3nv6pnx1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 13 May 2026 09:20:42 +0000 (GMT)
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 64D99PnP025166;
+	Wed, 13 May 2026 09:20:42 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4e3nfgq3vu-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 13 May 2026 09:20:42 +0000 (GMT)
+Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com [10.20.54.103])
+	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 64D9Ke3o34537800
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 13 May 2026 09:20:40 GMT
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 2F0C82004E;
+	Wed, 13 May 2026 09:20:40 +0000 (GMT)
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 0A8AB2004B;
+	Wed, 13 May 2026 09:20:40 +0000 (GMT)
+Received: from [9.52.200.195] (unknown [9.52.200.195])
+	by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Wed, 13 May 2026 09:20:39 +0000 (GMT)
+Message-ID: <d12caa4a-e54f-422b-92b1-b2f51bf7ea20@linux.ibm.com>
+Date: Wed, 13 May 2026 11:20:39 +0200
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAFGhKbx53f0Y4XPpTcpqaYbXVd+Gu7c8L1pWKnEfVLxG-Aktcg@mail.gmail.com>
- <87tssd51c0.fsf@linux.dev> <CAFGhKbzB3UmuHsh_7i8p42Csd3kKx0bgtf0GF-7emxo=vu_jMw@mail.gmail.com>
-In-Reply-To: <CAFGhKbzB3UmuHsh_7i8p42Csd3kKx0bgtf0GF-7emxo=vu_jMw@mail.gmail.com>
-From: Charlemagne Lasse <charlemagnelasse@gmail.com>
-Date: Wed, 13 May 2026 10:36:37 +0200
-X-Gm-Features: AVHnY4IUZPUagOU6zY2202ksi5ijonNSVeCt9l1wfzSIkdVP1U7w4X4GlAyQ2dk
-Message-ID: <CAFGhKbyLpcnKw+owas31umGsaiYd7op2gWbEFpViWG3vfmxjww@mail.gmail.com>
-Subject: Re: Sashiko.dev webview not getting updated
-To: Roman Gushchin <roman.gushchin@linux.dev>
-Cc: sashiko@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v14 11/19] unwind_user/sframe: Show file name in debug
+ output
+From: Jens Remus <jremus@linux.ibm.com>
+To: Steven Rostedt <rostedt@kernel.org>, Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: bpf@vger.kernel.org, sashiko@lists.linux.dev,
+        Indu Bhagat <ibhagatgnu@gmail.com>, Heiko Carstens <hca@linux.ibm.com>
+References: <20260505121718.3572346-12-jremus@linux.ibm.com>
+ <20260505184638.5648DC2BCB4@smtp.kernel.org>
+ <edd04d6c-3cdc-43da-9cf2-44cccc353658@linux.ibm.com>
+Content-Language: en-US
+Organization: IBM Deutschland Research & Development GmbH
+In-Reply-To: <edd04d6c-3cdc-43da-9cf2-44cccc353658@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Authority-Analysis: v=2.4 cv=Us1T8ewB c=1 sm=1 tr=0 ts=6a04426b cx=c_pps
+ a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
+ a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=VnNF1IyMAAAA:8
+ a=VwQbUJbxAAAA:8 a=0MvmVg10__VCTnNSAJcA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: eajoxDX7UYy6UqVBMykyXRGTaSxANpgM
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTEzMDA5NCBTYWx0ZWRfX96Wp664p85tg
+ AljJKvZrKZkGrUEuT0bc6tj/yYhN9NJdnr7IsCsHCUFRlNMDchdLAIzyMpXSJjX75r87Pj9zvkl
+ At3bxNECBln9CGoWxOdQJqMolqqgaIVSizUuBozAiELJCAerT/eSuqYoBmIbvyiI/FoHMJqPO+Y
+ xOGuG7L61iVSKZeAQc5JGVYZX6s5uI3KuH13eFO/OigGVqxaSgDa9bePcqcbKFyzcWjQNCSZjlH
+ m3JquUe5saniMdAlXVIsLlP3TDCdB+Y83uXyQfBYa0Bw+mzQncfObiRSc1zsXv1i+4VZjL84F+A
+ /IHwTFgWXmxLE3ylNXJ7vDLEAnae/fWmya91+u0U/qbU9mdp3rBjxeHgoGBZievnFOxieAgIXMi
+ +s5546XCPE4zsO0FY2cuhIN6uV/6sWFqLC2K3dOuwUWpZHBFExEjNLmJQYuYhAcXwXF/ovhW0hN
+ iXHXb0JaPtCkoyfrghg==
+X-Proofpoint-ORIG-GUID: dEsWO2sHdweVIFkg_oyCXmxZh8d5U2Gi
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-11_05,2026-05-08_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 priorityscore=1501 impostorscore=0 lowpriorityscore=0
+ bulkscore=0 suspectscore=0 spamscore=0 malwarescore=0 clxscore=1015
+ adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2605050000
+ definitions=main-2605130094
 
-Am Di., 12. Mai 2026 um 17:56 Uhr schrieb Charlemagne Lasse
-<charlemagnelasse@gmail.com>:
->
-> > Thank you for the report. It's a known issue, actually caused by some
-> > issues with the LLM provider, nothing sashiko-specific. We're working on
-> > fixing it.
+On 5/12/2026 4:52 PM, Jens Remus wrote:
+> On 5/5/2026 8:46 PM, sashiko-bot@kernel.org wrote:
+> 
+>> [ ... ]
+>>> @@ -496,7 +501,7 @@ static int __sframe_remove_section(struct mm_struct *mm,
+>>>  				   struct sframe_section *sec)
+>>>  {
+>>>  	if (!mtree_erase(&mm->sframe_mt, sec->text_start)) {
+>>> -		dbg("mtree_erase failed: text=%lx\n", sec->text_start);
+>>> +		dbg_sec("mtree_erase failed: text=%lx\n", sec->text_start);
+>>
+>> Does accessing sec->filename in dbg_sec() risk a use-after-free here? If
+>> mtree_erase() fails, it indicates the section might have been concurrently
+>> removed. The SRCU grace period could expire, causing sec to be freed before
+>> dbg_sec() is called.
+> 
+> IIUC this is a valid concern.  Should this change be simply be reverted
+> or should __sframe_remove_section() create a temporary copy of the
+> filename and use dbg() for this rather unlikely case?
 
-Does it make sense to inform you about this or are you automatically
-informed about this state? Because the whole system (LLM provider,
-...) is again in this state and no new patches are shown on
-sashiko.dev since 3 hours ago.
+On my way home it occurred to me that adding guard(srcu)(&sframe_srcu);
+to sframe_remove_section() (see my feedback on "[PATCH v14 03/19]
+unwind_user/sframe: Store .sframe section data in per-mm maple tree")
+should also resolve this use-after-free without any need for changes.
+
+Regards,
+Jens
+-- 
+Jens Remus
+Linux on Z Development (D3303)
+jremus@de.ibm.com / jremus@linux.ibm.com
+
+IBM Deutschland Research & Development GmbH; Vorsitzender des Aufsichtsrats: Wolfgang Wendt; Geschäftsführung: David Faller; Sitz der Gesellschaft: Ehningen; Registergericht: Amtsgericht Stuttgart, HRB 243294
+IBM Data Privacy Statement: https://www.ibm.com/privacy/
+
