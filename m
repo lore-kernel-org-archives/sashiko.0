@@ -1,49 +1,48 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4720E43D500
-	for <sashiko@lists.linux.dev>; Wed, 13 May 2026 14:32:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 834D12BE057
+	for <sashiko@lists.linux.dev>; Wed, 13 May 2026 14:56:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778682743; cv=none; b=QYPjjhv4dlHbkxNtSA3A+bhzsYMjum4fIN7fNl3f9WFcGHy1Wsek3YZ6u2PGHecfWFkZt9YBxVmBadwU11EKcdaAB+wF+qtPqtJ6QZqfbu0S8JH54mUrSowHxcUEdO/7l1V41Ldt5HA4zYT3Rl4tNJG33n2G8U6pord0XxiikuQ=
+	t=1778684169; cv=none; b=UYl6h9XZzWKnDQwfnidzUoMxvAAbZPRq1s8w2cKJv1Git9tGstTE5IOIfvqOuahfDBsraBsjY6tNfMMt19i4F7q0XdPODA4+2TdvKp2rGd/EjLzdwEOHRS1AGa7gD91jnq6bkICW6x/p961C5xf3QDgxT/8MkpYkXxrM2mutHvc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778682743; c=relaxed/simple;
-	bh=X9jQF87PVNNykcMR6yot+cIK48D4cwrRooUUxWYIqZk=;
+	s=arc-20240116; t=1778684169; c=relaxed/simple;
+	bh=iF3iRtD1HVFwFmcdd0Iw6QCsk0QJZkQ/96WzLxkxZwY=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=W+ZElYMMi8zV3GzSA+YF3zv2QqjT7QPuArBZtCnrjUw+GBLkjis3lBf75sbTDHpZ07rSCtzJZHKR78nWDC0TatgqIT0IdPZexh490EQNCLaX7KO/DloxLHMW824t+pYSkza6FG3ONfl8kjvBxTMbmcdobSvkBr3abJqIhhsfWFU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=G8inXWsE; arc=none smtp.client-ip=185.246.85.4
+	 MIME-Version:Content-Type; b=VxTsDf5CFIJmipIIVajyA62/UNxrOeSOS+d1mT1aDDMADB4oUZ60gBDtCp0VoclLZJBHe1v7rLoxqHqbEnuxkl7+giEPLkPQYqvbwh8Jx+TopTs4c5CgGFalUReM8gQs4JwJ8+1GbD0PWgFL90uPpN3BFXLnPOMndtPumCZQb2k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=wnHIlYwK; arc=none smtp.client-ip=185.246.84.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="G8inXWsE"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="wnHIlYwK"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 99D524E42C29;
-	Wed, 13 May 2026 14:32:19 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id F3B891A358E
+	for <sashiko@lists.linux.dev>; Wed, 13 May 2026 14:56:05 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 6ED2C5FE21;
-	Wed, 13 May 2026 14:32:19 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 15FB711AF8D09;
-	Wed, 13 May 2026 16:32:16 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id C81EC5FE21;
+	Wed, 13 May 2026 14:56:05 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id F1F2011AF9024;
+	Wed, 13 May 2026 16:56:03 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1778682738; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1778684164; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=BeMxtiYSxnMuFpCibRJ1g3CISU5zbRRx7sxRDLcB54o=;
-	b=G8inXWsEs+1Ba/mVWXum+eoY+VjSBs0VbRmakhkrfUG/faiJ2bpYhTpn5iIjMVRf8Ahhkl
-	0DRr1BNNYb23YWzNKfcRPnsT60sCGsJesdJNZ/FlD1Yy/omyIU/OWVn6W/4g6MqIm5yFQ2
-	eS06QlrdDrS45pKCzixCIBkIL6aVIzIinWjfsWu4irYWbttkuAmYknrQBqQ9pizAAxFra+
-	SI/YTEXQU2vmpfZHyy5X1y+57b+JgJ8Vupvgj2nKan4bbaAPUlNSLoDh1owPKBHtxNENda
-	Mq8Epgw952yOHSvxeQldkARaA2QBUneg4VKzRoy8qsHI7f01U+dh2dZY8WjKZA==
-Date: Wed, 13 May 2026 16:32:15 +0200
+	bh=InIEjbkx41SElg007gk0ZVS0qwsnlkKzxM5ylSKQ/Qs=;
+	b=wnHIlYwKkJshEX+7RkItIQb7WCOi2VLN6EJm7WNvL65mWr8+xY8Mv1gsURg6953cUMyIwW
+	AO3LoqsVOI8HcxjdS68hCtZ8PpsaR/Jrn/eh+gNm/0zadDL5Er9kHyp+EyQ5X3s9xTweG7
+	13HehkHCn/pFlQCBGqMMa/4eHvZcKWx2IoXwz/td7uLUOniIDNzvA98YJdZfeN/bhEYk1s
+	UcOZoYv5HPHN3vGfMnoZEVf+sZkEAClwdsB5dOoVMCeqyQAywCHcQB4aRYmFXpP2tYpLnX
+	Nxo9uToP4ebI9QzJef+7D9ba8dpjkuxPpY9M/efghLbyxuo0wXJSHi+UHqbeRA==
+Date: Wed, 13 May 2026 16:56:02 +0200
 From: Herve Codina <herve.codina@bootlin.com>
 To: sashiko-bot@kernel.org
-Cc: sashiko@lists.linux.dev, krzk+dt@kernel.org, devicetree@vger.kernel.org,
- conor+dt@kernel.org, robh@kernel.org
-Subject: Re: [PATCH v7 2/2] bus: simple-pm-bus: Populate child nodes at
- probe
-Message-ID: <20260513163215.509d8ce4@bootlin.com>
-In-Reply-To: <20260512221231.2876FC2BCB0@smtp.kernel.org>
-References: <20260511155902.34534-3-herve.codina@bootlin.com>
-	<20260512221231.2876FC2BCB0@smtp.kernel.org>
+Cc: sashiko@lists.linux.dev, linux-pci@vger.kernel.org
+Subject: Re: [PATCH v7 7/8] PCI: of: Set fwnode device of newly created PCI
+ device nodes
+Message-ID: <20260513165602.7d6f0f29@bootlin.com>
+In-Reply-To: <20260512224622.973D1C2BCB8@smtp.kernel.org>
+References: <20260511155930.34604-8-herve.codina@bootlin.com>
+	<20260512224622.973D1C2BCB8@smtp.kernel.org>
 Organization: Bootlin
 X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 Precedence: bulk
@@ -56,91 +55,90 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Last-TLS-Session-Version: TLSv1.3
 
-Hi all,
+Hi All,
 
-On Tue, 12 May 2026 22:12:30 +0000
+On Tue, 12 May 2026 22:46:21 +0000
 sashiko-bot@kernel.org wrote:
 
-> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
-> - [High] The patch resolves fw_devlink corruption for transparent buses matched via `of_match_table`, but fails to apply this fix to transparent buses bound via `driver_override`, leaving devlinks broken in that path.
+> Thank you for your contribution! Sashiko AI review found 2 potential issue(s) to consider:
+> - [High] The patch fails to achieve its stated goal because `of_changeset_apply()` unconditionally sets the `FWNODE_FLAG_NOT_DEVICE` flag, causing `fw_devlink` to ignore the explicitly set fwnode device.
+> - [High] Dangling `fwnode->dev` pointer leads to a Use-After-Free when the PCI device is removed.
 > --
 > 
-> commit 428668c33cfe17b55dfc398a9e43567a082e1c3e
+> commit 3981405050778ad9837921511772531243255e6a
 > Author: Herve Codina <herve.codina@bootlin.com>
 > 
-> bus: simple-pm-bus: Populate child nodes at probe
+> PCI: of: Set fwnode device of newly created PCI device nodes
 > 
-> This commit modifies the simple-pm-bus driver to populate child nodes
-> during probe for transparent buses matched via of_match_table. This prevents
-> wrong or missing devlinks when fw_devlink assumes a bound driver will
-> populate its child firmware nodes.
+> This commit sets the fwnode device field of dynamically created PCI device
+> nodes to the corresponding PCI device. This aims to allow fw_devlink to
+> properly use the PCI device as a supplier, instead of falling back to the
+> PCI root bridge.
 > 
-> > diff --git a/drivers/bus/simple-pm-bus.c b/drivers/bus/simple-pm-bus.c
-> > index 4b2a793dfbd90..d969bf19a4e95 100644
-> > --- a/drivers/bus/simple-pm-bus.c
-> > +++ b/drivers/bus/simple-pm-bus.c
-> > @@ -42,14 +42,15 @@ static int simple_pm_bus_probe(struct platform_device *pdev)
-> >  	match = of_match_device(dev->driver->of_match_table, dev);
-> >  	/*
-> >  	 * These are transparent bus devices (not simple-pm-bus matches) that  
-> [ ... ]
-> >  	if (match && match->data) {
-> >  		if (of_property_match_string(np, "compatible", match->compatible) == 0)
-> > -			return 0;
-> > +			goto populate;
-> >  		else
-> >  			return -ENODEV;
-> >  	}  
-> 
-> Does this leave fw_devlink corrupted when the driver is bound using
-> driver_override?
-> 
-> Looking at simple_pm_bus_probe(), there is an early exit for driver_override
-> just before this block:
-> 
-> 	if (device_has_driver_override(&pdev->dev))
-> 		return 0;
-> 
-> Since it still returns directly instead of jumping to the populate label,
-> transparent buses bound via the driver_override sysfs attribute will skip
-> populating their child nodes. This seems to trigger the same wrong
-> supplier assignments from fw_devlink that this patch intended to fix.
-
-Well if driver_override is used fw_devlink issues related to simple-bus can
-be present.
-
-The idea in the original driver was to do nothing when driver_override is
-used. This idea has been kept to avoid any regression.
-
-> 
-> > @@ -78,7 +80,7 @@ static void simple_pm_bus_remove(struct platform_device *pdev)
-> >  {
-> >  	const void *data = of_device_get_match_data(&pdev->dev);
+> > diff --git a/drivers/pci/of.c b/drivers/pci/of.c
+> > index 7506208815a47..25fb02c3dc720 100644
+> > --- a/drivers/pci/of.c
+> > +++ b/drivers/pci/of.c
+> > @@ -709,6 +709,13 @@ void of_pci_make_dev_node(struct pci_dev *pdev)
+> >  	if (ret)
+> >  		goto out_free_node;
 > >  
-> > -	if (device_has_driver_override(&pdev->dev) || data)
-> > +	if (device_has_driver_override(&pdev->dev))
-> >  		return;
-> >  
-> >  	dev_dbg(&pdev->dev, "%s\n", __func__);
-> > @@ -86,7 +88,8 @@ static void simple_pm_bus_remove(struct platform_device *pdev)
-> >  	if (pdev->dev.of_node)
-> >  		of_platform_depopulate(&pdev->dev);  
+> > +	/*
+> > +	 * Set the fwnode device in order to have fw_devlink creating links
+> > +	 * pointing to this PCI device instead of walking up to the PCI host
+> > +	 * bridge.
+> > +	 */
+> > +	fw_devlink_set_device(&np->fwnode, &pdev->dev);  
 > 
-> If the driver_override path in probe() is updated to populate children,
-> should this remove() function also be updated to depopulate them?
+> Can this lead to a use-after-free regression when the PCI device is removed?
 > 
-> Additionally, does checking device_has_driver_override() here risk unbalanced
-> cleanup? If userspace modifies the driver_override sysfs attribute after
-> probe() but before remove(), this check could evaluate differently during
-> removal. Since of_platform_depopulate() safely ignores unpopulated buses,
-> would it be better to call it unconditionally?
+> During PCI device removal, of_pci_remove_node() calls
+> device_remove_of_node(&pdev->dev) which explicitly sets pdev->dev.fwnode
+> to NULL.
+> 
+> Later, when device_del(&pdev->dev) is executed, its built-in fwnode cleanup
+> mechanism is completely bypassed because pdev->dev.fwnode was already cleared:
+> 
+>     if (dev->fwnode && dev->fwnode->dev == dev)
+>         fw_devlink_set_device(dev->fwnode, NULL);
+> 
+> This leaves np->fwnode.dev as a dangling pointer to &pdev->dev.
+> 
+> If the OF node outlives the PCI device, any subsequent operation that accesses
+> the node through fw_devlink will dereference the freed pdev->dev memory.
+
+It will not. In device_remove_of_node(), the OF node is destroyed when the
+of_changeset_revert() and of_changeset_destroy() are called.
+
+> 
+> > +
+> >  	ret = of_changeset_apply(cset);  
+> 
+> Does this code actually prevent fw_devlink from walking up to the PCI host
+> bridge?
+> 
+> of_changeset_apply() invokes __of_attach_node(), which unconditionally
+> executes fwnode_set_flag(&np->fwnode, FWNODE_FLAG_NOT_DEVICE).
+> 
+> When fw_devlink attempts to resolve a supplier, it checks for this flag:
+> 
+>     if (fwnode_test_flag(sup_handle, FWNODE_FLAG_NOT_DEVICE))
+>         sup_dev = fwnode_get_next_parent_dev(sup_handle);
+> 
+> Because FWNODE_FLAG_NOT_DEVICE is set, fw_devlink bypasses the explicitly
+> mapped np->fwnode.dev and walks up the tree to the parent device anyway.
+> 
+> >  	if (ret)
+> >  		goto out_free_node;  
 > 
 
-Not sure that calling it unconditionally should be done.
-The original driver behavior at remove() has been kept.
+Well, an other series fixes this FWNODE_FLAG_NOT_DEVICE issue [1].
 
-Maintainers, what is your feeling about this driver_override topic here
-with modification and in the original driver?
+In this one, with or without the fw_devlink_set_device() call the issue is
+present.
+
+
+[1] patches 1 and 2 in https://lore.kernel.org/all/20260511155755.34428-1-herve.codina@bootlin.com/
 
 Best regards,
 Hervé
