@@ -1,136 +1,97 @@
-Received: from out-174.mta1.migadu.com (out-174.mta1.migadu.com [95.215.58.174])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6447A37883D
-	for <sashiko@lists.linux.dev>; Wed, 13 May 2026 10:44:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F3793A6F1C;
+	Wed, 13 May 2026 12:22:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778669097; cv=none; b=ATeaUQw6NGi43oVeuwozVAIdkCcC4lmAvqZ+M3E27E2JUqBzK/NWBNAwiMcFqWZXxFoi2JDiKBwJ3MOYB3vO/ik+NQqSGy6LNlXF52PVZEjX5bQyb9gs1cQLbcVcbBxmblzNIlZXNaiSPhB3WNMTwJQr4TYYyevaz3hhWcXjVhw=
+	t=1778674973; cv=none; b=LFxFyBmsskMqpXbUwftRzXyeCJY4Nl1ERTFOBgWFvCe/EnYzlp+aAUTgCD6ulUATzE1nERsQ4fD/OIHkB9P2x+rQZuHvK13416sY6zxdfcVpTnXGnDUUgucPE+x5ZPojsE0jUQ+oA/hpwj/z8q2aYqmcChKUGL0kLsNacKUhzpI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778669097; c=relaxed/simple;
-	bh=mb7xgfwPFf4dXX1t4tYcp5VGHnpyXla+eax8ZaoMbEc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=E6Bm+SuZq0YcdujhevcN5KWJ/zKONGMKFlKwaa9WsIvZUPVBEc4s1ayO6x5ZxG8n+LDffh2Uc4eeW1MXRSmjy2rVuEvpIChqEW4SMbECImjsV26X+rU4i2meJF+Lg7IyyVE9xDZktqIjWJynsYLJIXdecy9KqNhbG/xr5u4j4wA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=dL45d4eu; arc=none smtp.client-ip=95.215.58.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1778674973; c=relaxed/simple;
+	bh=KVYhtI5apRU7KUdUKEM1I55Nu8KdDkMKATLFzD1Nelo=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=WWc0KdYNzXHpQ/MTPRyU4iGwRi5ceISUAgP8mJH2CE7GSe3pWwsKtJ12VguIxq9meHAseZJye3CLXaDoaHH9LBEwOFR5KgRSL0DWoMafmUT9sVcAUbVLUfalHVREGeoxLalzgHB4Bt0P+Hhh6ixx++q/JRJoTbolX6IH8hnvPPI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cUgRYbC4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="dL45d4eu"
-Message-ID: <4e22ee14-6d49-4eff-83df-cc1e908c17e5@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1778669092;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=aWWzFI4RAJF71dNmeRDb+aiELMv8Xhq9/aQr1qvY9/w=;
-	b=dL45d4euVlicjgsPKjwWSSzP+KN37XNA3fmGukC7qK7wsW9fdZffYbd+CE/n6bjmjCWkVK
-	WNTvOZhD5cODFcKJiKddX+8/TxLpfjAmCSe+Uns2f27vKyCcE8G/f/j3FP2IcBWIqh8Sts
-	AwWfnIcS/TAQld+wFqV2L6yleZnqNOk=
-Date: Wed, 13 May 2026 18:44:32 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cUgRYbC4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AB9DC2BCB7;
+	Wed, 13 May 2026 12:22:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778674973;
+	bh=KVYhtI5apRU7KUdUKEM1I55Nu8KdDkMKATLFzD1Nelo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=cUgRYbC4Z2sAab4AdWsSW9R0IvscokW2tfzePrjBirIjwifbgEPCt+1ONLHWzdFoW
+	 Embgjr3mFMNWhfog87VvBAOOF910oZwx8KOzMwsUdkjj5eZ85XvCVaIrIQ/aUsbUGF
+	 sfmJFwV3xXK/zff+vdVCTKEksS0ZvWfXp4daMpGuhHt/ctbj9mhPA1VBZmTNdsSl1I
+	 QgViYuv/1zG05axJEg/dewU60JtT5RckVXBfMwOqsQzzHsmujezCme7mnp4c1N14Zf
+	 A+kowqwBgRbCiPCztSD34mgth94qoQYAwWcMzgfbZxv81TxobORdOVZDvJsHVmXQZf
+	 e4uHy/4rz0ESw==
+Date: Wed, 13 May 2026 08:22:49 -0400
+From: Steven Rostedt <rostedt@kernel.org>
+To: Jens Remus <jremus@linux.ibm.com>
+Cc: Josh Poimboeuf <jpoimboe@kernel.org>, Indu Bhagat
+ <ibhagatgnu@gmail.com>, bpf@vger.kernel.org, sashiko@lists.linux.dev, Heiko
+ Carstens <hca@linux.ibm.com>
+Subject: Re: [PATCH v14 05/19] unwind_user/sframe: Add support for reading
+ .sframe contents
+Message-ID: <20260513082249.51238d75@fedora>
+In-Reply-To: <5e7a8a95-fee6-42f7-9c17-a8c1684240ec@linux.ibm.com>
+References: <20260505121718.3572346-6-jremus@linux.ibm.com>
+	<20260505185932.C708CC2BCB4@smtp.kernel.org>
+	<4e5d51f0-8f4c-4a07-9141-8b26d2c90fc6@linux.ibm.com>
+	<20260506110142.7b2943d7@fedora>
+	<5e7a8a95-fee6-42f7-9c17-a8c1684240ec@linux.ibm.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH bpf-next v13 4/8] bpf: Add syscall common attributes
- support for prog_load
-Content-Language: en-US
-To: sashiko@lists.linux.dev
-Cc: bpf@vger.kernel.org
-References: <20260511152817.89191-5-leon.hwang@linux.dev>
- <20260512221819.7EA2FC2BCB0@smtp.kernel.org>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Leon Hwang <leon.hwang@linux.dev>
-In-Reply-To: <20260512221819.7EA2FC2BCB0@smtp.kernel.org>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
 
-On 13/5/26 06:18, sashiko-bot@kernel.org wrote:
-[...]
->>  int bpf_log_attr_init(struct bpf_log_attr *log, u64 log_buf, u32 log_size, u32 log_level,
->> -		      u32 offsetof_log_true_size, bpfptr_t uattr)
->> +		      u32 offsetof_log_true_size, bpfptr_t uattr, struct bpf_common_attr *common,
->> +		      bpfptr_t uattr_common, u32 size_common)
->>  {
->> +	char __user *ubuf_common = u64_to_user_ptr(common->log_buf);
->>  	char __user *ubuf = u64_to_user_ptr(log_buf);
->>  
->> +	if (!bpf_verifier_log_attr_valid(common->log_level, ubuf_common, common->log_size) ||
->> +	    !bpf_verifier_log_attr_valid(log_level, ubuf, log_size))
->> +		return -EINVAL;
->> +
->> +	if (ubuf && ubuf_common && (ubuf != ubuf_common || log_size != common->log_size ||
->> +				    log_level != common->log_level))
->> +		return -EINVAL;
-> 
-> If a user specifies log_level != 0 but leaves log_buf == NULL to probe for
-> log_true_size, will these checks bypass conflicts?
-> 
-> If one side provides a complete tuple and the other provides only log_level,
-> or if both provide mismatched log_levels without buffers, it appears the
-> conflict checks are skipped and no -EINVAL is returned.
-> 
+On Tue, 12 May 2026 15:35:09 +0200
+Jens Remus <jremus@linux.ibm.com> wrote:
 
-Correct.
-
-However, if users want to probe for log_true_size, they should not
-provide common attrs. It is compatible for bpf libraries to probe for
-log_true_size using union bpf_attr without providing common attrs.
-
->> +
->>  	memset(log, 0, sizeof(*log));
->>  	log->ubuf = ubuf;
->>  	log->size = log_size;
->>  	log->level = log_level;
->>  	log->offsetof_true_size = offsetof_log_true_size;
->>  	log->uattr = uattr;
->> +
->> +	if (!ubuf && ubuf_common) {
 > 
-> Does this condition silently ignore valid common->log_level configurations?
 > 
-> If the user provides only common->log_level via bpf_common_attr for a log
-> size dry-run, ubuf_common evaluates to NULL. The condition here would
-> evaluate to false, and common->log_level would be ignored instead of
-> applied.
+> IIUC config options that get selected should not depend on.  So the
+> following would not be ok, although it seems to work?
+> 
+> diff --git a/arch/Kconfig b/arch/Kconfig
+> @@ -495,6 +495,8 @@ config HAVE_UNWIND_USER_FP
+> 
+>  config HAVE_UNWIND_USER_SFRAME
+> 	bool
+> +	depends on 64BIT
+> +	depends on HAVE_EFFICIENT_UNALIGNED_ACCESS
+
+A config selected by architectures should not have architecture
+dependencies, as those architectures should not be selecting it!
+
+Archs with both 32 bit and 64 bit should do:
+
+	select HAVE_UNWIND_USER_SFRAME if 64BIT
+
+And no arch without unaligned access should have it selected.
+
+> 	select UNWIND_USER
 > 
 
-The user should probe for log size using union bpf_attr instead of
-common attrs.
 
-> Also, if both specific and common attributes provide identical log
-> parameters, the code appears to unconditionally use uattr for the
-> log_true_size writeback since ubuf is not NULL.
 > 
-> If the original uattr uses an older layout without space for log_true_size,
-> log->offsetof_true_size will be set to 0. Does this mean log_true_size
-> writeback will be lost even if the user provided a modern attr_common
-> struct with sufficient space to receive it?
-> 
+> Shall I better use BUILD_BUG_ON(!IS_ENABLED(CONFIG_...)) instead?  Would
+> I add that to all functions that are affected (i.e. __read_fre(),
+> __read_default_fre_datawords(), and __read_flex_fde_fre_datawords()),
+> duplicating the build-time error message, or would I better introduce a
+> dummy function to check this precondition (and 64-bit arch), for
+> instance:
 
-This was intentional.
-
-If the user uses union bpf_attr to receive log, he should provide the
-space for log_true_size.
-
-IOW, if the user uses common attrs to receive log, he should provide the
-space in common attrs for log_true_size.
+Yeah, that's a better idea. You only need one BUILD_BUG_ON() in the
+file for it to have the desired effect. You don't need to add a dummy
+function. Just put it in sframe_read_header().
 
 Thanks,
-Leon
 
->> +		log->ubuf = ubuf_common;
->> +		log->size = common->log_size;
->> +		log->level = common->log_level;
->> +		log->uattr = uattr_common;
->> +		log->offsetof_true_size = 0;
->> +		if (size_common >= offsetofend(struct bpf_common_attr, log_true_size))
->> +			log->offsetof_true_size = offsetof(struct bpf_common_attr, log_true_size);
->> +	}
->>  	return 0;
->>  }
-> 
-
+-- Steve
