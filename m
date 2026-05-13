@@ -1,140 +1,200 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0BFA3E6DDD;
-	Wed, 13 May 2026 09:20:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C4CF3ED11F;
+	Wed, 13 May 2026 09:43:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778664053; cv=none; b=fbGaKM+SCGk47iErNVV3LtmkuG2fB9Nr1o3Ypmq/AtelVXB7y3AexjVD+Mc5UeUFw2W0nwCgdqZD8nCz7HssTza0LPjG0AATff63PONo936OCdWSPetPSHBcQxr5FPEqgU3p3SNAUGSC3n+8Afh/ujqpl/FTLMDuNaLGkwmIBNI=
+	t=1778665435; cv=none; b=bUWqdgLi2v1u3clqCnH6kyENEvwwijVfFUa+B3EViYAvOf3w2ICsuvf0cfiZ3Aa/NS1Pyymy5KUIZ+7CWVyBl8kpXJMGuEL5PWfqlwsx+rgZjnjyJGL5ozS7O8Zlc4ZSdc0V4F3JhDknkTGgA2GwS+ht4cwWCOgdy2YbQHjaRYs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778664053; c=relaxed/simple;
-	bh=voKyE5RZ6JydcnsVAPGVmM88R7mBpWV6dEqnB2yU1cc=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=MfFR14dyJ12e++L3dCS6EdlIAyYI+tGLe4YW1EcTIReG2bZGIbnwmCFON76rP8Bg7zzXtnsW5gqINiP+Pm0/3yvNmc5DB3XDjav0hafDmcF91HnQqo3cqwH76xTdXv/7/qxSVpEQOj9JjnxUWI0MYdiPHlFnahksMuI1cGWYyoo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=tCvflfaN; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1778665435; c=relaxed/simple;
+	bh=Ub62bfMWlc5R306323COfpZrvhEMCoZst8dt+8UYDFg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TNM/8EeVpAZ6DvrBrL+bD4k3/rGdnR/R00JfP5umLDsplz73NYQ+szyw1XF0dr/CsLCoPbDYkdQE9p//utEiYa1KUH/IWlWnorFATfG36ySJjJS5Pe1wzvJ+SfKzWpLVSOHuEdZPM0GRRFro27NFC67bNIsnG8ssgPQMS92suI0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K6mUypW6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="tCvflfaN"
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64D3EBp83049159;
-	Wed, 13 May 2026 09:20:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=OwwYCU
-	FV8IC7PJ+SwxrCJWMwcLyhDqU2CKCyoIp9u9Y=; b=tCvflfaNy90crswhQ9vlp4
-	3/KL468JkhZ88h1fBbsIpIh/GO3edj0JNZMJ9/x+da0mV4xxYulxRK4G1mbdnkdo
-	UPT1IPrwHe5MdscEyjMk+8LpDfddgkFx8r76q35zzJuXewPPJQg33+d0qecQPTu/
-	HVmf3gEuISV5Et9NSeKG4HEgrrd79Fz217JDHk1JobNaCLKOtncFygAKatyR64yV
-	NXvRCTKjk+prnxemf+TR849Ly+Fn6pAwi+WHbBig8bN6q4HJgNjdQbr0trgwq7Cj
-	MkKcjZpmw4N2v3U/i/pkaQnQYa7I4bjoXBUB1DshjV1WVScB2nUtlC+j1QT6UDiA
-	==
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4e3nv6pnx1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 13 May 2026 09:20:42 +0000 (GMT)
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 64D99PnP025166;
-	Wed, 13 May 2026 09:20:42 GMT
-Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4e3nfgq3vu-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 13 May 2026 09:20:42 +0000 (GMT)
-Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com [10.20.54.103])
-	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 64D9Ke3o34537800
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 13 May 2026 09:20:40 GMT
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2F0C82004E;
-	Wed, 13 May 2026 09:20:40 +0000 (GMT)
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 0A8AB2004B;
-	Wed, 13 May 2026 09:20:40 +0000 (GMT)
-Received: from [9.52.200.195] (unknown [9.52.200.195])
-	by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Wed, 13 May 2026 09:20:39 +0000 (GMT)
-Message-ID: <d12caa4a-e54f-422b-92b1-b2f51bf7ea20@linux.ibm.com>
-Date: Wed, 13 May 2026 11:20:39 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K6mUypW6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6C1FC2BCB7;
+	Wed, 13 May 2026 09:43:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778665434;
+	bh=Ub62bfMWlc5R306323COfpZrvhEMCoZst8dt+8UYDFg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=K6mUypW6tPKXXJCcJqDZGBHIkwqhuVK5e2zNWl/FfNF89h9GALT+5TECc3xGo5cLe
+	 lwkzdaiP3cihxgij1lcEXDrajzJbGz+zV3r1MwhNh7kQZ8FJI+yjr8NNBi0L9efyvv
+	 Lox6nsDCpzXaSYaOiz3nLLCEQBgSLGnXxg88DJjJDhERyrxMdWAmvQj3lCTLV6qG4F
+	 dN+dgxa35w5q+BJpCtxa+04G95Xz5BRMEQD1PKZZ25ZmEEAHKJLfplYEMcWsXXbC+I
+	 zglX4GXfTGz1fsH8ngHJJE5SmUwPsK+n/OD6LBA0w19T0BLsQHqCDmOg4TUh5joTtR
+	 JU2XQnYIm6MEA==
+Date: Wed, 13 May 2026 11:43:51 +0200
+From: Lorenzo Bianconi <lorenzo@kernel.org>
+To: sashiko@lists.linux.dev
+Cc: conor+dt@kernel.org, devicetree@vger.kernel.org, robh@kernel.org,
+	krzk+dt@kernel.org
+Subject: Re: [PATCH net-next v6 09/12] net: airoha: Do not stop GDM port if
+ it is shared
+Message-ID: <agRH12v6OeetUmtJ@lore-desk>
+References: <20260511-airoha-eth-multi-serdes-v6-9-c899462c4f75@kernel.org>
+ <20260512213116.7414FC2BCB0@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v14 11/19] unwind_user/sframe: Show file name in debug
- output
-From: Jens Remus <jremus@linux.ibm.com>
-To: Steven Rostedt <rostedt@kernel.org>, Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: bpf@vger.kernel.org, sashiko@lists.linux.dev,
-        Indu Bhagat <ibhagatgnu@gmail.com>, Heiko Carstens <hca@linux.ibm.com>
-References: <20260505121718.3572346-12-jremus@linux.ibm.com>
- <20260505184638.5648DC2BCB4@smtp.kernel.org>
- <edd04d6c-3cdc-43da-9cf2-44cccc353658@linux.ibm.com>
-Content-Language: en-US
-Organization: IBM Deutschland Research & Development GmbH
-In-Reply-To: <edd04d6c-3cdc-43da-9cf2-44cccc353658@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Authority-Analysis: v=2.4 cv=Us1T8ewB c=1 sm=1 tr=0 ts=6a04426b cx=c_pps
- a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
- a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=VnNF1IyMAAAA:8
- a=VwQbUJbxAAAA:8 a=0MvmVg10__VCTnNSAJcA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: eajoxDX7UYy6UqVBMykyXRGTaSxANpgM
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTEzMDA5NCBTYWx0ZWRfX96Wp664p85tg
- AljJKvZrKZkGrUEuT0bc6tj/yYhN9NJdnr7IsCsHCUFRlNMDchdLAIzyMpXSJjX75r87Pj9zvkl
- At3bxNECBln9CGoWxOdQJqMolqqgaIVSizUuBozAiELJCAerT/eSuqYoBmIbvyiI/FoHMJqPO+Y
- xOGuG7L61iVSKZeAQc5JGVYZX6s5uI3KuH13eFO/OigGVqxaSgDa9bePcqcbKFyzcWjQNCSZjlH
- m3JquUe5saniMdAlXVIsLlP3TDCdB+Y83uXyQfBYa0Bw+mzQncfObiRSc1zsXv1i+4VZjL84F+A
- /IHwTFgWXmxLE3ylNXJ7vDLEAnae/fWmya91+u0U/qbU9mdp3rBjxeHgoGBZievnFOxieAgIXMi
- +s5546XCPE4zsO0FY2cuhIN6uV/6sWFqLC2K3dOuwUWpZHBFExEjNLmJQYuYhAcXwXF/ovhW0hN
- iXHXb0JaPtCkoyfrghg==
-X-Proofpoint-ORIG-GUID: dEsWO2sHdweVIFkg_oyCXmxZh8d5U2Gi
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-05-11_05,2026-05-08_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 priorityscore=1501 impostorscore=0 lowpriorityscore=0
- bulkscore=0 suspectscore=0 spamscore=0 malwarescore=0 clxscore=1015
- adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2605050000
- definitions=main-2605130094
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="fA35iJO0kV4N5A4K"
+Content-Disposition: inline
+In-Reply-To: <20260512213116.7414FC2BCB0@smtp.kernel.org>
 
-On 5/12/2026 4:52 PM, Jens Remus wrote:
-> On 5/5/2026 8:46 PM, sashiko-bot@kernel.org wrote:
-> 
->> [ ... ]
->>> @@ -496,7 +501,7 @@ static int __sframe_remove_section(struct mm_struct *mm,
->>>  				   struct sframe_section *sec)
->>>  {
->>>  	if (!mtree_erase(&mm->sframe_mt, sec->text_start)) {
->>> -		dbg("mtree_erase failed: text=%lx\n", sec->text_start);
->>> +		dbg_sec("mtree_erase failed: text=%lx\n", sec->text_start);
->>
->> Does accessing sec->filename in dbg_sec() risk a use-after-free here? If
->> mtree_erase() fails, it indicates the section might have been concurrently
->> removed. The SRCU grace period could expire, causing sec to be freed before
->> dbg_sec() is called.
-> 
-> IIUC this is a valid concern.  Should this change be simply be reverted
-> or should __sframe_remove_section() create a temporary copy of the
-> filename and use dbg() for this rather unlikely case?
 
-On my way home it occurred to me that adding guard(srcu)(&sframe_srcu);
-to sframe_remove_section() (see my feedback on "[PATCH v14 03/19]
-unwind_user/sframe: Store .sframe section data in per-mm maple tree")
-should also resolve this use-after-free without any need for changes.
+--fA35iJO0kV4N5A4K
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+> Thank you for your contribution! Sashiko AI review found 3 potential issu=
+e(s) to consider:
+> - [High] Stopping a net_device leaves its packets in the shared QDMA hard=
+ware TX ring, causing a BUG_ON kernel panic or Use-After-Free when the hard=
+ware later transmits them.
+> - [Medium] When decreasing the MTU on a shared GDM port with multiple act=
+ive users, the hardware MTU is not reduced to match the new global maximum.
+> - [Low] The function parameter `netdev` is overwritten in a loop within `=
+airoha_dev_stop()`.
+> --
+>=20
+> commit 30071ffd90f181adfa0fb1ab6717d5d5cfa7e0e8
+> Author: Lorenzo Bianconi <lorenzo@kernel.org>
+>=20
+> net: airoha: Do not stop GDM port if it is shared
+>=20
+> Theoretically, in the current codebase, two independent net_devices can
+> be connected to the same GDM port so we need to check the GDM port is not
+> used by any other running net_device before setting the forward
+> configuration to FE_PSE_PORT_DROP.
+>=20
+> > diff --git a/drivers/net/ethernet/airoha/airoha_eth.c b/drivers/net/eth=
+ernet/airoha/airoha_eth.c
+> > index 4efd36779453e..aed182c7a5e17 100644
+> > --- a/drivers/net/ethernet/airoha/airoha_eth.c
+> > +++ b/drivers/net/ethernet/airoha/airoha_eth.c
+> [ ... ]
+> > @@ -1759,6 +1769,7 @@ static int airoha_dev_stop(struct net_device *net=
+dev)
+> >  	struct airoha_gdm_dev *dev =3D netdev_priv(netdev);
+> >  	struct airoha_gdm_port *port =3D dev->port;
+> >  	struct airoha_qdma *qdma =3D dev->qdma;
+> > +	u32 len =3D 0;
+> >  	int i;
+> > =20
+> >  	netif_tx_disable(netdev);
+> > @@ -1766,8 +1777,23 @@ static int airoha_dev_stop(struct net_device *ne=
+tdev)
+> >  	for (i =3D 0; i < netdev->num_tx_queues; i++)
+> >  		netdev_tx_reset_subqueue(netdev, i);
+>=20
+> If another device is still using the QDMA (qdma->users > 1), the hardware=
+ TX
+> ring is not cleaned up. NAPI polling is bound to a dummy device and conti=
+nues
+> running.
+>=20
+> When NAPI later processes the stopped device's pending TX completions, it
+> unconditionally calls netdev_tx_completed_queue() which invokes
+> dql_completed().
+>=20
+> Since BQL was reset here, will this trigger a BUG_ON in
+> lib/dynamic_queue_limits.c? Furthermore, if the device was unregistered,
+> would the skb->dev access in the completion handler result in a
+> use-after-free?
+
+This issue is not introduced in this patch.
+
+>=20
+> > =20
+> > -	airoha_set_gdm_port_fwd_cfg(qdma->eth, REG_GDM_FWD_CFG(port->id),
+> > -				    FE_PSE_PORT_DROP);
+> > +	for (i =3D 0; i < ARRAY_SIZE(port->devs); i++) {
+> > +		if (!port->devs[i])
+> > +			continue;
+> > +
+> > +		netdev =3D port->devs[i]->dev;
+>=20
+> This isn't a bug, but this loop reassigns the local parameter netdev. Whi=
+le
+> it might be functionally harmless right now because netdev isn't derefere=
+nced
+> later in this function, could this create issues for future modifications
+> expecting netdev to still point to the device being stopped?
+
+ack, I will fix it in v7.
+
+>=20
+> > +		if (netif_running(netdev))
+> > +			len =3D max_t(u32, len, netdev->mtu);
+> > +	}
+> > +	len +=3D ETH_HLEN + ETH_FCS_LEN;
+> > +	airoha_fe_rmw(qdma->eth, REG_GDM_LEN_CFG(port->id),
+> > +		      GDM_LONG_LEN_MASK,
+> > +		      FIELD_PREP(GDM_LONG_LEN_MASK, len));
+> > +
+> [ ... ]
+> > @@ -1919,13 +1945,18 @@ static void airoha_dev_get_stats64(struct net_d=
+evice *netdev,
+> >  static int airoha_dev_change_mtu(struct net_device *netdev, int mtu)
+> >  {
+> >  	struct airoha_gdm_dev *dev =3D netdev_priv(netdev);
+> > +	u32 cur_len, len =3D ETH_HLEN + mtu + ETH_FCS_LEN;
+> >  	struct airoha_gdm_port *port =3D dev->port;
+> > -	u32 len =3D ETH_HLEN + mtu + ETH_FCS_LEN;
+> >  	struct airoha_eth *eth =3D dev->eth;
+> > =20
+> > -	airoha_fe_rmw(eth, REG_GDM_LEN_CFG(port->id),
+> > -		      GDM_LONG_LEN_MASK,
+> > -		      FIELD_PREP(GDM_LONG_LEN_MASK, len));
+> > +	cur_len =3D airoha_fe_get(eth, REG_GDM_LEN_CFG(port->id),
+> > +				GDM_LONG_LEN_MASK);
+> > +	if (len > cur_len || !port->users ||
+> > +	    (port->users =3D=3D 1 && netif_running(netdev)))
+> > +		airoha_fe_rmw(eth, REG_GDM_LEN_CFG(port->id),
+> > +			      GDM_LONG_LEN_MASK,
+> > +			      FIELD_PREP(GDM_LONG_LEN_MASK, len));
+>=20
+> If there are multiple running devices on the shared port and they all low=
+er
+> their MTU, this condition prevents the hardware MTU from being updated to
+> match the new global maximum. Should this iterate over port->devs to comp=
+ute
+> the actual maximum MTU of all running devices, similar to how it is handl=
+ed
+> in airoha_dev_stop()?
+
+According to my understanding, airoha_dev_change_mtu() is running with RTNL
+lock held so we will always have the max configured mtu in cur_len.
 
 Regards,
-Jens
--- 
-Jens Remus
-Linux on Z Development (D3303)
-jremus@de.ibm.com / jremus@linux.ibm.com
+Lorenzo
 
-IBM Deutschland Research & Development GmbH; Vorsitzender des Aufsichtsrats: Wolfgang Wendt; Geschäftsführung: David Faller; Sitz der Gesellschaft: Ehningen; Registergericht: Amtsgericht Stuttgart, HRB 243294
-IBM Data Privacy Statement: https://www.ibm.com/privacy/
+>=20
+> > +
+> >  	WRITE_ONCE(netdev->mtu, mtu);
+> > =20
+> >  	return 0;
+>=20
+> --=20
+> Sashiko AI review =B7 https://sashiko.dev/#/patchset/20260511-airoha-eth-=
+multi-serdes-v6-0-c899462c4f75@kernel.org?part=3D9
 
+--fA35iJO0kV4N5A4K
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTquNwa3Txd3rGGn7Y6cBh0uS2trAUCagRH1wAKCRA6cBh0uS2t
+rM31AQDunwBJ0DVCS5kAHpHwul4CaN/W8nGCUKRkGWyRHdTNNAD9HDklGrcRS6YR
+qT2san+wDl2cbYm9Qr6rnVWH8iYZ8QM=
+=oOYX
+-----END PGP SIGNATURE-----
+
+--fA35iJO0kV4N5A4K--
