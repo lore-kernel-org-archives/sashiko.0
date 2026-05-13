@@ -1,278 +1,136 @@
-Received: from SEYPR02CU001.outbound.protection.outlook.com (mail-koreacentralazolkn19013079.outbound.protection.outlook.com [52.103.74.79])
+Received: from out-174.mta1.migadu.com (out-174.mta1.migadu.com [95.215.58.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BD783EFD0C
-	for <sashiko@lists.linux.dev>; Wed, 13 May 2026 10:09:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.74.79
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778667011; cv=fail; b=fl3wYBeV3C7kPMC2EkYAAF2nY8xLsRXpw2FRYIQPd4s+fZXN6FaBiGkCxRX3NTBTzHdJikDoCaUYuyBlgauKAv+wxV7bFmNaCVO59Pm6xf6ND3z5YXK7dkhwduhynkwRbxXJ56znzezhAAcx+oiseaFWuFWP7Fwj2e6vWQtCO90=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778667011; c=relaxed/simple;
-	bh=Yfd0grg1L1M/8c344d5cp7tXYF0oCEzE3ivJkibnUlI=;
-	h=Message-ID:Date:From:Subject:To:Cc:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=cmn2pBP9PSo9zrcqIygBRBKQVJF9CJCoZkIFB9AFNhlP2LcpSp3KzZKeh2nfz1LW357A/HnmDea5InSfwUMjs6/06myiatJajwUOnnJ554e5jGbYzcp9bzylsh4g0CloQmU9+6QEe5CKMkkuiGZT3+9jNIdSsRrUoRn4oeNGRcc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.com; spf=pass smtp.mailfrom=hotmail.com; dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b=EOykYbPz; arc=fail smtp.client-ip=52.103.74.79
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hotmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6447A37883D
+	for <sashiko@lists.linux.dev>; Wed, 13 May 2026 10:44:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.174
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778669097; cv=none; b=ATeaUQw6NGi43oVeuwozVAIdkCcC4lmAvqZ+M3E27E2JUqBzK/NWBNAwiMcFqWZXxFoi2JDiKBwJ3MOYB3vO/ik+NQqSGy6LNlXF52PVZEjX5bQyb9gs1cQLbcVcbBxmblzNIlZXNaiSPhB3WNMTwJQr4TYYyevaz3hhWcXjVhw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778669097; c=relaxed/simple;
+	bh=mb7xgfwPFf4dXX1t4tYcp5VGHnpyXla+eax8ZaoMbEc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=E6Bm+SuZq0YcdujhevcN5KWJ/zKONGMKFlKwaa9WsIvZUPVBEc4s1ayO6x5ZxG8n+LDffh2Uc4eeW1MXRSmjy2rVuEvpIChqEW4SMbECImjsV26X+rU4i2meJF+Lg7IyyVE9xDZktqIjWJynsYLJIXdecy9KqNhbG/xr5u4j4wA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=dL45d4eu; arc=none smtp.client-ip=95.215.58.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b="EOykYbPz"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=msdkuBjVcARHK+81PHxwr9z7y/c2Ns+YD0xTtK3Q4C8maDLouuoEsmKph+sS6UpGUH6QRmx9SRSaf/ZIjwVRrLH2RBDSVq2+wg/zJvuUJVv/fMMiWXOuIz33ERoYsSJKBffxNaqdDZ0ky08gVv2BSWADFkluPWIa/IN0fJFkXg8pWe9AeHXmHYhbVq0y5NuJeSDyAhH7yQ78hcX/5TWUISXrQ2d5QgJ2xQmyieUubx6lapt/zkstpUYVJG9stWfbFeMfNgS9Pcl71VeOL9Sn4fkrWFmMufdtuaYjUtgSVPhTRjrBOzoFbo2UU8BJXmu5hFH93L4ojl4TSQs43doUgw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Cb83e4OonzjNxlKeSmm5eukfBtKsDPALHRY5RdAEYtA=;
- b=SLmnSg5AMTefsIBGGiRhHjxY31UW3ZWHMZLYgBdBDrzLn4y+VE0UPmoZisEWt7zUf+1LofxHkrLrk9YguCfzMNqaubOV/TqePp2/9x9wD4p2Z3/jEGH14RO775PggchzCH85j0osfF5c5yWexX+9joS5MSLPHdJ36PUXR+bscn4B+9uYml6UYXRTMg+qTiFCWDg0SZ837oaHlxxAGfFlyhm5Sa4nyUSNqTSiDfJywnrk7iFZFvOF4GbaE/txuqDbqDxI4qZSqxIx4K+GdVlXirnaJsjQQQolcoosyEoN6PBun7XuIr3DM7JzG+6dTpb/kBWosjOKdAFu+SIx7m4KBA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Cb83e4OonzjNxlKeSmm5eukfBtKsDPALHRY5RdAEYtA=;
- b=EOykYbPzuAgJZmppMqc9TFakXe4TPsrDmibcfiS/9wdYeDSF+PwxOWB8YjQb96Al2QA1bgi2WDCd9mOL4HLIAu5ESBuOQKSMPqqS7ReX6e0H+1Qvyd6STbt8Ag/5B5OjnziBki0OHjwzmTWsnrwkzxxPKSUdOBvptmAcK4rGFa+Beu5aAgBDY41izqb0FblnMhPT3ylhQ/OT26ydv4pUmsS2ERHmtpsFdPdNBFqpEtr73ULz6x2Y6/6/e76yYAycM3ARQ02FjCw2fqNYDP48OBOlkkOH0rPMHD3KpRPdqvBTXzMgpviQUs2DFIJ3W9luD0PPge3cLzK2yM+Ode8rGg==
-Received: from SI2PR01MB4393.apcprd01.prod.exchangelabs.com
- (2603:1096:4:1b0::7) by SI4PR01MB8008.apcprd01.prod.exchangelabs.com
- (2603:1096:4:29b::17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9913.11; Wed, 13 May
- 2026 10:09:54 +0000
-Received: from SI2PR01MB4393.apcprd01.prod.exchangelabs.com
- ([fe80::c735:fab8:6e3d:6d1c]) by SI2PR01MB4393.apcprd01.prod.exchangelabs.com
- ([fe80::c735:fab8:6e3d:6d1c%3]) with mapi id 15.20.9913.009; Wed, 13 May 2026
- 10:09:54 +0000
-Message-ID:
- <SI2PR01MB4393B797DFA5AD23FEBC6D6FDC062@SI2PR01MB4393.apcprd01.prod.exchangelabs.com>
-Date: Wed, 13 May 2026 18:09:46 +0800
-User-Agent: Mozilla Thunderbird
-From: Wei Wang <wei.w.wang@hotmail.com>
-Subject: Re: [PATCH v7 4/6] PCI: Refactor disable_acs_redir and config_acs
- param handling
-To: sashiko@lists.linux.dev
-Cc: linux-pci@vger.kernel.org
-References: <SI2PR01MB43933B1790A24957EB7DB79ADC3F2@SI2PR01MB4393.apcprd01.prod.exchangelabs.com>
- <20260506210725.49C3CC2BCB0@smtp.kernel.org>
-Content-Language: en-US
-In-Reply-To: <20260506210725.49C3CC2BCB0@smtp.kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SE2P216CA0180.KORP216.PROD.OUTLOOK.COM
- (2603:1096:101:2ca::11) To SI2PR01MB4393.apcprd01.prod.exchangelabs.com
- (2603:1096:4:1b0::7)
-X-Microsoft-Original-Message-ID:
- <4e98986d-4dcd-4b69-ae32-40401f4b564f@hotmail.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="dL45d4eu"
+Message-ID: <4e22ee14-6d49-4eff-83df-cc1e908c17e5@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1778669092;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aWWzFI4RAJF71dNmeRDb+aiELMv8Xhq9/aQr1qvY9/w=;
+	b=dL45d4euVlicjgsPKjwWSSzP+KN37XNA3fmGukC7qK7wsW9fdZffYbd+CE/n6bjmjCWkVK
+	WNTvOZhD5cODFcKJiKddX+8/TxLpfjAmCSe+Uns2f27vKyCcE8G/f/j3FP2IcBWIqh8Sts
+	AwWfnIcS/TAQld+wFqV2L6yleZnqNOk=
+Date: Wed, 13 May 2026 18:44:32 +0800
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SI2PR01MB4393:EE_|SI4PR01MB8008:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5964aad3-19f0-43e7-acb9-08deb0d7c66c
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|6090799003|55001999006|5072599009|7042599007|45011099003|12121999013|37011999003|41001999006|23021999003|15080799012|8060799015|19110799012|52005399003|40105399003|3412199025|440099028;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?V1NubnBka3VlQUhUVngzbUcyRHlDNk9iYVJNYitQeVB3RHIvM1o4akxhMWF0?=
- =?utf-8?B?VjhXVzVobmc2V1habGZacUh0cnRhRlNqaHNYNSs1eWpFaHR5d2hiRzJmU2RG?=
- =?utf-8?B?ZjlQa3VJME1UaHlFMEF6cHVMbTMza3YwckYzczNPc0pjck5kM1V6UE5ZdklT?=
- =?utf-8?B?eEgvME9aelRrT251WExwMEt1MWxzNTRobkpTU2hwRjliNERVZTIrR0Y1Uzk0?=
- =?utf-8?B?anZLaXV1TWpxL3E4b2pyc1B2YU1tb1RYN1lsUTRCZDZNcU1OQ3NDa2hLdlIw?=
- =?utf-8?B?eWxTZEJMMGNIbHQ4N3JGblluSmdUMURSTGl0djQwalJ0cjh4M1lYOUpsaHhB?=
- =?utf-8?B?MUhpZmNRQ0hjSTBJdEJranJCTVFac2Y2aU5HT0hrM1RVdXNDa1ZYcnlQdm5X?=
- =?utf-8?B?bmNSSmJ2UjRyTVFaaEpOU1JuS0s5cHNnVHV4bGp5OTlqM05BM3hKaW5JYUVU?=
- =?utf-8?B?VUxzaEJMV09lakV6WVBZOTMrM2lUMWVicERzME5HdkZQQUxxV1FLdzZMZ3ZE?=
- =?utf-8?B?ZlRscHVsSTl3RUdNM25CSlJLVGU3cng2bHArNUpnR3h3LytkWlFRcm5ITFIx?=
- =?utf-8?B?aHFoVE1rRnMraEFxQi9TSE1CYzMreXVRVGszMVJoQ00vMGJRL3FyWm5WemV6?=
- =?utf-8?B?L21BcEZaOHU2OGZseGp1TFJPeklBMDBJNHphSzd1NHdqWG50K1VXUUVZWm1K?=
- =?utf-8?B?SWtxYlNDMVFsZ1JhSFJqMXJPRnVLeHVEY2p1Qk4yYjkrc0pMVVRUUHhMRzNI?=
- =?utf-8?B?bWQzQzJ6Q0ZTaXRtQlRzZGNxa2lHN25XdkRjRTJ1TmlWeVpKRWRoWVRpNk54?=
- =?utf-8?B?ZFFQRjdYUDJ4dGY4MmxGdDNnNWhieEhDdVpvbytmSkp4SnlGR1daWElLQ3g2?=
- =?utf-8?B?eUxjSThGMjg4SU41ZmY2TjIrUS8yNHprMEIzS3ZybFJnWVNieFlqeTVEeFcv?=
- =?utf-8?B?RmdqYk1QTk1WZzVaMElSRVFMSldVSEhZT2VGSjZHSFdSTWNWazFWMUtZa2F0?=
- =?utf-8?B?SVVmMW1zUkpBc0M4eDNWNFo0UzRBaklIaWYycTM2VStjd2NuUlpUenQrcFpC?=
- =?utf-8?B?c3JMTktIcFBZMlBJK2U5aHlkaVF5Y3pmMHJqVEYwdVlUK2FNWFpDUkduL1l3?=
- =?utf-8?B?Sk1GSGMxT2dVY1Nwc1daSjEzMXdKMDltN1BZVlIwVjI5WmplMjBOM2NUcG8y?=
- =?utf-8?B?R29mbWNjcUtuYmFHZkRXYWJIdmZZSkJLVUxhdHl4eUhqZ0wyNnQ0bStTR3Jy?=
- =?utf-8?B?b2NnRVlTUmEzWU9pYnJsWG5ET0NmRGEyS1N2cUg0d00wZ3RVamFxNGVmZ3dE?=
- =?utf-8?B?elgvM2VZM3lpRnpKL1p3am51dDJ3Uy8zTE82cGlRMUNYU091aTFvajBObVo2?=
- =?utf-8?B?MlVicnJKWDNPRTVKTHFTb0p4S1JWSkFLSzhNTkVUV3NRVGN5R09uL2Y0b0dw?=
- =?utf-8?B?N0pkVjVIQUY3clN6RW9USkl4eGJhaDgxSlZQZktvTVB4MW5BVmMwTnpWZisv?=
- =?utf-8?Q?76P4YFQtoO9iu9DBDyX9ZD5NXVP?=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?cVk5a0hTdUl6YmxidGNWYlNFSGNMTzRUV014UHZCU0VRckQ1ZCs1eHJsaVNn?=
- =?utf-8?B?RExMTkFZeDNlWWY4V0tvaEdPUmQ2bDQvSjRpaXN2eWI3dEJkRkwwcjlobXpS?=
- =?utf-8?B?QVVBMVpOZVdVRVU1RXRDUFdMeUJWc1pTU2xEbUdQTHpmelB6SGpETlVXV3Zv?=
- =?utf-8?B?MTJiYzVZeTdSN3pJb1hLV3h5cmxSaytTSnRzWk1pblE1aGNPeXpmaTk4ZGpu?=
- =?utf-8?B?Vko4cSt6UUtyaWR4b1Y4dWloRGdqNktjazNGaTZjbWNDZzd5TWlHb2Nsa0RV?=
- =?utf-8?B?VEc0TzBSaWRIZ0YyeGREcThxaVU0OVloYU5OU0lnSHZCY0laajNjQTFNSjkw?=
- =?utf-8?B?UkxpOGVvRmNyam9SdzhQSGxaYWxQbHhVR2FXOEQySjlNT2g4K0ljVWlWdGRt?=
- =?utf-8?B?RXpqeEFrRHhJY3VaQmEzTjNETlRaSGUvMXVENW9JOEp3SFdRTm1IVDF4ZEJC?=
- =?utf-8?B?bGtNdXYwU1VqMXJuT2c1QU12MjRaUHp2L1pyTTJTbURhd1Z5aHNhUDQzWGhn?=
- =?utf-8?B?cHZkMlgzcHhjQnVmMHFjQnpxYW5CTW8wNTdoWDlwZDQ4TFZYM0NxZVU1a2gv?=
- =?utf-8?B?OGtJVmFxZ2xvK3FIV2ZmbUpZVDVaL3M2ek1kVndDS1h2b2tXNTBtc0NrTCtX?=
- =?utf-8?B?clh3aVRZd0w1VEp0L2gvZmpGa1RTSU5NcG1tRGhLcGZ5TTFKQkFGOCtlNGtB?=
- =?utf-8?B?d1VZZk5JZ3FKOEFXT3V2K0ZkZ1JQS3ZWRk1HWnhQK0Nac1gyMlFmTlIwV0o2?=
- =?utf-8?B?VkttMXpHMWVPR1E4dzUwRG9wc2ZudndPM2g0cmI1eVhZUSsyNCt2d2lCOWRx?=
- =?utf-8?B?aEZrbkpiZ0NMZ2VWU09aWW9OSms2VUt4b2ZFWGdoV2tleXRpQUlHcFQwZXdq?=
- =?utf-8?B?c05rWTZER3RjT09qdjRrN1NjOFBwZXFHazVlTnc2ZWJlOE5Td1ErYnFuZkhU?=
- =?utf-8?B?MXpNUmFRd283Q0NUc3ljanE3eUdHY1MzNE0ycGRKOGF1cGFnZ2tGMWZ1MWZ2?=
- =?utf-8?B?aTh6OFdyN25uTktvT3Z0dnBLdlZoRTE0c1VaU1lDVUZXbU1PMEl4MjIyVGNq?=
- =?utf-8?B?NFJIb1F6WVBiblljNlN5K0tmdDd1MEhhWXFaOW9FWjNwMURDQmFEZ3pQMGFS?=
- =?utf-8?B?TW00cHhzZmlaZTNiaENKWlJNMVVFWFE4aldnemUwbXhtL0prZFhXVEc2cWYw?=
- =?utf-8?B?SU1lcUI4WDVVbndLczZoUEdqc0EraldHZDVPQ0s4ME8wdmdHS0RjY3MzU2o1?=
- =?utf-8?B?N1lPRlZOQTdkS3BEdStzeWRncis2M3hXdWozZk4vajZtSGtmNDJTWmxmd2Np?=
- =?utf-8?B?SzlBcTBSS1NrbDYvOXpYUHI5TExqRlducDFFNGlISzRXSTZPRisrekpjb1hr?=
- =?utf-8?B?TTRSeHpHcHhQSFYwMnQvRjlocXRTNXRLY2cvRG1iZldQcWtVMjdObEpQS1A2?=
- =?utf-8?B?ZGRrWStJVTNUdHNCNkdrTXIxL3lKL3pUUUZoMXo3L0JHb3hOQXdOV244VzB0?=
- =?utf-8?B?cVk4QmdSRTlTdUNhZ3JnQzRWOVEwVEZ5U1pwQnlqMGRMNGtQaWp6VnYyZW1M?=
- =?utf-8?B?dkdiQzZJN2V6YTlrMmpvY0RNS1YxdjhUczl5SHFyNTNKYXJvYjlYOXA0ajZs?=
- =?utf-8?B?eHB0bmRJYWorUnAwRVVlRC9aOEFHdy9TRHl0V2ZRM2hJb3FSdkJBYXErK2d2?=
- =?utf-8?B?V1BpYWNzbnhxWGZudlFMdHY2TGRBYnJQbzVlRlNHTTlUVkpCQ0pyY1pQUjhr?=
- =?utf-8?B?SVZsZm1YdzVhQ1poTzBNM3NCenNpaStPaWhKUHIxandlS1JnOFB4TDZ1a2Fv?=
- =?utf-8?B?ZlgxWDdYNHJ5bUord1RiVElLSTU4U0lVZHFYd2NkbDk2RTBLUjFUL2tWa0JS?=
- =?utf-8?B?ZTNFT1BVS0NocG5QaDUyQWxCT3d0QU1JK09zQVFEYlF0VENiR3ZUcHpTbTlS?=
- =?utf-8?Q?XWeITKCPxlgxWaAKW0ZtTPVzvhKfHqNY?=
-X-OriginatorOrg: sct-15-20-9412-4-msonline-outlook-3e488.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5964aad3-19f0-43e7-acb9-08deb0d7c66c
-X-MS-Exchange-CrossTenant-AuthSource: SI2PR01MB4393.apcprd01.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 May 2026 10:09:54.0086
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SI4PR01MB8008
+Subject: Re: [PATCH bpf-next v13 4/8] bpf: Add syscall common attributes
+ support for prog_load
+Content-Language: en-US
+To: sashiko@lists.linux.dev
+Cc: bpf@vger.kernel.org
+References: <20260511152817.89191-5-leon.hwang@linux.dev>
+ <20260512221819.7EA2FC2BCB0@smtp.kernel.org>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Leon Hwang <leon.hwang@linux.dev>
+In-Reply-To: <20260512221819.7EA2FC2BCB0@smtp.kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-On 5/7/26 5:07 AM, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 2 potential issue(s) to consider:
-> - [High] Bounds checking in pci_param_config_acs() breaks backwards compatibility for padded parameters and contains an integer underflow that leads to Undefined Behavior.
-> - [Medium] Silenced logging for disable_acs_redir reduces configuration observability.
-> --
-> 
-> commit 2b4c7af1c4a60302203ef348c929aa8cf673e3ac
-> Author: Wei Wang <wei.w.wang@hotmail.com>
-> 
-> PCI: Refactor disable_acs_redir and config_acs param handling
-> 
-> This commit refactors the ACS parameter handling by splitting the old
-> __pci_config_acs function into dedicated functions for disable_acs_redir
-> and config_acs parameters.
-> 
->> --- a/drivers/pci/pci.c
->> +++ b/drivers/pci/pci.c
-> 
-> [ ... ]
-> 
->> +static void pci_param_disable_acs_redir(struct pci_dev *dev,
->> +					struct pci_acs *caps)
->> +{
->> +	u16 acs_redir_mask = PCI_ACS_RR | PCI_ACS_CR | PCI_ACS_EC;
+On 13/5/26 06:18, sashiko-bot@kernel.org wrote:
+[...]
+>>  int bpf_log_attr_init(struct bpf_log_attr *log, u64 log_buf, u32 log_size, u32 log_level,
+>> -		      u32 offsetof_log_true_size, bpfptr_t uattr)
+>> +		      u32 offsetof_log_true_size, bpfptr_t uattr, struct bpf_common_attr *common,
+>> +		      bpfptr_t uattr_common, u32 size_common)
+>>  {
+>> +	char __user *ubuf_common = u64_to_user_ptr(common->log_buf);
+>>  	char __user *ubuf = u64_to_user_ptr(log_buf);
+>>  
+>> +	if (!bpf_verifier_log_attr_valid(common->log_level, ubuf_common, common->log_size) ||
+>> +	    !bpf_verifier_log_attr_valid(log_level, ubuf, log_size))
+>> +		return -EINVAL;
 >> +
->> +	if (!disable_acs_redir_param ||
->> +	    !pci_dev_match_disable_acs_redir(dev, disable_acs_redir_param) ||
->> +	    !pci_dev_specific_disable_acs_redir(dev))
->> +		return;
+>> +	if (ubuf && ubuf_common && (ubuf != ubuf_common || log_size != common->log_size ||
+>> +				    log_level != common->log_level))
+>> +		return -EINVAL;
+> 
+> If a user specifies log_level != 0 but leaves log_buf == NULL to probe for
+> log_true_size, will these checks bypass conflicts?
+> 
+> If one side provides a complete tuple and the other provides only log_level,
+> or if both provide mismatched log_levels without buffers, it appears the
+> conflict checks are skipped and no -EINVAL is returned.
+> 
+
+Correct.
+
+However, if users want to probe for log_true_size, they should not
+provide common attrs. It is compatible for bpf libraries to probe for
+log_true_size using union bpf_attr without providing common attrs.
+
 >> +
->> +	caps->ctrl = caps->fw_ctrl & ~acs_redir_mask;
->> +}
-> 
-> The previous implementation printed a pci_info message when ACS control was
-> modified. Is it intentional that pci_param_disable_acs_redir no longer logs
-> confirmation that the redirect was disabled?
-> 
-> This might make debugging device isolation issues more difficult without the
-> dmesg confirmation.
-
-Yes. I think it's better to have the pci_info message printed in
-pci_enable_acs():
-
-diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-index b684ae4e92b5..dcc591d679d5 100644
---- a/drivers/pci/pci.c
-+++ b/drivers/pci/pci.c
-@@ -1008,9 +1008,6 @@ static void pci_param_config_acs(struct pci_dev *dev, struct pci_acs *caps)
-                 enabled_bits, disabled_bits);
-  
-         caps->ctrl = (caps->fw_ctrl | enabled_bits) & ~disabled_bits;
--
--       pci_info(dev, "Configured ACS to %#06x (FW default: %#06x)\n",
--                caps->ctrl, caps->fw_ctrl);
-  }
-  
-  /**
-@@ -1080,6 +1077,9 @@ void pci_enable_acs(struct pci_dev *dev)
-         pci_param_disable_acs_redir(dev, &caps);
-         pci_param_config_acs(dev, &caps);
-  
-+       pci_info(dev, "Configured ACS to %#06x (FW default: %#06x)\n",
-+                caps->ctrl, caps->fw_ctrl);
-+
-         pci_write_config_word(dev, pos + PCI_ACS_CTRL, caps.ctrl);
-
-
-> 
-> [ ... ]
-> 
->> +static void pci_param_config_acs(struct pci_dev *dev, struct pci_acs *caps)
->> +{
->> +	u16 shift = 0, max_shift = fls(dev->acs_capabilities) - 1;
-> 
-> If dev->acs_capabilities is 0, fls(0) evaluates to 0. Will 0 - 1 underflow
-> the u16 max_shift variable to 65535, effectively bypassing the bounds check
-> below?
-
-pci_enable_acs() has already gated the execution via checking dev->acs_cap,
-so if the acs_cap is 0, it should have returned earlier already.
-
-It seems not possible that a device has an acs_cap but dev->acs_capabilities is
-0, which means the device added acs cap but the cap is empty (no acs features).
-
-
-> 
->> +	u16 enabled_bits = 0, disabled_bits = 0;
->> +	const char *p, *seg;
-> 
-> [ ... ]
-> 
->> +	p = strchr(seg, '@');
->> +	/* Parse bitstring backwards from '@' */
->> +	while (p > seg) {
->> +		if (shift > max_shift) {
->> +			pci_err(dev, "ACS flag bit %d exceed range %d\n",
->> +				shift, max_shift);
->> +			return;
->> +		}
-> 
-> The previous implementation gracefully allowed parameter padding that exceeded
-> the capability mask, only erroring if unsupported bits were actively enabled.
-> 
-> Does aborting here when shift exceeds max_shift break backwards compatibility
-> for existing working kernel boot parameters (like config_acs=00000000@...)
-> on devices with fewer capabilities?
-
-Yes, use "break" here is better than "return". We should allow the valid
-configs (< max_shift) applying to device. Zeroing those exceed the max_shift
-isn't necessary, as the device does not support them.
-
-> 
+>>  	memset(log, 0, sizeof(*log));
+>>  	log->ubuf = ubuf;
+>>  	log->size = log_size;
+>>  	log->level = log_level;
+>>  	log->offsetof_true_size = offsetof_log_true_size;
+>>  	log->uattr = uattr;
 >> +
->> +		switch (*--p) {
->> +		case '1':
->> +			enabled_bits |= BIT(shift);
->> +			break;
+>> +	if (!ubuf && ubuf_common) {
 > 
-> If the bounds check is bypassed due to the max_shift underflow mentioned
-> above, could shift increment without bounds for long user strings?
+> Does this condition silently ignore valid common->log_level configurations?
 > 
-> If shift exceeds the width of an unsigned long, BIT(shift) could trigger
-> undefined behavior. Additionally, since enabled_bits is a u16, shift amounts
-> of 16 or greater will silently truncate.
+> If the user provides only common->log_level via bpf_common_attr for a log
+> size dry-run, ubuf_common evaluates to NULL. The condition here would
+> evaluate to false, and common->log_level would be ignored instead of
+> applied.
+> 
 
-As mentioned above, max_shift wouldn't underflow, so it won't be an issue
-here then.
+The user should probe for log size using union bpf_attr instead of
+common attrs.
 
+> Also, if both specific and common attributes provide identical log
+> parameters, the code appears to unconditionally use uattr for the
+> log_true_size writeback since ubuf is not NULL.
+> 
+> If the original uattr uses an older layout without space for log_true_size,
+> log->offsetof_true_size will be set to 0. Does this mean log_true_size
+> writeback will be lost even if the user provided a modern attr_common
+> struct with sufficient space to receive it?
+> 
 
-  
+This was intentional.
+
+If the user uses union bpf_attr to receive log, he should provide the
+space for log_true_size.
+
+IOW, if the user uses common attrs to receive log, he should provide the
+space in common attrs for log_true_size.
+
+Thanks,
+Leon
+
+>> +		log->ubuf = ubuf_common;
+>> +		log->size = common->log_size;
+>> +		log->level = common->log_level;
+>> +		log->uattr = uattr_common;
+>> +		log->offsetof_true_size = 0;
+>> +		if (size_common >= offsetofend(struct bpf_common_attr, log_true_size))
+>> +			log->offsetof_true_size = offsetof(struct bpf_common_attr, log_true_size);
+>> +	}
+>>  	return 0;
+>>  }
+> 
 
