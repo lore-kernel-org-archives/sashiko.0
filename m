@@ -1,50 +1,46 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 834D12BE057
-	for <sashiko@lists.linux.dev>; Wed, 13 May 2026 14:56:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C41344C77AA;
+	Wed, 13 May 2026 15:16:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778684169; cv=none; b=UYl6h9XZzWKnDQwfnidzUoMxvAAbZPRq1s8w2cKJv1Git9tGstTE5IOIfvqOuahfDBsraBsjY6tNfMMt19i4F7q0XdPODA4+2TdvKp2rGd/EjLzdwEOHRS1AGa7gD91jnq6bkICW6x/p961C5xf3QDgxT/8MkpYkXxrM2mutHvc=
+	t=1778685371; cv=none; b=CZ307URiwoud5mohpdXEBZQxRA90+gp6hLCqskhGAvvEKlTObSPYVIOGkmsB3fIlXMtIYpJBvvYkZLbvgFUKyK8DfaKa7r6AJ0tK7kpTVgGZtZg1lPuvWsuKGWOmREQVv2vmSJIR+VJjmcLcR3fveiM0vqNznjFtmGXxixTWNOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778684169; c=relaxed/simple;
-	bh=iF3iRtD1HVFwFmcdd0Iw6QCsk0QJZkQ/96WzLxkxZwY=;
+	s=arc-20240116; t=1778685371; c=relaxed/simple;
+	bh=Hu5tQPWosQEI+XoGE4kMQm/b0+rY+Biy/oOsFSciEaM=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VxTsDf5CFIJmipIIVajyA62/UNxrOeSOS+d1mT1aDDMADB4oUZ60gBDtCp0VoclLZJBHe1v7rLoxqHqbEnuxkl7+giEPLkPQYqvbwh8Jx+TopTs4c5CgGFalUReM8gQs4JwJ8+1GbD0PWgFL90uPpN3BFXLnPOMndtPumCZQb2k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=wnHIlYwK; arc=none smtp.client-ip=185.246.84.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	 MIME-Version:Content-Type; b=Q9j+dh/h7LObpgZb2KGenSSWjAp6Z5G1eFUhVOBV2UO51cUBdGNYHeW1/vfX6uM8SmoW+UdWpC4A5acBCwTk9QmrKLl6Ck7N7zz8i16uH+EIBnvKpF2riHFk3UurAj1gpq0qNzi4d7gNVbrlFaAEOfVsLfoufFcFTgsD6aBAOuk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uQ4mg/KV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="wnHIlYwK"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id F3B891A358E
-	for <sashiko@lists.linux.dev>; Wed, 13 May 2026 14:56:05 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id C81EC5FE21;
-	Wed, 13 May 2026 14:56:05 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id F1F2011AF9024;
-	Wed, 13 May 2026 16:56:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1778684164; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=InIEjbkx41SElg007gk0ZVS0qwsnlkKzxM5ylSKQ/Qs=;
-	b=wnHIlYwKkJshEX+7RkItIQb7WCOi2VLN6EJm7WNvL65mWr8+xY8Mv1gsURg6953cUMyIwW
-	AO3LoqsVOI8HcxjdS68hCtZ8PpsaR/Jrn/eh+gNm/0zadDL5Er9kHyp+EyQ5X3s9xTweG7
-	13HehkHCn/pFlQCBGqMMa/4eHvZcKWx2IoXwz/td7uLUOniIDNzvA98YJdZfeN/bhEYk1s
-	UcOZoYv5HPHN3vGfMnoZEVf+sZkEAClwdsB5dOoVMCeqyQAywCHcQB4aRYmFXpP2tYpLnX
-	Nxo9uToP4ebI9QzJef+7D9ba8dpjkuxPpY9M/efghLbyxuo0wXJSHi+UHqbeRA==
-Date: Wed, 13 May 2026 16:56:02 +0200
-From: Herve Codina <herve.codina@bootlin.com>
-To: sashiko-bot@kernel.org
-Cc: sashiko@lists.linux.dev, linux-pci@vger.kernel.org
-Subject: Re: [PATCH v7 7/8] PCI: of: Set fwnode device of newly created PCI
- device nodes
-Message-ID: <20260513165602.7d6f0f29@bootlin.com>
-In-Reply-To: <20260512224622.973D1C2BCB8@smtp.kernel.org>
-References: <20260511155930.34604-8-herve.codina@bootlin.com>
-	<20260512224622.973D1C2BCB8@smtp.kernel.org>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uQ4mg/KV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF58EC19425;
+	Wed, 13 May 2026 15:16:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778685371;
+	bh=Hu5tQPWosQEI+XoGE4kMQm/b0+rY+Biy/oOsFSciEaM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=uQ4mg/KVaTOg1YIdGGnsS7AHcg0wrKaIx4Z5MJjWxzImtoMEnumX4MOM9P8bc1d/B
+	 JowuKS8oRgM+O6vB2NxgB9aklGEHKTBVx7BrScvlEorZ4p9dnxtZSZ8K4Epl8h1mv6
+	 hmqcm9KT9+lZRjU5Hq/Ptp+FnCqBZpiq4gzqjo4Es1PHg/PgbCSeJrGux7MQ73Ef3X
+	 Ge702xiPY0xMuKk4wv/beyzH7L9UU9ZoscWNxkFlrtIyUTtmvF+KflGRAufUDtXwd/
+	 NQMTrvQZ3C9PdwoTpUNZa5Z86ddKuG1Ym9T6Aw9QSpgdxEvcU6SOU28QhPkSiFjDE+
+	 02WOOg5nohyNw==
+Date: Wed, 13 May 2026 11:16:13 -0400
+From: Steven Rostedt <rostedt@kernel.org>
+To: Jens Remus <jremus@linux.ibm.com>
+Cc: Indu Bhagat <ibhagatgnu@gmail.com>, bpf@vger.kernel.org,
+ sashiko@lists.linux.dev, Josh Poimboeuf <jpoimboe@kernel.org>
+Subject: Re: [PATCH v14 16/19] unwind_user/sframe: Add support for SFrame V3
+ flexible FDEs
+Message-ID: <20260513111613.372b6e47@gandalf.local.home>
+In-Reply-To: <af040f1c-7bcf-402b-961c-f5fce2afd60e@linux.ibm.com>
+References: <20260505121718.3572346-17-jremus@linux.ibm.com>
+	<20260505185502.CB501C2BCB4@smtp.kernel.org>
+	<fc085657-a79c-422d-afd5-4b5f2c55cec2@linux.ibm.com>
+	<b76a0b89-3cef-4f72-90b1-7029b989cb63@gmail.com>
+	<af040f1c-7bcf-402b-961c-f5fce2afd60e@linux.ibm.com>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
@@ -52,93 +48,36 @@ List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: quoted-printable
 
-Hi All,
+On Wed, 13 May 2026 15:50:29 +0200
+Jens Remus <jremus@linux.ibm.com> wrote:
 
-On Tue, 12 May 2026 22:46:21 +0000
-sashiko-bot@kernel.org wrote:
+> >>
+> >> @Indu:=C2=A0 Although the SFrame spec does only state "unused Unused b=
+it." I
+> >> think it would be good for the logic to reject any value other than ze=
+ro
+> >> as that could be used in future extensions of the SFrame format.=C2=A0=
+ Do you
+> >> agree?
+> >> =20
+> >=20
+> > For unused bits, it will be ideal to not associate any "observable"
+> > behaviour on the consumer side, before the bits find their use.=C2=A0 S=
+o I
+> > suggest the recommended way is to ignore the unused bits completely,
+> > i.e., mask them out and not report any error (if they are set). =20
+>=20
+> I disagree.  Masking unused/reserved bits would cause the unwinder to
+> ignore those even if they get assigned a meaning in the future that it
+> needs to respect.  It could thus cause the unwinder to erroneously
+> proceed with wrong results instead of stopping.
 
-> Thank you for your contribution! Sashiko AI review found 2 potential issue(s) to consider:
-> - [High] The patch fails to achieve its stated goal because `of_changeset_apply()` unconditionally sets the `FWNODE_FLAG_NOT_DEVICE` flag, causing `fw_devlink` to ignore the explicitly set fwnode device.
-> - [High] Dangling `fwnode->dev` pointer leads to a Use-After-Free when the PCI device is removed.
-> --
-> 
-> commit 3981405050778ad9837921511772531243255e6a
-> Author: Herve Codina <herve.codina@bootlin.com>
-> 
-> PCI: of: Set fwnode device of newly created PCI device nodes
-> 
-> This commit sets the fwnode device field of dynamically created PCI device
-> nodes to the corresponding PCI device. This aims to allow fw_devlink to
-> properly use the PCI device as a supplier, instead of falling back to the
-> PCI root bridge.
-> 
-> > diff --git a/drivers/pci/of.c b/drivers/pci/of.c
-> > index 7506208815a47..25fb02c3dc720 100644
-> > --- a/drivers/pci/of.c
-> > +++ b/drivers/pci/of.c
-> > @@ -709,6 +709,13 @@ void of_pci_make_dev_node(struct pci_dev *pdev)
-> >  	if (ret)
-> >  		goto out_free_node;
-> >  
-> > +	/*
-> > +	 * Set the fwnode device in order to have fw_devlink creating links
-> > +	 * pointing to this PCI device instead of walking up to the PCI host
-> > +	 * bridge.
-> > +	 */
-> > +	fw_devlink_set_device(&np->fwnode, &pdev->dev);  
-> 
-> Can this lead to a use-after-free regression when the PCI device is removed?
-> 
-> During PCI device removal, of_pci_remove_node() calls
-> device_remove_of_node(&pdev->dev) which explicitly sets pdev->dev.fwnode
-> to NULL.
-> 
-> Later, when device_del(&pdev->dev) is executed, its built-in fwnode cleanup
-> mechanism is completely bypassed because pdev->dev.fwnode was already cleared:
-> 
->     if (dev->fwnode && dev->fwnode->dev == dev)
->         fw_devlink_set_device(dev->fwnode, NULL);
-> 
-> This leaves np->fwnode.dev as a dangling pointer to &pdev->dev.
-> 
-> If the OF node outlives the PCI device, any subsequent operation that accesses
-> the node through fw_devlink will dereference the freed pdev->dev memory.
+Correct. "reserved bits" should always be zero unless there is another way
+to know when they will become used. For instance, if using these bits
+requires a version change, then it would be OK to ignore them. But if they
+can ever be used without some other way to inform the kernel that they are
+to be ignored, then they must be zero.
 
-It will not. In device_remove_of_node(), the OF node is destroyed when the
-of_changeset_revert() and of_changeset_destroy() are called.
-
-> 
-> > +
-> >  	ret = of_changeset_apply(cset);  
-> 
-> Does this code actually prevent fw_devlink from walking up to the PCI host
-> bridge?
-> 
-> of_changeset_apply() invokes __of_attach_node(), which unconditionally
-> executes fwnode_set_flag(&np->fwnode, FWNODE_FLAG_NOT_DEVICE).
-> 
-> When fw_devlink attempts to resolve a supplier, it checks for this flag:
-> 
->     if (fwnode_test_flag(sup_handle, FWNODE_FLAG_NOT_DEVICE))
->         sup_dev = fwnode_get_next_parent_dev(sup_handle);
-> 
-> Because FWNODE_FLAG_NOT_DEVICE is set, fw_devlink bypasses the explicitly
-> mapped np->fwnode.dev and walks up the tree to the parent device anyway.
-> 
-> >  	if (ret)
-> >  		goto out_free_node;  
-> 
-
-Well, an other series fixes this FWNODE_FLAG_NOT_DEVICE issue [1].
-
-In this one, with or without the fw_devlink_set_device() call the issue is
-present.
-
-
-[1] patches 1 and 2 in https://lore.kernel.org/all/20260511155755.34428-1-herve.codina@bootlin.com/
-
-Best regards,
-Hervé
+-- Steve
