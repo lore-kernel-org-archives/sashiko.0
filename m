@@ -1,40 +1,33 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C3FE26ED40
-	for <sashiko@lists.linux.dev>; Wed, 13 May 2026 16:12:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 970BF2FE04E;
+	Wed, 13 May 2026 18:09:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778688747; cv=none; b=HM1YkG7SW+bT0ssx2B0QMo1vM43QJdMtD1I0OF7NXa170tR+UdUtgGtD+wsJO5LBqTcsc6u24TaPLV8QCZ3EjI8j+Hvl8QGQBPKQWdXKZM0C7NJDobSugBhvpjyZZ2PQx+shOzu+NxeBtEimbbRPOak5GrcmeWf4PHVgjFWjF58=
+	t=1778695798; cv=none; b=GGvNAejDoUYuGS95wuCv8mcjpZSugK1vIX4rqcp978YuN6RsoqAKSWpZh8G0gwfLX1PZbYaaqsgKjnJZAkHL/14ufBk2iqBcDW73RPI/VP6FvHxC0vfH4IH3It55O5I0l1fAbI3yzNQEHsyMGIV5vXNR8bL0LFYyeUW9re2GTLY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778688747; c=relaxed/simple;
-	bh=Wl6t+8nJqW3f/rIpNjV94uwi59P/Kjsnwpu2+AzJEd0=;
+	s=arc-20240116; t=1778695798; c=relaxed/simple;
+	bh=0Wy1DOrnjlNt73Ah07uGmpZAFJfl0exx2xgzosEcj6Y=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fmM9uwu1hJHUuUOJ3JwDbz4S8zLwbqc/M+lMdE9TJgcYPzDEVt6kwN5sQ1L14HKmCmxE97Dp7+E3X3r0ozfYbvKrm6UFz29BnQbfEKKdTP0n15ZrKaOJ5HKTRHleM/Ss7IloL/cGKEUO4+8qC5gFNeneNCqA67nVmjI/vj3tqIo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=ABPFSg04; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	 In-Reply-To:Content-Type; b=BCGiqjwArn3S2sZduFpObGkwnC362mVK97E1Jyzu9OIDz/dz8sNJUPjfVd3ceAfvt/5kb6TT/QuewsfhmCagVzl/Ay5kWHVTVJiC0ValMYTw1YQSm2Vkf6WVWMScZ6MragcXcb6V+iGrCIHMjP0UwXJz0tZWK+uMHLdo5BLU+rg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=du/argYL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="ABPFSg04"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1778688744;
-	bh=Wl6t+8nJqW3f/rIpNjV94uwi59P/Kjsnwpu2+AzJEd0=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="du/argYL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05E20C19425;
+	Wed, 13 May 2026 18:09:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778695798;
+	bh=0Wy1DOrnjlNt73Ah07uGmpZAFJfl0exx2xgzosEcj6Y=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ABPFSg04CkWJtSgV6fO5t9yiwKD/Azj1w/rvEkBfXcFr3/wbUH5wMccVj5vcfMTaC
-	 3BkvoF5V7DRSCcGGYtU86PDDRKb2QcBQ2obwiWWc4JPpvmcQbIfXCjpv9DMR7Ag2Zn
-	 SdO+C3ZIL+wRM3SBnB0fuMkXhDJkC9AdoS868S8AYxgWYusZaMxSqcxUyk3Nx6vi+/
-	 COhj8WLWKdRkHPoDuCRIsFl6dEEynarNaE7WlyPQsouSN7wkgo7buR1thpkiz+Y2ao
-	 mf7tvbULaUtPTZcXCUWiRe5d/lV/GISmISFwuHSewYit0rxlYfcr9pu0GE5SY4g2Rc
-	 d0QlhFcl4facA==
-Received: from [100.64.0.241] (unknown [100.64.0.241])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: cristicc)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 6643C17E04F2;
-	Wed, 13 May 2026 18:12:24 +0200 (CEST)
-Message-ID: <340a4781-356c-406c-89e0-68b72df9e95f@collabora.com>
-Date: Wed, 13 May 2026 19:12:23 +0300
+	b=du/argYLsn5KOaratQHAXRK7ZWdXjIKD1wm9CPrQAd/kTYUAr6rNB2wsn1cCvClRf
+	 6lWybcq/VGujU+GurWuQtG//gAAVx7EX7EVoaQzJVWK1LfjiZcrPGpaIr3I5udcR4Z
+	 unvvLmVpxehWgpdE4Wpk2V32Q8FbqUpC6IAneLriRC0GkiMW4RawEiTiylg0511pKU
+	 MhNksGnwKVEi1ZSR387T7ZjQZLz/cs4UBc0TYDPCVcY737i9gysSc1mxGMi81Mr/sA
+	 OX/t8ipRpWUA+xxjsIynN4bJncXCvAiNj5991ZswElvyAK6bGZqo+ioAnnUwK189HA
+	 WiCsNM61PNS1Q==
+Message-ID: <bcdfd465-b830-4ca1-9e4a-4776ae11fd28@kernel.org>
+Date: Wed, 13 May 2026 20:09:55 +0200
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
@@ -42,81 +35,111 @@ List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/6] phy: rockchip: samsung-hdptx: Fix rate
- recalculation for high bpc
-To: sashiko@lists.linux.dev
-Cc: neil.armstrong@linaro.org, olteanv@gmail.com, vkoul@kernel.org,
- linux-phy@lists.infradead.org
-References: <20260511-hdptx-clk-fixes-v2-1-664e41379cab@collabora.com>
- <20260512225155.EEA3AC2BCB0@smtp.kernel.org>
+Subject: Re: [PATCH 2/2] arm64: dts: agilex5: add support for debug daughter
+ card
+To: sashiko@lists.linux.dev, Adrian Ng Ho Yin <adrian.ho.yin.ng@altera.com>
+Cc: devicetree@vger.kernel.org, krzk+dt@kernel.org, robh@kernel.org,
+ conor+dt@kernel.org
+References: <a42751b4c7eb9b4d58f2ef1db3591ff68385a562.1778237639.git.adrian.ho.yin.ng@altera.com>
+ <20260508204237.ADF26C2BCB0@smtp.kernel.org>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-In-Reply-To: <20260512225155.EEA3AC2BCB0@smtp.kernel.org>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20260508204237.ADF26C2BCB0@smtp.kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 5/13/26 1:51 AM, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
-> - [Medium] Clock rate calculation drops a rounding step, replacing DIV_ROUND_CLOSEST_ULL() with truncation via div_u64(), which can cause a 1 Hz clock rate mismatch.
+On 08/05/2026 22:42, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 2 potential issue(s) to consider:
+> - [Low] Abuse of the 'rohm,dh2228fv' compatible string to force the 'spidev' driver to bind.
+> - [Low] Including a '.dts' file directly instead of using a '.dtsi' include file.
 > --
 > 
-> commit f013b4b7bc1d4ae235d28b10cad3143d009d131c
-> Author: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+> commit 3916af69e58bdb9bf4d736172238dd0b03e9465b
+> Author: Adrian Ng Ho Yin <adrian.ho.yin.ng@altera.com>
 > 
-> phy: rockchip: samsung-hdptx: Fix rate recalculation for high bpc
+> arm64: dts: agilex5: add support for debug daughter card
 > 
-> This commit fixes the clock rate recalculation in the HDMI PHY probe path
-> by directly reading the bpc value from hardware registers instead of
-> relying on uninitialized configuration struct members.
+> This commit adds a new device tree for the Agilex 5 SoCDK when fitted with
+> the debug daughter card. It disables several peripherals such as gpio0 and
+> gmac2 while enabling gmac0 and spi0 for debugging purposes.
 > 
->> diff --git a/drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c b/drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c
->> index 2d973bc37f076..7fb1c22318bbf 100644
->> --- a/drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c
->> +++ b/drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c
->> @@ -2280,7 +2281,7 @@ static u64 rk_hdptx_phy_clk_calc_rate_from_pll_cfg(struct rk_hdptx_phy *hdptx)
->>  			fout = fout + sdm;
->>  	}
->>  
->> -	return div_u64(fout * 2, ropll_hw.pms_sdiv * 10);
->> +	return div_u64(fout * 2 * 8, ropll_hw.pms_sdiv * 10 * bpc);
->>  }
->>  
->>  static unsigned long rk_hdptx_phy_clk_recalc_rate(struct clk_hw *hw,
->> @@ -2288,19 +2289,13 @@ static unsigned long rk_hdptx_phy_clk_recalc_rate(struct clk_hw *hw,
->>  {
->>  	struct rk_hdptx_phy *hdptx = to_rk_hdptx_phy(hw);
->>  	u32 status;
->> -	u64 rate;
->>  	int ret;
->>  
->>  	ret = regmap_read(hdptx->grf, GRF_HDPTX_CON0, &status);
->>  	if (ret || !(status & HDPTX_I_PLL_EN))
->>  		return 0;
->>  
->> -	rate = rk_hdptx_phy_clk_calc_rate_from_pll_cfg(hdptx);
->> -
->> -	if (hdptx->hdmi_cfg.mode == PHY_HDMI_MODE_FRL)
->> -		return rate;
->> -
->> -	return DIV_ROUND_CLOSEST_ULL(rate * 8, hdptx->hdmi_cfg.bpc);
->> +	return rk_hdptx_phy_clk_calc_rate_from_pll_cfg(hdptx);
+>> diff --git a/arch/arm64/boot/dts/intel/socfpga_agilex5_socdk_debug.dts b/arch/arm64/boot/dts/intel/socfpga_agilex5_socdk_debug.dts
+>> new file mode 100644
+>> index 0000000000000..3981a9e876b0a
+>> --- /dev/null
+>> +++ b/arch/arm64/boot/dts/intel/socfpga_agilex5_socdk_debug.dts
+>> @@ -0,0 +1,50 @@
+>> +// SPDX-License-Identifier:     GPL-2.0
+>> +/*
+>> + * Copyright (C) 2026, Altera Corporation
+>> + */
+>> +#include "socfpga_agilex5_socdk.dts"
 > 
-> Does this inadvertently change the rounding behavior?
+> This isn't a bug, but does this include a final board .dts file instead of a
+> shared .dtsi include?
 > 
-> By moving the * 8 and / bpc math into rk_hdptx_phy_clk_calc_rate_from_pll_cfg()
-> and using div_u64(), the result is now truncated instead of rounded.
+> Standard Device Tree conventions typically involve refactoring shared
+> configurations into a common .dtsi file, as .dts files are meant to be the
+> final top-level compilation unit for a board.
 > 
-> For example, if the exact calculated value ends in .6 or .8, the truncation
-> will yield a value 1 Hz lower than the rounded value.
+> [ ... ]
 > 
-> Since rk_hdptx_phy_clk_determine_rate() still calculates the expected rate
-> using DIV_ROUND_CLOSEST_ULL(), could this truncation lead to a 1 Hz mismatch
-> in the Common Clock Framework?
+>> +&spi0 {
+>> +	status = "okay";
+>> +	spidev@0 {
+>> +		compatible = "rohm,dh2228fv";
+> 
+> Is there actually a Rohm DH2228FV hardware device present on this debug
+> daughter card?
+> 
+> The commit message indicates this exposes the SPI interface for debugging.
+> Does this code use the 'rohm,dh2228fv' compatible string solely to force the
+> Linux spidev driver to bind?
 
-I couldn't notice any change in the functional behavior, but for consistency we
-can stick with DIV_ROUND_CLOSEST_ULL().  I'll make this change in the next
-revision, if any required, otherwise it will be submitted as part of the FRL
-TxFFE level control series:
+Why did you completely ignore the review?
 
-https://lore.kernel.org/all/20260328-hdptx-ffe-v1-0-53ebd5dea20a@collabora.com/
-
+Best regards,
+Krzysztof
