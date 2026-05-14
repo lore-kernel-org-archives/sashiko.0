@@ -1,151 +1,141 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2CA625B0B7;
-	Thu, 14 May 2026 15:17:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B5F9390987
+	for <sashiko@lists.linux.dev>; Thu, 14 May 2026 18:47:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778771840; cv=none; b=F16lrqAng7ZsSM2ZWMB+iEelAax4XmU1GtH9xhIRDz66AknWg40nMz9ZTHMV/hfgt3+VQvtRVCis0MvHYChqKRM3ZaETqSsfUBjdbaHnr5Coc9YMRJsVgkC35yQzy+CKlYLxqH23QRVzSCYoRR9rFTp6RwFMFc+nsidi09GJu/E=
+	t=1778784438; cv=none; b=Lz/h/Camv6GTxBB9GsxK3lnauvcCQIDsJ34Lf5A0oh/lvSQGjyk+OuzfwuOmYTCc+kpR5pokAyt0GmKSJ2vkCdle/qn0juLGzqYRbT1wu33Zyhp6IXv+imUP/9WN65MFLBykBHUO+VCZOPJ5H27SYZan2C7MuSmj/B2hwMTzGD0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778771840; c=relaxed/simple;
-	bh=gUlkQklFPSQDCQsC4tO30txGuXDyBu7PUw34/AsJP3g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AY1bkAy3TN1WXO02ShG8u+3QhIYL+lm5t368/HgrqRBX49UhzHSBKZJqFLx3R75SbBJ1PJC0ip1GXoQp/1p8eyowNsWuHuYVcuECkUWIbYgnfNGTcmbCCTk7Jkhp2cw5FENGcnYxXumMF8yHu0/UJ4VlbG0DT0SXiLMuvLkhwB8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IyNGeqyD; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IyNGeqyD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56222C2BCB8;
-	Thu, 14 May 2026 15:17:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778771840;
-	bh=gUlkQklFPSQDCQsC4tO30txGuXDyBu7PUw34/AsJP3g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IyNGeqyDUgawm3BSC2mp6Nv6T5rSkZZCfrKyLbHvqs6sbu5npW67YluL0e39mOKAX
-	 RTCiSWYMFLzQE+zrWFkOJYYAcoRGX7T6+M9ZNTcxsVthNkF0jo9hxAw+ngNDLEUN4C
-	 pQjgiFSLzfkUP0o0/XS3+H7rX3g1PvDMaG9QjdRyhZe1r2PrCpm9MlD9UM98mJELsN
-	 OKauuN7PXgASvMzgAI2VMFfT4IASSqM4fbIaNsOsm83ATC+ZfsKJ8CtqCt6bEzTJMy
-	 HuP1egj7kXcZRgpnmn3SuO42hF1+Y/924fy6er1coNHp4ujfcDT7Nx9uqZw2G2X30g
-	 X0B8X8oTqFgmQ==
-Date: Thu, 14 May 2026 10:17:18 -0500
-From: Rob Herring <robh@kernel.org>
-To: Bui Duc Phuc <phucduc.bui@gmail.com>
-Cc: sashiko@lists.linux.dev, devicetree@vger.kernel.org,
-	wsa+renesas@sang-engineering.com, krzk+dt@kernel.org,
-	conor+dt@kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH v3 01/10] ASoC: dt-bindings: renesas,fsi: add support
- multiple clocks
-Message-ID: <20260514151718.GA505743-robh@kernel.org>
-References: <20260510084303.122426-2-phucduc.bui@gmail.com>
- <20260511204528.14632C2BCB0@smtp.kernel.org>
- <CAABR9nEhOTz1-0NmCMTbz=-+782Pto0yovSQhBXrXqhLwMg80Q@mail.gmail.com>
+	s=arc-20240116; t=1778784438; c=relaxed/simple;
+	bh=ANCJ2nkmUb7VdeagkAs+34kc9JMaDZALdmfQ4/SYn6g=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=bSuw3xfex7MvDnDEU6SqKrp3KDm7KpNTR+JuJSCkx7yEmvj78TMltqJ+zbjZ2BkeQDVQ9vBLecY1E5b7KYEnPaqlOv4CzmYBlTybIzhaPWXXpyZHN0kzdfRATBwHP3q1CXVcpIZSPQ7uiAJtJiUBkuPFZDgx+kZESZB6ILtQCjM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf18.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay07.hostedemail.com (Postfix) with ESMTP id 2EF04160D0E;
+	Thu, 14 May 2026 18:47:07 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf18.hostedemail.com (Postfix) with ESMTPA id 198E730;
+	Thu, 14 May 2026 18:47:05 +0000 (UTC)
+Date: Thu, 14 May 2026 14:47:10 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: LKML <linux-kernel@vger.kernel.org>, Linux Trace Kernel
+ <linux-trace-kernel@vger.kernel.org>
+Cc: Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>, Arnaldo Carvalho de Melo
+ <acme@kernel.org>, Jiri Olsa <jolsa@kernel.org>, Namhyung Kim
+ <namhyung@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Ian Rogers
+ <irogers@google.com>, sashiko@lists.linux.dev
+Subject: Re: [PATCH v2] tracing: Allow perf to read synthetic events
+Message-ID: <20260514144710.79513174@gandalf.local.home>
+In-Reply-To: <20260513150007.3b280e87@gandalf.local.home>
+References: <20260513150007.3b280e87@gandalf.local.home>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAABR9nEhOTz1-0NmCMTbz=-+782Pto0yovSQhBXrXqhLwMg80Q@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 198E730
+X-Rspamd-Server: rspamout06
+X-Stat-Signature: mi7rfsms9p39wffwgzyd3fhryr4jizhe
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX19F119g861sKdV1WP8H82FD1sBuqPwvQJ0=
+X-HE-Tag: 1778784425-640236
+X-HE-Meta: U2FsdGVkX1806ol+eoXflWnfatgXky29o7yaWJZz7W7IfM7qzzU8QfSzfMSCCMrQsAuqF7C7pETfeB23EJT+ZfF2UWrfmSjJx5R4q+0G32hOajJP/tU1U4/nDJkAyC+urL6e+gQm+Q2f/UBqSYrqyHTSiET0ouSM1pL49KbvD59GTDNBN8mF4tX/PdkcS6CAba57Eqkr1rBlH4+7aVwpeYwg187QRX/cbbnHXzMBvcqf1oz3kAEFrsJJTxrzMkJSwtX7IToFhSQxfdQYJVG/T5WuuvD1MQA6SNhzly75yWKphscVfr3Z6fCMu7PTXW0ocRPBzf8wYEESI26NwI39a7UJNHXEkZbWvOrB98ECNysjkWiqOw+dHV/gWz9q8DdAjNtIyG0rwZEeDIfuZZKnzup8xev9znT3OP2EL1hTONneBuFmEwugItpisxwE9I00
 
-On Tue, May 12, 2026 at 01:42:06PM +0700, Bui Duc Phuc wrote:
-> Hi all,
-> 
-> Based on the Sashiko AI review, I am thinking of adding the following
-> constraints specifically for renesas,fsi2-r8a7740 to address the
-> reported issues.
-> 
-> I think this may also help balance both Geert's and Krzysztof's
-> comments from the previous v2 review.
-> 
-> Does this approach look reasonable to you?
-> 
-> ---------------------------------------------
-> 
-> -allOf:
-> -  - $ref: dai-common.yaml#
-> -
->  properties:
->    $nodename:
->      pattern: "^sound@.*"
-> @@ -94,6 +91,78 @@ required:
-> 
->  unevaluatedProperties: false
-> 
-> +allOf:
-> +  - $ref: dai-common.yaml#
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: renesas,fsi2-r8a7740
-> +    then:
-> +      properties:
-> +        clock-names:
-> +          oneOf:
-> +            - items: # FSIA & FSIB is slave
-> +                - const: fck
-> +                - const: spu
-> +            - items: # FSIA slave & FSIB master use internal clock
-> +                - const: fck
-> +                - const: spu
-> +                - const: ickb
-> +                - const: divb
-> +            - items: # FSIA slave & FSIB master use external clock
-> +                - const: fck
-> +                - const: spu
-> +                - const: ickb
-> +                - const: xckb
-> +            - items: # FSIB slave & FSIA master use internal clock
-> +                - const: fck
-> +                - const: spu
-> +                - const: icka
-> +                - const: diva
-> +            - items: # FSIB slave & FSIA master use external clock
-> +                - const: fck
-> +                - const: spu
-> +                - const: icka
-> +                - const: xcka
-> +            - items: # FSIA master ex-clk  & FSIB master ex-clk
-> +                - const: fck
-> +                - const: spu
-> +                - const: icka
-> +                - const: xcka
-> +                - const: ickb
-> +                - const: xckb
-> +            - items: # FSIA master in-xlk  & FSIB master in-clk
-> +                - const: fck
-> +                - const: spu
-> +                - const: icka
-> +                - const: diva
-> +                - const: ickb
-> +                - const: divb
-> +            - items: # FSIA master in-clk  & FSIB master ex-clk
-> +                - const: fck
-> +                - const: spu
-> +                - const: icka
-> +                - const: diva
-> +                - const: ickb
-> +                - const: xckb
-> +            - items: # FSIA master ex-clk  & FSIB master in-clk
-> +                - const: fck
-> +                - const: spu
-> +                - const: icka
-> +                - const: xcka
-> +                - const: ickb
-> +                - const: divb
-> +            - items: # FSIA & FSIB  full clock support
-> +                - const: fck
-> +                - const: spu
-> +                - const: icka
-> +                - const: xcka
-> +                - const: diva
-> +                - const: ickb
-> +                - const: xckb
-> +                - const: divb
 
-Between this and just giving up on enforcing an order, I pick the 
-latter.
+Replying to Sashiko's comments:
 
-Rob
+  https://sashiko.dev/?list=org.kernel.vger.linux-trace-kernel#/patchset/20260513150007.3b280e87%40gandalf.local.home
+
+> commit b3956023bf5f1ccf5838187c1c14f3dcf5e37c3d
+> Author: Steven Rostedt <rostedt@goodmis.org>
+> tracing: Allow perf to read synthetic events
+> This commit adds support for perf to read synthetic events. It extracts the
+> field sizing and entry writing logic into separate helper functions, and
+> implements a new probe function to attach perf events.
+> > diff --git a/kernel/trace/trace_events_synth.c b/kernel/trace/trace_events_synth.c
+> > index 39ac4eba07024..e6871230bde96 100644
+> > --- a/kernel/trace/trace_events_synth.c
+> > +++ b/kernel/trace/trace_events_synth.c
+> > @@ -499,28 +499,19 @@ static unsigned int trace_stack(struct synth_trace_event *entry,
+> [ ... ]
+> > +static __always_inline void write_synth_entry(struct synth_event *event,
+> > +					      struct synth_trace_event *entry,
+> > +					      u64 *var_ref_vals,
+> > +					      unsigned int *var_ref_idx)
+> > +{
+> > +	int data_size = 0;
+> Since get_field_size() and write_synth_entry() are being refactored here, is
+> there a risk of a time-of-check to time-of-use buffer overflow with
+> dynamic string fields?
+> get_field_size() computes the string length for allocation by calling
+> fetch_store_strlen(). The ring buffer event slot is then allocated based on
+> this length.
+> write_synth_entry() populates the buffer by calling trace_string(), which
+> calls fetch_store_strlen() a second time to recalculate the string's length,
+> assigning it to data->as_dynamic.len.
+> If a string from user space grows between the two fetch_store_strlen() calls,
+> fetch_store_string() will blindly copy more bytes than the allocated buffer
+> space. Can this cause out-of-bounds writes and corrupt kernel memory?
+> This regression wasn't introduced by this patch, but pre-existed in the
+> ftrace implementation.
+
+The string cannot grow between the two calls. When a dynamic event is
+enabled (as it is required to be here) deleting or modifying it will be
+denied via an -EBUSY return. That's the only way I'm aware of that can have
+user space change the size of the string.
+
+> [ ... ]
+> > +#ifdef CONFIG_PERF_EVENTS
+> > +static void perf_event_raw_event_synth(void *__data,
+> > +				       u64 *var_ref_vals,
+> > +				       unsigned int *var_ref_idx)
+> > +{
+> [ ... ]
+> > +	size = ALIGN(sizeof(*entry) + fields_size, 8);
+> > +
+> > +	entry = perf_trace_buf_alloc(size, &regs, &context);
+> > +
+> > +	if (unlikely(!entry))
+> > +		return;
+> > +
+> > +	write_synth_entry(event, entry, var_ref_vals, var_ref_idx);
+> > +
+> > +	perf_fetch_caller_regs(regs);
+> > +
+> > +	perf_trace_buf_submit(entry, size, context,
+> > +			      call->event.type, 1, regs,
+> > +			      perf_head, NULL);
+> > +}
+> > +#endif
+> Could this leak uninitialized per-CPU kernel memory to userspace?
+> perf_trace_buf_alloc() and trace_event_buffer_reserve() allocate memory from
+> per-CPU buffers without zero-initializing it (except for trailing alignment
+> padding).
+
+Both of theses per-CPU memory locations are zeroed when created. It is only
+populated with trace data. Yeah, it may leak previous trace data, but that
+data should also be visible for whoever created it in the first place.
+
+-- Steve
+
+
+> write_synth_entry() populates an array of 8-byte union trace_synth_field.
+> When a field is smaller than 8 bytes (e.g., as_u8), only those specific bytes
+> are written, leaving the remaining padding bytes uninitialized. Similarly, for
+> empty stacktraces, get_field_size() reserves 8 bytes, but trace_stack()
+> terminates immediately and writes 0 bytes, leaving the 8-byte gap completely
+> uninitialized.
+> perf_trace_buf_submit() copies the entire requested buffer size to the perf
+> ring buffer. Can userspace read this buffer, leaking uninitialized kernel
+> memory from previous events or kernel operations?
+> This regression also wasn't introduced by this patch, but pre-existed in the
+> ftrace implementation.
+
