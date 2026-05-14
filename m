@@ -1,53 +1,143 @@
-Received: from mailout1.hostsharing.net (mailout1.hostsharing.net [83.223.95.204])
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C0501DF748
-	for <sashiko@lists.linux.dev>; Thu, 14 May 2026 07:22:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.223.95.204
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778743379; cv=none; b=G/oUgbXWahtPFJMXWPezfnBTSVFI6JP1sfxG8PDbRB5WmpB7mRMGOrBIaWokCPTJVLUR8au9oG2CIxNiTt24gzq6Ata/vj3onrqodqeOO5ankY1y42K0gAbBCN8S2Ph+nSd5LFbgR38UHuRlcmCpbdzSEjEZUBs6FlxrI5BlueU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778743379; c=relaxed/simple;
-	bh=CZ5sR0YW1Am/daN0RTCvCy9UA7uiTZiaxAi7NV8SNTY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FUnEen8SkfisGsBL+GfCweKFC7llrrn8LFJEfzVdtrd/Ew+Faub8UsFhj4ksyDw03he8kv64vFwBe/0X1U1LpzknCyOY2Zuv5IjAOGBmwFRBovQlTRfj2K3nPu8csT/2NDf2qBwViu4ynbLCsGzA6pND1aZtrBnN7M8jEe85Yag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de; spf=pass smtp.mailfrom=wunner.de; arc=none smtp.client-ip=83.223.95.204
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wunner.de
-Received: from h08.hostsharing.net (h08.hostsharing.net [83.223.95.28])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature ECDSA (secp384r1) server-digest SHA384
-	 client-signature ECDSA (secp384r1) client-digest SHA384)
-	(Client CN "*.hostsharing.net", Issuer "GlobalSign GCC R6 AlphaSSL CA 2025" (verified OK))
-	by mailout1.hostsharing.net (Postfix) with ESMTPS id 6BDB3363;
-	Thu, 14 May 2026 09:22:56 +0200 (CEST)
-Received: by h08.hostsharing.net (Postfix, from userid 100393)
-	id 58974600CDB4; Thu, 14 May 2026 09:22:56 +0200 (CEST)
-Date: Thu, 14 May 2026 09:22:56 +0200
-From: Lukas Wunner <lukas@wunner.de>
-To: sashiko@lists.linux.dev
-Cc: alistair23@gmail.com, ojeda@kernel.org, linux-pci@vger.kernel.org
-Subject: Re: [PATCH 02/18] X.509: Make certificate parser public
-Message-ID: <agV4ULnj0Y1UV1Xi@wunner.de>
-References: <20260508031710.514574-3-alistair.francis@wdc.com>
- <20260508034543.D9D2FC2BCB0@smtp.kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4455C3D8108
+	for <sashiko@lists.linux.dev>; Thu, 14 May 2026 07:28:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778743690; cv=pass; b=UweIfR9NK2mLLOm4oHHx/4mLWYNAyhXODaa7NGoKiN8KarGptMSqptVfoC5lx8XiOGkiwH9TAp5Q85gGCeVUGzxPmv4MQ4dDYku3oUL05JpQBKGSJEmtaPBhxmbXcEDfJzN8hZnNrBZjbM6crNd6x+wpTalld0WnObQtLIGJBDs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778743690; c=relaxed/simple;
+	bh=gTDl3a2HjdTkls2KCClwZup8qGgLP0nHtvXY4JmOPbg=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=cSBjPEAdzdSzzauunp/RIPcYETHXU6UPtedCjpRb3bJShi76c65/4MT1QW6I/3c3tQjkPhQ+gueYoWjfcV4BFYy0kmp+qSJZRzNYa8tPJ7keTWISuzQ3CQb9nkxO/rxcRRKn91C1oc7q1OwUz+rfjvPaNaOjqy0ztgHmdbcEEOI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.beauty; spf=pass smtp.mailfrom=linux.beauty; dkim=pass (1024-bit key) header.d=linux.beauty header.i=me@linux.beauty header.b=U/o8+LEp; arc=pass smtp.client-ip=136.143.188.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.beauty
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.beauty
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.beauty header.i=me@linux.beauty header.b="U/o8+LEp"
+ARC-Seal: i=1; a=rsa-sha256; t=1778743686; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=Q/ylkYm0y5IAbmbGuFVo7Sdcr+Bm1wcL1TLad+vYqqCvd4EbZN2xbUG3rEjeuG79ibw9NZAnLKmkhF5Y3g1rXQEqOqYNlr7JvnBeXh3EZgiZoSq0F/KVx2SqCDf0MqHSpWtqCN97alHBoPTddLzx9FiPI8SpOLEA9f5H6a4GOUs=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1778743686; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=WWYjUDfvep/Wp+fKpRwvD98NxIseSp42RISuostGNIY=; 
+	b=LbSX5d0z9ppcVuIcn3pJTYEFj2JlADDNrUP8TWQVs4YLRl+H8Ay+QB7dREDLXCnrGciF6dd0+fJHWl1LQdJAzsY9bWbeGeEywt9JOFAHc3i9o0mxy0IBVHx99JNF+7DsIL5QgzVt/H1lXu4II7Z2V+pt6faTE2xrNoCcUtRrZ2U=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=linux.beauty;
+	spf=pass  smtp.mailfrom=me@linux.beauty;
+	dmarc=pass header.from=<me@linux.beauty>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1778743686;
+	s=zmail; d=linux.beauty; i=me@linux.beauty;
+	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=WWYjUDfvep/Wp+fKpRwvD98NxIseSp42RISuostGNIY=;
+	b=U/o8+LEpnzKVwoNmMz4rOZ+nvxsft5GM1D0P1MKuqX85afBrK2B5UinzivSaf8cZ
+	O5YDAeFhJawal8LQI4T/qavNZPdrcj1oYEs8uTKVv0xtYORB2F/+guwD1uIxnpjH93h
+	PtQFx/FECKjsmlcrLRb6WoQlJzZ3xPKtNz6Q95v8=
+Received: from mail.zoho.com by mx.zohomail.com
+	with SMTP id 1778743683891166.01678968466956; Thu, 14 May 2026 00:28:03 -0700 (PDT)
+Date: Thu, 14 May 2026 15:28:03 +0800
+From: Li Chen <me@linux.beauty>
+To: "sashiko" <sashiko@lists.linux.dev>
+Cc: "tytso" <tytso@mit.edu>, "Linux ext4" <linux-ext4@vger.kernel.org>
+Message-ID: <19e2562ab1f.7bfc0be11828124.5033413086245138109@linux.beauty>
+In-Reply-To: <20260512034640.71DA1C2BCB0@smtp.kernel.org>
+References: <20260511084304.1559557-5-me@linux.beauty> <20260512034640.71DA1C2BCB0@smtp.kernel.org>
+Subject: Re: [RFC v7 4/7] ext4: fast commit: avoid self-deadlock in inode
+ snapshotting
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260508034543.D9D2FC2BCB0@smtp.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Importance: Medium
+User-Agent: Zoho Mail
+X-Mailer: Zoho Mail
 
-On Fri, May 08, 2026 at 03:45:43AM +0000, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
-> - [Medium] The commit message claims to adjust the `#include <linux/time.h>` directive to `#include <linux/time64.h>`, but the patch fails to do so.
+Hi sashiko,
 
-Observation is valid, but appears to be caused by an outdated commit
-on Alistair's development branch.  The corresponding commit on my
-development branch does change the #include directive as advertised
-in the commit message:
+ ---- On Tue, 12 May 2026 11:46:39 +0800   <sashiko-bot@kernel.org> wrote -=
+--=20
+ > Thank you for your contribution! Sashiko AI review found 1 potential iss=
+ue(s) to consider:
+ > - [Critical] Removing igrab() exposes a critical use-after-free vulnerab=
+ility because ext4_fc_del() can miss the EXT4_STATE_FC_COMMITTING state tra=
+nsition and free the inode while it is actively being snapshotted.
+ > --
+ >=20
+ > commit 39c5450f50154240ff764cf3a63e011d8e973fd4
+ > Author: Li Chen <me@linux.beauty>
+ >=20
+ > ext4: fast commit: avoid self-deadlock in inode snapshotting
+ >=20
+ > This commit removes igrab()/iput() during fast commit snapshotting, rely=
+ing
+ > instead on the EXT4_STATE_FC_COMMITTING flag to keep inodes pinned while
+ > their pointers are stored in the inodes[] array for snapshotting.
+ >=20
+ > > diff --git a/fs/ext4/fast_commit.c b/fs/ext4/fast_commit.c
+ > > index 273bf34031aeb..f9bb18c0b5497 100644
+ > > --- a/fs/ext4/fast_commit.c
+ > > +++ b/fs/ext4/fast_commit.c
+ > > @@ -1195,13 +1195,12 @@ static int ext4_fc_snapshot_inodes(journal_t *=
+journal)
+ > > =20
+ > >      alloc_ctx =3D ext4_fc_lock(sb);
+ > >      list_for_each_entry(iter, &sbi->s_fc_q[FC_Q_MAIN], i_fc_list) {
+ > > -        inodes[i] =3D igrab(&iter->vfs_inode);
+ > > -        if (inodes[i])
+ > > -            i++;
+ > > +        inodes[i++] =3D &iter->vfs_inode;
+ > >      }
+ >=20
+ > Is it possible for this change to cause a use-after-free of the inode?
+ >=20
+ > If ext4_fc_del() is called during inode eviction, it waits sequentially =
+for
+ > EXT4_STATE_FC_COMMITTING and then EXT4_STATE_FC_FLUSHING_DATA. However, =
+it
+ > doesn't appear to loop back to re-check EXT4_STATE_FC_COMMITTING after
+ > waiting for the flush bit.
+ >=20
+ > Could a sequence like this occur?
+ >=20
+ > 1. ext4_fc_perform_commit() sets EXT4_STATE_FC_FLUSHING_DATA.
+ > 2. Eviction calls ext4_fc_del(), which sees EXT4_STATE_FC_COMMITTING is
+ >    false, but EXT4_STATE_FC_FLUSHING_DATA is true, so it waits on the
+ >    flush bit.
+ > 3. ext4_fc_perform_commit() clears EXT4_STATE_FC_FLUSHING_DATA, waking u=
+p
+ >    ext4_fc_del().
+ > 4. Before ext4_fc_del() resumes, ext4_fc_perform_commit() sets
+ >    EXT4_STATE_FC_COMMITTING and saves the unpinned inode pointer into th=
+e
+ >    inodes[] array.
+ > 5. ext4_fc_del() resumes, skips re-checking EXT4_STATE_FC_COMMITTING,
+ >    removes the inode from the fast commit list, and returns.
+ > 6. The VFS completely frees the inode.
+ > 7. ext4_fc_snapshot_inodes() iterates over the inodes[] array and passes
+ >    the now dangling pointer to ext4_fc_snapshot_inode().
+ >=20
+ > Does ext4_fc_del() need to re-verify the state flags after waking up, or
+ > is there another mechanism preventing the inode from being freed before
+ > ext4_fc_snapshot_inode() accesses it?
+ >=20
+ > [ ... ]
+ >=20
+ > --=20
+ > Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260511084304.1=
+559557-1-me@linux.beauty?part=3D4
+ >=20
 
-https://github.com/l1k/linux/commit/64b5f6e24ba9
+Yes, I think you're right. I missed that window.
+
+I'll make ext4_fc_del() loop back after waiting on FC_FLUSHING_DATA, so it =
+checks FC_COMMITTING again
+under s_fc_lock before removing the inode from the FC lists.
+
+Regards,
+Li=E2=80=8B
+
