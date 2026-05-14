@@ -1,141 +1,64 @@
-Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B5F9390987
-	for <sashiko@lists.linux.dev>; Thu, 14 May 2026 18:47:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF2003BF66E;
+	Thu, 14 May 2026 20:55:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778784438; cv=none; b=Lz/h/Camv6GTxBB9GsxK3lnauvcCQIDsJ34Lf5A0oh/lvSQGjyk+OuzfwuOmYTCc+kpR5pokAyt0GmKSJ2vkCdle/qn0juLGzqYRbT1wu33Zyhp6IXv+imUP/9WN65MFLBykBHUO+VCZOPJ5H27SYZan2C7MuSmj/B2hwMTzGD0=
+	t=1778792158; cv=none; b=NwnXNgILzqLbncp7zBhptw7dHeL3P3JD8HaBuD+j9lEx58yplWz7K1BEjoh/7bxrjlfA8+LeV5nEkMgyX1GQGOOiicAEDC9kw9jDfw1BKwzOyZW76Mz3Bra6AdIgV6sYktxKD5r4/CXAyFdhKaDXOi53Z8rH+3llASv51ktY9vc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778784438; c=relaxed/simple;
-	bh=ANCJ2nkmUb7VdeagkAs+34kc9JMaDZALdmfQ4/SYn6g=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bSuw3xfex7MvDnDEU6SqKrp3KDm7KpNTR+JuJSCkx7yEmvj78TMltqJ+zbjZ2BkeQDVQ9vBLecY1E5b7KYEnPaqlOv4CzmYBlTybIzhaPWXXpyZHN0kzdfRATBwHP3q1CXVcpIZSPQ7uiAJtJiUBkuPFZDgx+kZESZB6ILtQCjM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf18.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay07.hostedemail.com (Postfix) with ESMTP id 2EF04160D0E;
-	Thu, 14 May 2026 18:47:07 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf18.hostedemail.com (Postfix) with ESMTPA id 198E730;
-	Thu, 14 May 2026 18:47:05 +0000 (UTC)
-Date: Thu, 14 May 2026 14:47:10 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: LKML <linux-kernel@vger.kernel.org>, Linux Trace Kernel
- <linux-trace-kernel@vger.kernel.org>
-Cc: Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Arnaldo Carvalho de Melo
- <acme@kernel.org>, Jiri Olsa <jolsa@kernel.org>, Namhyung Kim
- <namhyung@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Ian Rogers
- <irogers@google.com>, sashiko@lists.linux.dev
-Subject: Re: [PATCH v2] tracing: Allow perf to read synthetic events
-Message-ID: <20260514144710.79513174@gandalf.local.home>
-In-Reply-To: <20260513150007.3b280e87@gandalf.local.home>
-References: <20260513150007.3b280e87@gandalf.local.home>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1778792158; c=relaxed/simple;
+	bh=hQ6U9AAqO2NDnUhISzMYPhoRd0okxRTUe/Q/wyGQtqo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fJ08NKZM8pVS9z7oEibezKf92lH+KgO7ICrY9w3x3BiX5B3Fc+evQE7LDYtPeO/QCT590KmpTHCOER/pksl3jHr8rlapwoHvk8JNB+IAqqF7EdIzREGX67+OdEf4SlEIfByvd/vTVVg59KZCiZoAq4kKJW/hySYKTxVp/Y7YAio=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pKD9yZyu; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pKD9yZyu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70D75C2BCB3;
+	Thu, 14 May 2026 20:55:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778792157;
+	bh=hQ6U9AAqO2NDnUhISzMYPhoRd0okxRTUe/Q/wyGQtqo=;
+	h=From:To:Cc:Subject:Date:From;
+	b=pKD9yZyuPH1P10rmNWm4fj3vcRcgVPZuiBtYj1nBUYxK2lt13Q+BW6syJ1VOG6bUU
+	 vyed2I0pRNjB9kNLRiw8/25WuGZsNeSZALs8/dlxLz0JZD8lJb2a0aMdwxd3v0Gryo
+	 ehovRv9o9AwXcXm7ZRa4UU8YbMWiONT2ObNxQgBfhuvoqocZZIcssSavts7wmu5uAc
+	 k3r4PM0l7tU8ur1UvQm4LkRPzgLIUVPphEhcNQ+nGWEilpR7kMMQrRN2T2cUIVyMeI
+	 llQVFGhJcujD9iWWv92idEZ6JTElOa95fb4eewHlEmx/unwG31oVP7BQzLTbu3PeAE
+	 aAQKUCRoj5U8Q==
+From: SeongJae Park <sj@kernel.org>
+To: sashiko@lists.linux.dev
+Cc: SeongJae Park <sj@kernel.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	damon@lists.linux.dev
+Subject: When Sashiko updates baselines?
+Date: Thu, 14 May 2026 13:55:55 -0700
+Message-ID: <20260514205555.51653-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 198E730
-X-Rspamd-Server: rspamout06
-X-Stat-Signature: mi7rfsms9p39wffwgzyd3fhryr4jizhe
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX19F119g861sKdV1WP8H82FD1sBuqPwvQJ0=
-X-HE-Tag: 1778784425-640236
-X-HE-Meta: U2FsdGVkX1806ol+eoXflWnfatgXky29o7yaWJZz7W7IfM7qzzU8QfSzfMSCCMrQsAuqF7C7pETfeB23EJT+ZfF2UWrfmSjJx5R4q+0G32hOajJP/tU1U4/nDJkAyC+urL6e+gQm+Q2f/UBqSYrqyHTSiET0ouSM1pL49KbvD59GTDNBN8mF4tX/PdkcS6CAba57Eqkr1rBlH4+7aVwpeYwg187QRX/cbbnHXzMBvcqf1oz3kAEFrsJJTxrzMkJSwtX7IToFhSQxfdQYJVG/T5WuuvD1MQA6SNhzly75yWKphscVfr3Z6fCMu7PTXW0ocRPBzf8wYEESI26NwI39a7UJNHXEkZbWvOrB98ECNysjkWiqOw+dHV/gWz9q8DdAjNtIyG0rwZEeDIfuZZKnzup8xev9znT3OP2EL1hTONneBuFmEwugItpisxwE9I00
+Content-Transfer-Encoding: 8bit
+
+Hello,
 
 
-Replying to Sashiko's comments:
+I posted my patch series [1] after rebasing to the latest mm-new
+(0cec77cfd5314c0b3b03530abe1a4b32e991f639).  And Sashiko smartly tried to apply
+it on the mm-new, but an older version of the mm-new
+(7505bb13a9bb1f214310915ccc06643119fdafc9), and therefore failed [2].
 
-  https://sashiko.dev/?list=org.kernel.vger.linux-trace-kernel#/patchset/20260513150007.3b280e87%40gandalf.local.home
+I could rebase my series on the older version of mm-new and repost, but
+wondering if Sashiko will use the lateset mm-new for the new version and fail
+again.  Is there a way to predict what baseline Sashiko will use, or give a
+hint [3]?
 
-> commit b3956023bf5f1ccf5838187c1c14f3dcf5e37c3d
-> Author: Steven Rostedt <rostedt@goodmis.org>
-> tracing: Allow perf to read synthetic events
-> This commit adds support for perf to read synthetic events. It extracts the
-> field sizing and entry writing logic into separate helper functions, and
-> implements a new probe function to attach perf events.
-> > diff --git a/kernel/trace/trace_events_synth.c b/kernel/trace/trace_events_synth.c
-> > index 39ac4eba07024..e6871230bde96 100644
-> > --- a/kernel/trace/trace_events_synth.c
-> > +++ b/kernel/trace/trace_events_synth.c
-> > @@ -499,28 +499,19 @@ static unsigned int trace_stack(struct synth_trace_event *entry,
-> [ ... ]
-> > +static __always_inline void write_synth_entry(struct synth_event *event,
-> > +					      struct synth_trace_event *entry,
-> > +					      u64 *var_ref_vals,
-> > +					      unsigned int *var_ref_idx)
-> > +{
-> > +	int data_size = 0;
-> Since get_field_size() and write_synth_entry() are being refactored here, is
-> there a risk of a time-of-check to time-of-use buffer overflow with
-> dynamic string fields?
-> get_field_size() computes the string length for allocation by calling
-> fetch_store_strlen(). The ring buffer event slot is then allocated based on
-> this length.
-> write_synth_entry() populates the buffer by calling trace_string(), which
-> calls fetch_store_strlen() a second time to recalculate the string's length,
-> assigning it to data->as_dynamic.len.
-> If a string from user space grows between the two fetch_store_strlen() calls,
-> fetch_store_string() will blindly copy more bytes than the allocated buffer
-> space. Can this cause out-of-bounds writes and corrupt kernel memory?
-> This regression wasn't introduced by this patch, but pre-existed in the
-> ftrace implementation.
-
-The string cannot grow between the two calls. When a dynamic event is
-enabled (as it is required to be here) deleting or modifying it will be
-denied via an -EBUSY return. That's the only way I'm aware of that can have
-user space change the size of the string.
-
-> [ ... ]
-> > +#ifdef CONFIG_PERF_EVENTS
-> > +static void perf_event_raw_event_synth(void *__data,
-> > +				       u64 *var_ref_vals,
-> > +				       unsigned int *var_ref_idx)
-> > +{
-> [ ... ]
-> > +	size = ALIGN(sizeof(*entry) + fields_size, 8);
-> > +
-> > +	entry = perf_trace_buf_alloc(size, &regs, &context);
-> > +
-> > +	if (unlikely(!entry))
-> > +		return;
-> > +
-> > +	write_synth_entry(event, entry, var_ref_vals, var_ref_idx);
-> > +
-> > +	perf_fetch_caller_regs(regs);
-> > +
-> > +	perf_trace_buf_submit(entry, size, context,
-> > +			      call->event.type, 1, regs,
-> > +			      perf_head, NULL);
-> > +}
-> > +#endif
-> Could this leak uninitialized per-CPU kernel memory to userspace?
-> perf_trace_buf_alloc() and trace_event_buffer_reserve() allocate memory from
-> per-CPU buffers without zero-initializing it (except for trailing alignment
-> padding).
-
-Both of theses per-CPU memory locations are zeroed when created. It is only
-populated with trace data. Yeah, it may leak previous trace data, but that
-data should also be visible for whoever created it in the first place.
-
--- Steve
+[1] https://sashiko.dev/#/patchset/20260514140904.119781-1-sj%40kernel.org
+[2] https://sashiko.dev/#/log/baseline/20264/2
+[3] https://lore.kernel.org/sashiko/20260426204746.93567-1-sj@kernel.org/
 
 
-> write_synth_entry() populates an array of 8-byte union trace_synth_field.
-> When a field is smaller than 8 bytes (e.g., as_u8), only those specific bytes
-> are written, leaving the remaining padding bytes uninitialized. Similarly, for
-> empty stacktraces, get_field_size() reserves 8 bytes, but trace_stack()
-> terminates immediately and writes 0 bytes, leaving the 8-byte gap completely
-> uninitialized.
-> perf_trace_buf_submit() copies the entire requested buffer size to the perf
-> ring buffer. Can userspace read this buffer, leaking uninitialized kernel
-> memory from previous events or kernel operations?
-> This regression also wasn't introduced by this patch, but pre-existed in the
-> ftrace implementation.
-
+Thanks,
+SJ
