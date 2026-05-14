@@ -1,38 +1,44 @@
-Received: from mailout3.hostsharing.net (mailout3.hostsharing.net [144.76.133.104])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D38F43DB641
-	for <sashiko@lists.linux.dev>; Thu, 14 May 2026 13:14:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.76.133.104
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2CA625B0B7;
+	Thu, 14 May 2026 15:17:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778764476; cv=none; b=Rx69bdAhPNo+gHrqTHJ9PiH9OzEjRWmbnDhAqoMZ9hdYebpi2cU+J/fy8/YGuY9fG1Ez2zDwr/5yGHIy/FnLNxluSwPCHN6NXQAWUA1YktWlBsJYE4knIQrieUd89ok0fbKC7HFDngmcCfW7qgVZ1k7q5SPgrWiqaGBnAhQ4bJs=
+	t=1778771840; cv=none; b=F16lrqAng7ZsSM2ZWMB+iEelAax4XmU1GtH9xhIRDz66AknWg40nMz9ZTHMV/hfgt3+VQvtRVCis0MvHYChqKRM3ZaETqSsfUBjdbaHnr5Coc9YMRJsVgkC35yQzy+CKlYLxqH23QRVzSCYoRR9rFTp6RwFMFc+nsidi09GJu/E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778764476; c=relaxed/simple;
-	bh=yx/cPMS1qJ5xcr0TGlPslnMkQCE425HEeu6EigOp36M=;
+	s=arc-20240116; t=1778771840; c=relaxed/simple;
+	bh=gUlkQklFPSQDCQsC4tO30txGuXDyBu7PUw34/AsJP3g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SHcJblka5/L0XGaOP/fF9HMz3BUcXzMvZWcjk379F0BRpfSTvF8XVYcP0Rgu6ZhRa3AgC1nLNV8/htaJxkQcn2iTWcF6wwSiP9RXtneO1XV0aSsPvHRTPVIBMu/MJsVJRP6RjzlhvWTxeI+C2ZyXZtXLUYixO4MracuU2+DPAeA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de; spf=pass smtp.mailfrom=wunner.de; arc=none smtp.client-ip=144.76.133.104
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wunner.de
-Received: from h08.hostsharing.net (h08.hostsharing.net [83.223.95.28])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature ECDSA (secp384r1) server-digest SHA384
-	 client-signature ECDSA (secp384r1) client-digest SHA384)
-	(Client CN "*.hostsharing.net", Issuer "GlobalSign GCC R6 AlphaSSL CA 2025" (verified OK))
-	by mailout3.hostsharing.net (Postfix) with ESMTPS id CBD9DC24;
-	Thu, 14 May 2026 15:14:30 +0200 (CEST)
-Received: by h08.hostsharing.net (Postfix, from userid 100393)
-	id A338E6016B85; Thu, 14 May 2026 15:14:30 +0200 (CEST)
-Date: Thu, 14 May 2026 15:14:30 +0200
-From: Lukas Wunner <lukas@wunner.de>
-To: Alistair Francis <alistair23@gmail.com>
-Cc: sashiko@lists.linux.dev, linux-pci@vger.kernel.org, ojeda@kernel.org
-Subject: Re: [PATCH 10/18] PCI/CMA: Validate Subject Alternative Name in
- certificates
-Message-ID: <agXKtgC7iG9BoiW8@wunner.de>
-References: <20260508031710.514574-11-alistair.francis@wdc.com>
- <20260508035806.0EE8DC2BCB0@smtp.kernel.org>
- <CAKmqyKMti4wxuU-uRcLXLnXpXTHGajHkx=7zt54FDLUry+mP6Q@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=AY1bkAy3TN1WXO02ShG8u+3QhIYL+lm5t368/HgrqRBX49UhzHSBKZJqFLx3R75SbBJ1PJC0ip1GXoQp/1p8eyowNsWuHuYVcuECkUWIbYgnfNGTcmbCCTk7Jkhp2cw5FENGcnYxXumMF8yHu0/UJ4VlbG0DT0SXiLMuvLkhwB8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IyNGeqyD; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IyNGeqyD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56222C2BCB8;
+	Thu, 14 May 2026 15:17:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778771840;
+	bh=gUlkQklFPSQDCQsC4tO30txGuXDyBu7PUw34/AsJP3g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=IyNGeqyDUgawm3BSC2mp6Nv6T5rSkZZCfrKyLbHvqs6sbu5npW67YluL0e39mOKAX
+	 RTCiSWYMFLzQE+zrWFkOJYYAcoRGX7T6+M9ZNTcxsVthNkF0jo9hxAw+ngNDLEUN4C
+	 pQjgiFSLzfkUP0o0/XS3+H7rX3g1PvDMaG9QjdRyhZe1r2PrCpm9MlD9UM98mJELsN
+	 OKauuN7PXgASvMzgAI2VMFfT4IASSqM4fbIaNsOsm83ATC+ZfsKJ8CtqCt6bEzTJMy
+	 HuP1egj7kXcZRgpnmn3SuO42hF1+Y/924fy6er1coNHp4ujfcDT7Nx9uqZw2G2X30g
+	 X0B8X8oTqFgmQ==
+Date: Thu, 14 May 2026 10:17:18 -0500
+From: Rob Herring <robh@kernel.org>
+To: Bui Duc Phuc <phucduc.bui@gmail.com>
+Cc: sashiko@lists.linux.dev, devicetree@vger.kernel.org,
+	wsa+renesas@sang-engineering.com, krzk+dt@kernel.org,
+	conor+dt@kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH v3 01/10] ASoC: dt-bindings: renesas,fsi: add support
+ multiple clocks
+Message-ID: <20260514151718.GA505743-robh@kernel.org>
+References: <20260510084303.122426-2-phucduc.bui@gmail.com>
+ <20260511204528.14632C2BCB0@smtp.kernel.org>
+ <CAABR9nEhOTz1-0NmCMTbz=-+782Pto0yovSQhBXrXqhLwMg80Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
@@ -41,184 +47,105 @@ List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAKmqyKMti4wxuU-uRcLXLnXpXTHGajHkx=7zt54FDLUry+mP6Q@mail.gmail.com>
+In-Reply-To: <CAABR9nEhOTz1-0NmCMTbz=-+782Pto0yovSQhBXrXqhLwMg80Q@mail.gmail.com>
 
-On Thu, May 14, 2026 at 12:45:46PM +1000, Alistair Francis wrote:
-> On Fri, May 8, 2026 at 1:58 PM <sashiko-bot@kernel.org> wrote:
-> > > +++ b/drivers/pci/Makefile
-> > > -obj-$(CONFIG_PCI_CMA)                += cma.o
-> > > +obj-$(CONFIG_PCI_CMA)                += cma.o cma.asn1.o
-> > > +$(obj)/cma.o:                        $(obj)/cma.asn1.h
-> > > +$(obj)/cma.asn1.o:           $(obj)/cma.asn1.c $(obj)/cma.asn1.h
-> >
-> > If CONFIG_PCI_CMA is configured as a loadable module, will Kbuild compile
-> > two separate modules (cma.ko and cma.asn1.ko)?
-> >
-> > Because the ASN.1 compiler does not export the cma_decoder symbol, would
-> > the cma.ko module fail to link during modpost with an undefined symbol
-> > error?
-> >
-> > Should these objects be bundled into a composite object instead? For
-> > example:
-> >
-> > cma_module-y := cma.o cma.asn1.o
-> > obj-$(CONFIG_PCI_CMA) += cma_module.o
+On Tue, May 12, 2026 at 01:42:06PM +0700, Bui Duc Phuc wrote:
+> Hi all,
 > 
-> This seems correct
-
-Hallucination alert:
-
-CONFIG_PCI_CMA is bool, so cannot be configured as a loadable module.
-
-> > > +     if (tag != ASN1_UTF8STR ||
-> > > +         vlen != ctx->expected_len ||
-> > > +         memcmp(value, ctx->expected_name, vlen) != 0) {
-> >
-> > Does this perform a strict case-sensitive comparison of the Subject
-> > Alternative Name?
-> >
-> > If a device vendor provisions the certificate using uppercase hexadecimal
-> > letters (a common standard for hardware IDs), could this strict memcmp()
-> > erroneously reject a valid device?
+> Based on the Sashiko AI review, I am thinking of adding the following
+> constraints specifically for renesas,fsi2-r8a7740 to address the
+> reported issues.
 > 
-> This is incorrect though, as the case is specified in the PCI spec
-
-Right.  Another hallucination.
-
-> > > +     len = snprintf(name, CMA_NAME_MAX,
-> > > +                    "Vendor=%04hx:Device=%04hx:CC=%06x:REV=%02hhx",
-> > > +                    pdev->vendor, pdev->device, pdev->class, pdev->revision);
-> >
-> > The commit message mentions handling devices that mutate their identity
-> > at runtime, but this string is constructed using cached software state
-> > from probe time (like pdev->vendor).
+> I think this may also help balance both Geert's and Krzysztof's
+> comments from the previous v2 review.
 > 
-> This I'm not clear on. Do we need to call pci_bus_read_dev_vendor_id()
-> to get updated values?
-
-If the device mutates its device identity in Config Space at runtime,
-e.g. as a result of an FPGA update or hot replacement, it is necessary
-to re-enumerate the device either through the standard hotplug
-mechanism or manually via sysfs.  Otherwise authentication simply fails
-because of the mismatch between (cached) Config Space and Subject
-Alternative Name.
-
-I think this is the correct thing to do.  The alternative would be that
-we'd just carry on using the device normally even though the mismatch
-tells us something's not right.
-
-pciehp_device_replaced() already checks whether device identity in
-(unsigned) Config Space has changed after resume from system sleep
-and after error recovery and automatically triggers a hot unplug event.
-CMA will make this check even more useful because we can trigger
-hot unplug also when the device was previously authenticated but now
-no longer is, e.g. because of a Subject Alternative Name mismatch.
-
-> > Since pci_get_dsn() reads the live hardware state, could a mutated device
-> > result in an inconsistent string containing a stale vendor/device ID but
-> > a new DSN? Will reauthentication fail without a full PCI rescan?
-
-I think it doesn't really matter whether we use cached data or read it
-from Config Space, we just want to detect a mismatch with the Subject
-Alternative Name.
-
-> > Additionally, snprintf() returns the number of characters that would have
-> > been written, not the actual bytes written.
+> Does this approach look reasonable to you?
 > 
-> This is true
-> >
-> > If the inputs ever exceed the 79-byte CMA_NAME_MAX buffer (for instance,
-> > if a quirk mutates pdev->class to exceed 6 hex characters), the string
-> > will be truncated but len will reflect the untruncated size.
+> ---------------------------------------------
 > 
-> That's true, but I don't see how the fixed length format string could
-> exceed the size.
-
-Right.
-
-> > Could this cause the later memcmp() check in pci_cma_note_san() to read
-> > out of bounds of the ctx->expected_name stack buffer? Should scnprintf()
-> > be used here instead to track the actual length written?
+> -allOf:
+> -  - $ref: dai-common.yaml#
+> -
+>  properties:
+>    $nodename:
+>      pattern: "^sound@.*"
+> @@ -94,6 +91,78 @@ required:
 > 
-> scnprintf() should be used instead, just in case.
-
-The assumption that pdev->class may exceed 6 hex characters
-is a hallucination as the 24-bit size is prescribed by the spec.
-
-Should the expected name ever change, the CMA_NAME_MAX macro
-at the top of cma.c needs to be amended.  So I don't really
-see the need for scnprintf().
-
-> > > +     if (pdev->hdr_type == PCI_HEADER_TYPE_NORMAL)
-> > > +             len += snprintf(name + len, CMA_NAME_MAX - len,
-> > > +                             ":SSVID=%04hx:SSID=%04hx",
-> > > +                             pdev->subsystem_vendor, pdev->subsystem_device);
-> >
-> > PCIe Type 1 devices (bridges) can also implement the Subsystem Vendor ID
-> > capability.
-
-Hallucination.
-
-> > > +     serial = pci_get_dsn(pdev);
-> > > +     if (serial)
-> > > +             len += snprintf(name + len, CMA_NAME_MAX - len,
-> > > +                             ":%016llx", serial);
-> > > +
-> > > +     return len;
-> > > +}
-> >
-> > Looking at pci_get_dsn(), it returns 0 both when the DSN capability is
-> > missing and when the device's legitimate serial number is 0.
-> >
-> > If a device implements the capability with a valid DSN of 0, will this
-> > check evaluate to false, omit the field, and reject a valid device?
-> >
-> > Would it be safer to explicitly check for the capability's presence via
-> > pci_find_ext_capability() instead?
+>  unevaluatedProperties: false
 > 
-> I see your point, but I don't think so.
+> +allOf:
+> +  - $ref: dai-common.yaml#
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: renesas,fsi2-r8a7740
+> +    then:
+> +      properties:
+> +        clock-names:
+> +          oneOf:
+> +            - items: # FSIA & FSIB is slave
+> +                - const: fck
+> +                - const: spu
+> +            - items: # FSIA slave & FSIB master use internal clock
+> +                - const: fck
+> +                - const: spu
+> +                - const: ickb
+> +                - const: divb
+> +            - items: # FSIA slave & FSIB master use external clock
+> +                - const: fck
+> +                - const: spu
+> +                - const: ickb
+> +                - const: xckb
+> +            - items: # FSIB slave & FSIA master use internal clock
+> +                - const: fck
+> +                - const: spu
+> +                - const: icka
+> +                - const: diva
+> +            - items: # FSIB slave & FSIA master use external clock
+> +                - const: fck
+> +                - const: spu
+> +                - const: icka
+> +                - const: xcka
+> +            - items: # FSIA master ex-clk  & FSIB master ex-clk
+> +                - const: fck
+> +                - const: spu
+> +                - const: icka
+> +                - const: xcka
+> +                - const: ickb
+> +                - const: xckb
+> +            - items: # FSIA master in-xlk  & FSIB master in-clk
+> +                - const: fck
+> +                - const: spu
+> +                - const: icka
+> +                - const: diva
+> +                - const: ickb
+> +                - const: divb
+> +            - items: # FSIA master in-clk  & FSIB master ex-clk
+> +                - const: fck
+> +                - const: spu
+> +                - const: icka
+> +                - const: diva
+> +                - const: ickb
+> +                - const: xckb
+> +            - items: # FSIA master ex-clk  & FSIB master in-clk
+> +                - const: fck
+> +                - const: spu
+> +                - const: icka
+> +                - const: xcka
+> +                - const: ickb
+> +                - const: divb
+> +            - items: # FSIA & FSIB  full clock support
+> +                - const: fck
+> +                - const: spu
+> +                - const: icka
+> +                - const: xcka
+> +                - const: diva
+> +                - const: ickb
+> +                - const: xckb
+> +                - const: divb
 
-PCIe r7.0 sec 7.9.3.2 defines the Device Serial Number as an EUI-64.
+Between this and just giving up on enforcing an order, I pick the 
+latter.
 
-In the corresponding IEEE spec on EUIs on page 11 in section
-"Unassigned and NULL EUI values", it says:
-
-   "Many applications have found it useful to define a distinct null
-    identifier, most often indicating the absence of a valid EUI-48 or
-    EUI-64 value. As an example, a null value might be the power-on state
-    for an integrated circuit register, until the hardware or firmware
-    initializes the register with a valid EUI.
-    [...]
-    The all-zeros EUI-48 value (00-00-00-00-00-00) and EUI-64 value
-    (00-00-00- 00-00-00-00-00), though assigned to an organization,
-    have not been and will not be used by that assignee as an EUI.
-    (They can be considered as assigned to the IEEE Registration Authority.)"
-
-    https://standards.ieee.org/content/dam/ieee-standards/standards/web/documents/tutorials/eui.pdf
-
-PCIe r6.1 sec 6.31.3 says the Device Serial Number shall be included
-in the Subject Alternative Name if it is "implemented".  It is debatable
-whether it can be considered implemented if the vendor neglected to
-initialize it to a valid number, but I'm inclined to consider that
-"not implemented".  The vendor made a mistake and signed an invalid
-Device Serial Number.  That can't be considered a valid certificate then.
-
-> > Also, pci_get_dsn() performs two separate 32-bit reads without a lock:
-> >
-> > pci_read_config_dword(dev, pos, &dword);
-> > dsn = (u64)dword;
-> > pci_read_config_dword(dev, pos + 4, &dword);
-> > dsn |= ((u64)dword) << 32;
-> >
-> > Could a concurrent mutation of the device identity result in a torn
-> > 64-bit read during this check?
-> 
-> Really?
-
-Again, it doesn't matter whether the data is cached or read from
-Config Space.  We just want to detect a mismatch with the Subject
-Alternative Name.
-
-Thanks,
-
-Lukas
+Rob
