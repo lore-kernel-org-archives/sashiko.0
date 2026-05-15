@@ -1,113 +1,105 @@
-Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com [95.215.58.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56B383F39FF
-	for <sashiko@lists.linux.dev>; Fri, 15 May 2026 17:46:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84CBA33C50D
+	for <sashiko@lists.linux.dev>; Fri, 15 May 2026 20:49:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778867178; cv=none; b=G3ZxLQrPxMajwUJ2A1CZvbSY6vVMbB/9GAgmwv/E0L0voP4udq+mYo/s2k3Qmujff577x9AvlXiAlWRxLZ5mTwgWHWoy9yIfLr3h3H3FCH2+kPNou/JnzDvMkaEq9ZdU6uAyVsmcDPuRTQwVqFbK6U5Pf/KXRfhi3wXPBMOSTPI=
+	t=1778878145; cv=none; b=psZ8UOaBAW1woMn3F31gRRmmhggatDxQWVhyuRQTd51rzvLi+ubsN+9tYMdM6Xm18M0VFl117kFz3LFfk/jjfClAKLPE6w7ljZnsbXpcYn4gLLzU3X+1aI9sPImiybTTLj5IxQSIs94tzmIitr8WOoe5JC/rK+VFYpsMipvklOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778867178; c=relaxed/simple;
-	bh=xEo2BO1ioxpPF3nA8Kp8VT/ugq3fnBQGnnX9c0uWoDA=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=AGcTTn1GWuLIDuTsTB3EaJyTi7voYgOpJJKaSJ5w/HlpI5NINjxVJ/7nFivg4Ts6vj27sju8fHVghqu68wOZ9w5r43tGDbZIzjUJsY4W8TQO59oYE0RvTB4KyQRT8UFL0P58OwgcOYaGJApJUffxUAo9rsUsaAYJvqUeZlcyFGI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=CnTRvV43; arc=none smtp.client-ip=95.215.58.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1778878145; c=relaxed/simple;
+	bh=setc2kaOn0Cc1QnUU45nw+/qSiTUFopM20iC/f5d25s=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=ugv3gE5JRoKiosCpuFre1BNm1JiXzNNM4X3sJhUnt5EJ/2Q1F6LMOtHjo/9SM4jJQpUekDVUXs7sYxG/Wt0FPOLIcLSvF5Yx/deg6Z5PL1ZMqgaUDlcG+rxc2YygX/y/9bozunDAAgbq1gLpvZnd92Fdnct2W/6MCzyJEvnwDU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=Qa39o7wA; arc=none smtp.client-ip=178.21.23.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="CnTRvV43"
-Message-ID: <20bb1a25-4b5b-4d92-8096-fbc325cdf88d@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1778867164;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eDCUI61NloXWC5/c0LqvvRCmngM2rOxuLUzEkoa/lNc=;
-	b=CnTRvV431xlWe1BUJ5UO1btiOFiEu3tUFBbo2A30SgEeNuuywrSKvtwsh3Gbu00X6jS0BD
-	ZQaJQpMZlfUDXaJoQ1QhTeP34wFUzkZDoL9d+tq4GXTQot7dLj9SztuXhKOObdgZFp01UQ
-	2P/A1Pskh6udRqlqfBvZazjOL62eYA0=
-Date: Fri, 15 May 2026 10:45:22 -0700
+	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="Qa39o7wA"
+Received: from mail01.disroot.lan (localhost [127.0.0.1])
+	by disroot.org (Postfix) with ESMTP id E9C0C2725F;
+	Fri, 15 May 2026 22:48:59 +0200 (CEST)
+X-Virus-Scanned: SPAM Filter at disroot.org
+Received: from layka.disroot.org ([127.0.0.1])
+ by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id qoATOATVLJ5e; Fri, 15 May 2026 22:48:59 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
+	t=1778878139; bh=setc2kaOn0Cc1QnUU45nw+/qSiTUFopM20iC/f5d25s=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=Qa39o7wABO9WKuDPvBLjttZ2d0GA4KfRRupoAycJovf4porJsEUSbFFr/7cnWBM9C
+	 dLHRJvEFvQ9paPDXJb4TC68FDL3lbEMePWvWb7OpTVPLL8EgI6hJ+w8VFVI6ghgzgc
+	 Ddzm1qWOtqGupJkHf2pYSHKJKrawdhfrwn15sU9lkFBB3bZv2iHwA69zs7VJ1qRVWl
+	 wMsBG3xC0C0P+zNawgo28GZQiBff2eFoE5zUja/jUgVrVkJqBgfOYmsYCmHrtgh4AH
+	 FESOhqV+8z7S0n5pryJI2bykdRvYJz68QHNdfPqZ0SArU/cPmNVyF7b14kttQGiNuf
+	 7FwghjL/9xU6g==
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Ihor Solodrai <ihor.solodrai@linux.dev>
-Subject: Re: [PATCH RFC bpf-next 2/2] selftests/bpf: Add LoongArch support for
- get_preempt_count()
-To: Tiezhu Yang <yangtiezhu@loongson.cn>, sashiko@lists.linux.dev
-Cc: bpf@vger.kernel.org
-References: <20260420111516.19982-3-yangtiezhu@loongson.cn>
- <20260420133532.4973DC2BCB4@smtp.kernel.org>
- <800726d7-7f09-40ee-a3ae-faf879364bdf@loongson.cn>
-Content-Language: en-US
-In-Reply-To: <800726d7-7f09-40ee-a3ae-faf879364bdf@loongson.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Date: Fri, 15 May 2026 20:48:59 +0000
+From: Rustam Adilov <adilov@disroot.org>
+To: sashiko@lists.linux.dev
+Cc: linux-watchdog@vger.kernel.org, conor+dt@kernel.org,
+ devicetree@vger.kernel.org, robh@kernel.org, krzk+dt@kernel.org, Sander
+ Vanheule <sander@svanheule.net>
+Subject: Re: [PATCH 1/3] watchdog: realtek-otto: Change to use regmap API
+In-Reply-To: <20260509171602.6B74FC2BCB2@smtp.kernel.org>
+References: <20260509163101.722793-2-adilov@disroot.org>
+ <20260509171602.6B74FC2BCB2@smtp.kernel.org>
+Message-ID: <1d8a4fa99fa1af9e41f255ec147a7571@disroot.org>
+X-Sender: adilov@disroot.org
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On 4/20/26 5:47 PM, Tiezhu Yang wrote:
-> On 2026/4/20 下午9:35, sashiko-bot@kernel.org wrote:
->> Sashiko AI review found 1 potential issue(s):
->> - [High] BPF programs including `bpf_experimental.h` will fail to compile on LoongArch due to a non-existent `thread_info` field in `struct task_struct`.
->> -- 
->>
->> commit 82453686fe5eacd9f219e2a050dc016b297cfc79
->> Author: Tiezhu Yang <yangtiezhu@loongson.cn>
->>
->> selftests/bpf: Add LoongArch support for get_preempt_count()
->>
->> This commit adds LoongArch support for get_preempt_count() in the BPF
->> experimental helpers. It enables bpf_in_interrupt() and related macros to
->> work properly on LoongArch systems.
->>
->>> diff --git a/tools/testing/selftests/bpf/bpf_experimental.h b/tools/testing/selftests/bpf/bpf_experimental.h
->>> index e5c039bc44cb4..5847bbf12d240 100644
->>> --- a/tools/testing/selftests/bpf/bpf_experimental.h
->>> +++ b/tools/testing/selftests/bpf/bpf_experimental.h
->>> @@ -507,6 +507,8 @@ static inline int get_preempt_count(void)
->>>       return bpf_get_lowcore()->preempt_count;
->>>   #elif defined(bpf_target_riscv)
->>>       return bpf_get_current_task_btf()->thread_info.preempt_count;
->>> +#elif defined(bpf_target_loongarch)
->>> +    return bpf_get_current_task_btf()->thread_info.preempt_count;
->>
->> Will this compile successfully on LoongArch?
->>
->> Since LoongArch does not select CONFIG_THREAD_INFO_IN_TASK, struct
->> thread_info is allocated on the kernel stack rather than being embedded
->> within struct task_struct. Because of this, the generated BTF and vmlinux.h
->> for LoongArch will not contain a thread_info field in task_struct.
->>
->> Could this lead to a compiler error indicating that there is no member named
->> thread_info in struct task_struct when building BPF selftests?
+On 2026-05-09 17:16, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
+> - [High] Deadlock risk in the atomic restart handler due to regmap's internal spinlock.
+> --
 > 
-> As mentioned in the cover letter, it needs to apply the kernel patch
-> "LoongArch: Implement CONFIG_THREAD_INFO_IN_TASK" [1] before testing.
-
-Hi Tiezhu,
-
-I think it makes sense to include the selftests changes in the
-series implementing CONFIG_THREAD_INFO_IN_TASK for loongarch [1].
-
-With respect to riscv part of this, I suggest you drop it unless you
-have the means to run the tests. Landing without any testing is silly.
-
-Also I think you may drop the RFC tag. AFAIU you're trying to bring
-loongarch to parity with mainstream arch-es, and that shouldn't be
-controversial.
-
-Thanks.
-
-[1] https://lore.kernel.org/bpf/20260428072021.7289-1-yangtiezhu@loongson.cn/
-
+> commit a520c8e2203154ba331a6ae28f00daec074e62ee
+> Author: Rustam Adilov <adilov@disroot.org>
 > 
-> [1] https://lore.kernel.org/loongarch/20260420102907.4617-1-yangtiezhu@loongson.cn/
+> watchdog: realtek-otto: Change to use regmap API
 > 
-> Thanks,
-> Tiezhu
+> This commit converts the realtek-otto watchdog driver to use the regmap API
+> instead of direct mmio accesses. It replaces direct read/modify/write
+> sequences with regmap functions and selects REGMAP_MMIO.
 > 
+>> diff --git a/drivers/watchdog/realtek_otto_wdt.c b/drivers/watchdog/realtek_otto_wdt.c
+>> index 2c30ddd574c59..e5e9cb480f4f9 100644
+>> --- a/drivers/watchdog/realtek_otto_wdt.c
+>> +++ b/drivers/watchdog/realtek_otto_wdt.c
+> [ ... ]
+>> @@ -199,7 +189,7 @@ static int otto_wdt_restart(struct watchdog_device *wdev, unsigned long reboot_m
+>>  
+>>  	/* Configure for shortest timeout and wait for reset to occur */
+>>  	v = FIELD_PREP(OTTO_WDT_CTRL_RST_MODE, reset_mode) | OTTO_WDT_CTRL_ENABLE;
+>> -	iowrite32(v, ctrl->base + OTTO_WDT_REG_CTRL);
+>> +	regmap_write(ctrl->regmap, OTTO_WDT_REG_CTRL, v);
+> 
+> Could this regmap_write() cause a deadlock during system restart?
+> 
+> The restart handler is often called during system shutdown or kernel panic
+> in an atomic context with local interrupts disabled. Since
+> devm_regmap_init_mmio() configures the regmap to use a spinlock by default,
+> if a panic occurs while another cpu holds the regmap lock (e.g., during
+> a ping or timeout update) and that cpu is halted by smp_send_stop(), this
+> regmap_write() could spin endlessly and prevent the system from rebooting.
+> 
+> Additionally, on preempt-rt kernels, the regmap spinlock becomes a sleepable
+> rt_mutex, which could cause a sleeping in atomic context bug when acquired
+> with interrupts disabled.
+> 
+>>  	mdelay(3 * otto_wdt_tick_ms(ctrl, 0));
+>>
 
+Hi Sander,
+
+I hope it is alright if i CCd you for this as i am not an expert on watchdog stuff.
+Wonna make sure this issue applies here before i proceed with the suggested solution
+to add .disable_locking to regmap_config without understanding the consequences of it.
+
+Best,
+Rustam
