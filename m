@@ -1,140 +1,149 @@
-Received: from polaris.svanheule.net (polaris.svanheule.net [84.16.241.116])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B18F23E9C10
-	for <sashiko@lists.linux.dev>; Fri, 15 May 2026 21:10:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.16.241.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A95D927707;
+	Sat, 16 May 2026 03:05:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778879450; cv=none; b=LkAzHzf0RIkrDtoJjLws6LRf/5LLz7ILAIx109NvAzV3ERNB4hhX7mlRCgGkoGwebbrAMILjA5TdB5RD+XdNUdgEHMBHpZJdhO/gwiess5H+1ilM6JzRkPz9Kk7kYpkLJxq8IPKQ+vwdEYH2n/B7lS2SBfsv2aMRxs871/E/+bk=
+	t=1778900757; cv=none; b=Lm9f+ADA/qqMXffq7y0iy+HWPc83/xTWP1Klv4kF+FOSHA5D+EUm0zqLDVKL9E4U6qQKOKiV/mJsrtJEwP7gXJMtjeCYHnQDxxlQVWCJdJ5qP5SNvjdNwm8ii3rjJ8F1ZbbtWSqkin6tbAqDtvyaB+OGtKg3jt23eY+/n2L4a2s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778879450; c=relaxed/simple;
-	bh=2RUTRr/e2mDBeEQc5WgusbV5r2IsaSEwTwJeHAB9En8=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=CcAlOBcF7aGEZ4kHCj5l4lyhetRrgpQQs3tnTpucGSMt9T2rNZLLBT8eF32oSyjyfcAepPafyHAIH5Nvu4W2pAVODr2hH+8MNaGX0+e7rcfaKNqrHtE/vd0CfyF/Ht2BNWtnNnb2HLVok8w5kISC1qlJ+WXMurVhNsTmvC/4mog=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svanheule.net; spf=pass smtp.mailfrom=svanheule.net; dkim=pass (2048-bit key) header.d=svanheule.net header.i=@svanheule.net header.b=qCfby3Og; arc=none smtp.client-ip=84.16.241.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svanheule.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svanheule.net
+	s=arc-20240116; t=1778900757; c=relaxed/simple;
+	bh=ZdO8LpvUMWMIZvaMnV6/IDHpYuzoWR3vkH4yZLYmhO4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=P0zUaAfKOvqx2MuWn7uZhdsZ5zYbC2tMacmgboiFbkP+nd+LSRDHHcbY8Be39HIO2NMftUcldU7x4jrtj6yNKX7Ojbw3Yrz3lkW4vsDi3nS6WaZe57kTI8C+lNdR4z+pFApaekTPkNH3yQUOqvh+aoB8j0G5N196DngS1NqTy/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kn8vmPmH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=svanheule.net header.i=@svanheule.net header.b="qCfby3Og"
-Received: from [IPv6:2a02:1812:162d:3d00:c381:7255:a866:916d] (2a02-1812-162d-3d00-c381-7255-a866-916d.ip6.access.telenet.be [IPv6:2a02:1812:162d:3d00:c381:7255:a866:916d])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sander@svanheule.net)
-	by polaris.svanheule.net (Postfix) with ESMTPSA id E35EE780785;
-	Fri, 15 May 2026 23:10:45 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svanheule.net;
-	s=mail1707; t=1778879446;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cawzNw3i1BfQgbkrGSJ5TI4CbbBN61A9TA4ImP4zRJI=;
-	b=qCfby3OgmHe+GH+Ot+HJARa1Kn7+pyHzQOMRnP3Uvk1f3d0ak4IwQFNYbdEnEMf1afgzUi
-	HeQp+WED+D+Hd0CkhIqDhMSUmWk0lxVN0fjC5cGvJxl4BTJ1sv5sXpP66zXQrmVl3dA67B
-	u4Ry/23eLZ4VLeXjSdKfFFM2033G65qrH+F3SloxbLS+R4TFnJY+viV7jANCnkfmmwvwW9
-	kkcFYhH9cwNcYNpDw5Lm2op4M38FXdNWzKHnleUDqNsMU1WpZW1wc5w9DKmtGgm/D9FHWj
-	RP4u5dgYs0clKncMczrAVkXpak5kCVuiw9j0fwNGfDsZ/HHe3GenAhIEOdQIQA==
-Message-ID: <173f0f7d804d3b0f33b6584b8a592d2079c593e9.camel@svanheule.net>
-Subject: Re: [PATCH 1/3] watchdog: realtek-otto: Change to use regmap API
-From: Sander Vanheule <sander@svanheule.net>
-To: Rustam Adilov <adilov@disroot.org>, sashiko@lists.linux.dev
-Cc: linux-watchdog@vger.kernel.org, conor+dt@kernel.org, 
-	devicetree@vger.kernel.org, robh@kernel.org, krzk+dt@kernel.org, Wim Van
- Sebroeck	 <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>
-Date: Fri, 15 May 2026 23:10:44 +0200
-In-Reply-To: <1d8a4fa99fa1af9e41f255ec147a7571@disroot.org>
-References: <20260509163101.722793-2-adilov@disroot.org>
-	 <20260509171602.6B74FC2BCB2@smtp.kernel.org>
-	 <1d8a4fa99fa1af9e41f255ec147a7571@disroot.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kn8vmPmH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36141C2BCB0;
+	Sat, 16 May 2026 03:05:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778900757;
+	bh=ZdO8LpvUMWMIZvaMnV6/IDHpYuzoWR3vkH4yZLYmhO4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kn8vmPmHoHEvQ4Wq+VG405oaDp6Ef+xNEkLp8218o8jD+f6MbQ7uqf/AseZL1BSvT
+	 1mC9Xd8yzqfL9++F1ONwnTzlzRlHKqaPrivOuV5XvZoLDBgtXhK1+xa6ZutKx+qWsg
+	 23XPYeHoq/436o7+XmbyxMbW58XWPIHL3QPJWbuVYM2Sjs6lZvlHEE19jqMLVWsqGo
+	 RQo5quEG6MSMK0I7ZS+Vf8V/wmze0XjWV1txbLrZx4WKwPzDYal1h+duAcb7a3jzHN
+	 Tqn9quGXgWksKC4Dk3R5yoY87G28LTho0lAUjuun8ZF/CJzMMTjxby+bL4kq9cIjE3
+	 fEjXsAjw8bL3g==
+Date: Fri, 15 May 2026 20:05:54 -0700
+From: Drew Fustini <fustini@kernel.org>
+To: sashiko@lists.linux.dev
+Cc: krzk+dt@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org,
+	robh@kernel.org, linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RFC v4 08/18] riscv_cbqri: Add capacity controller
+ monitoring device ops
+Message-ID: <agffEmioJUzX3OUo@x1>
+References: <20260510-ssqosid-cbqri-rqsc-v7-0-v4-8-eb53831ef683@kernel.org>
+ <20260512015859.B33A7C2BCB0@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260512015859.B33A7C2BCB0@smtp.kernel.org>
 
-Adding back Guenter (and Wim) in Cc
+On Tue, May 12, 2026 at 01:58:59AM +0000, sashiko-bot@kernel.org wrote:
+[..] 
+> > @@ -361,6 +402,28 @@ static int cbqri_probe_cc(struct cbqri_controller *ctrl)
+> >  	}
+> >  	cpus_read_unlock();
+> >  
+> > +	/* Probe monitoring features */
+> > +	err = cbqri_probe_feature(ctrl, CBQRI_CC_MON_CTL_OFF,
+> > +				  CBQRI_CC_MON_CTL_OP_READ_COUNTER, &status,
+> > +				  &has_mon_at_code);
+> 
+> Does reusing cbqri_probe_feature() for the Monitoring Control Register
+> (MON_CTL) execute invalid hardware commands and write to reserved bits?
+> 
+> Looking at cbqri_probe_feature(), it issues the operation while clearing the
+> RCID but ignores the EVT_ID field. This means it issues a counter read using
+> whatever uninitialized value the bootloader left in EVT_ID. Hardware is
+> expected to reject a counter read for an unconfigured event, returning an
+> error status instead of success.
+> 
+> Won't this expected failure cause the probe to falsely conclude monitoring is
+> unsupported?
 
-On Fri, 2026-05-15 at 20:48 +0000, Rustam Adilov wrote:
-> On 2026-05-09 17:16, sashiko-bot@kernel.org=C2=A0wrote:
-> > Thank you for your contribution! Sashiko AI review found 1 potential
-> > issue(s) to consider:
-> > - [High] Deadlock risk in the atomic restart handler due to regmap's
-> > internal spinlock.
-> > --
-> >=20
-> > commit a520c8e2203154ba331a6ae28f00daec074e62ee
-> > Author: Rustam Adilov <adilov@disroot.org>
-> >=20
-> > watchdog: realtek-otto: Change to use regmap API
-> >=20
-> > This commit converts the realtek-otto watchdog driver to use the regmap=
- API
-> > instead of direct mmio accesses. It replaces direct read/modify/write
-> > sequences with regmap functions and selects REGMAP_MMIO.
-> >=20
-> > > diff --git a/drivers/watchdog/realtek_otto_wdt.c
-> > > b/drivers/watchdog/realtek_otto_wdt.c
-> > > index 2c30ddd574c59..e5e9cb480f4f9 100644
-> > > --- a/drivers/watchdog/realtek_otto_wdt.c
-> > > +++ b/drivers/watchdog/realtek_otto_wdt.c
-> > [ ... ]
-> > > @@ -199,7 +189,7 @@ static int otto_wdt_restart(struct watchdog_devic=
-e
-> > > *wdev, unsigned long reboot_m
-> > > =C2=A0
-> > > =C2=A0	/* Configure for shortest timeout and wait for reset to occur =
-*/
-> > > =C2=A0	v =3D FIELD_PREP(OTTO_WDT_CTRL_RST_MODE, reset_mode) |
-> > > OTTO_WDT_CTRL_ENABLE;
-> > > -	iowrite32(v, ctrl->base + OTTO_WDT_REG_CTRL);
-> > > +	regmap_write(ctrl->regmap, OTTO_WDT_REG_CTRL, v);
-> >=20
-> > Could this regmap_write() cause a deadlock during system restart?
-> >=20
-> > The restart handler is often called during system shutdown or kernel pa=
-nic
-> > in an atomic context with local interrupts disabled. Since
-> > devm_regmap_init_mmio() configures the regmap to use a spinlock by defa=
-ult,
-> > if a panic occurs while another cpu holds the regmap lock (e.g., during
-> > a ping or timeout update) and that cpu is halted by smp_send_stop(), th=
-is
-> > regmap_write() could spin endlessly and prevent the system from rebooti=
-ng.
-> >=20
-> > Additionally, on preempt-rt kernels, the regmap spinlock becomes a slee=
-pable
-> > rt_mutex, which could cause a sleeping in atomic context bug when acqui=
-red
-> > with interrupts disabled.
-> >=20
-> > > =C2=A0	mdelay(3 * otto_wdt_tick_ms(ctrl, 0));
-> > >=20
->=20
-> Hi Sander,
->=20
-> I hope it is alright if i CCd you for this as i am not an expert on watch=
-dog
-> stuff.
-> Wonna make sure this issue applies here before i proceed with the suggest=
-ed
-> solution
-> to add .disable_locking to regmap_config without understanding the
-> consequences of it.
+I will change it so every write masks the controller's input fields
+clean before ORing the intended values.
 
-I'm no expert either, but AFAICT using .disable_locking would essentially m=
-ean
-all accesses are only protected by the watchdog subsystem. Which is also th=
-e
-case now, so that would mean feature parity.
+> Additionally, cbqri_probe_feature() unconditionally attempts to verify Access
+> Type (AT) support by modifying bits 7:5. Since the MON_CTL register layout
+> does not contain an AT field, does this modify implicitly reserved bits and
+> risk hardware faults?
 
-I'll leave it up to Guenter to decide if this refactor is worthwhile or not=
-.
+Bits 7:5 in MON_CTL are reserved zero and should not be hazardous to write.
 
-Best,
-Sander
+> Also, in the secondary AT=CODE probe within cbqri_probe_feature(), it appears
+> the RCID field is not re-cleared:
+> 
+> cbqri_probe_feature() {
+>     ...
+>     reg = saved_reg;
+>     FIELD_MODIFY(CBQRI_CONTROL_REGISTERS_OP_MASK, &reg, operation);
+>     FIELD_MODIFY(CBQRI_CONTROL_REGISTERS_AT_MASK, &reg,
+>                  CBQRI_CONTROL_REGISTERS_AT_CODE);
+>     iowrite64(reg, ctrl->base + reg_offset);
+>     ...
+> }
+> 
+> If the bootloader left an out-of-bounds or invalid value in the RCID field,
+> will this secondary probe execute on that invalid ID and potentially cause a
+> hardware fault?
+
+I will use (saved_reg & ~active_mask) so RCID/MCID will start from 0.
+
+> 
+> > +	if (err)
+> > +		return err;
+> 
+> [ ... ]
+> 
+> > diff --git a/drivers/resctrl/cbqri_internal.h b/drivers/resctrl/cbqri_internal.h
+> > index 6a581a7e417be..b1169ffc599fb 100644
+> > --- a/drivers/resctrl/cbqri_internal.h
+> > +++ b/drivers/resctrl/cbqri_internal.h
+> 
+> [ ... ]
+> 
+> > @@ -39,6 +41,20 @@
+> >  #define CBQRI_CC_ALLOC_CTL_OP_READ_LIMIT   2
+> >  #define CBQRI_CC_ALLOC_CTL_STATUS_SUCCESS  1
+> >  
+> > +#define CBQRI_CC_MON_CTL_OP_CONFIG_EVENT 1
+> > +#define CBQRI_CC_MON_CTL_OP_READ_COUNTER 2
+> > +
+> > +/* mon_ctl field masks (CC and BC share an identical OP/MCID/EVT_ID/STATUS layout) */
+> > +#define CBQRI_MON_CTL_OP_MASK        GENMASK(4, 0)
+> > +#define CBQRI_MON_CTL_MCID_MASK      GENMASK(19, 8)
+> > +#define CBQRI_MON_CTL_EVT_ID_MASK    GENMASK(27, 20)
+> 
+> Can FIELD_MODIFY() combined with GENMASK() zero-extend and silently clear the
+> upper 32 bits of 64-bit control registers on 32-bit architectures?
+> 
+> Since CBQRI_MON_CTL_OP_MASK and CBQRI_MON_CTL_MCID_MASK are defined using
+> GENMASK(), they yield an unsigned long (32-bit on RV32).
+> 
+> When FIELD_MODIFY() does *(_reg_p) &= ~(_mask) on the 64-bit u64 reg, the
+> bitwise negation of the 32-bit mask is bitwise ANDed with reg. C integer
+> promotion rules zero-extend the unsigned 32-bit value to something like
+> 0x00000000FFFFFFE0ULL.
+> 
+> Will this inadvertently clear bits 63:32 of the register to 0 before it is
+> written back via iowrite64(), potentially corrupting the STATUS field, the
+> BUSY bit, and any hardware Write-Preserve-Read-Ignore fields?
+
+RV32 cannot reach this code today. RISCV_CBQRI_DRIVER selects
+RISCV_ISA_SSQOSID, which depends on 64BIT, so unsigned long is always
+64-bit where these masks are evaluated.
+
+However, I will widen OP/MCID/EVT_ID to GENMASK_ULL too so the masks
+stay correct if the driver is ever ported.
+
+-Drew
