@@ -1,42 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 822D7405C33;
-	Sun, 17 May 2026 00:33:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63AB217BEBF;
+	Sun, 17 May 2026 01:39:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778977992; cv=none; b=CC8t004DVyfdQGcMj5lUXiC1M09x0miOfMT51HYqBYGQPfKsA6qtqe8q0gSDVNrz3x21q1OLUCP69pg2ue2A+HOWHEly9HpMAnvUJMMdfRXzl0xjc9IOLZ+oKvgcosj7wiXfqSXEKANtnjalwn2uQbyVOC6oRe44WG29CUDkGCY=
+	t=1778981941; cv=none; b=tUKcObWLEUh5RJimWcCsbb9Jt2O5DIdnDuACaUIpQPhReP8jGx9np5hZcjgrKu2joF1O0xx8V9S1J8a7ZBLjmyAi3KMykTOUwf/jKKk2p7kxJCtcYbx9souP65wa5myixDBUqGrLcstvtGnIG8WkUPZ/7IFQItzwxFdICVtN3Dw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778977992; c=relaxed/simple;
-	bh=qRIb6ZmSrNofEDsljDIWiiN08PPfTUE7Lq2HqPPzlUQ=;
+	s=arc-20240116; t=1778981941; c=relaxed/simple;
+	bh=Mfe2NkDGhldrWPccxMibgN8TMO7Jvlgh3FN5rL6R8q4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=scG8Kpxi3hitxovqmYFaHua77eEQFuUvdFbF5k/S3InnuyukZgA4GwBkRWmGAJ42XW8bEzjIwTrtGWEI489mckrQRPe0wl9vakiWT4QGc0LAUJvj4JNUPq11k88OEmS3L/vIv6lY+GaGyik+Cwcr454q5seDEzlofffJm7HuS38=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hdL7VIT0; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=TGYTWYGtKXQOrl+Ddq+taod2SrESmuA9RkZAtowBm8VvbPjSPbd9L/9OjFMwG6D0MR/bnE1cNDYd9qvgO7JssQ8vTjow4sgj1KUAeHaLtukdZJyXkOi4PVG649w9dLLsqLIMgHPhDHdROBHuO1uHZwS3CVilQVpD2U4UA05ebng=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mul1t1mX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hdL7VIT0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA160C2BCB7;
-	Sun, 17 May 2026 00:33:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mul1t1mX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E352BC19425;
+	Sun, 17 May 2026 01:39:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778977992;
-	bh=qRIb6ZmSrNofEDsljDIWiiN08PPfTUE7Lq2HqPPzlUQ=;
+	s=k20201202; t=1778981941;
+	bh=Mfe2NkDGhldrWPccxMibgN8TMO7Jvlgh3FN5rL6R8q4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hdL7VIT09HhkiQHA7TeU6drm8yVCTUUFlkvZ1U+fzweRpcfgSouxpbl3wgbXJG2UA
-	 /ywkE4bO+ZeZNhFUvFGKBljK4s9BiUs3PnbiJA0gANA5PjIU9ByVTY47YoZFzmnty3
-	 xgWI5sz1I6tmdgTK+2hpH1snO3/GlgeLAxK81JjvTXzD8XXjeO0879Y3vEKQS9ii4G
-	 KwLpaQkwc/2vKpbvEBrjht1B5qs4QT/hL72qgvzC5O0WxvsBwcpcoNQmrnbv1BmFbQ
-	 bzasbapRgqsr73XRy4sXW5wlhYbeA7PoowXAmTHud/TtJWH9jCiuVZMSjCocrlHFsX
-	 pdMdsSr8VrPgA==
-Date: Sat, 16 May 2026 17:33:10 -0700
+	b=Mul1t1mXig5Ipm7GzcTAxVKMb6uBDx+omU6L5lApvk9UcFT+JEf16Cb7hDmlugdX9
+	 UzJU+51/JEyNvrNsE6ND74z/nFUagE4ySUtCjkVTippZaD743tP+YPoWj6lEAaqvUx
+	 DYz5+wtEfHx4BTXwEf2iuVS9m2rjN5gsEImFxjzHKBoycscBYnVxd2iELJ4pdcB8X8
+	 BFup+scRK83OITyO3tvLzkxxvzbDmF+4g0eMCXYQujMTVPL7PPrC8UViH0x6WE0hOv
+	 MHFVzmr59/VTwnQtTevn01BelwXSreKMmQ2gUyqaScQbsxEKXagzLuuZVJo3uqQ5vG
+	 e78GWlTwrL8lg==
+Date: Sat, 16 May 2026 18:38:59 -0700
 From: Drew Fustini <fustini@kernel.org>
 To: sashiko@lists.linux.dev
-Cc: conor+dt@kernel.org, krzk+dt@kernel.org, robh@kernel.org,
+Cc: conor+dt@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
 	devicetree@vger.kernel.org, linux-riscv@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC v4 13/18] riscv_cbqri: resctrl: Add MB_MIN bandwidth
- allocation via Rbwb
-Message-ID: <agkMxmmZOwLdSlWS@thelio>
-References: <20260510-ssqosid-cbqri-rqsc-v7-0-v4-13-eb53831ef683@kernel.org>
- <20260512054240.432A6C2BCB0@smtp.kernel.org>
+Subject: Re: [PATCH RFC v4 15/18] riscv_cbqri: resctrl: Add mbm_total_bytes
+ bandwidth monitoring
+Message-ID: <agkcM6FCKbc9G9Df@thelio>
+References: <20260510-ssqosid-cbqri-rqsc-v7-0-v4-15-eb53831ef683@kernel.org>
+ <20260512212653.B5715C2BCB8@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
@@ -45,116 +45,116 @@ List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260512054240.432A6C2BCB0@smtp.kernel.org>
+In-Reply-To: <20260512212653.B5715C2BCB8@smtp.kernel.org>
 
-On Tue, May 12, 2026 at 05:42:39AM +0000, sashiko-bot@kernel.org wrote:
-> > diff --git a/drivers/resctrl/cbqri_resctrl.c b/drivers/resctrl/cbqri_resctrl.c
-> > index d8fd9b06703fa..bcd9367e3555c 100644
-> > --- a/drivers/resctrl/cbqri_resctrl.c
-> > +++ b/drivers/resctrl/cbqri_resctrl.c
-> > @@ -415,6 +415,9 @@ int resctrl_arch_update_one(struct rdt_resource *r, struct rdt_ctrl_domain *d,
-> >  	case RDT_RESOURCE_L2:
-> >  	case RDT_RESOURCE_L3:
-> >  		return cbqri_apply_cache_config_dom(dom, r, closid, t, cfg_val);
-> > +	case RDT_RESOURCE_MB_MIN:
-> > +		/* sum(Rbwb) <= MRBWB validation runs inside cbqri_apply_rbwb(). */
-> > +		return cbqri_apply_rbwb(dom->hw_ctrl, closid, cfg_val, true);
-> 
-> When a resctrl group is removed, does the framework invoke an architecture
-> hook to reset the hardware control values to a minimum default?
-> 
-> If the CLOSID is freed but the previously configured bandwidth value remains
-> pinned in the software cache (ctrl->rbwb_cache[closid]), will this abandoned
-> value falsely inflate the sum during subsequent cbqri_apply_rbwb() calls?
-> 
-> Could this cause new allocation attempts to fail with -EINVAL, effectively
-> creating a permanent denial of service for bandwidth allocations until the
-> leaked CLOSID is coincidentally re-allocated?
-
-resctrl has no arch-side hook, so the cached Rbwb for the freed closid
-stays counted in the sum and could prevent new allocations.
-
-The solution is probably a new resctrl_arch_* callback that resctrl
-invokes on group destroy with a CBQRI implementation that resets
-rbwb_cache[closid] back to the minimum. However, that would touch
-fs/resctrl and all arch backends, so I will look at addressing that in a
-future series.
-
-> > @@ -491,15 +503,42 @@ void resctrl_arch_reset_all_ctrls(struct rdt_resource *r)
-> >  		return;
+On Tue, May 12, 2026 at 09:26:53PM +0000, sashiko-bot@kernel.org wrote:
+> > @@ -308,6 +348,76 @@ int resctrl_arch_rmid_read(struct rdt_resource *r, struct rdt_domain_hdr *hdr,
+> >  		mutex_unlock(&ctrl->lock);
+> >  		return err;
 > >  
-> >  	list_for_each_entry(d, &r->ctrl_domains, hdr.list) {
-> > -		for (i = 0; i < hw_res->ctrl->rcid_count; i++) {
-> > -			for (t = 0; t < CDP_NUM_TYPES; t++) {
-> > +		dom = container_of(d, struct cbqri_resctrl_dom,
-> > +				   resctrl_ctrl_dom);
+> > +	case QOS_L3_MBM_TOTAL_EVENT_ID: {
+> > +		struct cbqri_controller *bc;
 > > +
-> > +		switch (r->rid) {
-> > +		case RDT_RESOURCE_MB_MIN:
+> > +		/*
+> > +		 * The L3 monitoring domain's id is the L3 cache id. The
+> > +		 * matching ctrl domain's hw_dom->paired_bc was cached at
+> > +		 * add time to avoid walking cbqri_controllers on every read.
+> > +		 */
+> > +		d = cbqri_find_ctrl_domain(&r->ctrl_domains, hdr->id);
+> 
+> Is there a list traversal race here that could happen during CPU hotplug?
+> 
+> When offlining a CPU, the domain removal process uses list_del_rcu() and frees 
+> domains after calling synchronize_rcu(). However, cbqri_find_ctrl_domain() 
+> traverses the ctrl_domains list without holding an rcu_read_lock(). 
+> 
+> If synchronize_rcu() does not wait for this reader, could this lead to a 
+> use-after-free when the freed domain struct is accessed?
+
+I'll change it to take cbqri_domain_list_lock in
+resctrl_arch_rmid_read() and resctrl_arch_reset_rmid(), and drop the RCU
+on the writer side in favor of plain list_del under the same mutex.
+
+> > @@ -730,6 +840,16 @@ static int cbqri_resctrl_control_init(struct cbqri_resctrl_res *cbqri_res)
+> >  			res->mon.num_rmid = ctrl->mcid_count;
+> >  			resctrl_enable_mon_event(QOS_L3_OCCUP_EVENT_ID,
+> >  						 false, 0, NULL);
+> > +
 > > +			/*
-> > +			 * CBQRI section 4.5: Rbwb >= 1, sum(Rbwb) <= MRBWB.
-> > +			 * Walk N-1..1 first so the final sum lands at
-> > +			 * MRBWB. Use the unchecked helper since the
-> > +			 * intermediate sum may exceed MRBWB.
+> > +			 * Expose BC bandwidth monitoring as the L3's
+> > +			 * mbm_total_bytes when a BC shares topology with this
+> > +			 * L3 (MPAM "MB on L3" mapping).
 > > +			 */
-> 
-> This isn't a bug, but is this comment accurate?
-> 
-> Since the loop strictly reduces the allocations for RCIDs N-1 down to 1
-> before finally increasing RCID 0 to the remaining budget, doesn't the
-> running hardware sum strictly decrease until the final step? 
-> 
-> Does the intermediate sum ever actually transiently exceed MRBWB?
-
-I will reword the comment. The hardware sum decreases through the walk
-and never exceeds MRBWB. However, the cache-based sum transiently
-exceeds MRBWB.
-
-> > +			for (i = 0; i < hw_res->ctrl->rcid_count; i++) {
-> > +				u32 rcid = (i + 1) % hw_res->ctrl->rcid_count;
-> > +				u64 rbwb = (rcid == 0) ?
-> > +					dom->hw_ctrl->bc.mrbwb - (hw_res->ctrl->rcid_count - 1) : 1;
-> 
-> If the hardware capability reports mrbwb == rcid_count - 1, will this
-> calculation evaluate exactly to 0 for RCID 0?
-> 
-> If so, does cbqri_apply_rbwb() bypass the internal sum validation
-> (which checks if rbwb > 0) and blindly write 0 to the hardware, violating
-> the CBQRI section 4.5 requirement that Rbwb >= 1?
-
-cbqri_probe_bc() already rejects mrbwb < rcid_count and refuses to
-register the controller in that case. So by the time this reset runs,
-mrbwb >= rcid_count is guaranteed and the subtraction yields at least 1.
-
-I'll add a WARN_ON(mrbwb < rcid_count) at the top of the reset walk, or
-factor the budget calculation into a helper that the probe and reset
-paths share.
-
-> > +static int cbqri_attach_cpu_to_one_bw_res(struct cbqri_controller *ctrl,
-> > +					  enum resctrl_res_level rid,
-> > +					  unsigned int cpu)
-> > +{
-> > +	struct cbqri_resctrl_res *hw_res = &cbqri_resctrl_resources[rid];
-> > +	struct rdt_resource *res = &hw_res->resctrl_res;
-> > +	struct rdt_ctrl_domain *domain;
-> > +	int dom_id = ctrl->mem.prox_dom;
+> > +			if (cbqri_resctrl_counters[QOS_L3_MBM_TOTAL_EVENT_ID])
+> > +				resctrl_enable_mon_event(QOS_L3_MBM_TOTAL_EVENT_ID,
+> > +							 false, 0, NULL);
 > > +
-> > +	if (!hw_res->ctrl)
-> > +		return 0;
-> > +
-> > +	domain = cbqri_find_ctrl_domain(&res->ctrl_domains, dom_id);
-> > +	if (domain) {
+> >  			res->mon_capable = true;
+> >  		}
+> >  		break;
 > 
-> If a system has multiple memory bandwidth controllers within the same NUMA
-> node, will the second controller match the existing domain via
-> cbqri_find_ctrl_domain() here?
+> Is bandwidth monitoring inadvertently disabled if the L3 capacity controller 
+> lacks occupancy monitoring? 
 > 
-> Since struct cbqri_resctrl_dom only stores a single hw_ctrl pointer,
-> does this mean the secondary controller is never tracked by the domain and
-> its hardware limits will be silently ignored during subsequent configurations?
+> Because this block is inside an if condition checking ctrl->mon_capable where 
+> ctrl is the L3 capacity controller, it appears the bandwidth monitoring won't 
+> be exposed even if a valid and monitoring-capable bandwidth controller is 
+> present on the system.
 
-Multiple memory bandwidth controllers are not supported. I will update
-it to detect the collision and reject the second BC at registration
-time. 
+The L3 mon_domain is currently anchored on the L3 CC's mon_capable path,
+so a system with a mon-capable BC but a mon-incapable L3 CC loses
+mbm_total_bytes. That can be addressed in a future series.
+
+> > @@ -949,6 +1072,29 @@ static int cbqri_attach_cpu_to_l3_mon(struct cbqri_controller *ctrl,
+> >  	if (err)
+> >  		goto err_offline;
+> >  
+> > +	/*
+> > +	 * Pair this L3 domain with the system's mon-capable BC. The
+> > +	 * cached pointer is consulted by every rmid_read / reset_rmid.
+> > +	 * BC mon init is system-wide. Failure here means mbm_total_bytes
+> > +	 * is unusable for any domain, so fail the attach.
+> > +	 */
+> > +	{
+> > +		struct cbqri_resctrl_dom *hw_dom = container_of(ctrl_dom,
+> > +								struct cbqri_resctrl_dom,
+> > +								resctrl_ctrl_dom);
+> > +
+> > +		hw_dom->paired_bc = cbqri_find_only_mon_bc();
+> > +		if (hw_dom->paired_bc) {
+> > +			err = cbqri_init_bc_mon_counters(hw_dom->paired_bc);
+> 
+> Could this sequence result in a use-after-free or a null pointer dereference?
+> 
+> By the time this block runs, resctrl_online_mon_domain() has already been 
+> called earlier in the function, exposing the monitoring domain to user space. 
+> If a concurrent sysfs read triggers resctrl_arch_rmid_read() at this moment, 
+> it could pass the lockless check for bc->mbm_total_states and block waiting 
+> for the hardware lock.
+> 
+> If cbqri_init_bc_mon_counters() fails, it drops the lock, frees 
+> bc->mbm_total_states, and sets it to null. 
+> 
+> When the sysfs read unblocks, will it dereference the freed pointer? Might it 
+> be safer to defer domain onlining until after the hardware state is fully 
+> initialized?
+
+I will change it so cbqri_init_bc_mon_counters() and the paired_bc
+assignment happen before resctrl_online_mon_domain(), so no reader can
+observe the half-initialized state.
+
+> 
+> Furthermore, does this unconditional assignment of cbqri_find_only_mon_bc() 
+> cause bandwidth overcounting on platforms with multiple L3 domains?
+> 
+> If the single system-wide bandwidth controller is paired with every L3 
+> domain, standard user-space tools that calculate group bandwidth by summing 
+> values across all L3 domains might overcount the true system bandwidth by 
+> a factor equal to the number of active L3 domains.
+
+Only a single bandwidth controller is supported with this implemenation.
+cbqri_resctrl_pick_counters() counts distinct L3 cache_ids at setup and
+refuses to expose mbm_total_bytes when more than one L3 domain is
+present.
 
 -Drew
