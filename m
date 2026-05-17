@@ -1,42 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 271592F7F0F;
-	Sat, 16 May 2026 22:39:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 822D7405C33;
+	Sun, 17 May 2026 00:33:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778971195; cv=none; b=N0Spzj3e4YzZLHoR4y/G4eHUQavWOs8Td2hnSWfKz2zpf6xfrnFW5hOtzcYLpVyIw1DswpoLQ21NfNEASnZmSg2QYRTI6U05msC+i0D81fUitJH6Y29C7PtclqFFRGCVD278xNVGGbXsuo5dJAwzKNl7CHhhH2ODUw/YBLvB2cI=
+	t=1778977992; cv=none; b=CC8t004DVyfdQGcMj5lUXiC1M09x0miOfMT51HYqBYGQPfKsA6qtqe8q0gSDVNrz3x21q1OLUCP69pg2ue2A+HOWHEly9HpMAnvUJMMdfRXzl0xjc9IOLZ+oKvgcosj7wiXfqSXEKANtnjalwn2uQbyVOC6oRe44WG29CUDkGCY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778971195; c=relaxed/simple;
-	bh=O9vY5xgIduoE6o099w+D8afHS0L8Ab8xEtCmV8q5JDA=;
+	s=arc-20240116; t=1778977992; c=relaxed/simple;
+	bh=qRIb6ZmSrNofEDsljDIWiiN08PPfTUE7Lq2HqPPzlUQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hI2Tklph0Ib4cpZoqUhcYXvzlyDj/GKUeGU0wweceZN+rPR+wSotNU5tMYs/42+95NSPYs9GdzdQ+/AvKsKiXp9oZa/BrGssFo/v9PSak+VMD5yER4fcORs1HeAJheI3fmy8LJ2CQaoWwnfV8IM9BnYhNIzgQPDSKIBZ+cW/wA4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pMjkURX3; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=scG8Kpxi3hitxovqmYFaHua77eEQFuUvdFbF5k/S3InnuyukZgA4GwBkRWmGAJ42XW8bEzjIwTrtGWEI489mckrQRPe0wl9vakiWT4QGc0LAUJvj4JNUPq11k88OEmS3L/vIv6lY+GaGyik+Cwcr454q5seDEzlofffJm7HuS38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hdL7VIT0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pMjkURX3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 854E4C19425;
-	Sat, 16 May 2026 22:39:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hdL7VIT0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA160C2BCB7;
+	Sun, 17 May 2026 00:33:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778971194;
-	bh=O9vY5xgIduoE6o099w+D8afHS0L8Ab8xEtCmV8q5JDA=;
+	s=k20201202; t=1778977992;
+	bh=qRIb6ZmSrNofEDsljDIWiiN08PPfTUE7Lq2HqPPzlUQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pMjkURX3WCA65Kt6Rt72D+C/t0O+n7O5bEYSyWf9Hm/ZRqIyEmmrbqLDIWQigcUnw
-	 bSWdDNUZnZ8jIE7whd5M5KzieFUFbvMqLvnJe4mAzVKG2fo/OdFFCgEgzrQv9P/D/L
-	 /9QvLgGb6d4DIopjFOCi0mhwvVTmbNTbpc0rrEul1F5LCQHtjhV1Qr2gFUJAI7VpZX
-	 9jU5S6qENvoZJ+c0nHxM3f/We+xHxk0sKeSvYhCLUNtUCqBCjZSccpHpDtb+JYLBkU
-	 uiYr9SxPMAA80oB7f0KMIojNRuhiljfuMG6Yad2jEYrCNuxZBEmMG1nDZwnkQSmpHp
-	 Cd9W99Q1AgWpQ==
-Date: Sat, 16 May 2026 15:39:53 -0700
+	b=hdL7VIT09HhkiQHA7TeU6drm8yVCTUUFlkvZ1U+fzweRpcfgSouxpbl3wgbXJG2UA
+	 /ywkE4bO+ZeZNhFUvFGKBljK4s9BiUs3PnbiJA0gANA5PjIU9ByVTY47YoZFzmnty3
+	 xgWI5sz1I6tmdgTK+2hpH1snO3/GlgeLAxK81JjvTXzD8XXjeO0879Y3vEKQS9ii4G
+	 KwLpaQkwc/2vKpbvEBrjht1B5qs4QT/hL72qgvzC5O0WxvsBwcpcoNQmrnbv1BmFbQ
+	 bzasbapRgqsr73XRy4sXW5wlhYbeA7PoowXAmTHud/TtJWH9jCiuVZMSjCocrlHFsX
+	 pdMdsSr8VrPgA==
+Date: Sat, 16 May 2026 17:33:10 -0700
 From: Drew Fustini <fustini@kernel.org>
 To: sashiko@lists.linux.dev
-Cc: robh@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org,
-	krzk+dt@kernel.org, linux-riscv@lists.infradead.org,
+Cc: conor+dt@kernel.org, krzk+dt@kernel.org, robh@kernel.org,
+	devicetree@vger.kernel.org, linux-riscv@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC v4 12/18] riscv_cbqri: resctrl: Add L3 cache
- occupancy monitoring
-Message-ID: <agjyOYWZLcnm4PZO@thelio>
-References: <20260510-ssqosid-cbqri-rqsc-v7-0-v4-12-eb53831ef683@kernel.org>
- <20260512050001.38B24C2BCB0@smtp.kernel.org>
+Subject: Re: [PATCH RFC v4 13/18] riscv_cbqri: resctrl: Add MB_MIN bandwidth
+ allocation via Rbwb
+Message-ID: <agkMxmmZOwLdSlWS@thelio>
+References: <20260510-ssqosid-cbqri-rqsc-v7-0-v4-13-eb53831ef683@kernel.org>
+ <20260512054240.432A6C2BCB0@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
@@ -45,192 +45,116 @@ List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260512050001.38B24C2BCB0@smtp.kernel.org>
+In-Reply-To: <20260512054240.432A6C2BCB0@smtp.kernel.org>
 
-On Tue, May 12, 2026 at 05:00:00AM +0000, sashiko-bot@kernel.org wrote:
-> >     resctrl_arch_reset_rmid() re-arms CONFIG_EVENT with EVT_ID=Occupancy.
-> >     CONFIG_EVENT both resets the counter to 0 and selects the event, so
-> >     re-arming with the same event keeps the MCID counting after reset rather
-> >     than relying on sticky-last-event semantics that the CBQRI register
-> >     definition does not guarantee.
+On Tue, May 12, 2026 at 05:42:39AM +0000, sashiko-bot@kernel.org wrote:
+> > diff --git a/drivers/resctrl/cbqri_resctrl.c b/drivers/resctrl/cbqri_resctrl.c
+> > index d8fd9b06703fa..bcd9367e3555c 100644
+> > --- a/drivers/resctrl/cbqri_resctrl.c
+> > +++ b/drivers/resctrl/cbqri_resctrl.c
+> > @@ -415,6 +415,9 @@ int resctrl_arch_update_one(struct rdt_resource *r, struct rdt_ctrl_domain *d,
+> >  	case RDT_RESOURCE_L2:
+> >  	case RDT_RESOURCE_L3:
+> >  		return cbqri_apply_cache_config_dom(dom, r, closid, t, cfg_val);
+> > +	case RDT_RESOURCE_MB_MIN:
+> > +		/* sum(Rbwb) <= MRBWB validation runs inside cbqri_apply_rbwb(). */
+> > +		return cbqri_apply_rbwb(dom->hw_ctrl, closid, cfg_val, true);
 > 
-> The resctrl core only calls mon_event_read() with first=true (which
-> triggers the arch reset hook) for Memory Bandwidth Monitoring events,
-> never for L3 Occupancy.
+> When a resctrl group is removed, does the framework invoke an architecture
+> hook to reset the hardware control values to a minimum default?
 > 
-> Because resctrl_arch_reset_rmid() is never invoked for L3 Occupancy during
-> RMID recycle, will the counter fail to re-arm when a new monitoring group
-> is created, causing it to stop counting or inherit dirty data from previous
-> users?
-
-cbqri_init_mon_counters() pre-configures the MCID slot at domain init,
-and occupancy is a current state read rather than an accumulator, so a
-recycled MCID returns the live counter. I'll update the commit message
-and drop the occupancy branch in resctrl_arch_reset_rmid() since it is
-unreachable.
-
-> > +/*
-> > + * Per-event controller table. Only events CBQRI can back occupy a
-> > + * slot, so other events do not bloat the array.
-> > + */
-> > +#define CBQRI_MAX_EVENT QOS_L3_OCCUP_EVENT_ID
-> > +static struct cbqri_controller *cbqri_resctrl_counters[CBQRI_MAX_EVENT + 1];
+> If the CLOSID is freed but the previously configured bandwidth value remains
+> pinned in the software cache (ctrl->rbwb_cache[closid]), will this abandoned
+> value falsely inflate the sum during subsequent cbqri_apply_rbwb() calls?
 > 
-> This array is allocated and initialized in cbqri_resctrl_pick_counters()
-> and nulled out during teardown, but its contents appear to never be accessed
-> by any logic in the driver. 
-> 
-> Is this array just dead code?
+> Could this cause new allocation attempts to fail with -EINVAL, effectively
+> creating a permanent denial of service for bandwidth allocations until the
+> leaked CLOSID is coincidentally re-allocated?
 
-No, cbqri_resctrl_counters[QOS_L3_MBM_TOTAL_EVENT_ID] is read in
-cbqri_resctrl.c to decide whether to enable mbm_total_bytes. 
+resctrl has no arch-side hook, so the cached Rbwb for the freed closid
+stays counted in the sum and could prevent new allocations.
 
-> > @@ -205,10 +225,101 @@ int resctrl_arch_rmid_read(struct rdt_resource *r, struct rdt_domain_hdr *hdr,
-> >  			   u32 closid, u32 rmid, enum resctrl_event_id eventid,
-> >  			   void *arch_priv, u64 *val, void *arch_mon_ctx)
-> >  {
-> > -	return -ENODATA;
-> > +	struct cbqri_resctrl_dom *hw_dom;
-> > +	struct cbqri_controller *ctrl;
-> > +	struct rdt_ctrl_domain *d;
-> > +	u64 ctr_val;
-> > +	int err;
+The solution is probably a new resctrl_arch_* callback that resctrl
+invokes on group destroy with a CBQRI implementation that resets
+rbwb_cache[closid] back to the minimum. However, that would touch
+fs/resctrl and all arch backends, so I will look at addressing that in a
+future series.
+
+> > @@ -491,15 +503,42 @@ void resctrl_arch_reset_all_ctrls(struct rdt_resource *r)
+> >  		return;
+> >  
+> >  	list_for_each_entry(d, &r->ctrl_domains, hdr.list) {
+> > -		for (i = 0; i < hw_res->ctrl->rcid_count; i++) {
+> > -			for (t = 0; t < CDP_NUM_TYPES; t++) {
+> > +		dom = container_of(d, struct cbqri_resctrl_dom,
+> > +				   resctrl_ctrl_dom);
 > > +
-> > +	resctrl_arch_rmid_read_context_check();
-> > +
-> > +	/*
-> > +	 * Each branch takes a sleeping mutex. Bail if called with IRQs
-> > +	 * disabled (e.g. smp_call_function_any() from nohz_full CPUs).
-> > +	 */
-> > +	if (irqs_disabled())
-> > +		return -EIO;
+> > +		switch (r->rid) {
+> > +		case RDT_RESOURCE_MB_MIN:
+> > +			/*
+> > +			 * CBQRI section 4.5: Rbwb >= 1, sum(Rbwb) <= MRBWB.
+> > +			 * Walk N-1..1 first so the final sum lands at
+> > +			 * MRBWB. Use the unchecked helper since the
+> > +			 * intermediate sum may exceed MRBWB.
+> > +			 */
 > 
-> The resctrl core intentionally reads remote domains via
-> smp_call_function_any() when the target CPU is nohz_full, running the
-> callback in hardirq context.
+> This isn't a bug, but is this comment accurate?
 > 
-> Will rejecting calls in atomic context completely break cache occupancy
-> monitoring for nohz_full CPUs, as any attempt to read their statistics
-> will always fail with -EIO?
+> Since the loop strictly reduces the allocations for RCIDs N-1 down to 1
+> before finally increasing RCID 0 to the remaining budget, doesn't the
+> running hardware sum strictly decrease until the final step? 
+> 
+> Does the intermediate sum ever actually transiently exceed MRBWB?
 
-This matches MPAM's __read_mon(). fs/resctrl explicitly handles -EIO
-from this class of drivers when dispatching via smp_call_function_any()
-for nohz_full CPUs. I'll update the comment to clarify.
+I will reword the comment. The hardware sum decreases through the walk
+and never exceeds MRBWB. However, the cache-based sum transiently
+exceeds MRBWB.
 
-> > +	err = resctrl_online_mon_domain(res, &mon_dom->hdr);
-> > +	if (err)
-> > +		goto err_listdel;
-> > +
-> > +	err = cbqri_init_mon_counters(ctrl);
+> > +			for (i = 0; i < hw_res->ctrl->rcid_count; i++) {
+> > +				u32 rcid = (i + 1) % hw_res->ctrl->rcid_count;
+> > +				u64 rbwb = (rcid == 0) ?
+> > +					dom->hw_ctrl->bc.mrbwb - (hw_res->ctrl->rcid_count - 1) : 1;
 > 
-> During domain initialization, resctrl_online_mon_domain() internally
-> calls resctrl_arch_reset_rmid_all(), which loops over all max_rmid to
-> issue CONFIG_EVENT MMIO operations.
+> If the hardware capability reports mrbwb == rcid_count - 1, will this
+> calculation evaluate exactly to 0 for RCID 0?
 > 
-> Immediately after this returns, cbqri_init_mon_counters() is called,
-> which loops over ctrl->mcid_count to issue the exact same CONFIG_EVENT
-> MMIO operations again.
-> 
-> Since each CBQRI MMIO operation can sleep and take up to 1ms, does
-> doing this twice per domain initialization introduce strictly redundant
-> and significant latency during CPU hotplug?
+> If so, does cbqri_apply_rbwb() bypass the internal sum validation
+> (which checks if rbwb > 0) and blindly write 0 to the hardware, violating
+> the CBQRI section 4.5 requirement that Rbwb >= 1?
 
-Yes. I'll drop cbqri_init_mon_counters() from the L3 mon attach path,
-since resctrl_arch_reset_rmid_all() called from
-resctrl_online_mon_domain() already covers the same occupancy
-configuration.
+cbqri_probe_bc() already rejects mrbwb < rcid_count and refuses to
+register the controller in that case. So by the time this reset runs,
+mrbwb >= rcid_count is guaranteed and the subtraction yields at least 1.
 
-> > +	if (err)
-> > +		goto err_offline;
-> > +
-> > +	return 0;
-> > +
-> > +err_offline:
-> > +	cancel_delayed_work_sync(&mon_dom->cqm_limbo);
-> > +	cancel_delayed_work_sync(&mon_dom->mbm_over);
-> 
-> The resctrl core only initializes mbm_over if resctrl_is_mbm_enabled()
-> is true. Since the CBQRI driver only enables the L3 Occupancy event and
-> not MBM, mbm_over remains completely zero-initialized from allocation.
-> 
-> Can calling cancel_delayed_work_sync() on a zeroed structure pass an
-> uninitialized timer to del_timer_sync() and trigger kernel panics?
+I'll add a WARN_ON(mrbwb < rcid_count) at the top of the reset walk, or
+factor the budget calculation into a helper that the probe and reset
+paths share.
 
-Yes. The fix is to guard the mbm_over cancel on
-resctrl_is_mon_event_enabled(QOS_L3_MBM_TOTAL_EVENT_ID). resctrl only
-INIT_DELAYED_WORK's mbm_over when MBM is enabled, so a system without a
-paired BC will no longer cancel a zeroed work struct.
-
-> > +static int cbqri_attach_cpu_to_cap_ctrl(struct cbqri_controller *ctrl,
-> > +					unsigned int cpu)
+> > +static int cbqri_attach_cpu_to_one_bw_res(struct cbqri_controller *ctrl,
+> > +					  enum resctrl_res_level rid,
+> > +					  unsigned int cpu)
 > > +{
-> 
-> The hotplug callback cbqri_resctrl_online_cpu() unconditionally skips
-> controllers if !ctrl->alloc_capable.
-> 
-> Will this cause controllers that are only capable of monitoring to be
-> ignored entirely, meaning no CPUs will ever be attached and no monitoring
-> domains will be created on monitoring-only hardware?
-
-This implementation does not support a capacity controller that supports
-mon_capable but not alloc_capable. I'll add pr_warn_once() in
-cbqri_resctrl_pick_caches() to make the limitation visible. 
-
-> > -	domain = cbqri_create_ctrl_domain(ctrl, res, cpu, dom_id);
-> > -	if (IS_ERR(domain))
-> > -		return PTR_ERR(domain);
-> > +	if (ctrl->mon_capable && ctrl->cache.cache_level == 3) {
-> > +		err = cbqri_attach_cpu_to_l3_mon(ctrl, res, cpu);
-> > +		if (err)
-> > +			return err;
-> 
-> If cbqri_attach_cpu_to_l3_mon() fails here, the error is returned, but the
-> CPU is not removed from the ctrl_domain mask and the domain structure is
-> not freed.
-> 
-> Because the CPU hotplug core handles a startup failure by rolling back
-> from the previous state, the offline callback for the current state
-> (cbqri_resctrl_offline_cpu) is not invoked.
-> 
-> Does this leave the CPU permanently stranded in the ctrl_domain mask and
-> leak the newly allocated domain structure?
-
-Yes. I'll make cbqri_attach_cpu_to_cap_ctrl() roll back the
-cpumask_set_cpu and tear down the new ctrl_domain when
-cbqri_attach_cpu_to_l3_mon() fails.
-
-> > +static void cbqri_detach_cpu_from_l3_mon(struct rdt_resource *res,
-> > +					 unsigned int cpu)
-> > +{
-> > +	struct rdt_l3_mon_domain *mon_dom, *tmp;
+> > +	struct cbqri_resctrl_res *hw_res = &cbqri_resctrl_resources[rid];
+> > +	struct rdt_resource *res = &hw_res->resctrl_res;
+> > +	struct rdt_ctrl_domain *domain;
+> > +	int dom_id = ctrl->mem.prox_dom;
 > > +
-> > +	lockdep_assert_held(&cbqri_domain_list_lock);
+> > +	if (!hw_res->ctrl)
+> > +		return 0;
 > > +
-> > +	list_for_each_entry_safe(mon_dom, tmp, &res->mon_domains, hdr.list) {
-> > +		if (!cpumask_test_cpu(cpu, &mon_dom->hdr.cpu_mask))
-> > +			continue;
-> > +		cpumask_clear_cpu(cpu, &mon_dom->hdr.cpu_mask);
-> > +		if (cpumask_empty(&mon_dom->hdr.cpu_mask)) {
-> > +			cancel_delayed_work_sync(&mon_dom->cqm_limbo);
+> > +	domain = cbqri_find_ctrl_domain(&res->ctrl_domains, dom_id);
+> > +	if (domain) {
 > 
-> This function is executed as a CPU hotplug callback, meaning the thread
-> holds cpus_write_lock(). Concurrently, the cqm_handle_limbo() worker
-> function in the resctrl core begins by acquiring cpus_read_lock().
+> If a system has multiple memory bandwidth controllers within the same NUMA
+> node, will the second controller match the existing domain via
+> cbqri_find_ctrl_domain() here?
 > 
-> If the worker starts executing while the hotplug thread is active, the
-> worker will block on cpus_read_lock(), while the hotplug thread blocks in
-> cancel_delayed_work_sync() waiting for the worker to finish.
-> 
-> Could this create an unresolvable AB-BA deadlock that hangs the system
-> during CPU offline operations?
+> Since struct cbqri_resctrl_dom only stores a single hw_ctrl pointer,
+> does this mean the secondary controller is never tracked by the domain and
+> its hardware limits will be silently ignored during subsequent configurations?
 
-Yes, I will move the L3 mon_domain teardown path from
-cancel_delayed_work_sync to cancel_delayed_work.
-
-> > +			cancel_delayed_work_sync(&mon_dom->mbm_over);
-> 
-> (As mentioned above, mbm_over appears to be uninitialized here as well.)
-
-I'll do the same fix here too.
+Multiple memory bandwidth controllers are not supported. I will update
+it to detect the collision and reject the second BC at registration
+time. 
 
 -Drew
