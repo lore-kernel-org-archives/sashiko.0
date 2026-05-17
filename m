@@ -1,95 +1,101 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66F26286430;
-	Sun, 17 May 2026 15:21:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEECA3B9D84;
+	Sun, 17 May 2026 15:56:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779031314; cv=none; b=ifIQ7xi4tJDGFORFXTYNL7daDs4F5zrGmVP36WOI0VOUHOX6IcH6wvSnmoGcTYgMztbrmQAve2mhs4doOJhuoedo0Ys96D0tgcL2RrfF4oXkJITgZC/vQ6yBXry3z19lHkds3rwOoafKEeFq7TJ8oWQHu4V1b3YEXlPq5p/cFgk=
+	t=1779033385; cv=none; b=Arm+Ye1hucZCLKZa727aFx3nFRXywoHRw68f9ADXmgPUXx1LNGqWX1EzS3afOMD4I7G/rfwgW898Frs87ctigZnQw4sMcF+3fqr7YTlzi1TZThXezNwusI8xhHmfbt2uG0zBl/W3zkTBoQbtLWcp/JWuzJfXDHJfRk6ZOhRVSPE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779031314; c=relaxed/simple;
-	bh=t9y0GTdIMNxbDvtPXVJ2Wbg9KnL36rFZbM7XjzwMxiY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=iU7bHzeyW4pYi5FbGOY7ZabWOfwwgNOBlKepz5x6s3ruA6r7PKs9TWyOlbp71OCDGBEvRNfkCYJm4rQH/DkXZMUjK2rKds8Dd+Q8+oXr8DHjSmb0vMwxwM7BVcIXTn8q5in7TUkbCAiXrlw/PeP6aeijHMo5esrCDnfAFTHim00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=XNFn06y8; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1779033385; c=relaxed/simple;
+	bh=/vouAuRiL4u0L4OBvt2/nK/kw0Ct2vHfD2gvkrC+aaA=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:To:From:Subject:
+	 References:In-Reply-To; b=asJtssE8ZMhcfWAx4inBML37m/s+GaLhFnidmPzqEZ59wVpDNnl6+ihK9WgK/NVtybNfNWK3ViY+Ktvn/V4VA6bBMi/t3S/Ctxum7jn/X9Ar47tfy/m61zI2d5S4/0MbnVZ6ta2EKwbupt+JBLj7DGd+7/i099r1AyQTZ5neWo4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hkYUKrx3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="XNFn06y8"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6EF8140C79
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1779031306; bh=sr9iSe4M/xfVvPcj6Q8cSaRqEc29Xtd0DjCI8Frt+58=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=XNFn06y8oRe/pI9RuBJ//uKP8K79mY26JT63CbMuAdkFCViameJoyh1SToaKe0GrG
-	 3iO853p7n0xAPHzV5w8nu0wNTm5LsVQqzoiSzqz3waLOnRNWoytyav1GCcpw5RHOil
-	 bkt95/Uylr8sX6VgYyopqjw/ppbXIBugvdL0z4ZJV44vaD6I98kKzNWMNk/2MYNbwP
-	 ZdwYG3vFZpw7maDU1ryaXryFVeJB/hNA+/nPTz2RakVTUrC42tBAJ7ZFdYm686/6rh
-	 zmg7XBdxAI4lFZtDpf+q1vXjiYGcAolmr1xHzZHt0+Q5wuhHrRbohkaDh0/VQtf4yF
-	 /Ja++u4T7Pn1A==
-Received: from localhost (unknown [IPv6:2601:280:4600:27b:67c:16ff:fe81:5f9b])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 6EF8140C79;
-	Sun, 17 May 2026 15:21:46 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Guenter Roeck <linux@roeck-us.net>, Krzysztof Kozlowski <krzk@kernel.org>
-Cc: sashiko-bot@kernel.org, sashiko-reviews@lists.linux.dev,
- sashiko@lists.linux.dev, Linux Kernel Workflows
- <workflows@vger.kernel.org>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, "devicetree@vger.kernel.org"
- <devicetree@vger.kernel.org>, kfree@google.com
-Subject: Re: Stop false review statements
-In-Reply-To: <fd3b2ca7-4d64-4c4b-98a3-7d3285fa6826@roeck-us.net>
-References: <ad139e54-a7f0-4d09-832c-6b2bf2e93e03@kernel.org>
- <fcc4b719-2696-4f31-bac4-6c07f8ddec47@roeck-us.net>
- <221cc52e-9918-43ea-b196-622a8cc6db05@kernel.org>
- <fd3b2ca7-4d64-4c4b-98a3-7d3285fa6826@roeck-us.net>
-Date: Sun, 17 May 2026 09:21:45 -0600
-Message-ID: <877bp2m586.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hkYUKrx3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02A08C2BCB0;
+	Sun, 17 May 2026 15:56:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779033384;
+	bh=/vouAuRiL4u0L4OBvt2/nK/kw0Ct2vHfD2gvkrC+aaA=;
+	h=Date:Cc:To:From:Subject:References:In-Reply-To:From;
+	b=hkYUKrx3r8FP5x9qgjbJLhoYa7v56trxKb8axZawQNS0FvBQ5zpBC2+fZffDtI2nv
+	 Zwv7Dg4hg2N+LPhV0Vyr9bWOTaneNjBkWIWPudJVbNtAZcbQ9ARDOLnNB6NaeMgsKl
+	 TQRvu6U6HMC9gkTAc8+ho/K20Zk5eriWRndGZ/DPkWSHuL08Giz4OoT2rh04lTMnFt
+	 6H/b/M3U0WLfoj7Kri0UwkXH7ayQm3iE9GzRg8LxWxJogj93zsbnBFmg1+GjR//POH
+	 PUsioLy1G6e+fNO0MdKLVYAM2e3NdLD7cts96DNwilGj9uOXLLlWM+WkQAyK6vHcnG
+	 I22s2G3dZPlpw==
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sun, 17 May 2026 17:56:20 +0200
+Message-Id: <DIL2P8CHKVZD.2WVQQRN0FM28N@kernel.org>
+Cc: "Krzysztof Kozlowski" <krzk@kernel.org>, "Greg KH"
+ <gregkh@linuxfoundation.org>, "Konstantin Ryabitsev" <mricon@kernel.org>,
+ "Guenter Roeck" <linux@roeck-us.net>, "Miguel Ojeda" <ojeda@kernel.org>,
+ <sashiko-bot@kernel.org>, <sashiko-reviews@lists.linux.dev>,
+ <sashiko@lists.linux.dev>, "Linux Kernel Workflows"
+ <workflows@vger.kernel.org>, "Linux Kernel Mailing List"
+ <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <kfree@google.com>
+To: "Roman Gushchin" <roman.gushchin@linux.dev>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: Stop false review statements
+References: <b5989c0f-90da-42cc-a623-3b60df077848@kernel.org>
+ <FA45D2AD-1135-4480-8423-63C0D37FE78D@linux.dev>
+In-Reply-To: <FA45D2AD-1135-4480-8423-63C0D37FE78D@linux.dev>
 
-Guenter Roeck <linux@roeck-us.net> writes:
+On Sat May 16, 2026 at 9:15 PM CEST, Roman Gushchin wrote:
+> I agree, it=E2=80=99s sometimes gets tricky when a patchset is sent to mu=
+ltiple
+> mailing lists, which policy to apply. I have some improvements in my plan=
+s,
+> but it=E2=80=99s not always possible to say how it should be handled.
 
-> On 5/16/26 05:16, Krzysztof Kozlowski wrote:
->> Quotes from the existing policy:
->> 
->> 1. "By offering my Reviewed-by: tag, I state that:"
->> 
->> Tool cannot use first person "I". Tool cannot "state that".
->> 
->> 2. "A Reviewed-by tag is *a statement of opinion* that the patch is an
->>   appropriate modification of the kernel without any remaining serious"
->> 
->> Tool cannot make a statement of opinion.
->> 
->> 3. "Any interested reviewer (who has done the work) can offer a
->> Reviewed-by".
->> 
->> Tool is not a reviewer as a person, thus above does not grant the tool
->> permission to offer a tag.
->
-> I'd like to see that explicitly spelled out. Until then it is your opinion.
+Which improvements do you have in mind?
 
-So I'm the person who wrote that text.  Automated review tools weren't
-really on the radar at that time, so I can't argue that it expresses an
-opinion either way as to whether an LLM could make such assertions.
+> It=E2=80=99s not fundamentally new: landing changes touching multiple sub=
+systems is
+> always harder exactly because maintainers might have different and someti=
+mes
+> conflicting views.
 
-That said, I was certainly considering *human* reviewers at the time,
-and all of the people who agreed with the suggested policy were too.
-Adding bots seems like a stretch to me.
+It can also be relevant in cases where only a single subsystem is touched.
 
-I can't speak for subsystems that require Reviewed-by tags on their
-commits, but I'm not sure that their maintainers would accept an
-automated review as satisfying that requirement.
+For instance, in the case of Rust, the rust-for-linux list serves two purpo=
+ses
+-- when it is a Rust subsystem change and when Rust code of any other subsy=
+stem
+is touched, i.e. the rust-for-linux list has more of a LKML character and a=
+lso
+receives patches for subsystems whose maintainers may not have opted in to
+sashiko email delivery.
 
-If we want to record this sort of processing, perhaps a tag like
-"Scanned-by" would be appropriate?
+That said, I personally don't mind too much, I really like sashiko, which i=
+s
+also why I asked for adding the driver-core list. My experience has been th=
+at it
+does a very decent job in providing feedback for C code; my feeling is that
+feedback for Rust code is not quite on par yet, but of course it also highl=
+y
+depends on the complexity and scope of the corresponding changes.
 
-jon
+However, I still have the same concern I raised previously when it comes to
+email delivery: I think that when sashiko sends feedback to contributors
+(without Cc'ing the mailing list and all other recipients), it should activ=
+ely
+ask the contributor to raise things on the list with all other recipients,
+reviewers and maintainers before acting on them, such that changes subseque=
+nt to
+the first submission on the list are aligned.
+
+Can this be added please?
+
+Thanks,
+Danilo
