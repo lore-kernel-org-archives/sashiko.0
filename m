@@ -1,94 +1,134 @@
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60A0827A462
-	for <sashiko@lists.linux.dev>; Sun, 17 May 2026 16:29:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B6F0223708;
+	Sun, 17 May 2026 16:40:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779035372; cv=none; b=taFN+sbi1Y9YG+tKvl42nfkNzkS1hYJt5JvIX0FOHOlhw9EEZi5c/mhPp84yVPrJaUt1ArnKnGxXc31CqhbtFGut8RcBdDKgF+rQNmDsJT+Z4LjeMZUg1ysx7UMnLLLu2Yo9VptJ5RSVLcS+MzX2P/lMkpkElpRlnWBvDavMlsA=
+	t=1779036006; cv=none; b=R9PSf9wSs8jsbcpQd4POmVAN7/P4x91uEQ4fjyapPk+sois7tUxgUiAVK5nfHegrxlgCqvlbsUTLrq3yTRjw9ZOTGzDlLtCLTLfKA+AW89OvFTqTne1oENnJvE6sSIimYe84TYGQVjEPdVLACvda0P7M1F693LmhnJJdq/0WBIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779035372; c=relaxed/simple;
-	bh=zi3F9jjBameBKB9vjfjoURcZxlkSiuLP1xjP/cLUT5I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Zde61S/6wFBJ7jKnmCRVIbDDmhsIhUYKDvGXI8Iji89brT1GzxxpqatIvYpB2Ssw97yQrvmocAWXtex8SpHtCLb9oAm90UCG1qZVzd1Ct7ZLpugIN9Ic9zgHdRQ5D6bbKy1PBY09wPXCSmOrnWh4CPyTUnC7mCEbJthkA5mXJTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=OMv5hXju; arc=none smtp.client-ip=18.9.28.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+	s=arc-20240116; t=1779036006; c=relaxed/simple;
+	bh=u8TPZDJlwQ/Azd8YDqYjH0B+QcojCtUpyxuZcWPXSRw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=UET8JR4+1wwBwSQqb7WdbOKLQTi5xPTayHMu9Im41JaomQAo084H5SbFGgAV52ZC3DKIytckiT/1TI8m1sqsGDeprLNd3Ido4C0mnuUxjkC6MmkYo8DweLmRvDQvKA3crTZt3v8EKtIM+xLR3bQGK5bxh5ek5JKzH/eX3ZZOTuo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FV7Dn8rt; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="OMv5hXju"
-Received: from macsyma.thunk.org (pool-173-48-113-30.bstnma.fios.verizon.net [173.48.113.30])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 64HGTCOa012302
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 17 May 2026 12:29:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-	t=1779035356; bh=ybqO5IyQZWG+yOAuxzWHV8Y8nXAPMHTC2dZ8p+w8Rk0=;
-	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
-	b=OMv5hXjuOTQyRnU1KmIZA3vokJVdLvr2CS4amW3t7dbr1vrgJT0r3ffUR+K2/4WEt
-	 VlyY+tErhQE6NIZJYJKYuiDWeZS+rIwDbUA4R3IXhPxsXqmA4k1F5LluhhVv0LZzWE
-	 H/v/ToCWzUKYkBUedcceeBqmhMPCJtEFw/IY9Rgv39eAwakSuj3PFIP39wQ870USFr
-	 lpim7uWxLZ2t1tE88TorK9yLkvQx4qWT4ztAwOn1OBKFtq9SF57b2WPDQo/7NYCC2P
-	 Ft5A5H+uyHx99AQlABsOk6bdjNfog3Iwg5aiju2wVUYXNpXPQxdewAvRCTaIw3dFdz
-	 b+ikkRvIbReqw==
-Received: by macsyma.thunk.org (Postfix, from userid 15806)
-	id B3F5167E8B95; Sun, 17 May 2026 12:29:12 -0400 (EDT)
-Date: Sun, 17 May 2026 12:29:12 -0400
-From: "Theodore Tso" <tytso@mit.edu>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FV7Dn8rt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8614C2BCB0;
+	Sun, 17 May 2026 16:40:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779036005;
+	bh=u8TPZDJlwQ/Azd8YDqYjH0B+QcojCtUpyxuZcWPXSRw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=FV7Dn8rtWUn4nJyOA/8f4MV8YwdnaewwEf+NqZXrdeoMBRhp7NOZT/aQiXa6r94ub
+	 hyhvdUxL2Ac9edB2BiDImUFnbJnt19hCZIVc7NkUan19oY/79dxZDX2CPadRenIXft
+	 gWOkM04BTIdzKlNk/WCkt5M5Hscnop/8qo95DPBwR+sk4h41crA5lhUEXJaCknAxat
+	 sMlEJ1hzixEuOc1Wqg+xloPCoAEQ8dYlqQ0F6BFpkjzcR3bu8t+dMrsdUdQAIhBwKS
+	 oSR8VOMN0nY828tf9tU8gWdgHEIzQZZtonSWpFeFt/CzsHaSgpEN4px0HICmxJxO3y
+	 h41y92MjLMhOw==
+Date: Sun, 17 May 2026 18:39:59 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Krzysztof Kozlowski <krzk@kernel.org>, debarbos@redhat.com,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Konstantin Ryabitsev <mricon@kernel.org>,
-        Guenter Roeck <linux@roeck-us.net>, sashiko-bot@kernel.org,
-        sashiko-reviews@lists.linux.dev, sashiko@lists.linux.dev,
-        Linux Kernel Workflows <workflows@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        devicetree@vger.kernel.org, kfree@google.com
+Cc: Roman Gushchin <roman.gushchin@linux.dev>, Krzysztof Kozlowski
+ <krzk@kernel.org>, debarbos@redhat.com, Arnaldo Carvalho de Melo
+ <acme@kernel.org>, Konstantin Ryabitsev <mricon@kernel.org>, Guenter Roeck
+ <linux@roeck-us.net>, sashiko-bot@kernel.org,
+ sashiko-reviews@lists.linux.dev, sashiko@lists.linux.dev, Linux Kernel
+ Workflows <workflows@vger.kernel.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, devicetree@vger.kernel.org,
+ kfree@google.com
 Subject: Re: Stop false review statements
-Message-ID: <20260517162912.GA51520@macsyma-wired.lan>
+Message-ID: <20260517183959.37441984@foz.lan>
+In-Reply-To: <2026051758-superbowl-baritone-2705@gregkh>
 References: <4f3d7f48-5766-425b-91f6-0acdb5554584@kernel.org>
- <07602616-412B-4ED8-95D7-588C0D077EE3@linux.dev>
- <20260517120556.248852d8@foz.lan>
- <2026051758-superbowl-baritone-2705@gregkh>
+	<07602616-412B-4ED8-95D7-588C0D077EE3@linux.dev>
+	<20260517120556.248852d8@foz.lan>
+	<2026051758-superbowl-baritone-2705@gregkh>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2026051758-superbowl-baritone-2705@gregkh>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-It should also be noted that Intel's zero-day bot was (a) closed
-source, and (b) was sending its test regression reports with the
-linux-kernel mailing list cc'ed, and no one really complained because
-it was so useful, and if Intel was willing to use very expensive
-hardware in their data center to contribute reports, so long as the
-reports were useful and the false-positive noise was low enough, we
-decided to be grateful and not worry (too much) about the fact that
-Intel's zero-day bot was closed source.  (There was indeed some
-grumbling in the bar at Plumbers, of course.  :-)
+On Sun, 17 May 2026 12:12:00 +0200
+Greg KH <gregkh@linuxfoundation.org> wrote:
 
-In my opinion, we should be doing the same for Sashiko, and that's the
-decision which the ext4 developers have made --- at least for ext4
-patches, after an experiment where we only sent reviews to the patch
-authors and the maintainer, people were satisifed that false positive
-rate was low enough (with the caveats that I had previously mentioned,
-but we were willing to live with them because at least for us, it was
-useful enough), that we will be requesting that Sashiko reviews be
-cc'ed to the ext4 mailing list.
+> On Sun, May 17, 2026 at 12:05:56PM +0200, Mauro Carvalho Chehab wrote:
+> > On Sat, 16 May 2026 14:59:44 -0700
+> > Roman Gushchin <roman.gushchin@linux.dev> wrote:
+> >  =20
+> > > > On May 16, 2026, at 2:33=E2=80=AFPM, Krzysztof Kozlowski <krzk@kern=
+el.org> wrote:
+> > > >=20
+> > > > I find it opposite: clogging commits with useless information, beca=
+use
+> > > > some arbitrary and completely closed-source tool did analysis means
+> > > > nothing to me one year later when I look at the commit in the Git h=
+istory.   =20
+> > >=20
+> > > This is simple not true: Sashiko is fully open-source, under Apache 2=
+.0 license
+> > > and the code belongs to LF.  =20
+> >  =20
+> > > Yes, the instance behind sashiko.dev is using
+> > > Gemini 3.1 Pro LLM, which is not open-source, but it=E2=80=99s not a =
+fundamental limitation -=20
+> > > Sashiko is supporting various LLMs, including open models - it=E2=80=
+=99s just a practical
+> > > choice: to my knowledge the quality of open models is not on par with=
+ frontier closed
+> > > models  =20
+> >=20
+> > I would very much prefer using an open source LLM, even if not in pair=
+=20
+> > with latest paid models.
+> >  =20
+> > > and it would require a non-trivial amount of hardware and infrastruct=
+ure to run
+> > > an open model at the required scale. =20
+> >=20
+> > IMHO the best would be to have them running on some infra that would ac=
+cept
+> > open source models (*). If there aren't enough resources to have our own
+> > infra, there are offers out there which allows running open source mode=
+ls
+> > like https://ollama.com/pricing (I never used myself).
+> >=20
+> > (*) For instance, Qwen3.6 is brand new and licensed under apache-2.0.
+> >     Not bad on my tests running it locally. =20
+>=20
+> You can run the tool locally, with whatever model you want, if you want
+> to.
+>=20
+> But for now, let's just take the free credits that Google is willing to
+> throw at this thing and let it give us reviews IF the maintainer of the
+> subsystem feels it is something they want to do.  No one is forcing
+> maintainers to do this.
 
-I realize that there are some extra sensitivities around AI / LLM's,
-but from the perspective of reviewing patches, I don't see any
-difference between this and other closed source tools that we've used,
-such as Coverity and the Zero-day bot.  Not everyone will agree, of
-course, but at the moment, this is a decision that we are making on a
-subsystem by subsystem basis, which again, has strong historical
-precedence.
+If Google and/or others are willing to give free credits on their cloud,
+they could instead or in addition give free credits to run ollama
+there, allowing us to use different models.
 
-Cheers,
+=46rom my side, while I won't personally object getting reviews from
+Sashiko/Gemini, this is something I can't reproduce locally. I would
+very much want something where I can select my LLM preferred model
+and run on my ollama docker container on my own GPU, in a way that
+I could run it locally before even sending a patch series.
 
-						- Ted
+> The netdev, bpf, and drm developers have been doing much the same for a
+> while now, with who-knows-what model behind the thing.  The model
+> doesn't matter, we aren't advertising for them, we just want the results
+> that they can provide us.
+
+It is not about the model itself. It is about being able to easily
+install a sashiko locally on a container and easily make it use my
+ollma server with the model(s) of my choice. Right now, at least at=20
+from its README.md, it sounds that only closed source services
+are supported.
+
+Thanks,
+Mauro
