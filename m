@@ -1,102 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from polaris.svanheule.net (polaris.svanheule.net [84.16.241.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91DD0359703;
-	Sun, 17 May 2026 10:12:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A691A35E1BC
+	for <sashiko@lists.linux.dev>; Sun, 17 May 2026 10:40:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.16.241.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779012766; cv=none; b=mvolQ2U31M++OdlRhsVLnNYioHjiAlQR+LIl8L7d3nOlqzQUttFJkoc13IyIKNyYBH2dyYLkHky4h4hSPggmEgOY5TT+qkiZs+RUm23DL3OluBFeD15rtFil+HDiA5LpweW+E159arX4pwnMhUVGxe9rrhrehpwUYgbvl/TnTes=
+	t=1779014407; cv=none; b=BOfOKBHSNEehyBf/9A1f5RILqFe0i39wtQozB+2QKimDBWme3T+SMAnSX1IDraJD2i3C9nNU8rPVwQOyYcqMLHFi0CaWhpJzZ4dRD4wtE30QV194kEFOX/WRXgpkEOKjFfNKeznTNLKfYJsCQeCO6MmMlroIr7Yz+HKV9RBlT0w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779012766; c=relaxed/simple;
-	bh=iUYLHQY3uWeVAxMEfj+NOh/d+kYdwRIWjApEH09TTBs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q4TehmOSv2N3alTyO/oSNTtlT8aoQJKulLtwHloXEpuCXqYOc8DXNWSaF5hkr64r3YftmnqqDYdyA+i6CSumMXzZ1Myqgcv3Ms2pb78QrfSagCrnQ5FGPYZ1jh64+xoKnnfjVAI6bXxbj5c/0V3cPgUCpzh5HdWGyXITsmddXWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=yLLHXpfr; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1779014407; c=relaxed/simple;
+	bh=QVDFICNKk8kg6qirWsiEWP/qhZZeBOs4t3uNbH6t0KM=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=bBxP/bwud7136m4wQI7JPT4xB/9jmzlKPns7q79hZT48Sc6lA3I6uJLLxPUNIMMBHtV9WB9rz8EoFNt6UUPPNdVj8F/r+hp/IswZFkjmKBYFZSXQRLVFJe3lE2M8lxsRPWqi6AW4C9JliRIy5+7rnZpZ+uOmFlLSwQCOVPr1/SY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svanheule.net; spf=pass smtp.mailfrom=svanheule.net; dkim=pass (2048-bit key) header.d=svanheule.net header.i=@svanheule.net header.b=bOglyjIh; arc=none smtp.client-ip=84.16.241.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svanheule.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svanheule.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="yLLHXpfr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B003BC2BCB0;
-	Sun, 17 May 2026 10:12:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1779012766;
-	bh=iUYLHQY3uWeVAxMEfj+NOh/d+kYdwRIWjApEH09TTBs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=yLLHXpfr/OESwdoqabAlvrm93iSx2OpiPgiTB9Q+OONko5U5elVHx41X0ryIlkZZw
-	 1nzyrdexgXUrkYREIx0jr3SxuOslNh2uHGT9F/yqu5y5lbxLEnTnQ6Pdz1E3q2+LWe
-	 2qll5oWHQiqGqeUTdPi0qewHup7qdp/l6YH2/uaA=
-Date: Sun, 17 May 2026 12:12:00 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Roman Gushchin <roman.gushchin@linux.dev>,
-	Krzysztof Kozlowski <krzk@kernel.org>, debarbos@redhat.com,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Konstantin Ryabitsev <mricon@kernel.org>,
-	Guenter Roeck <linux@roeck-us.net>, sashiko-bot@kernel.org,
-	sashiko-reviews@lists.linux.dev, sashiko@lists.linux.dev,
-	Linux Kernel Workflows <workflows@vger.kernel.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	devicetree@vger.kernel.org, kfree@google.com
-Subject: Re: Stop false review statements
-Message-ID: <2026051758-superbowl-baritone-2705@gregkh>
-References: <4f3d7f48-5766-425b-91f6-0acdb5554584@kernel.org>
- <07602616-412B-4ED8-95D7-588C0D077EE3@linux.dev>
- <20260517120556.248852d8@foz.lan>
+	dkim=pass (2048-bit key) header.d=svanheule.net header.i=@svanheule.net header.b="bOglyjIh"
+Received: from [IPv6:2a02:1812:162d:3d00:c381:7255:a866:916d] (2a02-1812-162d-3d00-c381-7255-a866-916d.ip6.access.telenet.be [IPv6:2a02:1812:162d:3d00:c381:7255:a866:916d])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sander@svanheule.net)
+	by polaris.svanheule.net (Postfix) with ESMTPSA id EE06078365D;
+	Sun, 17 May 2026 12:39:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svanheule.net;
+	s=mail1707; t=1779014394;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BEYr5XX2z69OBAzGa57bCeR3hxABq7SAzUw126Kb08k=;
+	b=bOglyjIh5JuKZRWMRYcO2D4+Uw7+GWMiLC0bGEG6y6WspgNibTVg/ua5f0bVFl2VLVP8Ko
+	LrZo7k5GqUThsDMKiawWj7PFHPr+IXzSO3mtNrIOFNSkTkxEjWqMujfN5rLF4IV9vGd2EN
+	aivVddLVaeXy1GGZ7xsYvvFY6qMoDN4PRir+VIRMxO8RaNVcdrlSwCjSdxa/DYpH7osAYd
+	7ktBi7g1rvRTrLFvxywSjMoIsrMnjBWuNAsA2Vx/3GprRdf5Do4ozasmijytGPDPCWXp9Q
+	9IgI429UlTDA3zKCIUo8CeHaE98TBy0Icp4lb8JtpJdROVf63R6D08HDKCwONQ==
+Message-ID: <d0b159eefa6bc5abf0d1531acde568396f480500.camel@svanheule.net>
+Subject: Re: [PATCH 3/3] watchdog: realtek-otto: add RTL9607C support
+From: Sander Vanheule <sander@svanheule.net>
+To: sashiko@lists.linux.dev, Rustam Adilov <adilov@disroot.org>, Guenter
+ Roeck	 <linux@roeck-us.net>
+Cc: krzk+dt@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org, 
+	robh@kernel.org, linux-watchdog@vger.kernel.org
+Date: Sun, 17 May 2026 12:39:52 +0200
+In-Reply-To: <20260509172748.54B33C2BCB2@smtp.kernel.org>
+References: <20260509163101.722793-4-adilov@disroot.org>
+	 <20260509172748.54B33C2BCB2@smtp.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260517120556.248852d8@foz.lan>
 
-On Sun, May 17, 2026 at 12:05:56PM +0200, Mauro Carvalho Chehab wrote:
-> On Sat, 16 May 2026 14:59:44 -0700
-> Roman Gushchin <roman.gushchin@linux.dev> wrote:
-> 
-> > > On May 16, 2026, at 2:33 PM, Krzysztof Kozlowski <krzk@kernel.org> wrote:
-> > > 
-> > > I find it opposite: clogging commits with useless information, because
-> > > some arbitrary and completely closed-source tool did analysis means
-> > > nothing to me one year later when I look at the commit in the Git history.  
-> > 
-> > This is simple not true: Sashiko is fully open-source, under Apache 2.0 license
-> > and the code belongs to LF. 
-> 
-> > Yes, the instance behind sashiko.dev is using
-> > Gemini 3.1 Pro LLM, which is not open-source, but it’s not a fundamental limitation - 
-> > Sashiko is supporting various LLMs, including open models - it’s just a practical
-> > choice: to my knowledge the quality of open models is not on par with frontier closed
-> > models 
-> 
-> I would very much prefer using an open source LLM, even if not in pair 
-> with latest paid models.
-> 
-> > and it would require a non-trivial amount of hardware and infrastructure to run
-> > an open model at the required scale.
-> 
-> IMHO the best would be to have them running on some infra that would accept
-> open source models (*). If there aren't enough resources to have our own
-> infra, there are offers out there which allows running open source models
-> like https://ollama.com/pricing (I never used myself).
-> 
-> (*) For instance, Qwen3.6 is brand new and licensed under apache-2.0.
->     Not bad on my tests running it locally.
+On Sat, 2026-05-09 at 17:27 +0000, sashiko-bot@kernel.org wrote:
+> Also, does the system restart handler sleep in an atomic context?
+>=20
+> otto_wdt_restart() {
+> [ ... ]
+> 	disable_irq(ctrl->irq_phase1);
+> [ ... ]
+> }
+>=20
+> The otto_wdt_restart() function is a system restart handler executed in a=
+n
+> atomic context with local interrupts disabled. Since disable_irq() intern=
+ally
+> invokes synchronize_irq(), which uses wait_event() to wait for executing
+> interrupt handlers to finish, it can sleep.
+>=20
+> Calling a sleeping function with local interrupts disabled triggers a ker=
+nel
+> panic, and waiting for an IRQ handler to complete while other CPUs are st=
+opped
+> during a machine restart can result in a hard deadlock. Should this use
+> disable_irq_nosync() instead?
 
-You can run the tool locally, with whatever model you want, if you want
-to.
+I figured if local interrupts are disabled, then we don't need to disable t=
+he
+pretimeout interrupt, since it won't get called (and give confusing warning=
+s).
+However, doing so results in the output of the pretimeout interrupt handler
+being printed when rebooting the system (single-core CPU, both with SMP and
+without), so the interrupt is still getting through.
 
-But for now, let's just take the free credits that Google is willing to
-throw at this thing and let it give us reviews IF the maintainer of the
-subsystem feels it is something they want to do.  No one is forcing
-maintainers to do this.
+Am I missing something here? Or is this a false positive?
 
-The netdev, bpf, and drm developers have been doing much the same for a
-while now, with who-knows-what model behind the thing.  The model
-doesn't matter, we aren't advertising for them, we just want the results
-that they can provide us.
 
-thanks,
-
-greg k-h
+Best,
+Sander
