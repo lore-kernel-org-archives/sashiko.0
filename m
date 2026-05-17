@@ -1,94 +1,95 @@
-Received: from polaris.svanheule.net (polaris.svanheule.net [84.16.241.116])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A691A35E1BC
-	for <sashiko@lists.linux.dev>; Sun, 17 May 2026 10:40:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.16.241.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66F26286430;
+	Sun, 17 May 2026 15:21:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779014407; cv=none; b=BOfOKBHSNEehyBf/9A1f5RILqFe0i39wtQozB+2QKimDBWme3T+SMAnSX1IDraJD2i3C9nNU8rPVwQOyYcqMLHFi0CaWhpJzZ4dRD4wtE30QV194kEFOX/WRXgpkEOKjFfNKeznTNLKfYJsCQeCO6MmMlroIr7Yz+HKV9RBlT0w=
+	t=1779031314; cv=none; b=ifIQ7xi4tJDGFORFXTYNL7daDs4F5zrGmVP36WOI0VOUHOX6IcH6wvSnmoGcTYgMztbrmQAve2mhs4doOJhuoedo0Ys96D0tgcL2RrfF4oXkJITgZC/vQ6yBXry3z19lHkds3rwOoafKEeFq7TJ8oWQHu4V1b3YEXlPq5p/cFgk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779014407; c=relaxed/simple;
-	bh=QVDFICNKk8kg6qirWsiEWP/qhZZeBOs4t3uNbH6t0KM=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=bBxP/bwud7136m4wQI7JPT4xB/9jmzlKPns7q79hZT48Sc6lA3I6uJLLxPUNIMMBHtV9WB9rz8EoFNt6UUPPNdVj8F/r+hp/IswZFkjmKBYFZSXQRLVFJe3lE2M8lxsRPWqi6AW4C9JliRIy5+7rnZpZ+uOmFlLSwQCOVPr1/SY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svanheule.net; spf=pass smtp.mailfrom=svanheule.net; dkim=pass (2048-bit key) header.d=svanheule.net header.i=@svanheule.net header.b=bOglyjIh; arc=none smtp.client-ip=84.16.241.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svanheule.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svanheule.net
+	s=arc-20240116; t=1779031314; c=relaxed/simple;
+	bh=t9y0GTdIMNxbDvtPXVJ2Wbg9KnL36rFZbM7XjzwMxiY=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=iU7bHzeyW4pYi5FbGOY7ZabWOfwwgNOBlKepz5x6s3ruA6r7PKs9TWyOlbp71OCDGBEvRNfkCYJm4rQH/DkXZMUjK2rKds8Dd+Q8+oXr8DHjSmb0vMwxwM7BVcIXTn8q5in7TUkbCAiXrlw/PeP6aeijHMo5esrCDnfAFTHim00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=XNFn06y8; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=svanheule.net header.i=@svanheule.net header.b="bOglyjIh"
-Received: from [IPv6:2a02:1812:162d:3d00:c381:7255:a866:916d] (2a02-1812-162d-3d00-c381-7255-a866-916d.ip6.access.telenet.be [IPv6:2a02:1812:162d:3d00:c381:7255:a866:916d])
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="XNFn06y8"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6EF8140C79
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1779031306; bh=sr9iSe4M/xfVvPcj6Q8cSaRqEc29Xtd0DjCI8Frt+58=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=XNFn06y8oRe/pI9RuBJ//uKP8K79mY26JT63CbMuAdkFCViameJoyh1SToaKe0GrG
+	 3iO853p7n0xAPHzV5w8nu0wNTm5LsVQqzoiSzqz3waLOnRNWoytyav1GCcpw5RHOil
+	 bkt95/Uylr8sX6VgYyopqjw/ppbXIBugvdL0z4ZJV44vaD6I98kKzNWMNk/2MYNbwP
+	 ZdwYG3vFZpw7maDU1ryaXryFVeJB/hNA+/nPTz2RakVTUrC42tBAJ7ZFdYm686/6rh
+	 zmg7XBdxAI4lFZtDpf+q1vXjiYGcAolmr1xHzZHt0+Q5wuhHrRbohkaDh0/VQtf4yF
+	 /Ja++u4T7Pn1A==
+Received: from localhost (unknown [IPv6:2601:280:4600:27b:67c:16ff:fe81:5f9b])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	(Authenticated sender: sander@svanheule.net)
-	by polaris.svanheule.net (Postfix) with ESMTPSA id EE06078365D;
-	Sun, 17 May 2026 12:39:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svanheule.net;
-	s=mail1707; t=1779014394;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BEYr5XX2z69OBAzGa57bCeR3hxABq7SAzUw126Kb08k=;
-	b=bOglyjIh5JuKZRWMRYcO2D4+Uw7+GWMiLC0bGEG6y6WspgNibTVg/ua5f0bVFl2VLVP8Ko
-	LrZo7k5GqUThsDMKiawWj7PFHPr+IXzSO3mtNrIOFNSkTkxEjWqMujfN5rLF4IV9vGd2EN
-	aivVddLVaeXy1GGZ7xsYvvFY6qMoDN4PRir+VIRMxO8RaNVcdrlSwCjSdxa/DYpH7osAYd
-	7ktBi7g1rvRTrLFvxywSjMoIsrMnjBWuNAsA2Vx/3GprRdf5Do4ozasmijytGPDPCWXp9Q
-	9IgI429UlTDA3zKCIUo8CeHaE98TBy0Icp4lb8JtpJdROVf63R6D08HDKCwONQ==
-Message-ID: <d0b159eefa6bc5abf0d1531acde568396f480500.camel@svanheule.net>
-Subject: Re: [PATCH 3/3] watchdog: realtek-otto: add RTL9607C support
-From: Sander Vanheule <sander@svanheule.net>
-To: sashiko@lists.linux.dev, Rustam Adilov <adilov@disroot.org>, Guenter
- Roeck	 <linux@roeck-us.net>
-Cc: krzk+dt@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org, 
-	robh@kernel.org, linux-watchdog@vger.kernel.org
-Date: Sun, 17 May 2026 12:39:52 +0200
-In-Reply-To: <20260509172748.54B33C2BCB2@smtp.kernel.org>
-References: <20260509163101.722793-4-adilov@disroot.org>
-	 <20260509172748.54B33C2BCB2@smtp.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
+	by ms.lwn.net (Postfix) with ESMTPSA id 6EF8140C79;
+	Sun, 17 May 2026 15:21:46 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Guenter Roeck <linux@roeck-us.net>, Krzysztof Kozlowski <krzk@kernel.org>
+Cc: sashiko-bot@kernel.org, sashiko-reviews@lists.linux.dev,
+ sashiko@lists.linux.dev, Linux Kernel Workflows
+ <workflows@vger.kernel.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, "devicetree@vger.kernel.org"
+ <devicetree@vger.kernel.org>, kfree@google.com
+Subject: Re: Stop false review statements
+In-Reply-To: <fd3b2ca7-4d64-4c4b-98a3-7d3285fa6826@roeck-us.net>
+References: <ad139e54-a7f0-4d09-832c-6b2bf2e93e03@kernel.org>
+ <fcc4b719-2696-4f31-bac4-6c07f8ddec47@roeck-us.net>
+ <221cc52e-9918-43ea-b196-622a8cc6db05@kernel.org>
+ <fd3b2ca7-4d64-4c4b-98a3-7d3285fa6826@roeck-us.net>
+Date: Sun, 17 May 2026 09:21:45 -0600
+Message-ID: <877bp2m586.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain
 
-On Sat, 2026-05-09 at 17:27 +0000, sashiko-bot@kernel.org wrote:
-> Also, does the system restart handler sleep in an atomic context?
->=20
-> otto_wdt_restart() {
-> [ ... ]
-> 	disable_irq(ctrl->irq_phase1);
-> [ ... ]
-> }
->=20
-> The otto_wdt_restart() function is a system restart handler executed in a=
-n
-> atomic context with local interrupts disabled. Since disable_irq() intern=
-ally
-> invokes synchronize_irq(), which uses wait_event() to wait for executing
-> interrupt handlers to finish, it can sleep.
->=20
-> Calling a sleeping function with local interrupts disabled triggers a ker=
-nel
-> panic, and waiting for an IRQ handler to complete while other CPUs are st=
-opped
-> during a machine restart can result in a hard deadlock. Should this use
-> disable_irq_nosync() instead?
+Guenter Roeck <linux@roeck-us.net> writes:
 
-I figured if local interrupts are disabled, then we don't need to disable t=
-he
-pretimeout interrupt, since it won't get called (and give confusing warning=
-s).
-However, doing so results in the output of the pretimeout interrupt handler
-being printed when rebooting the system (single-core CPU, both with SMP and
-without), so the interrupt is still getting through.
+> On 5/16/26 05:16, Krzysztof Kozlowski wrote:
+>> Quotes from the existing policy:
+>> 
+>> 1. "By offering my Reviewed-by: tag, I state that:"
+>> 
+>> Tool cannot use first person "I". Tool cannot "state that".
+>> 
+>> 2. "A Reviewed-by tag is *a statement of opinion* that the patch is an
+>>   appropriate modification of the kernel without any remaining serious"
+>> 
+>> Tool cannot make a statement of opinion.
+>> 
+>> 3. "Any interested reviewer (who has done the work) can offer a
+>> Reviewed-by".
+>> 
+>> Tool is not a reviewer as a person, thus above does not grant the tool
+>> permission to offer a tag.
+>
+> I'd like to see that explicitly spelled out. Until then it is your opinion.
 
-Am I missing something here? Or is this a false positive?
+So I'm the person who wrote that text.  Automated review tools weren't
+really on the radar at that time, so I can't argue that it expresses an
+opinion either way as to whether an LLM could make such assertions.
 
+That said, I was certainly considering *human* reviewers at the time,
+and all of the people who agreed with the suggested policy were too.
+Adding bots seems like a stretch to me.
 
-Best,
-Sander
+I can't speak for subsystems that require Reviewed-by tags on their
+commits, but I'm not sure that their maintainers would accept an
+automated review as satisfying that requirement.
+
+If we want to record this sort of processing, perhaps a tag like
+"Scanned-by" would be appropriate?
+
+jon
