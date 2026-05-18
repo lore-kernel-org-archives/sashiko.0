@@ -1,139 +1,101 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4681A3043BE;
-	Mon, 18 May 2026 08:12:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F0E43CDBD1;
+	Mon, 18 May 2026 08:22:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779091941; cv=none; b=e/Ge98pOnn7FEn81kFJwI3LxNDDXxQAm16wlYwCtEypqc3J7f0qBzPIJnjXvaOtqDaRRDYZCmnXuE372wc1yiIJjaKEOcZj91iUbtuRw0co/Lh3bIJqyYHoHbxl/+qD+W6Yl9coF8hIx7emrZtncPtFBYQiGkQjVHomIlCVdLLE=
+	t=1779092552; cv=none; b=gKCzQtA8Qu1QETjJFM5yrhhjVGNde/SVUHSLDgbkuDCWvTkvACmyIk1CbTNqG6C1DgVnRU/9G/HJxwYlApDKZ/nzaCuUe569dYUMTewasNnvYcXShRyzdfcJBcNJG4DkD0AHdteRNjAE6LLugm5twsF++pi5gF5IMcbXnUt022w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779091941; c=relaxed/simple;
-	bh=o4jxgzNs5bOZxSNNfPfJHCCzqAcCx9wktE71rzKkbIs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=N/JvP+z3KTTj5Ha1HwmCEz+IVdhtbdfR8SiTsB4uqmZ6FtMm5Ob/bqUu6iLKIQr4Y/02vdWXnKzRv30iY4oE1CFwWyVH6rbQ49vAMsOhB1KiOTW35GRXj4apTRxxc4NBOPLt1YuY84UDN6Kw0ebK2kwXrlY36/Xi3gfGADuvjjA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fKhBKul4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1779092552; c=relaxed/simple;
+	bh=JKQXM+aklvzg+HECTcbU6iBFBwV9nwFA+IONcsJPURo=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=OzCCscd9VeGn3bGCrIurhT8nHKzUrr6RGm6ecNPwyNspFjxHk6F8HLxDxd7fnO4zJAuSVthDNNPLhf7kbkPjE8diVdNkdLEVqWPTamhj4R6tsm/O2lFbK0FxY2IL7IQye9Hp28Axl/JXvatMpdDD8/qwtvmyMJdYBQEyP7lqOdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b/40gpvp; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fKhBKul4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10DFDC2BCB7;
-	Mon, 18 May 2026 08:12:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779091941;
-	bh=o4jxgzNs5bOZxSNNfPfJHCCzqAcCx9wktE71rzKkbIs=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=fKhBKul4pi752/HxGru+0o87Ya5NYHTpeQDmZl5zLbTyCAYlI57wIRzuaBzCY/mho
-	 XEoV9TL3q3oouTzCE1mmpXKKjm65nh9tE8KAdgQAd8bMPVJrV3F/P8FuAngdLGluJM
-	 PdoT00Tc6Bw2Pyf+o+kmNhiFyV0hbU3mBmMzxAEv5ZUNLAIJeD6QUkSq98HSXG2wDH
-	 KwHb8hed7e2lAIpTKUQ27Vaxe4Imm+W1uoCEbuqACp3K5/gwMTZBBtr0ZOpSr/bHhL
-	 7t4oxu/T4XOiughWj2M7U/KP1L8Pdn9ZdXH+jm4j6kIBy38IY+VKWJvZOV9HXbR+6f
-	 4E85qbgsKXyng==
-Message-ID: <3267e320-99e9-4858-a292-7271abd5b14c@kernel.org>
-Date: Mon, 18 May 2026 10:12:16 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b/40gpvp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779092551; x=1810628551;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=JKQXM+aklvzg+HECTcbU6iBFBwV9nwFA+IONcsJPURo=;
+  b=b/40gpvpAGxWZauVNT0VcKJyuNnss9ex8mLlKm6ha6XssVBKQ7MMFpkj
+   tfxOa+WFypwgrJXebeIILyAKMVMJ7EdiHGrGKE8/5pKkXSSKtJoMJSVxd
+   healg+O46s08MZ2Y99mX34M5R9d657S4cBhi+za2k48y9OeimOdfBCpt/
+   zvgMTBlnYRSUumMPoaM6GOoEZyhGZ1lotYwGsVyatYPsJQ0yop+1AXLnE
+   KkmkJfL/+h0EN0h3cBE8cwFv5mCgCFxNkHZwU38DYzcNufT2rR0eSxFVm
+   lsE4oW78/gsuewQT1LCQiY0fm1X8UJ5VBxYf3zXy6f4ZvFaQKMu1pYBxg
+   A==;
+X-CSE-ConnectionGUID: 0uLhyUPZS3219xFbUcQI0A==
+X-CSE-MsgGUID: gDsUaoXRQmuG7arKtrKaww==
+X-IronPort-AV: E=McAfee;i="6800,10657,11789"; a="79970699"
+X-IronPort-AV: E=Sophos;i="6.23,241,1770624000"; 
+   d="scan'208";a="79970699"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2026 01:22:29 -0700
+X-CSE-ConnectionGUID: 1uM92fndQOqU2AOGjgD0Rg==
+X-CSE-MsgGUID: BrsBKavTSHyg+BioSlzHug==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,241,1770624000"; 
+   d="scan'208";a="238480389"
+Received: from conormcd-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.244.1])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2026 01:22:24 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Jonathan Corbet <corbet@lwn.net>, Guenter Roeck <linux@roeck-us.net>,
+ Krzysztof Kozlowski <krzk@kernel.org>
+Cc: sashiko-bot@kernel.org, sashiko-reviews@lists.linux.dev,
+ sashiko@lists.linux.dev, Linux Kernel Workflows
+ <workflows@vger.kernel.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, "devicetree@vger.kernel.org"
+ <devicetree@vger.kernel.org>, kfree@google.com, Dave Airlie
+ <airlied@redhat.com>, Simona Vetter <simona.vetter@ffwll.ch>
+Subject: Re: Stop false review statements
+In-Reply-To: <877bp2m586.fsf@trenco.lwn.net>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
+ 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
+References: <ad139e54-a7f0-4d09-832c-6b2bf2e93e03@kernel.org>
+ <fcc4b719-2696-4f31-bac4-6c07f8ddec47@roeck-us.net>
+ <221cc52e-9918-43ea-b196-622a8cc6db05@kernel.org>
+ <fd3b2ca7-4d64-4c4b-98a3-7d3285fa6826@roeck-us.net>
+ <877bp2m586.fsf@trenco.lwn.net>
+Date: Mon, 18 May 2026 11:22:20 +0300
+Message-ID: <6010df0409abe1c9fc922ce57d7baa6c6998fa49@intel.com>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Stop false review statements
-To: Jani Nikula <jani.nikula@intel.com>,
- Roman Gushchin <roman.gushchin@linux.dev>
-Cc: debarbos@redhat.com, Arnaldo Carvalho de Melo <acme@kernel.org>,
- Greg KH <gregkh@linuxfoundation.org>,
- Konstantin Ryabitsev <mricon@kernel.org>, Guenter Roeck
- <linux@roeck-us.net>, sashiko-bot@kernel.org,
- sashiko-reviews@lists.linux.dev, sashiko@lists.linux.dev,
- Linux Kernel Workflows <workflows@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- devicetree@vger.kernel.org, kfree@google.com
-References: <4f3d7f48-5766-425b-91f6-0acdb5554584@kernel.org>
- <07602616-412B-4ED8-95D7-588C0D077EE3@linux.dev>
- <2e20badf27b6910d619329841e37d2961556056f@intel.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <2e20badf27b6910d619329841e37d2961556056f@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On 18/05/2026 10:04, Jani Nikula wrote:
-> On Sat, 16 May 2026, Roman Gushchin <roman.gushchin@linux.dev> wrote:
->>> On May 16, 2026, at 2:33 PM, Krzysztof Kozlowski <krzk@kernel.org> wrote:
->>>
->>> I find it opposite: clogging commits with useless information, because
->>> some arbitrary and completely closed-source tool did analysis means
->>> nothing to me one year later when I look at the commit in the Git history.
->>
->> This is simple not true: Sashiko is fully open-source, under Apache 2.0 license
->> and the code belongs to LF. Yes, the instance behind sashiko.dev is using
->> Gemini 3.1 Pro LLM, which is not open-source, but it’s not a fundamental limitation - 
->> Sashiko is supporting various LLMs, including open models - it’s just a practical
->> choice: to my knowledge the quality of open models is not on par with frontier closed
->> models and it would require a non-trivial amount of hardware and infrastructure to run
->> an open model at the required scale.
-> 
-> In the context of the "Reviewed-by: Sashiko" discussion, this actually
-> makes it really hard to assess the quality of those reviews. It is
-> *currently* using a boatload of tokens with a specific LLM, and I find
-> it's often asking pretty good questions.
-> 
-> People build their reviewer track record and gain trust over time, but
-> the reviews from what is portrayed as "Sashiko" heavily depend on the
-> models and resources spent in the background. As a maintainer, it's far
-> easier (though still laborous) to deal with the negative feedback from
-> LLMs than the positive, because you won't really know how rigorous the
-> review was when the response is just "LGTM".
+On Sun, 17 May 2026, Jonathan Corbet <corbet@lwn.net> wrote:
+> That said, I was certainly considering *human* reviewers at the time,
+> and all of the people who agreed with the suggested policy were too.
+> Adding bots seems like a stretch to me.
+>
+> I can't speak for subsystems that require Reviewed-by tags on their
+> commits, but I'm not sure that their maintainers would accept an
+> automated review as satisfying that requirement.
 
-And this already happened with reviewed-by statement given to one-liner
-patch which still was not good enough for the maintainer:
-https://lore.kernel.org/all/ce11a8ba-8ebc-4c09-b6d0-7e98febeae6b@roeck-us.net/
+For the parts of the drm subsystem that have a committer/maintainer
+model, one of the requirements for pushing is that at least two people
+have been involved. Reviewed-by is one of the ways to record this is
+indeed the case.
 
-Obviously same applies to humans - they also give Rb which misses some
-aspects - but I hope a person would not review such one-liner. Sashiko
-did and as well can provide such "review tags" for every little patch,
-which is not helping us really.
+I can't speak for the entire subsystem either, but to me it was always
+about people, trust, and the community.
 
-Best regards,
-Krzysztof
+We may add ways to record that an LLM has reviewed a patch, but I think
+the fundamental requirement that two human beings have been involved is
+going to remain.
+
+
+BR,
+Jani.
+
+
+-- 
+Jani Nikula, Intel
