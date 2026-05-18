@@ -1,132 +1,146 @@
-Received: from out-178.mta0.migadu.com (out-178.mta0.migadu.com [91.218.175.178])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF773388373
-	for <sashiko@lists.linux.dev>; Mon, 18 May 2026 17:20:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13C2038E124;
+	Mon, 18 May 2026 19:40:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779124806; cv=none; b=QRbXnRQuAM3mGgLAjl709HkKXiBiCHAm/vYCOqQ6BeTRXTARNEC2RtWGgIYCpLcqLaLYeehqXdPoPdTSA/OkvoAiPe8SHeTjXF9GSOPkHNKKZ2piRYW3dP5HxQd7gNL83Hd0iqj4c604pw6hBecGf7tq9MIOGn57mVH/lubGkZM=
+	t=1779133229; cv=none; b=IWhy6HUXgiMaBENGlXRY6rXg9VPGoStvR1YfiB+t8n0Do5o9JXL5fz8Fk4Jc+8MOlKDqSCkxD2ttEMrYH/jJRGYxJKTbhnAEENQtvoPg9mNAKl43eUa6DYZ4k2XCeDmIqCcFoBK/kYSazouGY8Fi+6gbMSq1t4dvhoBMk/P+0Aw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779124806; c=relaxed/simple;
-	bh=YbH3DLcjmOdU13NbufJjfw1GtVpWCi0PlKxThHTimAc=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=FHDE1DB/ZbNmue7V1ThCUdEDbrxbyzz8DPjXny/UtonR+ILnSugFlz6Cf8mh2y2OGkpdJc9llIrsXZfBPqfmh7IW9ZMK1ZQ2i83MCeT/AT4BWV/IhSayXpRXehMTE08BEWYCKnJ5M4CtyOB4oJxQbPme6/6+61+U/idw+/nZTjk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=DNOVWCKi; arc=none smtp.client-ip=91.218.175.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1779133229; c=relaxed/simple;
+	bh=Lj2y6Z/5yB8RGF1dZj4AOFVgzx3lRYityrUd9Yu85wY=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=cXlvikDSbJl9TE+oHWPpUa0xeFFeBqUAtknl7z1CftX2/T5PGFK7c0tnrNmk2P/PHpVB4v+9MDIvToVL7puy/wybb04jJ6hAfYuEvP2c1KyaThvW5mwHWT/musB+Rv7DjdADMiqPVWOfHEA4eC19Vh/OSZ4PSV2HLpo6bo02D70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JKnDeAtu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="DNOVWCKi"
-Content-Type: text/plain; charset=utf-8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1779124801;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YbH3DLcjmOdU13NbufJjfw1GtVpWCi0PlKxThHTimAc=;
-	b=DNOVWCKi7aFf6VFu/JC0wRZfu4ECTL91fCym+9XSX+Fm5qUctR41mQ/ZOAdvjk0MzP2Mlt
-	bYpo2XJql9RK9JTWxzt9BduCNeknOPwspY+NUxHb6IQx8kLn7EZsiplkt12ruEqtbRQViT
-	C/kXQotvjMBuy0HPNhIB+WxpFzmK1Cw=
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JKnDeAtu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68AD2C2BCB7;
+	Mon, 18 May 2026 19:40:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779133228;
+	bh=Lj2y6Z/5yB8RGF1dZj4AOFVgzx3lRYityrUd9Yu85wY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=JKnDeAtu/QV8Ha15MCZOZm/ucdQ/st7/AJB6NHDPW4+2YAIGegtsUIIttkbKhWg8w
+	 iXCh99HSSN7QsxV5QcE7XIQEFGLpjAHfh/5jG5Zyy3sFK+0ORwTQsahxWbNlds+aXs
+	 PlVcVj/BD9CPnqdfZlVW4Mbx0ODreKQLuOsh70CVr2JJ2rTvOhTJmdptdh2lJ2UFWz
+	 gb5VByelsFgfYSTgvVOWubD5Owf5Ftxo7agFcGAJ4D8y/V3VIhmtY5B5SdbNoo8cy9
+	 uzIUJTDwTmhtW9HF7y2VpE6vvfLTph8u9k5jddf4k+3apv64gYD9uLUPu1O1BDSPiX
+	 KgJL4SuTZw21A==
+Date: Mon, 18 May 2026 21:40:22 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: "Theodore Tso" <tytso@mit.edu>
+Cc: Jani Nikula <jani.nikula@intel.com>, Roman Gushchin
+ <roman.gushchin@linux.dev>, Krzysztof Kozlowski <krzk@kernel.org>,
+ debarbos@redhat.com, Arnaldo Carvalho de Melo <acme@kernel.org>, Greg KH
+ <gregkh@linuxfoundation.org>, Konstantin Ryabitsev <mricon@kernel.org>,
+ Guenter Roeck <linux@roeck-us.net>, sashiko-bot@kernel.org,
+ sashiko-reviews@lists.linux.dev, sashiko@lists.linux.dev, Linux Kernel
+ Workflows <workflows@vger.kernel.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, devicetree@vger.kernel.org,
+ kfree@google.com
+Subject: Re: Stop false review statements
+Message-ID: <20260518214022.5f94f917@foz.lan>
+In-Reply-To: <20260518121601.GA87957@macsyma-wired.lan>
+References: <4f3d7f48-5766-425b-91f6-0acdb5554584@kernel.org>
+	<07602616-412B-4ED8-95D7-588C0D077EE3@linux.dev>
+	<2e20badf27b6910d619329841e37d2961556056f@intel.com>
+	<20260518121601.GA87957@macsyma-wired.lan>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (1.0)
-Subject: Re: Stop false review statements
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Roman Gushchin <roman.gushchin@linux.dev>
-In-Reply-To: <DIL2P8CHKVZD.2WVQQRN0FM28N@kernel.org>
-Date: Mon, 18 May 2026 10:19:47 -0700
-Cc: Krzysztof Kozlowski <krzk@kernel.org>,
- Greg KH <gregkh@linuxfoundation.org>,
- Konstantin Ryabitsev <mricon@kernel.org>,
- Guenter Roeck <linux@roeck-us.net>, Miguel Ojeda <ojeda@kernel.org>,
- sashiko-bot@kernel.org, sashiko-reviews@lists.linux.dev,
- sashiko@lists.linux.dev,
- Linux Kernel Workflows <workflows@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- devicetree@vger.kernel.org, kfree@google.com
-Message-Id: <C16C14F1-4D2F-4701-88CC-114F5233980D@linux.dev>
-References: <DIL2P8CHKVZD.2WVQQRN0FM28N@kernel.org>
-To: Danilo Krummrich <dakr@kernel.org>
-X-Migadu-Flow: FLOW_OUT
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+On Mon, 18 May 2026 08:16:01 -0400
+"Theodore Tso" <tytso@mit.edu> wrote:
 
-> On May 17, 2026, at 8:56=E2=80=AFAM, Danilo Krummrich <dakr@kernel.org> wr=
-ote:
+> On Mon, May 18, 2026 at 11:04:29AM +0300, Jani Nikula wrote:
+> > > Sashiko is supporting various LLMs, including open models - it=E2=80=
+=99s just a practical
+> > > choice: to my knowledge the quality of open models is not on par with=
+ frontier closed
+> > > models and it would require a non-trivial amount of hardware and infr=
+astructure to run
+> > > an open model at the required scale. =20
+> >=20
+> > In the context of the "Reviewed-by: Sashiko" discussion, this actually
+> > makes it really hard to assess the quality of those reviews. =20
 >=20
-> =EF=BB=BFOn Sat May 16, 2026 at 9:15 PM CEST, Roman Gushchin wrote:
->> I agree, it=E2=80=99s sometimes gets tricky when a patchset is sent to mu=
-ltiple
->> mailing lists, which policy to apply. I have some improvements in my plan=
-s,
->> but it=E2=80=99s not always possible to say how it should be handled.
+> Agreed.  There's a reason why the coding-assistants.rst specifies the
+> model which is used:
 >=20
-> Which improvements do you have in mind?
-
-If a patchset is sent to multiple mailing lists now Sashiko is using the sup=
-erset of
-email policies. But in many cases it=E2=80=99s possible to determine the =E2=
-=80=9Cmain=E2=80=9D mailing list/subsystem
-and prefer it=E2=80=99s configuration. Not always.
-
+>   Assisted-by: AGENT_NAME:MODEL_VERSION [TOOL1] [TOOL2]
 >=20
->> It=E2=80=99s not fundamentally new: landing changes touching multiple sub=
-systems is
->> always harder exactly because maintainers might have different and someti=
-mes
->> conflicting views.
+> The problem is that (as Jon has pointed out) coding-assistants.rst was
+> intended for use when the tool was beging used to help create the code
+> --- that is, "Coding Assistants".  What we're doing here is more of a
+> reviewer assistance.  Something like:
 >=20
-> It can also be relevant in cases where only a single subsystem is touched.=
-
+>   Scanned-by: AGENT_NAME:MODEL_VERSION [TOOL1] [TOOL2]
 >=20
-> For instance, in the case of Rust, the rust-for-linux list serves two purp=
-oses
-> -- when it is a Rust subsystem change and when Rust code of any other subs=
-ystem
-> is touched, i.e. the rust-for-linux list has more of a LKML character and a=
-lso
-> receives patches for subsystems whose maintainers may not have opted in to=
+> Would be more interesting, but it doesn't actually tell us anything
+> about what the results were of the scan.
 
-> sashiko email delivery.
+I don't like scanned-by, even for a tool that would always get the
+same results like checkpatch. For LLM, this is even worse, as two runs
+may give different results for the same code.
+
+IMO what makes much more sense is to add information there when
+a change was done due avoid a problem detected by sashiko, and what
+was the fixed issue, e.g. a textual description like:
+
+	Changed locking schema after Sashiko's report report about
+	XXX race condition.
+
+Also, except if 100% of the=20
+
+> One of the problems here is that there is a distinction between the
+> infrastructure and review prompts in the Sashiko github repository,
+> and the reviews that are being published by Sashiko the web service
+> being run by Google that is being lost by some folks.  So I wonder if
+> for now, we should just do something like:
 >=20
-> That said, I personally don't mind too much, I really like sashiko, which i=
-s
-> also why I asked for adding the driver-core list. My experience has been t=
-hat it
-> does a very decent job in providing feedback for C code; my feeling is tha=
-t
-> feedback for Rust code is not quite on par yet, but of course it also high=
-ly
-> depends on the complexity and scope of the corresponding changes.
+> Link: https://sashiko.dev/#/patchset/20260515091829.194810-1-me%40linux.b=
+eauty
 
-This is super interesting. An obvious idea is that the training set is relat=
-ively limited,
-if we=E2=80=99re talking rust for kernel code. Did you notice any common top=
-ics or patterns?
-Does it produce more false positives or worse in finding actual bugs in comp=
-arison
-to the c code?
+Adding a link makes sense to me. It doesn't need to be to the
+sashiko's email though: it can be to the entire thread.
 
-> However, I still have the same concern I raised previously when it comes t=
-o
-> email delivery: I think that when sashiko sends feedback to contributors
-> (without Cc'ing the mailing list and all other recipients), it should acti=
-vely
-> ask the contributor to raise things on the list with all other recipients,=
+> Or just have a link to lore where the review has responded to the
+> Sashiko review stating where the Sashiko review reported a
+> pre-existing condition (perhaps one that we don't care about because
+> races in readahead logic is really Not A Big Deal, etc.)  We go for
+> this strategy, it would actually be better for the Shashiko.dev review
+> to get cc'ed to the mailing list.
+>=20
+> Personally, I think that's probably be best way to go.  We already
+> don't insert into the git commit an explanation of why some bullsh*t
+> review by some wannabe human reviewer should be ignored, or why a
+> discussion of some problem discovered by a human review in the source
+> of the review would be handled in a future patch set.  That's what the
+> discussion on lore.kernel.org is for.  And we shouldn't treat AI
+> reviews any different from how we deal with human reviews.  So if we
+> want to give credit to an AI review, then let's go with the
+> Scanned-by.=20
 
-> reviewers and maintainers before acting on them, such that changes subsequ=
-ent to
-> the first submission on the list are aligned.
+If the entire content of a Sashiko review is ignored, I don't think
+it is worth adding anything. Just like we do with humans, IMO the
+best is to just mention what changed due to some feedback received
+by a human or by a bot, mentioning who/what bot helped to identify
+the issue.
 
-I personally think that it=E2=80=99s always better to cc some mailing list a=
-nd/or maintainers,
-so there is a second pair of eyes. I totally agree that replying just to the=
- author is less effective.
-Of course, we can add the text you=E2=80=99re proposing, but why not simply c=
-onfigure sashiko=20
-to cc the mailing list?
+> Or we can just let people look at the mailing list, and
+> if people want to have statistics, we can ask people to use a script
+> running against public inbox to figure things out.
+>=20
+> 						- Ted
+>=20
 
-Thanks!=
+
+
+Thanks,
+Mauro
