@@ -1,119 +1,130 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4638C81724
-	for <sashiko@lists.linux.dev>; Tue, 19 May 2026 03:30:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07161351C0B
+	for <sashiko@lists.linux.dev>; Tue, 19 May 2026 09:54:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779161444; cv=none; b=nSqLFzlL8CujtT6ey4fBkhZWCcD5itDTVsxpMhpM+JdpteOYV5kdqYsWeCDjYT0DoPS9FXpIB0DT1qzR9QoI7jCW8CeLLB/koCcn0E0EbL+X9XFaQcxIt4b4QYU13Pc18JiqsGMHYYfj6rDC+iolDrPS+ZFDZO76jm+5FfuB8e8=
+	t=1779184488; cv=none; b=JyTW3yh2DmZ58B2eRRiFBTyrHX8utxxcwvUxYbAJmRfTrkuZ13SdFfe1soM7WludbTMEhUDUlSBNQ/CIRTABOp3NVaMaRzDJ3H4xmp8CqhMBmaICgHrkMoc4TVjaUDV7dsuBf3T1L2hHOwfaTB4CKpkjNOHuVS6ru5XVsT82EdU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779161444; c=relaxed/simple;
-	bh=h8LEAiCCNiQn5WPiAv9acMabbPsAsaGXYO2XOgk/vtA=;
-	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=RmW5KVzz92BL/oFKR8uMtZ6J1PWBKCsbm9XT6E+oaspmMfPiUnrWSm33efJGJvhiuFOKcBrmwYrVFbjITzuwNEdpBpglGhmpPgF8nErd/xtvx0vWi2zaki2EZPzuxotJ6XvmQtP6Ijys/d+/YJE7SW4TSiGaJ6DG8RBccJFLNGI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [113.200.148.30])
-	by gateway (Coremail) with SMTP id _____8Cx3ele2QtqbRgLAA--.32468S3;
-	Tue, 19 May 2026 11:30:38 +0800 (CST)
-Received: from [10.130.40.83] (unknown [113.200.148.30])
-	by front1 (Coremail) with SMTP id qMiowJBx68Fd2QtqnOOHAA--.58923S3;
-	Tue, 19 May 2026 11:30:37 +0800 (CST)
-Subject: Re: [PATCH RFC bpf-next 2/2] selftests/bpf: Add LoongArch support for
- get_preempt_count()
-To: Ihor Solodrai <ihor.solodrai@linux.dev>, sashiko@lists.linux.dev
-Cc: bpf@vger.kernel.org
-References: <20260420111516.19982-3-yangtiezhu@loongson.cn>
- <20260420133532.4973DC2BCB4@smtp.kernel.org>
- <800726d7-7f09-40ee-a3ae-faf879364bdf@loongson.cn>
- <20bb1a25-4b5b-4d92-8096-fbc325cdf88d@linux.dev>
-From: Tiezhu Yang <yangtiezhu@loongson.cn>
-Message-ID: <7936d4ed-7778-4606-c6f3-9dbbffbf6bac@loongson.cn>
-Date: Tue, 19 May 2026 11:30:37 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+	s=arc-20240116; t=1779184488; c=relaxed/simple;
+	bh=ENZWpn8rBzs9yzkMI1r3ORu8oRIJaZgD8C/7AADxctc=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=rQl7bacXv7NTQnWvDAxV0NVED1QNdPzHICrujfPH6AEO8hGOPzouX2IrWhDj0lrB7C5Me5DXnVezOfTQVO2sSmhWdhicpmrK73UPlr7IzDVH/Y+LkcaUaZIQ6GVkht2fLf77rXRcXcPFBnCGa+txSWj9d3vBreKZ5McUOt+pIwM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RH8LKPcy; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RH8LKPcy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DC02C2BCB3;
+	Tue, 19 May 2026 09:54:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779184487;
+	bh=ENZWpn8rBzs9yzkMI1r3ORu8oRIJaZgD8C/7AADxctc=;
+	h=Date:From:To:Subject:From;
+	b=RH8LKPcyBrl+KJLZdchiXLH2qzvMoiFIBFMdjgq67wRyWs/nhMyffV4L3veU6jpVd
+	 8kWKrB8NqatX4Ncunxcxdef1DqQP+UPF0gdhCHdptnZ2vdPiXBCgI2/nm4SLHhJTT6
+	 uzykecCdmiaA+dq0Goix6PV1BlKiOeQCifZqdBGflvzp59q7vMaDGo9mg4x3LWRF31
+	 MlPhVdqoZN42Aa3z3fyEY48ZnY/Yu1PHf5ozT1QDBcUJ/ftaBUulqriZw1Wk/VoRIA
+	 MkFIUOJN9d6UzWm4LBM2LLiNKbrQBwBCycgSiyvuYa36gqk40hIO6ScWkaCfw3rCYA
+	 Hct3Di7oIr1mQ==
+Date: Tue, 19 May 2026 10:54:44 +0100
+From: Conor Dooley <conor@kernel.org>
+To: sashiko@lists.linux.dev, Roman Gushchin <roman.gushchin@linux.dev>
+Subject: Incorrect/lacking References in mail headers?
+Message-ID: <20260519-google-salary-aab923033a86@spud>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20bb1a25-4b5b-4d92-8096-fbc325cdf88d@linux.dev>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qMiowJBx68Fd2QtqnOOHAA--.58923S3
-X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
-X-Coremail-Antispam: 1Uk129KBj93XoW7uw1fKr4fCFW8ur15urWDKFX_yoW8Zr4fpF
-	yFyr42yw4kGa40q34kJa1DuF9Iyw1kGryrWanxK3ySkw15Gw4Yq3y2kay5AFn8uryI9r40
-	9rZ7KwnakF1DCagCm3ZEXasCq-sJn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
-	Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I
-	8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AK
-	xVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzV
-	AYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E
-	14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jrv_JF1lIx
-	kGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAF
-	wI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r
-	4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8j-e5UU
-	UUU==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="sAFs8W7Ws+5pjmo8"
+Content-Disposition: inline
 
-On 2026/5/16 上午1:45, Ihor Solodrai wrote:
-> On 4/20/26 5:47 PM, Tiezhu Yang wrote:
 
-...
+--sAFs8W7Ws+5pjmo8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> Hi Tiezhu,
-> 
-> I think it makes sense to include the selftests changes in the
-> series implementing CONFIG_THREAD_INFO_IN_TASK for loongarch [1].
-> 
-> With respect to riscv part of this, I suggest you drop it unless you
-> have the means to run the tests. Landing without any testing is silly.
-> 
-> Also I think you may drop the RFC tag. AFAIU you're trying to bring
-> loongarch to parity with mainstream arch-es, and that shouldn't be
-> controversial.
 
-Hi Ihor,
 
-Thanks for your reply and suggestions.
+Yo,
 
-1. riscv part:
+I think the mails coming from sashiko-bot don't have the correct
+References headers set. When I have deleted a thread that I don't care
+about before the sashiko-bot mails come through I end up with my inbox
+looking like:
+|  99 N   May 19 sashiko-bot@ker (6.1K) Re: [PATCH v6 14/16] wifi: ath12k: =
+Switch to generic PAS TZ APIs
+| 100 ND  May 19 sashiko-bot@ker (7.0K) Re: [PATCH v6 12/16] media: qcom: P=
+ass proper PAS ID to set_remote_state API
+| 101 N   May 19 sashiko-bot@ker (7.2K) Re: [PATCH v6 11/16] media: qcom: S=
+witch to generic PAS TZ APIs
+| 102 N   May 19 sashiko-bot@ker (6.8K) Re: [PATCH v6 10/16] drm/msm: Switc=
+h to generic PAS TZ APIs
+| 103 ND  May 19 sashiko-bot@ker (8.8K) Re: [PATCH v6 05/16] remoteproc: qc=
+om_q6v5_pas: Switch over to generic PAS TZ APIs
+| 104 N   May 19 sashiko-bot@ker (8.9K) Re: [PATCH v6 04/16] firmware: qcom=
+: Add a PAS TEE service
+| 105 ND  May 19 sashiko-bot@ker (8.3K) Re: [PATCH v6 07/16] soc: qcom: mdt=
+loader: Switch to generic PAS TZ APIs
+| 106 N   May 19 sashiko-bot@ker (7.0K) Re: [PATCH v6 06/16] remoteproc: qc=
+om_q6v5_mss: Switch to generic PAS TZ APIs
+| 107 ND  May 19 sashiko-bot@ker (5.8K) Re: [PATCH v6 08/16] remoteproc: qc=
+om_wcnss: Switch to generic PAS TZ APIs
+| 108 N   May 19 sashiko-bot@ker (7.3K) Re: [PATCH v6 02/16] firmware: qcom=
+: Add a generic PAS service
+| 109 ND  May 19 sashiko-bot@ker (6.2K) Re: [PATCH v6 03/16] firmware: qcom=
+_scm: Migrate to generic PAS service
+| 110 N   May 19 sashiko-bot@ker (6.7K) Re: [PATCH v6 01/16] arm64: dts: qc=
+om: kodiak: Add EL2 overlay
 
-Given that riscv already supports CONFIG_THREAD_INFO_IN_TASK and there
-is preempt_count member in struct thread_info, it can get the preempt
-count via bpf_get_current_task_btf()->thread_info.preempt_count.
+In comparison, a more typical thread where I have deleted the original
+mails looks like:
+| 165 N   May 19 Janani Sunil    (8.3K)   =E2=94=8C=E2=94=80>Re: [PATCH v2 =
+2/3] iio: dac: Add AD5529R DAC driver support
+| 166 N   May 19 Janani Sunil    ( 12K) =E2=94=8C=E2=94=80=E2=94=B4=E2=94=
+=80>Re: [PATCH v2 2/3] iio: dac: Add AD5529R DAC driver support
+| 167 N   May 19 Janani Sunil    (9.3K) =E2=94=82 =E2=94=8C=E2=94=80>Re: [P=
+ATCH v2 1/3] dt-bindings: iio: dac: Add AD5529R
+| 168 N   May 19 Janani Sunil    (9.5K) =E2=94=82 =E2=94=9C=E2=94=80>Re: [P=
+ATCH v2 1/3] dt-bindings: iio: dac: Add AD5529R
+| 169 N   May 19 Janani Sunil    ( 10K) =E2=94=9C=E2=94=80=E2=94=B4=E2=94=
+=80>Re: [PATCH v2 1/3] dt-bindings: iio: dac: Add AD5529R
+| 170 N   May 19 Janani Sunil    (8.1K) =E2=94=B4=E2=94=80>Re: [PATCH v2 3/=
+3] Documentation: iio: Add AD5529R Documentation
 
-But this is only in theory, I did not test it on riscv TBH and there is
-no "Tested-by" from the community so far. I will drop it in the next
-version.
+The difference appears to be that Janani has a references header that
+cites the cover letter:
+In-Reply-To: <53d547ee-1ac3-42b9-92a6-e7f48b72fee3@baylibre.com>
+References: <20260508-ad5529r-driver-v2-0-e315441685d7@analog.com>
+ <20260508-ad5529r-driver-v2-1-e315441685d7@analog.com>
+ <20260508134843.7646c4f5@jic23-huawei>
+ <53d547ee-1ac3-42b9-92a6-e7f48b72fee3@baylibre.com>
 
-2. loongarch part:
+Whereas your bot doesn't do this:
+In-Reply-To: <20260518072856.22790-2-sumit.garg@kernel.org>
+References: <20260518072856.22790-2-sumit.garg@kernel.org>
 
-Since LoongArch is transitioning to CONFIG_THREAD_INFO_IN_TASK, I have
-found a proper way to handle this special status.
+Not only does it interfere with threading in my mailbox, it adds a load
+of extra steps to my process where one ctrl+d should suffice, given that
+I appear to get 100s of mails from the bot every day.
 
-Use bpf_core_field_exists() to provide compatibility for both legacy and
-future kernels. A struct flavor "task_struct___local" is introduced to
-bypass static compiler checks when thread_info is missing from the base
-task_struct.
-
-For the newer kernels that select CONFIG_THREAD_INFO_IN_TASK, it reads
-preempt_count from the thread_info embedded within task_struct. For the
-older kernels without selecting CONFIG_THREAD_INFO_IN_TASK, it retrieves
-the thread_info pointer from the bottom of the kernel stack(task->stack)
-and then reads the preempt_count. This ensures the BPF selftests remain
-functional across various LoongArch kernel versions.
-
-"./test_progs -t exe_ctx" passes on LoongArch regardless of whether
-CONFIG_THREAD_INFO_IN_TASK is set.
-
-I will send new version ASAP.
+Could you please try to resolve this?
 
 Thanks,
-Tiezhu
+Conor.
 
+--sAFs8W7Ws+5pjmo8
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCagwzZAAKCRB4tDGHoIJi
+0gLaAQCCslK6utIRSMlyy1t/ydFmGlzTU0AGCIc8i5sZ7Cr4uQEAowJkQ/wzWUKs
+i0PefmG29uf00buAbYu6Gqz2NtiIrws=
+=B4xv
+-----END PGP SIGNATURE-----
+
+--sAFs8W7Ws+5pjmo8--
