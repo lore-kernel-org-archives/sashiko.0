@@ -1,146 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13C2038E124;
-	Mon, 18 May 2026 19:40:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4638C81724
+	for <sashiko@lists.linux.dev>; Tue, 19 May 2026 03:30:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779133229; cv=none; b=IWhy6HUXgiMaBENGlXRY6rXg9VPGoStvR1YfiB+t8n0Do5o9JXL5fz8Fk4Jc+8MOlKDqSCkxD2ttEMrYH/jJRGYxJKTbhnAEENQtvoPg9mNAKl43eUa6DYZ4k2XCeDmIqCcFoBK/kYSazouGY8Fi+6gbMSq1t4dvhoBMk/P+0Aw=
+	t=1779161444; cv=none; b=nSqLFzlL8CujtT6ey4fBkhZWCcD5itDTVsxpMhpM+JdpteOYV5kdqYsWeCDjYT0DoPS9FXpIB0DT1qzR9QoI7jCW8CeLLB/koCcn0E0EbL+X9XFaQcxIt4b4QYU13Pc18JiqsGMHYYfj6rDC+iolDrPS+ZFDZO76jm+5FfuB8e8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779133229; c=relaxed/simple;
-	bh=Lj2y6Z/5yB8RGF1dZj4AOFVgzx3lRYityrUd9Yu85wY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cXlvikDSbJl9TE+oHWPpUa0xeFFeBqUAtknl7z1CftX2/T5PGFK7c0tnrNmk2P/PHpVB4v+9MDIvToVL7puy/wybb04jJ6hAfYuEvP2c1KyaThvW5mwHWT/musB+Rv7DjdADMiqPVWOfHEA4eC19Vh/OSZ4PSV2HLpo6bo02D70=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JKnDeAtu; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JKnDeAtu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68AD2C2BCB7;
-	Mon, 18 May 2026 19:40:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779133228;
-	bh=Lj2y6Z/5yB8RGF1dZj4AOFVgzx3lRYityrUd9Yu85wY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=JKnDeAtu/QV8Ha15MCZOZm/ucdQ/st7/AJB6NHDPW4+2YAIGegtsUIIttkbKhWg8w
-	 iXCh99HSSN7QsxV5QcE7XIQEFGLpjAHfh/5jG5Zyy3sFK+0ORwTQsahxWbNlds+aXs
-	 PlVcVj/BD9CPnqdfZlVW4Mbx0ODreKQLuOsh70CVr2JJ2rTvOhTJmdptdh2lJ2UFWz
-	 gb5VByelsFgfYSTgvVOWubD5Owf5Ftxo7agFcGAJ4D8y/V3VIhmtY5B5SdbNoo8cy9
-	 uzIUJTDwTmhtW9HF7y2VpE6vvfLTph8u9k5jddf4k+3apv64gYD9uLUPu1O1BDSPiX
-	 KgJL4SuTZw21A==
-Date: Mon, 18 May 2026 21:40:22 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: "Theodore Tso" <tytso@mit.edu>
-Cc: Jani Nikula <jani.nikula@intel.com>, Roman Gushchin
- <roman.gushchin@linux.dev>, Krzysztof Kozlowski <krzk@kernel.org>,
- debarbos@redhat.com, Arnaldo Carvalho de Melo <acme@kernel.org>, Greg KH
- <gregkh@linuxfoundation.org>, Konstantin Ryabitsev <mricon@kernel.org>,
- Guenter Roeck <linux@roeck-us.net>, sashiko-bot@kernel.org,
- sashiko-reviews@lists.linux.dev, sashiko@lists.linux.dev, Linux Kernel
- Workflows <workflows@vger.kernel.org>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, devicetree@vger.kernel.org,
- kfree@google.com
-Subject: Re: Stop false review statements
-Message-ID: <20260518214022.5f94f917@foz.lan>
-In-Reply-To: <20260518121601.GA87957@macsyma-wired.lan>
-References: <4f3d7f48-5766-425b-91f6-0acdb5554584@kernel.org>
-	<07602616-412B-4ED8-95D7-588C0D077EE3@linux.dev>
-	<2e20badf27b6910d619329841e37d2961556056f@intel.com>
-	<20260518121601.GA87957@macsyma-wired.lan>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1779161444; c=relaxed/simple;
+	bh=h8LEAiCCNiQn5WPiAv9acMabbPsAsaGXYO2XOgk/vtA=;
+	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=RmW5KVzz92BL/oFKR8uMtZ6J1PWBKCsbm9XT6E+oaspmMfPiUnrWSm33efJGJvhiuFOKcBrmwYrVFbjITzuwNEdpBpglGhmpPgF8nErd/xtvx0vWi2zaki2EZPzuxotJ6XvmQtP6Ijys/d+/YJE7SW4TSiGaJ6DG8RBccJFLNGI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [113.200.148.30])
+	by gateway (Coremail) with SMTP id _____8Cx3ele2QtqbRgLAA--.32468S3;
+	Tue, 19 May 2026 11:30:38 +0800 (CST)
+Received: from [10.130.40.83] (unknown [113.200.148.30])
+	by front1 (Coremail) with SMTP id qMiowJBx68Fd2QtqnOOHAA--.58923S3;
+	Tue, 19 May 2026 11:30:37 +0800 (CST)
+Subject: Re: [PATCH RFC bpf-next 2/2] selftests/bpf: Add LoongArch support for
+ get_preempt_count()
+To: Ihor Solodrai <ihor.solodrai@linux.dev>, sashiko@lists.linux.dev
+Cc: bpf@vger.kernel.org
+References: <20260420111516.19982-3-yangtiezhu@loongson.cn>
+ <20260420133532.4973DC2BCB4@smtp.kernel.org>
+ <800726d7-7f09-40ee-a3ae-faf879364bdf@loongson.cn>
+ <20bb1a25-4b5b-4d92-8096-fbc325cdf88d@linux.dev>
+From: Tiezhu Yang <yangtiezhu@loongson.cn>
+Message-ID: <7936d4ed-7778-4606-c6f3-9dbbffbf6bac@loongson.cn>
+Date: Tue, 19 May 2026 11:30:37 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20bb1a25-4b5b-4d92-8096-fbc325cdf88d@linux.dev>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qMiowJBx68Fd2QtqnOOHAA--.58923S3
+X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
+X-Coremail-Antispam: 1Uk129KBj93XoW7uw1fKr4fCFW8ur15urWDKFX_yoW8Zr4fpF
+	yFyr42yw4kGa40q34kJa1DuF9Iyw1kGryrWanxK3ySkw15Gw4Yq3y2kay5AFn8uryI9r40
+	9rZ7KwnakF1DCagCm3ZEXasCq-sJn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
+	Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I
+	8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AK
+	xVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzV
+	AYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E
+	14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jrv_JF1lIx
+	kGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAF
+	wI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r
+	4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8j-e5UU
+	UUU==
 
-On Mon, 18 May 2026 08:16:01 -0400
-"Theodore Tso" <tytso@mit.edu> wrote:
+On 2026/5/16 上午1:45, Ihor Solodrai wrote:
+> On 4/20/26 5:47 PM, Tiezhu Yang wrote:
 
-> On Mon, May 18, 2026 at 11:04:29AM +0300, Jani Nikula wrote:
-> > > Sashiko is supporting various LLMs, including open models - it=E2=80=
-=99s just a practical
-> > > choice: to my knowledge the quality of open models is not on par with=
- frontier closed
-> > > models and it would require a non-trivial amount of hardware and infr=
-astructure to run
-> > > an open model at the required scale. =20
-> >=20
-> > In the context of the "Reviewed-by: Sashiko" discussion, this actually
-> > makes it really hard to assess the quality of those reviews. =20
->=20
-> Agreed.  There's a reason why the coding-assistants.rst specifies the
-> model which is used:
->=20
->   Assisted-by: AGENT_NAME:MODEL_VERSION [TOOL1] [TOOL2]
->=20
-> The problem is that (as Jon has pointed out) coding-assistants.rst was
-> intended for use when the tool was beging used to help create the code
-> --- that is, "Coding Assistants".  What we're doing here is more of a
-> reviewer assistance.  Something like:
->=20
->   Scanned-by: AGENT_NAME:MODEL_VERSION [TOOL1] [TOOL2]
->=20
-> Would be more interesting, but it doesn't actually tell us anything
-> about what the results were of the scan.
+...
 
-I don't like scanned-by, even for a tool that would always get the
-same results like checkpatch. For LLM, this is even worse, as two runs
-may give different results for the same code.
+> Hi Tiezhu,
+> 
+> I think it makes sense to include the selftests changes in the
+> series implementing CONFIG_THREAD_INFO_IN_TASK for loongarch [1].
+> 
+> With respect to riscv part of this, I suggest you drop it unless you
+> have the means to run the tests. Landing without any testing is silly.
+> 
+> Also I think you may drop the RFC tag. AFAIU you're trying to bring
+> loongarch to parity with mainstream arch-es, and that shouldn't be
+> controversial.
 
-IMO what makes much more sense is to add information there when
-a change was done due avoid a problem detected by sashiko, and what
-was the fixed issue, e.g. a textual description like:
+Hi Ihor,
 
-	Changed locking schema after Sashiko's report report about
-	XXX race condition.
+Thanks for your reply and suggestions.
 
-Also, except if 100% of the=20
+1. riscv part:
 
-> One of the problems here is that there is a distinction between the
-> infrastructure and review prompts in the Sashiko github repository,
-> and the reviews that are being published by Sashiko the web service
-> being run by Google that is being lost by some folks.  So I wonder if
-> for now, we should just do something like:
->=20
-> Link: https://sashiko.dev/#/patchset/20260515091829.194810-1-me%40linux.b=
-eauty
+Given that riscv already supports CONFIG_THREAD_INFO_IN_TASK and there
+is preempt_count member in struct thread_info, it can get the preempt
+count via bpf_get_current_task_btf()->thread_info.preempt_count.
 
-Adding a link makes sense to me. It doesn't need to be to the
-sashiko's email though: it can be to the entire thread.
+But this is only in theory, I did not test it on riscv TBH and there is
+no "Tested-by" from the community so far. I will drop it in the next
+version.
 
-> Or just have a link to lore where the review has responded to the
-> Sashiko review stating where the Sashiko review reported a
-> pre-existing condition (perhaps one that we don't care about because
-> races in readahead logic is really Not A Big Deal, etc.)  We go for
-> this strategy, it would actually be better for the Shashiko.dev review
-> to get cc'ed to the mailing list.
->=20
-> Personally, I think that's probably be best way to go.  We already
-> don't insert into the git commit an explanation of why some bullsh*t
-> review by some wannabe human reviewer should be ignored, or why a
-> discussion of some problem discovered by a human review in the source
-> of the review would be handled in a future patch set.  That's what the
-> discussion on lore.kernel.org is for.  And we shouldn't treat AI
-> reviews any different from how we deal with human reviews.  So if we
-> want to give credit to an AI review, then let's go with the
-> Scanned-by.=20
+2. loongarch part:
 
-If the entire content of a Sashiko review is ignored, I don't think
-it is worth adding anything. Just like we do with humans, IMO the
-best is to just mention what changed due to some feedback received
-by a human or by a bot, mentioning who/what bot helped to identify
-the issue.
+Since LoongArch is transitioning to CONFIG_THREAD_INFO_IN_TASK, I have
+found a proper way to handle this special status.
 
-> Or we can just let people look at the mailing list, and
-> if people want to have statistics, we can ask people to use a script
-> running against public inbox to figure things out.
->=20
-> 						- Ted
->=20
+Use bpf_core_field_exists() to provide compatibility for both legacy and
+future kernels. A struct flavor "task_struct___local" is introduced to
+bypass static compiler checks when thread_info is missing from the base
+task_struct.
 
+For the newer kernels that select CONFIG_THREAD_INFO_IN_TASK, it reads
+preempt_count from the thread_info embedded within task_struct. For the
+older kernels without selecting CONFIG_THREAD_INFO_IN_TASK, it retrieves
+the thread_info pointer from the bottom of the kernel stack(task->stack)
+and then reads the preempt_count. This ensures the BPF selftests remain
+functional across various LoongArch kernel versions.
 
+"./test_progs -t exe_ctx" passes on LoongArch regardless of whether
+CONFIG_THREAD_INFO_IN_TASK is set.
+
+I will send new version ASAP.
 
 Thanks,
-Mauro
+Tiezhu
+
