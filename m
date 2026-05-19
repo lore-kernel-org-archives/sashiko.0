@@ -1,77 +1,105 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2136D3FDC00;
-	Tue, 19 May 2026 12:42:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEB4C285CAE;
+	Tue, 19 May 2026 13:41:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779194528; cv=none; b=lqu30hmjqLT/pc25HaBI4bnX3gchJNiHNzMIFjRZ1r0aOpJ5AHqIcNBKHmiEJu7KmzQIFt2M/SdQi3Vefa8kCX2rlvhzype+yfRnfo25TXfjSAMAOgUy1Hm/nJJguU02FdHq3dBnYLRIPvalBRUnB7AnM78kL+isT714Uy6Dstk=
+	t=1779198084; cv=none; b=FaRFsKMMy88nNQzEyx9OwC5ViW/Z+EZkMaKHja9QjztUY5tWf67pLcn4cmSD228xYQ8FaJ2lP8dtXAqbI8NblpaUgKmCwdjtIlevoOILPweXED5mjGfOiVuVG2MVKf0v1Oq02l9IhLrIWwQCzgzRoVsg35mdtykiqVQR4OkcXJE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779194528; c=relaxed/simple;
-	bh=qOXXZ9yzVhvLot9OaPgWL6JZb/u48T7roL0N6m+QX/o=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iCkwsrGb+GyzMhhwAyt58WDO+6OqLQ8xUFiBoReU/FFQCud/AO1W9ms1SOS1/pkw/hApDGCdJ9hIFjo3v1waM5poDCOLb1yztghxblr+ZmbuzBWnvUeHgtevYSwChQPtonIxmD2FH4PtuKCwXhGDzkINT5QhNoOkbVxGCubPKhA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ck07aEsm; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1779198084; c=relaxed/simple;
+	bh=1WRhix6BgaKOUWaMb5YbwQ1MpXy3E2v5sqDQZ1RmoTE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=arc9H2ncEqueVtl0KjCO4ZWMUzxOEQDQMVgYw3F23FKAFN9zLnDL8b1BTA5OOD8504ubO0kSE0jbr8WPao+7yCyeeMhNrpg2a0tBiwoNBNBr7roHda4R4Xds8Q0qrPA7R8nBSd0fnwEF29TQAOwIzLXWwEPE9XE7BeKusiTKqio=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O7Cuo6pQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ck07aEsm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07C98C2BCB3;
-	Tue, 19 May 2026 12:42:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O7Cuo6pQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 505DAC2BCB3;
+	Tue, 19 May 2026 13:41:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779194527;
-	bh=qOXXZ9yzVhvLot9OaPgWL6JZb/u48T7roL0N6m+QX/o=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=ck07aEsmHU7fV5T5L58xscd4PYfA/P6sM/fjDbaF5ay3tGheBarLbqKt5+JI/2RAF
-	 SZgkRqbGTUUa8PHtkuznYcAehX8WHDPVZlWBHeRFEwWuTndHdM2IspE7EchqX+2mQ0
-	 ntXidbc7bqSqjXoEEBkIv71cUkcTaaPKXK4KzNrB8NkZeS7tbdrayfRdumIezWHEzE
-	 Pa+JWJHAJwhN/RpSq4o6eMZH0jPr8qXd+ySYja/x0ZFjCr5RuLAFPCP9nQtPgkSjzr
-	 jAgl7290M+OMhddTFYKPu1hv0SduOiJTrbDdxtpkY9tg85nJXplQbpG90RCfNX6cfw
-	 FKtMCxEhc0WPA==
-Date: Tue, 19 May 2026 08:42:22 -0400
-From: Steven Rostedt <rostedt@kernel.org>
-To: Jens Remus <jremus@linux.ibm.com>
-Cc: bpf@vger.kernel.org, sashiko@lists.linux.dev, Indu Bhagat
- <ibhagatgnu@gmail.com>, Josh Poimboeuf <jpoimboe@kernel.org>, Dylan Hatch
- <dylanbhatch@google.com>
-Subject: Re: [PATCH v14 13/19] unwind_user: Enable archs that pass RA in a
- register
-Message-ID: <20260519084222.4d34c8b4@gandalf.local.home>
-In-Reply-To: <4838400f-209f-4e78-b41f-04b61d129ee7@linux.ibm.com>
-References: <20260505121718.3572346-14-jremus@linux.ibm.com>
-	<20260505183531.C9EE8C2BCC7@smtp.kernel.org>
-	<8761b037-d8f8-4142-9091-cc51d0d19df8@linux.ibm.com>
-	<bd711f74-a1f3-4410-975b-64e9009aaf30@linux.ibm.com>
-	<20260518123112.20da820b@gandalf.local.home>
-	<4838400f-209f-4e78-b41f-04b61d129ee7@linux.ibm.com>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=k20201202; t=1779198084;
+	bh=1WRhix6BgaKOUWaMb5YbwQ1MpXy3E2v5sqDQZ1RmoTE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=O7Cuo6pQ4PYo1rD8QqjsaGGxboIMfh5SR4/UGAevg5WDLph8KJ37SHWSjosVn1Y0h
+	 iRB/dGWOH/iIiGXIAQd+nKIxasGXTQyTghKcebXw/QMPV+ygHC95W4A5c0WbeaZhSH
+	 PKp3+v1vsnBQYFLe1waPs5GASUVc2y0XVKrnsOTdlLbAlmtZiBZoi3aRAO+uUY0b9Y
+	 9ATbeKpC85VEU9P5iJMXP2CTQwD9zib+Vp23PUnkAWeN82fH4HvxHi8sOFuk2R9GPI
+	 tilkIJlDk92OtZTiHewjlnwmRXRrnphOzn6++9i7Ea98ZKi9oCMsxvKyhf6N7mTUMo
+	 rheXUSibuoodA==
+Date: Tue, 19 May 2026 19:11:19 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: sashiko@lists.linux.dev
+Cc: Matthew Leung <matthew.leung@oss.qualcomm.com>, 
+	linux-pci@vger.kernel.org
+Subject: Re: [PATCH 0/2] PCI: qcom: Add PCIe support for upcoming Hawi SoC
+Message-ID: <7gl7nidvytiu64qwssp55jpcetagefsnwb7ylq54miegmekdyh@rjhietvwqntu>
+References: <20260508-hawi-pcie-v1-1-0c910906f7e5@oss.qualcomm.com>
+ <20260508012135.76B34C2BCB2@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260508012135.76B34C2BCB2@smtp.kernel.org>
 
-On Tue, 19 May 2026 14:24:34 +0200
-Jens Remus <jremus@linux.ibm.com> wrote:
-
-> > How can this be triggered? Does it require an architecture to implement
-> > only partial sframe to trigger?  
+On Fri, May 08, 2026 at 01:21:34AM +0000, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
+> - [Low] The compatible string and filename violate the established Qualcomm PCIe naming pattern.
+> --
 > 
-> On x86-64 it can be triggered from user space using forged .sframe that
-> incorrectly specifies no fixed RA offset and thus causes the common
-> unwind user (sframe) logic to recover RA from the RA register using 
-> the dummy unwind_user_get_ra_reg().
+> commit 332996956780b2d8736ee1fcd6b38c1627f71689
+> Author: Matthew Leung <matthew.leung@oss.qualcomm.com>
+> 
+> dt-bindings: PCI: qcom: Document the Hawi PCIe Controller
+> 
+> Add a dedicated schema for the PCIe controllers found on the Hawi
+> platform.
+> 
+> > diff --git a/Documentation/devicetree/bindings/pci/qcom,hawi-pcie.yaml b/Documentation/devicetree/bindings/pci/qcom,hawi-pcie.yaml
+> > new file mode 100644
+> > index 0000000000000..154bc88e59694
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/pci/qcom,hawi-pcie.yaml
+> 
+> This isn't a bug, but is there a reason this file isn't named
+> qcom,pcie-hawi.yaml? The rest of the Qualcomm PCIe Root Complex bindings
+> strictly follow the qcom,pcie-<soc> naming pattern, such as
+> qcom,pcie-sc7280.yaml and qcom,pcie-sm8550.yaml.
+> 
+> [ ... ]
+> 
+> > +properties:
+> > +  compatible:
+> > +    const: qcom,hawi-pcie
+> 
+> Should this compatible string also be changed to qcom,pcie-hawi to maintain
+> consistency with the other Qualcomm Root Complex definitions across the
+> subsystem?
+> 
 
-OK, so if user space could trigger it via a invalid .sframe, I would do at
-most a pr_debug() (may not even need a 'once'), and remove that this task
-has an sframe. That is, as soon as a sframe is discovered to be corrupted,
-it should be discarded and never used after that.
+All other IP blocks follow the 'vendor,soc-ip' naming convention and only PCIe
+differs from that. And we already have some SoCs using 'vendor,soc-ip'
+convention for PCIe:
 
-A print could be done just to inform the admin of what happened. And since
-the sframe would be removed, that prevents it from spamming the console, so
-the "once" isn't needed. We may want to show it for other applications.
+git grep -r "qcom.*-pcie\"" arch/arm64/boot/dts/qcom/
 
-The print should state the comm and pid of the task that failed.
+arch/arm64/boot/dts/qcom/glymur.dtsi:                   compatible = "qcom,glymur-pcie", "qcom,pcie-x1e80100";
+arch/arm64/boot/dts/qcom/glymur.dtsi:                   compatible = "qcom,glymur-pcie", "qcom,pcie-x1e80100";
+arch/arm64/boot/dts/qcom/glymur.dtsi:                   compatible = "qcom,glymur-pcie", "qcom,pcie-x1e80100";
+arch/arm64/boot/dts/qcom/glymur.dtsi:                   compatible = "qcom,glymur-pcie", "qcom,pcie-x1e80100";
+arch/arm64/boot/dts/qcom/kaanapali.dtsi:                        compatible = "qcom,kaanapali-pcie", "qcom,pcie-sm8550";
+arch/arm64/boot/dts/qcom/sar2130p.dtsi:                 compatible = "qcom,sar2130p-pcie", "qcom,pcie-sm8550";
+arch/arm64/boot/dts/qcom/sar2130p.dtsi:                 compatible = "qcom,sar2130p-pcie", "qcom,pcie-sm8550";
 
--- Steve
+I talked to Krzk offline and concluded that to align with the common convention,
+we should keep it as 'qcom,hawi-pcie' and use 'vendor,soc-ip' from here on for
+PCIe.
+
+- Mani
+
+-- 
+மணிவண்ணன் சதாசிவம்
