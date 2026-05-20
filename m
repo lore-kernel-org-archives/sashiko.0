@@ -1,209 +1,146 @@
-Received: from CH5PR02CU005.outbound.protection.outlook.com (mail-northcentralusazon11012032.outbound.protection.outlook.com [40.107.200.32])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABB1E3A6B78
-	for <sashiko@lists.linux.dev>; Wed, 20 May 2026 10:37:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.200.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779273463; cv=fail; b=YiXRujkTaii89PovjKrqiZufw74ely1VZrzaJ/MP6Y+9VibDp/Y8ObVxKx7NGdC5CK156XduJIcE8m/5rHBcdhOvtzBTVyxNFTA6GJFJR9OwVn+bdppF1lU5vIVAJ9CvvIJ6MKilvjcAOAIg0ldh/LVqHfSfluu9xyL4Qs7t2qE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779273463; c=relaxed/simple;
-	bh=bK0kqtSZ0xBhcmpeZcEXK4RG8pa/hwlVdauFBDTerKE=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=aLpxFXZxBXYd37mzEcEV55hW7yxkaO7+0ZPOj66aClFS5THNMdsJT08kEPS1HJy7IiQpjfrtX+TB5oEaIjj9fvDBJLA3GqCz9qXqp4EqSd9VtFwzUwFxFm4p3CDjaF7noctUGvbpS2P5O4xtIHRVLyKV01lvpVwFFwzVro770Xw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=EUaZ/DJT; arc=fail smtp.client-ip=40.107.200.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20F8A273816;
+	Wed, 20 May 2026 14:49:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779288566; cv=none; b=fWJrWQRnrY4CzwPWUJWTxSxuvjMKig4ISQWrjQ3F+jTHy2d8wBPTGf2BdAL4uQsdsahISKPxc5BlgJYNNOpWeqCVJkR/fPjUuf8QUUJMxTaO21DDcx3yxHS7ek5Cgy6kIdwYcglzq1zClSShh3kxIVkjcMKw+GPyQNiyjdL68zk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779288566; c=relaxed/simple;
+	bh=Bg0hmWQCj+Z6DDOFgNrxr8RwlSJXj2ZjrZBxV2IkVik=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pi/hrXrC5gLRXE0nkepPzAVzAMuvcDDeKZ9pEgiDh2iUy6o86iGpr9L5CYmXLtjeJWcWdY2zbqE4S5FyGDL4h1KVwVA0+5EU5UMKWdN3CPOSDuTG5fLbJ++0UphwhnWJ9xQdnhSqu6g5r5uv6YHHMoklOnDB3jYOtq7h2dugBEw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=UAWvKIuM; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="EUaZ/DJT"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JNNYEPTdxGHEaLmmOh3kwff+U+iT4vEKNmnXO8OOM5bR+0vc4SoHYZLoEf67gNtIhaxHSMjXYsvBgDhYl9H+JCpWPFy3IApRDJ6KOXskgqbt/fwMHeadYAkFjt+eRDHTNcrXPX5Lp+HcPUyf9T6i4C9OpncPJ1WAhUEEgjX1fPZ3estwfbxtUs0Ko0OzhDMUbCiWEzqW9o0pXDVuMYx8jYk3xNKSi9ooEK5BAG7iM+YbvJKMcdc9XLcgo/EzTKIOiiimxpOTPNK1BARPar4jCtqTpJjhHKnOLsu23JAN3fI70tUV1mFnrC1a4TnXQMTygbc+We0eLiT7CYn58V9y4Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PwMztmRydzSv/+2EluMz4bJjj9sLIPXenbEMqEo8Q84=;
- b=ZsK9EFulVfe+2EDDeEea8G0mZFVJn4TIlGkaViov/ogkqChEjOGStM7nS+I43f4kaA/K+IjafSHCQdDs82HXpZwm1hPRrkkjHT73aQljaxDFCrGOoeeWVWQ/td8hcF0K+yPgaO99BwGGlY4QYOQ4RBY4MZvLkyXl5pGfViHOg6hE90ImYWDi81vPPclyWi0aZU4LcswhF0InNCN3mtBA4BCCnmW9pYX4jdNcujW1vBScMJFOUPX8DQ9EyHqsuK4BsxXaOR2vbYuS/ZciIrZf9bHEtzfDi0LuirWdE8Sz7Td/HKBxpFAg14NIhf0aqcSbOmDD0ew9fQjp3IxR2cPvlw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PwMztmRydzSv/+2EluMz4bJjj9sLIPXenbEMqEo8Q84=;
- b=EUaZ/DJTgYsXYmMFvboPRpOX23eSInL43QE6Wd8DVEHznUWjU8Z+IoEu37OoT0EoOtkYwvMZqgMf/014LKMOEAFL/Bq9XUjZ4KyKmDjIxdmZXj52XT2hOLwoDpekoaUQBxlHVPS+jEEVu7vtdJlosieTK/Cz3NiBvMKkgyfhSVA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CY1PR12MB9697.namprd12.prod.outlook.com (2603:10b6:930:107::6)
- by DS0PR12MB7804.namprd12.prod.outlook.com (2603:10b6:8:142::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.25.19; Wed, 20 May
- 2026 10:37:38 +0000
-Received: from CY1PR12MB9697.namprd12.prod.outlook.com
- ([fe80::3a41:55a0:8203:596d]) by CY1PR12MB9697.namprd12.prod.outlook.com
- ([fe80::3a41:55a0:8203:596d%5]) with mapi id 15.21.0048.013; Wed, 20 May 2026
- 10:37:37 +0000
-Message-ID: <06586406-bc24-4d55-87a7-e036f6835d72@amd.com>
-Date: Wed, 20 May 2026 16:07:30 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] phy: zynqmp: fix L0_TM_DISABLE_SCRAMBLE_ENCODER mask
-To: sashiko@lists.linux.dev, Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
-Cc: vkoul@kernel.org, olteanv@gmail.com, neil.armstrong@linaro.org,
- linux-phy@lists.infradead.org
-References: <20260511163135.2924642-2-radhey.shyam.pandey@amd.com>
- <20260512213513.852EEC2BCB0@smtp.kernel.org>
-Content-Language: en-US
-From: "Pandey, Radhey Shyam" <radheys@amd.com>
-In-Reply-To: <20260512213513.852EEC2BCB0@smtp.kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN4P287CA0083.INDP287.PROD.OUTLOOK.COM
- (2603:1096:c01:26b::11) To CY1PR12MB9697.namprd12.prod.outlook.com
- (2603:10b6:930:107::6)
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="UAWvKIuM"
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64K8GSCB1497610;
+	Wed, 20 May 2026 14:49:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=XBLx6g
+	f7y7RbazGwUc4UbQu+gQgJkOwo4DucHG3Gt3o=; b=UAWvKIuM8G9axi/VEvVTbC
+	bMn4KbZLDtgiKOrrqKTotbcISmykRy9IP5ylAU//sHr5wfAhAu+T8mabr3I6GbQ8
+	dkAWfk9g0YV4uTXMmEN1VdCYCtyKOXsYYgQPvFSVanrik5fYRLgr0ntkKgd6sS6g
+	i/aP7LLs9olzxq87mEJUs8XTUyXIjWLYPeDwu/xbLh6vlLOOXirtcXaWD+KcRTym
+	1CHSXrDA5EsOh60dkThmkBiNr98pJU727tKLDL0qRRSDG7J9fjJGwFSDKJPd82bT
+	+XJd4EwzETjTBQkZ0O86T5Qo2M1PLYLAGOuJjE6+pUMKck+qsRgDD+nRZIloNC0g
+	==
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4e6h9y2n19-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 20 May 2026 14:49:02 +0000 (GMT)
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 64KEdDm0031617;
+	Wed, 20 May 2026 14:49:01 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4e73wk7t2e-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 20 May 2026 14:49:00 +0000 (GMT)
+Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com [10.20.54.104])
+	by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 64KEmx4N60490080
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 20 May 2026 14:48:59 GMT
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id EAFF620043;
+	Wed, 20 May 2026 14:48:58 +0000 (GMT)
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id C265F20040;
+	Wed, 20 May 2026 14:48:58 +0000 (GMT)
+Received: from [9.52.200.195] (unknown [9.52.200.195])
+	by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Wed, 20 May 2026 14:48:58 +0000 (GMT)
+Message-ID: <4767d529-4551-43d4-8190-04edd559fff2@linux.ibm.com>
+Date: Wed, 20 May 2026 16:48:58 +0200
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY1PR12MB9697:EE_|DS0PR12MB7804:EE_
-X-MS-Office365-Filtering-Correlation-Id: 64439809-f4d3-49a9-ba6c-08deb65bcfb7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|366016|1800799024|10086099003|3023799007|4143699003|11063799006|22082099003|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	3x2t3Q0hnqgP+YLkjh+bgZ7hs0cR1oFBpxC6E1pQlnUOI3/F51rmNfL1Nk6IE/il08Taz6La1H1dQHibLHMWwaEYJZxYAAbDVu0oug2b6HjHFiCuEGooXZ+IkfVABUleGkvi6Y5VgP3ruY0f55BFaSbpvtB2g0FdIaHmpVmy5of7JfkeDqGbxz+R398XPKJo1e2osfPnaTZhbcTTJUoQJZaoqXpT28r50gz5YHlfWcQlMg0R22wObuudUx2Vq8QydLrWvWAQ2PXPKJtd9BSVMXz7C0+R6RXAo8LUq/h4XawO7zQ8trKHq3vdBnkEZ85GsiuK7rKmOvHjxgaTEjCjaRCpkGCMo9ImDovHm6cD0AjWaLCKAs7mafg2ix9SGA3wnPU6hJB2ioDQIAnjWK9dW9a9DmboFPrBdW4GwZ0qS0nw3f0g1PgtWFCz/NO1/hG/WtkJMPzhhivuP+1/cGTOXjMBSaRTQqPd0/vkPjxGAic8Ev3KK33HAD68mRLxBYaJkLjr4FVSc2QfNKUBtP4gYofdn6Cn7Gg1UFOxAF6Tt8etnITepB/uEsHg48JpILOH9HIMstx0FJmPSASwWNmgoCtC9DQGXyIkeOOjSyG5U+GjoN5VFaJoN5mEmXC2i+Atn4AfS5ulEpwuycyqM54WsJNHUr7xZDXR3YEk0IGv35bV3HkRiVVH4/PRMlbRZ26z
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY1PR12MB9697.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(10086099003)(3023799007)(4143699003)(11063799006)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?T2lMei84VEZXQUFHVHRUclljWHZHUzd2d2twbTh4Wm1Bb0NId3YrQ0c4ZHRF?=
- =?utf-8?B?TGZmcWFTaGlJcTJnZXM3WlNLL21MbVZ2OURTeThQY2wwUEw5UU1hS3hzRDc5?=
- =?utf-8?B?RlZuNEVZZFNkZ1htUGJqNlJ4cDY0a3RZUDdzUkcrc2h4MlpnM0g4QTZJa3pE?=
- =?utf-8?B?dnlDMmVGdWRDcFJxd1JsUDJRWDZVT0E3MitQdWdjZGxWNEtkMDhDMFdJLzQ4?=
- =?utf-8?B?dlMvTzEwM0ExT2tSdXBLRnpkc2RDbzFPbDBOeThXdkxsSHJlN3pCSkhsTkxk?=
- =?utf-8?B?V1FpdE4yMUR2enNMY3dnQU5Bd0dKMjI3bUEyRGliNE02eTB0TCs0TVJOOVdt?=
- =?utf-8?B?aW5rbUNXWkRmTEtIYmU5T0JuZnpIMGZVUjBEY2xlRXlDdUdGRi90akc4bTZ3?=
- =?utf-8?B?M3licDBCbWYyVTlHZ25LTW04Nnl1VGx1b2hWVnNwd2RuVUZEZlo3VzJTb1RU?=
- =?utf-8?B?b3FVWCsxSFBIbXJZTExvSmNKeWpJRC9ObVNLUk1zQlk4QVZrc0Q4UGhMS2lh?=
- =?utf-8?B?MVMraldwU1ZaZ2luaTBKaWFwckZlZzNXUlY5bXJHWTRWT2hsNG5FbmVXM3A2?=
- =?utf-8?B?OUZoMVAzRUhVNFJOdVhvV3NsbFl3VXNuVmNMaGtGMGJTdjl6cmN3RHdDd1Nu?=
- =?utf-8?B?enZhZ1pzMHpXNC9tRHlxM1N0UW56WHdqQ0o2eFFKR3ptYlBxL1djeS9DK2tX?=
- =?utf-8?B?VlorTEdLZ1A5YVJIb1ZoTW4xN1B3Nmg4a1YwalRxYi9QeGw3eXp3cXI3blBS?=
- =?utf-8?B?VWd0NzlMcm5pUVU3aWFieG5hSFBvNmRNT2hiTTFTUElwWXZJcXFhMlUyYWJG?=
- =?utf-8?B?aG0vTjI1Yk9JdTVidHhSQmE1TEdQWFRrTjFJRkZxNkhrQ1YzODZXeHpvOWdX?=
- =?utf-8?B?MGVmRHVQMTY3dnJsK0tnZE5vWFh5di8vWnV2b0d1azVEM3FLSG5GeER5THRP?=
- =?utf-8?B?bjkrTmY0OFZHTEU4Q0tZbHZVKzZscU9QYllQWTYvd1p2NWZHMTdEd1RMa0Zo?=
- =?utf-8?B?aWVDNHR0VWUvQktzMCt4M1Z2NmIxMkF4bG5qODNESHF3NGRKR1ZVZ0Zod2ly?=
- =?utf-8?B?SDdBcDRqZHVPcnovQlhLOXFvZ3lSWGtBb2xQbmFKTlFLcldmN1NEOHk1WEVw?=
- =?utf-8?B?VHB1OVp5Q1d2clNBdm11elVzR2xWTVYwN2NXa3h6Z0wyV2lCaWNYem5hdmY0?=
- =?utf-8?B?dnlONDFXbWNHeDlUQlJ2RExwTFpBdFV3c1M2SFYrd01aajlmeUdkRXVRWUts?=
- =?utf-8?B?VWdtRjZUcXJxclBBVFJ2V2VmZk5pVmRwaS9rZzFnZ1VxK0pkUnJZeUdMVjEy?=
- =?utf-8?B?WXZTRTVjT2ROdXd0MDNncG5pZW8rMUZEalIxVlFQNUJxNXExcU94TWZ3dUpT?=
- =?utf-8?B?R3d3WGZ3TUllUzBla1I4dEdmSy8zcGhjRGxaUU5oUkZLK0V3dytySnlPMUFp?=
- =?utf-8?B?c05VV0xXQjM5NUxleDZCZUJrSk9pbzZNT0JmalJLRmZveTRxVEhYakJlZURv?=
- =?utf-8?B?WmJrVGVIYjVIZGtOdENEVXpVeXg1MzVIdndFWmxBZHNIWTNiWTdEVkdsVHVs?=
- =?utf-8?B?Y2V2bUIxMDlUS1VyL2VHZ2ZHV0xRVHhpeUxGSS91OTI5MUdXT29ObjBqbXlh?=
- =?utf-8?B?bktzZDRncGFiVFZiU0RCR21ZL2x5b2hVbXM5ZlZtWTA1WnRuMGVWMWwvMllV?=
- =?utf-8?B?MXIxQVVRN085cFRUWTZIVjFQeHphNWtUdldPZzA0MnBORjZLSG5pM1VYc0RR?=
- =?utf-8?B?TFplcHNQT256eXQ3aUxCcTU2QzFrMzZQZzNHTGt3WStMeWc0Zi9ZbzMrb3I0?=
- =?utf-8?B?OGk5Q2lQc1ZMdDR4SC9TRk02MUZRK3UyUlJFZFlpZ1EvTjFDTGI3cVRDYzFq?=
- =?utf-8?B?Q3FaaTVKV2pHQ3owS1VKNWQ0SnozUUJBTE43N2dwOXpEQTFQVzFUWDdLV2Rw?=
- =?utf-8?B?U1dtZlFFcE5HVkc3dGtvOWN1L2lXOEVzbmxHRkRrQWJNZVVpNGVIazRjb2Nh?=
- =?utf-8?B?TXZFMmNVdnJteVFPUmtoNVF2NEJvTWZCZUREWnBsakpRMzY5SHoyRXFRZHd6?=
- =?utf-8?B?dG9IaVFIclF6NVh0ZUIzb2VtSmFtcFpMNGNRdXQreTFWZXE5eDFoMjNReS95?=
- =?utf-8?B?NTFOT3FzSGxWMW1NR3VHQ1BveXd4eHdlMmtuZzRjQ3dtanRxTzRFSExoZlho?=
- =?utf-8?B?aTdjdWc2amd5Z1Y0cWhnTE5EK1VvQkxDcHdWbVVpakpsRFduemRFMjR2YkdD?=
- =?utf-8?B?RDNabjJMUE9YbGY4ejhRM2hIa2xlYzZrNzFnMkpjcllqVjlvVlVaN3FvTitS?=
- =?utf-8?B?Nk4yS2w2VFFUdmJvbm9UT0ZyOUpSV1VQbHVnVURhYWtBVi91dXVCUT09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 64439809-f4d3-49a9-ba6c-08deb65bcfb7
-X-MS-Exchange-CrossTenant-AuthSource: CY1PR12MB9697.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2026 10:37:37.9326
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lv3Mq83rsuS2zdzi7Z0KjNa63N21MrQIcbWUG1Ix24DkpPR1HWs4g6LY0Rz1mAeu
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7804
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v14 03/19] unwind_user/sframe: Store .sframe section data
+ in per-mm maple tree
+To: Steven Rostedt <rostedt@kernel.org>
+Cc: Josh Poimboeuf <jpoimboe@kernel.org>, bpf@vger.kernel.org,
+        sashiko@lists.linux.dev, Indu Bhagat <ibhagatgnu@gmail.com>,
+        Chris Mason <clm@fb.com>, Roman Gushchin <roman.gushchin@linux.dev>
+References: <20260505121718.3572346-4-jremus@linux.ibm.com>
+ <20260505185158.39F35C2BCB4@smtp.kernel.org>
+ <49318ed5-8668-43fe-880d-b91bd7c3a7a9@linux.ibm.com>
+ <20260506112135.554ca88c@fedora>
+Content-Language: en-US
+From: Jens Remus <jremus@linux.ibm.com>
+Organization: IBM Deutschland Research & Development GmbH
+In-Reply-To: <20260506112135.554ca88c@fedora>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTIwMDE0MiBTYWx0ZWRfX1y2PGzN8S6lj
+ FEkxSgKgD3GpIvHzHuq9gUJZeEtViKSamTCUmpHFQqgH1hk5L+exQJYn0EO04KtAFqUFeOrAu6A
+ IQlWqOoLACzl4Qs4KXCbFcMTuPQP/KgG0kIxfySvQwhaeU9bcF6N9GzjUqG8jFQ1VSkp9mIXFYb
+ LViHMTBLbF6BZhu09VGwZAF6LpwS1c/exUoXYDXMH+B1JZgOUFapn+8u6TfQ4VJxnByf64yRCgU
+ cYPiYwhyKur3FzUAHfrbTAQLMPn+WtUS6LCRGRL0uOo1UXbcmXqJpmxCMlg+Kyn2i9TGwtx06o7
+ o4X+auNTQ0W4tV0Zh5iw2WzS5KWdsSEKBMQt/uPksPK55WwTiT7zrH5NSfJca9SRFXlK2CiZ8iS
+ mV4SjlM1mkLzAhy1GeKU2mynuspV47NWKc1/1LpfmrT4qoOpYFlf+iDHOgRE8j98qyyknoDJo10
+ QhvAYqxIeD1o6cg1hCQ==
+X-Authority-Analysis: v=2.4 cv=BNuDalQG c=1 sm=1 tr=0 ts=6a0dc9de cx=c_pps
+ a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
+ a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=iQ6ETzBq9ecOQQE5vZCe:22 a=VnNF1IyMAAAA:8
+ a=sYNHCNsufd3psUy7vJEA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: OG591AqKXtBPSiihZllHHGG11PjzUYrO
+X-Proofpoint-GUID: 4j-K5WuoIhvTnf28zPkClXWznTwMsY1q
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-20_02,2026-05-18_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 priorityscore=1501 malwarescore=0 impostorscore=0 suspectscore=0
+ lowpriorityscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605130000 definitions=main-2605200142
 
-On 5/13/2026 3:05 AM, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
-> - [High] Unhandled Error Path in `xpsgtr_phy_init()` masks clock initialization failures.
-> --
+On 5/6/2026 5:21 PM, Steven Rostedt wrote:
+> On Wed, 6 May 2026 15:50:45 +0200
+> Jens Remus <jremus@linux.ibm.com> wrote:
 
-As AI review mentions - This isn't a bug introduced by this patch, but 
-there is a pre-existing issue in xpsgtr_phy_init().
+>>> [ ... ]  
+>>>> @@ -1100,6 +1109,7 @@ static struct mm_struct *mm_init(struct mm_struct *mm, struct task_struct *p,
+>>>>  	mm->pmd_huge_pte = NULL;
+>>>>  #endif
+>>>>  	mm_init_uprobes_state(mm);
+>>>> +	mm_init_sframe(mm);
+>>>>  	hugetlb_count_init(mm);
+>>>>  
+>>>>  	mm_flags_clear_all(mm);  
+>>>
+>>> When a process forks, this initializes an empty sframe_mt for the child's
+>>> mm_struct. While dup_mmap() duplicates the parent's VMAs, it doesn't appear
+>>> that the registered .sframe entries are propagated to the child's maple tree.
+>>> Will child processes silently lose their .sframe unwind data for shared
+>>> libraries registered prior to the fork?  
+>>
+>> Does this ring any bell, Steven?  I ran into it with my signal frame
+>> stacktracing test on s390.  I think we discussed this during one of the
+>> SFrame calls and it got lost.  
+> 
+> Oh, this is a good point. I think we need to copy the sframe mt on
+> fork, not initialize it.
 
-For this pre-existing issue is it ok to send a separate series and will
-include others error handling gaps. So far i have identified two issues.
+I'll send a patch with my next version very soon.  Hopefully you did not
+spend too much time on that yet.  Review will be much appreciated!
 
-phy: zynqmp: balance pm_runtime on probe allocation failure
-phy: zynqmp: fix xpsgtr_phy_init() clock error handling
+Regards,
+Jens
+-- 
+Jens Remus
+Linux on Z Development (D3303)
+jremus@de.ibm.com / jremus@linux.ibm.com
 
-Thanks,
-Radhey
-
-> 
-> commit f38f7c8479703290a0f18153b9a9207f41500566
-> Author: Nava kishore Manne <nava.kishore.manne@amd.com>
-> 
-> phy: zynqmp: fix L0_TM_DISABLE_SCRAMBLE_ENCODER mask
-> 
-> The L0_TX_DIG_61 register bit 2 is a reserved read-only field.
-> The previous mask value 0x0f incorrectly included bit 2, causing
-> unintended writes to a reserved bit on every scrambler bypass
-> operation.
-> 
-> Correct the mask to (BIT(3) | GENMASK(1, 0)) to cover only the
-> valid scramble bypass control bits.
-> 
->> diff --git a/drivers/phy/xilinx/phy-zynqmp.c b/drivers/phy/xilinx/phy-zynqmp.c
->> index fe6b4925d1662..c037d7c13d485 100644
->> --- a/drivers/phy/xilinx/phy-zynqmp.c
->> +++ b/drivers/phy/xilinx/phy-zynqmp.c
->> @@ -53,7 +53,7 @@
->>   #define L0_TM_DIG_6			0x106c
->>   #define L0_TM_DIS_DESCRAMBLE_DECODER	0x0f
->>   #define L0_TX_DIG_61			0x00f4
->> -#define L0_TM_DISABLE_SCRAMBLE_ENCODER	0x0f
->> +#define L0_TM_DISABLE_SCRAMBLE_ENCODER	(BIT(3) | GENMASK(1, 0))
->>   
->>   /* PLL Test Mode register parameters */
->>   #define L0_TM_PLL_DIG_37		0x2094
-> 
-> This isn't a bug introduced by this patch, but there is a pre-existing
-> issue in xpsgtr_phy_init().
-> 
-> If clk_prepare_enable() fails, the error path appears to mask the failure:
-> 
-> drivers/phy/xilinx/phy-zynqmp.c:xpsgtr_phy_init() {
-> 	int ret = 0;
-> 
-> 	mutex_lock(&gtr_dev->gtr_mutex);
-> 
-> 	/* Configure and enable the clock when peripheral phy_init call */
-> 	if (clk_prepare_enable(gtr_dev->clk[gtr_phy->refclk]))
-> 		goto out;
-> ...
-> out:
-> 	mutex_unlock(&gtr_dev->gtr_mutex);
-> 	return ret;
-> }
-> 
-> Since ret is initialized to 0, will this return 0 instead of the actual error
-> code from clk_prepare_enable()?
-> 
-> If the function falsely reports success, the PHY framework will consider the
-> device initialized.
-> 
-> During teardown, could xpsgtr_phy_exit() unconditionally call
-> clk_disable_unprepare() on a clock that was never enabled, causing a clock
-> reference count underflow and a kernel WARN_ON?
-> 
-> Furthermore, would allowing the upper layer to access PHY registers without a
-> running clock risk hanging the AXI bus on ZynqMP, potentially leading to an
-> asynchronous external abort (system panic)?
-> 
+IBM Deutschland Research & Development GmbH; Vorsitzender des Aufsichtsrats: Wolfgang Wendt; Geschäftsführung: David Faller; Sitz der Gesellschaft: Ehningen; Registergericht: Amtsgericht Stuttgart, HRB 243294
+IBM Data Privacy Statement: https://www.ibm.com/privacy/
 
