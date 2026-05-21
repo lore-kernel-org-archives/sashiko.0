@@ -1,98 +1,102 @@
-Received: from mail-pf1-f202.google.com (mail-pf1-f202.google.com [209.85.210.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-172.mta1.migadu.com (out-172.mta1.migadu.com [95.215.58.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20D5F2BDC29
-	for <sashiko@lists.linux.dev>; Thu, 21 May 2026 14:04:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04AEE33B6F6
+	for <sashiko@lists.linux.dev>; Thu, 21 May 2026 15:49:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779372284; cv=none; b=MU2Oh/QJigPgNuzSwoXzrDXe+W4xP+fixAmTaNoBWX9d3wPOjWTnGNT4l7VhuZfrNmDHQ7ed9wpkyw+et7FRsgRbjK3GuPn4sshbpVwgnaQzLpmQeQMw8Ja9srk+5Ff3WwAWbsEeeyo+3aB1gSF+Aq5erFeEJ1jKUDOpWJHw1FM=
+	t=1779378563; cv=none; b=GjvFahiseDAo+tjFJX/T0OC+9zFuDumtYYwgB0HTAobK2BCROo2ogt0Cp5Yg1Ho3m2LJcRDQBjkdHrsJ4qXB1nAGTos4ZFVo4cj0Om7M76p61CeGVN3wmatCpAvgbiLmphfcNZJDdr56qh6pEUdD9jtV73g9MXMmosviVKSBQXA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779372284; c=relaxed/simple;
-	bh=NnstC5Hke9f+n/cl42WhEXFSYAsNvzvaQit4caagZaM=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=VvV7IaknsNw4Vq2W3gKLT0/O+7BM+2aby157gveDic5D/k7jV9yRxw9YPDsr+osmB10frUYzLn0mbc4G5fBhUjx/lPvhbg1rOJFgFfmBOYe9Kgc6KWGg29Q4RhI3djw8zGuXzhTtrzDUSHhUsZebK+rD6nE1jFarnNryDQoT6Dk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=FmqprlIv; arc=none smtp.client-ip=209.85.210.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1779378563; c=relaxed/simple;
+	bh=1T2EHw8MKAiVBvR6F9KQRwhtZCBtU5Qdkg/4mw1rb50=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LMmHRknJcJblxDuX3x/6qhPqUWvaxLkMKpp8m3lRZRa95/CvVMhOx9+xXUwc6Rn67WHYM1x25AGHqJibrK+qDQfAF/vNoUQu3Kixfhx8Dym7bZLa1uRZ5L+65cgh99Zcfc1Ywqn3fNYpWtJoOV4G0xIjan1uOQFnaFhOiqLUJiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=a/RCByoj; arc=none smtp.client-ip=95.215.58.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="FmqprlIv"
-Received: by mail-pf1-f202.google.com with SMTP id d2e1a72fcca58-82f6a5b4f88so9647468b3a.2
-        for <sashiko@lists.linux.dev>; Thu, 21 May 2026 07:04:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1779372282; x=1779977082; darn=lists.linux.dev;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=hUtO7rz9VBhPIeAyEinR1g2aBGB2g8CuUCtOdEHoYPA=;
-        b=FmqprlIvNnrqskZGhMx3Ww0a8QDgUwXiN6H7ivmZh75UizQYp4k3fbax1frIWknec1
-         SDJCXzNa12SoOZNMbNGQUawYF6XZqgKcOqGvT3tpt7Vk0DQ3lLgQWYsS1eHJliypnW/O
-         aRKgBAhvB5cGaAlFb/iIBlp1bsKz7m5SKTL3ZrUDwjtPxNjIL6kwUGHt+lcSykXXKUeh
-         taOSRL8eqHUOHxVHuuGZqGHopdIgxJwk6ZIfGRa7mkZ50A2+pIuQZ74svIZLbBYsiQ0c
-         BnJXzLIp13AZnsQPv+5BPGU4VJgq/JU0G0VM8NLA7PCaMgKwrED32V5UoTkYIm4YnsFN
-         8IgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779372282; x=1779977082;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hUtO7rz9VBhPIeAyEinR1g2aBGB2g8CuUCtOdEHoYPA=;
-        b=hVwoaycV02LA2f6Y1dRl054yxIrE25MOZsi5o2INm2tAnT/SpiOHjRnP8gug/reg5v
-         RsCWsfUPDqKhKHGx3kcLLSXVEz0HRnjMOjEaD1BPAURHPF6OyUbyPtZV0/UUagVl0L3t
-         M7K9PjDgq8FQGoIuS1hOEMvz9OBlu+EAN1IzR0ok63P3Tc91OFAIk1EUWR+U5d5QO99s
-         mIvv2FhT8uQair5pZTvdR4WeF4cDxqNPlxNNzF/a32sBNsCM4tNkjDqYaXbo4tDz6Emw
-         9ved8Gg+xWGgPZt99WjkYLz28TSaebt3XJf366nnUaQWKwLW34ULTpygJpCHiP0Xg0Hv
-         +0cA==
-X-Gm-Message-State: AOJu0Yy/lpM8xBCuNSj4cWcO+O4qI8fSKP/fjYs24dp2w2H0uC9580Tx
-	W9ASzYycMbQOw99mCtLDzeJ0OBsE1wuG8Tq+9ZxVNQc/aNfY+BjJxJd6DL6+Kzpm0fNZQqlWJ90
-	t/8nmJQ==
-X-Received: from pfblg6.prod.google.com ([2002:a05:6a00:7086:b0:839:7c0f:3e02])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:21ca:b0:83e:e05d:ebb
- with SMTP id d2e1a72fcca58-8414adf7bf5mr3255925b3a.25.1779372282132; Thu, 21
- May 2026 07:04:42 -0700 (PDT)
-Date: Thu, 21 May 2026 07:04:41 -0700
-In-Reply-To: <a75397bd-6122-4fa8-8197-334b2fbbb5af@linux.intel.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="a/RCByoj"
+Date: Thu, 21 May 2026 08:49:11 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1779378560;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nIhirawt7T+aceGoDlJbr55pbwU6Y1X0lRC4dykZP58=;
+	b=a/RCByoj2d2ULlqs4eIINiLH8lWDfAD9+h/g8RGo1bRQ8IETQFEB7qvLWQjPVFnnyGYJUc
+	E+IUjkS1vs4fUsTR66j/QAvmviV7D9IgF/doHF5RqT6AZzowidiCjDmxVoDIm1+pWrxzYC
+	BX1AMNTPadycUNilniNQtNUAfeGO8MI=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Martin KaFai Lau <martin.lau@linux.dev>
+To: "Hudson, Nick" <nhudson@akamai.com>
+Cc: "sashiko@lists.linux.dev" <sashiko@lists.linux.dev>, 
+	"bpf@vger.kernel.org" <bpf@vger.kernel.org>
+Subject: Re: [PATCH v6 6/6] selftests/bpf: tc_tunnel - validate decap GSO and
+ encapsulation state
+Message-ID: <2026521154338.mbd8.martin.lau@linux.dev>
+References: <20260504101759.3319427-7-nhudson@akamai.com>
+ <20260505041431.CD280C2BCB4@smtp.kernel.org>
+ <56083B7A-B13B-4133-8857-FAD8201F6D7C@akamai.com>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <20260508231353.406465-2-seanjc@google.com> <20260508234018.F06AEC2BCB0@smtp.kernel.org>
- <ccea937f-8ad5-4a6e-b6a4-917f2ee02579@linux.intel.com> <agZiTeGgRO4PJ9mI@google.com>
- <02461927-589b-4179-9f93-2f9e10172879@linux.intel.com> <a75397bd-6122-4fa8-8197-334b2fbbb5af@linux.intel.com>
-Message-ID: <ag8Q-UM5dcVtBijd@google.com>
-Subject: Re: [PATCH v3 1/9] perf/x86/intel: Ensure guest PEBS path doesn't set
- unwanted PERF_GLOBAL_CTRL bits
-From: Sean Christopherson <seanjc@google.com>
-To: Dapeng Mi <dapeng1.mi@linux.intel.com>
-Cc: sashiko@lists.linux.dev, linux-perf-users@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <56083B7A-B13B-4133-8857-FAD8201F6D7C@akamai.com>
+X-Migadu-Flow: FLOW_OUT
 
-On Thu, May 21, 2026, Dapeng Mi wrote:
-> On 5/15/2026 9:49 AM, Mi, Dapeng wrote:
-> > On 5/15/2026 8:01 AM, Sean Christopherson wrote:
-> >>> Anyway, we could optimize the code further like below and thoroughly filter
-> >>> away these extra bits. (only building, not test on real HW)
-> >> Hmm, I think I'd rather figure out what it would take to drop the FIXME entirely.
-> >> And if we need to keep the check, I'm a-ok risking false positives until we have
-> >> a better understanding of why the check exists.
-> > Kan Liang should be the best man who knows the history, but he has left
-> > Intel. I would check this with other guys internally and look at if they
-> > know the reason.
+On Tue, May 19, 2026 at 10:52:12AM +0000, Hudson, Nick wrote:
 > 
-> Just checked the commit history, It looks the reason of disabling guest
-> PEBS here is to avoid breaking the host !exclude_guest PEBS event sampling.
-> Host may create !exclude_guest event to profile both root and non-root
-> mode, but it's conflicted with guest PEBS sampling in non-root mode. So
-> guest PEBS sampling has to be disabled if there are active host PEBS
-> events. Thanks.
+> 
+> > On May 5, 2026, at 5:14 AM, sashiko-bot@kernel.org wrote:
+> > 
+> > !-------------------------------------------------------------------|
+> >  This Message Is From an External Sender
+> >  This message came from outside your organization.
+> > |-------------------------------------------------------------------!
+> > 
+> > Thank you for your contribution! Sashiko AI review found 2 potential issue(s) to consider:
+> > - [High] Pointer arithmetic `kskb->head + kskb->end` causes build failures and runtime logic errors on 32-bit kernels.
+> > - [Medium] Missing kernel feature causes test to fail instead of skip, breaking CI on older kernels.
+> > --
+> > 
+> > commit f73fb4725baa7b601a1b82c32e5095c6b4294f5c
+> > Author: Nick Hudson <nhudson@akamai.com>
+> > 
+> > selftests/bpf: tc_tunnel - validate decap GSO and encapsulation state
+> > 
+> > This commit enhances the tc_tunnel selftest to validate post-decap tunnel
+> > state for both GSO and non-GSO packets, and checks IPXIP decap for IPIP/SIT
+> > paths.
+> > 
+> >> diff --git a/tools/testing/selftests/bpf/progs/test_tc_tunnel.c b/tools/testing/selftests/bpf/progs/test_tc_tunnel.c
+> >> index 7376df405a6b..853bca962910 100644
+> >> --- a/tools/testing/selftests/bpf/progs/test_tc_tunnel.c
+> >> +++ b/tools/testing/selftests/bpf/progs/test_tc_tunnel.c
+> > [ ... ]
+> >> @@ -621,6 +645,11 @@ static int decap_internal(struct __sk_buff *skb, int off, int len, char proto)
+> >> break;
+> >> case IPPROTO_GRE:
+> >> olen += sizeof(struct gre_hdr);
+> >> + if (!bpf_core_enum_value_exists(enum bpf_adj_room_flags,
+> >> + BPF_F_ADJ_ROOM_DECAP_L4_GRE))
+> >> + return TC_ACT_SHOT;
+> > 
+> > If the kernel is missing support for these new decapsulation flags, will
+> > returning TC_ACT_SHOT cause the test harness to time out and fail the test?
+> > 
+> > Since selftests often run on older kernels, should missing features gracefully
+> > skip the test instead of failing it to prevent false positives and CI
+> > breakages on stable or LTS branches?
+> 
+> The current TC_ACT_SHOT fallback prevents silent passes, but it does cause affected subtests to fail on kernels without the new decap flags. We should move feature gating to prog_tests and skip unsupported subtests there, so older kernels report SKIP instead of FAIL while preserving strict checks when the feature exists.
 
-But that doesn't make any sense, because the host can't use PEBS to sample non-root
-mode due to the DS area being virtually addressed.  It's entirely possible that
-was pure oversight, given that commit 58f6217e5d01 ("perf/x86/intel: KVM: Mask
-PEBS_ENABLE loaded for guest with vCPU's value.") was necessary.
-
-But I'm still not convinced: if that _really_ was the motivation, then I would
-hope that scenario was at least smoke tested, and any testing whatsoever would
-have crashed the guest.
-
-Though given how buggy this code has been, I suppose it's plausible there was
-simply testing.
+imo, it is fine to stay as-is and fail early instead of skip.
+The new test added to the -next is targeting the new feature
+of the upstream kernel. The new test is not supposed to be backported
+alone without backporting the kernel changes.
