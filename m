@@ -1,209 +1,207 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2BD9399CE4
-	for <sashiko@lists.linux.dev>; Thu, 21 May 2026 07:26:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.171
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779348377; cv=pass; b=r2ve/Lx/YpjuUpRSD8OBEDi9pUBUftJuE5qZLVCjD/YDU97PaTx26FT1OJCbn4ew2LYXLup4r4UTZbTt9vVZRDnw8wk3jZDBokmv9TP8raiJmgEWi1BEIcN9BZVMn2NeZkb1iUzrveNkJfwpH2w0Y78nKD035Be8wYKjDRrYClw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779348377; c=relaxed/simple;
-	bh=YDcx1Y0+zlRN1nWyttwEdWnkWzDunYKkzU5UZ8ogEHc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nxl353C1hzk1Sb9ntZLvA2DSEOYk0miPWB+yl8jr02uHtPLTnhaCBgtJDAvB9e2He/y3ebqT+9rJ55ZiOl+5bAEWgTnVpehz9sIGbdsxpCJhhlI/rIt2drEM+/0tw5kYkMA54gtaeSiEpwEl1ECKB1ee/vtC1P1aISDWhequzKs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UdfpXvzX; arc=pass smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E1EF3B9936
+	for <sashiko@lists.linux.dev>; Thu, 21 May 2026 11:29:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779362981; cv=none; b=lDreMv4H2FaxTU41yEcCbJ/Vb9DNlpgc/cWh85JIFsgad9Kjr4zKTwvHc44XgKYMHIZEp38Q+7hMI2P/X9xEU7EkD0+yV6Dvbt87Z5ivgiNh1to3dE6CU/cQqyqklyHtd/t393fbqPsuS9a/ExQhKTRCHhqzpjOXZ0qKpQRyMxc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779362981; c=relaxed/simple;
+	bh=KO81wUmQWVMyP47zhIoYPSJNHBMRcrbI7hmqneZ4D2k=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=MPLJXnfrW63wYSYSZwncLHxzSqdmPVIEtgAzBvUEAyGHcapDCwXJRsuXFDtbRKY2/vyTeQl/awoc5kx9vTR5+oR5gkAfTfVwnK1Tw5VcJaiW+mH/NtBpVWDvPBdt3jDkj+LahlwtLo5sb2IPlBPwpBxmt66PbbC9tkd9BXEX6ao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bEFx7RCq; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UdfpXvzX"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2baef9f5ecdso46374945ad.1
-        for <sashiko@lists.linux.dev>; Thu, 21 May 2026 00:26:14 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779348373; cv=none;
-        d=google.com; s=arc-20240605;
-        b=ZQxaM6Kn4pZe/kbeGv1aSPHTuPClAI+zBRCEUh5fe4hg+t+FDvr5RM8EmJlci9CdRy
-         3kZlUFl6VwjBerrwAOBeoAJ3/jpPkTVyNY9hiCQf5qkzHykV9QAv5CGGRASyB0K3tT1o
-         nHOmHTZF5uWwIxN13TNtjjZXoNj3Np+LC3YgumFQ9UhZ95cVzzvw5heJOQPVP/lEdWcA
-         GCDRmu9D1CDKD5OZeLK3bbstTMamEy1LW6iZNhKTDeMfmSSYfbcNlXll4bynmS+vp/nq
-         x/OKy7QvuHzNacsVcDSCOGN4+01HPmXGvhiJa6w37JJ8zmVrrdSIYf+EON7gHC3Urxgl
-         dW8g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=lXbPb+/1MyUml7SUP3O01YVktPIbQ8L41vVAOmxyw2c=;
-        fh=nL05CvD4dqbtPDgAq575KSl3hy3ym3HhUTyLkXAo3yU=;
-        b=MQ46/kgqTuyOeA/FYazIUswV5LupnrGGrSGtuJvkeGj3Dvc72OmBxlHjpq0zQJ+31m
-         l0PvrnUnWyg/x5CLzVzxx/+HvRcLAKSdQgZfrdoiCLbRPOCyRVSDc59xHrl/e/Z3hofT
-         6o0zf4TCeTDnpZjf2MEa7s7lyQ4NZ2j2E3EteNSMTpAu5yfqZ9VHkaq9J2O/kDKRl4d7
-         2hz8X1yZTb80Sb0tVDMIehwXAgM+jNJIReXgvxGJ+NwIrfzEaEkMBYTyF3M6/nV2W6KH
-         yf0u4iXxFZIE4HhA+0yE5SA2CcbCIDC5drwwseomPwJ8dge7sffjmdWYqFLpR4WwLgCP
-         xSfA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779348373; x=1779953173; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lXbPb+/1MyUml7SUP3O01YVktPIbQ8L41vVAOmxyw2c=;
-        b=UdfpXvzXRhjGDmywvVPVfzTFTe24M69zMk/U8GI97eY/nISKaR1/QsZqZX0Vd0jheh
-         YelTjtf8wg2olhn/l2hehCXuu/QiJT0/GzbMmZLKGHbTImWrHaRYzb7FgmAiJf+0S7qd
-         PAccsnDcwzHmmqoUb/sbUYloaRlg1ytyQY5ugQryDGKZotwWQ3WA0Rx/qIZ5jJbxhvgW
-         JIgNqkrzHdBZsk1Usj8dlOjVDtP7wKMXiCFPuKhZHtxCYOW9FkYrV08IwPzc30Y6PfVN
-         jYM9uyDftnkbeYBI78mey98QTOh25pvmVN4Bt+yxjnxmjum5Iy4mvtLILCp7AANNdH+/
-         aOMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779348373; x=1779953173;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=lXbPb+/1MyUml7SUP3O01YVktPIbQ8L41vVAOmxyw2c=;
-        b=p5t4xqfPniiG4O/zkwtT59j9hSrOZTy1KBYck2fwIpK+AbkHYwHcizA+YPqskGorHT
-         zVribJ2UdvGgb5y5yowwQDBver98gjahHCv0mYRpDxU4r6f9vD6/87I2jTg7fdPVT1qG
-         UrFCqBfgSYBsuEpV/8ZRQQymhBSaRpA+LuKuPAu9QOECzCLSIYVa0TviZuc+guijtGWR
-         3I9HbfB8Bt7m2bLUu0v54lvdhNgIU+szfWDq8hs+UwyKQ28qxJJLn3gwFb3vxVaLbIo9
-         ZN+rRN32CLXx59SvqkmJEfgFuqG8gctFKFeV6Lhd3AzvWw6/vIdH5Tro+30K9CFWMS7Y
-         XOlQ==
-X-Gm-Message-State: AOJu0YyWlrEcJCA1FPMHZfkVA1sCYcFCInhcppZ5x33+d68J2Dm0rf4p
-	F6zOpFkOWYcJk3O4FINnUfqityhWFPju4h18yO6C5mc+vlRVSjJm4mMBIWsZoNXllc6xm4Ayxa/
-	f3pDUo7fjxoSHYZJuk8H6Pie2PH2Ud+UdlnFB
-X-Gm-Gg: Acq92OGYDKaopdDbKW7Y7FKc96E6D6Q13MJ7fj8q+7rFZju+mtyW+VLkG7lV5D13sFY
-	IdvIVnfVJD5EgAvCAB/4v62pwbZIsIjU5Ez9u6+6Xp3HHPpOM1AGIIE8NICXcZPpquOsGZxEpVm
-	oqoTY7AB5PsEwS8qz3Fbyq88egE1UJVdFqHQjmS8oDoQObExUAT4mD9qlurwQjMXXqQ88a9/dXT
-	cYFJzlaQ1JGyZaXxUvrkEHZNyamZnqfZdnt/4ZKk3xN3PAjMcvpnEw6clynCKB+1b2UaoiXol4e
-	/nEnVUT5EJvxShACK/AHqb7VcPFWPDX6wJZl8gmREd2G7fVJ
-X-Received: by 2002:a17:902:ce92:b0:2bc:eea4:83c3 with SMTP id
- d9443c01a7336-2bea337dcb9mr16838125ad.25.1779348373000; Thu, 21 May 2026
- 00:26:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bEFx7RCq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779362980; x=1810898980;
+  h=message-id:date:mime-version:subject:from:to:cc:
+   references:in-reply-to:content-transfer-encoding;
+  bh=KO81wUmQWVMyP47zhIoYPSJNHBMRcrbI7hmqneZ4D2k=;
+  b=bEFx7RCqmisZnzhrHupPkbeX/obbr1otR3KFZPguIXEOh9QeMteCzJjf
+   hsD4I3w/cO2xW4R2LQBthoW8lsShMdLvTK+PZ8jwLd9eiZZtrR7dTkmGo
+   upaBQBXGkCDQo93ky/AP2dNiHFNvOcicHiEsuhqM8WsJazJf92xbCklYn
+   sEVC3fO9HO7OrWXGudVHo8t0/AeovEhUESHnxeZQIv4csUkCikY8ujaOu
+   2i1iypTNCnQaKYklycmRvMEoSzQV5Tadcdn7n6/dWlCDM76RsgTGdcE/o
+   xamhFR8edUGr/WTjsBfDFazB49V6nkqY5EDsHaRzQHxrwu/j7kFUP95h+
+   g==;
+X-CSE-ConnectionGUID: AuJPknCyS8i6DpdU9CZXAw==
+X-CSE-MsgGUID: CQCGldkIRrmGvVNtBMtcrA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="90853074"
+X-IronPort-AV: E=Sophos;i="6.23,246,1770624000"; 
+   d="scan'208";a="90853074"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2026 04:29:39 -0700
+X-CSE-ConnectionGUID: QqlXOKBTRfeIO3qvY/QYxQ==
+X-CSE-MsgGUID: UT9xbuOESDKc8lJe+EOlcQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,246,1770624000"; 
+   d="scan'208";a="244788747"
+Received: from dapengmi-mobl1.ccr.corp.intel.com (HELO [10.124.241.147]) ([10.124.241.147])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2026 04:29:38 -0700
+Message-ID: <a75397bd-6122-4fa8-8197-334b2fbbb5af@linux.intel.com>
+Date: Thu, 21 May 2026 19:29:35 +0800
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260510084303.122426-8-phucduc.bui@gmail.com> <20260511234758.6C022C2BCB0@smtp.kernel.org>
-In-Reply-To: <20260511234758.6C022C2BCB0@smtp.kernel.org>
-From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Thu, 21 May 2026 14:26:00 +0700
-X-Gm-Features: AVHnY4JVOeDnjezg1KYm702bCERj-oBsD-Y1fM4Qrg16PXkHjwRlY3W_TbeGcO8
-Message-ID: <CAABR9nHH2D-StaU8hMEnPmtZGoSbk0tO4H5YU+qL-TVmsEov_g@mail.gmail.com>
-Subject: Re: [PATCH v3 07/10] ASoC: renesas: fsi: refactor clock initialization
-To: sashiko@lists.linux.dev
-Cc: wsa+renesas@sang-engineering.com, krzk+dt@kernel.org, 
-	devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org, 
-	Mark Brown <broonie@kernel.org>, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/9] perf/x86/intel: Ensure guest PEBS path doesn't set
+ unwanted PERF_GLOBAL_CTRL bits
+From: "Mi, Dapeng" <dapeng1.mi@linux.intel.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: sashiko@lists.linux.dev, linux-perf-users@vger.kernel.org
+References: <20260508231353.406465-2-seanjc@google.com>
+ <20260508234018.F06AEC2BCB0@smtp.kernel.org>
+ <ccea937f-8ad5-4a6e-b6a4-917f2ee02579@linux.intel.com>
+ <agZiTeGgRO4PJ9mI@google.com>
+ <02461927-589b-4179-9f93-2f9e10172879@linux.intel.com>
+Content-Language: en-US
+In-Reply-To: <02461927-589b-4179-9f93-2f9e10172879@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi all,
 
-First of all, I appreciate receiving review comments from the AI bot.
-I think it is quite helpful for learning and improving patches.
+On 5/15/2026 9:49 AM, Mi, Dapeng wrote:
+> On 5/15/2026 8:01 AM, Sean Christopherson wrote:
+>> On Tue, May 12, 2026, Dapeng Mi wrote:
+>>> On 5/9/2026 7:40 AM, sashiko-bot@kernel.org wrote:
+>>>> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
+>>>> - [High] The host PEBS collision check fails to mask non-counter bits, incorrectly disabling guest PEBS for events like Store Latency.
+>>>> --
+>>>>
+>>>> Note: The format of this report has been altered due to recitation
+>>>> restrictions. The original patch code is not quoted directly, and findings are
+>>>> provided as a free-form summary.
+>>>>
+>>>> commit 39adc53b360e88595a3be6fc59b18b048d9e9921
+>>>> Author: Sean Christopherson <seanjc@google.com>
+>>>>
+>>>> perf/x86/intel: Ensure guest PEBS path doesn't set unwanted PERF_GLOBAL_CTRL bits
+>>>>
+>>>> This commit masks the pebs counter values being reinstated into the global
+>>>> control msr for a guest with perf's desired value. This is done to ensure the
+>>>> hypervisor doesn't unintentionally enable counters.
+>>>>
+>>>> In intel_guest_get_msrs(), the host pebs collision check evaluates the host
+>>>> field of the pebs_enable array entry to determine if the host is actively
+>>>> using pebs. If it is, guest pebs is disabled.
+>>>>
+>>>> Is it possible for this check to falsely detect a host collision due to
+>>>> non-counter bits being set?
+>>>>
+>>>> When a guest configures a store latency pebs event, a backing perf event is
+>>>> created. In intel_pmu_pebs_enable(), this sets both the counter index bit
+>>>> and bit 63 in cpuc->pebs_enabled.
+>>>>
+>>>> Because the host field is calculated as cpuc->pebs_enabled masked against
+>>>> the inverse of cpuc->intel_ctrl_guest_mask, and the guest mask exclusively
+>>>> tracks valid counter indices (never including bit 63), bit 63 remains set in
+>>>> the host field.
+>>>>
+>>>> Consequently, the check for whether the host is actively using pebs will
+>>>> evaluate to true even when only the guest is using pebs. This introduces a
+>>>> regression where guest pebs is completely disabled, silently breaking guest
+>>>> store latency events.
+>>>>
+>>>> Should the host pebs usage evaluation also be masked by intel_ctrl to prevent
+>>>> non-counter bits from triggering a false collision?
+>>> Hmm, I suspect if the issue could happen on real hardwares.  
+>> OMG, it took me _so_ long to understand what Sashiko was complaining about.  I'm
+>> pretty sure I read Sashiko's response like four times, and it didn't click until
+>> I read your response.
+>>
+>> In case anyone is feeling as dense as me, Sashiko is saying this:
+>>
+>> 	/*
+>> 	 * FIXME: Allow guest and host usage of PEBS events to co-exist instead
+>> 	 *        of disabling guest PEBS entirely if the host is using PEBS.
+>> 	 *        What exactly goes wrong if guest and host are using PEBS is
+>> 	 *        unknown.
+>> 	 */
+>> 	if (pebs_mask & ~cpuc->intel_ctrl_exclude_host_mask)
+>> 		guest_pebs_mask = 0;
+>>
+>> should probably be masked by intel_ctrl as well.
+> Yes, the comment of Sashiko is some kind of misleading. Strictly speaking,
+> the comment should be made for the next patch 2/9 instead of this patch.
+>
+>
+>>> The function intel_pmu_pebs_enable() indeed sets extra bits into
+>>> cpuc->pebs_enabled for load latency and specific store events, like below
+>>> code shows.
+>>>
+>>> ```
+>>>
+>>> ......
+>>>
+>>>     if ((event->hw.flags & PERF_X86_EVENT_PEBS_LDLAT) && (x86_pmu.version < 5))
+>>>         cpuc->pebs_enabled |= 1ULL << (hwc->idx + 32);
+>>>     else if (event->hw.flags & PERF_X86_EVENT_PEBS_ST)
+>>>         cpuc->pebs_enabled |= 1ULL << 63;
+>>>
+>>> ......
+>>>
+>>> ```
+>>>
+>>> But these 2 cases should only be hit on quite old platforms (prior to
+>>> Icelake). On these platforms, only GP counters support PEBS sampling and
+>>> pebs_capable would be set PEBS_COUNTER_MASK, and so these extra bits would
+>>> be filtered out by the pebs_capable and pebs_mask won't really contain
+>>> these extra bits. 
+>> Thanks for digging into this!  I was staring and just going "huh!?" over and over
+>> in my head :-)
+> :)
+>
+>
+>>> Anyway, we could optimize the code further like below and thoroughly filter
+>>> away these extra bits. (only building, not test on real HW)
+>> Hmm, I think I'd rather figure out what it would take to drop the FIXME entirely.
+>> And if we need to keep the check, I'm a-ok risking false positives until we have
+>> a better understanding of why the check exists.
+> Kan Liang should be the best man who knows the history, but he has left
+> Intel. I would check this with other guys internally and look at if they
+> know the reason.
 
-However, I have a few questions regarding the expected workflow:
+Just checked the commit history, It looks the reason of disabling guest
+PEBS here is to avoid breaking the host !exclude_guest PEBS event sampling.
+Host may create !exclude_guest event to profile both root and non-root
+mode, but it's conflicted with guest PEBS sampling in non-root mode. So
+guest PEBS sampling has to be disabled if there are active host PEBS
+events. Thanks.
 
-1. I noticed that the bot reply only CCs a subset of the original recipient=
-s.
-    Is there a specific reason or convention behind that behavior?
-2. When receiving review comments from the bot, is it generally
-    expected that contributors reply to those comments?
-3. If replying is recommended, should I keep the same CC list as the
-    original patch submission, or only reply to the bot thread participants=
-?
 
-Sorry if these are basic questions. I just want to better understand the
-usual mailing list workflow.
-
-Best Regards,
-Phuc
-
-On Tue, May 12, 2026 at 6:47=E2=80=AFAM <sashiko-bot@kernel.org> wrote:
 >
-> Thank you for your contribution! Sashiko AI review found 1 potential issu=
-e(s) to consider:
-> - [Critical] The return value of `fsi_clk_init()` is ignored in `fsi_prob=
-e()`, which breaks probe deferral and leads to a kernel panic from derefere=
-ncing error pointers.
-> --
+> Thanks.
 >
-> commit 055b3b167e655ece1592450b8baaea9abe771d10
-> Author: bui duc phuc <phucduc.bui@gmail.com>
 >
-> ASoC: renesas: fsi: refactor clock initialization
->
-> This commit moves fsi_clk_init() to probe and uses devm_clk_get_optional(=
-)
-> for optional clocks. It allows probe to succeed when optional clocks are
-> missing, while set_rate() validates clock availability.
->
-> > diff --git a/sound/soc/renesas/fsi.c b/sound/soc/renesas/fsi.c
-> > index 55a11f1fe8aa1..8c46d68069581 100644
-> > --- a/sound/soc/renesas/fsi.c
-> > +++ b/sound/soc/renesas/fsi.c
-> [ ... ]
-> > @@ -973,35 +983,42 @@ static int fsi_clk_set_rate_cpg(struct device *de=
-v,
-> >       return ret;
-> >  }
-> >
-> > -static int fsi_clk_init(struct device *dev,
-> > -                     struct fsi_priv *fsi,
-> > -                     int xck,
-> > -                     int ick,
-> > -                     int div,
-> > -                     int (*set_rate)(struct device *dev,
-> > -                                     struct fsi_priv *fsi))
-> > +static int fsi_clk_init(struct device *dev, struct fsi_priv *fsi)
-> >  {
-> [ ... ]
-> >       clock->own =3D devm_clk_get(dev, NULL);
-> >       if (IS_ERR(clock->own))
-> >               return -EINVAL;
->
-> Does returning -EINVAL here mask probe deferral? If devm_clk_get() return=
-s
-> -EPROBE_DEFER, returning -EINVAL will permanently fail the driver probe
-> rather than deferring it.
->
-> [ ... ]
-> > @@ -1997,6 +2001,7 @@ static int fsi_probe(struct platform_device *pdev=
-)
-> >       fsi->running_streams =3D 0;
-> >       fsi_port_info_init(fsi, &info.port_a);
-> >       fsi_handler_init(fsi, &info.port_a);
-> > +     fsi_clk_init(&pdev->dev, fsi);
->
-> Is it safe to ignore the return value of fsi_clk_init() here?
->
-> If devm_clk_get_optional() fails and returns an error pointer like
-> -EPROBE_DEFER, those error pointers will be stored in the clock fields
-> instead of NULL.
->
-> Later, when fsi_clk_set_rate_external() checks if the clocks are missing:
->
->     if (!xck || !ick) {
->
-> This check will pass because the error pointers are not NULL. The error
-> pointers will then be passed to common clock framework APIs like
-> clk_get_rate(), which will dereference them and cause a crash.
->
-> Should the return value of fsi_clk_init() be checked and propagated?
->
-> >       ret =3D fsi_stream_probe(fsi, &pdev->dev);
-> >       if (ret < 0) {
-> >               dev_err(&pdev->dev, "FSIA stream probe failed\n");
-> > @@ -2011,6 +2016,7 @@ static int fsi_probe(struct platform_device *pdev=
-)
-> >       fsi->running_streams =3D 0;
-> >       fsi_port_info_init(fsi, &info.port_b);
-> >       fsi_handler_init(fsi, &info.port_b);
-> > +     fsi_clk_init(&pdev->dev, fsi);
->
-> Would the same return value check be needed here as well?
->
-> >       ret =3D fsi_stream_probe(fsi, &pdev->dev);
-> >       if (ret < 0) {
-> >               dev_err(&pdev->dev, "FSIB stream probe failed\n");
->
-> --
-> Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260510084303.12=
-2426-1-phucduc.bui@gmail.com?part=3D7
+>>> diff --git a/arch/x86/events/intel/core.c b/arch/x86/events/intel/core.c
+>>> index 854881b5e696..6eee7636a822 100644
+>>> --- a/arch/x86/events/intel/core.c
+>>> +++ b/arch/x86/events/intel/core.c
+>>> @@ -4997,7 +4997,7 @@ static struct perf_guest_switch_msr
+>>> *intel_guest_get_msrs(int *nr,
+>>>         struct cpu_hw_events *cpuc = this_cpu_ptr(&cpu_hw_events);
+>>>         struct perf_guest_switch_msr *arr = cpuc->guest_switch_msrs;
+>>>         u64 intel_ctrl = hybrid(cpuc->pmu, intel_ctrl);
+>>> -       u64 pebs_mask = cpuc->pebs_enabled & x86_pmu.pebs_capable;
+>>> +       u64 pebs_mask = cpuc->pebs_enabled & x86_pmu.pebs_capable & intel_ctrl;
+>>>         u64 guest_pebs_mask;
+>>>         int global_ctrl;
+>>>
+>>> @@ -5049,7 +5049,7 @@ static struct perf_guest_switch_msr
+>>> *intel_guest_get_msrs(int *nr,
+>>>          * the guest wants to use for PEBS, (c) are not excluded from counting
+>>>          * in the guest, and (d) _are_ excluded from counting in the host.
+>>>          */
+>>> -       guest_pebs_mask = pebs_mask & intel_ctrl & guest_pebs->enable &
+>>> +       guest_pebs_mask = pebs_mask & guest_pebs->enable &
+>>>                           ~cpuc->intel_ctrl_exclude_guest_mask &
+>>>                           cpuc->intel_ctrl_exclude_host_mask;
+>>>
