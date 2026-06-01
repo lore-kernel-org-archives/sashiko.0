@@ -1,128 +1,160 @@
-Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1F143451C6
-	for <sashiko@lists.linux.dev>; Mon,  1 Jun 2026 06:16:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.170
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780294590; cv=pass; b=bq84m+mHCcj+6q4QMe+VSBgNXB/5B/2VF2GHKkDL42TL0xTo8lAWNX5eOzUln57ksOWYuaqogHwrBWgAsuuP+5u4ugz5ZjYxE/peuSyqw417Lq1JJbb4si4X7KBdf5FN19/u0F8xd+KM6xdc3K6uo2sewRMSbGLE+65u523FIJU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780294590; c=relaxed/simple;
-	bh=orm4qObqsEAgneet3dRG4nmdbeK+sqRkUYyJV5P1fQE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MI65mleV42CuMgfKBFuFwUM7g1sWTfBaTGLtRO1miRMPpgMTOIWXAZA8ns9R4WMr2qZI8iDCrjjcmWUkzpaKeGTa0vMmvIro2yRsQRoxvqmdYIeElKBwXCtUvYrclDnom/ysQFeHCXNGcUDbkSHKLbhV+S2uTh7HuiCjIXWPBVU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e01Hv/wI; arc=pass smtp.client-ip=74.125.82.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66017225397
+	for <sashiko@lists.linux.dev>; Mon,  1 Jun 2026 08:47:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780303634; cv=none; b=bAdHO+hLun/Z/PMtzJIvBekwBeeFP2ocFLxrDX+epoRczoTrzWCoIP8/k3pJDDULTXNf3dgYJl/iGkqaBm5eu0EDaPdOpxG2ipnl6hiEsXg56vr14cOXziSAkec3eR8XmjrCJlxS2kj2fIg+CzpiD0BuU+wcwuNmZefPD3r9SgQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780303634; c=relaxed/simple;
+	bh=HDFTA2sdOoNmLu4sgK+uQjQ31zICDRsmsBxIHFqevCA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=g6AX/DRLoWdPsF8KR7pMI2CfO2Gb6NwQLMt+2TFLUjkzTmfr2UCXdnwEHNdHvsXWMlrIL7H4Stq2hVuh24sESg+KQYckqdp3mj2ihxQPbhpxLYf9eL/bSEr97BeNdEkW/igaml0z9+bZzbcg6caP0wnmVnKwbrEpWKz6VBq841A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=IQPpez4c; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Enohtnrs; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e01Hv/wI"
-Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-305056ac6cbso156777eec.1
-        for <sashiko@lists.linux.dev>; Sun, 31 May 2026 23:16:27 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780294587; cv=none;
-        d=google.com; s=arc-20240605;
-        b=BVs2v0kNLmhTYpQn7svt72Yz2pUm6snCTu33ppi937ne70dWbcC64EFt2Jd2ihfD5c
-         06erjG4FRQ6qXKGjSPDSjn/MXH4RM4M3DqTdMOZXj1cFOfaIh0lvZvHPJX+5cUxIOBPL
-         LKQJAcfdA+GENlpsE270x8qLP/lRk3d4EsHeZspaJ02jty/kFiY0Bw8oh8j0e0j1TE+v
-         SBwTXUiI+NXrKoVn7wmBtCvFgLVYANnxEIm6bpDMum6Mh4aL0ApGsZgS1PL77bYwGam2
-         ch3n1TtTwkzx7afPTKA9HzOxTtktdZaBbKCE9oAYIswb/+5hEunNg7vFK2MZXpRB+k9U
-         anZQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=orm4qObqsEAgneet3dRG4nmdbeK+sqRkUYyJV5P1fQE=;
-        fh=2tU8rTiMKayGBGrXB22qZMEv5GOO+dAYGAE0TbO1Oyk=;
-        b=EVvQtDsfc5e0ebZJGIqz0VG8mt6pJFgh/mYIHG2WXP62BFR9w4dYz7C80R/E1yug3o
-         IiJtoo2YpzUAydDKXyg0hXMbPxTHaKvsWW2wyWSzL5eGQb33VY3GK6x+Ukm3aqtCc5WJ
-         +PnnjTL3pxisJHtHB0A6bM6LH6FTqTFpKdrqYgU93uFBMVGKMj+jpsF4qEbJmEAqyTN5
-         DecghC7QE8PvL7nAE4THhbvOw5B6GPaxCABHFjCnq74rua5IBlvAUcnQtE+AmbaD3NQc
-         sGBXbukTdRbCWDTEnHfd214WRdiCcj1ADr4wgCnb00sSQBDgkgOrD3CrCO97KkiMcApM
-         5UGw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="IQPpez4c";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Enohtnrs"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65166u111286003
+	for <sashiko@lists.linux.dev>; Mon, 1 Jun 2026 08:47:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	jyWLJBHTJApg4SyZUuUBijx04Lc4pqCdUxZ57jJVAv0=; b=IQPpez4cwac0Uh0G
+	k8Xr65k8pOkbk6VuIGD28mmHQ/OJpVWhp1LHIaopUv3037zNGB4lNMSDiEwCwPDu
+	R3IYrah2c+jIaSn6UWKtFOx2/caHfe6ktec+2qBr28XjXd5UEKTTfWUQh8CRCVqQ
+	zatckqXdvavnOBRw3+dHn/0t/eOTsBXZilOzTdW2Po1p8/hRD7VsBCHzMP9IXzDU
+	qI6Zincgo05Nwn4c90xD/+uUydLCP9vpOl2ujGucuSiz5Ph6PoeGaNHAqIBzD6oq
+	JUpDiOjLpU8wPXl8AA10+qxwHZB1DWhx2Hq4+C4cuw3VJY4kQIV034mGg/QBQ3yc
+	70E8uQ==
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com [209.85.210.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4efs66xfej-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <sashiko@lists.linux.dev>; Mon, 01 Jun 2026 08:47:12 +0000 (GMT)
+Received: by mail-pf1-f198.google.com with SMTP id d2e1a72fcca58-84247fed609so448936b3a.0
+        for <sashiko@lists.linux.dev>; Mon, 01 Jun 2026 01:47:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780294587; x=1780899387; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=orm4qObqsEAgneet3dRG4nmdbeK+sqRkUYyJV5P1fQE=;
-        b=e01Hv/wII4YAvQLpkl3r2TJg0+hfAJXfZHE0Utne6kfGsedVbPvPoXPHO8PVfzGILp
-         Iu0G8DdGJrFZN4Qbsv+6y25eS2XB55F9S8UAdF5QyNRN20HnNdZ6NkIYdKfFSApr+JSQ
-         mtfJ26j53yEjl2GJqNOnZzQGp8yqox9J9JHwQagqu2aXQGUWD4UK4NVFmkgZsjH1g1/w
-         twERTZhDhmpuVKMCEaW54waVu3itlruNFwWiMXuPI+y1PhhaDIRkC3rQGPLWv4Lk/9Tx
-         EwuSv9uixlDZ/YkgGGC8jGTBFlfBBb8XN8GEpg9RwMoWbjV4PFM7Fg3iiPadzi6Ix0r4
-         dV6A==
+        d=oss.qualcomm.com; s=google; t=1780303632; x=1780908432; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=jyWLJBHTJApg4SyZUuUBijx04Lc4pqCdUxZ57jJVAv0=;
+        b=Enohtnrs+FbAkOjSCic50U4V9EqzNwaiEyUalX1e2CUPo8A+Z7+HXEP4+UzNRJ28JW
+         ri+Fr8hgR2b8R90dN0zQhD2LNoA5gY3DQ+WXfOHyYoIrvo4yVy7+LKJKV3LRfIhGgYl+
+         zGGQsgnc/EeaoxT1DgEz/rmmG4xpYcRJm0VclQeVpRnTZqmPZ6anKgq9jzmDTb1m0Qdk
+         hpC9Z7S2gXZDcP9AMou4kfU4IHTmdicO0C7rmVrJWYE4nZvYI83y/jNB7fy61C7ZSXxD
+         vzWI4Cg4GTWe638IAvMgwj/rTZsW2mkUm5vbYts4YgzdXYjHD2Ty1bHTrU+JhMw0QDlt
+         ulHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780294587; x=1780899387;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=orm4qObqsEAgneet3dRG4nmdbeK+sqRkUYyJV5P1fQE=;
-        b=svSSbfa38FE9t/MhBJ9bnwtINbRHE3NN6GeP2VlEYMx765Fn+MnLaix6u0dWYcVR2Z
-         f+ety7ceywCFnbolqgE3BCnScIAe9V6kNPP5tNZIB6Q+ZE3ylf7BU4Fk4iOMhlql6KnV
-         HuKLu/UiE1Mb+GcE+Nkz6kZvZmHVOfqyu+VfQOqg1C9IOARrHWvseHIq8/Vj087ItsBJ
-         wJn5q/xHNNrpGlgCiEFUiDQyCnsmWAmBdQfoEHwLbFOFoR3naPNxmjcCWSJV3KqhCgR3
-         ipZF+Iv42Dx+Igldc03laiXbD8wdpLyc8Z274H9UEh7HW2ZLvHjTCE0+PwlHh5zaiwmU
-         ZbNw==
-X-Forwarded-Encrypted: i=1; AFNElJ8xekx+jzCRZm8JRGGH3RIwvOp72wgQUt6kFRDfHdJiXq1xvUQvPqPJd8zeoBILKweM/6XMnp8z@lists.linux.dev
-X-Gm-Message-State: AOJu0YwqWNZVKneIZf3pOK/YwkJos8ux8B1RYiDylve6ZBG01ra14qgM
-	S4WNtVzRM5lZaKnMbiLG8M98Vkn1MBCW1XOXPDHQ6G2hcKwFGfQrwLi0o0od5Ssk8It5PgHDIi1
-	q3/SxYEif6SpSK13+8nEZnuGFr+IASOY=
-X-Gm-Gg: Acq92OG77Ea7da2wnDN+2FxP/DQj8kNX6vy906NKYANAooqWv7mRwgHEL9c1vysm7ic
-	EEyKmngOBB7UuL3LvKkke9eQuMz019nTwh7eLQ+EWSqRYD83O3WWWsplQGIB5dFnhSoSYZw5R4m
-	BYbRwFLsRAEFjgpzM+BDZJMSeqMJ3YR4jHmAHT4ehgH6RTulS+Y1y8Cyjvmab4o59LkTgk6ESfj
-	+QRg1Mezzran4jQX5vdpmSNgyQOvcSfhW/eqvIu/pm58BMF0lUSxmYLFF9g9NxO+mDJv9kWAnOc
-	5TQtqxHLhsUwab3WFtmgG7iLayiwwQjCZBpIFRigVmMDHJfUTbiFg7sSPD3TNmsr+mXP0Dfml+0
-	aDHpqG2VUs9LdCFFPQj+pR7ULAKtrFinqsw==
-X-Received: by 2002:a05:7301:6785:b0:2d3:4252:b13d with SMTP id
- 5a478bee46e88-304fa6815a1mr2259382eec.5.1780294586571; Sun, 31 May 2026
- 23:16:26 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1780303632; x=1780908432;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jyWLJBHTJApg4SyZUuUBijx04Lc4pqCdUxZ57jJVAv0=;
+        b=ZrcWtS0HqSzPqI9m+WxOobJ3AgYJWkdf69gRkMQacKsNjIiH0+GHLx9HaCSMQ6hoDg
+         QGWnQVbd601IWJjqG+Lscyi0xkMKFim4gho2OX8XBeYwWIEEb2YWHf+sxX7pbWJiJytL
+         8nU/c5qNhiBPMYWNj2yW4srKiC/XpZEgIi1T/Qiwhb39fORuNaYlGYEY8/Ihnrb5qYfR
+         ZZeFM6faBtMgWIAAHuA574nZzF5MMZD6evefwTDPdaT3uuk3YrjiYAbLPDl1aGdGnWHD
+         FDPhg/qHqCtdptIQKelRQPorti44NBtphpG5MzLtu1Q/fVQP0dgotitfTCNJO96JLBir
+         Az1A==
+X-Forwarded-Encrypted: i=1; AFNElJ/A7NNg3ZQmD1G4W5m3OwFd7RRG3FqWlAtAZcAJXyOT9JICnNRLicGEPsuVn8V5PhDdeFJxDBVS@lists.linux.dev
+X-Gm-Message-State: AOJu0YzQN5D9I7wv101h5t7De3J+KpSCrepbFCd2Y2n4lhE28TUYD49Z
+	zwhUB4vdmMU1v0vPxVr08gD3rTyU+LWsyIYdnbZsRi3hrICaT4iY+FhLJLmDya9QtIWTsKltn3u
+	Npg8RnQoK2EM+zRnrSHkvdrtYFDWnOhnE5amKc+eWvgMVpErJSxJYcdNNfltggLP7ERAF
+X-Gm-Gg: Acq92OGURL/7uHrPDZnyhnOvDWHPoJTHyQ2fvuU0JipHG/Yk33sPu/EzcZRqPXwwEHV
+	LQ3HPzHpaNx5KHeUno2BhwUhD/K6hYbu4dDQOR9qlt6V69LIBDxcy2kYFf7nywbpst4lda4uUEd
+	Ag1/kPgDHhzNtfEdBo9tAPgtHOjGut79wt0opurFrXp5+cUIMFAE2SUq2gnfU+siAQ1VbO6EMrw
+	hPYUAxuH65ALKJCGyRelP0Gjwe8zGwHC5R19YBnR3klSOkzuedjGEjkC7TWyHMxplf7adMDNGI4
+	Robs7zzrm4KYLsxEenGlAmoNOBUMvVZkyNflj6bi2pRmgKSvVFfAMqle4R9s8WRUbVlPdIRO4nm
+	11nrnKyj3t5WPqm0muFmmcGiwrxUqMkeroIzOs53ZaIpoW1vYS+lbMDNLWjKYrmmvtv3ZN0nDw6
+	1r3aYvrmhgNITmr9pjV4dnNCc003k=
+X-Received: by 2002:a05:6a00:390e:b0:842:5719:455c with SMTP id d2e1a72fcca58-84257194b18mr2357042b3a.25.1780303632022;
+        Mon, 01 Jun 2026 01:47:12 -0700 (PDT)
+X-Received: by 2002:a05:6a00:390e:b0:842:5719:455c with SMTP id d2e1a72fcca58-84257194b18mr2357016b3a.25.1780303631556;
+        Mon, 01 Jun 2026 01:47:11 -0700 (PDT)
+Received: from [10.133.33.66] (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8423dc9f361sm4678171b3a.24.2026.06.01.01.47.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 01 Jun 2026 01:47:11 -0700 (PDT)
+Message-ID: <83de83e9-ad0e-4aa0-b48a-fa922c560f78@oss.qualcomm.com>
+Date: Mon, 1 Jun 2026 16:47:07 +0800
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <DIX8UX2TJP8E.4OAWKUUF5JG1@kernel.org>
-In-Reply-To: <DIX8UX2TJP8E.4OAWKUUF5JG1@kernel.org>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 1 Jun 2026 08:16:13 +0200
-X-Gm-Features: AVHnY4IqLC4XXCXs-NAdixZ-fNyoebZjZkA8zGUjQTFob4VVEac5MdMmThSi-W8
-Message-ID: <CANiq72mSpur28Fz8YL7_-FJk_h008kt=sw6mLeSsRNmiy+ko1Q@mail.gmail.com>
-Subject: Re: Sashiko email policy precedence
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Roman Gushchin <roman.gushchin@linux.dev>, Alexandre Courbot <acourbot@nvidia.com>, 
-	sashiko@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v13 4/5] media: qcom: camss: csid: Add support for CSID
+ gen4
+To: bod@kernel.org, sashiko@lists.linux.dev
+Cc: conor+dt@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+        devicetree@vger.kernel.org
+References: <20260508-kaanapali-camss-v13-4-2541d8e55651@oss.qualcomm.com>
+ <20260508212213.ED319C2BCB0@smtp.kernel.org>
+ <178018791720.17481.10983668954574740501.b4-reply@b4>
+Content-Language: en-US
+From: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
+In-Reply-To: <178018791720.17481.10983668954574740501.b4-reply@b4>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjAxMDA4NyBTYWx0ZWRfXyIXeJKj7p5fz
+ zZIUM4LYzP/h3vSiGzjRxzI4D5T3ZIToHTL6pJYgfIZ9jxGBFUCSBjC0F5duMUDFMjCgVso0/vq
+ MJgG6tNJSr/k+EFE8rnNofc3yegNmUeWxXAQGHce+6M4y9ZGbZdI5GjpHAAYxGx0V+Z/gMhKVpq
+ sHBR30aRYtwNVTxPOokV4oYYCTqSxgRZb4KC19eWs/PnFM4DLQQzNgfNpCqlKYS+/ThTstFXlCu
+ 6YarEUXmEiyI0b37cTADJzPv9bP2yrwhoLxupLt47QRW+Gu/us5x+DQ2p91tXaShdQVLl9oLb0X
+ vfGrwmt9eRHB5oIcmjjH9Jnyb2szaavrLqWGUw72uvVFJD+qJiw9wCirtrAxcez6yPl3zq4KsKJ
+ nwH6sMtAYqEDuZEJmt/15n4Spf/4/qzqcIt0Uvo9KClUySvRN6/Ij6ndLmHN0F6rURu6P9p810B
+ XPvLrkRs++a2pfrWgnQ==
+X-Authority-Analysis: v=2.4 cv=X8di7mTe c=1 sm=1 tr=0 ts=6a1d4710 cx=c_pps
+ a=m5Vt/hrsBiPMCU0y4gIsQw==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
+ a=VwQbUJbxAAAA:8 a=Wx8SgOCzfKFlTRplcBcA:9 a=QEXdDO2ut3YA:10
+ a=IoOABgeZipijB_acs4fv:22
+X-Proofpoint-ORIG-GUID: 0bI_qJ8tEhObMehGBzVnp8F4khSPBuEr
+X-Proofpoint-GUID: 0bI_qJ8tEhObMehGBzVnp8F4khSPBuEr
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-01_02,2026-05-28_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 suspectscore=0 lowpriorityscore=0 phishscore=0 impostorscore=0
+ priorityscore=1501 bulkscore=0 adultscore=0 malwarescore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606010087
 
-On Mon, Jun 1, 2026 at 1:17=E2=80=AFAM Danilo Krummrich <dakr@kernel.org> w=
-rote:
->
-> E.g. when 'passive=3Dtrue' is set and a passive list is matched with a no=
-n-passive
-> one the passive one won't impose its restrictive defaults (e.g.
-> reply_all=3Dfalse) on the non-passive one.
+On 5/31/2026 8:38 AM, bod@kernel.org wrote:
+>>
+>> [ ... ]
+>>
+>>> +static void __csid_configure_rdi_stream(struct csid_device *csid, u8 enable, u8 port, u8 vc)
+>>> +{
+>>> +	u32 val;
+>>> +	u8 lane_cnt = csid->phy.lane_cnt;
+>>> +
+>>> +	/* Source pads matching RDI channels on hardware.
+>>> +	 * E.g. Pad 1 -> RDI0, Pad 2 -> RDI1, etc.
+>>> +	 */
+>>> +	struct v4l2_mbus_framefmt *input_format = &csid->fmt[MSM_CSID_PAD_FIRST_SRC + port];
+>>
+>> The macro MSM_CSID_MAX_SRC_STREAMS_GEN4 evaluates to 5 for non-lite CSID
+>> hardware, meaning the loop index port can reach 4.
+>>
+>> Since MSM_CSID_PAD_FIRST_SRC is 1, MSM_CSID_PAD_FIRST_SRC + port evaluates
+>> to 5.
+> 
+> That's worrying.
+> 
+> Would appreciate some follow-up from patch authors on this one "yes we
+> looked no that can't happen" "yes we looked no it can't happen"
+> 
+> Either is acceptable.
+It cannot happens as we have limited the vfe_line number to 3 due to 
+camss framework limitation.
 
-The configuration I added didn't explicitly ask for `reply_all =3D
-false` (just `reply_to_author =3D true`), i.e. perhaps the fact that
-something is not set could be used as a "don't care" (e.g. latter
-lists could override that).
-
-Special casing "wide lists" sounds also fine.
-
-Roman: on my side, the intention with `reply_to_author` was to make
-people aware of Sashiko and hopefully be a good middle-ground default,
-not to force something on everyone else.
-
-We could also consider setting `reply_all =3D true` for rust-for-linux
--- IIUC, from what Danilo says, the current algorithm's conservative
-approach would remove that setting as soon as the patch is sent to any
-list where that isn't the case, right? Some people would find that
-useful (a few even reply directly to the LLM's feedback), but of
-course it could be seen as too annoying for others (e.g. readers
-subscribing the mailing list that do not want to get bombarded with
-even more emails), so that is why I took the other option, but if it
-is too complex to implement other logic, I guess it is an option.
-
-Cheers,
-Miguel
+Best regards,
+Hangxiang
