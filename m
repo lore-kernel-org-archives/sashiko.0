@@ -1,233 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F46838911B
-	for <sashiko@lists.linux.dev>; Mon,  1 Jun 2026 09:46:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CDF7381B0D
+	for <sashiko@lists.linux.dev>; Wed,  3 Jun 2026 14:18:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780307225; cv=none; b=DfYceVm9F8EgguPk2uZuMLMJe8oy0hOaOWywzPq/8rknz/wR7vb/fRa3WiRiswZsH02hMYjEx/173/6KUUP/jHU40cZbWBanTfdlwudsdhD9KfaYYpMr80kvaMRb9aUFJhp9rwCAUh8Koh6TZE3H9ZFdywzL3k7Rom2lapW8/H8=
+	t=1780496284; cv=none; b=Ci8kaP+dxEKomtlJiESUgwc8AypnOx3rGz6UI3LqRqIkVbBnXR6E8PAUnUYWie47g99awAEZHXsiNBW86YvvPu6qK4OzyM3TlZHt0SeSBwVYwkgtGCD5Vw0p7b0ptJLJl47R9ayZOtNhcSCk5lLo3epxmB8PEWYbfVHFC/ELaNM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780307225; c=relaxed/simple;
-	bh=aX74j8ChuB4X7aK8cdIeTjS0A7TtXudRVrW23+xDyiA=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=duiM6bjnEe5v4KVhEYB2Lhmyjp6YoUrhUWWp5+xL7EQqLqKlz7TbpeBXhX2OMe1Ja3Yr1hIFZT0i4CcTs29ix5W0xTouwvlYPEJ6vlZBMLi98uqpzfZWYnIJirJbz6Mp/58wUAbTm2GqorDrGq6TwDDMKm/0+BCTlpdNXdeiUnk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nJMe0Fzh; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780496284; c=relaxed/simple;
+	bh=1CBF/Rb9qVYQ5QyPpj20wcZlcXJ40hy4okKutLG/HS8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KxlfQ3h/3ZXE/4UqabrfZpg9Xz+09DKjLuK07HGOYuNAwXhaHXNqqNfRC8tlNyT6GozTHNFdZIq6OhXMthMlyvHr5PkwBCYusORvmYrCrQYtB2cqUOw/1EFclRRIaZDJH6g6adf9eGrnKYGfhaGji9lzwt/jbR9j+ZkJ4Jqj8Sg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=HJt3Y9zx; arc=none smtp.client-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nJMe0Fzh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1496C1F00898;
-	Mon,  1 Jun 2026 09:46:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780307216;
-	bh=REOqV+aEVVxrGGEgaZlorZnu3WMU27BTgwFTAmtW/2g=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To;
-	b=nJMe0Fzhoz67cxcSTAhWaodkldwrOjD95bzfCUTsLo0EiZ0somDi82mHecXXOcfIF
-	 qvGkOwgp9T8ZcYFRp/hENTpcVtNcjY7J04yZfvAtePTki/KsJPnlU4xUJgKy6yrFK3
-	 H3b8Oaoox+PCwGfHbbZCH1LtB8c3rPqlQZanc0hvwYYjeZxBaAkh5p8fEfYGsHt6RY
-	 hbfXV/nVx9w231ogxGRc9ztXcKVqSbkNcO2JGuLRDFLVPv2I5wYyhRmoXd0uYfvh5Q
-	 Cys7Gl8OBFAeWla6dZXvuK5BM7n/hvsFohb9xOYlf/9GgcOCvoCcTSsye+cQAuQDKq
-	 y+4ovLYeE6Pew==
+	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="HJt3Y9zx"
+Received: from macsyma.thunk.org ([104.135.218.90])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 653EHoX7007434
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 3 Jun 2026 10:17:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1780496273; bh=TMfv6hWYRSSrWx5RnZ1/1kMXl6wD1l6vkv0zX73Tj+o=;
+	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
+	b=HJt3Y9zxYUd/yWXHbU6u+CDDfjGLFELdDdiGi+vPCri/rSq4yg305ZRkFgHDSMgRU
+	 BEV+qvnon/tW/TBzuzLWayJrTsXIETrycRfDyX9bmys2S1Zp9p1qzVADAgNWgoqjNY
+	 v1wctj8u4HTqs6VjcGBMRxKYh6u/ySPxOdnjwth59xtn64VmBRFLPEPBwKjlKkeyq4
+	 LpOD5RGrT1sfP5LHSuE4eo5Z7BbraqqPilymAE78v+uAWd4KqUfPrt0QvMOPd/naVr
+	 e9WCCqhyDQnQQx88FBva45jwJIT6htbHFrz/eN9fCnP5YJegTyKfaBRxNh7Sl/K67u
+	 dkaOBvkjqyRZQ==
+Received: by macsyma.thunk.org (Postfix, from userid 15806)
+	id 8A61035EA54; Wed,  3 Jun 2026 10:17:50 -0400 (EDT)
+Date: Wed, 3 Jun 2026 10:17:50 -0400
+From: "Theodore Tso" <tytso@mit.edu>
+To: sashiko@lists.linux.dev
+Cc: linux-ext4@vger.kernel.org, Baokun Li <libaokun@linux.alibaba.com>
+Subject: Re: [PATCH RFC 10/17] ext4: use fast incremental CRC update in
+ ext4_free_inode()
+Message-ID: <h3n7jlfhyna64dn5o76qxcspnhxdddcs6crpxftmy7gnl7b3sx@jenszfpcsnit>
+References: <20260508121539.4174601-11-libaokun@linux.alibaba.com>
+ <20260508233305.EB600C2BCB0@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 01 Jun 2026 11:46:54 +0200
-Message-Id: <DIXM8JL1CM5A.315I0YBSDJT5O@kernel.org>
-Subject: Re: Sashiko email policy precedence
-Cc: "Roman Gushchin" <roman.gushchin@linux.dev>, "Alexandre Courbot"
- <acourbot@nvidia.com>, <sashiko@lists.linux.dev>
-To: "Miguel Ojeda" <miguel.ojeda.sandonis@gmail.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <DIX8UX2TJP8E.4OAWKUUF5JG1@kernel.org>
- <CANiq72mSpur28Fz8YL7_-FJk_h008kt=sw6mLeSsRNmiy+ko1Q@mail.gmail.com>
-In-Reply-To: <CANiq72mSpur28Fz8YL7_-FJk_h008kt=sw6mLeSsRNmiy+ko1Q@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260508233305.EB600C2BCB0@smtp.kernel.org>
 
-On Mon Jun 1, 2026 at 8:16 AM CEST, Miguel Ojeda wrote:
-> On Mon, Jun 1, 2026 at 1:17=E2=80=AFAM Danilo Krummrich <dakr@kernel.org>=
- wrote:
-> IIUC, from what Danilo says, the current algorithm's conservative approac=
-h
-> would remove that setting as soon as the patch is sent to any list where =
-that
-> isn't the case, right?
+On Fri, May 08, 2026 at 11:33:05PM +0000, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
+> - [High] ext4_inode_bitmap_csum_set_fast() corrupts the inode bitmap checksum if EXT4_INODES_PER_GROUP(sb) is not a multiple of 8.
+>
+> > -	ext4_inode_bitmap_csum_set(sb, gdp, bitmap_bh);
+> > +	ext4_inode_bitmap_csum_set_fast(sb, gdp, bit);
+> 
+> Can this corrupt the inode bitmap checksum if EXT4_INODES_PER_GROUP(sb) is not
+> a multiple of 8?
+> 
+> In ext4_inode_bitmap_csum_set(), the CRC32c checksum is computed over exactly
+> EXT4_INODES_PER_GROUP(sb) >> 3 bytes. If s_inodes_per_group is not a multiple
+> of 8, any trailing fractional bits are strictly excluded from the checksum
+> calculation.
+> 
+> Because ext4_fill_super() does not enforce that s_inodes_per_group is a
+> multiple of 8, a crafted filesystem can have an unaligned s_inodes_per_group.
 
-Only if the other list has a sashiko email policy entry in the first place,
-otherwise it is not part of the matching loop and no further logic is appli=
-ed.
+The reason why ext4_fill_super() doesn't enforce that
+s_inodes_per_group is a multiple of 8 was that a long time ago, back
+when Android was allergic to GPLv2 in userspace, they implemented
+their own version of mke2fs (and didn't run fsck on the file system,
+sigh).  Their MIT licensed version of make_ext4fs would occasionally
+make file systems that were not a multiple of 8, and this ran afoul of
+e2fsck[1] if someone actually tried to repair a corrupted Android user
+data file system (as opposed to just wiping the flash and starting
+from scratch).
 
-I'd assume that this is intentional, and can be read as "no entry, no expre=
-ssed
-preference".
+[1] https://sourceforge.net/p/e2fsprogs/bugs/292/
 
-> if it is too complex to implement other logic, I guess it is an option.
+This was fixed long ago (over a decade ago), and so at this point, I'm
+pretty sure any such mobile handsets are in the landfill, so we
+probably should fix this by adding a check in ext4_fill_super() and a
+corresponding check in e2fsck.
 
-Flagging something as wide list seems rather simple [1], the tristate [2] w=
-ould
-work as well, but seems a bit more complicated and potentially requires
-adjusting the existing policies.
-
-(Test adjustments stripped from [2]; code is LLM generated.)
-
-[1]
-
-diff --git a/src/email_policy.rs b/src/email_policy.rs
-index 9fe1179330f3..1ae892e67535 100644
---- a/src/email_policy.rs
-+++ b/src/email_policy.rs
-@@ -43,6 +43,10 @@ pub struct SubsystemPolicy {
-     pub embargo_hours: Option<u32>,
-     #[serde(default)]
-     pub send_positive_review: bool,
-+    /// When true and co-matched with a non-wide list, only `cc` is
-+    /// contributed. All boolean flags are deferred to the non-wide lists.
-+    #[serde(default)]
-+    pub wide_list: bool,
- }
-
- impl EmailPolicyConfig {
-diff --git a/src/email_router.rs b/src/email_router.rs
-index c17273aad8ff..216a85d7738d 100644
---- a/src/email_router.rs
-+++ b/src/email_router.rs
-@@ -93,7 +93,18 @@ impl EmailRouter {
-         let mut send_positive_review =3D false;
-         let mut cc =3D Vec::new();
-
--        for p in active_policies {
-+        let has_non_wide =3D active_policies.iter().any(|p| !p.wide_list);
-+
-+        for p in &active_policies {
-+            let deferred =3D p.wide_list && has_non_wide;
-+
-+            if deferred {
-+                for cr in &p.cc {
-+                    cc.push(cr.clone());
-+                }
-+                continue;
-+            }
-+
-             if p.mute_all {
-                 mute_all =3D true;
-             }
-
-[2]
-
-diff --git a/src/email_policy.rs b/src/email_policy.rs
-index 9fe1179330f3..5c9d94a4d416 100644
---- a/src/email_policy.rs
-+++ b/src/email_policy.rs
-@@ -23,14 +23,15 @@ pub struct EmailPolicyConfig {
- pub struct SubsystemPolicy {
-     #[serde(default)]
-     pub lists: Vec<String>,
-+    /// None =3D no preference, Some(false) =3D private, Some(true) =3D pu=
-blic.
-     #[serde(default)]
--    pub reply_all: bool,
-+    pub reply_all: Option<bool>,
-     #[serde(default)]
--    pub reply_to_author: bool,
-+    pub reply_to_author: Option<bool>,
-     #[serde(default)]
--    pub cc_individuals: bool,
-+    pub cc_individuals: Option<bool>,
-     #[serde(default)]
--    pub mute_all: bool,
-+    pub mute_all: Option<bool>,
-     #[serde(default)]
-     pub cc: Vec<String>,
-     #[serde(default)]
-@@ -42,7 +43,7 @@ pub struct SubsystemPolicy {
-     #[serde(default)]
-     pub embargo_hours: Option<u32>,
-     #[serde(default)]
--    pub send_positive_review: bool,
-+    pub send_positive_review: Option<bool>,
- }
-=20
- impl EmailPolicyConfig {
-diff --git a/src/email_router.rs b/src/email_router.rs
-index c17273aad8ff..452c09411552 100644
---- a/src/email_router.rs
-+++ b/src/email_router.rs
-@@ -12,6 +12,19 @@ pub enum Action {
-=20
- pub struct EmailRouter {}
-=20
-+/// Merges two Option<bool> policy votes. `dominant` is the value that win=
-s on
-+/// conflict: `true` for mute_all, reply_to_author, cc_individuals, and
-+/// send_positive_review (any-true wins); `false` for reply_all (any-false=
- wins).
-+fn merge_flag(acc: Option<bool>, vote: Option<bool>, dominant: bool) -> Op=
-tion<bool> {
-+    match (acc, vote) {
-+        (_, None) =3D> acc,
-+        (None, _) =3D> vote,
-+        (Some(v), _) if v =3D=3D dominant =3D> acc,
-+        (_, Some(v)) if v =3D=3D dominant =3D> vote,
-+        _ =3D> acc,
-+    }
-+}
-+
- impl EmailRouter {
-     pub fn resolve_patchwork(
-         policy: &EmailPolicyConfig,
-@@ -86,34 +99,30 @@ impl EmailRouter {
-             active_policies.push(&policy.defaults);
-         }
-=20
--        let mut mute_all =3D false;
--        let mut is_private =3D false;
--        let mut reply_to_author =3D false;
--        let mut cc_individuals =3D false;
--        let mut send_positive_review =3D false;
-+        let mut mute_all =3D None;
-+        let mut reply_all =3D None;
-+        let mut reply_to_author =3D None;
-+        let mut cc_individuals =3D None;
-+        let mut send_positive_review =3D None;
-         let mut cc =3D Vec::new();
-=20
-         for p in active_policies {
--            if p.mute_all {
--                mute_all =3D true;
--            }
--            if !p.reply_all {
--                is_private =3D true;
--            }
--            if p.reply_to_author {
--                reply_to_author =3D true;
--            }
--            if p.cc_individuals {
--                cc_individuals =3D true;
--            }
--            if p.send_positive_review {
--                send_positive_review =3D true;
--            }
-+            mute_all =3D merge_flag(mute_all, p.mute_all, true);
-+            reply_all =3D merge_flag(reply_all, p.reply_all, false);
-+            reply_to_author =3D merge_flag(reply_to_author, p.reply_to_aut=
-hor, true);
-+            cc_individuals =3D merge_flag(cc_individuals, p.cc_individuals=
-, true);
-+            send_positive_review =3D merge_flag(send_positive_review, p.se=
-nd_positive_review, true);
-             for cr in &p.cc {
-                 cc.push(cr.clone());
-             }
-         }
-=20
-+        let mute_all =3D mute_all.unwrap_or(false);
-+        let is_private =3D !reply_all.unwrap_or(false);
-+        let reply_to_author =3D reply_to_author.unwrap_or(false);
-+        let cc_individuals =3D cc_individuals.unwrap_or(false);
-+        let send_positive_review =3D send_positive_review.unwrap_or(false)=
-;
-+
-         // Always append defaults.cc so users can define a global CC
-         for cr in &policy.defaults.cc {
-             cc.push(cr.clone());
+					- Ted
