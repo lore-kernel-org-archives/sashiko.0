@@ -1,90 +1,109 @@
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CDF7381B0D
-	for <sashiko@lists.linux.dev>; Wed,  3 Jun 2026 14:18:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 371803A5E71
+	for <sashiko@lists.linux.dev>; Thu,  4 Jun 2026 12:08:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780496284; cv=none; b=Ci8kaP+dxEKomtlJiESUgwc8AypnOx3rGz6UI3LqRqIkVbBnXR6E8PAUnUYWie47g99awAEZHXsiNBW86YvvPu6qK4OzyM3TlZHt0SeSBwVYwkgtGCD5Vw0p7b0ptJLJl47R9ayZOtNhcSCk5lLo3epxmB8PEWYbfVHFC/ELaNM=
+	t=1780574937; cv=none; b=UutScNWkCZIkXsPkQufRGSsSdSAkgmAGpQ87XXYKsilQndPjFIAdHf9HxOVKGjp5fSII0j3hyFxYWvKaTDwFua/42EXCo6VMo54NJcvenKu27F9rkpGwTB5VWdkCkMt1+b8MCxJc4tjcHGvfu75iwTE751N/qC3Nn3hgFMi/z/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780496284; c=relaxed/simple;
-	bh=1CBF/Rb9qVYQ5QyPpj20wcZlcXJ40hy4okKutLG/HS8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KxlfQ3h/3ZXE/4UqabrfZpg9Xz+09DKjLuK07HGOYuNAwXhaHXNqqNfRC8tlNyT6GozTHNFdZIq6OhXMthMlyvHr5PkwBCYusORvmYrCrQYtB2cqUOw/1EFclRRIaZDJH6g6adf9eGrnKYGfhaGji9lzwt/jbR9j+ZkJ4Jqj8Sg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=HJt3Y9zx; arc=none smtp.client-ip=18.9.28.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+	s=arc-20240116; t=1780574937; c=relaxed/simple;
+	bh=jY3Pzqq530Cn72frYkgbtdMUeZZjNDuhAa03g5Uw7yo=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:From:To:
+	 References:In-Reply-To; b=CXCUhpOT2ngFdrn7k2PK/u3A7OdkfdPiQrtoWY3t1aWOnKeDjsiOHDIsnw9hq1oJYh/teP40gxxkAfWQ7S8u8eNOg0VZzfAL4qkXWU0enOK9erXLVZscNjyKwBhXbXhGv268AR86fXBLaVuMo69IpmFoZ0FQtmaKWPLBKZhjzFs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=L4cfS0Ud; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="HJt3Y9zx"
-Received: from macsyma.thunk.org ([104.135.218.90])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 653EHoX7007434
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 3 Jun 2026 10:17:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-	t=1780496273; bh=TMfv6hWYRSSrWx5RnZ1/1kMXl6wD1l6vkv0zX73Tj+o=;
-	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
-	b=HJt3Y9zxYUd/yWXHbU6u+CDDfjGLFELdDdiGi+vPCri/rSq4yg305ZRkFgHDSMgRU
-	 BEV+qvnon/tW/TBzuzLWayJrTsXIETrycRfDyX9bmys2S1Zp9p1qzVADAgNWgoqjNY
-	 v1wctj8u4HTqs6VjcGBMRxKYh6u/ySPxOdnjwth59xtn64VmBRFLPEPBwKjlKkeyq4
-	 LpOD5RGrT1sfP5LHSuE4eo5Z7BbraqqPilymAE78v+uAWd4KqUfPrt0QvMOPd/naVr
-	 e9WCCqhyDQnQQx88FBva45jwJIT6htbHFrz/eN9fCnP5YJegTyKfaBRxNh7Sl/K67u
-	 dkaOBvkjqyRZQ==
-Received: by macsyma.thunk.org (Postfix, from userid 15806)
-	id 8A61035EA54; Wed,  3 Jun 2026 10:17:50 -0400 (EDT)
-Date: Wed, 3 Jun 2026 10:17:50 -0400
-From: "Theodore Tso" <tytso@mit.edu>
-To: sashiko@lists.linux.dev
-Cc: linux-ext4@vger.kernel.org, Baokun Li <libaokun@linux.alibaba.com>
-Subject: Re: [PATCH RFC 10/17] ext4: use fast incremental CRC update in
- ext4_free_inode()
-Message-ID: <h3n7jlfhyna64dn5o76qxcspnhxdddcs6crpxftmy7gnl7b3sx@jenszfpcsnit>
-References: <20260508121539.4174601-11-libaokun@linux.alibaba.com>
- <20260508233305.EB600C2BCB0@smtp.kernel.org>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="L4cfS0Ud"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 507C3C63452
+	for <sashiko@lists.linux.dev>; Thu,  4 Jun 2026 12:08:51 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id F0F955FEF7;
+	Thu,  4 Jun 2026 12:08:51 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 2B0C5106A035A;
+	Thu,  4 Jun 2026 14:08:49 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1780574931; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=8JExlbsCTH+ccnzG/dkGRTjdMWB4w6e4ceeXGKPD6vk=;
+	b=L4cfS0UdZ7ltln4Odkyg5QmKC/Sn73ZeQQGf3R8wB4dJI3rxo9YrpH7W26r7wdG0RqUPiv
+	u1YW7A7ZUSIQuzL5kJdPWZJM4QzOoAUhePMVJSyZ7lubCql0Be8QQf08Fv4WKkuOHhQ8eQ
+	WSGSVp5D7l4c5bW71S9GGNXFo4bNwCdYJ/4cuGR33NE6OGvVdCKWUlpT3EJ8ocm96DJSlx
+	f92DAyTs4NYMk7CJuJJ1De1vTsYCahvzb4N07H2IJD/CfROaJFqnNCD/FXRMBqGDawl0CG
+	ZI7gRTfB9aXIeXcIZOxfmtphYhpQYli00+JTG7aHkKXoqyCITXaWp5MLos4ffQ==
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260508233305.EB600C2BCB0@smtp.kernel.org>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 04 Jun 2026 14:08:48 +0200
+Message-Id: <DJ094TM6SLCC.2FU5ZV435P1UK@bootlin.com>
+Subject: Re: [PATCH RFC bpf-next 2/8] bpf: mark instructions accessing
+ program stack
+Cc: <bpf@vger.kernel.org>
+From: =?utf-8?q?Alexis_Lothor=C3=A9?= <alexis.lothore@bootlin.com>
+To: <sashiko@lists.linux.dev>,
+ =?utf-8?b?QWxleGlzIExvdGhvcsOpIChlQlBGIEZvdW5kYXRpb24p?=
+ <alexis.lothore@bootlin.com>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260413-kasan-v1-2-1a5831230821@bootlin.com>
+ <20260425050557.827F3C2BCB2@smtp.kernel.org>
+In-Reply-To: <20260425050557.827F3C2BCB2@smtp.kernel.org>
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Fri, May 08, 2026 at 11:33:05PM +0000, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
-> - [High] ext4_inode_bitmap_csum_set_fast() corrupts the inode bitmap checksum if EXT4_INODES_PER_GROUP(sb) is not a multiple of 8.
+On Sat Apr 25, 2026 at 7:05 AM CEST, sashiko-bot wrote:
+
+[...]
+
+>>  #define LR_FRAMENO_BITS	3
+>>  #define LR_SPI_BITS	6
+> [ ... ]
+>> @@ -6493,6 +6498,8 @@ static int check_mem_access(struct bpf_verifier_en=
+v *env, int insn_idx, u32 regn
+>>  		else
+>>  			err =3D check_stack_write(env, regno, off, size,
+>>  						value_regno, insn_idx);
+>> +
+>> +		mark_insn_accesses_stack(env, insn_idx);
 >
-> > -	ext4_inode_bitmap_csum_set(sb, gdp, bitmap_bh);
-> > +	ext4_inode_bitmap_csum_set_fast(sb, gdp, bit);
-> 
-> Can this corrupt the inode bitmap checksum if EXT4_INODES_PER_GROUP(sb) is not
-> a multiple of 8?
-> 
-> In ext4_inode_bitmap_csum_set(), the CRC32c checksum is computed over exactly
-> EXT4_INODES_PER_GROUP(sb) >> 3 bytes. If s_inodes_per_group is not a multiple
-> of 8, any trailing fractional bits are strictly excluded from the checksum
-> calculation.
-> 
-> Because ext4_fill_super() does not enforce that s_inodes_per_group is a
-> multiple of 8, a crafted filesystem can have an unaligned s_inodes_per_group.
+> Global subprograms are verified independently of their call sites, and po=
+inter
+> arguments are tracked as PTR_TO_MEM rather than PTR_TO_STACK. Inside the
+> subprogram, check_mem_access() evaluates loads and stores under the
+> PTR_TO_MEM branch, which does not invoke mark_insn_accesses_stack().
+>
+> If a BPF caller dynamically passes a pointer to its stack as an argument =
+to
+> the global subprogram, will the JIT-compiled global subprogram execute wi=
+th
+> KASAN checks enabled for those accesses?=20
+>
+> Does this erroneously monitor the BPF stack, bypassing the intended
+> suppression mechanism?
 
-The reason why ext4_fill_super() doesn't enforce that
-s_inodes_per_group is a multiple of 8 was that a long time ago, back
-when Android was allergic to GPLv2 in userspace, they implemented
-their own version of mke2fs (and didn't run fsck on the file system,
-sigh).  Their MIT licensed version of make_ext4fs would occasionally
-make file systems that were not a multiple of 8, and this ran afoul of
-e2fsck[1] if someone actually tried to repair a corrupted Android user
-data file system (as opposed to just wiping the flash and starting
-from scratch).
+After having thought about this one for quite some time, I see no
+simple way to correctly distinguish stack accesses hidden behing a
+PTR_TO_MEM passed to a global subprog, as those are verified separately.
 
-[1] https://sourceforge.net/p/e2fsprogs/bugs/292/
+I can either:
+1. skip PTR_TO_MEM memory instrumentation when we are in global
+subprograms, at the risk of missing instrumentation on passed memory
+accesses that _need_ to be instrumented
+2. systematically instrument passed PTR_TO_MEM memory accesses in global
+subprog, at the risk of inserting unneeded instrumentation when the
+passed memory comes in fact from caller memory.
 
-This was fixed long ago (over a decade ago), and so at this point, I'm
-pretty sure any such mobile handsets are in the landfill, so we
-probably should fix this by adding a check in ext4_fill_super() and a
-corresponding check in e2fsck.
+I then propose to be conservative and apply 2:  the only downside I can
+think of is that a few alwasy-passing kasan checks will be inserted, but
+we are at least sure not to miss any instrumentation.
 
-					- Ted
+--=20
+Alexis Lothor=C3=A9, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
