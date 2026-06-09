@@ -1,58 +1,76 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com [91.218.175.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7C0027E05E
-	for <sashiko@lists.linux.dev>; Mon,  8 Jun 2026 13:44:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26C673B14B0
+	for <sashiko@lists.linux.dev>; Tue,  9 Jun 2026 16:27:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780926264; cv=none; b=NOUwXG6aUC0/gRw0oJz8rPciXqYn4PsJZwkaUWO9hS4nEg9ux/tLWYOAcppYMdfv0HZUFdqgDY90XjFhZK8NoxI2KJIlt/eNj1ffXQ+zIoLFospsoSLMFet9NfLw2BhbYhiJVLNfNvNDoQ1frAWvNUXqSERVUXPRImSM8Iq8i/g=
+	t=1781022434; cv=none; b=Zqequva/COxb7YB1T5WzZ6gAbVSa5RPhbajol5xyY/tlj5JiGJ1wjKGo/8d4ZiV/Uf6n6c1kkG/OoYFtIhdngbzit3Div4qZ2o+1eL8wbuqTudib+X07ZgL55FevMpPVkBBWj5+QvlvKbVpGEnTVeG592HqvStfJQiJkME9fqDM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780926264; c=relaxed/simple;
-	bh=pC+ZBqw0AW5f2o+9aehoCENggtUVZnaHC6WxsyeYmv8=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=qrgFaBI6CFD0MQFUBxsM082KYDxEccNtK29AEdxxy2GTZWMzzbGdcz6SQJsQTRJLHl4guc9pGNj/i77FYSu+hXSM5Zh0okmviEArxIvJvsO1dAgUVgcea88vbFwxZgt10nrxcQjE25cS38BJOCqRJu9beyYh0WQzhsgz1j8QQIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DyILnlNd; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781022434; c=relaxed/simple;
+	bh=ChZH/VU0yBKU40sgMeij+0XW6FlOlN97VMA0L7UiIqs=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=FG5Bf+7jAsG5Zx2gFTX3vJGIEfxJh8r57mdP3cfOowRI+STboLnMld/JRPFL2rH/xUMU47Tw1HQ6caa2wGEsF8rrxyF3FCeeVs6vA8TJY03G6Xtr6gry7e9M1u0VomR5yC/MIJy+8uBbATxyJ0CTmMgQEe93dils66o3TqzjN50=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Pjiv7CGV; arc=none smtp.client-ip=91.218.175.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DyILnlNd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79BC71F00893;
-	Mon,  8 Jun 2026 13:44:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780926263;
-	bh=pC+ZBqw0AW5f2o+9aehoCENggtUVZnaHC6WxsyeYmv8=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To;
-	b=DyILnlNdfhkLb9czxSbWPs4rU+qtTtmrRQKS/fLee5t0GMII8ydbtClXeG4SJ8Mgy
-	 7hCwHDCfiLjV4VQrnJ7OtSCdpAtKIVBMNL0kWKPHL1bvspgxB47eCA1DQIQoKzxQyL
-	 UCA4Z9kVRUUx+wxtFaEogdkErkT+06QIIDaLtcEUMX4qddIsxG6DEwaiFTOFzTRG/j
-	 ebH0Nvav6VFfrNVqxCD835k+Wvn3Aeg7TS9MuPdXgY4//lHEFGNKBoPHn3khQb6qNr
-	 4FQ5/z7O7VYnYGqUDLDe5sOwak9Geu0wKTub1FyP6/FM01UrbxE5GYbtz+wNYf7MWF
-	 mrU+7Zpm+h4qg==
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Pjiv7CGV"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1781022430;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ChZH/VU0yBKU40sgMeij+0XW6FlOlN97VMA0L7UiIqs=;
+	b=Pjiv7CGVMZH1uIqFpsMffaeqySqYkhscvoqtcgXLYr8NGTvVXlU3OeIYmkrwGl49tIeP3j
+	VsUKeivtNJitpvlW6EpaVOI3gkr2ZjoPmsxkPT7zEHdUnewZ92oedTHCltzL6/UqDK9wpP
+	B9ZC2CSkjQ4qdKPDopOH1/K6B5CsA3U=
+From: Roman Gushchin <roman.gushchin@linux.dev>
+To: "Danilo Krummrich" <dakr@kernel.org>
+Cc: "Miguel Ojeda" <miguel.ojeda.sandonis@gmail.com>,  "Alexandre Courbot"
+ <acourbot@nvidia.com>,  <sashiko@lists.linux.dev>
+Subject: Re: Sashiko email policy precedence
+In-Reply-To: <DJ3PO5LX7TQK.3BS0W5EV7NB7C@kernel.org> (Danilo Krummrich's
+	message of "Mon, 08 Jun 2026 15:44:20 +0200")
+References: <DIX8UX2TJP8E.4OAWKUUF5JG1@kernel.org>
+	<CANiq72mSpur28Fz8YL7_-FJk_h008kt=sw6mLeSsRNmiy+ko1Q@mail.gmail.com>
+	<DIXM8JL1CM5A.315I0YBSDJT5O@kernel.org>
+	<DJ3PO5LX7TQK.3BS0W5EV7NB7C@kernel.org>
+Date: Tue, 09 Jun 2026 16:26:54 +0000
+Message-ID: <7ia4ecifd6i9.fsf@castle.c.googlers.com>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 08 Jun 2026 15:44:20 +0200
-Message-Id: <DJ3PO5LX7TQK.3BS0W5EV7NB7C@kernel.org>
-Subject: Re: Sashiko email policy precedence
-Cc: "Miguel Ojeda" <miguel.ojeda.sandonis@gmail.com>, "Alexandre Courbot"
- <acourbot@nvidia.com>, <sashiko@lists.linux.dev>
-To: "Roman Gushchin" <roman.gushchin@linux.dev>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <DIX8UX2TJP8E.4OAWKUUF5JG1@kernel.org>
- <CANiq72mSpur28Fz8YL7_-FJk_h008kt=sw6mLeSsRNmiy+ko1Q@mail.gmail.com>
- <DIXM8JL1CM5A.315I0YBSDJT5O@kernel.org>
-In-Reply-To: <DIXM8JL1CM5A.315I0YBSDJT5O@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Migadu-Flow: FLOW_OUT
 
-On Mon Jun 1, 2026 at 11:46 AM CEST, Danilo Krummrich wrote:
-> Flagging something as wide list seems rather simple [1], the tristate [2]=
- would
-> work as well, but seems a bit more complicated and potentially requires
-> adjusting the existing policies.
+"Danilo Krummrich" <dakr@kernel.org> writes:
 
-Roman, any preference on either of those or something else?
+> On Mon Jun 1, 2026 at 11:46 AM CEST, Danilo Krummrich wrote:
+>> Flagging something as wide list seems rather simple [1], the tristate [2] would
+>> work as well, but seems a bit more complicated and potentially requires
+>> adjusting the existing policies.
+>
+> Roman, any preference on either of those or something else?
 
-Thanks,
-Danilo
+Sorry for being late to the party.
+
+Yeah, the tricky balance here is that there are people who want more
+sashiko reviews and there are people who are quite vocal against it.
+
+And I don't want to over-complicate the setup, I'm afraid it will be
+just a constant source of disagreement.
+
+One option, is to switch from mailing list granularity to the
+MAINTAINERS-entry granularity. Wdyt?
+
+I don't think I have a perfect model in my head which will cover all
+edge cases, tbh. I personally think that reply_to_author + cc the main
+mailing list should work pretty much everywhere, but it looks like there
+are other opinions as well.
+
+Thanks
