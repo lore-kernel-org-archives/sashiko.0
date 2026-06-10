@@ -1,123 +1,116 @@
-Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB47729D281
-	for <sashiko@lists.linux.dev>; Wed, 10 Jun 2026 05:57:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11F62331ED7
+	for <sashiko@lists.linux.dev>; Wed, 10 Jun 2026 22:40:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.175
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781071046; cv=pass; b=nEhBb2QTJNIZqRUBM5JBTaYjhUZt4qhrrthKW0omUMGLqZ8QzXzQc7/z8i+mAQZDT1+p7/OrvMd+Tc7GMWNOIWM2BuvdmKDIxiObkmm3R6m1PhnEwvrLrIFmzUNHCz+oUw8t3okRfmQEKCSNaxF9Uidt50ntdofMwy+a9cx2+wo=
+	t=1781131241; cv=pass; b=B0IWOaJtIsclcKb9oo5sHupMpRKe0/RLfMlRqXgwQKfn6pieSAoOEF8DbArLeczmv5Ko9XeeyKRoJd80pZDhSp6rQzbEqDSWujboevauGECsYeVRE15V6hZQF5I74Htl2OPisdAGwlRmh+MUWOKE8HRBiW+AmmM1H+1XPUkCw44=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781071046; c=relaxed/simple;
-	bh=xOJleMJcG51SfjE6aNa4QqJE0gZ9y0m5XEgrIDOMbmU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=R6yL5qxa8KnJAFvMkuVp9pvNG/mRcpFO5cqbaFqjR2t0XbJbYiww13MZ9ZRhJmlBxlMl8LpUfbOM5hLFWYXGXdx/RABYPrHsQi45E2gk56xPcEoVaxMaR36V9EGhdqYUYWXZTo2eGJOPxdvBp1k4fVbSlxnTrL7BCFXpF2ki8IM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Jf4LR7nc; arc=pass smtp.client-ip=74.125.82.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781131241; c=relaxed/simple;
+	bh=18ou5X1KOh5LEQnMxnbQ1ANcfhwNcv8WLmqs+Hql40k=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=SeBAEmKRHRmWud8iMqTynU+QIjJCfglhzEMTFxv/R1cSe9BxCRTO3JYJn8gAMRXn64XRZy7WWtHOLwHpLQ2DMg3Hk78AQthFhVZT4c7lFl5wTqpsXHUHWL+XJsT4QdqST9WESqiaB4MSEMspO1p9/IoNpARB4fSYlNfAU0EJOS0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=t1QXjRFB; arc=pass smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jf4LR7nc"
-Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-304e86ecebfso394682eec.0
-        for <sashiko@lists.linux.dev>; Tue, 09 Jun 2026 22:57:24 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781071044; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="t1QXjRFB"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2bf2911f93cso18535ad.1
+        for <sashiko@lists.linux.dev>; Wed, 10 Jun 2026 15:40:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781131239; cv=none;
         d=google.com; s=arc-20240605;
-        b=lxYHulHVZdnoMDzlZnfiBAQiENwKe/TmJWmTcI2TjCXVAzu2r4pKmCP0Gc9yRv8nNH
-         mQ1n5plltzA2Kb2gOTbsb+Q2wUIG0eo9CcWUiXhkd/u+BrxTF0U6MmJUMIKn/4hwhNAu
-         ewDaP0jIKaO28gVWTMERB0jVI8gA9G7Xv/WeO9kpgMEJLCYuxUgWN8q1P5XNmvBWZd3V
-         0lYEZ0L5CWSdHzWrHrdTDV3hcQzBUawabo3fkCx1q5WAIXHbsHqtgWMn62GpH/gtFaGr
-         1MPMm2XjEshEyq4LKeCs9kr47TM15Wnv3SAE8Ea5UeqCqa98q3hGGNuiMmSf7+/wKzGo
-         CJpw==
+        b=ZQp5DdMQ8lSUoNUSogVHt2nVUi527/i+mjzrrHhk89TFg/9wAaf2+wK+T4Nb2+xFVN
+         h30vi0Kr46wBwejpTHlFTl5DW0yY9EhW/hs1w4x6PwwLqAMSuPJYF7iFh4bVDX+umNqd
+         IgU+ep5OTdunJwi9BpTeG/c8r0ybVK+0Vi1qIgAOdn0cz+FtYSsBzbNp+jZJEKSQHF7w
+         LOrn7in/NRooiZoFf0VO7E6zB8YLBGyLnoh6t3EkLp5nJBshFf5+sJnWFimFf9zi8tvx
+         h6cYfe23Ao3gHjniyJiQxyOZ5CpYrrUlaoWkPt9Du0ijQVZvRsIRVuCNYDVmooRD2QAb
+         boSA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=xOJleMJcG51SfjE6aNa4QqJE0gZ9y0m5XEgrIDOMbmU=;
-        fh=L/Xv1UtTb3xsksk+YbLEODoqx9fidAsMPiGj6C6Of+Y=;
-        b=h0NcNp0HxLAAH9DFxN99YRNu1mAhGFlVExHqki66w/5GQ8fQnYfiCGrNH6GG0qtRBf
-         ohHMyWOB18p2VBhMnqW4KKLsBm1AhX4duwch9aa4FGmKbD5h3CBxLtOTOZdht8FE4ZRf
-         Z5ERXurSY8N0ycMWpKYRH5GXREcCq6vGIhfD8ajscT8lklB8/a8kwaYlrY6M8fE//UT+
-         CD0rEmikOCye5WH+9NThPJUE05ezXENfPqHbBrrfnokZ8LqW4KPVIWqc666Rq/ZlJW4K
-         zDVEiuO3xOh8PfqUkqh3atsB0z16dlC9vONDqh9PjK0B2dO90bcKkQaMfTdwfDdU3FHe
-         MuHw==;
+        h=to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=18ou5X1KOh5LEQnMxnbQ1ANcfhwNcv8WLmqs+Hql40k=;
+        fh=f4752awmNObrvpfNRW8A1hmCXdqwMcSumbWvefch2N8=;
+        b=i+nn11gyUUlSZjuKSDg7Y2Abt6S5q7IftVMPbTWPkGfc1LLpMBmSvpCAHB1VT9EdMY
+         OlWm6gRnp+Lmu+9Mq3By54xw+/elyyJ6g0+uby255ixFkcH+xye5Oks/0/7OYYV1jqW5
+         5zKseXlN2lUYzbYKtGfjM2Dea44wt1WdNFAglMEh3KRD3IRiYXZT7WZwVBE2x8IODaQ5
+         MDLSZAtxRe87dpVUn20JRFt9EhXwby42fkclK74qt6GLDSofWB7+zCztZ7bzgZsm3qGd
+         cQI3wuGyy9fe/lxUXjRnxUpCV/SfyrqP01qbm7T8lpp0HrSenWrtklcvHQlVy3RyoK7K
+         P0NQ==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781071044; x=1781675844; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xOJleMJcG51SfjE6aNa4QqJE0gZ9y0m5XEgrIDOMbmU=;
-        b=Jf4LR7nc4oU47D1n6I4JV0zaqDxg+j4ET+w6jmmoNWkrFXOfGq6Fey7bix5cbHOn6n
-         SvSt4zxUy9rpKeCAguQxOklH7YiRc4mynHmmiA08Noun56SDFdw42i8K3uWvUNUXlnEF
-         8Bl0X7srkFuExyZIyHxelxHe7C2E1+rTd8ul7pHI/hioh9PLcfmHu1bnU1LVGLEX/I1e
-         ll1SQl/rfBMDhd3NnHOqSODIfcuVK8RzAz3vFB1O4E/Tzr+BsvuP62Lz4xTbKwYfa4dP
-         asSDYbTX7MKTbOMh0QpVHvGYCFT4mNSbjGUHBVoHBK1i+91+kjfzOew3u98hx6jsFjQ6
-         HaIg==
+        d=google.com; s=20251104; t=1781131239; x=1781736039; darn=lists.linux.dev;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=18ou5X1KOh5LEQnMxnbQ1ANcfhwNcv8WLmqs+Hql40k=;
+        b=t1QXjRFBIg4KzU71WlhjRI1KgBcR5NI3tDMscwRJSQv16TPBLpiekpGTTWxDSvopa2
+         oHJNV1drCV2s7Sk58lqVlXoXvG4ZtXMGGL+RmLezkYpeY44bHBJhKOhUXibivGDg0vVd
+         5PGU3xpjiL+VWw6nYYGXT3keK9grk64lXV2XCUbcLvpFxWkRCXl+sAESiqjkQr4NvpzY
+         np2RCxmxKGLYdrJpyY+jbVQJ4iA7MvpTQv1gnpacpWESoVG4IcjI514827RZ5/AGKwc4
+         LpmbxbpUXd/kO97jDDPtH9YlG36gc0Ree5FSHMOIle9HlYsuEfqGVDNTBVN2wTHl9LLn
+         Z68Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781071044; x=1781675844;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=xOJleMJcG51SfjE6aNa4QqJE0gZ9y0m5XEgrIDOMbmU=;
-        b=OTv1/HCyXSWPnOEogMuf+nH9R9X1UrJjJTSdojak7/93kTm6I27N2Qp9u+rmuuQFSd
-         srUjaMtxUkOB5Tjv2OnbceTyiQtSkYjsAlMq3UYWFXXIVYFCwo8ziiNuJpSj5mlsKHb6
-         cfzXUWi056kFVuY/KHmJq3zxrdy/BCpfFh2icW8L6XssTsKjAQu32zdui+rDT4+FQZCv
-         5oji+sXyZi7oZ4Jg6Ahq2E6c0G2w9sPencOIO/9aFCuJ5Ss02ijUk5jItTeXzZkDsH3T
-         d+3cpjCSFqdVJCJwtUcK/L5lu8+wEaqSWD+Yggprfl9vv6lxBfFjJEszlux8paVvDfLF
-         xWqQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/RdxeFbZlowyK0XUvIewZyg0Gd+SJi78ZafWHs/fC8cfpwv0N9bU6mcBWKLHghsQakSG9pTqh4@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz/E7GHyFbLPsg8Hp3x6C/hG5WkE679lQAruajcL5VP/WT3ufBv
-	KU0Exp368at18YSJC/E9Cpdcao1+pdfE7ftpL0PmdHqeXx4GUlSSOxBtIXfkKjadzG/mgM6Z2/y
-	lyO1yKydVkTXWLYhsTxMC5LD/+S5yc88j4p8N
-X-Gm-Gg: Acq92OFe91tU8igqbGjc1b9ov5VR1MInPvI4B7etzj9dWZ1HZVmzPivn9Wn3Ohxd75+
-	OolPSrhIU8Pfi5UrnnEHFuTYTxirr0qpcgBU6aukpyDe8iKjcBLF1nZ1OYVQ2yRIFZF8Sexqw+I
-	3ooiVKDq8eEQWftMj7J30fGbET3kuOISlkuU/NYYaGw2NdMs87u7oPxHllXlL3ZcQhh9uoCv2Uf
-	+pKyGhE61NrLAAGpqoB/aV7gUAO9yZhPxJqJQ8iEPPWKGZnv5s6jPBIDTSFfj+4z9tU1AeBWdRH
-	4CcY835J9cULRyIudPeBTJMHzhtlBMPp/y0YDYW48GLEkuaUntRwyL171kWJ8DIkd3Na/wuibr6
-	uoL857Vzj2M1M0GT5YgR6NNJ76v4/k8pAxg==
-X-Received: by 2002:a05:7300:23cb:b0:304:8361:a8a7 with SMTP id
- 5a478bee46e88-307d5feda83mr2077575eec.4.1781071043799; Tue, 09 Jun 2026
- 22:57:23 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1781131239; x=1781736039;
+        h=to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=18ou5X1KOh5LEQnMxnbQ1ANcfhwNcv8WLmqs+Hql40k=;
+        b=lu+52mBqTPs06SZy5ZFk9fP7YL7YdNt3yNv30Vv5H7A1MNGIcNSwN2Ts7bBZDWphR8
+         LIwY2atHGSLTiZ8KWeNs9e3sbfBqY2KOvOrC6KOyVR2+sI9KGjrSJK/74XL3VNv7R2xM
+         2pxT7NsS8fspgWXsml+wPFCvCohA4AcgQGZ5FGaP4LPucAjKG7mf0MD2FtFsC+95euC6
+         DSRTfc3D/fYS6aP84aAL4hfGfnbC63U5yj0rVEvceJCc22dQJJIz696tyHGI5n2GDfOl
+         BGuJDol9WgdpbDjJBuNEYGh8l5dX22mNTSI/pA48T2o6fcuNdPWMVQGkZyZlkLH3ZtiM
+         ajQg==
+X-Gm-Message-State: AOJu0Yx2outZUS9eZ09IK8L028mI/SX4z/MopgCgsWwohe99DHm4gg3W
+	jdDK31q+vvxM0bUlEmB/sGPVEwSo5pO8XsCLZzHDXub5qYmdfXXz0am4Fh6B9pO3c8An+eawmJv
+	7ymyMOCQJ7ss5u3NsO+eWK/SLURPgomkfzhlYGJ5SIK5RSCNxDRDP9JmpSsg=
+X-Gm-Gg: Acq92OExIVQz7WRI7URBrockr1Saa9Ts6i4TZlZPef21YCk7PqVhJ2ymVPO99K/Lj+l
+	6qEjuMtNaa8u4guFzxQWLYKATjsTeEaTSNk2gMcch3p6NcdOQCPSxBlcThyx7faEwu/tYZfFZ3l
+	X7zWnZih9RRGHz9FlKg6dNd83VNaSNXZyVoj32NFfloL+j4DwrX7nahXvKehuPgdKOlEUjF2ECW
+	HR03mQqxUpVBDuX31AtsWrTcakPNio3moPMklLTT1CyfolLBNfPyJWsOwrbI6bx4Zm7VGhvnqhU
+	Gd9HS8PSeaYaeY+10JqmjWCz4WuubHhY9AjVClSo0KVBP8Iq
+X-Received: by 2002:a17:903:3847:b0:2c1:ee6e:4e4c with SMTP id
+ d9443c01a7336-2c2dfa8ed76mr195845ad.29.1781131238894; Wed, 10 Jun 2026
+ 15:40:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <DIX8UX2TJP8E.4OAWKUUF5JG1@kernel.org> <CANiq72mSpur28Fz8YL7_-FJk_h008kt=sw6mLeSsRNmiy+ko1Q@mail.gmail.com>
- <DIXM8JL1CM5A.315I0YBSDJT5O@kernel.org> <DJ3PO5LX7TQK.3BS0W5EV7NB7C@kernel.org>
- <7ia4ecifd6i9.fsf@castle.c.googlers.com> <CANiq72k5n2yci3Qt=D9WbT2+yCU7V0AVe3UmUvsmQTcdJG0pDw@mail.gmail.com>
- <7ia4a4t37hp7.fsf@castle.c.googlers.com>
-In-Reply-To: <7ia4a4t37hp7.fsf@castle.c.googlers.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Wed, 10 Jun 2026 07:57:10 +0200
-X-Gm-Features: AVVi8Cdo1sZUw9Baf0hD1eLH0Z2sCEMCG1GHR_w9GCFKygr3zjtvPEv5hVQscSc
-Message-ID: <CANiq72kVXwvAfhkjpiZ6SooHXT+dSn1=nwTJ-SU2Tej2+JZgBw@mail.gmail.com>
-Subject: Re: Sashiko email policy precedence
-To: Roman Gushchin <roman.gushchin@linux.dev>
-Cc: Danilo Krummrich <dakr@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, sashiko@lists.linux.dev
+From: Ian Rogers <irogers@google.com>
+Date: Wed, 10 Jun 2026 15:40:27 -0700
+X-Gm-Features: AVVi8Cc3LdIyfP66YnITtxkQFFwH-HY2bE18Wooi0I2rlGntrFv-M2Bpafe8uM8
+Message-ID: <CAP-5=fWmn9+LT-4VeAm6JwTM=FB071w-Oa2QXDROLK7VDXcfow@mail.gmail.com>
+Subject: RFC: patch size analysis prompt
+To: sashiko@lists.linux.dev, Chris Mason <clm@meta.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 9, 2026 at 7:21=E2=80=AFPM Roman Gushchin <roman.gushchin@linux=
-.dev> wrote:
->
-> Very vague idea at this point, but: for each patchset sashiko can
-> determine the main MAINTAINERS entry it covers and apply it's rules.
-> That would help with the case when large mailing lists are cc'ed.
-> Now if e.g. a patchset is sent to e.g. bpf@ and netdev@, sashiko
-> tries to find a combination of the rules and it's kinda tricky...
-> Maybe the better approach is to decide which subsystem is primary here,
-> e.g. by the subject prefix or diff stat, and go with the corresponding
-> rules.
+Hi,
 
-Thanks for clarifying! Yeah, finding somehow the "main" entry would
-work well in most cases, though it will still be ambiguous in certain
-cases of course.
+I sent an RFC PR to add patch size analysis to Chris Mason's prompts:
+https://github.com/masoncl/review-prompts/pull/73
 
-If you mean using an LLM to determine what is the "main" one (since
-you already have spent tokens reading the series into context) and
-then using that as input for an algorithm that decides (still taking
-into account wide lists etc.), then it could work fairly well. I guess
--- people may prefer a "fully deterministic" approach though.
+The proposed prompts aren't subsystem specific but maybe they should be?
 
-Cheers,
-Miguel
+The prompt itself:
+1) Shows what a decomposition analysis for a patch should look like.
+2) Categorizes the patch size, ignoring small ones.
+3) Recommends decomposition when multiple subsystems are involved, or
+when bug fixes, features and refactorings are mixed together.
+4) Establishes an 80% rule: if any of the decomposed patches is sized
+at 80% of the original patch's size, then the original patch was
+appropriately sized.
+
+Using the prompt locally I find the feedback useful and the approach
+doesn't feel specific to the perf subsystem I largely work in. I could
+imagine that if someone is say dropping a new device driver, getting
+feedback to break that apart may be unwelcome. Perhaps people have
+extra advice on how to determine if a patch is appropriately sized. I
+think the feedback would be useful for both reviewers and
+contributors. For reviewers it would let them know if asking for
+decomposition was reasonable. For contributors it would give them
+quick feedback that their code should be broken apart to make it
+easier to review. However, these are just my thoughts and the RFC and
+this email is intended for others to provide theirs.
+
+Thanks,
+Ian
