@@ -1,137 +1,185 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EBD9345CAA
-	for <sashiko@lists.linux.dev>; Thu, 11 Jun 2026 05:43:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 989233EDAB3;
+	Thu, 11 Jun 2026 12:34:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781156594; cv=none; b=R6jp44w/UNmn7Reen1gwXZZsAUBB8nnNdFvJkV6zjKpiCcrQGibbtedFtO5Ml7sd2zlOL2F3k1W5AA2vuqaiaJzGG3/iqjWZCTMfl9dHPd/l/7i5SXg4a3aNYrx6WC8CqisomMfhU5ZauaLetU/czkcdRgnVhwhbAQVkaItmr2o=
+	t=1781181271; cv=none; b=f8Idss40KoFBxGNtJAzq9rrixd2PyPrIg+5Ev4SSxy1zwLjQtRPCer4RldCvaaUj5WFOZ9TP0ekpa1BE8Z8ZSGYx/xc+bKweBkQfw3HwAQn2OM1kINpNXcV5tUydsnPQ4gmA8OdnqyeRLzGyIN0XZ/p3CjcCkrLJdgviUW5RbeI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781156594; c=relaxed/simple;
-	bh=cgnZe9Zo0ZHFjiKAvOqf6uh2UWx48g1JrXcQ5xzTeqo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LdOz7YTywe2ECnKC0bHEUw25IPAOALvf0QC9o+RjfCtCaLOFI++9BqHnEyhifWvAvh9ze3POuPSP79FdOIvXo8l/OpyJNTWr6Mkx7zziUIsmU9Aq2Ti7v2DChQbU6i+KIpyafFz073tzPrOR25+BZDbi3Yl9G/HQa/fpYbq9H/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=XTr08iCH; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1781181271; c=relaxed/simple;
+	bh=v9oopA01v+bowqa2CZtgvVOhMj7Mrcafb1n9eJIaq48=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GWjhHDR4X7Dh+4v2CnydU7xH1khMIY8u//n6BrZeE3srtrTNM/TTNiXAa2hd465qPk0X8k6LQdAFfcrv0k361u29gW5vTL9l8bX0Wy/35IzsOHzWPAdAa15m3X40tE7k+NaBRdNgfhpj7ZqoRsu27ze9o9eRxJc46ICpjxL+Vto=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=obrZwMSJ; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="XTr08iCH"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-490bc6a7958so4810135e9.1
-        for <sashiko@lists.linux.dev>; Wed, 10 Jun 2026 22:43:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1781156588; x=1781761388; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=cgnZe9Zo0ZHFjiKAvOqf6uh2UWx48g1JrXcQ5xzTeqo=;
-        b=XTr08iCH4ALSr/pGpqscuk84AveXPGAKMxP2GDqav9Ciaac12AvgSCetbOT/NAE2OK
-         ZXc4nLyJvbvgfN1ueOzhvZB1b5hOqMzLtNS8PiqhORPhLDgzRHKZ7Z//yRnr1QZaNX9x
-         0I3mWHyVIfMmUpKMTU6UEDbqsCZHM1AJhwvikF6KO/0bPujkrYTDPS8+fk1b8jIyhe1J
-         OvD+iaDS3Hq8uNudC/NplbBw/HJn6QRHld9czA+D+I5uG6R1sSe71NgYjCV7hHBwFJ0C
-         5OldWAp/mVNfaoyaNCafvpcfRWnJX/xPj15+XD2PFB2A4+rxshQ/rIT0tEKt0CRApvyh
-         YTzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781156588; x=1781761388;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cgnZe9Zo0ZHFjiKAvOqf6uh2UWx48g1JrXcQ5xzTeqo=;
-        b=midcv/zZ38ohgw84ZuQjF82jIeZjUMFgx5eTq5GIwB5Aqkga5aUu1ltyjpzaFVMRhE
-         98Q6L792Y3iMIcHZHJb72AbFYy+xmPmFJNtywdponNufUjq9kUlEPrkN3PI0P7F5ZWaF
-         pQpCeTdklvI/v1y/b34sqluCH6nT8DvsdTWc+tNpq+f3zIvOrttegoaU83+yjlR4W9EI
-         Gofsn4RRC3w4Nj22WHyAvj5QSjhoufs5E8S+NtZsdjWoY0E+zXjJSKaznPEnL530iM2F
-         P/gdNBPHoRkAj9O8riLm8rd3z13kjiKuczU2c7s32x/dDj8pr9Df6QfjXq1QvlnSZ78l
-         pElw==
-X-Forwarded-Encrypted: i=1; AFNElJ8DWIjXWut3ZIitXqJyotJlgUgdzoftHoZAgAtM+Qfz+pysFvke+WufMZrrttJO4Za8F20FCUNY@lists.linux.dev
-X-Gm-Message-State: AOJu0YxX6mdsBPG3cKYEuFYuHXxpYxbli9KYDXnOE/aJTRum1q5tQj7e
-	O+X7B5WC6HiJqT5VJagdPDKI0UiprdZLJSgEUWWJcjVKH4Q2Fk4KevbH+JrOjkkoGdc=
-X-Gm-Gg: Acq92OEtBRDk4D/8VfWsnx6BM9MzOrgR66nB4p9bSwqaZMSryLT4LH0hq8tZ2DRw6zN
-	S691r5krrJAEkLSEyh+lbrtBMAub8oDs0oQlCuHebvGQIYnwbLm0ebHmFlEgunESGn8gnAyhYKX
-	CK5vWwHsD6lmhrU3oOqCeGnUfM75NsiV96U4jLd/rFQXBzGNnDyI7LBxbK2Y8PUPRkWm4VV8gzE
-	m97uyvcMXcFaHqBzGXffjS5VrDdjor452OWLtXHC+JXGBMmZCMMRMx/e3m2+H0CqrcE8waVHNFU
-	lrPxGyt0GS0nWNVLbXIkYO6eMkFVANptGzHKshajFAkABxvk1iq1yVDHmnpZc+jOxZUyWb8jrJf
-	61iouOq3ICPdrAn8Pw+GpIPQ3BC4E5UINn+TH9CU/feOACNFeLHK4tCSQpaZZZMHSOifO8usmGv
-	o+pSP3CygQe5ed6YVuQj7sJOLkaru/MMw4Eyd1vH4=
-X-Received: by 2002:a05:600c:2d4b:b0:490:da23:1d50 with SMTP id 5b1f17b1804b1-490e50fc9cemr6949465e9.3.1781156588495;
-        Wed, 10 Jun 2026 22:43:08 -0700 (PDT)
-Received: from localhost ([2a02:8071:56d1:2de0:559d:eec2:887f:c200])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-4601f35fb24sm83598500f8f.34.2026.06.10.22.43.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jun 2026 22:43:07 -0700 (PDT)
-Date: Thu, 11 Jun 2026 07:43:06 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
-To: Linus Walleij <linusw@kernel.org>
-Cc: Patrick Rudolph <patrick.rudolph@9elements.com>, 
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, sashiko@lists.linux.dev
-Subject: Re: [PATCH v1] pinctrl: Use named initializers for arrays of
- i2c_device_data
-Message-ID: <aipJa6qc8_isXFd6@monoceros>
-References: <20260517134835.588648-2-u.kleine-koenig@baylibre.com>
- <aimZ-yzZ1hAut_KF@monoceros>
- <CAD++jLme4HQjp6kWWsgtuiAfzPU5mUOHPEY0EBWF9dZSrFp=Ag@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="obrZwMSJ"
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65BC30oM3872814;
+	Thu, 11 Jun 2026 12:34:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=a9TcYe
+	X6xQ3G4Kbzk2V5B+E8LaoXRFCExKkKPHNgmHI=; b=obrZwMSJSKAmHpI+LtMlld
+	vr/wx8yAsND4gD6+AuJc6D4p1rdsFwWIS2J+oC8GVs63IIoFQaSDBXLMy62LFHDg
+	c1fcFiYDbfmdO2V0gBFN5n5Lx31oJVaPT1jq0TXWzxglblMG/Vq9bdPWUaCOCekj
+	g0Nxl5wVPxKpSMvgWIMhSyTvF+J4x37SKdS3PjpqwjQD713NusPdxVQYa5/8w8c7
+	d982WUIRpv36AvHdQOIkNcvjImDV1PZbO01BDyFwZZd5Y+QjJPVS4AJ723bpQClR
+	D1mAZ5hF5kQylWpcYous09E33jKKDR5aw2/+KWFdyGemmKgahBxmisM8ICqEQLWw
+	==
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4eqe8euf27-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 11 Jun 2026 12:34:28 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 65BCJa9Y023978;
+	Thu, 11 Jun 2026 12:34:27 GMT
+Received: from smtprelay02.wdc07v.mail.ibm.com ([172.16.1.69])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4eqe09k50e-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 11 Jun 2026 12:34:27 +0000 (GMT)
+Received: from smtpav04.wdc07v.mail.ibm.com (smtpav04.wdc07v.mail.ibm.com [10.39.53.231])
+	by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 65BCYQJm5964540
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 11 Jun 2026 12:34:26 GMT
+Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 951B858056;
+	Thu, 11 Jun 2026 12:34:26 +0000 (GMT)
+Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 9360A58052;
+	Thu, 11 Jun 2026 12:34:24 +0000 (GMT)
+Received: from [9.39.28.34] (unknown [9.39.28.34])
+	by smtpav04.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Thu, 11 Jun 2026 12:34:24 +0000 (GMT)
+Message-ID: <714f2022-879e-4f6a-9b1c-cce06be6db65@linux.ibm.com>
+Date: Thu, 11 Jun 2026 18:04:23 +0530
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="csy4capwujfxztmy"
-Content-Disposition: inline
-In-Reply-To: <CAD++jLme4HQjp6kWWsgtuiAfzPU5mUOHPEY0EBWF9dZSrFp=Ag@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] perf dso: Fix kallsyms DSO detection with fallback
+ logic
+To: sashiko@lists.linux.dev, Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Ian Rogers <irogers@google.com>, namhyung@kernel.org
+Cc: linux-perf-users@vger.kernel.org
+References: <20260416091657.578429-2-tshah@linux.ibm.com>
+ <20260416110905.3A68AC2BCAF@smtp.kernel.org>
+Content-Language: en-US
+From: Tanushree Shah <tshah@linux.ibm.com>
+In-Reply-To: <20260416110905.3A68AC2BCAF@smtp.kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjExMDEyMiBTYWx0ZWRfXxIfSchAZ19m1
+ t5iLhO1n2Cb1lLIDPAPmZrjpSF8GdWYh0wt9YDftzSYJGrdE0iMI1Y1qcz3LDqE9cpOfsu5qg9X
+ EVNCdJ9kwaKm2Nfkg9ZVw1MjbMz6ivGxuY4nZ4RCEp5hyzv7oD6Fmvmnw0V3Gd3d2P0B4oiixlU
+ EfCnNRRuXr3pXYWQJj01qteS3vJIDwcMO9rlX0tvMOJ/kGhLt0vOUxilwQhztpZHE/cIhKy0UHs
+ T/2QRM7P7SfwcCGQJ1nYVoarkO1rgdo5cJPeA0sSr1cOFhuc5I+q8pioR8B1Ex25EU4HdgGsgkw
+ 597UY12XhuwLyyzUZSMSUQIaPI0IGwJEW6FSQzieYExg9brgvIejZTNXjVKavWmb8z4XVy2YHoU
+ DSsyueoqoZpJax4Uq2Ezfks1mFhRInpAhXnhPapp1Q0j/wxBtZfPOIFLMCNRkIL410+MVnQqbEa
+ zSp6IZ9KggIGAlgbJkA==
+X-Authority-Analysis: v=2.4 cv=dr7rzVg4 c=1 sm=1 tr=0 ts=6a2aab54 cx=c_pps
+ a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
+ a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=U7nrCbtTmkRpXpFmAIza:22 a=VwQbUJbxAAAA:8
+ a=VnNF1IyMAAAA:8 a=pYMxprL7IShqr10o3WwA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: 2e2KJJT-BPB0xH0JtDnRILrYmFdBprtC
+X-Proofpoint-GUID: -_Vyr6AeAQt6fi7a6e97QELXn4VY8i9A
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjExMDEyMiBTYWx0ZWRfXzQF3ruzMQ06f
+ MDrOfjPCCKuT0ImuXXeoQnV31cI/RBSCu+6RUbp2tlp9l8gkTTik451MHNjzbu/utHomG5uqqCb
+ 07d3WFeCn/YkOGm9SCnlji6qhZreSEU=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-11_02,2026-06-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 adultscore=0 suspectscore=0 priorityscore=1501 phishscore=0
+ clxscore=1015 bulkscore=0 impostorscore=0 lowpriorityscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606040000 definitions=main-2606110122
 
 
---csy4capwujfxztmy
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v1] pinctrl: Use named initializers for arrays of
- i2c_device_data
-MIME-Version: 1.0
 
-Hey Linus,
+On 16/04/26 16:39, sashiko-bot@kernel.org wrote:
+> Sashiko AI review found 2 potential issue(s):
+> - [High] Path Traversal and Information Disclosure due to `strncmp` matching any prefix.
+> - [Medium] Incomplete fix: Fallback logic is missing from `dso__is_kcore()` and `dso__is_vmlinux()`.
+> --
+> 
+> commit 9ee80283f13c6a0a5235a2add7a94736c1dfcbba
+> Author: Tanushree Shah <tshah@linux.ibm.com>
+> 
+> perf dso: Fix kallsyms DSO detection with fallback logic
+> 
+> This commit fixes an issue where kallsyms DSOs are not correctly identified
+> during build-id injection because the dso_binary_type is not yet set. It
+> adds a fallback string matching check against the DSO's long_name.
+> 
+>> diff --git a/tools/perf/util/dso.h b/tools/perf/util/dso.h
+>> index ede691e9a2495..515ab6e95b0e4 100644
+>> --- a/tools/perf/util/dso.h
+>> +++ b/tools/perf/util/dso.h
+> 
+> [ ... ]
+> 
+>> @@ -915,6 +917,14 @@ static inline bool dso__is_kallsyms(const struct dso *dso)
+>>   {
+>>   	enum dso_binary_type bt = dso__binary_type(dso);
+>>   
+>> +	if (bt == DSO_BINARY_TYPE__NOT_FOUND) {
+> 
+> Since the fallback logic was added here because dso_binary_type(dso) is
+> DSO_BINARY_TYPE__NOT_FOUND during perf record and inject, do dso__is_kcore()
+> and dso__is_vmlinux() require a similar fallback?
+> 
+> Looking at dso__cache_build_id(), it relies on dso__is_kcore() to flag the
+> DSO for special caching logic. If dso__is_kcore() returns false during
+> build-id caching, kcore DSOs are treated as regular files, which causes
+> nsinfo__realpath() to fail and breaks perf archive for kcore sessions.
+> 
+>> +		return RC_CHK_ACCESS(dso)->kernel &&
+>> +			((strncmp(RC_CHK_ACCESS(dso)->long_name, DSO__NAME_KALLSYMS,
+>> +				strlen(DSO__NAME_KALLSYMS)) == 0) ||
+> 
+> Does using strncmp() here allow a path traversal if long_name is
+> intentionally crafted?
+> 
+> If a malicious perf.data file contains an MMAP event with a filename like
+> "[kernel.kallsyms]/../../../../tmp/leak", this prefix check evaluates
+> to true.
+> 
+> Could this allow build_id_cache__cachedir() to construct a cache directory
+> using this malicious path, causing build_id_cache__add() to unconditionally
+> copy the host's /proc/kallsyms into an attacker-controlled directory?
 
-On Wed, Jun 10, 2026 at 11:22:32PM +0200, Linus Walleij wrote:
-> On Wed, Jun 10, 2026 at 7:09=E2=80=AFPM Uwe Kleine-K=C3=B6nig (The Capabl=
-e Hub)
-> <u.kleine-koenig@baylibre.com> wrote:
->=20
-> > Gentil ping! I'd like work on the patch series that builds on top of
-> > this patch. Do you still have it on your radar and maybe even consider
-> > to apply it for your v7.2-rc1 PR?
->=20
-> Actually I was waiting a bit for reviews but noone is saying anything
-> (not even Sashiko!) so I have applied it now!
+Hello,
+The current code relies on dso_binary_type to check if its a kallsyms 
+dso. While running perf archive, the code calls dso__is_kallsyms check 
+to create a build-id dir. But till that time, dso_binary_type is not 
+getting set yet. Hence, this patch introduced usage of dso->long_name to 
+check if it is kallsyms. But based on the above review from Sashiko, it 
+seems that this may create a security concern.
 
-On the sashiko website my patch doesn't appear, so that there is no
-feedback is no surprise. However why my patch didn't make it there, I
-have no idea. [I added the sashiko list to Cc: in case someone wants to
-do some research here.]
+I tried to check for the possibility to set the dso binary type before
+dso__is_kallsyms gets called. But, I found that dso binary type is 
+getting set based on dso__is_kallsyms only.
 
-But let me assert you that sashiko is mostly happy with this type of
-patches, the only critic is that sometimes I pick the wrong commit
-log template or forget to mention that I also removed a trailing comma.
+So, I am looking for suggestions/approach that we can take here.
 
-Given that the patch doesn't modify the compiled result, I think we're
-save---even without AI feedback :-)
+Thanks
+Tanushree Shah
 
-Thanks!
-Uwe
+> 
+>> +			(strncmp(RC_CHK_ACCESS(dso)->long_name, DSO__PREFIX_GUEST_KALLSYMS,
+>> +				strlen(DSO__PREFIX_GUEST_KALLSYMS)) == 0));
+>> +	}
+>> +
+>>   	return bt == DSO_BINARY_TYPE__KALLSYMS || bt == DSO_BINARY_TYPE__GUEST_KALLSYMS;
+>>   }
+> 
 
-
-
---csy4capwujfxztmy
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmoqSucACgkQj4D7WH0S
-/k68FQf+KXPPTnUQ3jzjcRqrHFehW4igG5ntwzEqepVlejviYR6enZXlXlC+m7m4
-3yI+jrob6bkAcapa+ZE3dhGBqCYgc4Eey3N/yyDptQ98BvunRoVY0Zo4euIrHIU1
-nlTw5L7xnf1MPxOCyiUQTYBzikniJzK3Q6yiEWOSY3JjzbnnFGxJ7C17+Oa+5ic4
-1rmo7wfTz5054BFScCiFhk5rGQcwGSfmACQEcYNDXSb1qcx56eUZZKIvGFadpQmH
-cRZTO9+Bwng71J3stVAkpWq9Jugy6tchzp++N8XkxZbn6UoEj+WS6HgPrYUbqki0
-/ZmR+3R5guKfGlxiiuFU40C4Lozglw==
-=MwRd
------END PGP SIGNATURE-----
-
---csy4capwujfxztmy--
