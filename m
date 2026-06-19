@@ -1,59 +1,84 @@
-Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com [91.218.175.182])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D8631DDC1B
-	for <sashiko@lists.linux.dev>; Thu, 18 Jun 2026 23:35:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D14A42641C6;
+	Fri, 19 Jun 2026 19:30:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781825752; cv=none; b=DeCJehfR6Qtynlt7fR9Rbns5g+APdWgBOZgakCZoeAcj4OZasJcQu+6HGFhSVu0czxg3o6ZlqUDwpSu4oDlOYkb9wAprYMS6SpMrHu0oSKSKsAq1V2nhja45tOixBWdnsreeENc8Mgr06aFyYguEaKHu+me08iPTo3SAnlrEw7M=
+	t=1781897447; cv=none; b=Jyb1C39xqA0yByJRVGNFjgh9jNOePboegFDZZ/th1HNEQ1brUrDYJDO0nguGmZb95DG7W4k1TOKZ445uWv0FFxA4xdScwU3qbMU01hpO+hN6KqU3Uq7giplvOv3J0zjo+4NbWTzZvjJJqfUlDkgbkGM6S2KzJ6vKYl8rwBISc0s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781825752; c=relaxed/simple;
-	bh=lsktn//grkYckJ9Eoj9vBqk4WBGlof5JT6nnzYeedDk=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=crlgHG9Wlxs6pBpx/ZIsDJ1Oil5hsKQCNWpAUkxQV3D0zDWWpShV/6pklk0dF1oFzdkAduH39jJwfsD3DiAf5wqiix5U2oIFuXk3eyijmmpbWLTgQxzsJ/R5W9qK58S0xYi/ZgzVUOwJo8lTCLatxc7gy8mvNlsxIynNyUMNTIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=pR3nImkb; arc=none smtp.client-ip=91.218.175.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1781897447; c=relaxed/simple;
+	bh=M3vrH3gkJtdM0rEFzwBoBbl4W6M2qL3FjTW3Gv05Tjs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=boNHMU1NDTMUIJhqoepzqZpGIYdkkZY2DuRKblcjE9QaB1p7KGMfBtvMJpOGhWWI9jGud+ryDxzgxyfKQYnr2vLQ1SlobijQTY4tFZYniZs0BelrP7SWyobDqYVfdcTmLZlZSrrvhVAF1tRvlDDD7G3SfE2CeCXfVIf8Df1RE3E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mkLrVk5B; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="pR3nImkb"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1781825738;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lsktn//grkYckJ9Eoj9vBqk4WBGlof5JT6nnzYeedDk=;
-	b=pR3nImkbiiXi7BTDPJrWhuxyIV2V1oQ9vm5JGnLnQTSP2NYjz64stYXvtZu5j/TWhHOXW9
-	NIBIWvUOPPUvDTQYTBrLAvtZE6xP90PLyZXMAktCKAuC397uH9DerNcBs3fQr/NQ86NI/i
-	X2PwAaJ80epH6KRmxRs1AAXwK1H1W0s=
-From: Roman Gushchin <roman.gushchin@linux.dev>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: sashiko@lists.linux.dev,  overlayfs <linux-unionfs@vger.kernel.org>,
-  Miklos Szeredi <mszeredi@redhat.com>
-Subject: Re: Sashiko reviews for overlayfs
-In-Reply-To: <CAOQ4uxiJjVvrAwB4kcSsKsjgjtDyfy-1zDS=sMMt5Ke0ZQRSHA@mail.gmail.com>
-	(Amir Goldstein's message of "Thu, 18 Jun 2026 21:11:59 +0200")
-References: <CAOQ4uxiJjVvrAwB4kcSsKsjgjtDyfy-1zDS=sMMt5Ke0ZQRSHA@mail.gmail.com>
-Date: Thu, 18 Jun 2026 23:34:45 +0000
-Message-ID: <7ia4ldcb1kyy.fsf@castle.c.googlers.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mkLrVk5B"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F1731F000E9;
+	Fri, 19 Jun 2026 19:30:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781897446;
+	bh=c1bAS+CIsSi7f3lR/4NLuM9vXMm5BPWJ8vt5jfRI5rw=;
+	h=Date:From:To:Cc:Subject;
+	b=mkLrVk5BVlOdZVno1X9TUTgrk2wyr1Qu7zI4ftwmnVVvlfDmkc9eTQ1bYLfV3+Vn3
+	 Kfv+hA3jqPnsWY8T5MvfB4undOD4HYOcSgKsPvjFv8NTcBGYmydLdwfoDn4LgeNz0f
+	 M1i3gZ72RKA+d8SnzZWBkzthwyKBhpXk9eYlm3JV9/dgVsAD3KnrrXq7QLBKwIrD/P
+	 iMr1rmSV5qH6t76UropyhdYv0+ofYXuIqxTD5Iy0qIgBfcohAEGQx9GWXEmDep+ubN
+	 Kmpl3nyYQ/27GBE7lRxzSrbSXmiVWPlFZRglCPas/LXXD7B7DS07KWGv/5Kgfdug1I
+	 rN084O8yzXJjw==
+Date: Fri, 19 Jun 2026 16:30:43 -0300
+From: Arnaldo Carvalho de Melo <acme@kernel.org>
+To: Roman Gushchin <roman.gushchin@linux.dev>
+Cc: Alan Maguire <alan.maguire@oracle.com>, sashiko@lists.linux.dev,
+	dwarves@vger.kernel.org
+Subject: Sashiko reviews for pahole: missing custom_remotes
+Message-ID: <ajWY48GyZXw0aMDx@x1>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Amir Goldstein <amir73il@gmail.com> writes:
+Hi Roman,
 
-> Hi Sashiko,
->
-> Please review patches sent to
-> linux-unionfs@vger.kernel.org
+	The dwarves@vger.kernel.org mailing list is being tracked:
 
-Hi Amir,
+https://sashiko.dev/#/?list=org.kernel.vger.dwarves
 
-https://sashiko.dev/#/?list=org.kernel.vger.linux-unionfs
+	But all the patches for pahole are failing to apply, I think we
+need to have the second hunk applied, the first should be there as it is
+being tracked, can you please take a look and fix this?
 
-Thanks
+Thanks,
+
+- Arnaldo
+
+diff --git a/Settings.toml b/Settings.toml
+index 61978b51f89a0d86..666b4e8f1b7a76f3 100644
+--- a/Settings.toml
++++ b/Settings.toml
+@@ -5,7 +5,7 @@ url = "sashiko.db"
+ token = ""
+ 
+ [mailing_lists]
+-track = ["linux-kernel"]
++track = ["linux-kernel", "dwarves"]
+ 
+ [nntp]
+ server = "nntp.lore.kernel.org"
+@@ -104,6 +104,12 @@ port = 8080
+ repository_path = "third_party/linux"
+ 
+ # Track custom remotes and attempt to apply patches on their branches
++[[git.custom_remotes]]
++name = "pahole"
++url = "git://git.kernel.org/pub/scm/devel/pahole/pahole.git"
++check_all_branches = false
++only_branches = ["next", "master"]
++
+ # [[git.custom_remotes]]
+ # name = "remote-name"
+ # url = "git://my-custom.com/remote"
