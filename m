@@ -1,41 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D20D3438B2;
-	Mon, 22 Jun 2026 20:30:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D29B1264A97;
+	Tue, 23 Jun 2026 06:01:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782160235; cv=none; b=uExE5w3x/db0ysl3/Fk4ogaqKkbPRJB/fpFEOmafNUQV70ZHCJArnt/OTXW2Xh3GFWaZkHv/6MDxXZLF5uuc0BI47sE7epoPjigvjVtS5kgnkQ2mE66khVdc3iZSlJBa6w5ovFmVAdMC+00wOoRH/WwU/ZSD9ZFJ4oaOzPfaGKw=
+	t=1782194468; cv=none; b=a0GmlERlX7xzncVDPYa3XJ/eotLNCsoboXJj+hdYg9Pb7GCWGiVbAvqiDVfQh5mDofypyCM4QO95CpuYc37R1hsxjC4OcbHFSsQQtmi4Rn3BhWEjmzUIT/Qfaxg1l99zXSgCMLvCsSQPs/SRRxozkkU2vX2iK7HTpHkAurXAhJg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782160235; c=relaxed/simple;
-	bh=IHlbI66jDZhkbQWDSvvk2u2OXpIrbOPDKZpFmo6ndfQ=;
+	s=arc-20240116; t=1782194468; c=relaxed/simple;
+	bh=PsVFpsgoGjBKQhRQRYOoMkpL8av662X0pNdwWXP53m0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j1DP0P4rDWvGH+r8PEz6dWVpl3KUymhD6A/7Vs9pDhY7IfLK/3k9XNz9EtPBI4ipp4eb/C8U9uCfOGzGgB1eFgjjdP6nvmk2YYsIiFGKmqsC7fimdtxffjAo4b++bmF2CKSmHFRm6UJtvLcXxT87hcHQifP3ILHYz5bFBHB1du8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lI5u/nwz; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=S8TPo7YyX9P130vHNG1cNtxZNtN53rgSVlGnxgKKvoVhtW4g2aLIAqU+b++A4T+GufogqOesRM6CyRX98KXyKUrZqbSeZ0ucbD5QJVEpjeJI6rlnDlTOAFYlQcG+zFbHR44C1dbQcEbWCBpdzB4+Zf+caHGw2jBtjDERMb/I7a8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jkgEEnBO; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lI5u/nwz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7ED4F1F000E9;
-	Mon, 22 Jun 2026 20:30:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jkgEEnBO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE3DC1F000E9;
+	Tue, 23 Jun 2026 06:01:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782160234;
-	bh=WyDX1mI+bTZguEBOOYYMiI7Yx7J/bbYBgXJYTE7nbyI=;
+	s=k20260515; t=1782194467;
+	bh=t+ndf8nzelDbTnz45rutnNT56AmPFTnBuARSmzWV3Ps=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=lI5u/nwzjiKcq4iI8tsChDz7tCaR+mlUvO6DmFLRF3ExhMYl0vrZ/Dk7uTsdeA4oH
-	 czrYh6E7DJEoMraRQozU6oSzHvmHXDawnAVCrsqUdEkCIRt+RZ7raRtdvPdQNXFAyq
-	 pQ2ER8oYtX0MgTPPlS4hgtd7xgDs0TkcQ7+nKzgCIp9NGMiPiALbKWu/Ziv3bxKrID
-	 gEUMhDShrbs6hoaRqsTWHnslQjcJ8L5N4XZgHAHgJFxUqP1bHGFxNpIG+qW0xIGJsD
-	 pgxU3RUikG2tAFWsRjdDc7I0gCWOlumCzB9WDRelrcXFmQEd7kukJMA+6/Zjst39Im
-	 uvFtYlwlRkLOg==
-Date: Mon, 22 Jun 2026 17:30:30 -0300
-From: Arnaldo Carvalho de Melo <acme@kernel.org>
-To: Roman Gushchin <roman.gushchin@linux.dev>
-Cc: Alan Maguire <alan.maguire@oracle.com>, sashiko@lists.linux.dev,
-	dwarves@vger.kernel.org
-Subject: Re: Sashiko reviews for pahole: missing custom_remotes
-Message-ID: <ajmbZlAU17yPbOft@x1>
-References: <ajWY48GyZXw0aMDx@x1>
- <02DBCD93-1189-4EFE-875D-25B22EF1657A@linux.dev>
- <ajmYLrz2qbUoRx8k@x1>
+	b=jkgEEnBOJR5laz+6Mso+DrSNtV16IKVrjS756wp8ueoN04qxs5To78/gn88s9FWmg
+	 4Kp+sHk9Lgu4YVunIzZIF0NQYWv3NZDAoxTduXnXTpFjbP61XwS+H6VXjpNFoQqTjn
+	 lP7mQr+5Z7+On9OS7ESb54ksLJsWN7z3mo07+Y6XHJ2c9ZbtQ7eRw3UfBI/vEHf9kR
+	 0BvAaLb7kfgUrsCafqh3JNalZD1WAnDhB2p8AG8VBOje3U/ZgtCZo5vWbJti9ajC44
+	 qNBvzH4ksFbqW4lJdJ+ThLhLddVYqpelxOjd46uA63EREpFIJ6RUaWiRRadzoNNgBn
+	 ACTJ3dTK1dLqw==
+Date: Tue, 23 Jun 2026 08:00:59 +0200
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Brian Norris <briannorris@chromium.org>
+Cc: sashiko@lists.linux.dev, Bjorn Helgaas <bhelgaas@google.com>, 
+	linux-pci@vger.kernel.org, Lukas Wunner <lukas@wunner.de>
+Subject: Re: [PATCH v3] PCI/portdrv: Allow probing even without child services
+Message-ID: <2amkuriysutyocs2cvokiwfyai2latvjphxkkxdeu2nkwlqzta@ysyp6yce45xc>
+References: <20260508133629.v3.1.I5fd5d83f518681b3949d8ab2f16ba8244fd3e774@changeid>
+ <20260508233022.D20A8C2BCB0@smtp.kernel.org>
+ <af574zaysKnXjx15@google.com>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
@@ -45,69 +45,115 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ajmYLrz2qbUoRx8k@x1>
+In-Reply-To: <af574zaysKnXjx15@google.com>
 
-On Mon, Jun 22, 2026 at 05:16:46PM -0300, Arnaldo Carvalho de Melo wrote:
-> On Mon, Jun 22, 2026 at 12:18:10PM -0700, Roman Gushchin wrote:
-> > Sashiko is not really officially supporting a non-kernel code yet. It might work occasionally,
-> > but I can’t guarantee anything and results might be pathetic.
- 
-> I'm using it locally with great results, using:
- 
-> acme@number:~/git/sashiko$ cat Settings.toml | grep -B1 -A3 'dwarves\|pahole'
-> [mailing_lists]
-> track = ["linux-kernel", "dwarves"]
- 
-> [nntp]
-> server = "nntp.lore.kernel.org"
-> --
-> [[git.custom_remotes]]
-> name = "pahole"
-> url = "git://git.kernel.org/pub/scm/devel/pahole/pahole.git"
-> check_all_branches = false
-> only_branches = ["next", "master"]
- 
-> acme@number:~/git/sashiko$
- 
-> Submitting series to sashiko with:
- 
-> $ sashiko-cli submit FIRST_SHA^..LAST_SHA --repo /home/acme/git/pahole
- 
-> With great results, for instance:
+On Fri, May 08, 2026 at 05:12:19PM -0700, Brian Norris wrote:
+> Hi sashiko-bot and Bjorn,
+> 
+> On Fri, May 08, 2026 at 11:30:22PM +0000, sashiko-bot@kernel.org wrote:
+> > Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
+> > - [High] Moving `pci_set_master()` after child device registration causes child drivers to probe with Bus Mastering disabled, risking permanently lost MSI/MSI-X interrupts.
+> > --
+> > 
+> > commit 9b851bf8faf271ab0b2daad51bfd51f89a1e87d4
+> > Author: Brian Norris <briannorris@chromium.org>
+> > 
+> > PCI/portdrv: Allow probing even without child services
+> > 
+> > This commit modifies the PCIe port driver to allow probe to succeed even
+> > if no child services are available. This ensures the port can still be
+> > configured for runtime PM and low power modes on systems that only have
+> > certain port services available or lack legacy INTx interrupts.
+> > 
+> > Link: https://lore.kernel.org/all/nyada24tqwlkzdceyoxbzitzygvp4elvj5oajnqdwb33xkcdwk@76vnrx45fsfd/
+> > 
+> > > --- a/drivers/pci/pcie/portdrv.c
+> > > +++ b/drivers/pci/pcie/portdrv.c
+> > > @@ -343,7 +343,6 @@ static int pcie_port_device_register(struct pci_dev *dev)
+> > >  	if (!capabilities)
+> > >  		return 0;
+> > >  
+> > > -	pci_set_master(dev);
+> > >  	/*
+> > >  	 * Initialize service irqs. Don't use service devices that
+> > >  	 * require interrupts if there is no way to generate them.
+> > 
+> > [ ... ]
+> > 
+> > >  	/* Allocate child services if any */
+> > > -	status = -ENODEV;
+> > > -	nr_service = 0;
+> > >  	for (i = 0; i < PCIE_PORT_DEVICE_MAXSERVICES; i++) {
+> > >  		int service = 1 << i;
+> > >  		if (!(capabilities & service))
+> > >  			continue;
+> > > -		if (!pcie_device_init(dev, service, irqs[i]))
+> > > -			nr_service++;
+> > > +		pcie_device_init(dev, service, irqs[i]);
+> > >  	}
+> > > -	if (!nr_service)
+> > > -		goto error_cleanup_irqs;
+> > >  
+> > > -	return 0;
+> > > +	pci_set_master(dev);
+> > 
+> > Does moving pci_set_master() after the pcie_device_init() loop risk dropping
+> > MSI/MSI-X interrupts during child driver probes?
+> > 
+> > The pcie_device_init() function calls device_register(), which synchronously
+> > invokes the probe routines of child service drivers like pciehp or aer.
+> > During probe, these child drivers configure the hardware and enable their
+> > interrupts.
+> > 
+> > Because PCIe MSI and MSI-X interrupts are memory write transactions, they
+> > require the Bus Master Enable (BME) bit to be set in the PCI Command Register.
+> > 
+> > If a hardware event occurs immediately after the child driver unmasks the
+> > interrupt but before pci_set_master(dev) is called, will the hardware attempt
+> > to send an MSI and drop the memory write because BME is 0?
+> > 
+> > Since PCIe interrupts are edge-triggered messages, could these dropped
+> > interrupts result in permanently missed hotplug events or cause hardware error
+> > handling regressions?
+> 
+> Ha, that's funny. It's all a great question I think, and that's pretty
+> much what I asked Bjorn here when he suggested moving this:
+> 
+> https://lore.kernel.org/all/aZfIfn9viQRj4uy4@google.com/
+> 
+> He seems to think it's not a problem:
+> 
+> https://lore.kernel.org/all/20260220164046.GA3528004@bhelgaas/
+> 
+> but I'm frankly not very convinced. I think it's perfectly possible that
+> a child service will try to enable MSI, the device will try to write,
+> and those writes will be dropped, producing a missing interrupt.
+> 
+> Bjorn, what do you think? Personally, I'd go back to something closer to
+> v2, where we enable mastering before initializing children. But maybe
+> you know better than this bot and me.
+> 
+> Frankly, this is all a distraction from the actual goal of my patch, so
+> I'd rather not make arbitrary changes to the ordering if we're not sure.
+> 
 
-> > We might explore adding support for more project going forward, but we’re not there yet.
- 
-> Your call, but just as a data point, its being useful for me for pahole
-> development and I bet other pahole developers would like having it
-> enabled, since it seems to be useful with the current sashiko codebase.
+I do agree that this is a valid concern. Quoting Bjorn's reply in v2
+https://lore.kernel.org/linux-pci/20260220164046.GA3528004@bhelgaas/:
 
-This series:
+"Setting MSI Enable allows the device to use MSI when it asserts an
+interrupt, but my understanding is that it doesn't enable the
+interrupt source itself.  The MSI Capability is an interrupt
+mechanism, not itself a source -- there's no interrupt handler at this
+point."
 
-https://lore.kernel.org/all/20260622202441.14799-1-acme@kernel.org/
+This seems not to be true because, pcie_device_init() can invoke the service
+driver's probe() like aer_probe() and the probe callback can register the IRQ
+handler for the service IRQs and enable the MSIs. So once the IRQ handler is
+registered and relevant MSIs are enabled, then we ought to service the MSIs from
+the endpoint. But that won't happen because of BME not getting set at this
+point and leading to those MSIs getting lost.
 
-For instance, has several bugs addressed from review comments by
-Sashiko, that is credited:
+- Mani
 
-commit bf5e28c65bc52e61361a676acc9d2913b6d9e065
-Author: Arnaldo Carvalho de Melo <acme@redhat.com>
-Date:   Fri Jun 19 11:34:02 2026 -0300
-
-    tests: Guard cleanup() against empty outdir to prevent rm /*
-
-    If make_tmpdir() fails, outdir is empty.  The cleanup() function
-    executes rm ${outdir}/* which expands to rm /* when outdir is unset or
-    empty — potentially deleting the entire root filesystem.
-
-    Add a guard to check that outdir is non-empty and points to an existing
-    directory before attempting removal.
-
-    Fixes: 52dbfb0b39595ed8 ("pahole: Refactor selftests")
-    Reported-by: Sashiko:gemini-3-1-pro-preview # Running on a local machine
-    Assisted-by: Claude:claude-opus-4-6
-    Signed-off-by: Arnaldo Carvalho de Melo <acme@redhat.com>
-   
-Cheers,
-
-- Arnald
-
-
+-- 
+மணிவண்ணன் சதாசிவம்
