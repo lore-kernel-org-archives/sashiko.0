@@ -1,191 +1,316 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DB0B3E0234;
-	Fri, 26 Jun 2026 15:38:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782488319; cv=none; b=ZYqcghOn1+Sxjh+m1LYiaa8Egkud24BZdUYq/F1NowFg43or882dQ3keAkfyqsiKti6m5IhHpTzD4kkHSMIRX/sra2Dm3/zOTSW/TGbm2gulFEsLH6yWH3SUsRsYDhbOCaojMb5hDQI0KlclhJ7FQ5kdE0wpw2u0jAWqWdAST14=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782488319; c=relaxed/simple;
-	bh=M2QWtGBmg9P/yJMY7zTMOQRY99YLRtA2GtYBqmv6fcE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZEf8QmQXU4w3gUtRJlqluCMbHS9sc6RxZt8EOQwFRlXGI+tXeu+CBBwcwLcNmYap58N7NT6RcLt8froc5yMtyM/8tjdiKCNh2Yz355GWDyKVP9wvQN2ZBtHRecULMKPyJNcWp9V5yacy2V5yhbVsimrisBmZkjYOrAV+lG4zfGs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=r+a2bVmZ; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03AD22561A2
+	for <sashiko@lists.linux.dev>; Wed,  1 Jul 2026 03:20:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.161.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782876045; cv=pass; b=ZCHM6PmXfXqtR39anuo8cxCpm1lgfkfpa8L/K93E4tVpMxjo+aktIt2LmJUtR8LmHPZjeccU90zKze7vuhuqnKfQia+uiQE5B6UoQ18tESCo7eP0SPibrqS0vecgUao+fUZoABM2q92tfehs/676nb3pizNs4ytg/F52995dZ98=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782876045; c=relaxed/simple;
+	bh=RxtcwpztGp0mYEgrZ9qMRhx4+bmsCvWD3JFqEp/tmHg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=WEFuVvHFxLRFxfrcI18ajT2W+9+xIUGnm0WC+1N+RpFf0J9MKEFEi0bKwdZjWNSG6IBXFB/mwW13gpY4cXTFJtDLZQSj91seyT4NrkdPzi/DiFuF9niDv7IUVhgIDvBcpMHUUaKndaan93cIJTK3fp2LwkVDlzhk9p62AXLJm5E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=lqEQLm3l; arc=pass smtp.client-ip=209.85.161.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="r+a2bVmZ"
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65QFIJCg3555346;
-	Fri, 26 Jun 2026 15:38:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=ieQQ59
-	4hIHktNShyhA33bh90gKxBbfEwMWg/CI4yNN0=; b=r+a2bVmZGpol7sUX8kprQf
-	aze97a9DT4ay2ry5c5vmXNYom0JmtrhtVZIs/M0NSwwHC1lQrVYtcOyFQAYHLC59
-	0IKLhCa+5TmE7abdUH18H2dIgwFwDV+fquwx322YfEIcsPQv5nLrlzGMlVE50qnm
-	BZM95dTzgScDY/cGq97PzuFg01Kds7NiEfCUsXVYDd6i08IPKECI84lFonFCKmKx
-	2nnDeQaCsR5UfzV/pDnj8L3SDQ3ZxiRLAl6MNslNCSnEy1+ufOAuCtwVwRvDfhh/
-	2Kh9dkXv2YyF51F7umF++b3u3gG0Oiest+R8PT3y/JDYB8PRz9zzrfIYb+PXw4sg
-	==
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4ewjhr7pkv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 26 Jun 2026 15:38:35 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 65QFYdto002097;
-	Fri, 26 Jun 2026 15:38:34 GMT
-Received: from smtprelay05.wdc07v.mail.ibm.com ([172.16.1.72])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4ex5jwuvf8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 26 Jun 2026 15:38:34 +0000 (GMT)
-Received: from smtpav02.wdc07v.mail.ibm.com (smtpav02.wdc07v.mail.ibm.com [10.39.53.229])
-	by smtprelay05.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 65QFcXZd21561870
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 26 Jun 2026 15:38:33 GMT
-Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id AC34F58058;
-	Fri, 26 Jun 2026 15:38:33 +0000 (GMT)
-Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 7693158059;
-	Fri, 26 Jun 2026 15:38:31 +0000 (GMT)
-Received: from [9.124.221.251] (unknown [9.124.221.251])
-	by smtpav02.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Fri, 26 Jun 2026 15:38:31 +0000 (GMT)
-Message-ID: <45ccef84-be0d-4c5f-b686-358ff29a7290@linux.ibm.com>
-Date: Fri, 26 Jun 2026 21:08:29 +0530
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="lqEQLm3l"
+Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-6a168dc590cso121538eaf.0
+        for <sashiko@lists.linux.dev>; Tue, 30 Jun 2026 20:20:42 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782876042; cv=none;
+        d=google.com; s=arc-20260327;
+        b=ByXtVIHunip6JRVaK4DHM1HE4bdM0vGW7COra03FkxBTyNn9wWc66Cv8KLhanjTi9Q
+         IMZQfVVSBnfmITE1jaCX+x8hNvu4wv5KbAu3Q9Qp4DggRE2qerQMJz1QjdZ7iW2+xHsC
+         ecv6Ispx822f8Ct4jX0h1BTYXq7AIK89LGI9xcK4sMjc/oKHWufTpsGb+tiAI10YPtnJ
+         eEdCV6HgL41ZTQaoWZzzVdEApqS+ryEyw4uWPJgFPFImlqoW5ACL6LuG2KBNU8z+CGAR
+         GaVbwCQXDLo6D+WZbKAPL00wyz3qmdMYeqQWS3d/vrfbFrTeFTrtoZu4DLCmrRmUwbgn
+         aTeA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=2N+msG67XKvItUVY55FS4/emZkqDvzrnsWiB4SJXA5o=;
+        fh=7pQPbM1mTaKjUbZ75iTISJbipA72wUVZwkXXTYMxzFw=;
+        b=fXNMumXSsS0X2RWY3PVeBfNtUGWH4rLJIMZxp4k1vAGcFxRTCwdcaT/r1a9474N0zC
+         isclE9L/d9mdM7PwlyvKFS8aFq5xZzYA3tXlac9EjVYpF5uIXAVaAoLTmVZJhkMUJBJb
+         kbjrGL9MwWmhnPKD7jHIthfNCpUyE8IKDK/TrHizJYStOIh8Udg8ehmidG86GneXtUqv
+         nEOwiEXYFBMPYgLmqGEPoaMrXHtwPjNKfdoT467RcBXhq/QRP3qqqp1X1ue8ot4nSdD2
+         NTwalkBe33hGIP5KJ2VMPD26ZS6seYulX8s3mk7NZlzW1R7xhYxA25eGqpzPZXp28THX
+         fSfw==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance.com; s=google; t=1782876042; x=1783480842; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2N+msG67XKvItUVY55FS4/emZkqDvzrnsWiB4SJXA5o=;
+        b=lqEQLm3loCsfyXeQ4qLab3GQ2ckicIp4Tpc5Lg6F97X2ndPW1AlaZ9LoeAxQXU2F0U
+         UAGZOdDJvJIjUul4AioUUze7oxAl3c9dnJ4+18MgugWObl9xaOKzka6SgaZqyvxI1oqZ
+         k44MnVoGzrdHXLl2EImQgeotyK/QdRbMzBGetQ5NvmJQBGZuapqqOMSFqftcZlHlDrhp
+         TySt79Btb0SoqplKssBd3sX4Ns1hvUDz4dq4N8bHjgWfmzRhdz+rpdXckNX9TW27vX1R
+         TwsnrB97XXBi9JJyC7y4ZBt6+2qhgnXesLwDhzejnIK427SuQiSc0UrSQ9uIMdqBcpSg
+         eVZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782876042; x=1783480842;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=2N+msG67XKvItUVY55FS4/emZkqDvzrnsWiB4SJXA5o=;
+        b=JKy7C3H3vrlIzAtAdM6m2FIxPNoOH+sA5mDdkZUHfj9bsTrG98r2juzEy6/Mk25RqG
+         FhgSbxciIW5//HYnWgEEQa8lzIe4J5B4qMlbNo45AdekalXCbk7tHRI3EOqq+2xuThfL
+         qIiiHUM3ChC01uHJ35x2y1U21vi3hnvCGEpYuNWC6UhOo+REvTUM5Qgdtuy9dZaoEZXh
+         iS253uQ5+4XLTodnxfu9pBK74JomcyD+c8kOSlwd41bEsnklv01X7INR/vJrmVZk9LBf
+         y+3Wm8rTycsjcURIGVYa4sbfVXQAcNObMQBB8bfL2avNeDGKc6ximaOWaFTXeFW09Was
+         l+lA==
+X-Gm-Message-State: AOJu0YxsGMq1zy9rZBrmtRas5qtiuTYO8VwmKBieYbH0lXrsTNJI6Er+
+	b8ed3I0iqgrWa8JlEZk6eXT/9+ABXdQ7RJmYQbF05PZ9ij4dJ4q42TUPYDcZA2koTdqqyUXrITh
+	u9n4sgHDGYI58vATyrCKTZRat+m3fruDPrOxOusD5UvuP1LhsgszhoAvHvg==
+X-Gm-Gg: AfdE7cmM/HmUfbc7yoygHXbxXc3UJNHkSTCPKntC5waWFWqGb3wlKuT68o+CLKslJY7
+	2fYEJ6lZ8cOYh5XFgZRV2k9of5AX2ZEp+NuIqAQ1OSf8vrAey+htfKFYEonpkwefS/KT5ySH2cf
+	oxrl6tfTiZ3GoM0QTq2v4HvGvSKHus5KqnkJ0C3uXGCnwgCfLz+muxctQw0BhlkcKVNcf+gMHUO
+	hBPq27k0NytiXC4XDF7CMSgXtjTVUbm8BhUEQAaaXx+myDvjJH3zHUhvmcoK9/8QMWEogAKUt8=
+X-Received: by 2002:a05:6808:191f:b0:496:7ba:89b7 with SMTP id
+ 5614622812f47-49607ba95b6mr657735b6e.6.1782876041837; Tue, 30 Jun 2026
+ 20:20:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] perf dso: Fix kallsyms DSO detection with fallback
- logic
-To: Namhyung Kim <namhyung@kernel.org>
-Cc: sashiko@lists.linux.dev, Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Ian Rogers <irogers@google.com>, linux-perf-users@vger.kernel.org
-References: <20260416091657.578429-2-tshah@linux.ibm.com>
- <20260416110905.3A68AC2BCAF@smtp.kernel.org>
- <714f2022-879e-4f6a-9b1c-cce06be6db65@linux.ibm.com>
- <ajw1-ivLfQo3psZa@google.com>
-Content-Language: en-US
-From: Tanushree Shah <tshah@linux.ibm.com>
-In-Reply-To: <ajw1-ivLfQo3psZa@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Authority-Analysis: v=2.4 cv=I4VVgtgg c=1 sm=1 tr=0 ts=6a3e9cfb cx=c_pps
- a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
- a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=uAbxVGIbfxUO_5tXvNgY:22 a=VwQbUJbxAAAA:8
- a=VnNF1IyMAAAA:8 a=whIH0kqEkjxX7mCK2xEA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjI2MDEyNiBTYWx0ZWRfX9CZzAd5RhNK6
- CQQLOmFaa8+p0moqmA3EkjmYD8KtrTS8ro479jnLtxFvmxPT5AJG2hyS9c262/jyPY4JUgbvKhm
- tqMoXEZxYyylUSF6/wbDfhuI6YG113ENw4wpili5/NWAoLhVkqr36erc+81iCPxYTX51JnbtzL6
- QImuGjOXWcYN1qJmyHKQgpXwIJmCgpYJf8ovo0T4rbqqoUCN+i25ZV+iLBqdbiBKvw4zZzEsU2j
- FbUzKl+NFDwMfppVAtFH6BOuCIP0qoR0NRPZkeC5DX0CCDtiIGqHiGCgICPg1Va+rUnUS1fU2M+
- w87oWMRXOuKdU/G8Zx3VDfm3O4KCMuPGIkzW4csjeSIG8eifWHsFYg/V4nZGtNJuOnyv0W2+1Ox
- Up+AqatpxZJ6JAr/g7uxZH7DEnfBzjHQQUX+6lohZv6r+MDqp6UVw0O15xNSoOpe9tq0krP6pSa
- pdTlz+JzgBu+Xs8uH+w==
-X-Proofpoint-GUID: VtoDwTUC_2d6qHT2m-k1ios1dQYSiTEy
-X-Proofpoint-ORIG-GUID: KJN2G3GI3YxQtBPMFa1kz4YJEHBOycs7
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjI2MDEyNiBTYWx0ZWRfX7Gb+shb/5gBj
- eDCU5YuZqOmVjUmK6oaGCwOdsfPGBQVbirzuOyVAslrls9c2UxJgLaCgVqkf5Vm8cCOeVvTEWmx
- u7fhubWB7/dsTrZACmYlJ8wQV55Cu/s=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-26_03,2026-06-26_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 malwarescore=0 clxscore=1015 impostorscore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 priorityscore=1501
- adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2606260126
+References: <20260505062026.91724-3-cuiyunhui@bytedance.com> <20260505072635.27923C2BCB4@smtp.kernel.org>
+In-Reply-To: <20260505072635.27923C2BCB4@smtp.kernel.org>
+From: yunhui cui <cuiyunhui@bytedance.com>
+Date: Wed, 1 Jul 2026 11:20:30 +0800
+X-Gm-Features: AVVi8CcoFpqxF5PhV14dTdaZbZMkY9ne_n8LdC7VwoKZ_u2i4GWjbagj4k94u-I
+Message-ID: <CAEEQ3w=KmjNTn5NwyoU8DX8hkB74PiTyp=vNKnG_1P1WVCekrA@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH v4 2/3] riscv: introduce percpu.h into include/asm
+To: sashiko@lists.linux.dev
+Cc: bpf@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thank you for the suggestion. The reason strcmp() was not used before 
-was due to different variations of guest kallsyms. I further did a bit 
-more analysis and identified that kallsyms can be in three formats:
+Hi sashiko,
 
-"[kernel.kallsyms]"
-"[guest.kernel.kallsyms]"
-"[guest.kernel.kallsyms.<pid>]"
+On Tue, May 5, 2026 at 3:26=E2=80=AFPM <sashiko-bot@kernel.org> wrote:
+>
+> Thank you for your contribution! Sashiko AI review found 3 potential issu=
+e(s) to consider:
+> - [Critical] The 8-bit and 16-bit `this_cpu_add` fallback logic fails to =
+mask arithmetic overflow, corrupting adjacent percpu variables.
+> - [High] The 32-bit and 64-bit `this_cpu_and` macros incorrectly perform =
+an AND-NOT operation instead of a bitwise AND.
+> - [High] Missing early-clobber modifiers (`=3D&r`) on output operands in =
+`PERCPU_8_16_RET_OP` allow destructive register overlapping.
+> --
+>
+> commit f4a490dc0b24e17cbd874e03d02e506d017e61b6
+> Author: Yunhui Cui <cuiyunhui@bytedance.com>
+>
+> riscv: introduce percpu.h into include/asm
+>
+> This commit introduces a RISC-V percpu header to implement direct this_cp=
+u
+> operations. It provides macros for 8, 16, 32, and 64-bit read, write, and
+> atomic memory operations.
+>
+> > diff --git a/arch/riscv/include/asm/percpu.h b/arch/riscv/include/asm/p=
+ercpu.h
+> > new file mode 100644
+> > index 0000000000000..3b26fe45e70f4
+> > --- /dev/null
+> > +++ b/arch/riscv/include/asm/percpu.h
+>
+> [ ... ]
+>
+> > +#define PERCPU_8_16_OP(name, amo_insn, sz, sfx, val_type, new_val_expr=
+, asm_op)                      \
+> > +static inline void __percpu_##name##_amo_case_##sz(void *ptr, unsigned=
+ long val)             \
+> > +{                                                                     =
+                       \
+> > +     if (IS_ENABLED(CONFIG_RISCV_ISA_ZABHA) &&                        =
+                       \
+> > +             riscv_has_extension_unlikely(RISCV_ISA_EXT_ZABHA)) {     =
+                       \
+> > +             asm volatile ("amo" #amo_insn #sfx " zero, %[val], %[ptr]=
+"                      \
+> > +                     : [ptr] "+A"(*(val_type *)ptr)                   =
+                       \
+> > +                     : [val] "r"((val_type)((new_val_expr) & PERCPU_8_=
+16_GET_MASK(sz)))      \
+> > +                     : "memory");                                     =
+                       \
+> > +     } else {                                                         =
+                       \
+> > +             u32 *ptr32 =3D PERCPU_8_16_GET_PTR32(ptr);               =
+                         \
+> > +             const unsigned long shift =3D PERCPU_8_16_GET_SHIFT(ptr);=
+                         \
+> > +             const u32 mask =3D PERCPU_8_16_GET_MASK(sz) << shift;    =
+                         \
+> > +             const val_type val_trunc =3D (val_type)((new_val_expr)   =
+                         \
+> > +                                        & PERCPU_8_16_GET_MASK(sz));  =
+                       \
+> > +             u32 retx, rc;                                            =
+                       \
+> > +             val_type new_val_type;                                   =
+                       \
+> > +                                                                      =
+                       \
+> > +             asm volatile (                                           =
+                       \
+> > +                     "0: lr.w %0, %2\n"                               =
+                       \
+> > +                     "and %3, %0, %4\n"                               =
+                       \
+> > +                     "srl %3, %3, %5\n"                               =
+                       \
+> > +                     #asm_op " %3, %3, %6\n"                          =
+                       \
+>
+> Is it possible for an 8-bit or 16-bit addition to overflow here? If there=
+ are
+> carry bits outside the subword boundary, they aren't masked out before th=
+e
+> result is shifted left.
+>
+> Could this silent overflow spill into and corrupt adjacent per-CPU variab=
+les?
 
-I will implement v3 based on this.
+Thanks, will fix this in the next version.
+
+>
+> > +                     "sll %3, %3, %5\n"                               =
+                       \
+> > +                     "and %1, %0, %7\n"                               =
+                       \
+> > +                     "or %1, %1, %3\n"                                =
+                       \
+> > +                     "sc.w %1, %1, %2\n"                              =
+                       \
+> > +                     "bnez %1, 0b\n"                                  =
+                       \
+> > +                     : "=3D&r"(retx), "=3D&r"(rc), "+A"(*ptr32), "=3D&=
+r"(new_val_type)             \
+> > +                     : "r"(mask), "r"(shift), "r"(val_trunc), "r"(~mas=
+k)                     \
+> > +                     : "memory");                                     =
+                       \
+> > +             }                                                        =
+                       \
+> > +}
+>
+> [ ... ]
+>
+> > +#define PERCPU_8_16_RET_OP(name, amo_insn, sz, sfx, val_type, new_val_=
+expr)                  \
+> > +static inline val_type __percpu_##name##_return_amo_case_##sz(void *pt=
+r, unsigned long val)  \
+> > +{                                                                     =
+                       \
+> > +     if (IS_ENABLED(CONFIG_RISCV_ISA_ZABHA) &&                        =
+                       \
+> > +             riscv_has_extension_unlikely(RISCV_ISA_EXT_ZABHA)) {     =
+                       \
+>
+> [ ... ]
+>
+> > +     } else {                                                         =
+                       \
+> > +             u32 *ptr32 =3D PERCPU_8_16_GET_PTR32(ptr);               =
+                         \
+> > +             const unsigned long shift =3D PERCPU_8_16_GET_SHIFT(ptr);=
+                         \
+> > +             const u32 mask =3D (PERCPU_8_16_GET_MASK(sz) << shift);  =
+                         \
+> > +             const u32 inv_mask =3D ~mask;                            =
+                         \
+> > +             const val_type val_trunc =3D (val_type)((new_val_expr)   =
+                         \
+> > +                                        & PERCPU_8_16_GET_MASK(sz));  =
+                       \
+> > +             u32 old, new, tmp;                                       =
+                       \
+> > +                                                                      =
+                       \
+> > +             asm volatile (                                           =
+                       \
+> > +                     "0: lr.w %0, %3\n"                               =
+                       \
+> > +                     "and %1, %0, %4\n"                               =
+                       \
+> > +                     "srl %1, %1, %5\n"                               =
+                       \
+> > +                     "add %1, %1, %6\n"                               =
+                       \
+> > +                     "and %1, %1, %7\n"                               =
+                       \
+> > +                     "sll %1, %1, %5\n"                               =
+                       \
+> > +                     "and %2, %0, %8\n"                               =
+                       \
+> > +                     "or %2, %2, %1\n"                                =
+                       \
+> > +                     "sc.w %2, %2, %3\n"                              =
+                       \
+> > +                     "bnez %2, 0b\n"                                  =
+                       \
+> > +                     : "=3Dr"(old), "=3Dr"(tmp), "=3D&r"(new), "+A"(*p=
+tr32)                        \
+>
+> Should the old and tmp output operands use the early-clobber modifier (=
+=3D&r)?
+>
+> Since they are written to early in the instruction sequence before inputs
+> like mask (%4), shift (%5), or val_trunc (%6) are consumed, could the com=
+piler
+> allocate them to the same physical registers, leading to clobbered inputs=
+?
+>
+> > +                     : "r"(mask), "r"(shift), "r"(val_trunc), "r"(PERC=
+PU_8_16_GET_MASK(sz)), \
+> > +                     "r"(inv_mask)                                    =
+                       \
+> > +                     : "memory");                                     =
+                       \
+> > +             return (val_type)(tmp >> shift);                         =
+                       \
+> > +     }                                                                =
+                       \
+> > +}
+>
+> [ ... ]
+>
+> > +#define this_cpu_and_1(pcp, val)     _pcp_protect(__percpu_andnot_amo_=
+case_8, pcp, ~(val))
+> > +#define this_cpu_and_2(pcp, val)     _pcp_protect(__percpu_andnot_amo_=
+case_16, pcp, ~(val))
+> > +#define this_cpu_and_4(pcp, val)     _pcp_protect(__percpu_andnot_amo_=
+case_32, pcp, ~(val))
+> > +
+> > +#ifdef CONFIG_64BIT
+> > +#define this_cpu_and_8(pcp, val)     _pcp_protect(__percpu_andnot_amo_=
+case_64, pcp, ~(val))
+> > +#endif
+>
+> Since the underlying __percpu_andnot_amo_case_32 and 64 macros directly u=
+se the
+> amoand instruction on the value passed, does negating val here with ~(val=
+)
+> cause the hardware to perform an AND-NOT operation (pcp &=3D ~val) instea=
+d of a
+> bitwise AND (pcp &=3D val)?
+>
+> > +
+> > +#define this_cpu_or_1(pcp, val)      _pcp_protect(__percpu_or_amo_case=
+_8, pcp, val)
+>
+> --
+> Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260505062026.91=
+724-1-cuiyunhui@bytedance.com?part=3D2
 
 Thanks,
-Tanushree Shah
-
-On 25/06/26 01:24, Namhyung Kim wrote:
-> On Thu, Jun 11, 2026 at 06:04:23PM +0530, Tanushree Shah wrote:
->>
->> On 16/04/26 16:39,sashiko-bot@kernel.org wrote:
->>> Sashiko AI review found 2 potential issue(s):
->>> - [High] Path Traversal and Information Disclosure due to `strncmp` matching any prefix.
->>> - [Medium] Incomplete fix: Fallback logic is missing from `dso__is_kcore()` and `dso__is_vmlinux()`.
->>> --
->>>
->>> commit 9ee80283f13c6a0a5235a2add7a94736c1dfcbba
->>> Author: Tanushree Shah<tshah@linux.ibm.com>
->>>
->>> perf dso: Fix kallsyms DSO detection with fallback logic
->>>
->>> This commit fixes an issue where kallsyms DSOs are not correctly identified
->>> during build-id injection because the dso_binary_type is not yet set. It
->>> adds a fallback string matching check against the DSO's long_name.
->>>
->>>> diff --git a/tools/perf/util/dso.h b/tools/perf/util/dso.h
->>>> index ede691e9a2495..515ab6e95b0e4 100644
->>>> --- a/tools/perf/util/dso.h
->>>> +++ b/tools/perf/util/dso.h
->>> [ ... ]
->>>
->>>> @@ -915,6 +917,14 @@ static inline bool dso__is_kallsyms(const struct dso *dso)
->>>>    {
->>>>    	enum dso_binary_type bt = dso__binary_type(dso);
->>>> +	if (bt == DSO_BINARY_TYPE__NOT_FOUND) {
->>> Since the fallback logic was added here because dso_binary_type(dso) is
->>> DSO_BINARY_TYPE__NOT_FOUND during perf record and inject, do dso__is_kcore()
->>> and dso__is_vmlinux() require a similar fallback?
->>>
->>> Looking at dso__cache_build_id(), it relies on dso__is_kcore() to flag the
->>> DSO for special caching logic. If dso__is_kcore() returns false during
->>> build-id caching, kcore DSOs are treated as regular files, which causes
->>> nsinfo__realpath() to fail and breaks perf archive for kcore sessions.
->>>
->>>> +		return RC_CHK_ACCESS(dso)->kernel &&
->>>> +			((strncmp(RC_CHK_ACCESS(dso)->long_name, DSO__NAME_KALLSYMS,
->>>> +				strlen(DSO__NAME_KALLSYMS)) == 0) ||
->>> Does using strncmp() here allow a path traversal if long_name is
->>> intentionally crafted?
->>>
->>> If a malicious perf.data file contains an MMAP event with a filename like
->>> "[kernel.kallsyms]/../../../../tmp/leak", this prefix check evaluates
->>> to true.
->>>
->>> Could this allow build_id_cache__cachedir() to construct a cache directory
->>> using this malicious path, causing build_id_cache__add() to unconditionally
->>> copy the host's /proc/kallsyms into an attacker-controlled directory?
->> Hello,
->> The current code relies on dso_binary_type to check if its a kallsyms dso.
->> While running perf archive, the code calls dso__is_kallsyms check to create
->> a build-id dir. But till that time, dso_binary_type is not getting set yet.
->> Hence, this patch introduced usage of dso->long_name to check if it is
->> kallsyms. But based on the above review from Sashiko, it seems that this may
->> create a security concern.
->>
->> I tried to check for the possibility to set the dso binary type before
->> dso__is_kallsyms gets called. But, I found that dso binary type is getting
->> set based on dso__is_kallsyms only.
->>
->> So, I am looking for suggestions/approach that we can take here.
-> Can we simply check with strcmp() for the whole string?
-> 
-> Thanks,
-> Namhyung
-> 
-> 
-
+Yunhui
