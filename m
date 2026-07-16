@@ -1,81 +1,83 @@
-Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com [95.215.58.170])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD01037C918
-	for <sashiko@lists.linux.dev>; Thu, 16 Jul 2026 16:19:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27781429CD6;
+	Thu, 16 Jul 2026 17:21:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784218756; cv=none; b=Cu2Uj+e11TljcWgH+PvlhpHyTGRxMZp3pmMqUCf1ZBwED4jvdqpGBNzZWG2OmAvmoYOOY60ibMqCra0JvJVGrtQrnZXfRDmu/4EuUXbeMVQn9bVyyu1Qxq4LX2mF7t2h+mXeGNuBTbEucuF0VxTXVuAlgkbRfVy+z0Uqri9f5G8=
+	t=1784222502; cv=none; b=svIwo8nu4K2G34omKiaPoGu56Ie/SirY8NPQ9tzy9NA0tZQscH772Fz4RasKBZnVKh1YhaTyRXouReQ8aEyZXDU6TWgpS2xQhlJcoqD2J9zDRLYC8M8uSokdhufM0DQzQNpak5/s7lzioXIrhrgKMyeW/8oAR75lNq36jZO3aXw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784218756; c=relaxed/simple;
-	bh=45e8aTkTDNu8sAOLrvh1tlyR4AWwD0AC3SL0xtblsAU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=h0D/ByOp2rgGMAVcaFzd3DFVCC9X3VciUKj1d3S97cmQjGQehdDXyYwZdtPtQv8ZYkvdlSJZkmUMjcmu8cxpswXhrsTM2zBg1lA7MrCjy2iZiW3TMGiL7NTcI22XSHITN3RrNtLUykgLHoL9i6TECnPhBREErP3e1I4+Qd5sLzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=nKwdM2ze; arc=none smtp.client-ip=95.215.58.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1784222502; c=relaxed/simple;
+	bh=01sVp5IUVr7pUmvWtce6PWfsAWLSr598L8ik7UTzJHY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=Q2Q3xc32EOtTSsBw879MQtzE8/HwI+JsWTDORhgneJZy3gFSzDszMU+tC56h9v4FAkQcvI8W5Jge6XG+ah0dkRSDIXhif/qRY8MaGe0oLDGMbJcw6xCTfn4DEmL7EWPzJsNqpwgz4p9C65aZgI4y4psxS8h+8tAwz83ZJvg1t1Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R6lsOAAN; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="nKwdM2ze"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1784218745;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=45e8aTkTDNu8sAOLrvh1tlyR4AWwD0AC3SL0xtblsAU=;
-	b=nKwdM2zeu+YusQLOXjl91tJqG71hTNUyKA4gRydmCr9n9c7aI8bTs6smJKhwuhZHtL547z
-	/e/aNsyIkicPHBSSdVz2rDHB5/9fSVGXgjkqa0DLWu3VIhOmruvn4a8xfOWNAkJqO2vmOq
-	dJrKvBkoLwJpU6fLvlmoPEh0scKfyIc=
-From: Roman Gushchin <roman.gushchin@linux.dev>
-To: Sabyrzhan Tasbolatov <snovitoll@gmail.com>
-Cc: sashiko@lists.linux.dev
-Subject: Re: Execution with sanitizers, integration with syzkaller
-In-Reply-To: <CACzwLxgcbUXHpLZi3fz1iyjDY_kp69X4dEnObwg7wEqKdVejXg@mail.gmail.com>
-	(Sabyrzhan Tasbolatov's message of "Thu, 16 Jul 2026 16:23:49 +0500")
-References: <CACzwLxgcbUXHpLZi3fz1iyjDY_kp69X4dEnObwg7wEqKdVejXg@mail.gmail.com>
-Date: Thu, 16 Jul 2026 16:18:50 +0000
-Message-ID: <7ia47bmusyad.fsf@castle.c.googlers.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R6lsOAAN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 293BD1F000E9;
+	Thu, 16 Jul 2026 17:21:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784222500;
+	bh=T3IWZ2sZ5tYUWDZfmAyqDQEWXvE9y9I+CaJs7hkxESg=;
+	h=Date:From:To:Cc:Subject:In-Reply-To;
+	b=R6lsOAANHyjefCpBD1K5mHVDZBPn0FVVgPz1L39h0ymKlfyIB/s2VFT5OcJ33hwL7
+	 R4kcm7amYXmZX8Jkcras0MTjnsJ3jSNCLsXIm2oSkI4GsEka6NSLAM9YjJo9OZ1RxX
+	 dcb5RhI8UlnVLx6c/KraaHJzwaeqnSTUmAzeTv70uEkcOkIIfTtdU/u+oxwdX7JZkG
+	 hDTSMw9tnM0zYwBdKmK205xaO5U9YgtAwpuj1gEramt+MxYOqrmDqN22VcRaMbEX7F
+	 up5siqEogZVD/Kg+IhY6JG6cSVFXYmQ37YlGqUhyYV0DsvcPxfW6tIwvovnUK8yOvp
+	 iKKYu7LNJQ42Q==
+Date: Thu, 16 Jul 2026 12:21:39 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Brian Norris <briannorris@chromium.org>
+Cc: sashiko@lists.linux.dev, Bjorn Helgaas <bhelgaas@google.com>,
+	linux-pci@vger.kernel.org, Lukas Wunner <lukas@wunner.de>,
+	David Matlack <dmatlack@google.com>,
+	Manivannan Sadhasivam <mani@kernel.org>
+Subject: Re: [PATCH v3] PCI/portdrv: Allow probing even without child services
+Message-ID: <20260716172139.GA11585@bhelgaas>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <algg4sOk0YM1TpXa@google.com>
 
-Sabyrzhan Tasbolatov <snovitoll@gmail.com> writes:
+On Wed, Jul 15, 2026 at 05:08:02PM -0700, Brian Norris wrote:
+> On Wed, Jul 15, 2026 at 05:15:26PM -0500, Bjorn Helgaas wrote:
+> > On Fri, May 08, 2026 at 05:12:19PM -0700, Brian Norris wrote:
+> ...
 
-> Hello,
->
-> Thanks for the amazing project!
+> Thanks for looking! Can you describe what your goals are here vs my v2?
+> I'm curious what you're aiming for.
 
-Thanks!
+I was concerned about pci_clear_master() potentially breaking a driver
+for a downstream driver, but I don't think that should happen because
+portdrv cannot be a module and should always probe before any
+downstream device.
 
-> From https://github.com/sashiko-dev/sashiko README.md:
->
->> Stage 3: Execution flow verification. Traces C code execution flow,
->> checking for logic errors, missing return checks, unhandled error paths,
->> and off-by-one errors.
->
-> I wonder if sashiko's Stage 3 can be configured or altered
-> with KASAN, KMSAN etc. sanitizers. I couldn't find how the execution works.
-> Perhaps, such as sanitizers could improve the PATCH review,
-> as the optional flag during Stage 3.
+> ...
+> > -static int pcie_port_device_register(struct pci_dev *dev)
+> > +static void pcie_port_device_register(struct pci_dev *dev)
+> >  {
+> >  	int status, capabilities, i, nr_service;
+> >  	int irqs[PCIE_PORT_DEVICE_MAXSERVICES];
+> > @@ -336,12 +336,12 @@ static int pcie_port_device_register(struct pci_dev *dev)
+> >  	/* Enable PCI Express port device */
+> >  	status = pci_enable_device(dev);
+> >  	if (status)
+> > -		return status;
+> > +		return;
+> 
+> Are you purposely ignoring pci_enable_state() failures now too? That
+> wasn't part of my original proposal. This also means you have a
+> potential underflow in remove(), because now a port might get through
+> probe() with an enable_cnt of 0 -- then we still call
+> pci_disable_device() in remove().
 
-Do you mean actually build and run the kernel?
-If so, it's not what I want to build into Sashiko directly, because
-it will require significant infrastructure, a lot of hardware and
-corresponding support and will complicate things a lot. However there
-will be a database of pre-existing kernel bugs open to other trusted
-tools (e.g. syzkaller) which will be able to enrich ai findings.
-
-> This also brings up a vague thought about sashiko + syzkaller projects,
-> where sashiko could provide information about the similar bugs found
-> in the PATCH, if any, among syzkaller reports. Like adding syzkaller
-> mailing list
-> reports as context as well.
-
-Sorry, not sure I got your idea. Can you elaborate please?
-
-Thanks!
+Good point.  pci_enable_device() enables BARs, which we only need for
+MSI-X tables.  I was thinking portdrv may still be useful for power
+management even if pci_enable_device() fails because we couldn't
+assign space for BARs.  But that failure is pretty unlikely.
