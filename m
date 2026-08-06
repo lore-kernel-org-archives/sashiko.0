@@ -1,139 +1,114 @@
-Received: from sxplsmtpa04-02.prod.sxb1.secureserver.net (sxplsmtpa04-02.prod.sxb1.secureserver.net [92.204.81.34])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E4203D8121
-	for <sashiko@lists.linux.dev>; Thu,  6 Aug 2026 16:24:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.204.81.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E26938DC53
+	for <sashiko@lists.linux.dev>; Thu,  6 Aug 2026 17:38:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786033478; cv=none; b=VtPQvmOOhFpZ5Dn09T8g9TwO7bCXjfJQibKi7SnxOuyTES4shEZGyrthIp6yq3DAD8fNmimwpjjjz+/j/rMhzqR5etaqrCLiWE9tXt1sJi1F9Q21E7wBjgBc1RxB6bTdaNFtiDyAUatxYS/+NYkjXYsKfdOHIvB8BXW/oBI/zWc=
+	t=1786037898; cv=none; b=Z/hwMoYjkJlbGCFObR7vjuw6CrsLaF4La/Pl7ADbgmlr2Pez1xiYERltIJLjGzIi1lwducLGEMPQrLeF91V6SOOdnR6NudhjpRkpkQYWYzCOYCYETK0+3+KVPVowd6RGCtmqfS4IUj7eoV8Ji1LGxNve1/WAEJ1JBKaQdhsgoJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786033478; c=relaxed/simple;
-	bh=mSEM06BH9xZKY4yvCiWJE7fj13PjcQLioivg4e6kn1Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UzH2dO2DFAhrhllGuz9z8vFdxLbNlkBIgX9y5E+oXOdcZOK3/+QkecAItS0uU/Us82/SUsgiO42iD1LiqxR/rbOMV97HSVuYMl0kKTKIi7FS2jeUs5pyDdWv9Dp7G133q9R/nyrSUAqdGEw/nBYlBYubVtDFyRmbX4yP13+0QfU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=squashfs.org.uk; spf=pass smtp.mailfrom=squashfs.org.uk; dkim=pass (2048-bit key) header.d=secureserver.net header.i=@secureserver.net header.b=EKAekOIw; dkim=pass (2048-bit key) header.d=squashfs.org.uk header.i=@squashfs.org.uk header.b=rHz2N2MU; arc=none smtp.client-ip=92.204.81.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=squashfs.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squashfs.org.uk
+	s=arc-20240116; t=1786037898; c=relaxed/simple;
+	bh=r8Wke+nIuewtjOPNlX6rjOrjAObiuYfSC7GYcoX6VZw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 In-Reply-To:Content-Type:Content-Disposition; b=UJKxDKFivNQ/jVq3CzGFz6IoSM5lvFawJyS20Rf6711H/tg68rJmbCUnNXdeRkVyJR71wSTtFt+TSYMyxrtS6VxeLtgEtQ+SFy8ELV25xz8KzhB1KID1TgT1xyYRtyG98i5kcpofZOO/Sj6y2wrSUhM8ROz9AI+1QhMikgfI8yU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=T9qBatu6; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=secureserver.net header.i=@secureserver.net header.b="EKAekOIw";
-	dkim=pass (2048-bit key) header.d=squashfs.org.uk header.i=@squashfs.org.uk header.b="rHz2N2MU"
-Received: from [192.168.178.95] ([82.69.79.175])
-	by :SMTPAUTH: with ESMTPSA
-	id s0auwI7sKGv9xs0axwJJN3; Thu, 06 Aug 2026 16:05:24 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=secureserver.net;
-	s=secureserver2; t=1786032327;
-	bh=y3gG437nD9p/095JuA56kGTtre7Eaw4rbBDicRoNMK8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=EKAekOIwbklPJSrtSenmSV3snNITtINoWAx08FfwG0qSNoQRiVNmdrul+W2rYyHZZ
-	 V0BlrtipyWlFKRYPXV4BPtFlNLr7UldsdJtW6pmtrgMPB6c7mgB014cEhngiF49fev
-	 8FqzwZZ5Q5aHZFF1HAejhlZ38p5WgH2t6o2CWeHZCeZlLK6ElpwXoF8uv4R/EKFtBT
-	 XtWSl2+/gvmF6dqeFg83UMWn/SFUG64i6CT6D6H2ELvRe4bPkNiDhI7g+ggUm8hLDh
-	 ANfQfTne5nukTXmWQCwYU6VdUGFSWu32ox12PNx0oMxxdIXYBwbj5k1UgQvye7EwTO
-	 Yw5MP8D/xx88g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squashfs.org.uk;
-	s=secureserver1; t=1786032327;
-	bh=y3gG437nD9p/095JuA56kGTtre7Eaw4rbBDicRoNMK8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=rHz2N2MUVeVu7CDeYp3V6o3F6X+gEbUlCLzAQk2hOX7M+kslQu8z9vJipopfM3ars
-	 QSYNO0NfSE2fqfjNLPc1ICFyvcs4BoyjLb9SEPV0L/hhEVlmPwAWQ7nvhknIviL4kl
-	 5BJShfPq/IFAUbi3JGOi4tZ/AkgGgD+8R4B8/n1stSS2HHy1ABy+3ZoX2Ld/vTvUSu
-	 JtJvZ4PgdZAkSo8rdIQmvXeGVHjul2Vy8E3Zxk/2mNvVO1nZSj0uf3gUsE5lJQaiyW
-	 p1rr4MhuuI573zh+EBO+wFYlFok61Uy+afmgbjroQbETfmSXm/2Vse4oZM9DcogxTh
-	 75A1auNz4NBsw==
-X-CMAE-Analysis: v=2.4 cv=de85NXXe c=1 sm=1 tr=0 ts=6a74b0c5
- a=84ok6UeoqCVsigPHarzEiQ==:117 a=84ok6UeoqCVsigPHarzEiQ==:17
- a=IkcTkHD0fZMA:10 a=c92rfblmAAAA:8 a=FXvPX3liAAAA:8 a=VwQbUJbxAAAA:8
- a=WNsrnOehiCxbJ6mSG2cA:9 a=QEXdDO2ut3YA:10 a=GvGzcOZaWPEFPQC_NcjD:22
- a=UObqyxdv-6Yh2QiB9mM_:22
-Feedback-ID: 9ad4ae725fcf121e8f62595ab4704b0c:squashfs.org.uk:ssnet
-X-SECURESERVER-ACCT: phillip@squashfs.org.uk
-Message-ID: <411520ff-cc9f-4563-8d46-9fc1044f8b46@squashfs.org.uk>
-Date: Thu, 6 Aug 2026 17:10:12 +0100
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="T9qBatu6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1786037895;
+	h=from:from:reply-to:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:in-reply-to:in-reply-to:  references:references;
+	bh=amk8U5mvp5bVvBAZCycLFwjLgJxfluJFW068g8uYBEU=;
+	b=T9qBatu67YOVMVmI8hZqKohV/7wc61nbthoU5NRDVqN8luO9HJQ3JuVBdqOkK6mDuQwSPY
+	z/EIj0hCJD67Lb4hhxiSC2A2ROaJiyU4t66eCLOtF6FHISCPWELp88IJo0yygkwpT4T1Xz
+	tM7MHP8dZ1mDq4V5wI9AUYFd5/qlcVY=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-295-KUf1RFV2PrSGc7MnuiTQ0g-1; Thu,
+ 06 Aug 2026 13:38:13 -0400
+X-MC-Unique: KUf1RFV2PrSGc7MnuiTQ0g-1
+X-Mimecast-MFC-AGG-ID: KUf1RFV2PrSGc7MnuiTQ0g_1786037892
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 78D741800145;
+	Thu,  6 Aug 2026 17:38:12 +0000 (UTC)
+Received: from localhost (headnet05.pony-001.prod.iad2.dc.redhat.com [10.2.32.117])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 1095B1956094;
+	Thu,  6 Aug 2026 17:38:11 +0000 (UTC)
+Date: Thu, 6 Aug 2026 13:38:11 -0400
+From: Derek Barbosa <debarbos@redhat.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Phillip Lougher <phillip@squashfs.org.uk>, sashiko@lists.linux.dev
+Subject: Re: [PATCH v2] Squashfs: check block offset is not negative
+Message-ID: <anTE5KIMbd8UMOcE@debarbos-thinkpadt14gen5.rmtusma.csb>
+Reply-To: debarbos@redhat.com
+References: <20260805175900.600140-1-phillip@squashfs.org.uk>
+ <20260805111526.18fad215e3bb29a254814256@linux-foundation.org>
+ <23ad1c7b-8b9c-4f81-ba17-129ae787ba40@squashfs.org.uk>
+ <20260805184822.36433a12a7c0df21e5d49874@linux-foundation.org>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] Squashfs: check block offset is not negative
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: sashiko@lists.linux.dev
-References: <20260805175900.600140-1-phillip@squashfs.org.uk>
- <20260805111526.18fad215e3bb29a254814256@linux-foundation.org>
- <23ad1c7b-8b9c-4f81-ba17-129ae787ba40@squashfs.org.uk>
- <20260805184822.36433a12a7c0df21e5d49874@linux-foundation.org>
-Content-Language: en-US
-From: Phillip Lougher <phillip@squashfs.org.uk>
 In-Reply-To: <20260805184822.36433a12a7c0df21e5d49874@linux-foundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfMiM81ayei4kAwueyXebtDA68jI6Zacf+waas5TVzJXun7MGqeDipRCaN/c1Bh0jNDgi4YdXme+W/Yzv//9xe/LYfm13AmI2hS7JtwDjI0bR5QogA0oP
- 8+Smq0SmUD0V9ZzwAhkdfAbxzX8hyIkuCKhB63l+IO9LGo72KgXC80GJfBJucQof1dyQ78LsXWMhplNs9oDhgmyfPzgYNVQ0SvZ9dBocI4Ertg3s4B30Tfte
- T36n+nCu0/nm6pO9enSnHA==
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: urJJdR6RpRyR_pHTRFra8GOWoelteIZI0lzb6cLxtKY_1786037892
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 06/08/2026 02:48, Andrew Morton wrote:
-> 
-> (cc sashiko@, I trust that's OK)
+Hi,
 
-If it gets Sashiko to fix their problem then no objection.
-
-> 
-> On Wed, 5 Aug 2026 23:29:27 +0100 Phillip Lougher <phillip@squashfs.org.uk> wrote:
-> 
->>
->>
->> On 05/08/2026 19:15, Andrew Morton wrote:
->>> On Wed,  5 Aug 2026 18:59:00 +0100 Phillip Lougher <phillip@squashfs.org.uk> wrote:
->>>
->>>> If a negative offset is read off disk (for example the offset into the
->>>> decompressed fragment block), this will cause squashfs_copy_data() to
->>>> perform an out of bounds access.
->>>>
->>>> Fix by checking if offset is negative, and returning 0.  This matches
->>>> existing behaviour where an offset beyond the block returns 0 bytes
->>>> copied.
->>>>
->>>> To trigger this out of bounds access requires a crafted Squashfs
->>>> filesystem and CAP_SYS_ADMIN to mount it.  Unprivileged users will not
->>>> be able to mount such a filesystem, but once mounted, an unprivileged
->>>> user can trigger the out of bounds access by reading the crafted file
->>>> with the negative offset.
->>>
->>> AI review thinks we might have an information leak in there:
->>> 	https://sashiko.dev/#/patchset/20260805175900.600140-1-phillip@squashfs.org.uk
->>
->> Having done some more research, it looks like the AI is using an OLD kernel version
->> dating back to before 2018-08-01.
+On Wed, Aug 05, 2026 at 06:48:22PM -0700, Andrew Morton wrote:
+> > >> To trigger this out of bounds access requires a crafted Squashfs
+> > >> filesystem and CAP_SYS_ADMIN to mount it.  Unprivileged users will not
+> > >> be able to mount such a filesystem, but once mounted, an unprivileged
+> > >> user can trigger the out of bounds access by reading the crafted file
+> > >> with the negative offset.
+> > > 
+> > > AI review thinks we might have an information leak in there:
+> > > 	https://sashiko.dev/#/patchset/20260805175900.600140-1-phillip@squashfs.org.uk
+> > 
+> > Having done some more research, it looks like the AI is using an OLD kernel version
+> > dating back to before 2018-08-01.
 > 
 > Thanks for looking into this.
 > 
 > I'd be surprised if this was the case, but what would I know?  Perhaps
 > Sashiko trained itself on a seven year old kernel?
+> 
 
-The solution to the mystery is to look at the Sashiko output, to
-see where they got the kernel.
+There really isn't any training happening within Sashiko itself. Unless you
+count the guidance/instructions located within the prompts (which are sync'd and
+modified from Chris Mason's repo).
 
-*********************
-Selected:
-squashfs-next/HEAD / 62421645
-*********************
+It's more likely that an incorrect baseline is being applied (noted in the
+followup emails from Phillip in this thread).
 
-So the kernel they used is my squashfs-next tree.
+> 
+> I've been wondering about this.  What kernel versions does Sashiko
+> attempt, and why?
+> 
+> I was recently surprised to see some MM report against the net/next
+> branch!  I assume it found the patchset applied so off it went.
+> 
+> Can sashiko peeps please clarify?  What is the algorithm for trial
+> applications?  What trees/branches does it attempt and in what order?
+> 
 
-There are three problems with that.
+src/baseline.rs are where baselines are defined, it is selected from
+base commits, patch subject line, MAINTAINERS file, etc. There is a hardcoded
+linux-next in there that the logic can "select" from, so to speak.
 
-1. I have not updated the squashfs-next tree in at
-    least twelve years (2014 would have been the latest).
-
-2. I lost access to git.kernel.org in about 2015.
-
-3. Having had a look on git.kernel.org, the squashfs-next tree doesn't
-    seem to exist anymore anyway (purged due to disuse?)
-
-So the fix here for Sashiko is to use the latest kernel tree, and not an
-ancient squashfs-next tree which doesn't exist anymore.
-
-Phillip
-
+-- 
+Derek <debarbos@redhat.com>
 
