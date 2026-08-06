@@ -1,135 +1,94 @@
-Received: from sxplsmtpa04-14.prod.sxb1.secureserver.net (sxplsmtpa04-14.prod.sxb1.secureserver.net [92.204.81.240])
+Received: from sxplsmtpa04-10.prod.sxb1.secureserver.net (sxplsmtpa04-10.prod.sxb1.secureserver.net [188.121.53.106])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC2D448C412
-	for <sashiko@lists.linux.dev>; Thu,  6 Aug 2026 18:23:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.204.81.240
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B437C2E06EF
+	for <sashiko@lists.linux.dev>; Thu,  6 Aug 2026 18:38:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.121.53.106
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786040615; cv=none; b=DZ5E/O1/3IgLZqoLUi+IMR//4WcW5wqPXLl8Qi/8z3wSOvoW0avMovywH+3s0+x+HlOmQ3+HnJ1AzgBwneZlfzb39Hg1Qmf4ynxnP4yRtmUsgytGXOmMAqZxxZ3Hgns5TBtFnM6ITMWnBW/Zlir5zwAg6RcphC8H5/xpyml26h4=
+	t=1786041529; cv=none; b=JjufFub48ZWkna2GQHqvlJS49UDUdG5I0WdwZ1iGGTc7h9b2giFLiFjqdCSYtQHXGrVk9RZgJMCPXqMGQ6udMLkXwY9gk+Bx0AFPMVaeRySGW1dEr6Ls4jy9b3Gt2QCK4FxjsOgGgjWuKSx9iZ21uf3QE3ZvSnWW5x91wPkpHtQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786040615; c=relaxed/simple;
-	bh=GZSxQtt7JIiXgAaUeVf746sFvEe8+1P82wUEOONHiMc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oHcj3roYhF7qQS3zITTdkGUKyjyfLkCZr5ION48WqDriZ0ihuyfsukHBAaevPsHOVmU84db+EFKrLDqIElUVaNwiUN0wBA/VljQDsfYfKyb91Mxk8wuynDvaMeLmGyy/rx3Ntj/EOaDziZrOT4jvzqxItJ2XFoZHxIVvpYsGwr4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=squashfs.org.uk; spf=pass smtp.mailfrom=squashfs.org.uk; dkim=pass (2048-bit key) header.d=secureserver.net header.i=@secureserver.net header.b=vOigX8Cx; dkim=pass (2048-bit key) header.d=squashfs.org.uk header.i=@squashfs.org.uk header.b=NOakwsga; arc=none smtp.client-ip=92.204.81.240
+	s=arc-20240116; t=1786041529; c=relaxed/simple;
+	bh=lMfhYIfkRTF/VVfuXjCRKVqHdgYelPIl2kcNjU31v68=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KrMjlDVL8xrO3NmaB5hC+tpFEe17BvHBxKj8PcX0EZ1KMLQLYbXb/xvRYU86XeDQB6wm1EGkEIDccy80gRKZU4GJWlcaiXribOitzGZxsM/BoYOLJhRQmf6GhgtGMFkh6b8aTVtxAu4RX/dHU5codg2TMPXEuKTC4ES2O+2NXcI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=squashfs.org.uk; spf=pass smtp.mailfrom=squashfs.org.uk; dkim=pass (2048-bit key) header.d=secureserver.net header.i=@secureserver.net header.b=nS1FJNTX; dkim=pass (2048-bit key) header.d=squashfs.org.uk header.i=@squashfs.org.uk header.b=e6wxrmf8; arc=none smtp.client-ip=188.121.53.106
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=squashfs.org.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squashfs.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=secureserver.net header.i=@secureserver.net header.b="vOigX8Cx";
-	dkim=pass (2048-bit key) header.d=squashfs.org.uk header.i=@squashfs.org.uk header.b="NOakwsga"
-Received: from [192.168.178.95] ([82.69.79.175])
-	by :SMTPAUTH: with ESMTPSA
-	id s2RzwheIJwSdFs2S2wSjEt; Thu, 06 Aug 2026 18:04:19 +0000
+	dkim=pass (2048-bit key) header.d=secureserver.net header.i=@secureserver.net header.b="nS1FJNTX";
+	dkim=pass (2048-bit key) header.d=squashfs.org.uk header.i=@squashfs.org.uk header.b="e6wxrmf8"
+Received: from avalon.fritz.box ([82.69.79.175])
+	by :SMTPAUTH: with ESMTPA
+	id s2gYwB7KX4Ufds2gpwPvce; Thu, 06 Aug 2026 18:19:36 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=secureserver.net;
-	s=secureserver2; t=1786039461;
-	bh=SAzr8hnjzRxify/FuDWf95ZSC9uH5j4Y5RrcBuCvxhQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=vOigX8CxovjglJcilMxGyIvkDr0QmKFyEJTMgr+fezV7w1p82yNfRYrXIbmn2Kguf
-	 pGDiYxgWucHOsRz0yyVjNWMzpUz+qPOUEEDkAwQPL+0Oy6UbjJp2U8ipYXFQWB9TxO
-	 DqhNrDDNRg+dn+sN87OKyVgD8wDItD7LpYucm/kILO4wvJ0hXeAUllYZ7uIEJhfj7P
-	 hGIB6wEBWlvbjQUTjm4jxCcqYynOf7dlgQ6cPb3rUjpSrUUKhKf/lwoUvZQMXXRFXs
-	 a5H7e9ral+S8Kd9o0UdACFHdNwgLO9JW6Qil78oxdI2BiUUNvYRwSO4P0GehV5Dq98
-	 UdvDhRRgE2kdQ==
+	s=secureserver2; t=1786040378;
+	bh=NDBonwYgXxU3b2zazfJz11ECI3DjXjgK9BqrhwPwndc=;
+	h=From:To:Cc:Subject:Date;
+	b=nS1FJNTXmaNsL9hupJtQIUCWRUf7iJFp98SLqF3AoBx7xgZ2ZGQ6wWE1Mlm6RfWBQ
+	 ZGMB5uFfJXMHjxudq4MKK1gJmALzFx197eNHpJ4aMEiX9ZU0xdDBsNX8w+4PCN6Vm7
+	 vW9dcpo2d6WN4301oLvynk4+Ic64pajH5OVFiOhV545iZ/W1KPKBjsHOWdTYCisnZx
+	 BoI38tG0884EYkOZK+BghX/bFGPSQ1bohnxFaG4GmNWirIUbJqUhIy13aAfX/PWejr
+	 2wYwhFNnnZSgnjaGvJNCvmiUTLQRuTwbpmp0xjzg8KISfDAfE0h3R/dU9QULjo4waf
+	 yHcagK2WzTaZQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squashfs.org.uk;
-	s=secureserver1; t=1786039461;
-	bh=SAzr8hnjzRxify/FuDWf95ZSC9uH5j4Y5RrcBuCvxhQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=NOakwsgaIaqoY2XXnMenrB8LAYNXhy6hprhLvQvXGQG4Gu1j2kYsRIzxbwGEHp2wX
-	 +AJ8DQA+H+4rcZjtrjOScVNyC8KKSKaqpWxaETVVTdqM6MGwcFeR6JIjzSflGMgrEG
-	 hfeIbnh2J3TGNTJfHmoXLxHSxAHMvEZENc5va3TovZzvZgWjJL3XGl0QbZKmNvyZqW
-	 u9XQeEzrTPjrcb0pxEGGYsN/BR5luVeyMgxIMwsmY/nmv7GvEKVlolg2DO7AIwjnVZ
-	 1l4hozsaSxDTcyltdAd8AB6mPHS+Zt49naRbk/TuKdyt9M16ytfXcrNExdBH+nt8Gp
-	 Km7DpUaQYZ7ag==
-X-CMAE-Analysis: v=2.4 cv=MfXGfZ/f c=1 sm=1 tr=0 ts=6a74cca4
- a=84ok6UeoqCVsigPHarzEiQ==:117 a=84ok6UeoqCVsigPHarzEiQ==:17
- a=IkcTkHD0fZMA:10 a=VwQbUJbxAAAA:8 a=FXvPX3liAAAA:8 a=FP58Ms26AAAA:8
- a=QyXUC8HyAAAA:8 a=Z4Rwk6OoAAAA:8 a=wGL8h_JeXLvnNHO2eOoA:9 a=QEXdDO2ut3YA:10
- a=UObqyxdv-6Yh2QiB9mM_:22 a=HkZW87K1Qel5hWWM3VKY:22
-Feedback-ID: 9ad4ae725fcf121e8f62595ab4704b0c:squashfs.org.uk:ssnet
+	s=secureserver1; t=1786040378;
+	bh=NDBonwYgXxU3b2zazfJz11ECI3DjXjgK9BqrhwPwndc=;
+	h=From:To:Cc:Subject:Date;
+	b=e6wxrmf8Y5n5UWFaz9db9PlKk+9GMqI1xK1Q8n3HS2Hwtfddzt3quqnox8I9c2FXx
+	 ADAKQIWl7rOb1ZAHWFK6BalBd92/vfEh4aNBBaJFt/XpPipAmK+JVgDfh+nmsjaMUT
+	 nX8aHtY7+hWNMQlFxP2qQzqbyEp4Ezn1VhRdlbeQotpekVQwLRPFg9a1sJ9sZeae+C
+	 JjOoAHpIOai9UY79Ai/I2Dmi/ouNDa6CYbXJXI6fJ62a/SaZpmw+iXxHPRzn0z8skD
+	 EpL9wrU3tQUQG28MS56cQXzm7dc+io4xc5JwMM4vAG+e7CYZQup1tGemkyFfP7fh6A
+	 fF3xRTyuHZEdg==
+X-CMAE-Analysis: v=2.4 cv=XvRQ/1F9 c=1 sm=1 tr=0 ts=6a74d039
+ a=84ok6UeoqCVsigPHarzEiQ==:117 a=84ok6UeoqCVsigPHarzEiQ==:17 a=FXvPX3liAAAA:8
+ a=FP58Ms26AAAA:8 a=VwQbUJbxAAAA:8 a=1WqHmL4-ZfkYfLk0R64A:9
+ a=UObqyxdv-6Yh2QiB9mM_:22
+Feedback-ID: 3b5cac1761b1d60b5de20a7495a31eb7:squashfs.org.uk:ssnet
 X-SECURESERVER-ACCT: phillip@squashfs.org.uk
-Message-ID: <267938f6-8212-4ddc-9055-452f9d166010@squashfs.org.uk>
-Date: Thu, 6 Aug 2026 19:09:10 +0100
+From: Phillip Lougher <phillip@squashfs.org.uk>
+To: linux-kernel@vger.kernel.org,
+	akpm@linux-foundation.org
+Cc: debarbos@redhat.com,
+	sashiko@lists.linux.dev,
+	Phillip Lougher <phillip@squashfs.org.uk>
+Subject: [PATCH] MAINTAINERS: remove git URL for Squashfs
+Date: Thu,  6 Aug 2026 19:19:15 +0100
+Message-ID: <20260806181916.617881-1-phillip@squashfs.org.uk>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] Squashfs: check block offset is not negative
-To: debarbos@redhat.com
-Cc: Andrew Morton <akpm@linux-foundation.org>, sashiko@lists.linux.dev
-References: <20260805175900.600140-1-phillip@squashfs.org.uk>
- <20260805111526.18fad215e3bb29a254814256@linux-foundation.org>
- <23ad1c7b-8b9c-4f81-ba17-129ae787ba40@squashfs.org.uk>
- <20260805184822.36433a12a7c0df21e5d49874@linux-foundation.org>
- <411520ff-cc9f-4563-8d46-9fc1044f8b46@squashfs.org.uk>
- <anTGjto5EmCpW68T@debarbos-thinkpadt14gen5.rmtusma.csb>
-Content-Language: en-US
-From: Phillip Lougher <phillip@squashfs.org.uk>
-In-Reply-To: <anTGjto5EmCpW68T@debarbos-thinkpadt14gen5.rmtusma.csb>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfP1kToNmUuGo3uUb3Fkq57ijULoTQNaPyymX8eapEh5o1naL7Jx8EgCPo8pRTBtdti98bt8enAbUWuX8N4lnraKKhHTqXpZ3Ssne2j3iweCI9R7OGsy7
- VkPi8Ly5sQBVe1nnc6UEdw7tsLEfLRsuJ5//FkTYwFTY6FIvL0+xFvcOqKDvGJKRiAdrXGX9jq4u6Qvn41TJFFgAmh+VK9jJfLi12GMpWvRor8XUGd0UlOVq
- utdLGUA4yqB9Fj/5DiRgVZNpuVCHidYWA4Jk4pFnSJk=
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfD6cw3pC7i21PgdCIB1rSMvoZGyHlfd/DpOjNSCJprdu30vCuLxo1uUp7Gv2Xx0VX2c+p8vwEmb9QXmXBgire8MMSGsIX2yjdxofnu2UTghTkeJVOhTq
+ 3P4XMicaardI1Irtd2IUXAPTVHz6YdiIUxZzQZIdUsWpVUrsUwUAJiqWjBZApO5nkDIAlBH020/VPdTpngdvGWP5mVL86X186J6eeBUh90ODMGveRNbSj+U0
+ n2JCQIMm21HE/3YB5DEG4BXEiSml2LYIh9vG6WXMavUol+9v21INQWq7cTMOJ5Dy2GBqTV7WAYnl3X7A+qhI5+ClzXnAFhBI/6OeHJ4duJd2nR5azntNELJ+
+ OtYHsjF3
 
+The squashfs-next.git URL hasn't been updated for many years, and it now
+doesn't exist.
 
+So remove it from the MAINTAINERS entry.
 
-On 06/08/2026 18:44, Derek Barbosa wrote:
+Signed-off-by: Phillip Lougher <phillip@squashfs.org.uk>
+---
+ MAINTAINERS | 1 -
+ 1 file changed, 1 deletion(-)
 
-> Yes. It seems like Sashiko is selecting the incorrect baseline here. However,
-> from what I can see in baseline.rs, Sashiko pulls the mainline MAINTAINERS entry
-> and parses it to find whatever "matched" subsystem it could detect from the
-> patches.
-> 
->  From Torvald's tree (remote:
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git) with HEAD at
-> fcaeecb8b0cd44f77d03b28de0671258d4db18f8
-> 
-> SQUASHFS FILE SYSTEM
-> M:	Phillip Lougher <phillip@squashfs.org.uk>
-> L:	squashfs-devel@lists.sourceforge.net (subscribers-only)
-> S:	Maintained
-> W:	http://squashfs.org.uk
-> T:	git git://git.kernel.org/pub/scm/linux/kernel/git/pkl/squashfs-next.git
-> F:	Documentation/filesystems/squashfs.rst
-> F:	fs/squashfs/
-> 
-> I may be mistaken, but maybe updating the "T:" entry would resolve the issues
-> you are seeing? Is this the same tree that you described as "purged"/unused?
-> 
-
-Yes, the git URL (the T: entry) is out of date.
-
-But, until you mentioned it now, I didn't know it existed,
-because I never added it.
-
-It was added in commit https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=9f273c24ec5f4
-
-author	Fengguang Wu <fengguang.wu@intel.com>	2016-01-20 15:03:25 -0800
-committer	Linus Torvalds <torvalds@linux-foundation.org>	2016-01-20 17:09:18 -0800
-commit	9f273c24ec5f4a6f785bb83e931b3808a07b459e (patch)
-tree	7bc0126edb6ded71bec82e4c057768d76928b2f5
-parent	b2807f07f4f87362925b8a5b8cbb7b624da10f03 (diff)
-download	linux-9f273c24ec5f4.tar.gz
-MAINTAINERS: add/fix git URLs for various subsystems
-
-@@ -10217,6 +10242,7 @@ SQUASHFS FILE SYSTEM
-  M:	Phillip Lougher <phillip@squashfs.org.uk>
-  L:	squashfs-devel@lists.sourceforge.net (subscribers-only)
-  W:	http://squashfs.org.uk
-+T:	git git://git.kernel.org/pub/scm/linux/kernel/git/pkl/squashfs-next.git
-  S:	Maintained
-  F:	Documentation/filesystems/squashfs.txt
-  F:	fs/squashfs/
-
-I will send a patch to remove it.
-
-Thanks
-
-
-> 
-> Thanks,
-> 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 5114e6db7307..bbf48ad8bdd1 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -25552,7 +25552,6 @@ M:	Phillip Lougher <phillip@squashfs.org.uk>
+ L:	squashfs-devel@lists.sourceforge.net (subscribers-only)
+ S:	Maintained
+ W:	http://squashfs.org.uk
+-T:	git git://git.kernel.org/pub/scm/linux/kernel/git/pkl/squashfs-next.git
+ F:	Documentation/filesystems/squashfs.rst
+ F:	fs/squashfs/
+ 
+-- 
+2.47.3
 
