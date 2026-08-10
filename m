@@ -1,166 +1,110 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BFC23B1B3
-	for <sashiko@lists.linux.dev>; Fri,  7 Aug 2026 00:30:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABABE3C37B3
+	for <sashiko@lists.linux.dev>; Mon, 10 Aug 2026 11:50:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786062656; cv=none; b=gt6ggMVqOnC9g7PbklWBl52Igwz8tgZprausax17B8ndBbX/bKtULXFeexEO0uZ9yN9hSZcVfP82wLu3IWKY/n/CbPQ6JmdaG5/Sg5CVes5Uy6UnYkKs8bmWkPVoo5UAhHPozNizIY3UcxvfI+s6wFmIx130734YsSMLl1ftFKk=
+	t=1786362652; cv=none; b=TUN7KTPEUywBiLcEPs6R8QsDYiagoBYI5TY2KK8RVkWdsJE7sSe/ptWdD4FJxtpi3+Pj0VPqF/mWOaNmeuZEoZeFhpTartv2r7iLNXR0756Y/1feoSSNCUjBT1KE1pp4gmGWKIFwaZp4KlFGX1ftCCi3ynxjauWD1S71zgu0XW8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786062656; c=relaxed/simple;
-	bh=fPUEFMaLL1WkXj7NSAdZ8ES2hKxLuJdKltnkGZ7RQ8g=;
+	s=arc-20240116; t=1786362652; c=relaxed/simple;
+	bh=3Iw6+sQiZq+iA1knDtI9Tdgc8X3HrDJsRxLsNULZ6uA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=tq6W5BLU7UOBIsNXHntVDaMnET/FNpce6Rp/GWs1qYHYzn509xkiPlS36faIgV0Kk3ByVQ2RgJEd89VLW8aET1H2NzGvqZ5YLkvr27Dig87zcnW+bkSX/VrmfChsP42SmKiTAb4C+Ym9pkqUC6OaAIq+BZ4YSW4Wu1Sitlnvtw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=boIJzCWb; arc=none smtp.client-ip=170.10.129.124
+	 In-Reply-To:Content-Type:Content-Disposition; b=qJWK+qRW2Rlj6U3RXIKE/olj3hwQ9N6tbcpff77ivNUd+1RGgtXOSFdoRelMQtT0zObM/lbQNRJ8FMTa+OiHKDjf7EOGNPAomG6ZB5uUBcSj6E6eH6I5+q6L1E4I8ka+QGuAwVPRjaOkdgrjVi48adeHtLLWyjOyic5bkyAOdow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=TDlno9OM; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="boIJzCWb"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TDlno9OM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1786062653;
+	s=mimecast20190719; t=1786362649;
 	h=from:from:reply-to:reply-to:subject:subject:date:date:
 	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=p07gHCso+bjqFtvWgeY3sOYpjIIOKbiKj2iTskomWyw=;
-	b=boIJzCWbKvRJB/1NkjkLG7XDYKdfKwD11rRQIjRynpkm60bCBGcMdIRM9l8fEBp2pQoHjh
-	tAO2rpxAumuXnnPpXKGyIewCNVbytVb1h57Oc5y6x2i33KknB3VZq+LNwPbs4R3f65MSg/
-	fkqgDIXnsl9siRP1F3JvB0hujqS6824=
+	 content-type:content-type:in-reply-to:in-reply-to:  references:references;
+	bh=AP9Y4DDSCReluUWRtTZJyxoBYW0umKNm4+IlsTot8vo=;
+	b=TDlno9OMwJd0gRICWoWSFUIAgC1KsK09wY/iv4BO95z3yNud2Iz9bMMFYvkjTmbGk8NtDb
+	Nq8RRb28iMUNrPPwob5fKhoKUHjh+V7obxOo9o98V64hNz6m08urckqVsQdbV6s18BKmIf
+	IBbJ42RaSaAcE3peBR43GzXaM6NcTtU=
 Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-411-FV16ug8mNvSVB8Z6de3Q4Q-1; Thu,
- 06 Aug 2026 20:30:44 -0400
-X-MC-Unique: FV16ug8mNvSVB8Z6de3Q4Q-1
-X-Mimecast-MFC-AGG-ID: FV16ug8mNvSVB8Z6de3Q4Q_1786062643
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-513-4ARAJlWwPYim550OBOE6jg-1; Mon,
+ 10 Aug 2026 07:50:46 -0400
+X-MC-Unique: 4ARAJlWwPYim550OBOE6jg-1
+X-Mimecast-MFC-AGG-ID: 4ARAJlWwPYim550OBOE6jg_1786362645
 Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B63401956089;
-	Fri,  7 Aug 2026 00:30:43 +0000 (UTC)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C8A321956080;
+	Mon, 10 Aug 2026 11:50:44 +0000 (UTC)
 Received: from localhost (headnet03.pony-001.prod.iad2.dc.redhat.com [10.2.32.114])
-	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 25F9F434;
-	Fri,  7 Aug 2026 00:30:42 +0000 (UTC)
-Date: Thu, 6 Aug 2026 20:30:42 -0400
+	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 07C81422;
+	Mon, 10 Aug 2026 11:50:43 +0000 (UTC)
+Date: Mon, 10 Aug 2026 07:50:39 -0400
 From: Derek Barbosa <debarbos@redhat.com>
-To: Phillip Lougher <phillip@squashfs.org.uk>
-Cc: Andrew Morton <akpm@linux-foundation.org>, sashiko@lists.linux.dev
-Subject: Re: [PATCH v2] Squashfs: check block offset is not negative
-Message-ID: <anUi3bkwfM8teo_R@debarbos-thinkpadt14gen5.rmtusma.csb>
+To: Mimi Zohar <zohar@linux.ibm.com>
+Cc: Jarkko Sakkinen <jarkko@kernel.org>, sashiko@lists.linux.dev, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Roberto Sassu <roberto.sassu@huaweicloud.com>
+Subject: Re: linux-integrity@vger.kernel.org
+Message-ID: <anm65Q01HoJCv9d8@debarbos-thinkpadt14gen5.rmtusma.csb>
 Reply-To: debarbos@redhat.com
-References: <20260805175900.600140-1-phillip@squashfs.org.uk>
- <20260805111526.18fad215e3bb29a254814256@linux-foundation.org>
- <23ad1c7b-8b9c-4f81-ba17-129ae787ba40@squashfs.org.uk>
- <20260805184822.36433a12a7c0df21e5d49874@linux-foundation.org>
- <411520ff-cc9f-4563-8d46-9fc1044f8b46@squashfs.org.uk>
- <anTGjto5EmCpW68T@debarbos-thinkpadt14gen5.rmtusma.csb>
- <267938f6-8212-4ddc-9055-452f9d166010@squashfs.org.uk>
- <d066d78d-52c3-4224-ad50-f87e0ad8595a@squashfs.org.uk>
+References: <a517e05580a5f2c0d1db874aa2e9e4fd41bdc564.camel@linux.ibm.com>
+ <amNlJJELzzT8tPkG@debarbos-thinkpadt14gen5.rmtusma.csb>
+ <amQXY9PhaZGIQVow@kernel.org>
+ <8748b85855de93d307e1a6715336de860cbbfeda.camel@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <d066d78d-52c3-4224-ad50-f87e0ad8595a@squashfs.org.uk>
+In-Reply-To: <8748b85855de93d307e1a6715336de860cbbfeda.camel@linux.ibm.com>
 X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: zwxhoGYh5TyUr0sOn3GteC11eV8nfDP8TSVTp7ojT-Q_1786062643
+X-Mimecast-MFC-PROC-ID: XBGEcGw7uantvJ91ygNkjYQVG4YzlqqTkf5F3pb3-gg_1786362645
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-On Thu, Aug 06, 2026 at 08:54:14PM +0100, Phillip Lougher wrote:
-> > > I may be mistaken, but maybe updating the "T:" entry would resolve the issues
-> > > you are seeing? Is this the same tree that you described as "purged"/unused?
+Hi,
+
+On Mon, Aug 03, 2026 at 08:41:10AM -0400, Mimi Zohar wrote:
+> On Sat, 2026-07-25 at 04:54 +0300, Jarkko Sakkinen wrote:
+> > On Fri, Jul 24, 2026 at 09:16:53AM -0400, Derek Barbosa wrote:
+> > > Hi,
+> > > 
+> > > On Fri, Jul 24, 2026 at 06:44:56AM -0400, Mimi Zohar wrote:
+> > > > Hi Roman,
+> > > > 
+> > > > Please add the linux-integrity@vger.kernel.org mailing list.
+> > > > 
+> > > > Mimi
+> > > > 
+> > > 
+> > > See [0] -- Roman is out, so it may be a while until it is enabled.
+> > > 
+> > > 
+> > > Cheers,
+> > > 
+> > > [0] https://github.com/sashiko-dev/sashiko/pull/371
+> > > 
+> > > -- 
+> > > Derek <debarbos@redhat.com>
 > > > 
 > > 
-> > Yes, the git URL (the T: entry) is out of date.
+> > In the meanwhile, what does it mean in practice, when it is enabled?
 > > 
-> > But, until you mentioned it now, I didn't know it existed,
-> > because I never added it.
-> > 
-> > It was added in commit https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=9f273c24ec5f4
-> > 
-> > author    Fengguang Wu <fengguang.wu@intel.com>    2016-01-20 15:03:25 -0800
-> > committer    Linus Torvalds <torvalds@linux-foundation.org>    2016-01-20 17:09:18 -0800
-> > commit    9f273c24ec5f4a6f785bb83e931b3808a07b459e (patch)
-> > tree    7bc0126edb6ded71bec82e4c057768d76928b2f5
-> > parent    b2807f07f4f87362925b8a5b8cbb7b624da10f03 (diff)
-> > download    linux-9f273c24ec5f4.tar.gz
-> > MAINTAINERS: add/fix git URLs for various subsystems
-> > 
-> > @@ -10217,6 +10242,7 @@ SQUASHFS FILE SYSTEM
-> >   M:    Phillip Lougher <phillip@squashfs.org.uk>
-> >   L:    squashfs-devel@lists.sourceforge.net (subscribers-only)
-> >   W:    http://squashfs.org.uk
-> > +T:    git git://git.kernel.org/pub/scm/linux/kernel/git/pkl/squashfs-next.git
-> >   S:    Maintained
-> >   F:    Documentation/filesystems/squashfs.txt
-> >   F:    fs/squashfs/
-> > 
-> > I will send a patch to remove it.
-> > 
-> > Thanks
-> > 
-> > 
+> > Just catching up with the topic...
 > 
-> I have sent a patch to remove that dead URL from the MAINTAINERS file.
+> For now, we're just requesting that Sashiko be enabled for the linux-integrity
+> mailing.  Sashiko's review results will be published on https://sashiko.dev/.
 > 
-> But, the point is, is that enough to make Sashiko default to using Linus
-> Torvald's upstream development kernel for Squashfs patches?
-
-It should be. I'm adding a docs entry in the MAINTAINERS_GUIDE for more clarity.
-[0]
-
-It will most likely be merged when Roman returns.
-
-> 
-> As I said previously I lost access to git.kernel.org in 2015 (if you ask
-> why I will tell you privately).  So I can't put a kernel tree on there,
-> but I could on Github (the kernel is already on Github and so it will be a
-> simple fork).  But it seems a PITA to do that just for Sashiko.
-
-Let's wait and see. Please feel free to continue to forward/cc errors here. If
-changing the maintainer's entry doesn't work out, we can add some escape hatch
-for squash-fs (like we do for MM) in baseline.rs.
-
-<snip>
-        // Check for Linux-MM special handling
-        // If the top candidate is akpm/mm or linux-mm, OR the subsystem is MEMORY MANAGEMENT
-        let (top_url, _top_branch) = candidates[0].0;
-        let is_mm = top_url.contains("akpm/mm")
-            || top_url.contains("linux-mm")
-            || matched_subsystem_name
-                .as_deref()
-                .map(|s| s.eq_ignore_ascii_case("MEMORY MANAGEMENT"))
-                .unwrap_or(false);
-
-        if is_mm {
-            // For linux-mm, we prioritize specific branches: mm-new, mm-unstable, mm-stable
-            // We use the discovered URL (likely akpm/mm)
-            let mm_url = top_url;
-            return vec![
-                self.resolve_url(mm_url, Some("mm-new".to_string())),
-                self.resolve_url(mm_url, Some("mm-unstable".to_string())),
-                self.resolve_url(mm_url, Some("mm-stable".to_string())),
-            ];
-        }
-</snip>
-
-> 
-> Phillip
->   >>
-> > > Thanks,
-> > > 
-> > 
-> s
+> Mimi
 > 
 
-[0] https://github.com/sashiko-dev/sashiko/pull/398/changes
+I forgot to ask -- would you like for the Sashiko bot to reply to patch authors
+on the mailing list?
 
 Cheers,
 
