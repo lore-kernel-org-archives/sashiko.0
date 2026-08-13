@@ -1,60 +1,113 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD50E415F27
-	for <sashiko@lists.linux.dev>; Wed, 12 Aug 2026 10:14:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5112F36B914;
+	Thu, 13 Aug 2026 19:23:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786529646; cv=none; b=KefARYTCbC6QxV6uy7hyiczdikEf6NMBNaJT8UXRhRQ0g4YuuCeCgXodV/myNjZ2aA26P/Sw1JihFtJDzkNekXD7P8wEgDblvS2MqA0aojgXp7WCG5ahORqcC7Fk9o/w2rSnnBMhy+PKhKImE8MMwlevNtMJXVcxs8PZi7H8bIo=
+	t=1786648984; cv=none; b=a2oti71MnFAiVM7mngEQa4BWYKrgUKDjnzxaOjKHY3FAhedLxbQrS3f2LuFlre0Nb0oEljc6Tgx5QhwbnGMJGIYaB7pl9mCF5mvtWxZvdmDX4G9dopvI8iToIrFbmhiowUT9nH60HXnHJRYK1LMSI3Ha/2JN07o90iv3DaHXDMw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786529646; c=relaxed/simple;
-	bh=k0iAjkdDu5nNypWbRHfIsp6zsL/692kutZEze4dKV6c=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=g+ZMmELyeLFxI8w8eGKgEagTUjkJWM5gCQCeZi1F4VL5NB1i+hVHlJgfYQpt1Cipkvq8j9Och29TlXG0/wJB6g3JCq4sNcbuCvWUD2R8JgM74B5KDy6JC5MwZ+JtLGK3BncuETYAM5a2sk8dPQYg/yObHq7/flj953H2XxYWpEQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S+Ril1mI; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786648984; c=relaxed/simple;
+	bh=aZkxFcMXQq9ASszEUmcpmHZH/WRTD4Ta7iczGBLkYjg=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=NUB8Nrd+sPZ4nceSXRudUlp5waQpzGIZ0OpxW5rfCZBUtTzjNSj2rw6gMlD1G9MK2NdVgN+TSXH+ys3CCvYmCnoOZM6RPiWY9qT0LSHQVmhwuJu7ehNuG8NdGL0Vj9CFNEbp7IL9YM2YlYh761YvTwk3jSXDBPiy7JrtuU633Dk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=hPWI2LDB; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S+Ril1mI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5B701F000E9
-	for <sashiko@lists.linux.dev>; Wed, 12 Aug 2026 10:14:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786529644;
-	bh=k0iAjkdDu5nNypWbRHfIsp6zsL/692kutZEze4dKV6c=;
-	h=Date:From:To:Subject;
-	b=S+Ril1mIrXfzMmkUTGBZ1/H0ncaA2/TiFBpxV/CVgGbjo9LdO2Wzp/CcKFq5lPLtE
-	 pJ44kmv9GviqBxhtu+VQS7A+Nr/We0T6oxCfokIRbFLyhFwAYwTkGC6sIY26Uvgwcs
-	 nY2avZgpGUd8jiozDGmH1lblLybcdi2ggQAPRYVmaj45bEs8XhmebEnR7izwGEmyvA
-	 W0JlhicpyGG2+VjQaNCpcNcN6n8ejsByBGdZLHjOw9F6YRJgJ7zwJ8+jgntibSFzb+
-	 e+CHksW5hMFwYdMSroq/9rEZN/C7Uqyi4dmmf1YC1NNIJPqL0QjRLBBTRHb0GNF+Jm
-	 Inq26tnHaX0Ww==
-Date: Wed, 12 Aug 2026 12:14:01 +0200
-From: Lorenzo Pieralisi <lpieralisi@kernel.org>
-To: sashiko@lists.linux.dev
-Subject: prerequisite-message-id handling
-Message-ID: <anxHaUk_i0_ZPMr8@lpieralisi>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="hPWI2LDB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DC561F000E9;
+	Thu, 13 Aug 2026 19:23:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux-foundation.org; s=korg; t=1786648982;
+	bh=H5Utq32nBVG5zGqWf4WSM3DsWmatGp6ZBvVtqGuut6A=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=hPWI2LDBHG7D43iUCa4tpf2cpjdK9BI2oMxttDbb9DnipWXU1gT+NN423E+M8eYSY
+	 zbdQ54ACS/VpCimCXxs1iMKwOgPJ8s6Ie8WQjlZ9pfTeAYBnSRbSHjaNZahEFa7Oj9
+	 w33LzxQgelSkKbt+Ou7dONVXhs+21IGqXIFQXXXs=
+Date: Thu, 13 Aug 2026 12:23:02 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Longlong Xia <xialonglong2025@163.com>
+Cc: Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>,
+ linux-mm@kvack.org, Longlong Xia <xialonglong@kylinos.cn>,
+ stable@vger.kernel.org, sashiko@lists.linux.dev
+Subject: Re: [PATCH] mm/swap: publish cluster tables after full
+ initialization
+Message-Id: <20260813122302.516f19c013a25968e7dae741@linux-foundation.org>
+In-Reply-To: <20260813150316.2793642-1-xialonglong2025@163.com>
+References: <20260813150316.2793642-1-xialonglong2025@163.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On Thu, 13 Aug 2026 23:03:16 +0800 Longlong Xia <xialonglong2025@163.com> wrote:
 
-I have noticed that sashiko failed to review:
+> From: Longlong Xia <xialonglong@kylinos.cn>
+> 
+> swap_cluster_populate() drops the local, global, and cluster locks
+> before its sleeping allocation.  The allocation helper publishes ci->table
+> before allocating the memcg table and, on some 32-bit configurations, the
+> zero bitmap.
+> 
+> A stale per-CPU or global cluster cursor can reach the isolated cluster in
+> that window.  Since CLUSTER_FLAG_NONE and a non-NULL table make the cluster
+> appear usable, it can allocate a slot without the auxiliary state.  An
+> auxiliary allocation failure can then tear down a table which is already in
+> use.
+> 
+> Allocate the complete set of tables into a private carrier.  Install the
+> auxiliary pointers and publish the main table only while holding ci->lock;
+> the slow path does this after reacquiring all allocator locks.  Allocation
+> failures now free only unpublished resources.
 
-https://sashiko.dev/#/message/20260812-gicv5-7-2-fixes-v1-0-3743e82c69a4%40kernel.org
+This is a complex patch, for a problem which I'm assuming nobody has
+ever encountered.
 
-because it does not apply. I added, through b4, base-commit and
-prerequisite-message-id to the cover letter but AFAICS from the log only
-the former was taken into account while building the baseline, that
-also matches the guidelines:
+> Fixes: b197d41462c2 ("mm/memcg, swap: store cgroup id in cluster table directly")
 
-https://github.com/sashiko-dev/sashiko/blob/main/MAINTAINERS_GUIDE.md
+For the eleven thousandth time (I'm not blaming you - this is endemic). 
+When fixing a bug, please fully describe the userspace-visible runtime
+effects of this bug.
 
-Just asking if, for future postings, there is a way to handle patches
-dependencies and feed that info to sashiko.
+If there is a report then document this.  If there is a testcase which
+triggers this then document it.  If there is neither then document
+that.
 
-Thanks,
-Lorenzo
+> Cc: stable@vger.kernel.org
+
+Especially when proposing a backport.
+
+Think of the -stable maintainers, and of everyone downstream of them. 
+They're looking at this thing wondering "should I merge this into my
+kernel".  We're providing them no reason for doing that!  We should do
+this.  We're the swap experts, aren't we?  They depend upon us to
+explain these things.
+
+> Assisted-by: Codex:gpt-5.6-sol
+
+Doesn't have a great track record, in my drive-by experience.  Sashiko
+has found real bugs in things which gpt accepted.  And a second opinion
+is always welcome.
+
+Sashiko review says "No regressions", but it also says "Status:
+Skipped".  I cannot figure out what this means.  Let me
+cc:sashiko@lists.linux.dev.  Folks, can you please explain?
+
+https://sashiko.dev/#/patchset/20260813150316.2793642-1-xialonglong2025@163.com
+
+> Signed-off-by: Longlong Xia <xialonglong@kylinos.cn>
+
+Thanks.
+
+>  mm/swapfile.c | 167 +++++++++++++++++++++++++++++++++++---------------
+
+I'll take a pass on this and shall await comment from the swap
+maintainers.  And please understand that it'll be a lot of work for
+them, and without that statement of "userspace-visible runtime
+effects", their motivation will not be high.
+
+
