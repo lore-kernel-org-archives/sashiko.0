@@ -1,92 +1,111 @@
-Received: from mta0.migadu.com (out-167.mta0.migadu.com [91.218.175.167])
+Received: from mta0.migadu.com (out-178.mta0.migadu.com [91.218.175.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56AA978F4A
-	for <sashiko@lists.linux.dev>; Mon, 17 Aug 2026 20:18:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.167
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99D5B3BB69D
+	for <sashiko@lists.linux.dev>; Mon, 17 Aug 2026 20:20:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786997909; cv=none; b=kIBZgq3Rgi7aS7dj2ZEXWXQBLsW/CeiuBYU4MVb4MXYz9oY9wNZdfI0Nt6dEIGQAC7d4vBsb9KiCmpVpcYIVjIxUZoprd09kOfVq2JnB9MPKEQN8vQxzJefrzRkTwf/YBw44jaotuOmzzw/QPphmJXUi5vXUPJiH9fz5Sv2jh2I=
+	t=1786998023; cv=none; b=c48UK6Kvb3mTubL8Nm/dq6bra11xpndUihmIbg0nJiHywIvLZ/4XDGWc3i4co8P8fas+iStNftte4svqGSJgwm05PYKA4YkvRb1mLNW5UD0K+PJQwFjUlxeRwgS7OsvDxR1ltw5Q3hKWBklG87qJkZLVrSckgW8UZwaC2UBug2o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786997909; c=relaxed/simple;
-	bh=xRK7niIrVXypIfNxAokaMymZAiUkg3jA+aSbYB+vpKo=;
+	s=arc-20240116; t=1786998023; c=relaxed/simple;
+	bh=aKzRFlN+wa+yi0QlCfDbduVxghERY/ArzpGMrSlnSX8=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=CrKmVP+APSzIuAjR8DvUJcnsfq+z4mmgdC2h4bnXAaIdZJ194y9synT0zKpE6vC4/kG09bXhzUiiuYe+m8VhbgBWmD5h2r+U3myQx2fzxgVS/+W2zxQnkAtuT0fOfbyVzuXsjBxmLyBUBswPou6TGzAURFW8hY+myPFp/JOVY3Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=RzCIqKN1; arc=none smtp.client-ip=91.218.175.167
+	 MIME-Version:Content-Type; b=tHu/Eg3TELQVYzCnC7A/9evYcGOxsNIxHcWYPIOHgzJrTp6zkGEWaJH0KvanmsrSh0Kwx69jYQ/byddjvR9jEiJ94WnpW9AH6kKGscoVz6W20fCyqHgjJ9yYaAZNw5mL5VzNFKk56fhkDtrdpPC79b5LhvzTw2sXODVT4NGEDWw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Br4bvRRQ; arc=none smtp.client-ip=91.218.175.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="RzCIqKN1"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Br4bvRRQ"
 X-Envelope-To: sashiko@lists.linux.dev
-DKIM-Signature: a=rsa-sha256; bh=xRK7niIrVXypIfNxAokaMymZAiUkg3jA+aSbYB+vpKo=;
+DKIM-Signature: a=rsa-sha256; bh=aKzRFlN+wa+yi0QlCfDbduVxghERY/ArzpGMrSlnSX8=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1786997906; v=1; x=1787602706;
- b=RzCIqKN1gV277YYG/bkGyrZB2SSMwR2Y2WXk2K7oNKYWL5pd0cvR3Nl8YJj/RV+0LS5Aueug
- oOJEkkY4z2zU26x9dY0IOfzVtc5EAom6GOns3nlfj9MwgcNQNj7mnC+0XQTYEc2yJYP9n43yVjv
- bHBQk5AE2bhRZvX4GOab+pAE=
+ t=1786998019; v=1; x=1787602819;
+ b=Br4bvRRQNOzGnP0wO11DcSF7Uwcs6L2MwS6+JHCjvJUSZ5v0M+G8Ae9iKO3ECFlefrJOPIit
+ quTCl9GyRspui0oDo0itUqO3nnRst6Clxm7SxhgyYL6+TyBNRCoXTR5Z13947tarMwgOILeZvPH
+ tch1lrxp80ni9wxoH6JmMPfk=
 X-Envelope-To: sashiko@lists.linux.dev
 Received: from castle.c.googlers.com (35.227.148.244)
-	by mta10.migadu.com with ESMTPS id c3bc6179d9873be0;
-	Mon, 17 Aug 2026 20:18:26 +0000
+	by mta11.migadu.com with ESMTPS id fff5e3c1b0b090c7;
+	Mon, 17 Aug 2026 20:20:19 +0000
 X-Migadu-Flow: FLOW_OUT
 From: Roman Gushchin <roman.gushchin@linux.dev>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: debarbos@redhat.com,  sashiko@lists.linux.dev,  Christoph Hellwig
- <hch@lst.de>,  "Darrick J. Wong" <djwong@kernel.org>,  clm@meta.com
-Subject: Re: Full subsystem codebase scan for identifying pre-existing issues?
-In-Reply-To: <CAJnrk1ZBtv4-t=Z-oKBybW+ZUuTn-d2spnZnb5DCH9R0=QLp9g@mail.gmail.com>
-	(Joanne Koong's message of "Thu, 30 Jul 2026 17:34:10 -0700")
-References: <CAJnrk1Y6twWcXfFesbLMNfMavg5RWgQ07pGJ1BM98V4o+FYcBw@mail.gmail.com>
-	<amqgKj06QbSWJ9RT@debarbos-thinkpadt14gen5.rmtusma.csb>
-	<CAJnrk1ZBtv4-t=Z-oKBybW+ZUuTn-d2spnZnb5DCH9R0=QLp9g@mail.gmail.com>
+To: robin@snyders.xyz
+Cc: sashiko@lists.linux.dev
+Subject: Re: [Feature request] Support b4 prerequisite-patch-id dependencies
+ when applying patchsets
+In-Reply-To: <b27c34f3-4188-40e4-be65-e90a89890dc1@mail.infomaniak.com>
+	(robin@snyders.xyz's message of "Wed, 12 Aug 2026 11:33:11 +0200")
+References: <b27c34f3-4188-40e4-be65-e90a89890dc1@mail.infomaniak.com>
 User-Agent: mu4e 1.12.15; emacs 30.2
-Date: Mon, 17 Aug 2026 20:18:23 +0000
-Message-ID: <7ia4pkzgec1c.fsf@castle.c.googlers.com>
+Date: Mon, 17 Aug 2026 20:20:12 +0000
+Message-ID: <7ia4h5ksebyb.fsf@castle.c.googlers.com>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-Joanne Koong <joannelkoong@gmail.com> writes:
+robin@snyders.xyz writes:
 
-> Hi Derek,
+> Hi,
 >
-> On Wed, Jul 29, 2026 at 6:43=E2=80=AFPM Derek Barbosa <debarbos@redhat.co=
-m> wrote:
->>
->> Hi,
->>
->> On Wed, Jul 29, 2026 at 01:34:10PM -0700, Joanne Koong wrote:
->> > Hi,
->> >
->> > Is there a way for Sashiko to run a full scan of a subsystem/tree to
->> > identify all the pre-existing issues so that they can be fixed
->> > proactively?
->>
->> At the moment, no. At least nothing that I am aware of :)
->>
->> There have been some small conversations about such functionality, but n=
-othing
->> has really taken shape yet. One of the concerns was trying to validate t=
-he sheer
->> number of potential-false-positives, and how to present such information=
- in an
+> I ran into a Failed To Apply result in Sashiko for a kernel patch series that uses b4 prerequisite dependencies.
 >
-> Gotcha, thanks for the context :) That makes sense, that sounds tough
-> balancing potential false positives.
+> Affected Sashiko patchset:
+> https://sashiko.dev/#/patchset/20260812-submit-qcom-smbx-send-v1-v2-0-f504b8f9bfad%40snyders.xyz
 >
-> Just thinking out loud here... if those false positives are currently
-> getting reported/flagged by Sashiko on contributor submissions
-> anyways, maybe it'd still be helpful for them to show up in the
-> subsystem codebase scan so maintainers can course-correct the rules
-> for them in Sashiko (and hopefully save contributors not as familiar
-> with the subsystem some confusion :)).
+> Lore thread:
+> https://lore.kernel.org/r/20260812-submit-qcom-smbx-send-v1-v2-0-f504b8f9bfad@snyders.xyz/
+>
+> The series is based on:
+>
+> base-commit: 99b38cda3f4c486cfbc40f3c8ede1703594e9f13
+>
+> and declares five prerequisite patches using b4 dependency metadata:
+>
+> prerequisite-patch-id: 3d8a9cf43b5e5eac64a60aeec5e9c90880bcf792
+> prerequisite-patch-id: de3e3b494f9644596cfa4cafc362ca0b48288c45
+> prerequisite-patch-id: d5e22a0fe7cd55374f60d7c2cb14ed3df8f94e0b
+> prerequisite-patch-id: 9eafa41402e97d6a3e5369bec46df4e9db3d2af6
+> prerequisite-patch-id: 5638b901cd10773fa9485605f84b25a1dd826a84
+>
+> Those five prerequisites are the preceding qcom_smbx fixes series:
+> https://lore.kernel.org/r/20260812-qcom-smbx-fixes-v1-0-eb48246be599@snyders.xyz/
+>
+> The SMB5 v2 series intentionally depends on that fixes series because
+> both modify overlapping areas of
+> drivers/power/supply/qcom_smbx.c. Applying the v2 directly to the base
+> tree without first applying the declared prerequisites is therefore
+> expected to fail.
+>
+> On the Sashiko page, the result is Failed To Apply, Baseline shows
+> Selected: -, and no AI review is run. From looking at the current
+> baseline/application logic, it appears Sashiko applies the patches in
+> the current patchset to a candidate baseline but does not resolve and
+> apply b4 prerequisite-patch-id dependencies first.
+>
+> Expected behaviour would be roughly:
+>
+> Resolve the base commit.
+> Resolve each prerequisite-patch-id from public-inbox/Lore.
+> Apply the prerequisite patches in dependency order.
+> Apply the patchset being reviewed.
+> Run the normal review on the resulting tree.
+>
+> b4 itself supports this dependency metadata, and b4 prep --check-deps can validate that the dependency chain is available and applicable.
+>
+> If automatically resolving prerequisite-patch-id is intentionally out
+> of scope, it would still be useful for Failed To Apply to report that
+> unresolved prerequisite metadata was present, rather than making the
+> failure look like the submitted series itself does not apply.
+>
+> Please let me know if you would like any additional reproduction
+> details or the exact b4 commands used to prepare the series.
 
-This is in work too and I'm even somewhat optimistic that in many cases
-Sashiko can generate these prompts automatically based on human
-feedback. The tricky part is that human are often wrong too, so Sashiko
-can't blindly trust human feedback either.
+b4 support is in progress:
+https://github.com/sashiko-dev/sashiko/pull/389
+
+Thanks
