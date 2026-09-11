@@ -1,185 +1,192 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA470381E97
-	for <sashiko@lists.linux.dev>; Thu, 10 Sep 2026 04:05:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 467C8309EE2
+	for <sashiko@lists.linux.dev>; Fri, 11 Sep 2026 01:05:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789013158; cv=none; b=B/0EGfgESjjbAOjC+LUeCTWxF1dwEAxtOx10pRUUwqMH8Lzn2YjFApsEJKaYvvLib8i1D5BgIPgvRZIoW7R3wnO2K9SNj9BJEdoRgzIeEJZgdVePUDbqz8mo/Jx/9I7iMg+vBBXOyg9pcAEbNamvKXdm3VpZ98sCobfc3SZwyYE=
+	t=1789088758; cv=none; b=VDxOVy7/JyMBFMMkLT0qlygAQZklP1zqcoq5lxTrw9ZqnrvF1pFLCp9avclld90wwQS64odMm4yPy7U3jDh82oaLOkrpIsrmqKAMYOAec1Xfvm2HTcTx/NonsWhg/Vhxdu0EtpOaa9Ftpje5LD7ABilkUv5Yqb8gx/WdoW6NAQM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789013158; c=relaxed/simple;
-	bh=SZex78iRRmNEPMFSl7W6+Q7e+5ckE/x74Tq8Bf5J1w0=;
-	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
-	 References:In-Reply-To; b=QEsgv0+h8EfCSesxOJtWIRIVjCqYt+xqAqlrz7YYVW9tPHohhYbeuAuBdC/0m5dSCbzbHte/TFveTU1SQym2BRSresjvUrdL8oWfYFIVPrRB/lBu10dQExW4SVTfELXE5HIqS6PC9z9kQ4ZtUixa2YL5P0NFsHFwqoXrhOjOxWY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nexthop.ai; spf=pass smtp.mailfrom=nexthop.ai; dkim=pass (2048-bit key) header.d=nexthop.ai header.i=@nexthop.ai header.b=Q4Yozzus; arc=none smtp.client-ip=209.85.215.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nexthop.ai
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nexthop.ai
+	s=arc-20240116; t=1789088758; c=relaxed/simple;
+	bh=xBFnrAzc2WYd4EhSS24cmLKJ0VyRFOVZVmwmStrIWXU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cwS2qe365KbqLBlqNJ9KcVntvrC8SQd+XF4xsrHByh5ZyiEx2F7wB+Dq8OqW53nWN11b+G458IQAAhsLaSq4NEalm1pgNWZE3U5/AgCEYNsxd14vE9HYYf41k+R5P9BpvTyjfOzHVNH1ltYIMU6Tsi5Mn0bTQFCpMYMGO7Sf354=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bR/Y5NrA; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nexthop.ai header.i=@nexthop.ai header.b="Q4Yozzus"
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-cc4aa02a269so774597a12.2
-        for <sashiko@lists.linux.dev>; Wed, 09 Sep 2026 21:05:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=nexthop.ai; s=google; t=1789013156; x=1789617956; darn=lists.linux.dev;
-        h=in-reply-to:references:from:subject:cc:to:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=X6+WYysp4a7UmvnN2F6aIsypaUaxxW6rRb3Z7ELY0Lg=;
-        b=Q4YozzusEo3odMjywxBaGDZ+mAtVJu5eO4quWVrvYuqAmObl8OnuAjKaY8ljg5W9gm
-         bZcxlDtMTZW+HxhLEJ8zU5PYxaxEU+NNYrjP1qK2ZKjLP25yG4ToLzMSRhto1PuAOBfi
-         2pSk+nDYEveQ0HjprAtgnA5ABF2ZKp6wZRuo109WpfWAftZdhi4hOJncs6TqNzKEuhjo
-         8Xz06gAKZs+MLzBz1moChlDZUwZGIJvFSu4dPBfSqaoxR032Tr2BmCaYunnt9fw2B5xL
-         deJyEJtPt8qeepfxU6JL4Rk8lNgnAaqw2jXT7vCMmPRwIwMOToDGpSdwGFXOlt5kam9l
-         M9Yw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789013156; x=1789617956;
-        h=in-reply-to:references:from:subject:cc:to:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=X6+WYysp4a7UmvnN2F6aIsypaUaxxW6rRb3Z7ELY0Lg=;
-        b=ra058TZZW4yBqerB8bQqbqI+Q5iRhTBam6SJMGE1OCmVB4xNbQL2X7wZ9tbcpb9d8Y
-         q9nXCxJdfU9I4QWGeUYDlyHPaeMrdkVZy+wPcUM64VXmTBGcXPPE3oNHSf/Uk5I4EDOP
-         vzKmntM5S6U/3mZBvFlfLoHo0qgzQZWP/n4hJlN+YCQSA2osSgyePpiKxlSerrBVQVE3
-         4oa/YUCSxU83m37W4vs7IQhoWkNagzjgMy9Sh/aA99DdC3ol5slIFWPa0dl2UhUnoaAA
-         ERmv13CpAx/UYqW9G8+FmyLiaFXqY28VumBVLq7ILCWd+qhv4RcP22/1Nmi3vmsa02EU
-         83Vw==
-X-Forwarded-Encrypted: i=1; AKwUvBwE5k4VBaTulp4JXlSZO9v++uJwQd585d5QviIyp+pCFD887xuNkyO+ncHMUeBQcaU1JxAymdss@lists.linux.dev
-X-Gm-Message-State: AFuF++mAr9im/a9NOY6PXjysy6IlVeE/E7/OQ8Dxvwc6aye1kDxWRNTY
-	KG+l5JvBTa8fnrsg7doracNvSe3j2kQHW9TV1Nvn/suhYCY/BG/ylDemWwvnFD/ekPs=
-X-Gm-Gg: AYBFou2ETnd+lUVdF0mbAFS+22GQFwZsYnC98OBoqOjTKj6KoDhhdXe80eTmLCOJNtw
-	B3fvCIhIIjCMnCWntUX72bHTJmgCTU7OiGnt5m6tgK8yF6yJvYeYpytzLve7tnEJaeDwFnLmIzC
-	2bxTXzdi8I+000SSqlcm59XMPEzrFBXsV+a9dCZ573JgTqRH0Znct+5CFZlvA3PNmbRW4eVCyv0
-	kS1p4CR4cx9udG3LmFPMwwuPKcsrNn5TPtaK3QlHgYcI4l5oF6sYon7TrL4/mAeaAnXrfJdr8RE
-	GcAlXFpSzfVB6LtxKPHy9/uzcpMCtu+MH2IUK+j9CaFg5rWyx7sLo7pRqWGCUsHluhjzBRhZzz3
-	F7DviyPku9eMsE0YauuDToJLM97YzEjFLd+S5abV9u/5/IBReLjoR6h8ycG0be6ZRqFJ4yYyEsi
-	BiLPn/2M8no1K664KbJwu0VqtPom/oAWbvkCWATMGrgtrwpwPp2Te5+V9UlhGbvQsRhdTl+u8=
-X-Received: by 2002:a17:90b:2f87:b0:38e:250b:122f with SMTP id 98e67ed59e1d1-39b261e75femr58669335a91.16.1789013156095;
-        Wed, 09 Sep 2026 21:05:56 -0700 (PDT)
-Received: from localhost ([50.145.100.174])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3339bbf1feesm49043209eec.26.2026.09.09.21.05.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Sep 2026 21:05:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bR/Y5NrA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1789088755; x=1820624755;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=xBFnrAzc2WYd4EhSS24cmLKJ0VyRFOVZVmwmStrIWXU=;
+  b=bR/Y5NrAlI18i37JcDhdN+6stvKzqqhmPaJ7ev4IK+6oSDIpOA0jl0UV
+   mDlQDw0j/bHBK41BkSLxUuSSmWO+gTnb+SEtoOkPjUoWOpbGlIpWxkrap
+   2SoDlfgoEY6oIcEBZxC/lUp+eFq9t53ylcA1I0JpK3yPFCITigO7P654x
+   8/h97DvyqGAeqFo/6oBl5BtES3XMJdSllpGvyaVq8FFz/hzFW62LNA6Jp
+   6xDBUTCehvedAIaus6zB9zhGPHYE9olOTg2jeMGAiq/gmcrKnvgvb2NpY
+   kuUcU3BEk8kqzqvhkc5K4zuEIIkILjBJSg8ipmCe0McNsas9QrlAz8h6O
+   A==;
+X-CSE-ConnectionGUID: yN042PW1Q2+MpnCLC91BSg==
+X-CSE-MsgGUID: 6nhYkzciSHmmG8OcOEE1SQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11901"; a="89423280"
+X-IronPort-AV: E=Sophos;i="6.27,96,1787036400"; 
+   d="scan'208";a="89423280"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2026 18:05:52 -0700
+X-CSE-ConnectionGUID: lhT8CM0RSlO2O7YxhGRREw==
+X-CSE-MsgGUID: EDHqYcbqTmSJQeFNIuSuQQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,96,1787036400"; 
+   d="scan'208";a="270412129"
+Received: from unknown (HELO [10.238.3.121]) ([10.238.3.121])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2026 18:05:51 -0700
+Message-ID: <a0fdbd96-3a4d-4a32-92ee-cf2b47db59db@linux.intel.com>
+Date: Fri, 11 Sep 2026 09:05:48 +0800
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/9] perf/x86/intel: Ensure guest PEBS path doesn't set
+ unwanted PERF_GLOBAL_CTRL bits
+To: Sean Christopherson <seanjc@google.com>
+Cc: sashiko@lists.linux.dev, linux-perf-users@vger.kernel.org
+References: <20260508231353.406465-2-seanjc@google.com>
+ <20260508234018.F06AEC2BCB0@smtp.kernel.org>
+ <ccea937f-8ad5-4a6e-b6a4-917f2ee02579@linux.intel.com>
+ <agZiTeGgRO4PJ9mI@google.com>
+Content-Language: en-US
+From: "Mi, Dapeng" <dapeng1.mi@linux.intel.com>
+In-Reply-To: <agZiTeGgRO4PJ9mI@google.com>
 Content-Type: text/plain; charset=UTF-8
-Date: Wed, 09 Sep 2026 21:05:53 -0700
-Message-Id: <DLBC8GPBM4MK.3002YEAZ3WPT0@nexthop.ai>
-To: "Rob Herring" <robh@kernel.org>, "Roman Gushchin"
- <roman.gushchin@linux.dev>
-Cc: "Saravana Kannan" <saravanak@kernel.org>, "Abdurrahman Hussain"
- <abdurrahman@nexthop.ai>, <sashiko@lists.linux.dev>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3] of: property: add i2c-parent to fw_devlink supplier
- bindings
-From: "Abdurrahman Hussain" <abdurrahman@nexthop.ai>
-X-Mailer: aerc 0.22.0
-References: <20260815-b4-of-property-add-i2c-parent-v3-1-c22588b6482a@nexthop.ai> <CACRMN=cXSy0ZYH78sQ88QKkwYtbE768kh=KzRhkYYCO4SX2m-Q@mail.gmail.com> <20260817145906.GB579285-robh@kernel.org> <7ia4tsosfsj5.fsf@castle.c.googlers.com> <20260817210038.GA1775252-robh@kernel.org>
-In-Reply-To: <20260817210038.GA1775252-robh@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Mon Aug 17, 2026 at 2:00 PM PDT, Rob Herring wrote:
-> On Mon, Aug 17, 2026 at 07:36:46PM +0000, Roman Gushchin wrote:
->> Rob Herring <robh@kernel.org> writes:
->>=20
->> > On Sun, Aug 16, 2026 at 10:17:08PM -0700, Saravana Kannan wrote:
->> >> On Sat, Aug 15, 2026 at 8:33=E2=80=AFPM Abdurrahman Hussain
->> >> <abdurrahman@nexthop.ai> wrote:
->> >> >
->> >> > Platform-device i2c muxes (i2c-mux-reg, i2c-mux-gpio, ...) referenc=
-e
->> >> > the bus they multiplex with an i2c-parent phandle and hold a refere=
-nce
->> >> > on that adapter from probe until remove. Unlike muxes that are clie=
-nts
->> >> > on the parent bus, they live outside the adapter's device hierarchy=
-,
->> >> > so nothing orders their teardown against it: if the adapter's devic=
-e
->> >> > is unbound first =E2=80=94 e.g. while reverting a device-tree overl=
-ay whose
->> >> > changeset attached the mux nodes before the controller nodes =E2=80=
-=94
->> >> > i2c_del_adapter() blocks forever in
->> >> > wait_for_completion(&adap->dev_released), waiting for a reference t=
-hat
->> >> > is only dropped later in the same teardown sequence.
->> >> >
->> >> > Teach fw_devlink about i2c-parent so the core creates the
->> >> > corresponding device links: consumers are unbound before the parent
->> >> > adapter's device, and probe ordering no longer needs -EPROBE_DEFER.
->> >> >
->> >> > A plain DEFINE_SIMPLE_PROP() cannot be used because the property ha=
-s
->> >> > two incompatible layouts: the i2c mux bindings hold a list of bare
->> >> > phandles (i2c-demux-pinctrl takes several), while toshiba,tc9563 ho=
-lds
->> >> > a single phandle followed by an i2c slave-address cell. The two for=
-ms
->> >> > are indistinguishable in the flattened tree, and a 0-cell parse of =
-the
->> >> > tc9563 form would read the slave address as a phandle, linking the
->> >> > consumer to whatever node happens to carry that phandle value. Use =
-a
->> >> > custom parser that only takes entry 0 for toshiba,tc9563 nodes.
->> >> >
->> >> > Signed-off-by: Abdurrahman Hussain <abdurrahman@nexthop.ai>
->> >> > ---
->> >> > Changes in v3:
->> >> > - Fix the tc9563 compatible check: match "pci1179,0623" (the actual
->> >> >   binding compatible) instead of "toshiba,tc9563", which never matc=
-hed
->> >> >   and let the bare-phandle parser misread the i2c slave-address cel=
-l as
->> >> >   a phandle (Sashiko AI review)
->> >> > - Link to v2: https://patch.msgid.link/20260815-b4-of-property-add-=
-i2c-parent-v2-1-239c6da9e097@nexthop.ai
->> >> >
->> >> > Changes in v2:
->> >> > - Use a custom parser instead of DEFINE_SIMPLE_PROP: toshiba,tc9563=
- puts
->> >> >   an i2c slave-address cell after the phandle, which a 0-cell parse
->> >> >   would misread as a phandle (Sashiko AI review, Rob). Kept the ful=
-l
->> >>=20
->> >> A bit of a tangent, is this a bug in Sashiko bot?
->> >> It just dropped me from the reply in the v1 patch set. Any idea why?
->>=20
->> Hm, can you, please, clarify, what do you mean?
->> https://sashiko.dev/#/patchset/20260813-b4-of-property-add-i2c-parent-v1=
--1-a2487e920ce1%40nexthop.ai
->> has your email in to according to the email policy.
+
+On 5/15/2026 8:01 AM, Sean Christopherson wrote:
+> On Tue, May 12, 2026, Dapeng Mi wrote:
+>> On 5/9/2026 7:40 AM, sashiko-bot@kernel.org wrote:
+>>> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
+>>> - [High] The host PEBS collision check fails to mask non-counter bits, incorrectly disabling guest PEBS for events like Store Latency.
+>>> --
+>>>
+>>> Note: The format of this report has been altered due to recitation
+>>> restrictions. The original patch code is not quoted directly, and findings are
+>>> provided as a free-form summary.
+>>>
+>>> commit 39adc53b360e88595a3be6fc59b18b048d9e9921
+>>> Author: Sean Christopherson <seanjc@google.com>
+>>>
+>>> perf/x86/intel: Ensure guest PEBS path doesn't set unwanted PERF_GLOBAL_CTRL bits
+>>>
+>>> This commit masks the pebs counter values being reinstated into the global
+>>> control msr for a guest with perf's desired value. This is done to ensure the
+>>> hypervisor doesn't unintentionally enable counters.
+>>>
+>>> In intel_guest_get_msrs(), the host pebs collision check evaluates the host
+>>> field of the pebs_enable array entry to determine if the host is actively
+>>> using pebs. If it is, guest pebs is disabled.
+>>>
+>>> Is it possible for this check to falsely detect a host collision due to
+>>> non-counter bits being set?
+>>>
+>>> When a guest configures a store latency pebs event, a backing perf event is
+>>> created. In intel_pmu_pebs_enable(), this sets both the counter index bit
+>>> and bit 63 in cpuc->pebs_enabled.
+>>>
+>>> Because the host field is calculated as cpuc->pebs_enabled masked against
+>>> the inverse of cpuc->intel_ctrl_guest_mask, and the guest mask exclusively
+>>> tracks valid counter indices (never including bit 63), bit 63 remains set in
+>>> the host field.
+>>>
+>>> Consequently, the check for whether the host is actively using pebs will
+>>> evaluate to true even when only the guest is using pebs. This introduces a
+>>> regression where guest pebs is completely disabled, silently breaking guest
+>>> store latency events.
+>>>
+>>> Should the host pebs usage evaluation also be masked by intel_ctrl to prevent
+>>> non-counter bits from triggering a false collision?
+>> Hmm, I suspect if the issue could happen on real hardwares.  
+> OMG, it took me _so_ long to understand what Sashiko was complaining about.  I'm
+> pretty sure I read Sashiko's response like four times, and it didn't click until
+> I read your response.
 >
-> It has mine, but not Saravana's. The problem is Saravana only gets=20
-> drivers/of/ emails and not all the bindings.
+> In case anyone is feeling as dense as me, Sashiko is saying this:
 >
-> Saravana, If I enable your email, then you will get all the=20
-> sashiko binding replies. Is that okay?
+> 	/*
+> 	 * FIXME: Allow guest and host usage of PEBS events to co-exist instead
+> 	 *        of disabling guest PEBS entirely if the host is using PEBS.
+> 	 *        What exactly goes wrong if guest and host are using PEBS is
+> 	 *        unknown.
+> 	 */
+> 	if (pebs_mask & ~cpuc->intel_ctrl_exclude_host_mask)
+> 		guest_pebs_mask = 0;
 >
-> Rob
+> should probably be masked by intel_ctrl as well.
 
-Hi Rob, Saravana,
+Sean, do you think we need to fix this flaw? Not sure if it's worthy to
+post a new version to fix it ...
 
-Gentle ping on this one. The v3 thread turned into a discussion about
-Sashiko's recipient list, but the patch itself has not had any review
-comments since v2.
+Thanks.
 
-To recap the state: v2 switched from DEFINE_SIMPLE_PROP() to a custom
-parser because toshiba,tc9563 puts an i2c slave-address cell after the
-phandle, and v3 fixed the compatible check to match "pci1179,0623",
-which is what the tc9563 binding actually uses. Every other i2c-parent
-user is a bare phandle list, and i2c-demux-pinctrl relies on the full
-list being parsed.
 
-Saravana, since this touches the fw_devlink supplier table, I would
-appreciate a look from you in particular. Is the per-compatible special
-case acceptable, or would you prefer a different approach for handling
-the two property layouts?
-
-Happy to respin if anything is still open.
-
-Thanks,
-Abdurrahman
+>
+>> The function intel_pmu_pebs_enable() indeed sets extra bits into
+>> cpuc->pebs_enabled for load latency and specific store events, like below
+>> code shows.
+>>
+>> ```
+>>
+>> ......
+>>
+>>     if ((event->hw.flags & PERF_X86_EVENT_PEBS_LDLAT) && (x86_pmu.version < 5))
+>>         cpuc->pebs_enabled |= 1ULL << (hwc->idx + 32);
+>>     else if (event->hw.flags & PERF_X86_EVENT_PEBS_ST)
+>>         cpuc->pebs_enabled |= 1ULL << 63;
+>>
+>> ......
+>>
+>> ```
+>>
+>> But these 2 cases should only be hit on quite old platforms (prior to
+>> Icelake). On these platforms, only GP counters support PEBS sampling and
+>> pebs_capable would be set PEBS_COUNTER_MASK, and so these extra bits would
+>> be filtered out by the pebs_capable and pebs_mask won't really contain
+>> these extra bits. 
+> Thanks for digging into this!  I was staring and just going "huh!?" over and over
+> in my head :-)
+>
+>> Anyway, we could optimize the code further like below and thoroughly filter
+>> away these extra bits. (only building, not test on real HW)
+> Hmm, I think I'd rather figure out what it would take to drop the FIXME entirely.
+> And if we need to keep the check, I'm a-ok risking false positives until we have
+> a better understanding of why the check exists.
+>
+>> diff --git a/arch/x86/events/intel/core.c b/arch/x86/events/intel/core.c
+>> index 854881b5e696..6eee7636a822 100644
+>> --- a/arch/x86/events/intel/core.c
+>> +++ b/arch/x86/events/intel/core.c
+>> @@ -4997,7 +4997,7 @@ static struct perf_guest_switch_msr
+>> *intel_guest_get_msrs(int *nr,
+>>         struct cpu_hw_events *cpuc = this_cpu_ptr(&cpu_hw_events);
+>>         struct perf_guest_switch_msr *arr = cpuc->guest_switch_msrs;
+>>         u64 intel_ctrl = hybrid(cpuc->pmu, intel_ctrl);
+>> -       u64 pebs_mask = cpuc->pebs_enabled & x86_pmu.pebs_capable;
+>> +       u64 pebs_mask = cpuc->pebs_enabled & x86_pmu.pebs_capable & intel_ctrl;
+>>         u64 guest_pebs_mask;
+>>         int global_ctrl;
+>>
+>> @@ -5049,7 +5049,7 @@ static struct perf_guest_switch_msr
+>> *intel_guest_get_msrs(int *nr,
+>>          * the guest wants to use for PEBS, (c) are not excluded from counting
+>>          * in the guest, and (d) _are_ excluded from counting in the host.
+>>          */
+>> -       guest_pebs_mask = pebs_mask & intel_ctrl & guest_pebs->enable &
+>> +       guest_pebs_mask = pebs_mask & guest_pebs->enable &
+>>                           ~cpuc->intel_ctrl_exclude_guest_mask &
+>>                           cpuc->intel_ctrl_exclude_host_mask;
+>>
