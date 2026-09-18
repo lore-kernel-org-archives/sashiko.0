@@ -1,62 +1,57 @@
-Received: from mta0.migadu.com (out-29.mta0.migadu.com [91.218.175.29])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out28-89.mail.aliyun.com (out28-89.mail.aliyun.com [115.124.28.89])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 826DF418347
-	for <sashiko@lists.linux.dev>; Thu, 17 Sep 2026 23:30:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.29
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1113034E745
+	for <sashiko@lists.linux.dev>; Fri, 18 Sep 2026 01:01:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.89
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789687835; cv=none; b=rwPZJgaaWR25ZTrlMEzM4IwGNakhKh9esVwwAc1wrLjHVSh533xfveTBFAm2nF30g20QhJ5ZJUEskJFz0STTKbwVFqe78llAYdFhS+zPlYhyKL9ohu9djafMiIP7LU5XdJCkEEsYpi84Lk+ocRi+VUs9SCr2HRDmXV3Q0+Vy9rg=
+	t=1789693267; cv=none; b=U+X7uAaN/56JxzRHRnXBvyngBDCvC9rjX3aTu7ZyA1LU0kjdASJggPBHtjpsNpnGrXITJUmwMoDkAm2r84/6zPb+j5tLLp6/VzqwVDxqEINLL+2ZLtEbqmLxMCKy1eBdxel/6RGKmVDvIGgn8RPkms6yCtqk3ES1ebjljy/6gcM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789687835; c=relaxed/simple;
-	bh=XQJbUe8sMDqqBW5miSJ/WWQvT7MMRyRqwO1bmF9XY6k=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Coubu+b9kuaPOqHenLr0Myr+9cSckAu+6HqJNu7e2Oii3ZY+GNTq2+1gAuh72na2WIaeuze6euMp1Wv+PZzps3D64OI/VDVttZ87EU6ysTm1dtwQBgYIb5QinNg9i3C6OD/NXQQsVvcxlAdvGL/muDPtF7FQ8LkkW2A9sMpnKJQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=qtXUEYE1; arc=none smtp.client-ip=91.218.175.29
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1789693267; c=relaxed/simple;
+	bh=AG7124INh8KW2o02jqpELa4ckSXRxHizRCdaCmaaNA0=;
+	h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version; b=FEx0EyBHow5qkHBLWAQQN7vbRMYb7fAyPgQHyb1odpZPoNY9ise+4XVmoQ4rE2oM4H5/fzrbRorDFYuyN/LBFLpHYfY2bX3h/5VzJZ+Zw6N2Ne+Niug61CBYFAVBJ6ZWD6o+2fafAYqOUO3Wdoh1PTh0okzQcmhl8Imj0mEC5Ek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infistar.cc; spf=pass smtp.mailfrom=infistar.cc; dkim=pass (2048-bit key) header.d=infistar.cc header.i=@infistar.cc header.b=ossqf29j; arc=none smtp.client-ip=115.124.28.89
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infistar.cc
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infistar.cc
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="qtXUEYE1"
-X-Envelope-To: sashiko@lists.linux.dev
-DKIM-Signature: a=rsa-sha256; bh=XQJbUe8sMDqqBW5miSJ/WWQvT7MMRyRqwO1bmF9XY6k=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1789687831; v=1; x=1790292631;
- b=qtXUEYE1VFbkTq1smiIKWHyljSeob76vpMVFf+Bdur4v5NHJwCyMyjZJcbSV9i4vJkZQ06Ak
- 6hDkvHqYEKxj5aN0p6NzsvCLWq1XxH+fdCY3950S8FeJ5sE4FmrwLEfq/MO+g6l29dhS0W+EYC5
- i4Jzs+m8EVCEGiSSA+pIpSOc=
-X-Envelope-To: sashiko@lists.linux.dev
-Received: by mta11.migadu.com with ESMTPS id 293cbf4040f81a82;
-	Thu, 17 Sep 2026 23:30:27 +0000
-X-Mizu-Trace-ID: 293cbf4040f81a82
-X-Migadu-Flow: FLOW_OUT
-From: Roman Gushchin <roman.gushchin@linux.dev>
-To: sashiko <sashiko@lists.linux.dev>, LKML <linux-kernel@vger.kernel.org>
-Cc: Chris Mason <mason@kernel.org>, Kees Cook <kees@kernel.org>, Jason
- Gunthorpe <jgg@nvidia.com>, Jakub Kicinski <kuba@kernel.org>
-Subject: sashiko & pre-existing bugs
-User-Agent: mu4e 1.12.15; emacs 30.2
-Date: Thu, 17 Sep 2026 23:30:23 +0000
-Message-ID: <7ia4se37qwvk.fsf@castle.c.googlers.com>
+	dkim=pass (2048-bit key) header.d=infistar.cc header.i=@infistar.cc header.b="ossqf29j"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=infistar.cc; s=default;
+	t=1789693255; h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version;
+	bh=AG7124INh8KW2o02jqpELa4ckSXRxHizRCdaCmaaNA0=;
+	b=ossqf29jWC304iqPJpxbNqnGOlzyBvF5Ef0T52rWkqX7csJX8Rgq4RAZ1889yT/SB17JY9AcrUBWFqaH0XbLEnJsRO0FE5oPnxKC+3iSzP/nKwll+JQoEC6/+GpnsRWVc4DC5d/cilKYVKrziL4ckwIu/SS9unuUY1VrNywUg8bL/KZwpwN0KuGuee7eSfoV7G4oUuTA4r2zFuozjsT3zpdK8EwnklNkAH9f1FHb9IUZ6NurIOq6eCHwtCB/C1yfjfKCQ0pNp6HbGfxgjyAADk/iM9wMdyzNi0958xsyg/JOkPLEkSHyWLisjwzv3lSDGEZGFFku4AQH1dfJFLCP1w==
+X-Alimail-AntiSpam:AC=AD;BC=0.5163766|-1;BR=01201311R121b1;CH=blue;DM=|CONTINUE|false|;DS=AD|ad_activity_exhibition|0.588433-0.23975-0.171817;FP=16533208473126153591|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033037006180;MF=outreach@infistar.cc;NM=1;PH=DS;RN=1;RT=1;SR=0;TI=SMTPD_---.jGGKi7V_1789693254;
+Received: from 127.0.1.1(mailfrom:outreach@infistar.cc fp:SMTPD_---.jGGKi7V_1789693254 cluster:ay29)
+          by smtp.aliyun-inc.com;
+          Fri, 18 Sep 2026 09:00:54 +0800
+From: outreach@infistar.cc
+To: sashiko@lists.linux.dev
+Subject: Business and Sponsorship Collaboration for Sashiko
+Date: Fri, 18 Sep 2026 09:00:54 +0800
+Message-ID: <10aebdf872e44ef0564b547f3a063dcb2d01b08505da2e91509be2c3c254b493@infistar.cc>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
 
-Hello,
+I am from the Infistar team (https://infistar.ai), reaching out through this =
+public list as we look to connect with the team behind Sashiko about sponsors=
+hip opportunities.
 
-as some of you might notice, a couple of days ago sashiko stopped to
-report preexisting bugs together with not-yet-introduced new issues.
-Instead, it started putting them into the database. All M: and R: in the
-current MAINTAINERS file have full access to corresponding bugs.
+From your public documentation, we learned that Sashiko performs multi-stage =
+agentic Linux kernel patch reviews with support for multiple LLM providers an=
+d OpenAI-compatible endpoints.
 
-There is a new "Bugs" button in the top right corner which is the access
-to the database. You don't need to create an account, invent a password,
-etc. It's all stateless.
+To support your development and users, we can provide direct financial sponso=
+rship, multi-model API usage credits, and exclusive discounts for your commun=
+ity, as well as hands-on compatibility assistance and co-developed configurat=
+ion guides for multi-model workflows, along with sponsor placement across you=
+r documentation.
 
-If you're working on other tools which discover linux kernel issues
-and/or can generate reproducers/fix candidates and want to collaborate,
-please, reach out to me.
-
-Thanks
+Could you share your current sponsorship options, standard rates, available d=
+isplay formats, expected cycles, and the appropriate business contact for the=
+se discussions?
