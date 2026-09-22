@@ -1,61 +1,80 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta1.migadu.com (out-215.mta1.migadu.com [95.215.58.215])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E07D1434408
-	for <sashiko@lists.linux.dev>; Tue, 22 Sep 2026 12:31:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 941C4559C8A
+	for <sashiko@lists.linux.dev>; Tue, 22 Sep 2026 14:58:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.215
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790080310; cv=none; b=jWUGhxB+KpFD2MyuBFHxV/5wWqKAUKrzG9FP0e79p24QE8EeBXRj2ISx3NBGVeZpu3O9r6PFWo+n5kZTBRvxKjZMgmq2o2BbC9cmOtMoEyPF8m/Dr8t5M95CYZI7EzPiU5XjotSu7J+aOxTWYu+JorVgIej5DuJpfME/co9A3Yk=
+	t=1790089131; cv=none; b=h7YbfV30zQYjmGbqjPxiVSKDDnfz2Bv3Vf5yoHvTP5xe/o2wxK+V7oe4oYhxWkz7AGw/OE3A6iKczjZJ+oHaUU7xwXD/NPpBa8i0yRx51xhm21LSlefN5Yk8ZhXMrA81ATCFbvslkRbFF4otzy6Id8Arvy/FaUi76hzAMcVU/zA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790080310; c=relaxed/simple;
-	bh=IH0DsYZyma83iNopTKv6f6hvw9XJcWgkqqmXYXmgR1A=;
-	h=Message-ID:Date:MIME-Version:Cc:To:From:Subject:Content-Type; b=NNraZZLf3SQDDZRtPLRR1ckpRCMVa1hHoycmqkNh5kdy/jLIVCzEzDeEpXh6m9JmZZpr5mVm3gX0CZ5NL5W1/hWKqRaMNe1lK+Xbvr+YyaiKEium75DTU2acA5m/YNHOEY1nzgHMxAIybQaIb+aOG4jRnX7ZmIavAnSe6W92MH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YZwUb4vD; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790089131; c=relaxed/simple;
+	bh=ggi1invL/ie4bvedHRspI5zljO8TUHPhybLV3qphyYQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=kgOUIKeQEpBJ5VnOYwfL/sAIsEAOXtXCeKx+b9jD6HRUhXyrhvXJ4kgZoSgT0GoID32+UOGixsTqQe1XXtxJMmudTT4tSZ9KU07y307+TcDX4trenW+9BQZ1Ea8+MdhONJ3Y7zn3/vUc3cjKJ5exOOj3I6ebn7mJFIAymUSe6G4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=l0HKh4qX; arc=none smtp.client-ip=95.215.58.215
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YZwUb4vD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCC8C1F000FF;
-	Tue, 22 Sep 2026 12:31:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790080309;
-	bh=IH0DsYZyma83iNopTKv6f6hvw9XJcWgkqqmXYXmgR1A=;
-	h=Date:Cc:To:From:Subject;
-	b=YZwUb4vDZ5H5igMCAmV7WGM8uxo9gGjUE6SBwOIjtML8dar7t9CSHPCqxeOEV0Zwg
-	 UGJ9ain8/rKc0RbB2zeabAVJH0N5TrDCm4ScK6B5Hu4Kxfp4z48Gkxueut+klafKGZ
-	 HGEL02sHBe7i4HH1avCd6ltMMF2kVZNgEcHDoA4HcRR3cyaD1hK3LIm5UL7yymnl8H
-	 RVn3s4/P4suA8or4H3uA3tuPhrlJ3dK59lYRKd8VTYIeUSQry6yY/RgbnbpoD3TKTO
-	 K660tObjGpidk9g4M5yiKADlfz3ktzCG1xzC2+qcZctrfZcnkR2xfa1fTcfdHljmrD
-	 409N/IsJ3yLIA==
-Message-ID: <c9abe570-cc29-4892-8790-4ccd5f7e6756@kernel.org>
-Date: Tue, 22 Sep 2026 20:31:46 +0800
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="l0HKh4qX"
+X-Envelope-To: sashiko@lists.linux.dev
+DKIM-Signature: a=rsa-sha256; bh=ggi1invL/ie4bvedHRspI5zljO8TUHPhybLV3qphyYQ=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1790089126; v=1; x=1790693926;
+ b=l0HKh4qXEHZ7MAbT1ynlD92moX1nI2ADPjg9z0Y+L3xl2j+W9BtUYq5LkLtX0AFrPmxBW2yP
+ +bkf9eKElelQfenbWOtGkpiPlPCFqqM8i28Z33dHGmjVz2qXodyxCEvgkZV4IPN9oguv2+HQagP
+ B7f31i5/gWENSqNjBB8HRtLo=
+X-Envelope-To: sashiko@lists.linux.dev
+Received: by mta10.migadu.com with ESMTPS id 37c07413a5aeab30;
+	Tue, 22 Sep 2026 14:58:46 +0000
+X-Mizu-Trace-ID: 37c07413a5aeab30
+X-Migadu-Flow: FLOW_OUT
+From: Roman Gushchin <roman.gushchin@linux.dev>
+To: Mario Limonciello <superm1@kernel.org>
+Cc: sashiko@lists.linux.dev,  "Deucher, Alexander"
+ <alexander.deucher@amd.com>,  Mario Limonciello
+ <Mario.Limonciello@amd.com>
+Subject: Re: Enabling sashiko for amd-gfx M/L
+In-Reply-To: <f0f8e249-e4d2-411c-9bc2-a0321290b9b2@kernel.org> (Mario
+	Limonciello's message of "Tue, 22 Sep 2026 06:10:04 -0500")
+References: <9e1ca7ef-a1c2-4e0b-a8f6-28989d0896c6@kernel.org>
+	<7ia4mrt93bcg.fsf@castle.c.googlers.com>
+	<f0f8e249-e4d2-411c-9bc2-a0321290b9b2@kernel.org>
+User-Agent: mu4e 1.12.15; emacs 30.2
+Date: Tue, 22 Sep 2026 14:58:39 +0000
+Message-ID: <7ia4ecel49k0.fsf@castle.c.googlers.com>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Cc: chao@kernel.org, Jaegeuk Kim <jaegeuk@kernel.org>
-Content-Language: en-US
-To: roman.gushchin@linux.dev, sashiko@lists.linux.dev
-From: Chao Yu <chao@kernel.org>
-Subject: add sashiko config and policy for f2fs
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Roman,
+Mario Limonciello <superm1@kernel.org> writes:
 
-Could you please help to review and consider to pull this request?
+> On 9/22/26 04:05, Roman Gushchin wrote:
+>> Mario Limonciello <superm1@kernel.org> writes:
+>>=20
+>>> Hi,
+>>>
+>>> Can we get Sashiko enabled on the amd-gfx mailing list?=C2=A0 It should=
+ use
+>>> the drm prompts.
+>>>
+>>> https://lore.kernel.org/amd-gfx/
+>> Sure. Done:
+>> https://github.com/sashiko-dev/sashiko/commit/d17454117abc5ec00f335c4d8e=
+84059120b307c4
+>> Thanks
+>
+> Thanks!
+>
+> I just glanced at lists in https://sashiko.dev/ and it's not immediate.
+>
+> When should it be effective?
 
-https://github.com/sashiko-dev/sashiko/pull/551/
+Once I'll deploy a new sashiko version, probably today/tomorrow.
 
-1. linux mailing lists: add f2fs
-This patch add f2fs to sashiko tracking list, so that all patches sent to f2fs mailing list
-can be reviewed by sashiko.
-
-2. email_policy: mute review emails for f2fs
-This patch adds the default mailing list address, and mute all outgoing review emails by default.
-
-Cc: Jaegeuk
-
-Thanks,
-
+Thanks
