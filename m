@@ -1,47 +1,44 @@
-Received: from mta1.migadu.com (out-87.mta1.migadu.com [95.215.58.87])
+Received: from mta0.migadu.com (out-109.mta0.migadu.com [91.218.175.109])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66C85F9C0
-	for <sashiko@lists.linux.dev>; Sat,  3 Oct 2026 20:10:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.87
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AA39547071
+	for <sashiko@lists.linux.dev>; Sat,  3 Oct 2026 20:13:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.109
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791058248; cv=none; b=L7WmvwuXNSfNldxor2UnrZGnh8l1Q6s+YtfTvlUXXO9hlhG04QaCMMDLQ55d2hwTKDjUgoC5IFCrc7Rvd28z3c0e4Sfoa7uSw2HzsUyELRZ9WEDJ5DjVhMC7bek2JcepSEFpO1oAdfNXrp/EQ30CpPAanIEPSwl5ILmA9zXNqIs=
+	t=1791058383; cv=none; b=Pl2kUN9rfqdZTxUFZCQvwTya8kO8vuIOKPi00GoqT/k8mdVoAvwDwcKQT++WENGw//EuHpctUtjHq72vzUGQUL2CnElg9ZgGI4ldsc75lzZbLl9a6nOAZGoKJElHDXogebJjC4yhR4aZmmKvgH5VdrpHJpNUmfwEHn+bPdpy7As=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791058248; c=relaxed/simple;
-	bh=X4nxifD4XUHq1BKvjEXSQCHM0bDL1a7IaCs/n/9tm+k=;
+	s=arc-20240116; t=1791058383; c=relaxed/simple;
+	bh=uEw11eIy8V8SyhNYJMTXCOGQKefhljhKS0j/BXVzouY=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=kRc26+b6YV7RdKMbm1/1DFQhxYbP8NXFwlc7bGtzEIsuglPc4hkDNCv6JTXcJrEaG6sEf++2HF0ajvzJg5QClozztlJPen1pHNAS6HBPsVu6BwRda4bbwjlfdO7nLOWV3gGO9tZ0+Ki3SIwTlD+iykYtYD8KriqBlfslG8ZaJTk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=TvQtQHSZ; arc=none smtp.client-ip=95.215.58.87
+	 MIME-Version:Content-Type; b=u0laqF821EtMfdV4VcwO+Tx5OClN71eOMjIO6wsbbq7Yv6nJHXXhB59lH9RXychyT9Af9whPPZfpbJHJ0xwFUh4HJxtQBdz6zaYLfSxRzyD+k+ZWu+6QAyHakI3hZCsUY1nL/GJEtVqrTVbkulq6YqyL+HkSQkG7n8Nu58/7Cno=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=OYM76T/4; arc=none smtp.client-ip=91.218.175.109
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="TvQtQHSZ"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="OYM76T/4"
 X-Envelope-To: sashiko@lists.linux.dev
-DKIM-Signature: a=rsa-sha256; bh=X4nxifD4XUHq1BKvjEXSQCHM0bDL1a7IaCs/n/9tm+k=;
+DKIM-Signature: a=rsa-sha256; bh=uEw11eIy8V8SyhNYJMTXCOGQKefhljhKS0j/BXVzouY=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1791058243; v=1; x=1791663043;
- b=TvQtQHSZ4WbB8qwLmA+i10kuk3NlWWwk59Ec+wObHLfbFPpY9940LFrjZL5UQS96L+GYDsvS
- mYbZP6/Xo6clAxvZ5i2IXuqN5KxfssDCXY46e70jKBEh6FfLnTtLzEYTpw6nvzfIen+5F9T1pSL
- 9GrXNahx8bHEDvZqm5lGjVMo=
+ t=1791058379; v=1; x=1791663179;
+ b=OYM76T/48zg+2Ud5TUoOyJ7hxFk5SF+5JDGA6JDv653m0CFCuX962DDoRuDqfTUBHEb5se2g
+ LKuZoG5tRYIQn08wqbLDQ3mQLZAnPLgWR8Uv1mtH9lZnDvaWRNcPlbnbFUUXX3HLjVWbmyt1lni
+ PlNpdhjDShtmkka/ID8pL9Lc=
 X-Envelope-To: sashiko@lists.linux.dev
-Received: by mta11.migadu.com with ESMTPS id 7736264c25658130;
-	Sat, 03 Oct 2026 20:10:42 +0000
-X-Mizu-Trace-ID: 7736264c25658130
+Received: by mta10.migadu.com with ESMTPS id b1f36d9904c1abea;
+	Sat, 03 Oct 2026 20:12:59 +0000
+X-Mizu-Trace-ID: b1f36d9904c1abea
 X-Migadu-Flow: FLOW_OUT
 From: Roman Gushchin <roman.gushchin@linux.dev>
-To: Alison Schofield <alison.schofield@intel.com>
-Cc: sashiko <sashiko@lists.linux.dev>,  LKML <linux-kernel@vger.kernel.org>,
-  Chris Mason <mason@kernel.org>,  Kees Cook <kees@kernel.org>,  Jason
- Gunthorpe <jgg@nvidia.com>,  Jakub Kicinski <kuba@kernel.org>
-Subject: Re: sashiko & pre-existing bugs
-In-Reply-To: <asA_b1s4iVx2_v-U@aschofie-mobl2.lan> (Alison Schofield's message
-	of "Fri, 2 Oct 2026 16:34:07 -0700")
-References: <7ia4se37qwvk.fsf@castle.c.googlers.com>
-	<asA_b1s4iVx2_v-U@aschofie-mobl2.lan>
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Cc: "sashiko@lists.linux.dev" <sashiko@lists.linux.dev>
+Subject: Re: Request to receive Sashiko DWC2/DWC3 review emails
+In-Reply-To: <asAkHMW-RhP3okYS@vbox> (Thinh Nguyen's message of "Fri, 2 Oct
+	2026 21:43:20 +0000")
+References: <asAkHMW-RhP3okYS@vbox>
 User-Agent: mu4e 1.12.15; emacs 30.2
-Date: Sat, 03 Oct 2026 20:10:37 +0000
-Message-ID: <7ia4jynyzgsi.fsf@castle.c.googlers.com>
+Date: Sat, 03 Oct 2026 20:12:51 +0000
+Message-ID: <7ia4bj9azgos.fsf@castle.c.googlers.com>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
@@ -50,31 +47,33 @@ List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Alison Schofield <alison.schofield@intel.com> writes:
+Thinh Nguyen <Thinh.Nguyen@synopsys.com> writes:
 
-> On Thu, Sep 17, 2026 at 11:30:23PM +0000, Roman Gushchin wrote:
->> Hello,
->> 
->> as some of you might notice, a couple of days ago sashiko stopped to
->> report preexisting bugs together with not-yet-introduced new issues.
->> Instead, it started putting them into the database. All M: and R: in the
->> current MAINTAINERS file have full access to corresponding bugs.
->> 
->> There is a new "Bugs" button in the top right corner which is the access
->> to the database. You don't need to create an account, invent a password,
->> etc. It's all stateless.
+> Hi,
 >
-> Hi Roman,
+> I maintain the DWC2/DWC3 drivers and would like to receive Sashiko
+> review results for patches handled by linux-usb.
 >
-> The access is not working for me for my linux-cxl and nvdimm.
-> I ask it to send the email link and nothing happens.
+> Please add this address to the review Cc list:
 >
-> Anything else needed here?
+> Thinh.Nguyen@synopsys.com
 >
+> Based on my understanding of Sashiko, the requested behavior could be
+> represented by this example policy:
+>
+> [subsystems.usb-dwc3]
+> lists = ["linux-usb@vger.kernel.org"]
+> reply_all = false
+> reply_to_author = true
+> cc_individuals = false
+> cc = ["Thinh.Nguyen@synopsys.com"]
 
-Hi Alison,
+Hi Thinh,
 
-not really. There was a temporary outage with the email delivery,
-which I'm about to fix. Please, try again.
+currently sashiko operates on per-mailing list configuration,
+so I can only enable it for all linux-usb@ patches.
+
+Do you mind checking with other maintainers in linux-usb@ if they are
+onboard or not?
 
 Thanks
