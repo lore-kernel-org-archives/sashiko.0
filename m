@@ -1,44 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F79B2D7DF1;
-	Sat,  3 Oct 2026 18:07:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DBC43A1696;
+	Sat,  3 Oct 2026 18:09:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791050845; cv=none; b=CMGphzWgDKkn3hMmd6iHo300cxxibTk+AKjX+TFpi485gikNX0IgjvX9U3gtQrAGxe0klsmH+9OAYfPt/OQ4smCn2wrjiGB4B9wjdjQ48OkICqsE1fpoPboFxq++UmxJErFk8dKxWx1xtl4mOLOZnSYbDVZ8rKna+lkSSfdMRTc=
+	t=1791050989; cv=none; b=qBveR4hULkJmcgCOvpxkJr3uLTsaIemQsMtO9JAiT7Y4OZtC2w1f+Yv5ixnYFvxcdnFY1MakT5uH1Jq+GPzWMNuRllFLrEc1F6LryPrYocnaVlObyRQxnjPdtTTYVJ/tfi1YarFaFS/9jqYCOdrSHA91fN3izBeXYvUQ6sMfNwA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791050845; c=relaxed/simple;
-	bh=3apdDdmaWidZqzkbmLJZ/E8wqK4LiOT6Gag/qBoEIlU=;
+	s=arc-20240116; t=1791050989; c=relaxed/simple;
+	bh=/qmt3CNEJWwyIuoRZ23CiDjaZq0YKPxlrTakCYLnLEM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uBvQQ8J9miFDL3Hrqvc3kVkWCJEdtzv/MFApL6H3bMy1w9TJ36UhzcwSYNSnO5m5twZkRwOxH/YlYujLnWZvzvMd+VpIs0z4y0NpOOOC3OEJnIqHM16XJ9PiZLFf2aycKFCEll+g//kknSTPunsfB9o9gHxceiE70rnzj2UiX4o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jvBarstw; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version; b=UhJDSeMi9OBtLeO+Ms/PtARTIq1v0G/pEpOOHS2VYjyvJenbdPZZfy92FJGEvO7n3iy6Kyjn9fgMKmklmsvbTAZA4MHOQQvShYSkxpPNMD2djEqb5fvPpDzlfE8xXqEyOvPSsJTwT49vIlaIz6E4SFkjA6aqSv2ohrGkI4E2OPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UBaG3IYV; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jvBarstw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B44A1F0089B;
-	Sat,  3 Oct 2026 18:07:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UBaG3IYV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27AAA1F0089B;
+	Sat,  3 Oct 2026 18:09:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791050844;
-	bh=zxQsW4lNjayl9MqsLcSVU14C7+aEJeV7gQIETWFy8mU=;
+	s=k20260515; t=1791050986;
+	bh=tuM+fGebDz5NPQNM5t/o9O9Do0PZlyIBvNuHcCv4Hok=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=jvBarstwdjoErVZnAxQVRZ0xPvpTnw32e0UtMoVLemNrFeKM9O+95nkb0qt6lQpYT
-	 e9g3YiRAJgWFSAptbtEE4bICBbssjvEMMeQsqHJz38fNetJ/1hoNfth6w1MuYCa5PN
-	 LLZk3d1nX7ZDhJK3z99Y/JaAUn/LF2Wk0vOyKX7M0EKuOpkQX7SV1Gng9zEqzfdpIj
-	 4su+gqfhhro02yH5XhjG8ackFz6mZxYo+4ntZhM66Rj8gAjCcFyR/WlU3maYfxD/HK
-	 2sxprHKEGySONqZoRx4IWzpJPLki1MLXvKjuKOlEk9tkjVrzD5lG1Ev2CBKTRAJxf5
-	 LJrqm++XEIKqA==
+	b=UBaG3IYVU9lQtptjcOhmTHodatpnY+gNVf5hLNI2oEqUUeiIdYfkkrBrHkpfhyUX5
+	 lEW4XdrW9pmtsAbII4GD3oora1Y5JELIsIEzgdNoAuzy/Ks80YFaoU/PSFVo5q1lFA
+	 05/q5RxAwBsrm8yvUQ4QpIEDzPd0eXeBJtyVlHO9l7tZ0fWSL5joh4LKIFBw+VstlJ
+	 BwrJMAZ6RQ4vXkPSvvB7UfErNMive01uvsNkbbgLnaUsgBwSNpptwmVMbkhbr3kYtv
+	 jatMSNDnRUVbNW+ZE+Ihf6s99K0M5TB5ws0dXa4B+/CIL1Sz8T2NQHXh4ByBsTpcFx
+	 D1eSTcLQyb1+Q==
 From: SJ Park <sj@kernel.org>
 To: SJ Park <sj@kernel.org>
 Cc: Roman Gushchin <roman.gushchin@linux.dev>,
-	Matthieu Baerts <matttbe@kernel.org>,
-	Alexey Gladkov <legion@kernel.org>,
-	oleg@kernel.org,
-	sashiko@lists.linux.dev,
-	users@linux.kernel.org
-Subject: Re: direct replies from sashiko
-Date: Sat,  3 Oct 2026 11:07:19 -0700
-Message-ID: <20261003180720.35281-1-sj@kernel.org>
+	sashiko <sashiko@lists.linux.dev>,
+	LKML <linux-kernel@vger.kernel.org>,
+	Chris Mason <mason@kernel.org>,
+	Kees Cook <kees@kernel.org>,
+	Jason Gunthorpe <jgg@nvidia.com>,
+	Jakub Kicinski <kuba@kernel.org>
+Subject: Re: sashiko & pre-existing bugs
+Date: Sat,  3 Oct 2026 11:09:41 -0700
+Message-ID: <20261003180941.35452-1-sj@kernel.org>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261003171045.33520-1-sj@kernel.org>
+In-Reply-To: <20261003172449.33985-1-sj@kernel.org>
 References: 
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
@@ -48,54 +49,44 @@ List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On Sat,  3 Oct 2026 10:10:44 -0700 SJ Park <sj@kernel.org> wrote:
+On Sat,  3 Oct 2026 10:24:49 -0700 SJ Park <sj@kernel.org> wrote:
 
 > Hello Roman and Sashiko team,
 > 
-> On Thu, 01 Oct 2026 17:21:49 +0000 Roman Gushchin <roman.gushchin@linux.dev> wrote:
+> On Thu, 17 Sep 2026 23:30:23 +0000 Roman Gushchin <roman.gushchin@linux.dev> wrote:
 > 
-> > Matthieu Baerts <matttbe@kernel.org> writes:
-> > Hey!
+> > Hello,
 > > 
-> > Several questions here:
-> > 1) What mailing list are we talking about? There are per-mailing list
-> > policies defining if and who sashiko is sending emails.
-> > 2) Do you see findings in corresponding patches on sashiko.dev?
-> > Sashiko previously reported preexisting bugs together with new bugs,
-> > but now it's putting them into the database available to corresponding
-> > maintainers ("bugs" button on sashiko.dev), so the number of emails
-> > might naturally drop.
-> > 3) There might be a bug somewhere :) I need more details to dig in.
+> > as some of you might notice, a couple of days ago sashiko stopped to
+> > report preexisting bugs together with not-yet-introduced new issues.
+> > Instead, it started putting them into the database. All M: and R: in the
+> > current MAINTAINERS file have full access to corresponding bugs.
+> > 
+> > There is a new "Bugs" button in the top right corner which is the access
+> > to the database. You don't need to create an account, invent a password,
+> > etc. It's all stateless.
 > 
-> I also noticed Sashiko is not sending reviews as replies to patches that are
-> sent to damon@lists.linux.dev.
-> 
-> The last time I got the review reply [1] was 2026-10-02 07:14 (PT).
-> Today I sent a patch [2] and didn't receive the review as a reply to the patch.
+> I asked it to send the sign-in link for sj@kernel.org.  But I don't receive the
+> link.  I waited more than 10 minutes and checked spam folder, but nothing is
+> found.  The last time I tried to sign in was a couple of weeks ago, and it
+> worked at that time.  I wonder if this is also related with my previously
+> reported issue [1].
 
-Maybe I was impatient.  I received replies after ~1.5 hours.
-
-> 
-> Also, from Sashiko web interface's subsystems dropdown menu, I show two menu
-> entries [3,4] for 'damon'.  Given the URL, it seems the second one [4] is based
-> on a wrong DAMON mailing list address.
-
-This is still same, though.
+Maybe it was a temporal issue, or something is just fixed.  I tried sign-in
+again, and this time I was able to get the sign-in link within a minute.
 
 > 
 > Could you please take a look when you get a chance?
+
+So, please ignore the above request.
+
 > 
-> [1] https://lore.kernel.org/20261002141421.AF3431F000FF@smtp.kernel.org
-> [2] https://lore.kernel.org/20261003163101.32739-1-sj@kernel.org
-> [3] https://sashiko.dev/#/?list=dev.linux.lists.damon
-> [4] https://sashiko.dev/#/?list=org.kernel.vger.damon
-> 
-> 
-> Thanks,
-> SJ
-> 
-> [...]
+> [1] https://lore.kernel.org/20261003171045.33520-1-sj@kernel.org
+
+Thank you again for making Sashiko always great!
 
 
 Thanks,
 SJ
+
+[...]
