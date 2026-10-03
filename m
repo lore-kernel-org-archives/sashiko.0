@@ -1,47 +1,47 @@
-Received: from mta1.migadu.com (out-59.mta1.migadu.com [95.215.58.59])
+Received: from mta1.migadu.com (out-87.mta1.migadu.com [95.215.58.87])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C080830C177
-	for <sashiko@lists.linux.dev>; Sat,  3 Oct 2026 19:10:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.59
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66C85F9C0
+	for <sashiko@lists.linux.dev>; Sat,  3 Oct 2026 20:10:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.87
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791054607; cv=none; b=pnLeSmByjJVxd1I7egNZHfJu6vuGu3tM/DnRQjLYpl70T8xVbyZ4EXGnZbbeF3C+JJwpf6iAsHCRKlSdog0zNoRcRsyUYd0qkRWUlENPvJFMK+Vfu5Jhtu9MGOT8KJpqrQsJ65K5K7WfxDue62HHq+51EQDic07ticUxhqOF5c0=
+	t=1791058248; cv=none; b=L7WmvwuXNSfNldxor2UnrZGnh8l1Q6s+YtfTvlUXXO9hlhG04QaCMMDLQ55d2hwTKDjUgoC5IFCrc7Rvd28z3c0e4Sfoa7uSw2HzsUyELRZ9WEDJ5DjVhMC7bek2JcepSEFpO1oAdfNXrp/EQ30CpPAanIEPSwl5ILmA9zXNqIs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791054607; c=relaxed/simple;
-	bh=edc5ma3tipq92yDo6hvgXPiWJwN0SmHqNkLi7stQj9U=;
+	s=arc-20240116; t=1791058248; c=relaxed/simple;
+	bh=X4nxifD4XUHq1BKvjEXSQCHM0bDL1a7IaCs/n/9tm+k=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=snT67wggUCQtITKFHHHFKysnl1VsCHCX0Nk7NK6dYdYtn32SmSDeos74qXMVRQdSggJqH/ODIR//c9xNV95/NIEKy5CkDX5DJtf7/g8qrT0qBH5T3V/SLfU7jnLYtz52vd4LrgYNfqfBu6YAnUtJePVzVkRXzMPVYIKCx+oMzcs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Z/GPuncq; arc=none smtp.client-ip=95.215.58.59
+	 MIME-Version:Content-Type; b=kRc26+b6YV7RdKMbm1/1DFQhxYbP8NXFwlc7bGtzEIsuglPc4hkDNCv6JTXcJrEaG6sEf++2HF0ajvzJg5QClozztlJPen1pHNAS6HBPsVu6BwRda4bbwjlfdO7nLOWV3gGO9tZ0+Ki3SIwTlD+iykYtYD8KriqBlfslG8ZaJTk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=TvQtQHSZ; arc=none smtp.client-ip=95.215.58.87
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Z/GPuncq"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="TvQtQHSZ"
 X-Envelope-To: sashiko@lists.linux.dev
-DKIM-Signature: a=rsa-sha256; bh=edc5ma3tipq92yDo6hvgXPiWJwN0SmHqNkLi7stQj9U=;
+DKIM-Signature: a=rsa-sha256; bh=X4nxifD4XUHq1BKvjEXSQCHM0bDL1a7IaCs/n/9tm+k=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1791054601; v=1; x=1791659401;
- b=Z/GPuncqGrzID9yAWrpNOZrPTDhrrgOTXJyxVM6C9KW3S+wChPXhiJYon1qvLW/7zMlc5NxL
- /V5vSF912LuXSjbqbAVGDvglef7j2am4PZ+2Jgdg3K1BIM7DJHvWYNan76wZ8MkmJOzNLoXc3ez
- E/Vm0KE780d+Cli36gGP/Zxw=
+ t=1791058243; v=1; x=1791663043;
+ b=TvQtQHSZ4WbB8qwLmA+i10kuk3NlWWwk59Ec+wObHLfbFPpY9940LFrjZL5UQS96L+GYDsvS
+ mYbZP6/Xo6clAxvZ5i2IXuqN5KxfssDCXY46e70jKBEh6FfLnTtLzEYTpw6nvzfIen+5F9T1pSL
+ 9GrXNahx8bHEDvZqm5lGjVMo=
 X-Envelope-To: sashiko@lists.linux.dev
-Received: by mta12.migadu.com with ESMTPS id 01725ddef5eb54a7;
-	Sat, 03 Oct 2026 19:10:01 +0000
-X-Mizu-Trace-ID: 01725ddef5eb54a7
+Received: by mta11.migadu.com with ESMTPS id 7736264c25658130;
+	Sat, 03 Oct 2026 20:10:42 +0000
+X-Mizu-Trace-ID: 7736264c25658130
 X-Migadu-Flow: FLOW_OUT
 From: Roman Gushchin <roman.gushchin@linux.dev>
-To: Oleg Nesterov <oleg@redhat.com>
-Cc: Alexey Gladkov <legion@kernel.org>,  Matthieu Baerts
- <matttbe@kernel.org>,  sashiko@lists.linux.dev,  users@linux.kernel.org
-Subject: Re: direct replies from sashiko
-In-Reply-To: <ar-HdYtpdDzVLsqg@redhat.com> (Oleg Nesterov's message of "Fri, 2
-	Oct 2026 12:29:09 +0200")
-References: <ar47HvytXrbOiwTO@example.org>
-	<15f15153-d19e-4a3d-9d7b-847109ebb96f@kernel.org>
-	<ar98N7kvFD7Qxi0K@example.org> <ar-HdYtpdDzVLsqg@redhat.com>
+To: Alison Schofield <alison.schofield@intel.com>
+Cc: sashiko <sashiko@lists.linux.dev>,  LKML <linux-kernel@vger.kernel.org>,
+  Chris Mason <mason@kernel.org>,  Kees Cook <kees@kernel.org>,  Jason
+ Gunthorpe <jgg@nvidia.com>,  Jakub Kicinski <kuba@kernel.org>
+Subject: Re: sashiko & pre-existing bugs
+In-Reply-To: <asA_b1s4iVx2_v-U@aschofie-mobl2.lan> (Alison Schofield's message
+	of "Fri, 2 Oct 2026 16:34:07 -0700")
+References: <7ia4se37qwvk.fsf@castle.c.googlers.com>
+	<asA_b1s4iVx2_v-U@aschofie-mobl2.lan>
 User-Agent: mu4e 1.12.15; emacs 30.2
-Date: Sat, 03 Oct 2026 19:09:56 +0000
-Message-ID: <7ia4ld8elhx7.fsf@castle.c.googlers.com>
+Date: Sat, 03 Oct 2026 20:10:37 +0000
+Message-ID: <7ia4jynyzgsi.fsf@castle.c.googlers.com>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
@@ -50,42 +50,31 @@ List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Oleg Nesterov <oleg@redhat.com> writes:
+Alison Schofield <alison.schofield@intel.com> writes:
 
-> On 10/02, Alexey Gladkov wrote:
->>
->> On Thu, Oct 01, 2026 at 04:56:50PM +0200, Matthieu Baerts wrote:
->> > Hi Alexey,
->> > 
->> > (+cc Sashiko ML)
->> > 
->> > On 01/10/2026 12:51, Alexey Gladkov wrote:
->> > > I noticed that sashiko-bot stopped sending me reports about its reviews.
->> > > It was very convenient and meant I didn't have to keep checking
->> > > https://sashiko.dev/. I thought it was just me, but Oleg Nesterov also
->> > > told me that he doesn't receive those reports either.
->> > 
->> > Do you know when it stopped? It looks like there is some activities on
->> > the 'sashiko-reviews' ML.
+> On Thu, Sep 17, 2026 at 11:30:23PM +0000, Roman Gushchin wrote:
+>> Hello,
 >> 
->> I don't send patches very often, so I can't say for sure.
+>> as some of you might notice, a couple of days ago sashiko stopped to
+>> report preexisting bugs together with not-yet-introduced new issues.
+>> Instead, it started putting them into the database. All M: and R: in the
+>> current MAINTAINERS file have full access to corresponding bugs.
 >> 
->> Oleg, you're sending more patches. When did sashiko stop sending you
->> reviews?
+>> There is a new "Bugs" button in the top right corner which is the access
+>> to the database. You don't need to create an account, invent a password,
+>> etc. It's all stateless.
 >
-> I've never received any emails from sashiko. Fortunately I can read the
-> reviews on sashiko.dev.
+> Hi Roman,
+>
+> The access is not working for me for my linux-cxl and nvdimm.
+> I ask it to send the email link and nothing happens.
+>
+> Anything else needed here?
+>
 
-Email reviews are sent only to some subsystems (if corresponding
-maintainers opted in). It's configured here:
-https://github.com/sashiko-dev/sashiko/blob/main/deployment/sashiko.dev/email_policy.toml
+Hi Alison,
 
-fsdevel@ is not there.
-
-I guess some of Alexey's patches had some other mailing lists in cc with
-configured email policy.
-
-Also there was few minor email outages over last couple of days, but it
-only delayed certain emails.
+not really. There was a temporary outage with the email delivery,
+which I'm about to fix. Please, try again.
 
 Thanks
