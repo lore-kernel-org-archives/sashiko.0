@@ -1,120 +1,128 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta1.migadu.com (out-78.mta1.migadu.com [95.215.58.78])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FA9E47532F
-	for <sashiko@lists.linux.dev>; Wed,  7 Oct 2026 09:01:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7D6D3D3CE0
+	for <sashiko@lists.linux.dev>; Fri,  9 Oct 2026 14:17:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.78
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791363697; cv=none; b=j0AgCHxSV4Gq7vW2/7hXtXjAg42CanA4oFsxO1OjQok82w/GDGMxRpWRHREL5VSep674pSeDhlJvOFCeZ1vo8SsbHrO2IEDRYanVneihZR9X9VzhOZv3aGwp/JBjO7Foxd0SJDr9CiQpqqw5r+7gUold35otbwE/bJmI6IuTYWc=
+	t=1791555436; cv=none; b=QxmeaKgImMv4mu4nXeZbmIuJBeyxZYxI23ZCZllvbRB3Jsit/L+l2arpQfECDXGZvVd7wgfNK/WFIg95U6Oqk7QYgEJ87WeEHKl4mMeoe0+DlDmfswueD62SzUsH+5ZZRnyn5n6dK5YpsM57Ll2FjUCr1BoY1TstPDwoxdr+Ydg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791363697; c=relaxed/simple;
-	bh=Q+sExwKvW/koXGQnk87sMjBzjM+053S7/IakL6fxj4A=;
-	h=MIME-Version:Date:From:To:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=TUzQohlcHXcZN7CxG0G2eevSu/kizauBqrzeBwcoS0/inyFvEzAWeDJ1D63bBtbOz0nasX+6eLyc/W2dAcUV1HqzsS4wWgZStpG6sQVdROC9hodjf8px8aUEfzg0bBkb832b5f/2CaBJ1mbPy97LJ8UdA9Np9Qrr1qg5wavDd9Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dbzzfIHZ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791555436; c=relaxed/simple;
+	bh=/EnfCglIntOS5vVcTYPxlOlk9euOljXmNePDRNYTiOc=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=Pf6K9ZxbNVoxXdolEfhO3F7zgAD2USH+Df7fjufA9bK6tFopO7T/VGIKODpuMEE7Ya7Mv1QVSCuf7TG16Srpkqy+GK6dq99nxeKrHnkjQouDvdINQtyGk6u7/rCo3H+nZJXpLHbMU0aCnLyjmEGUgBRaM7xxrY48jy+yR6xchTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ieMXIb6E; arc=none smtp.client-ip=95.215.58.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dbzzfIHZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BAD31F008BF;
-	Wed,  7 Oct 2026 09:01:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791363677;
-	bh=I5JUWRkLGMsbmGLsbQlhWVOzFg9TmDGB/WV23is89vU=;
-	h=Date:From:To:In-Reply-To:References:Subject;
-	b=dbzzfIHZv0mPdHsTxI3Yob0TmDCVvRVz6+Q9aUlBJ6qSgAspFbuquuzjpLwohasjy
-	 ypRhALvc2HemVdfTm4QopFx5AB58jaOot2Efv1ZbqsdmePleZo+GALMeT6bDPelpmP
-	 f5CDHQWu+udEh+UBohd8V1QQymqSRAgn9yBY/F423ySDP11wd2hcGOFtZ4yd+nfFAe
-	 vUZa/kKIxFWWKXcYgiq0SWO7SxTk9V+0RxCSveHzriRWYVbUsOX8qVl+lhag+Gn1fp
-	 c52VhqFipNDCj6NUm+O85UDAYuUW70A5+bohQdtZKI/74+VXeJDflAPLEWi1QASYfn
-	 +mcswsXMGhF6Q==
-Received: from stl-compute-04.internal (stl-compute-04.internal [10.204.2.64])
-	by mailfauth.stl.internal (Postfix) with ESMTP id 1896B780043;
-	Wed,  7 Oct 2026 05:01:17 -0400 (EDT)
-Received: from stl-imap-13 ([10.204.2.104])
-  by stl-compute-04.internal (MEProxy); Wed, 07 Oct 2026 05:01:17 -0400
-X-ME-Sender: <xms:XArGamBnYt-OUvNZzbFT--VpGv_X0hoStxqIH9qBWs6XdAA19DKESw>
-    <xme:XArGarUX1e2CKjNVIJIFz99tXRZ919EWszdvHWSXXQgtVc6nuMDBMAddIIspfoCMD
-    FvUg2KgH3nR4Z-6LcjIPPEeQBtf2mFIyfCRL_rPASZQXjqBSSfH90Zo>
-X-ME-Proxy-Cause: dmFkZTFxkBiOEIt93Afyi6VsviWontn+o2lb3RWJK2UchpykbMXFztXhUk4TfK5cjaCDli
-    IhDTYDiV764pMUynvTME5JFV2cE6TE1WpRnq9YADAyMCSllJdbPDir0LTW1QFgjEVWth8E
-    mT266iBFf2mQBg3Q4O72Le2ycCXZgC3UQxJbcIZ1CD9tkBAyWFUXrL25bsJdAvpE4IRc4L
-    c+4Qqmsnv0MoQ6tyWjbsf4SkwqbVAWGx3uw5PJP6vTjeNfhhXZums43SRGUpv5FeIs3I//
-    KrZxTuUuKXL47lD25T8cK7nUqOpanTk4qLY2Dz+Uf55oy0fM3jQ5os+gf+Br/baDVlJoh2
-    1jAZmeCRAMpQs8kNFGqEjK09aYmItvf1xJaaO3zoISQEBPbnlwGvV3329mFrER773aCNR+
-    D+iCSe0klGUuOXwgtoCJL77yssqqk2JkCnnZ+zocUZXymxtFNFjHYeCNDafpL1z5B5QTkM
-    cj1sUFKbsZUvZRz3viGL6smh9IEnFih8i91zzLbXCOrjaOWwhUkSCKBsECQ8GjaFD4EfhL
-    cHBWMAqqrNet3VJc4YBU+j2bV7JIgwveAIZJOxVhtdK8vEW0vSS2lJTWfUbcENOKCQqv6f
-    qnD62TODxz78XHRE5T30fVK4gVAzC5MdLSXguPXY16A/7ldlDnAbN/gV5/IQ
-X-ME-Proxy: <xmx:XQrGarFSuV7YAtkHXNxGAAkquBxEhssO7bDWVToZcj_Jiy9Bd1MlpA>
-    <xmx:XQrGap1lABSrRLLWYOZLYNKUXsgVFvhPimn8vRGCtraL35lMDWajhQ>
-    <xmx:XQrGatMOSOeImq0SZzcv2Pnx2WsY1r0RvrYdO7UATiJQmIYS5X8qQQ>
-    <xmx:XQrGao47gN9Cy2tUe2PlW_W-NPHRO3INDm0URPJBjbTUnBEC_6H62Q>
-    <xmx:XQrGan03PMBs4n_DSZ_d9JY3hdbMf-qXIRECi3yKgyT-kLV9OZQx1QXT>
-Feedback-ID: iccae4b50:Fastmail
-Received: by mailuser.stl.internal (Postfix, from userid 501)
-	id C3B98F6007C; Wed,  7 Oct 2026 05:01:16 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ieMXIb6E"
+X-Envelope-To: sashiko@lists.linux.dev
+DKIM-Signature: a=rsa-sha256; bh=/EnfCglIntOS5vVcTYPxlOlk9euOljXmNePDRNYTiOc=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1791555431; v=1; x=1792160231;
+ b=ieMXIb6EYsVfbO/a8laeLcugdsQVY/PDPW/0MqVG2Vj3z/BI8KC0TkayB8dRBUpqV9uawXUG
+ C//bfvJluaAtAlPCikRujfkNk7/6tOV/rXSLrFjH7SQhS4xyNvozc5UVeT6eawy+WQEt39cxf0T
+ AZ4sESXu4KEF8bxwG0eJQrdQ=
+X-Envelope-To: sashiko@lists.linux.dev
+Received: by smtp.migadu.com with ESMTPS id cd370a24a0c009ad;
+	Fri, 09 Oct 2026 14:17:11 +0000
+X-Mizu-Trace-ID: cd370a24a0c009ad
+X-Migadu-Flow: FLOW_OUT
+From: Fuad Tabba <fuad.tabba@linux.dev>
+To: Chris Mason <mason@kernel.org>
+Cc: sashiko@lists.linux.dev,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	ihor.solodrai@linux.dev,
+	ast@kernel.org,
+	kuba@kernel.org,
+	Fuad Tabba <tabba@google.com>
+Subject: Re: [RFC] reworking the review-prompts subsystem guide
+Date: Fri,  9 Oct 2026 15:17:10 +0100
+Message-Id: <20261009141710.1871697-1-fuad.tabba@linux.dev>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <91e21331-ed6d-4ac0-b237-b01aeadca2d1@app.fastmail.com>
+References: <91e21331-ed6d-4ac0-b237-b01aeadca2d1@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ThreadId: A_YYAiGKKP7V
-Date: Wed, 07 Oct 2026 11:00:56 +0200
-From: "Chris Mason" <mason@kernel.org>
-To: "Ihor Solodrai" <ihor.solodrai@linux.dev>, sashiko@lists.linux.dev,
- "Roman Gushchin" <roman.gushchin@linux.dev>, ast@kernel.org,
- "Jakub Kicinski" <kuba@kernel.org>
-Message-Id: <e1131e0e-f447-47bb-9e74-ed2c60a0d5e5@app.fastmail.com>
-In-Reply-To: <f8295279-7af7-4b3e-bc9b-112bfc49816b@linux.dev>
-References: <91e21331-ed6d-4ac0-b237-b01aeadca2d1@app.fastmail.com>
- <f8295279-7af7-4b3e-bc9b-112bfc49816b@linux.dev>
-Subject: Re: [RFC] reworking the review-prompts subsystem guide
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Tue, Oct 6, 2026, at 11:22 PM, Ihor Solodrai wrote:
-> On 10/2/26 12:04 PM, Chris Mason wrote:
->> Hi everyone,
->>
->> I've been updating the review prompts, and you can find my current
->> work here in the subsystem-build branch:
->>
->> https://github.com/masoncl/review-prompts.git subsystem-build
->
-> Hi Chris,
->
-> I've set up "shadow" AI reviews for BPF, taking advantage of our
-> existing bpf-rc infra. It's a copy of the entire BPF CI pipeline that
-> we occasionally use for testing of the CI itself.
->
-> The shadow reviews are using your new prompts from the subsystem-build
-> branch. The reviews are posted on kernel-patches/bpf-rc PRs as
-> comments and are not mailed to the list. I configured the reviews to
-> run on every 4th series (so 25% of prod). I'll let it run for some
-> time (couple of weeks?) and then we'll be able to analyze the
-> difference and either switch or iterate.
->
-> One quirk I added: a datetime cutoff of the semcode's lore archive,
-> so that the rc reviewer doesn't see prod reviewer's comments. Not
-> sure how reliable that'll be, because AI may potentially figure out
-> to read them from github or something. But we should notice if it
-> doesn't work.
->
-> You can find the relevant PRs like this:
->
->     $ gh pr list -R kernel-patches/bpf-rc --label ai-review-shadow:subsystem-
->     build --state all --limit 50 \  --json url,headRefName,title --jq
->     '.[] | "\(.url)\t\(.headRefName)\t\(.title)"'
->
-> Note the "ai-review-shadow:subsystem-build" PR label.
->
-> The reviews run with debug output, and also the claude session logs
-> are captured as artifacts. Ask your agent to write a script to pull
-> those in with github cli, should be easy.
->
-> I just pushed, it'll take a few days before we get any real samples.
+Hi Chris,
 
-Oh this is great, thanks so much.
+On Fri, 02 Oct 2026 20:04:00 +0100, "Chris Mason" <mason@kernel.org> wrote:
+[...]
+> My new branch builds subsystem guides by asking a long list of
+> questions, and then extensively reading the sources to find the
+> right answers.  The delta between the LLM's answers and the right
+> answers is the new guide.
 
--chris
+I went through the KVM/arm64 and protected KVM (pKVM) guides on the
+branch, and checked a sample of their claims against the tree. They're
+much more accurate and detailed than the hand-written ones, and the
+checking against the source is what makes the difference.
+
+Some of what a reviewer needs isn't in the code, though: which bugs
+matter and how much, and which reports are false alarms. The old pKVM
+guide said that a hypervisor crash only the host kernel can trigger is a
+hardening item, while one a guest can trigger is a real bug. The design
+deliberately keeps that kind of instruction out of the guides, so it's
+gone from the built one. Where should it live instead? The "Conventions
+for new code" files look closest: they already hold what maintainers ask
+for and no code states, and a review finds them by the directory a patch
+touches. Something like that for KVM/arm64 would work, and I can write
+it.
+
+Leaving out what the tested models already knew also tunes the guide to
+those models, and the model doing the review may not be one of them.
+Hand-written guides have the same problem, and I don't see an easy fix.
+Your mail points at builds per model, so one option is for each project
+to build for the model it runs. Another is for the build to keep the
+full checked answer rather than only the difference, now that the index
+makes length matter less. Which way are you leaning?
+
+> This is both much less useful to human readers and much longer.  I'm
+> not sure what to say about the human reader part, but instead of
+> having LLMs read the whole subsystem guide, I shifted to an index
+> where they search for symbols.  This is a better fit for more
+> advanced models, which mostly need updates on how the kernel has
+> changed since they were trained.
+
+A common KVM patch adds a new hypercall. A symbol search finds the
+answers about the existing calls the patch uses, but not the rule for
+where a new one goes in the list: that answer is filed under a marker
+the diff never touches, and the header the diff edits isn't the source
+file of any index line. Could some answers be keyed to the directory as
+well, like the short table you kept for a few guides?
+
+[...]
+> What I know for sure is the existing review prompts have drifted
+> from mainline Linus.  It's impacting the quality of the reviews, so
+> I plan on working out something in the near future.
+
+Built guides drift too, just in a different way. These were built at
+7.3-rc5, and one fix in rc6 made four of the KVM/arm64 claims wrong
+without renaming anything, so looking names up in the tree doesn't catch
+it. Most index lines already record a source file, so a review on a
+newer tree could check whether that file changed since the build, and
+re-check or flag the answer if it did.
+
+Related: when a maintainer finds a wrong answer, the only fix is to
+change the question and rebuild, which needs model access and can come
+out differently each time. Who looks after the question files, and could
+there be a small override that a maintainer edits between rebuilds?
+Feedback from the list, as Jakub and Roman discussed, could take the
+same route: suggested questions that go through the same checks against
+the tree, rather than guide text.
+
+Separately, some pKVM questions were dropped for size, including the one
+on protected guest system registers, and the measurement notes say
+they're the first to bring back if the size limit is raised. There's no
+length limit now, so I could send a patch to bring them back.
+
+Cheers,
+/fuad
+
