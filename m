@@ -1,108 +1,66 @@
-Received: from mta1.migadu.com (out-72.mta1.migadu.com [95.215.58.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BBA119DF6A
-	for <sashiko@lists.linux.dev>; Sat, 10 Oct 2026 15:53:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 734C032B130
+	for <sashiko@lists.linux.dev>; Sat, 10 Oct 2026 22:06:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791647611; cv=none; b=JJ/AteRrD0UpRJ1YXPT/ekQhlUEf64R4wy/8oOexOB2moIPcJzEVGXCOdai4vH9U7X6tQ57xuVGyOOKmwZlwu6obQ4iS1OZUIqoZSz1zVjO+LuY7EYKEKIQiJ4hhoyXCjzt6GMPm7IhYjjh0zGzIWTWKRzruobWx6XeuP30zApM=
+	t=1791669991; cv=none; b=inleX7m7rmtn2UZ4EgkftSnCeYBOg75OHe4Pw1YMU70N30sO8UQsn/oof0tJ7z4mQV5FWBfPPG/sNflWfVqGj8/KVBSKlNFVZUFov7uR8iPZo8cn/O7ltdMd5byH0KSCi19DPzSROQcAxxSuykF/88tsdAdjkND6r8msOUFz+X4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791647611; c=relaxed/simple;
-	bh=3PX+YnzIrGeVbz9/pR6TfUzzrA1lJ6qWkvVwp6u1jvE=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=cHJCahElkVpB9859KCpUC4I9Rm769y7vn6sc/sBEpPcUMEZXgCp4UvzSGmqZdlrNYbZDeeb1LRzBBAgWJww3NGFNuspPlieNxQBdShproxDJ0PRF+1D5bV8m187DWyLJxGqpYM8CRVlQGN3COPHdnG3t4gXLcyWmd6nGVAHUkwk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Wl14UCuV; arc=none smtp.client-ip=95.215.58.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1791669991; c=relaxed/simple;
+	bh=EgN5JOe63KLZs2JDwC1MEA4v8sFf2xMT1OQLx38n3v8=;
+	h=Date:From:To:Subject:Message-Id:Mime-Version:Content-Type; b=j2EkkwaFk8mUGr6+QkW3TsswB5S5khRt0XOCHbOHeyws6WugeD/gwJlUKjimmeSdoDPgEWDLlT9eQCSIdMmSV19lkjfRAfNqmY5SMYu6X3PROuGChC1N/pZ14QBt9YpPWo038aaxIMjt95zXsLWkJIgBsqmzwX/f1P4NhgGPkog=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=EqakYhFK; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Wl14UCuV"
-X-Envelope-To: sashiko@lists.linux.dev
-DKIM-Signature: a=rsa-sha256; bh=3PX+YnzIrGeVbz9/pR6TfUzzrA1lJ6qWkvVwp6u1jvE=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1791647605; v=1; x=1792252405;
- b=Wl14UCuVn63vFjD2/ZZzT9pVNYOni6wSmP0POqW/WsHJyc65DWE0/J0mmU+khOFGZgUxoItb
- 19F8vguDExeOtmmspHHk4ywVOb2aHGTJrrjzoF5Qfx3bryLl3x8gqlgirbneD+rqEPvoxOeAtcL
- f6WQI4+sjra052T088O19j70=
-X-Envelope-To: sashiko@lists.linux.dev
-Received: by smtp.migadu.com with ESMTPS id 9bf5cdb562dee6dc;
-	Sat, 10 Oct 2026 15:53:25 +0000
-X-Mizu-Trace-ID: 9bf5cdb562dee6dc
-X-Migadu-Flow: FLOW_OUT
-From: Fuad Tabba <fuad.tabba@linux.dev>
-To: Chris Mason <mason@kernel.org>
-Cc: sashiko@lists.linux.dev,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	ihor.solodrai@linux.dev,
-	ast@kernel.org,
-	kuba@kernel.org,
-	Fuad Tabba <tabba@google.com>
-Subject: Re: [RFC] reworking the review-prompts subsystem guide
-Date: Sat, 10 Oct 2026 16:53:21 +0100
-Message-Id: <20261010155321.2539213-1-fuad.tabba@linux.dev>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <c007a163-91a6-4e2a-b8de-057b61d369aa@app.fastmail.com>
-References: <91e21331-ed6d-4ac0-b237-b01aeadca2d1@app.fastmail.com> <20261009141710.1871697-1-fuad.tabba@linux.dev> <c007a163-91a6-4e2a-b8de-057b61d369aa@app.fastmail.com>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="EqakYhFK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D83A61F000FF
+	for <sashiko@lists.linux.dev>; Sat, 10 Oct 2026 22:06:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux-foundation.org; s=korg; t=1791669989;
+	bh=OwO1yDTUeATaLrk/xF60TinakRP1+AAEQ99AxEuTM/4=;
+	h=Date:From:To:Subject;
+	b=EqakYhFKr428t1zvf5BmyRhk4cPM/qhboi5pIJEwazIfVySUAqNi9edlbOKXqUlI5
+	 zXDgFOXonF67R7+z/XrVIvQ9NRC0EZ+w0Zqp/3kVYUNMOZYwQOAFgzrQkz5cJOVrSr
+	 yL3Znt+Guio9zUB1NrP/StSbZYjjh/3fgqfCQIaM=
+Date: Sat, 10 Oct 2026 15:06:29 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: sashiko@lists.linux.dev
+Subject: email handling
+Message-Id: <20261010150629.0c00e0a4282eac9aa247cca3@linux-foundation.org>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Chris,
 
-On Fri, 09 Oct 2026 18:57:53 +0100, "Chris Mason" <mason@kernel.org> wrote:
-[...]
-> There's already a way to pass specific parts verbatim, which feels more
-> correct than under a "new code" label.  We can play around with a few
-> ideas though.
+Concerning this email:
+	https://lore.kernel.org/20261009-b4-mmap-prepare-vma-flag-sanify-v5-16-923b70125b1e@kernel.org
 
-A verbatim file works. I'll send a KVM/arm64 one, policy only, with the
-patch that brings back the dropped questions.
+I discovered that some lucky duckies were receiving Sashiko emails:
 
-[...]
-> I'll do another run and put the full build up.  We can see if it's too big
-> to be useful or if we can make the index strong enough to get around
-> needing the per-model analysis.
+Subject: Re: [PATCH v5 16/38] mm/vma: add and use
+ vma_[flags]_is_fixed_mapping
+Reply-To: sashiko-reviews@lists.linux.dev
+To: =?utf-8?b?TG9yZW56byBTdG9ha2VzIChBUk0p?= <ljs@kernel.org>
+Cc: linux-trace-kernel@vger.kernel.org, kvmarm@lists.linux.dev, "Vasily
+ Gorbik" <gor@linux.ibm.com>, "Oliver Upton" <oupton@kernel.org>, "Heiko
+ Carstens" <hca@linux.ibm.com>, linux-perf-users@vger.kernel.org, "Marc
+ Zyngier" <maz@kernel.org>, "Alexander Gordeev" <agordeev@linux.ibm.com>, linux-scsi@vger.kernel.org, selinux@vger.kernel.org, "Christian
+ Borntraeger" <borntraeger@linux.ibm.com>, bpf@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org, kvm@vger.kernel.org, linux-s390@vger.kernel.org, linux-usb@vger.kernel.org
+In-Reply-To: <20261009-b4-mmap-prepare-vma-flag-sanify-v5-16-923b70125b1e@kernel.org>
+References: <20261009-b4-mmap-prepare-vma-flag-sanify-v5-0-923b70125b1e@kernel.org>
+ <20261009-b4-mmap-prepare-vma-flag-sanify-v5-16-923b70125b1e@kernel.org>
 
-When it's up I can put numbers on it: I have a test set of 115 buggy
-KVM/arm64 commits, fixed since January, each paired with what fixed it,
-plus the Sashiko findings on KVM/arm64 patches since July that a human
-answered. The hand guides are running on the bugs now; the current build
-and the full one are next.
 
-[...]
-> Absolutely.  The index is pretty dumb, we can do a lot better.
 
-Most index lines already name the source file of their answer, so one
-cheap step is to search for the files the patch touches as well as its
-symbols. A directory table is still the place for the rest: the
-placement rule for a new hypercall was answered from
-arch/arm64/kvm/pkvm.c, which such a patch doesn't have to touch.
+But I did not.  How come?  I was on the To: line so why were certain
+people emailed but not me?
 
-[...]
-> A related question is how often do I need to rebuild in order for
-> the guides to be useful?  I'd assume the absolute minimum is every
-> final release, but every RC is also reasonable.
+I'd prefer to receive such replies.
 
-I think every rc is enough for mainline. What it can't reach is a fix
-that lands between rcs, or a review against -next, and the source file
-on the index line could catch part of that: re-check an answer whose
-file changed since the build's commit before relying on it.
-
-[...]
-> The build script can rebuild a single guide, or people can just have
-> their agents hand edit the build?  It's a good point, we should have
-> AGENTS.md record some best practices.
-
-A hand edit to the guide fails check-built-guide.py, and a rebuild from
-the unchanged question can bring the wrong answer back. For AGENTS.md,
-how about: edit the answer file (an exception to the never-edit-build
-rule, but the check still passes), re-render and re-index with no model,
-and sharpen the question in the same change so the fix isn't only in
-the output.
-
-Cheers,
-/fuad
+Thanks.
