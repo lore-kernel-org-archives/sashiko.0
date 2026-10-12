@@ -1,135 +1,116 @@
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9738B499F12
-	for <sashiko@lists.linux.dev>; Mon, 12 Oct 2026 15:14:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791818098; cv=pass; b=C6kneSAYjkE/YcvvKbBoUZF/4j5PtsGa0vuPCOfG8KcKkSdMjCHKwu65pQMLiaoCT6yiHuKy2hCJT98f4a/nmQFmytpGqlIcoAdlf6sUiVAVq+2D/3F1KVYF7F1r2cyzN2ze60DamyY+jv/FAdpLje+mErMFacM5QjEhh8GMqBc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791818098; c=relaxed/simple;
-	bh=gOgQI+0EMTTszB0LD8AL3zsuVqBT+qw29dmgomr+PB8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pZwLxu+HpGnxBtDoXHz+sgmK2G66zkcp54Nb3DoJcQqA/yM2wqccAxX4g6hiXjU9BYzEzJNQY0Z9Fwaj6B/K1cWMDW/+jw+fMgZkATilYgXc+qWqUVzUb8PIOtCSgkp7v1KmLb6A65OvY2Kryms5EQwG0IjiB0qyJsXP3IRESa4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=rRsV53a1; arc=pass smtp.client-ip=209.85.167.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A5264F5DFE
+	for <sashiko@lists.linux.dev>; Mon, 12 Oct 2026 21:25:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791840342; cv=none; b=HeQKN8VDP9wPac8Zda2bbvH9XGcfiaOFRofjvbVzQ68seyU7GC62C3mIYT/jpZor3+9fgirL7tQGGyFlITl/pXvVmDxCAkM9lAKH8v8Z58z4RDONgHVpxiRjldANcsnDab9e2hlMkJMS+qMrdPHx0E2TS4FDrti0Eh8uCiEHXTg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791840342; c=relaxed/simple;
+	bh=rpG3DVNaEcNWTmulWXK7ax9cGI4LhrIAB199pRHGM7w=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=UvZ7aPaj/2+2p6uUohFOO4hwzfKzPTxuFrxyBNuJneRsLZFOq5U1ji1umcG+ceT7nsqYVYrsOAZW48jYUCePWnGrEm/qOQnosNEHInvUNEyjOKceCRrYf/D95jMVgTcExn5erBNAMbJbA0RU8fraiWfZfunG3G5kFHnYkhd4vms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S0BKwf87; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="rRsV53a1"
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5ba429b64c5so8271e87.1
-        for <sashiko@lists.linux.dev>; Mon, 12 Oct 2026 08:14:56 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791818094; cv=none;
-        d=google.com; s=arc-20260327;
-        b=X5WhxbT0v2VrCuxehAzpScdVbQa/x8YqiIm85gnWsuIi1dKy0RqwSlqthJQF5YzKTR
-         KBqmUcJddYaKwloXbbSQhFd+ODa1fEAUlxFY8z0ct+ntSSzGHByxVHuxJd8SCFi1U9P5
-         kWQ80ibTpAPdgv2vUBClAhCFuLIJTmCuGHa71biKVejiHfyhmHR7jHIBVhKImSx9SEaL
-         wt9lAntvZrkuf2VTRqEQQyB/0nXoQ6HWhpKtxzUuqyJ3FtsZRBCESCbXIOaHf1bCz+q8
-         Lv+wp86SYKX4qJyaQKM8QPGiZAuBvnPwHFOujpBrGOer1ncmb29h5/7Y5SZlWUPCBt1e
-         nfxA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=gOgQI+0EMTTszB0LD8AL3zsuVqBT+qw29dmgomr+PB8=;
-        fh=9HN5mGBGE/uVFXxhhrRYr3gxuPWsZC9RvGcnVk1NVIc=;
-        b=CWqN39qwqwqB6w2O2lYQdd0Fsq6viRPU5uFXoR6KABTtaywsNGRKvaDCrcZ1fVpQSJ
-         m+78WRYBz8VGk1AEfKT/SOQ//2/iG5eq2byB4sh7R/Kr7uibMV/NfW1lm9ddPMDbSrZ+
-         +AzIo9L66DUoIOoj0Nl9dYxrJOB3eoEEC/6/kUeUOwAAIqgo/qw5cQst/XGFiRtflODJ
-         wc0L2vx68EtoHi6SOmlGFRkKloFMx9MwySrWE+PIrO37U4BBn5RVkpEK2t/Y+3tGMF5J
-         Bn7QI5ri9I5UJHZ5V9J9Cs8la0Di+zVQGWuNArBPTwFdrEgArDTK4k1GBvq/InhsMf/j
-         Wm5Q==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1791818094; x=1792422894; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=gOgQI+0EMTTszB0LD8AL3zsuVqBT+qw29dmgomr+PB8=;
-        b=rRsV53a1cPRhCvsPKMyeU7NC2dZjiVhow28WybqJgaLv8XPTU4CNcoivKqCLtnyHtH
-         A4Jd+KBujZFNnv9eU1KlhTgC0wjkTmvZxa5oVCJj9/7bkWebM7L6i1nSERlVP9Nk0vJS
-         HAwiflnM8Ni7goAb/+h/LND/4rC9QTcoA4Yk7ViEOthdmUiRfMHNeVNu2ZwEyD1lpUzT
-         QGER2938+jXyNDrfmco7H5KcvW04PlQKGPdJ+7BetqnB0dqES0JuB5WaAx8+TGi0rQ5n
-         XXlT/dMeFgRZy3HAyFIkpAdFUNcUV6J5t2u0qC9QS8I4yygJLwxFVW9e7qHEiOnSPLKV
-         wdXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791818094; x=1792422894;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=gOgQI+0EMTTszB0LD8AL3zsuVqBT+qw29dmgomr+PB8=;
-        b=f6DeY4Gk2/IDWAekoFbsN221LFFsrxyTN8qlhspHbD/BlW4+Z6YnGMeJ4vyp2rbEWA
-         PaSVDC2O/GsFtWhaq7aLek2DazUXB42HzukZjhuUIwwyaCv0ucIdqTMt1/g0Koft9lWf
-         9D+XMutO/0H2QLZyD0VUflBOoizeyBj3upwqptWbTJVbRga8fDhWsgKzAmeyAip7FwgM
-         Ay50BiWZgKo7qSCe3wWcTDxmO0AA4RNBiqjCoc7pD0suCFW0n+GFDFJzwNZivyTnt2ef
-         auU9LhpTZmZOZX2cCv6fZ/dDMNb0uFR4kAwO8tp6plKKM+ZLiHlktXMOkutGUdmIdRsi
-         5PLA==
-X-Gm-Message-State: AFq9FYJdBZFoPtBb+kUH1BoMCG08nXrJKOrzi3bVslEO/V2b0IRCMSdn
-	TrBPIjKUnrtZSHbHFKpZMsB1+aE9DE36YRUdJjWxL2/kCxonB216mI8zkdEXwGbURra1gdSS73D
-	k3F9HsXafjZ3ZDCPXnvEyiL/wdRMv3F1rLsq86vrrjI+2m8O54s62Pk1gwGQ=
-X-Gm-Gg: AYBFou2Rb5bffw6udm12WT7DfYa/pf4j6WK+OJfyrAX7tXazxWmrmCAYFHt4XFio/KQ
-	Dq8hUaoMeF3mNCK6V1o6PwMCIcOTtRaoDYz0r8DXamTUIOgTaYwv33Tr1E7/e6bsAbmANJv68vE
-	W/DB9pvcIuriElBvjtmf0GrpIVHPctcIJlmaYjV8heO7R6OYJNndsk7WjrtX80MuaJ6kZ3w5EdN
-	Rqn2N9pLhWyVlv9INMdgQz3wVuORzfQwjvrdLdk7Hsbq89eD9dBrZqy4yMiC1tgYn3dRjtVKSl+
-	8fI4/bERgYsQYV3loPzffKKwE7oY+dExO1tV1zXqsd/vQES0ExmBnSSbD5n2u1x1ys5aIvqGEuv
-	HS+jC5jcx6FbFXw==
-X-Received: by 2002:a05:6512:ad2:b0:5bc:ed54:d5b1 with SMTP id
- 2adb3069b0e04-5bced735cbamr152333e87.14.1791818093675; Mon, 12 Oct 2026
- 08:14:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S0BKwf87"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE3211F008A1;
+	Mon, 12 Oct 2026 21:25:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791840340;
+	bh=YnJpGrdSP7Bo2GjHc8lZi6uTElL84ccejCOyPUo8MFM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=S0BKwf87MT0DUVpqQzUcYh5nHiJo9YdlX8QXk9V1n+4JLFl96IYUxc0vYhbn4lhhP
+	 RyPN20MzgWHyPWMKv9dZxxjLAMLyIygk50pA4RIGKySoTrsM0+jgyRryEAan0qBuzA
+	 e3HMlYEDwZeCfmbt7hz0kjNvuI336TxB4RVv6YZtCwPA8FbrOT+CMAJ+e4Tnjv1VbU
+	 ihAqU1avWj6UMKcmpBRPC8qR2Qw6/u4MvMgMY/P3n6iNwHSzOIEw0I4SsIg9m7c6/J
+	 rVbhFaO206t1Gk3WCrgI6K3/tvNifHsgiT7w9NZWHWC8LYL7yztfwQcssCedl20G3W
+	 d2UIcGXJnxn+w==
+From: SJ Park <sj@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: SJ Park <sj@kernel.org>,
+	sashiko@lists.linux.dev
+Subject: Re: email handling
+Date: Mon, 12 Oct 2026 14:25:33 -0700
+Message-ID: <20261012212533.374891-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20261010150629.0c00e0a4282eac9aa247cca3@linux-foundation.org>
+References: 
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <91e21331-ed6d-4ac0-b237-b01aeadca2d1@app.fastmail.com>
- <20261009141710.1871697-1-fuad.tabba@linux.dev> <c007a163-91a6-4e2a-b8de-057b61d369aa@app.fastmail.com>
- <20261010155321.2539213-1-fuad.tabba@linux.dev>
-In-Reply-To: <20261010155321.2539213-1-fuad.tabba@linux.dev>
-From: Fuad Tabba <tabba@google.com>
-Date: Mon, 12 Oct 2026 16:14:17 +0100
-X-Gm-Features: AclHuK8x9TgFks1GUtzDIAMICpGBLZSDO4hfMWUmJi7OuUjcnFS-vPE6zEsxzG4
-Message-ID: <CA+EHjTyY3tT2x8uiGhz+bmFkG6McfRVPTRG-iff0nbXO5zdG=A@mail.gmail.com>
-Subject: Re: [RFC] reworking the review-prompts subsystem guide
-To: Chris Mason <mason@kernel.org>
-Cc: sashiko@lists.linux.dev, Roman Gushchin <roman.gushchin@linux.dev>, 
-	ihor.solodrai@linux.dev, ast@kernel.org, kuba@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Chris,
+Hi Andrew,
 
-On Sat, 10 Oct 2026 16:53:21 +0100, Fuad Tabba <fuad.tabba@linux.dev> wrote:
+On Sat, 10 Oct 2026 15:06:29 -0700 Andrew Morton <akpm@linux-foundation.org> wrote:
+
+> 
+> Concerning this email:
+> 	https://lore.kernel.org/20261009-b4-mmap-prepare-vma-flag-sanify-v5-16-923b70125b1e@kernel.org
+> 
+> I discovered that some lucky duckies were receiving Sashiko emails:
+
+Apparently that's because the patch is Cc-ing a few mailing lists that are
+configured [1] to receive the review mails.  For example, the patch is Cc-ing
+s390@ mailing list, and it is configured [2] to send the review email to the
+author of the patch, the mailing list, and a few more people including Heiko.
+To quote the config [2],
+
+    ["linux-s390@vger.kernel.org"]
+    reply_to = ["author", "list"]
+    positive_review = "all"
+    cc = ["Heiko Carstens <hca@linux.ibm.com>", "Vasily Gorbik <gor@linux.ibm.com>", "Alexander Gordeev <agordeev@linux.ibm.com>", "Christian Borntraeger <borntraeger@linux.ibm.com>"]
+
+> 
+> Subject: Re: [PATCH v5 16/38] mm/vma: add and use
+>  vma_[flags]_is_fixed_mapping
+> Reply-To: sashiko-reviews@lists.linux.dev
+> To: =?utf-8?b?TG9yZW56byBTdG9ha2VzIChBUk0p?= <ljs@kernel.org>
+> Cc: linux-trace-kernel@vger.kernel.org, kvmarm@lists.linux.dev, "Vasily
+>  Gorbik" <gor@linux.ibm.com>, "Oliver Upton" <oupton@kernel.org>, "Heiko
+>  Carstens" <hca@linux.ibm.com>, linux-perf-users@vger.kernel.org, "Marc
+>  Zyngier" <maz@kernel.org>, "Alexander Gordeev" <agordeev@linux.ibm.com>, linux-scsi@vger.kernel.org, selinux@vger.kernel.org, "Christian
+>  Borntraeger" <borntraeger@linux.ibm.com>, bpf@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org, kvm@vger.kernel.org, linux-s390@vger.kernel.org, linux-usb@vger.kernel.org
+> In-Reply-To: <20261009-b4-mmap-prepare-vma-flag-sanify-v5-16-923b70125b1e@kernel.org>
+> References: <20261009-b4-mmap-prepare-vma-flag-sanify-v5-0-923b70125b1e@kernel.org>
+>  <20261009-b4-mmap-prepare-vma-flag-sanify-v5-16-923b70125b1e@kernel.org>
+> 
+> 
+> 
+> But I did not.  How come?  I was on the To: line so why were certain
+> people emailed but not me?
+
+I think that's because you are not on the configuration.
+
+> 
+> I'd prefer to receive such replies.
+
+Maybe you could add below change to get replies for mm patches?
+
+    diff --git a/projects/linux/mailing_lists.toml b/projects/linux/mailing_lists.toml
+    index e41f1aa..330d1d8 100644
+    --- a/projects/linux/mailing_lists.toml
+    +++ b/projects/linux/mailing_lists.toml
+    @@ -313,3 +313,6 @@ reply_to = ["author", "list", "recipients"]
+
+     ["fsverity@lists.linux.dev"]
+     reply_to = ["author", "list", "recipients"]
+    +
+    +["linux-mm@kvack.org"]
+    +cc = ["akpm@linux-foundation.org"]
+
+My understanding of Sashiko is quite limited, though.  Please correct me if I'm
+wrong, Sashiko team.
+
+[1] https://github.com/sashiko-dev/sashiko/blob/main/projects/linux/mailing_lists.toml
+[2] https://github.com/sashiko-dev/sashiko/blob/main/projects/linux/mailing_lists.toml#L246
+
+
+Thanks,
+SJ
+
 [...]
-> When it's up I can put numbers on it: I have a test set of 115 buggy
-> KVM/arm64 commits, fixed since January, each paired with what fixed it,
-> plus the Sashiko findings on KVM/arm64 patches since July that a human
-> answered. The hand guides are running on the bugs now; the current build
-> and the full one are next.
-
-The runs with the hand-written guides have finished, but the numbers
-alone don't show much. With the trigger table in subsystem.md picking
-the guides, the review named the fixed bug in 69 of the 115, which is
-the score the built guides have to beat. The table picked a KVM guide
-in only 45 of those runs, so that's the old selection and guides
-together, not the guides alone. It's also one run per bug, and while
-the fixes are all from 2026, 90 of the buggy commits are older, so a
-model may have seen some of them.
-
-What may be more useful is the setup behind the numbers, which should
-work for any subsystem. Take the Fixes: pairs under the subsystem's
-directories, have a model drop the ones whose bug isn't visible in the
-buggy commit's own diff (191 pairs, 115 commits after the filter
-here), review each buggy commit, and have a model grade whether the
-review named the bug the fix describes. That scores built guides
-against what they replace, on real bugs.
-
-The verbatim policy file and the dropped pKVM questions I mentioned
-are in PR #111 [1].
-
-I'll run your full build through it on KVM/arm64 once it's up, rather
-than the current one. Would you be interested in the scripts, to see
-whether they could score other subsystems' built guides the same way?
-
-Cheers,
-/fuad
-
-[1] https://github.com/masoncl/review-prompts/pull/111
