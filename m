@@ -1,77 +1,53 @@
-Received: from mta1.migadu.com (out-86.mta1.migadu.com [95.215.58.86])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3E1F3EE1EE
-	for <sashiko@lists.linux.dev>; Tue, 13 Oct 2026 14:07:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.86
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11E2547A878
+	for <sashiko@lists.linux.dev>; Tue, 13 Oct 2026 14:57:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791900471; cv=none; b=o3rxTkB/GVv+1eJ5r8Oi6Qyq1a+BYhDrJWbApm8gt6E1nP5uSRa+hCbrfdY+7SDIh+WOADG6eCkTeKYzG9BHFFwE29dP0zAsHCiL4xoKPMnFCXhyCWuuPzQ5K7HdBOw2TpRIcNDj/ib4cU3HWBFSe0B/HxTwuPtirMgDz6nz9z4=
+	t=1791903471; cv=none; b=tLTCkTWbHfbS/yTnVMW2mdsLxR1z68sA8qaAIIJJqKrguochcUqCTGRIpL0prdaTSCplfJWnEZ3xnBerK7hEwK2kVGfiQB07Q/zMDSbNq3Jlme8nyTLmzlrWQvqfcZKQzwOJnVmAsA91xXLPjqOBwGploXjHq9DvrcroEXQp1oU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791900471; c=relaxed/simple;
-	bh=uCjftZGXbzYLw46M+dYo5Fpmag6Z3fLnywJPEnooDy8=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=aKv//gRCDDtTXYZk+1mxFcYV9iq4Q7h9eXIOl04UWMbP5JT1kwwIbt9yBEHgw60lPac86770VM+99Y/YBUmpy20F3DT5oCOM5EChvjVBmWIHvT2zKGboVMKdpd7DyytuFa1ApSNXNh62N+u4BajShtIGvBq895CM6vlZuy3fhXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=o2QL9QRS; arc=none smtp.client-ip=95.215.58.86
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1791903471; c=relaxed/simple;
+	bh=65aHucoXob7uszu5me17bAdO+axC11fQgcFjAvsCe98=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=dobHHfhBej7ntEsRZ4WpnAs3sIW41x+qWxxVopsNhJi0Tm4kNhvbbbxHO2GiRTM59/w+dC716gxlxJ8B9xIxhJXxbCTy38FMMXv3pd75B6MzXuNvLaUdTlEhNVHf0QGP8Rmb/1HbpolgZ8KbSBzykueM+j4asjh3rdieEZt9ajM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eT5aaJp8; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="o2QL9QRS"
-X-Envelope-To: sashiko@lists.linux.dev
-DKIM-Signature: a=rsa-sha256; bh=uCjftZGXbzYLw46M+dYo5Fpmag6Z3fLnywJPEnooDy8=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1791900467; v=1; x=1792505267;
- b=o2QL9QRSnQh6lqmyDaXlTkt/6iodXUzRYyE+gD8ATHz/55t67n5w4x93/U44enUKW1dA0Ahi
- sheVRK6NCtdLFST4KfDWGa4gT6JZtVzxPOmwxcyO9PHPCmtzRe0baQMmmEpTbiIzLxY/WcQei6m
- VNIYe0ZJMh/P9Zd2NbWF97jQ=
-X-Envelope-To: sashiko@lists.linux.dev
-Received: by mta11.migadu.com with ESMTPS id e137603c64b7681b;
-	Tue, 13 Oct 2026 14:07:47 +0000
-X-Mizu-Trace-ID: e137603c64b7681b
-X-Migadu-Flow: FLOW_OUT
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eT5aaJp8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 743341F000FF;
+	Tue, 13 Oct 2026 14:57:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791903469;
+	bh=pLRdpUbQKDpJU0ZzfZzOunSuRJ2HQrmbzSqRSvl+Xqc=;
+	h=Date:From:To:Cc:Subject;
+	b=eT5aaJp8KbYXLhjQAXjo0DDPXqNxnYQkZJbwxLvegZBaHrN04USsHaK0AYDsb61k2
+	 ZAnLwf4DaVjYeR0cZNpUfDIJulFKrc2+9anhDzY4Ph+HrY5WkWAHJ8GRsmuKhSbzeZ
+	 yjh/ADWU0FZbk4jB4DW4WPuaQDE4JxLG4wzfLEc77PL0iSou66n7OXkI6iaC1ri4O9
+	 e1xKw6OeOxTqFT/fuidLIL9WFZq0h8ZeBrcY6TbTEwsAzgMxtn4WR2j7R21kxjao9o
+	 y9sU9PkrMRFRDwLda3TUWpsbHOjgjtboMsjNniWgBfIfRzI8+LRMjGTQbt9Q4LwDFb
+	 FgCd2S0hZKEjA==
+Date: Tue, 13 Oct 2026 08:57:48 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: sashiko@lists.linux.dev
+Cc: roman.gushchin@linux.dev, hch@lst.de
+Subject: request to subscribe linux-nvme
+Message-ID: <as5G7HWh3TovdMOq@kbusch-mbp>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (1.0)
-Subject: Re: Notifying the assignee of a sashiko bug
-From: Roman Gushchin <roman.gushchin@linux.dev>
-In-Reply-To: <CA+EHjTzi7fbbA_t3-9Q3KD7Orn=ptphXPQw6TMO=n9_z9t2OyQ@mail.gmail.com>
-Date: Tue, 13 Oct 2026 07:07:29 -0700
-Cc: sashiko@lists.linux.dev
-Message-Id: <AFA5C0C9-DD89-4F2A-8C54-9AFBD1C50E65@linux.dev>
-References: <CA+EHjTzi7fbbA_t3-9Q3KD7Orn=ptphXPQw6TMO=n9_z9t2OyQ@mail.gmail.com>
-To: Fuad Tabba <fuad.tabba@linux.dev>
-X-Mailer: iPad Mail (23G90)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Fuad!
+Hi,
 
-This sounds like a great feature, waiting for your PR!
+Christoph and I maintain the linux-nvme driver and we would like to
+subscribe our mailing list to the sashiko review system. Our mailing
+list can be found on lore here:
 
-I think the email should clearly say who did assign it, basically it will el=
-iminate the risk of spamming.
+  https://lore.kernel.org/linux-nvme/
 
-Thanks
-
-> On Oct 13, 2026, at 1:45=E2=80=AFAM, Fuad Tabba <fuad.tabba@linux.dev> wro=
-te:
->=20
-> =EF=BB=BFHi Roman,
->=20
-> I really like the new bug database, and I've been using it to triage
-> KVM/arm64 bugs. One thing I noticed: when I assigned a bug to a
-> colleague, he didn't get notified.
->=20
-> Could the database email the assignee when a bug is assigned? The risk
-> of people using it to spam others seems low, since only maintainers of
-> the affected code can assign a bug.
->=20
-> If you're open to it, I'm happy to send a PR. I wanted to check here
-> before preparing one.
->=20
-> Cheers,
-> /fuad
->=20
+Thanks,
+Keith
