@@ -1,53 +1,63 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta1.migadu.com (out-168.mta1.migadu.com [95.215.58.168])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11E2547A878
-	for <sashiko@lists.linux.dev>; Tue, 13 Oct 2026 14:57:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EFE647C110
+	for <sashiko@lists.linux.dev>; Tue, 13 Oct 2026 16:19:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791903471; cv=none; b=tLTCkTWbHfbS/yTnVMW2mdsLxR1z68sA8qaAIIJJqKrguochcUqCTGRIpL0prdaTSCplfJWnEZ3xnBerK7hEwK2kVGfiQB07Q/zMDSbNq3Jlme8nyTLmzlrWQvqfcZKQzwOJnVmAsA91xXLPjqOBwGploXjHq9DvrcroEXQp1oU=
+	t=1791908389; cv=none; b=kETiR5iWfpWLHvFYIu301e3jaHptC2Am4JwHN3V1BZZWWc+b747J7ytdk6Hc2UJ7jyZDrmjnjAAJlv8T41jElhNDbzwL7kkQy5F32J9gAyUdBOS9wyQbO/BO0C0/0EhuIaTWzhHOkJmGUVWQJ1bV+pYhNdHxTV4/sSFxjOFIeqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791903471; c=relaxed/simple;
-	bh=65aHucoXob7uszu5me17bAdO+axC11fQgcFjAvsCe98=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dobHHfhBej7ntEsRZ4WpnAs3sIW41x+qWxxVopsNhJi0Tm4kNhvbbbxHO2GiRTM59/w+dC716gxlxJ8B9xIxhJXxbCTy38FMMXv3pd75B6MzXuNvLaUdTlEhNVHf0QGP8Rmb/1HbpolgZ8KbSBzykueM+j4asjh3rdieEZt9ajM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eT5aaJp8; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791908389; c=relaxed/simple;
+	bh=4r8WD9Tkt6gF1ZHxi6vwg42UwuKi6a4Jz/eNhzMJFVM=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=aZGNETtAtShtwMz+DrQ7WAl1Wwe9sdlvuISfgz6YXGDiAbhTRMcPdWil2dYGlnXmskvWYcGa1L3qTD+5SnwvLl3DRVJo+71mBiwmdqDKPH5o8lchU/4BZ89v5VvIk91iit8iYqTlmxoFcT0Zx44eNO5ssgWaj2ycjAeKenf8JRQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=lSfbWVVW; arc=none smtp.client-ip=95.215.58.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eT5aaJp8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 743341F000FF;
-	Tue, 13 Oct 2026 14:57:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791903469;
-	bh=pLRdpUbQKDpJU0ZzfZzOunSuRJ2HQrmbzSqRSvl+Xqc=;
-	h=Date:From:To:Cc:Subject;
-	b=eT5aaJp8KbYXLhjQAXjo0DDPXqNxnYQkZJbwxLvegZBaHrN04USsHaK0AYDsb61k2
-	 ZAnLwf4DaVjYeR0cZNpUfDIJulFKrc2+9anhDzY4Ph+HrY5WkWAHJ8GRsmuKhSbzeZ
-	 yjh/ADWU0FZbk4jB4DW4WPuaQDE4JxLG4wzfLEc77PL0iSou66n7OXkI6iaC1ri4O9
-	 e1xKw6OeOxTqFT/fuidLIL9WFZq0h8ZeBrcY6TbTEwsAzgMxtn4WR2j7R21kxjao9o
-	 y9sU9PkrMRFRDwLda3TUWpsbHOjgjtboMsjNniWgBfIfRzI8+LRMjGTQbt9Q4LwDFb
-	 FgCd2S0hZKEjA==
-Date: Tue, 13 Oct 2026 08:57:48 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: sashiko@lists.linux.dev
-Cc: roman.gushchin@linux.dev, hch@lst.de
-Subject: request to subscribe linux-nvme
-Message-ID: <as5G7HWh3TovdMOq@kbusch-mbp>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="lSfbWVVW"
+X-Envelope-To: sashiko@lists.linux.dev
+DKIM-Signature: a=rsa-sha256; bh=4r8WD9Tkt6gF1ZHxi6vwg42UwuKi6a4Jz/eNhzMJFVM=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1791908384; v=1; x=1792513184;
+ b=lSfbWVVWH8VOrMRX4+UAnGJ9nebAOe0zopUQkvhGBGE0VDq7NmhUxtekxdlsC25U3/Lug4jr
+ PPXUk23XHmXsor0yAqVQHgOoQSKtAwtQYZTZXA74P1btEEBX3s3eXtNX82rwL2tPXB7qF2mv/my
+ 6Je63d7iNkBTfNx0z80bddiw=
+X-Envelope-To: sashiko@lists.linux.dev
+Received: by mta12.migadu.com with ESMTPS id e8501024ca6edd54;
+	Tue, 13 Oct 2026 16:19:44 +0000
+X-Mizu-Trace-ID: e8501024ca6edd54
+X-Migadu-Flow: FLOW_OUT
+From: Roman Gushchin <roman.gushchin@linux.dev>
+To: Keith Busch <kbusch@kernel.org>
+Cc: sashiko@lists.linux.dev,  hch@lst.de
+Subject: Re: request to subscribe linux-nvme
+In-Reply-To: <as5G7HWh3TovdMOq@kbusch-mbp> (Keith Busch's message of "Tue, 13
+	Oct 2026 08:57:48 -0600")
+References: <as5G7HWh3TovdMOq@kbusch-mbp>
+User-Agent: mu4e 1.12.15; emacs 30.2
+Date: Tue, 13 Oct 2026 16:19:41 +0000
+Message-ID: <7ia4h5ip8teq.fsf@castle.c.googlers.com>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain
 
-Hi,
+Keith Busch <kbusch@kernel.org> writes:
 
-Christoph and I maintain the linux-nvme driver and we would like to
-subscribe our mailing list to the sashiko review system. Our mailing
-list can be found on lore here:
+> Hi,
+>
+> Christoph and I maintain the linux-nvme driver and we would like to
+> subscribe our mailing list to the sashiko review system. Our mailing
+> list can be found on lore here:
+>
+>   https://lore.kernel.org/linux-nvme/
 
-  https://lore.kernel.org/linux-nvme/
+Sure, added, will roll out later today. Do you want email delivery or
+just web ui?
 
-Thanks,
-Keith
+Thanks
