@@ -1,63 +1,62 @@
-Received: from mta1.migadu.com (out-168.mta1.migadu.com [95.215.58.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EFE647C110
-	for <sashiko@lists.linux.dev>; Tue, 13 Oct 2026 16:19:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 763C45349B8
+	for <sashiko@lists.linux.dev>; Tue, 13 Oct 2026 19:11:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791908389; cv=none; b=kETiR5iWfpWLHvFYIu301e3jaHptC2Am4JwHN3V1BZZWWc+b747J7ytdk6Hc2UJ7jyZDrmjnjAAJlv8T41jElhNDbzwL7kkQy5F32J9gAyUdBOS9wyQbO/BO0C0/0EhuIaTWzhHOkJmGUVWQJ1bV+pYhNdHxTV4/sSFxjOFIeqg=
+	t=1791918716; cv=none; b=ns5pB89j6GVKW/790OGKX2u7WM2dbY6k9Ux1lDWaalp67AV5H7eRF2ekqT/Ri/XRvA6mdF1SVaWersAvKv44IXYu0TSDnHE8US5i0/XqbM8rs9ikHmYvblrEPSUmiJxAah8lzn+mecPb5j8wffI4BTzIXvsiltCPx910hRhNKfQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791908389; c=relaxed/simple;
-	bh=4r8WD9Tkt6gF1ZHxi6vwg42UwuKi6a4Jz/eNhzMJFVM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=aZGNETtAtShtwMz+DrQ7WAl1Wwe9sdlvuISfgz6YXGDiAbhTRMcPdWil2dYGlnXmskvWYcGa1L3qTD+5SnwvLl3DRVJo+71mBiwmdqDKPH5o8lchU/4BZ89v5VvIk91iit8iYqTlmxoFcT0Zx44eNO5ssgWaj2ycjAeKenf8JRQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=lSfbWVVW; arc=none smtp.client-ip=95.215.58.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1791918716; c=relaxed/simple;
+	bh=BgjmU3WqM9CNu8cKThSR5BYZEQ/KdNqSDmPLHG4OiYg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y10VbQfdY6qfI+4YI09vRsRPnS8wwTHETYx230GkRLh1PIcZK1W8KB6B2lvwPn/KgSRgPQAaBmPBKf4/b6PtwxY/mmHNPVr6BtaGYtk4jZlzfasuMpvrIcts/vkH6wLd7ujabLbV6vv1aWHNZpS/5oAN01C9llPf8LQ8u+iNsEU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WBZM8AZ7; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="lSfbWVVW"
-X-Envelope-To: sashiko@lists.linux.dev
-DKIM-Signature: a=rsa-sha256; bh=4r8WD9Tkt6gF1ZHxi6vwg42UwuKi6a4Jz/eNhzMJFVM=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1791908384; v=1; x=1792513184;
- b=lSfbWVVWH8VOrMRX4+UAnGJ9nebAOe0zopUQkvhGBGE0VDq7NmhUxtekxdlsC25U3/Lug4jr
- PPXUk23XHmXsor0yAqVQHgOoQSKtAwtQYZTZXA74P1btEEBX3s3eXtNX82rwL2tPXB7qF2mv/my
- 6Je63d7iNkBTfNx0z80bddiw=
-X-Envelope-To: sashiko@lists.linux.dev
-Received: by mta12.migadu.com with ESMTPS id e8501024ca6edd54;
-	Tue, 13 Oct 2026 16:19:44 +0000
-X-Mizu-Trace-ID: e8501024ca6edd54
-X-Migadu-Flow: FLOW_OUT
-From: Roman Gushchin <roman.gushchin@linux.dev>
-To: Keith Busch <kbusch@kernel.org>
-Cc: sashiko@lists.linux.dev,  hch@lst.de
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WBZM8AZ7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E48131F000FF;
+	Tue, 13 Oct 2026 19:11:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791918715;
+	bh=HWmdCAqSw88lhHeJm0ixJqs6A/zIZUdNpQfDbEfI70Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=WBZM8AZ7kY0rXpjOzSO15QIci4BRya8MwFsj6D6tNGdWXNRxMjqCxhdGWlAqMzcgo
+	 Kf39DX8w8YpnowE3ALOfGiAjwG0wHix+oL5fB0UO8dXBtWyRbqQqoQ9Lgx+N7xRyUM
+	 W9jhTj2sBqi3U2aFUZPVqXosqlMlHrHlybmgVyveg59cCavPaifzx8deF3HcCeo0Fp
+	 /yogy/BIO9EWVT8G5KhDX66wdaiNR+G6TCyCWaSbeNJi4KL3ssBpkdNhFAu+NE+6e5
+	 mMhSSyyfo32k4fwUxO6yCMZbc4bGDOtRpwFxDK9NkqphJBkLLhEPUJpiX/aaAazYvF
+	 0V4BJiY14to7g==
+Date: Tue, 13 Oct 2026 13:11:53 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Roman Gushchin <roman.gushchin@linux.dev>
+Cc: sashiko@lists.linux.dev, hch@lst.de
 Subject: Re: request to subscribe linux-nvme
-In-Reply-To: <as5G7HWh3TovdMOq@kbusch-mbp> (Keith Busch's message of "Tue, 13
-	Oct 2026 08:57:48 -0600")
+Message-ID: <as6CeWap_6TyitY4@kbusch-mbp>
 References: <as5G7HWh3TovdMOq@kbusch-mbp>
-User-Agent: mu4e 1.12.15; emacs 30.2
-Date: Tue, 13 Oct 2026 16:19:41 +0000
-Message-ID: <7ia4h5ip8teq.fsf@castle.c.googlers.com>
+ <7ia4h5ip8teq.fsf@castle.c.googlers.com>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7ia4h5ip8teq.fsf@castle.c.googlers.com>
 
-Keith Busch <kbusch@kernel.org> writes:
+On Tue, Oct 13, 2026 at 04:19:41PM +0000, Roman Gushchin wrote:
+> Keith Busch <kbusch@kernel.org> writes:
+> 
+> > Hi,
+> >
+> > Christoph and I maintain the linux-nvme driver and we would like to
+> > subscribe our mailing list to the sashiko review system. Our mailing
+> > list can be found on lore here:
+> >
+> >   https://lore.kernel.org/linux-nvme/
+> 
+> Sure, added, will roll out later today. Do you want email delivery or
+> just web ui?
 
-> Hi,
->
-> Christoph and I maintain the linux-nvme driver and we would like to
-> subscribe our mailing list to the sashiko review system. Our mailing
-> list can be found on lore here:
->
->   https://lore.kernel.org/linux-nvme/
-
-Sure, added, will roll out later today. Do you want email delivery or
-just web ui?
-
-Thanks
+Thanks! Let's start with the email delivery enabled. If it's too much,
+maybe we can change it later, but I'm okay with seeing emails for now.
