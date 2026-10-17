@@ -1,60 +1,105 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta0.migadu.com (out-117.mta0.migadu.com [91.218.175.117])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAB263C8C65;
-	Sat, 17 Oct 2026 19:42:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D5854CF49A
+	for <sashiko@lists.linux.dev>; Sat, 17 Oct 2026 20:10:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.117
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792266159; cv=none; b=pUFnPD5Z78KSmuMMJUBqYgB/XCq7fpln08VO4vCAwAFTFJoCaEp5Wehq9dmFyVw/ceEncSTXjy0xkX2Lpt/IGtrm+Em2EnmYElMfD3aJr25gH0+WnLz47WIjmgjBZfSMXjbCK4S9Mfo0GzpubN2suA0Guig/yw4PyO3HTXkrY80=
+	t=1792267857; cv=none; b=C0raQpOEsCtp2EShUL7RKngOZte8cgHkTIcn5JIM4QuboA/9U0V5QnT2bFVa7Sc6qVL3Etuu3OadXoeuDFXYkDAgxfpSlkcO7nz13acvsrXMRxR9vMd4ns3YWQ4z85+JSs4PwjYVZabt18fArturDjNjhM/XkeFcWhYOe+clfUA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792266159; c=relaxed/simple;
-	bh=emRa0pIJGWhqCMxyOYm5CPcY93q7JHk1bCHNIkVBaOc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d8XgW7F5FVnIaNfN3SA1EnpjVLlNZQrDHNaxw4HDvEvtGABFKvmH08VnulYTLv+xVLt+97/XFMf6pP/TMFJxHecWiKgMx2yhSU9NRWP9EU3Q7lP1B3LKkInrH4MjUBEMKc/vPHOkKMTjzjSR7/NpIng2M2gLNC4Dp4RmRp0XHXc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=BG1qOK7Y; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1792267857; c=relaxed/simple;
+	bh=/o9PutE7ve2BLWpYxLXubQLr9ACtnYXON+sMLCZeTfE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=U6YbLJTB8UtOPwjgbaOCB6HRWSfrKwdJWkUEB3G5dgXvh8Xdp9helYnWYrrrYB+0m4pFxNovJi1TFM0RgVTek1kE4+ZhfwlrsDkvRWc5R+qUQXesnNjI75q+Rl7Nb7mtTWPycRLwljC6lEgPV5GB+6VdaLHy38EZPzMidZaDsEU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=qBLurYCt; arc=none smtp.client-ip=91.218.175.117
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="BG1qOK7Y"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=/IrW99H5knb+KQziDtCc7WlyUgNO64gQgE74aZPAXhI=; b=BG1qOK7YrDdMawDFn7hcGhkEmw
-	g/a9oavWC5BIPHeoaWq57YhbMDjok0iuF4nD8qPd39rdCMqtZaXXGkuX+B37q5gmlPeo800RUS8ZP
-	zR7KsSbq6qqnsqCcr/Bv0s3vaTxd7KBpcQKTTkIMlyiPUONH5sTA2df258cxvu9J1YZ8=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1xIAIc-00BNy8-LY; Sat, 17 Oct 2026 21:42:34 +0200
-Date: Sat, 17 Oct 2026 21:42:34 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Jiri Kosina <jikos@kernel.org>
-Cc: ksummit@lists.linux.dev, sashiko@lists.linux.dev
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="qBLurYCt"
+X-Envelope-To: sashiko@lists.linux.dev
+DKIM-Signature: a=rsa-sha256; bh=/o9PutE7ve2BLWpYxLXubQLr9ACtnYXON+sMLCZeTfE=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1792267852; v=1; x=1792872652;
+ b=qBLurYCtVSUX6FMWJDLmHYg3W13NZOuJ0kOEXVYi6hJo+UTXv3e+coSA51w79Ab8+fw3GfkO
+ HkPp4q6S3o+ATIDzg1oTQ8pAScExlftSmXhgXXrRAd9ilSijyCVZbTjR6n7yz/M/KwI8oTK+14o
+ TkTrcCJ0AmgECaeenF4U6fB8=
+X-Envelope-To: sashiko@lists.linux.dev
+Received: by mta11.migadu.com with ESMTPS id f2a9929c60f8496e;
+	Sat, 17 Oct 2026 20:10:52 +0000
+X-Mizu-Trace-ID: f2a9929c60f8496e
+X-Migadu-Flow: FLOW_OUT
+From: Roman Gushchin <roman.gushchin@linux.dev>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Jiri Kosina <jikos@kernel.org>,  ksummit@lists.linux.dev,
+  sashiko@lists.linux.dev
 Subject: Re: Patch pre-submission to Sashiko
-Message-ID: <b8960b85-a381-4279-9c36-e5cad7a8d2d4@lunn.ch>
+In-Reply-To: <CAHk-=wj24dSSRDQjvkmcw9LMC=K86d-Xys9=qX=gKoXgrQN1UQ@mail.gmail.com>
+	(Linus Torvalds's message of "Sat, 17 Oct 2026 08:20:49 -1000")
 References: <nn69829p-nn62-ppn7-968q-64o246ss90or@xreary.bet>
+	<CAHk-=wj24dSSRDQjvkmcw9LMC=K86d-Xys9=qX=gKoXgrQN1UQ@mail.gmail.com>
+User-Agent: mu4e 1.12.15; emacs 30.2
+Date: Sat, 17 Oct 2026 20:10:44 +0000
+Message-ID: <7ia47bjg141n.fsf@castle.c.googlers.com>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <nn69829p-nn62-ppn7-968q-64o246ss90or@xreary.bet>
+Content-Type: text/plain
 
-On Sat, Oct 17, 2026 at 07:28:48PM +0200, Jiri Kosina wrote:
-> 
-> [ in the spirit of the concluding discussion at this year's maintainers 
->   summit,  I'm using this list outside of actual maintainer summit 
->   planning :) ]
-> 
-> I have just received a v1 to v11 patchset submission within roughly one 
-> day timeframe.
+Linus Torvalds <torvalds@linux-foundation.org> writes:
 
-If they are iterating that fast, they either have automated tests, or
-the code is untested. I would ask them to includes the tests in the
-patchset, to become part of tools/testing/selftests.
+> On Sat, 17 Oct 2026 at 07:39, Jiri Kosina <jikos@kernel.org> wrote:
+>>
+>> Another option I'd like to propose would be to introduce a way for
+>> submitters to run patches through back-and-forth with Sashiko even before
+>> properly submitting the Sashiko-polished v1 to maintainers and
+>> mailinglists.
+>
+> I think maybe we should make it really easy for people to run their
+> some kind of sashiko setup on their own, rather than rely on sashiko
+> itself. After all, these are all people who use an LLM to begin with.
 
-	  Andrew
+It is really easy now:
+$ cargo install sashiko
+$ sashiko init
+set the LLM key
+$ cd linux && sashiko review HEAD^5..HEAD
+
+> And assuming they sre starting out, they are probably are *not*
+> building their own local LLM for this either, so presumably /
+> hopefully they have a fairly capable LLM setup, and the problem is
+> primarily lack of kernel knowledge (and possibly LLM background too -
+> that side was certainly a learnign experience for me).
+>
+> So maybe at least one piece of the puzzle is us pointing to existing
+> sashiko (or sashiko-like) rules so that people who use LLM's get the
+> "basic rules" almost by default, rather than burdening sashiko more.
+
+If we're adding AGENTS.md and/or skills into the kernel tree,
+we can add an instruction on how to install and run local sashiko
+and instruct agents to do it as the part of the process.
+I actually use this for developing sashiko itself, works well.
+
+Also I'm going to add a simple way for maintainers to add subjective
+instructions (e.g. "don't send me typo fixes" or "X is frozen, don't add
+new features", or "if you touch Y, run Z tests and include results"),
+so hopefully it can stop some number of really bad patches before
+the mailing list.
+
+> .. and I do still think that we should have some kind of "sashiko
+> doesn't answer for 18 hours" kind of limiter. Possibly with some
+> back-off per submitter (and by patch series size) so that repeated
+> submissions get spread out even more.
+
+It sounds like maintainers have drastically different preferences here,
+so I guess a per-mailing list configuration is the only reasonable
+setup? I'm trying to be on a conservative side, so e.g. if there is no
+consensus between maintainers, I do not enable emails.
+
+Jiri, is it about some specific mailing list? We can enable e.g. 24h
+embargo there.
+
+Thanks
