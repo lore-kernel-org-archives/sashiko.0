@@ -1,76 +1,71 @@
-Received: from relay.hostedemail.com (smtprelay0011.hostedemail.com [216.40.44.11])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E93C4BF953;
-	Sun, 18 Oct 2026 13:42:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C6BC2D5436;
+	Sun, 18 Oct 2026 16:48:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792330941; cv=none; b=hJiZ5rD3yIjjY6rQ3XjKzXbQAolk6h2nQ5Cv/VE32L7D/X+jV1SPDWm5Gt2vX/VTJCwFv1+T0vsENGB+rq98tHvY/qHRwZtMWQOtMRzmN0KgAxvFh8wPBk+t7izYCEX422+T0uvaoRh9x6FRQoTpb8mG5mw9HhZ/Gd1WxsfPyGk=
+	t=1792342097; cv=none; b=UvewTCL8YjVN0R8mpmk/y8Okprqs6J0lYGawoVi4pujD3X5DgA6wXhwFG+sklsShMLEdhU4pSkOygfiWR9FsGEGGFtDudGjdCGahrzn5k+ybk4H9JU6Es0ISMTaP6cnta/QkzbmAgZjBLwh/ghHdp4Yyu24w/feD2Eor49aYJXM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792330941; c=relaxed/simple;
-	bh=3nGLzqDHxScIKItq9ybfSkqsHksx/zcJd+7cji0aguE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MWnvT5lBpXQqHCxouupPiAfcVnBIMTsJB1LuTCwt43KAD0Cpf1uhf5CHSuyu0tHu/Glupk1O60So2AGZG0M/OmRCecwBxZXpDKoSqFRS+tbL4vY3dIy7O5MxMQF3rOnOt/b0pON4BSKwets7MTJxykZy4tJGFKHVzJwV9jAnYA4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; dkim=pass (1024-bit key) header.d=goodmis.org header.i=@goodmis.org header.b=G38CWdbY; arc=none smtp.client-ip=216.40.44.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+	s=arc-20240116; t=1792342097; c=relaxed/simple;
+	bh=SAEZto6S4U8s3h2G3+IwHzcNHqVvbLrxHeGPSLxW0Tg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HXUWbbEq2rM34Ze0Aa7Buiyc9LxJ6ewzVNHExhLKPSLysFVl5ZRWhj7krdkV0crz9bGExcByc0xvltJEUjuWXVPJx8T4UhjoiC/OKjxIAMnlEcLgCxe7MhD5iNazVD60LZNJVT1LwgKCYFzZiKAfRIT0uNEQIAoOtMRHNJ1fqTY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=T6bIqfkH; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=goodmis.org header.i=@goodmis.org header.b="G38CWdbY"
-Received: from omf19.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay02.hostedemail.com (Postfix) with ESMTP id 9F003120535;
-	Sun, 18 Oct 2026 13:42:11 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf19.hostedemail.com (Postfix) with ESMTPA id 0156B20026;
-	Sun, 18 Oct 2026 13:42:09 +0000 (UTC)
-Date: Sun, 18 Oct 2026 09:41:59 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Roman Gushchin <roman.gushchin@linux.dev>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Jiri Kosina
- <jikos@kernel.org>, ksummit@lists.linux.dev, sashiko@lists.linux.dev
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="T6bIqfkH"
+Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 07C274B0;
+	Sun, 18 Oct 2026 18:46:00 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1792341961;
+	bh=SAEZto6S4U8s3h2G3+IwHzcNHqVvbLrxHeGPSLxW0Tg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=T6bIqfkH+E3+mV3zXG2r5xu2hdyWOEoKvjEFJf75uPQDTuox2z90NIdAoniikS0VP
+	 tWFeVT+DIg4Qtv+HsfbPu1fq0WuM5dGQnUwabwl8Hhilnl3qZTvUvBUnsBqn7nF1qs
+	 iiPp+4fPFdRYOpyd2qh3iIxRjO3TDc2ASKUg0hNw=
+Date: Sun, 18 Oct 2026 18:48:05 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Andrew Lunn <andrew@lunn.ch>, Jiri Kosina <jikos@kernel.org>,
+	ksummit@lists.linux.dev, sashiko@lists.linux.dev
 Subject: Re: Patch pre-submission to Sashiko
-Message-ID: <20261018094159.09f9e99a@fedora>
-In-Reply-To: <7ia47bjg141n.fsf@castle.c.googlers.com>
+Message-ID: <20261018164805.GA664365@killaraus.ideasonboard.com>
 References: <nn69829p-nn62-ppn7-968q-64o246ss90or@xreary.bet>
-	<CAHk-=wj24dSSRDQjvkmcw9LMC=K86d-Xys9=qX=gKoXgrQN1UQ@mail.gmail.com>
-	<7ia47bjg141n.fsf@castle.c.googlers.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+ <b8960b85-a381-4279-9c36-e5cad7a8d2d4@lunn.ch>
+ <atSzd4EdU4_B5eKr@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Server: rspamout06
-X-Stat-Signature: 338w8qirgdztgn1mofj3gsyf4a6daejy
-X-Rspamd-Queue-Id: 0156B20026
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX18gbdR/3h7R+sou0ktSaadj4qqZnUiVIvg=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=goodmis.org; h=date:from:to:cc:subject:message-id:in-reply-to:references:mime-version:content-type:content-transfer-encoding; s=dkim1; bh=3nGLzqDHxScIKItq9ybfSkqsHksx/zcJd+7cji0aguE=; b=G38CWdbYJ5r/XksyPSALQdwIZYYQ1JC4EsoTf9XgKQDjIT7M5lBOWMr9Nmw04XUz7PDnlhkOgm/t3Cr+D7lr8LZQGLJ9QX3ot4sQ9k59DbI9RniaNgbx1y46MDLbHF+L3mjA4EhKxEbmqvxmHDwSfgWNwaO9eSMp95ko4ZGBhbA=
-X-HE-Tag: 1792330929-106195
-X-HE-Meta: U2FsdGVkX185iDMA7BR3t7h/EzhO/9PV3K+PS71aCCa0zfs3pJNhUokgFVBNh79S9ARYIVV1SuxiFz4zZdnM8GBUZDbW9OaY9TJeyMcL/KYAvaILPykKp+6zluUqX802cF0DAeYlUTk5BI+wVh1pCOKuXN8DWdxyR4gKqzN+zd8DJCneaNh2fIuqPym7BoOrPx4ZHv57DptpSYBVZvOsz9ba81J3lpC/VowG3B7n73yQrMhwtA1oNDvDb4NROfPB17zGrZC6DWvUSYNQ+8TAGsWmDPk5wYeOwlSW04satdBhxyU/bZHELhTLjNmdJ3JX
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <atSzd4EdU4_B5eKr@sirena.org.uk>
 
-On Sat, 17 Oct 2026 20:10:44 +0000
-Roman Gushchin <roman.gushchin@linux.dev> wrote:
+On Sun, Oct 18, 2026 at 12:54:31PM +0100, Mark Brown wrote:
+> On Sat, Oct 17, 2026 at 09:42:34PM +0200, Andrew Lunn wrote:
+> > On Sat, Oct 17, 2026 at 07:28:48PM +0200, Jiri Kosina wrote:
+> > 
+> > > I have just received a v1 to v11 patchset submission within roughly one 
+> > > day timeframe.
+> > 
+> > If they are iterating that fast, they either have automated tests, or
+> > the code is untested. I would ask them to includes the tests in the
+> > patchset, to become part of tools/testing/selftests.
+> 
+> There's some work (init paths for drivers for example) where it's
+> perfectly plausible that you can reverify things fast enough to be doing
+> that.  It's probably a relatively long day, but it's doable.  You're
+> more likely to hit numbers like that over a weekend though.
 
-> It sounds like maintainers have drastically different preferences here,
-> so I guess a per-mailing list configuration is the only reasonable
-> setup? I'm trying to be on a conservative side, so e.g. if there is no
-> consensus between maintainers, I do not enable emails.
+And let's not forget that for most patches touching drivers selftests
+are not an option.
 
-Right. I have no issue with spamming of sashiko and back. I use
-patchwork which is pretty good at only giving me the last version of a
-series. And if I see that sashiko made a comment, I would have them
-address it before I begin to review the series. Until sashiko is done,
-I don't care if they send 11 iterations in a day. It's 11 iterations I
-can ignore. In fact, that means I can start looking at it sooner.
+-- 
+Regards,
 
-As for Andrew's point on testing. I would hope that they would have
-tested before sending v1. But sashiko is good at finding things that
-tests don't catch. So if they are just fixing sashiko comments, it may
-be that their tests are not catching what sashiko is finding. As
-sashiko finds new issues with pretty much every new version, I can see
-them having to constantly send another version with new info from
-sashiko.
-
--- Steve
+Laurent Pinchart
