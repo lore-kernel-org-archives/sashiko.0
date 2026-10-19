@@ -1,128 +1,130 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6EF13BC696;
-	Mon, 19 Oct 2026 06:25:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88436481FD9
+	for <sashiko@lists.linux.dev>; Mon, 19 Oct 2026 07:02:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792391107; cv=none; b=YSKkeWcFDrte6gbfxGT37J+ET80AZfi86dBOmTSQQgd9rd/kHP9nBP8QW7hTOVcMBeZKtBZsIn9YzypQF68wdWzb/AAY7UooXshAms7Wl8P4TFihPcTHsulhpWviQtF5g1EkKTa630vKdofBYehfhfqH/C3tUYDfeoAMaFXZnbc=
+	t=1792393359; cv=none; b=ZiLmL8pwz1mAk7PnCw83N8alUijdEIfQAk6gEFPDs07xxOaOv/rckGVxrfEw3zvz27kE6bv6z64DWi2b7iBCbzmMcdkN8N0MDdkkfjlhrRAYBO/+lY6LBy9pl4bp3ES0XUnOHQfVKy/hOXNjvUoeyq3opXlkUomM7+LBP6nbYLA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792391107; c=relaxed/simple;
-	bh=V3HBnT28vex+r/THFomFpFmN1EPoygtzaPQh46JvBKg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dy2n+aab0iMKUahvtdg094p2vwfY/7mUn52CJwGCCCkdQfycyC2nc+dHRF0q+2acKxYFdvPzwE8CH7evUX/inP0AucdPu5/jATJhbW5qIkF5/3rVI5+AkdhrtIzqplbtbgY48Zc1f/W80es4UetM4V09t6I5c0UgmwuIYeVbiDw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GvbVhyk1; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792393359; c=relaxed/simple;
+	bh=caiOAC3ZMfnRb6Cow7Tm52Ond6WJxeDuC6N5cXWzJ0Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rnNGavVfRzEMxzWdpE4DTofn7G1r9dY2GgJ47zZhxVjlPPIXpr9bCbc/SOLYC5bTlBlQsCf0S80dqwKNKsTKTFSogDFtjFPc/fRv+LqmFUeEIgfSKwRkVfx1UiTqkmz8rbeeSI69EdFP9ltAtHfFy9t7NWfUAS0+QAYQSGdI0m8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lzMx6Oy5; arc=none smtp.client-ip=209.85.218.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GvbVhyk1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 973CF1F000C4;
-	Mon, 19 Oct 2026 06:25:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792391106;
-	bh=CJUnipe7SNUlXHgwg3c+1s2Zkr76nlNaZ96Cq2cOtRU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=GvbVhyk1NOuD+najm5f3D1eFCl6S7jma2gLFilJI4Araq4gcYx0FF+3JaC6SbVMeY
-	 VlN8UvkDKRLbOuZoKdTCunLtdrmhT588/Qd7ENLHKwR7z3JJADEvq3CHhH5nxXSM8c
-	 mhtgV5E072oBPlTmO7J+SWN9rGFFC4n5FomfjGgY3k31kdhDnK+WLmQ+7xfSEC9BMF
-	 eoSraERhYMnV0e+fD8pztkVsBOgCEJceZDT/nWh6KR/fR+CWixFg6KxlTw33eCywVB
-	 8DztcmnxvS5um9I57Y78y4AC3ANgi1pFkvn7Pb/4k02flsdDerkQycxNl/NFX9MfTT
-	 n5yvEDzomi/pw==
-Message-ID: <350c7564-a833-4dd4-abf3-b8488280b0fa@kernel.org>
-Date: Mon, 19 Oct 2026 08:25:03 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lzMx6Oy5"
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-c2afa22e1dcso261819066b.1
+        for <sashiko@lists.linux.dev>; Mon, 19 Oct 2026 00:02:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792393357; x=1792998157; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=ss1sPKwGjZIHMoq6AIRLY4p1Jhwf9GL2A3EDWJrTFIM=;
+        b=lzMx6Oy5vYpyFkG4QUfat7cUtL3mG12Ggohn5AbPeWa3lg2VqpDNHgaqYc4i9OsV2s
+         hjcc9J3o+vFf0NwH/U7DSPIMJ/WhWs97TvfmuZI+uwkRdV0/OR+3rkSw0nUNB+wbsRsT
+         NHkzRY4+EV2n9b+ItaOqp6jSLK3nWSSbx9F2DwcdDnQT11IUOJ3dYSH9dGJlLk3iFiAp
+         gH+yAgpteQRuf07sp/eSsuGpApUr+HiBOBO/E62AzR4zEIm8S8bvisAOA1ho6xum0VWj
+         9poZVlPe8+AOducSiHHe4VXY8UBaGh89SSrMQG+HNw/RlrjepMhBICVeLu4zOQYt8RXF
+         J3vA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792393357; x=1792998157;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ss1sPKwGjZIHMoq6AIRLY4p1Jhwf9GL2A3EDWJrTFIM=;
+        b=rX3A9eLVFrrn2n/SP5+UANM/iW2ciVjGbJpUQeqaOow75Q1wlrni8KTcdE2I6LHaEb
+         b8sMkOqI7AJc54sqoUp2n+dOOtQNyPX2gVj4xeDxewPxiceh2ut4M02qqGdP446B7JLA
+         8t8//qDoUgvUWuVBAxgSuLFiAtm/Tck5CdmdYHj3G8TRG6v3j9S0nNwc/u5SZklsacG+
+         JPjcisSYTtnZpIu5yU2zdBZUs/OniPjeKMIIxf9XJO+4J3DZkhZrHY38mqQEnMHff86w
+         Ir37+4WKE/0Xz2MjuBq5rsVadxgG8oWsz7ZRN47wHMBReUvLVVg+4YyDTDLpshPRE2HX
+         dhNw==
+X-Forwarded-Encrypted: i=1; AKwUvBywZymScy7HKPhzcYMtNuz1KbdV6uYeE42hCzHH6n8K2w7tDbJMvpSbm6kTuWQ5etPs7sqJH24u@lists.linux.dev
+X-Gm-Message-State: AFq9FYLzRv3SxlTcl7jwkZuMlyat4PUia4fAUKTdc622NjGFo0pogId9
+	KAHYr7O6ff2LF+fl7mV27/g47BgREq6mfQRcBEubqNwE/TyCF/u4hAaF
+X-Gm-Gg: AYBFou2I8CGdJdKMTp88RCvitx9N9dgTLA79/xE0QOIWALTI2B9sIgVj6x8Z8BvNn2s
+	Ado3K51C6asnh8ugfT3fgzAEgcEN4CmktU7Tu9Srd2iHbvXTkF/D8I1X75qYfqMhc8qlZnL7AcH
+	SdPeA0AHafkcHAWl8ORk3CwqVsxLlOTnoR6tvILoxYDEkOZDvWBEwkXnSspxfqArEMahAJeaGNS
+	G/SgbwuXbAdlTs5ZGoZDxoWk6LJL9AQ6yXm57iH9h1y51rBQBDXnB8KuBtgPZlBzp6a0KsZPBjw
+	SvckqFvzsr37uxAlacXrjn2YNASI4NQ/ghLJK82X/3zPXhpFnAAwXhpwErAUVDHI4rJt+R8VjJb
+	DrwBxdFPaO1e55GJ5RYgJ5oS6ibUTvdS0mopQWH/1HYotBES52yE8Nog4Ge/+t2BY+RD0Y2ZXiA
+	OCGB5RwiqmVf/2rSLwmSmU07sK5tgM2eLRSDnUQeEeKvoBfnvy9K7VHZag4il/lGMHvOQ=
+X-Received: by 2002:a17:906:478c:b0:c31:7495:e5b with SMTP id a640c23a62f3a-c419d05ed13mr457742666b.10.1792393356319;
+        Mon, 19 Oct 2026 00:02:36 -0700 (PDT)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfd4ec8dfsm22184171f8f.26.2026.10.19.00.02.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Oct 2026 00:02:35 -0700 (PDT)
+Date: Mon, 19 Oct 2026 10:02:32 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Arnaldo Melo <arnaldo.melo@gmail.com>
+Cc: Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+	Jiri Kosina <jikos@kernel.org>, ksummit@lists.linux.dev,
+	sashiko@lists.linux.dev
+Subject: Re: Patch pre-submission to Sashiko
+Message-ID: <atXAiG_OL-TOKhJT@stanley.mountain>
+References: <nn69829p-nn62-ppn7-968q-64o246ss90or@xreary.bet>
+ <DM7BL6J0WCXU.1I38BKL4RJLFI@gmail.com>
+ <49D0633D-3576-4F42-9934-85663D11EC15@gmail.com>
 Precedence: bulk
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Patch pre-submission to Sashiko
-To: Jiri Kosina <jikos@kernel.org>, ksummit@lists.linux.dev
-Cc: sashiko@lists.linux.dev
-References: <nn69829p-nn62-ppn7-968q-64o246ss90or@xreary.bet>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <nn69829p-nn62-ppn7-968q-64o246ss90or@xreary.bet>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <49D0633D-3576-4F42-9934-85663D11EC15@gmail.com>
 
-On 17/10/2026 19:28, Jiri Kosina wrote:
+On Sat, Oct 17, 2026 at 03:38:36PM -0300, Arnaldo Melo wrote:
 > 
-> [ in the spirit of the concluding discussion at this year's maintainers 
->   summit,  I'm using this list outside of actual maintainer summit 
->   planning :) ]
 > 
-> I have just received a v1 to v11 patchset submission within roughly one 
-> day timeframe.
+> On October 17, 2026 3:20:47 PM GMT-03:00, Alexei Starovoitov <alexei.starovoitov@gmail.com> wrote:
+> >On Sat Oct 17, 2026 at 5:28 PM UTC, Jiri Kosina wrote:
+> >>
+> >> [ in the spirit of the concluding discussion at this year's maintainers 
+> >>   summit,  I'm using this list outside of actual maintainer summit 
+> >>   planning :) ]
+> >>
+> >> I have just received a v1 to v11 patchset submission within roughly one 
+> >> day timeframe.
+> >>
+> >> Neither myself nor anyone else did comment with any review feedback, 
+> >> except for Sashiko. Which I believe is what triggered all the immediate 
+> >> resubmissions.
+> >>
+> >> I don't think this is sustanable.
+> >
+> >I think it's just fine. I encourage developers to keep the spam going.
 > 
-> Neither myself nor anyone else did comment with any review feedback, 
-> except for Sashiko. Which I believe is what triggered all the immediate 
-> resubmissions.
-> 
-> I don't think this is sustanable.
+> Yay, agreed, it's not like before AI people were reading all of lkml
 
-I think it might be fine to drop usual expectation of one patchset per
-24h as long as maintainers can completely ignore patchsets with Sashiko
-replies.
+I read everything that's sent to drivers/staging.  I've read it in the
+order that it arrives and I've done that since 2010...  But these days
+people are treating the list like a pre-submit AI checker which sucks.
+I feel like people are saying we should just accept that mailing lists
+are just AI checker interfaces instead of being intended for humans...
 
-If people want to keep bouncing the ball between them and Sashiko, they
-should be allowed and then we should be allowed just to silence that
-email thread completely.
+I think adding a 24 hour delay to the AI review solves this.  It seems
+to be working for networking.  It will likely push people to use AI
+locally which is even better.
 
+> (or other voluminous lists) traffic, just ignore what clearly is a
+> conversation that now happens way faster than in the past until you
+> see it calmed down 
 > 
-> The idea of throttling Sashiko's responses was gently nibbled at the 
-> summit, and might be one of the options how to deal with this.
-> 
-> Another option I'd like to propose would be to introduce a way for 
-> submitters to run patches through back-and-forth with Sashiko even before 
-> properly submitting the Sashiko-polished v1 to maintainers and 
-> mailinglists.
+> The problem was not getting feedback at all, now people complain that
+> feedback is being provided timely and then that people are responding
+> to feedback in a timely fashion?
 
-I assume you mean they will be running it through Sashiko
-infrastructure, so using sponsored tokens. Otherwise that possibility is
-already there - you can run Sashiko, just a matter of money.
+That has never been a problem on drivers/staging.  Greg responds
+to every email and when he was on vacation then I responded to
+every email.
 
-Best regards,
-Krzysztof
+regards,
+dan carpenter
+
