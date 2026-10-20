@@ -1,54 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792485372;
-	b=3+ive/2n13fgtMxkpDwtZqn8B6D6lpzL359fiyiv249vrlFAMpsRHwBQKG3hj+Wb+4Zp
-	 5B+lYeAoDz2CQrdYeo+967S8Am82SuY/PCoAWiDhjX3ol5nNx8PmxF2HWZ3oYCfSxYe3g
-	 vdrPlmt4RePzwshqXrq9paErW2zAeq49kOCCwT4NhaQwlht6P8YNC7g9sG/Gj0XivAyO4
-	 Duk8ODGdj7ydZlWSMHYfuAa4SMfSCMKF46MozjwYA3uaMX+BJKMh0qk1Tn14nTD5J7xiT
-	 rwmnYC5lyfBqE+u7y/lmDoZIC3zfgxr5jVoJQfgO+R+2vBjV5W8Ui9zrdTAHPQJHT0g==
+	t=1792486102;
+	b=JLAiOSGNO9aOOIRBDr+fc+VyRLEwFiU8svlqvIFah0sffciLq2YOGUofEl8ogrTkrVwx
+	 pxqf4fdweHdBrCSuADCxYYQCONRPmIkqv7nyGUOGDIsK77Vs2i6bveIhDb/6NmG52Nxrw
+	 2aU0u9AcilhRpa3xwGqTucuCaVHPbPiREv6v1bYZNr3OD2qPnmqBwyR8PgTIv+WCvojtj
+	 86SkjnijPMr5ER90h0CI4btrCgxf6ljtHJVoHysl1LA4Vz2mGYcREJnt+efnjjtTtTN3w
+	 aFNEgyEXnrs3fpzXuKiWvSihRTs1zL6vmQUOMfCLhwV7NakYfAZSUQtZMbcm8miyVsw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792485372;
-	h=Received:DKIM-Signature:Date:From:To:cc:Subject:In-Reply-To:
-	 Message-ID:References:MIME-Version:Content-Type;
-	bh=v2sqWtaMsoK5yP0npF8R8T+peM+iezxl57A88LBOAuw=;
-	b=OKK4yFLQe4I2WWFb/RRIAUomWB3ImSFS9uD7T3vPShVRKzY1y2WcuePUc16fjxscnepW
-	 GTYQ4STVIuBWSys5DKnNsy7hhI8tnQ6Prl+EnoaU//b9VSC+bb1sX5j19TjX2VU9atAJL
-	 IklfD97sP5kUF8ffzY/yUXhpb/EIaeV+PxnsMZUpl5uOC3VbvREiF7ZmlBQJtwe+PdihH
-	 s3U6AHRs8PqU1HBUY2VGtO4iYUBPfM7QB0LXj298HLLsTr0Zg4+dueg1bpq/jwk2LGrll
-	 hccwBGJw4cgMEdE0PAdfCUhhj7/36fQMCtLD2mWa1BGsIYIVL/JWk+9kMoI/YrCKYTw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792486102;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:Content-Language:To:Cc:References:From:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=Mi9KIxzTAC2vcxSpUzht6iB4CQWnuYCnXDh4ZCO8d1U=;
+	b=aEemkOcAXnN5Svlu4BcgpzAuds/rl3uR8ePySp1zkNlRXQ/7mVTthTf+kmo8wKSrK5CI
+	 +7ynSVFT3hR0H8jZaRRf/mcJc/8Ng5Gd6gCWhGjOrbuOBUQH+N7ZoERaiSyuTiVOYImEZ
+	 oAGA6RBk6lcg0NBae1fG1tHSt+IcHsCiDmdNN5oebJD4LbyUiSTgMXG/q+2bQspVw33FL
+	 Z98WTpt3KmK3y7IxTlf/4dHmD513E3vTQbOvknNb2t4iMTtNPwjgk5AKCneHtDFMlawXe
+	 HD0ES+TidAySDCLka47FP9KkJMPcui+mU9ROggdCAHaYIpSZSQa0jbrxxUOsXOnKjgA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="lXCB/6Wp";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JxQ143sm;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBE80606A31C;
-	Tue, 20 Oct 2026 08:36:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1CC760A260F;
+	Tue, 20 Oct 2026 08:48:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lXCB/6Wp
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B0461F000C8;
-	Tue, 20 Oct 2026 08:36:10 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JxQ143sm
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 471061F000C6;
+	Tue, 20 Oct 2026 08:48:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792485371;
-	bh=v2sqWtaMsoK5yP0npF8R8T+peM+iezxl57A88LBOAuw=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References;
-	b=lXCB/6WpjF2cW5fZOF/tMgUAm8DCz5jtmd4souPECjGtgutUpmejWqyKtCi6EJFXW
-	 Qwbsy+APYTOmBnMwm8dkyH0Nt0knDGB1mM7pW0ASefSw2VgLL/jd3BcA2Zle7ltvH+
-	 O0KE+3QBXbck88m5YYl29JsL3P5h3JuJaxc4DLLVEWpa+3Ja71vcFs9BAZPDsrGQsp
-	 Qw/Y3VpFng5iAArAEylpv7oQ59xg8qDJbHkkplMMhd5b+MxN6AjK6WqYYOFKr+sEXB
-	 U78i2fWGHgpSsrsMZmmROFpMK+bBKgcAbKMAdhhMnwFzT/2fY9efZBZ5Bvcny/ZdNs
-	 NdCgqy7ng4sZw==
-Date: Tue, 20 Oct 2026 10:36:09 +0200 (CEST)
-From: Jiri Kosina <jikos@kernel.org>
-To: Theodore Tso <tytso@mit.edu>
-cc: Shuah Khan <skhan@linuxfoundation.org>, 
-    Krzysztof Kozlowski <krzk@kernel.org>, ksummit@lists.linux.dev, 
-    sashiko@lists.linux.dev
-Subject: Re: Patch pre-submission to Sashiko
-In-Reply-To: <atZ-V08qv8SHD3ZZ@mit.edu>
-Message-ID: <51o8r2nr-s30s-q915-58q2-2q4nr08006ns@xreary.bet>
-References: <nn69829p-nn62-ppn7-968q-64o246ss90or@xreary.bet> <350c7564-a833-4dd4-abf3-b8488280b0fa@kernel.org> <a6670d97-bf2f-4027-95a8-c091144725c1@linuxfoundation.org> <atZ-V08qv8SHD3ZZ@mit.edu>
+	s=k20260515; t=1792486101;
+	bh=Mi9KIxzTAC2vcxSpUzht6iB4CQWnuYCnXDh4ZCO8d1U=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=JxQ143smdj/VtUPJdzxFZ2foE6jm4NSiagcJ3DFY6s8ZmSpyDvfGXgJ8H13vK220d
+	 CWHCpHcyzczk8WKRFKgYzVwL+7yNIhw6V7ZSvyX1dNBYW6gCKQzzof3nb4u6fRv+1I
+	 iHUOvJpszQMGnXsm8pUmvb5L10Os0EFTUV5dXcM1srQWzHXmUwk5QoySVjhdfk00K9
+	 2VHm+Tt55BO84FsA8yL3AfaJqJe5YupN+z/fmSweL7cieavmiwlTIIhyUICR7oPSey
+	 jeKDhldGtmLh2YiX28wrU+YAQXSYQTvxHDOQQ0SuL/2BcpMHJV650PdkVYrKTS0xf9
+	 de07/wLwsUPBQ==
+Message-ID: <25fbde64-df97-4daf-aaef-5d2e6200044d@kernel.org>
+Date: Tue, 20 Oct 2026 10:48:18 +0200
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Post: <mailto:sashiko@lists.linux.dev>
@@ -58,29 +51,81 @@ List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:sashiko+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: Patch pre-submission to Sashiko
+Content-Language: en-US
+To: Jiri Kosina <jikos@kernel.org>, Theodore Tso <tytso@mit.edu>
+Cc: Shuah Khan <skhan@linuxfoundation.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, ksummit@lists.linux.dev,
+ sashiko@lists.linux.dev
+References: <nn69829p-nn62-ppn7-968q-64o246ss90or@xreary.bet>
+ <350c7564-a833-4dd4-abf3-b8488280b0fa@kernel.org>
+ <a6670d97-bf2f-4027-95a8-c091144725c1@linuxfoundation.org>
+ <atZ-V08qv8SHD3ZZ@mit.edu> <51o8r2nr-s30s-q915-58q2-2q4nr08006ns@xreary.bet>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Autocrypt: addr=vbabka@kernel.org; keydata=
+ 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
+In-Reply-To: <51o8r2nr-s30s-q915-58q2-2q4nr08006ns@xreary.bet>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, 19 Oct 2026, Theodore Tso wrote:
-
-> > When a submitter uses LLMs to generate a patch, it is reasonable for
-> > maintainers and reviewers to ask them to use shashiko to find problems
-> > before sending it to us. Asking for a shashkiko run before submitting
-> > patches could become part of the patch submitting process.
-> > 
-> > How about updating the submitting patches document to add a section on
-> > this with instructions on how to run it?
-> > 
-> > This shifts the responsibility to run shashiko to people using LLMs.
+On 10/20/26 10:36, Jiri Kosina wrote:
+> On Mon, 19 Oct 2026, Theodore Tso wrote:
 > 
-> If people are using LLM's to generate a patch, it would be useful if
-> we can make it super easy for LLM's to call out to Sashiko as an
-> sub-agent.  
+>> > When a submitter uses LLMs to generate a patch, it is reasonable for
+>> > maintainers and reviewers to ask them to use shashiko to find problems
+>> > before sending it to us. Asking for a shashkiko run before submitting
+>> > patches could become part of the patch submitting process.
+>> > 
+>> > How about updating the submitting patches document to add a section on
+>> > this with instructions on how to run it?
+>> > 
+>> > This shifts the responsibility to run shashiko to people using LLMs.
+>> 
+>> If people are using LLM's to generate a patch, it would be useful if
+>> we can make it super easy for LLM's to call out to Sashiko as an
+>> sub-agent.  
+> 
+> Yeah, but that pretty much brings us back to the potentially problematic 
+> "free tokens for anybody developing out-of-tree / proprietary kernel code" 
+> territory again.
 
-Yeah, but that pretty much brings us back to the potentially problematic 
-"free tokens for anybody developing out-of-tree / proprietary kernel code" 
-territory again.
-
--- 
-Jiri Kosina
-SUSE Labs
-
+I assumed Ted meant to call out to a local sashiko (as Roman explained,
+using the LLM itself), not the hosted one?
