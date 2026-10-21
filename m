@@ -1,55 +1,73 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=18.9.28.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792610300;
-	b=Ofe3mMMW1/olUuCSyBR3cwqPNj+2k0iOgMQC7NbAT0ETBRESh4KdV59xpVBlHwT66JnG
-	 uuJJ+Y9njs1/sFZoh0ID4pLOUkZg7GnpRVhzAzVWbUZcIPObcpieiAhhhwHW/U8HSSRaM
-	 bLqOfRz43kbIfZ+LVL3aYzBCPpO+qxOPvR3+cXYn1+XZQvT1nC4vASSSTYZCYHXYWhily
-	 j4R1Rrq+bDUIFKzjBGd5amKIDrYX74GyvNqxWkA+mUHfiaIB1ShxT+Li7LjedIpBUCdhh
-	 cZnNH7KwITtEZCfYsLSPdqlqd6jy3Qla7EC0NInB5x24LEPLBxdOi9HAYHWz6fDaBWA==
+	t=1792612683;
+	b=djhUyBqwpzWHbZWfj2UogHiUkzcBfAI5CBclj0nRuQb9+KwdmYhTCNn1Q08N1u0/AdjE
+	 CHU7W2IfpkpdsrkJCjzi876oaWhoaQt/PZjhcym4G+A4hYOzNhQcbG1JuhEhn/jffJH2n
+	 yZXHRRCNFDVmxSkvS2jw4Y9OXvs+WWJH+cawxsGE7P5kzRJPjfFX61r6kOJp9P4bVq6P9
+	 KhF5vg6RhdURDC5OJDwUQff7HPEhCq7UnEJQ/T64eMr27AdtiN6wJNDFgBnSidz08wGU+
+	 OqNtbtBkz/dq+Gl7Zg2GlB01Mp6bh5KE629YZeW0RmZwryCqHaeUW1ko5gVw0157+jg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792610300;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=+WAg/a2wjM+HQnO+KN3z2uGrEVKlKJo7mwtuhKG4iMg=;
-	b=RiK5tg1R0hH7/xKkpLVtHofnCFBMtOjat0l15TKdtj7fCvCmDwPe7jz0Z8fS4GWvsck2
-	 SYrFAORwT6t8inBEQhLLBkbaKT5SWw9O3jav0kPoWR4dYEgSN1WiyhZhc1DcxuPgiDq0P
-	 0ke7y+DqbCQXxjOoeHhZa/fzZa4KaO1JMQFyRAF83h3iy9CQCwh9EIIST99vq0Sn0Tcv7
-	 XNr5p1qgsledXUGmZvxIr/toFolZ5IacfJDpqRcDc3qAhKO5+9qFkdDTVkBLXjP7RSkeR
-	 bYfv1b3pTD0DeOg2oZ59uUcEzF4g6gRNLE9kp7ct1ptuUntnB3SuO/2vB8CgU/fzuBQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792612683;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=d+sCJb8edvh2+CVS5FtxigTJ8TPBinywELs5NiGpbF8=;
+	b=X0UV4Jt6NvZn28juIKUoSjgUA6/TmNuCkX3LJ/fQGyOse/6dxm+t8sllt30L2UTlAA22
+	 je+sa9f3GV9OFIXUjYDIkHVX+0zuh6DLD+9y+roYD1So+FzGzdybFOvB2Yk7SFqAj7gqg
+	 Ex1xfKdaGIt5KZpNiHtyOMBqPcHyI3S7R6HAW/8lXcLw0PhK8Z4XR8CS4qLIIhJCJnETf
+	 prXTG4LEI5x9hbWTimt2hT8EM7TrGs8xOQ7maJ8njwO4ChPvHQCNQL662cvKuiFm0/ly0
+	 MEck3He+gj8iGo9DckMBk3nw+V9cWOaCoL+Bm+LrWT56QhxduD12T3k6Tk41U580Y1g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=K0nUu0mK;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=mit.edu;
+	spf=pass smtp.mailfrom=mit.edu;
+	dkim=pass header.d=mit.edu header.i=@mit.edu header.a=rsa-sha256 header.s=outgoing header.b=KPrmy2sy;
+	arc=none smtp.remote-ip=18.9.28.11
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9E5C606A31A
-	for <sashiko@lists.linux.dev>; Wed, 21 Oct 2026 19:18:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E091606A31B
+	for <sashiko@lists.linux.dev>; Wed, 21 Oct 2026 19:58:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2E091606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=K0nUu0mK
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9484C1F000C8
-	for <sashiko@lists.linux.dev>; Wed, 21 Oct 2026 19:18:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792610299;
-	bh=+WAg/a2wjM+HQnO+KN3z2uGrEVKlKJo7mwtuhKG4iMg=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=K0nUu0mKLJ6KU2LBpJkhrBnNU3DoLhGUC+/2yDa/NV3qU3x03i+QRyU1Fj8uynEjI
-	 IRIzzOQmgsFFWK5envVok05icT4y40bSwXnf0Y5oXIfmTXOwt4W7joIxgmyi5ITxIh
-	 VCvANXQDPG95NqT73nmdjbJUNlHicZSBmleM/A3qdt1aduhpahNVpl4g0iBe9Ii9x8
-	 eHGzqRVYvUrknzHyeEj8n5Pjnd9z7AfqFWt/mtG18cnBWBi5U+K7pOS/Nd9ACo8F2m
-	 27CpdIyVtub3hfJhA0CG2RSl4R126bh5erlch/+CCZos8oa1ViEYjbt0jdqMaPJGel
-	 uFJ4YnbgCbWxg==
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5bcb440d1cbso191077e87.1
-        for <sashiko@lists.linux.dev>; Wed, 21 Oct 2026 12:18:19 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBwPbIob8dO4xpzgXikHLu8lrQg4fOlFUh4Nk4PR/1klfgjEvKRoc3GrQBq/WAc1PgNMJeKG3CVG@lists.linux.dev
-X-Gm-Message-State: AFq9FYLD1NwIsIgcIKon5gidrCt05NyPcKhzEMx5i5jSpHy1AAHaA+tb
-	RP2nOM0VdwnwuCVcF/jYW8SkDcYlqaoF7T/GFIXp8aU+EUfBcbTOmUz9hi+GcEzI/OtJDIzZPTg
-	38ioLP9eY4X0PcJ2vlj1nCipLq5qI3QM=
-X-Received: by 2002:ac2:4c4e:0:b0:5be:5994:7b8e with SMTP id
- 2adb3069b0e04-5bfa729d647mr62859e87.16.1792610297927; Wed, 21 Oct 2026
- 12:18:17 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=mit.edu header.i=@mit.edu header.a=rsa-sha256 header.s=outgoing header.b=KPrmy2sy
+Received: from macsyma.thunk.org (pool-173-48-113-115.bstnma.fios.verizon.net [173.48.113.115])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 69LJvfWK025571
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 21 Oct 2026 15:57:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1792612664; bh=d+sCJb8edvh2+CVS5FtxigTJ8TPBinywELs5NiGpbF8=;
+	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
+	b=KPrmy2syrRZGRETwSAuKjpTB94ypcrD543uXsYoEXwSP3iNmKufTgwNfVOfme6ufq
+	 D6mgnILpBVKoycS2U7A7BWnhQcM9cjH2/aV0ynXDQilku2UueBNSFNKkPs+AmE7Ff2
+	 BJ9uM0wP6ggjcYsFwp3QbP6gAKqSXXem5HemeWTYvH1rgmN0wGVO50m/cPHSrjh3k0
+	 2G4pZwnBewPzzVal/TuNzxFyEGGftqb4rDSYxhngotKDazuaGjy6AtobVFFlJjwln5
+	 MixfWdDWbd9vD259RTaNdN0DLFG/PqHOuMlsWWr2exQ4/QcejAmXpWk5LvDlSKfjX5
+	 FmFGbaM6oP+ww==
+Received: by macsyma.thunk.org (Postfix, from userid 15806)
+	id BFD5821EAAEB; Wed, 21 Oct 2026 15:56:40 -0400 (EDT)
+Date: Wed, 21 Oct 2026 15:56:40 -0400
+From: "Theodore Tso" <tytso@mit.edu>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Mark Brown <broonie@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>,
+        Bart Van Assche <bvanassche@acm.org>, johannes.goede@oss.qualcomm.com,
+        Jiri Kosina <jikos@kernel.org>, ksummit@lists.linux.dev,
+        sashiko@lists.linux.dev
+Subject: Re: Patch pre-submission to Sashiko
+Message-ID: <atkX3WwwV8XhMRiM@mit.edu>
+References: <atO3pCuUxI950ftN@mit.edu>
+ <3354ebda-5158-489b-a577-5cb10e5d5fb0@oss.qualcomm.com>
+ <atZ4J86j7CXF82HX@mit.edu>
+ <2fef166e-088d-4ffe-8d0a-0143aebc1b26@acm.org>
+ <ate8oESqneK-3sQJ@mit.edu>
+ <7e473af8-2f7a-4a36-a926-e756873c9c52@linuxfoundation.org>
+ <atic3bbDeyJI6MJs@sirena.co.uk>
+ <atjlUoEmTagZjrYI@mit.edu>
+ <atjpS__OwjZ-Q_Fh@sirena.org.uk>
+ <20261021114524.4c2ea2a31a9d527b78e78768@linux-foundation.org>
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Post: <mailto:sashiko@lists.linux.dev>
@@ -59,79 +77,28 @@ List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:sashiko+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <nn69829p-nn62-ppn7-968q-64o246ss90or@xreary.bet>
- <atO3pCuUxI950ftN@mit.edu> <3354ebda-5158-489b-a577-5cb10e5d5fb0@oss.qualcomm.com>
- <atZ4J86j7CXF82HX@mit.edu> <2fef166e-088d-4ffe-8d0a-0143aebc1b26@acm.org>
- <ate8oESqneK-3sQJ@mit.edu> <7e473af8-2f7a-4a36-a926-e756873c9c52@linuxfoundation.org>
- <atic3bbDeyJI6MJs@sirena.co.uk> <atjlUoEmTagZjrYI@mit.edu>
- <atjpS__OwjZ-Q_Fh@sirena.org.uk> <20261021114524.4c2ea2a31a9d527b78e78768@linux-foundation.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <20261021114524.4c2ea2a31a9d527b78e78768@linux-foundation.org>
-From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Wed, 21 Oct 2026 21:15:59 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0gKnRFdJQpP6SP5buNb2ikv7WqKBJLgrVy5mQVZxyxd2A@mail.gmail.com>
-X-Gm-Features: AclHuK9UJK4aZlKjABWPtlBhu5xhlxku8llJbfp_5y7BRDeWB59U3M9AN_TK5Ig
-Message-ID: <CAJZ5v0gKnRFdJQpP6SP5buNb2ikv7WqKBJLgrVy5mQVZxyxd2A@mail.gmail.com>
-Subject: Re: Patch pre-submission to Sashiko
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Mark Brown <broonie@kernel.org>, Theodore Tso <tytso@mit.edu>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Bart Van Assche <bvanassche@acm.org>, 
-	johannes.goede@oss.qualcomm.com, Jiri Kosina <jikos@kernel.org>, ksummit@lists.linux.dev, 
-	sashiko@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 21, 2026 at 8:45=E2=80=AFPM Andrew Morton <akpm@linux-foundatio=
-n.org> wrote:
->
-> On Wed, 21 Oct 2026 17:33:15 +0100 Mark Brown <broonie@kernel.org> wrote:
->
-> > On Wed, Oct 21, 2026 at 12:20:43PM -0400, Theodore Tso wrote:
-> > > On Wed, Oct 21, 2026 at 12:07:09PM -0500, Mark Brown wrote:
-> >
-> > > > TBH having seen some LLM patches that come with LLM generated testc=
-ases
-> > > > the testcases are much worse than the patches themselves.  Open cod=
-ing,
-> > > > weird structures, asserting bizzare things without explanation - ju=
-st
-> > > > generally really hard to understand what the test is trying to
-> > > > accomplish and why.
-> >
-> > > I recently posted a patch[1] to add KUnit tests for
-> > > fs/ext4/extents_status.c.  It was completely AI generated, and used
-> > > these instructions which I gave to Gemini Pro[2].
-> >
-> > > [1] https://lore.kernel.org/all/20261021031231.40107-1-tytso@mit.edu/
-> > > [2] https://lore.kernel.org/all/atbZWze194QiSOTe@mit.edu/
-> >
-> > > I'm obviously biased, but it seems to me these test cases were pretty
-> > > good.  I'd appreciate criticisms and suggestions for improvements, bu=
-t
-> > > if your experience is test cases written with older models, the lates=
-t
-> > > frontier models have gotten way better.
-> >
-> > Yeah, it's not that you can't do it but rather that I'm nervous of how
-> > much of a useful gate it is to require tests - my general feel is that
-> > if the commits have problems then any associated tests tend to have mor=
-e
-> > problems.  One example I reviewed earlier today is here:
-> >
-> >    https://lore.kernel.org/r/ed22ebf64ed00a56d5e1eff31ac639fef00dcae6.1=
-792179433.git.ivanrwcm25@gmail.com
-> >
-> > which will get the issue it was looking for but isn't something I'd wan=
-t
-> > to maintain long term.
->
+On Wed, Oct 21, 2026 at 11:45:24AM -0500, Andrew Morton wrote:
+> 
 > If someone's fixing something I don't see much value in
-> retaining/maintaining a test case for something we've already fixed.
+> retaining/maintaining a test case for something we've already fixed. 
 > This is considered good engineering practice but why bother - we fixed
 > it!  Move on.
->
-> It is good to see testcases during the fixing process though.  In these
-> cases I prefer that the test code be included below the --- with a
-> brief mention in the main changelog.  So interested people can later
-> chase down the Link: and find the test code.
 
-Exactly my thoughts on both points, thank you!
+It's considered good engineering practice because regularly running
+the test allows regresssions to be detected, and by increasing test
+coverage, it makes life easier to feel confident that a future code
+change, or rebase, is ultimately correct.
+
+Of course, you need to do the cost/benefit tradeoff.  If the test
+takes a very long time to run, or if maintaining it requires a huge
+amount of code outside of the test, then it could be that the benefits
+aren't worth the on-going costs of keeping the test around.
+
+This is one of the reasons why I'm a big fan of unit testing.  The
+unit tests tend to run much more quickly than integration-style tests.
+
+     	   	       	    	 - Ted
