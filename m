@@ -1,69 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=216.40.44.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792614263;
-	b=0ZPH46354+wY32rGZWkxMxkRJgeO+/gz2ASWjnUyKzkJScwAWdjWSBCb+rmScJMtimLq
-	 Z2imMvL2+7HoFwXhaeuWCmB0KloaX2wBZ88TgsuUCIZciAtAzYCk4L55JkYeyoO9uBcOq
-	 gs5g9JYYzDbuFzKGKFJbNfUQIYqFK6iMrnd90B/SBje2k/wD5blVeN/Du8kjcvLplSFDo
-	 hs8JoS8hZGc6gh4rr/7WggurxtHYD8qTqCzUwhVRQHHcJF4xfF525063kkBMT4C16unT8
-	 2A/AkSWumfC5+lsudXWfcSCWaGSOqQXmTebIZ0gvmX+cRwI3dKWpfYwnL+a6OnzlnsQ==
+	t=1792615592;
+	b=ceAK8TfdW09PGJymWSNt6stUC1HxZCj3HQ7Kk17kJuhpN9RxvsOkXtwYL56LFV+QeWSR
+	 h5jWbx26ZFtdClG+paAvGcKOEa+YoaLX4dFcwOQLQTpGkKjPExzHfmdDoaunLdPtLqOUr
+	 5fS4344u4hblQF7NBGTxIlMHitYudhJCry9dmEhJE4uootMnilcCIutO8gEqj6wYiCHvY
+	 Ng/SNDneCPid8H1U63aih3kms1ftsdKRBNuvL9LUFjOjqu76CospZhlNtolr+rLg/36we
+	 6W1KSICA7vpqxFA3L/tdvQ9fZu4dKL6L1Lgn+jOrhTyBTSYCWjHR0Uzh4b59S4MCCyA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792614263;
-	h=DMARC-Filter:Received:Received:Date:From:To:Cc:Subject:Message-ID:
-	 In-Reply-To:References:X-Mailer:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-Stat-Signature:X-Rspamd-Server:
-	 X-Rspamd-Queue-Id:X-Spam-Status:X-Session-Marker:X-Session-ID:
-	 DKIM-Signature:X-HE-Tag:X-HE-Meta;
-	bh=qgdyEv28OeJ87DB/d10CbgPub3rLT6+VElk/uG7ChYw=;
-	b=vsN5ncxMcquNTwLpZ6sv+dPLVdFZCaXO9uRHcoD/QQyvwLb+G2KfPGfwxh9MRpN+ep4+
-	 hkbwQA8IlOc3ju3bFfpG/1gX/5Li71CfivTOhNenydMernr1zlcphE+MuCT3JSMWadOWl
-	 Xuc385Lc56a5kaGQka+3vjx2hLnABtSDY8qkQL8edbA+2L8l7k/hZRscZcIx62FtBZGuF
-	 rmdQIrHnw3ky6H30/qahNBGCIDsw+lXIa6hlohVFxnsd5sf9+RDvTY8+/W4DR5g+wtvAx
-	 QlLvpUbJNWJKvMWVJWgWT6RwcDLkj3G+4tZ8LVVd1h2jsORfqIqhY89Jy9B6UPnhMUQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792615592;
+	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
+	 Reply-To:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=f9ZOgCD+p4GgKdkUM96yk4OYKzb1CXikxrPNb6zLVgI=;
+	b=W09rwi0ZATPhOdhrHyYwz7d+2K9snk6AFE4Lq/KpCHTt92ZYcm+13ryoU+9WchDuWU4m
+	 P+YNAsJoIAIh7DHvsa+E7X+0b3cDEyUdUtTFqLJ06vRNtgDE+2GeWQ28cXeaPAEWLULWM
+	 VroIdKTOfwYbWjuM/S1XT6ivM0GWSYYsrBTRxF14UveOYrDYEGkImv3I5mX9O7uJSX+fv
+	 OdB+xpEZ4O7Sg43wJOswaJt/CdNHnl9VjEnPgayAn6Z19svHt2//oXOEvuArWKLJ3bD+d
+	 /W1VMCoLgLzpSNb8BIuKy01gVcnUOa21zFQJQJ59f5UWs/Hy+9gxZtCOSYJgR5zKW/g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=goodmis.org;
-	spf=pass smtp.mailfrom=goodmis.org;
-	dkim=pass header.d=goodmis.org header.i=@goodmis.org header.a=rsa-sha256 header.s=dkim1 header.b=D+Wu2VHm;
-	arc=none smtp.remote-ip=216.40.44.11
-Received: from relay.hostedemail.com (smtprelay0011.hostedemail.com [216.40.44.11])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BzWHGEzP;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ACBB606A319;
-	Wed, 21 Oct 2026 20:24:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7ACBB606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E546606A31B;
+	Wed, 21 Oct 2026 20:46:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=goodmis.org header.i=@goodmis.org header.a=rsa-sha256 header.s=dkim1 header.b=D+Wu2VHm
-Received: from omf20.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay02.hostedemail.com (Postfix) with ESMTP id 9913D12068B;
-	Wed, 21 Oct 2026 20:24:20 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf20.hostedemail.com (Postfix) with ESMTPA id 71BB020025;
-	Wed, 21 Oct 2026 20:24:18 +0000 (UTC)
-Date: Wed, 21 Oct 2026 16:24:17 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Jiri Kosina <jikos@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Mark Brown
- <broonie@kernel.org>, Theodore Tso <tytso@mit.edu>, Shuah Khan
- <skhan@linuxfoundation.org>, Bart Van Assche <bvanassche@acm.org>,
- johannes.goede@oss.qualcomm.com, ksummit@lists.linux.dev,
- sashiko@lists.linux.dev
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BzWHGEzP
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 187721F000C1;
+	Wed, 21 Oct 2026 20:46:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792615592;
+	bh=f9ZOgCD+p4GgKdkUM96yk4OYKzb1CXikxrPNb6zLVgI=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
+	b=BzWHGEzPaklxg6NJjp7fd1ekqE7WBz191XF55Ypf6kItwVTTsBWODA1EvJdBSIG8N
+	 4rfs1ReiGYSlt162u/1oHo9Vg4TnctmzLDwsDP1s3AolozZ/c1hMb8AfEXm6sR7msg
+	 alHQLfff/V/vzOZYQiB3Uu1sJrtDHwry8YSk0YLXB30cQbmCGFZJu9dkJdW9VIFw/j
+	 TKmQ0+V3G/2trpvEb5SZQT7f1bAXa+1mHkPNPppVnAT/FLazg/TDpUDcV+yR4ody9Q
+	 JvTe+nHMvTudn0Sc5r5YHeXpYEL57IO9Qt8EfRAvktKHFmwHgBZelJsAW9Z1wRVxmf
+	 IhKfFMcDQUJ/Q==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id CADF3CE0A73; Wed, 21 Oct 2026 13:46:31 -0700 (PDT)
+Date: Wed, 21 Oct 2026 13:46:31 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Mark Brown <broonie@kernel.org>, Theodore Tso <tytso@mit.edu>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Bart Van Assche <bvanassche@acm.org>,
+	johannes.goede@oss.qualcomm.com, Jiri Kosina <jikos@kernel.org>,
+	ksummit@lists.linux.dev, sashiko@lists.linux.dev
 Subject: Re: Patch pre-submission to Sashiko
-Message-ID: <20261021162417.68c95d08@gandalf.local.home>
-In-Reply-To: <r48q9oon-p943-7s4r-8n18-o9rp412o5pro@xreary.bet>
-References: <nn69829p-nn62-ppn7-968q-64o246ss90or@xreary.bet>
-	<atO3pCuUxI950ftN@mit.edu>
-	<3354ebda-5158-489b-a577-5cb10e5d5fb0@oss.qualcomm.com>
-	<atZ4J86j7CXF82HX@mit.edu>
-	<2fef166e-088d-4ffe-8d0a-0143aebc1b26@acm.org>
-	<ate8oESqneK-3sQJ@mit.edu>
-	<7e473af8-2f7a-4a36-a926-e756873c9c52@linuxfoundation.org>
-	<atic3bbDeyJI6MJs@sirena.co.uk>
-	<atjlUoEmTagZjrYI@mit.edu>
-	<atjpS__OwjZ-Q_Fh@sirena.org.uk>
-	<20261021114524.4c2ea2a31a9d527b78e78768@linux-foundation.org>
-	<r48q9oon-p943-7s4r-8n18-o9rp412o5pro@xreary.bet>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Message-ID: <163b068c-c5ba-4307-9012-ac8ff6f18683@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <atO3pCuUxI950ftN@mit.edu>
+ <3354ebda-5158-489b-a577-5cb10e5d5fb0@oss.qualcomm.com>
+ <atZ4J86j7CXF82HX@mit.edu>
+ <2fef166e-088d-4ffe-8d0a-0143aebc1b26@acm.org>
+ <ate8oESqneK-3sQJ@mit.edu>
+ <7e473af8-2f7a-4a36-a926-e756873c9c52@linuxfoundation.org>
+ <atic3bbDeyJI6MJs@sirena.co.uk>
+ <atjlUoEmTagZjrYI@mit.edu>
+ <atjpS__OwjZ-Q_Fh@sirena.org.uk>
+ <20261021114524.4c2ea2a31a9d527b78e78768@linux-foundation.org>
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Post: <mailto:sashiko@lists.linux.dev>
@@ -73,34 +72,59 @@ List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:sashiko+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Stat-Signature: 4aojnwo9s3una5m6xwjkojscuyyzbm7u
-X-Rspamd-Server: rspamout08
-X-Rspamd-Queue-Id: 71BB020025
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX1/FRH38HyGy566oAysKaAt3LbxqmDs3fYM=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=goodmis.org; h=date:from:to:cc:subject:message-id:in-reply-to:references:mime-version:content-type:content-transfer-encoding; s=dkim1; bh=qgdyEv28OeJ87DB/d10CbgPub3rLT6+VElk/uG7ChYw=; b=D+Wu2VHmPE8MjCZT73aLQX/m+P4WmgaD1hFpqNuvIVmrOiAv/qEoZhjFB7LLNYOIO4PqpE13eX+RCgmD5/0h4ht6G0D//oG+ADf8DSm0vzT4qjogj/pFAghKuSLc+0EbwdWbCYzlHUyHf/awGSMOv6CeGJ8l1s5FKWHH/SXEE4g=
-X-HE-Tag: 1792614258-354079
-X-HE-Meta: U2FsdGVkX1/nJPMLYb/ppwB3asdQoRPHVqf7OMUMngmaoMsPqycdIldl92aJJufBg6RED/BnpZI6tU1xIMKI4tTXisfG1CcEqH/V4CXMWeBVSTClNWUcrmmUcCJNbpTPmhyi4d49L83WlO1dbOTIB86jXth3+coedOCaONMoPONdzR1lAZ/XwY0V4hLv6lqYPluWFoV2dtzY3CHIhdULuNDB9bF9Em/WuOj0CCHVMbYvMyFRRKkkK+oXgqxtkaLJ1GXOxfpfUOx5HHhNnXSLQcg43b9SC0/K9C8vj6JOxqdqTBGZwPjLM+tMu64Kn6TWO6+YwQTCnvAkLc/ymlppjoxuGxqDcJH/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261021114524.4c2ea2a31a9d527b78e78768@linux-foundation.org>
 
-On Wed, 21 Oct 2026 22:10:18 +0200 (CEST)
-Jiri Kosina <jikos@kernel.org> wrote:
-
-> On Wed, 21 Oct 2026, Andrew Morton wrote:
+On Wed, Oct 21, 2026 at 11:45:24AM -0700, Andrew Morton wrote:
+> On Wed, 21 Oct 2026 17:33:15 +0100 Mark Brown <broonie@kernel.org> wrote:
 > 
-> > If someone's fixing something I don't see much value in
-> > retaining/maintaining a test case for something we've already fixed.   
+> > On Wed, Oct 21, 2026 at 12:20:43PM -0400, Theodore Tso wrote:
+> > > On Wed, Oct 21, 2026 at 12:07:09PM -0500, Mark Brown wrote:
+> > 
+> > > > TBH having seen some LLM patches that come with LLM generated testcases
+> > > > the testcases are much worse than the patches themselves.  Open coding,
+> > > > weird structures, asserting bizzare things without explanation - just
+> > > > generally really hard to understand what the test is trying to
+> > > > accomplish and why.
+> > 
+> > > I recently posted a patch[1] to add KUnit tests for
+> > > fs/ext4/extents_status.c.  It was completely AI generated, and used
+> > > these instructions which I gave to Gemini Pro[2].
+> > 
+> > > [1] https://lore.kernel.org/all/20261021031231.40107-1-tytso@mit.edu/
+> > > [2] https://lore.kernel.org/all/atbZWze194QiSOTe@mit.edu/
+> > 
+> > > I'm obviously biased, but it seems to me these test cases were pretty
+> > > good.  I'd appreciate criticisms and suggestions for improvements, but
+> > > if your experience is test cases written with older models, the latest
+> > > frontier models have gotten way better.
+> > 
+> > Yeah, it's not that you can't do it but rather that I'm nervous of how
+> > much of a useful gate it is to require tests - my general feel is that
+> > if the commits have problems then any associated tests tend to have more
+> > problems.  One example I reviewed earlier today is here:
+> > 
+> >    https://lore.kernel.org/r/ed22ebf64ed00a56d5e1eff31ac639fef00dcae6.1792179433.git.ivanrwcm25@gmail.com
+> > 
+> > which will get the issue it was looking for but isn't something I'd want
+> > to maintain long term.
 > 
-> There are engineering methodologies which suggest exactly the contrary, 
-> i.e. to make good use of the fact that we had a bug to add test for, to 
-> make sure that we never ever regress on it again.
+> If someone's fixing something I don't see much value in
+> retaining/maintaining a test case for something we've already fixed. 
+> This is considered good engineering practice but why bother - we fixed
+> it!  Move on.
 > 
-> I can come up with quite a few examples where we broke something more than 
-> once in a row.
+> It is good to see testcases during the fixing process though.  In these
+> cases I prefer that the test code be included below the --- with a
+> brief mention in the main changelog.  So interested people can later
+> chase down the Link: and find the test code.
 
-I try to add tests to most bugs I fix to make sure the tests catch it the
-next time. My experience, they catch something a few years later, because
-code gets modified and old bugs resurface. Hence, why I want those tests.
+The "right" thing to do is to work the new testing needs into existing
+tests.  Of course, this is often a bit harder than it looks.  But when
+this can be made to work, you get increased coverage for the same
+testing resources.
 
--- Steve
+Pity about the added development costs.  ;-)
+
+							Thanx, Paul
