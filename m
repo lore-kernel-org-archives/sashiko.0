@@ -1,107 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792564236;
-	b=44Nc0nejYPU+6Fk9SOSn64L83ZxLMEpwGPLyIf21I42K4yXhEeJuPZ13m4AacCwvlcVD
-	 6o0may7A1Mifm30VGcJWeUDEWt8ADnwqE5NDwmMuhnuZk2Aw47tQeVhGSlBaRddWK+e0R
-	 RaL50O/1Fy63R/EFumYWQIT85xOACeM00WSs1nTQeV3rlKJj7ACXg/fBA1mM0Iwav5o+Z
-	 3afFM4u3xSWFCwOSw/cBS3PyXfn51wH+84OUHALN/bs7H/Bkk7so3F15uQ2do3ftntcYS
-	 N/uR+EtDYTEzl0MAgiwsZwRGguB49/gshzKyiv3AII8JypC6ueKxE1kSvIFc1ZFNRUA==
+	t=1792580833;
+	b=Nj1GEcNnAC78sURbrzFHbPMn5a/P1fpKyPDYCQrSgPqNXjFbCpGCjHpjhFPzcxsSSW15
+	 11KYH8vMX82VF6NbsU8Oq328+JtnR98K/bDhFd+d1ktHsPyHDT4033e3DGvhTw50q947s
+	 T2pqcRnq4WOYFeELqFi5jQNzopegQFVYI7cyBeBueLGTTeFss8cWZgF8wvhv1GUnm9XPj
+	 x8O6upfaKpXNvq0H22yml8+YdQXAIr6u8Ladf3glVNL0tWM6iaAJUStzXi+JmBDCijdO2
+	 QKBta6HAbcmR8beqErudeo+Hf+0zFpGUzhq6MYt6vKVgP67rndEZ4b3EpHSfau8EceA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792564236;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
-	bh=cYUvf7NtBe7pOsS1O8UsmectTcO9AE8HzkIVdhBZBbg=;
-	b=jbVxCxSydLTcnValdkgpymUtN9zEtpN5lpi1AjrZeDf4kk7tLDGBDDdodMaVW+1rGeVV
-	 GnW+q/yBlZ2Jvq9DsH4+hL35ubJ60zvDs8+OMnb+eRpw+BnnYxcT8S8KuK7lqg6JFPvVK
-	 RchcR8vN908joGqOG9IaHLfK8dmkTjN8Y71N65A/vyhnemXHQN8/c09ccEntHiN3/7JPk
-	 eJijHFL+n6NpvfigFNfbCNtB490slhuxvurXcDKsIpfGsjLpLCwIgmDN5ivmSPxvMrbLp
-	 bHehUkaEnYtFR3uwihCbtxCX8ngFclEwVsHodkWV0yRTWcbfq6lAsehMrOH5ldeUcWQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792580833;
+	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
+	 X-Cookie;
+	bh=gAf0Dg+KuB/mpjLPFq0BKt/el80eTSSfEJz3oB8HdRA=;
+	b=JWe8lvOp11PCxqJIHuCIHOqC8e1UGfOa+AjhV9AOh903hzTPzibTCis1jVTguXRaox/l
+	 8aEyqlHP14T7UsTaZFc+XvJnUd1q8rwK8YqFhcP75BKBQDwHSS1E8B5qfFlirwZszbv24
+	 Rv6y/SWhXuiz2z4YBssFddUxEhDi7pOdnfimS83PE+MQrGeVdmkpNSg93A6KnhhAIBdja
+	 RB/vKgnwcDH2jAwzYpI7uSIo0+m6K9cElOhuDxp7GizD1a9PIN3TiIPjzWDXX3cJ5r6PH
+	 xAeHhtaSPCisz9kQtcpI/xthcvBkryHk2GYxjA9fONT9t4l96RU/z9srZJT+JZfXAgg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=b58XjFgS;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=ux7OP91d;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=b58XjFgS;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=ux7OP91d;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Z2oErRDA;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A1C1606A31A
-	for <sashiko@lists.linux.dev>; Wed, 21 Oct 2026 06:30:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0A1C1606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA0A1606A323;
+	Wed, 21 Oct 2026 11:07:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=b58XjFgS;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=ux7OP91d;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=b58XjFgS;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=ux7OP91d
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 6D1241F394;
-	Wed, 21 Oct 2026 06:30:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792564234; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cYUvf7NtBe7pOsS1O8UsmectTcO9AE8HzkIVdhBZBbg=;
-	b=b58XjFgSc+Rt80lCkLGoCakviThM0StthXv4vGWQrcyWtlZfBmpcO5qOcRDEP1edP08j6Q
-	AyJBAWIO0zMszjPAYQ4KrPuk4aZb0vRxvTOBEq5vLY7FLkpeMuAsi0ZJDI3wSQu2MvSaac
-	y/65dwKGYltLnaNjA107I2BjRmeLV1k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792564234;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cYUvf7NtBe7pOsS1O8UsmectTcO9AE8HzkIVdhBZBbg=;
-	b=ux7OP91dbUr09+ZgkPxtqMZjEnmIVU+vkt3po6IHeeqCkJVdrdVTCd+JtXKwfhVvi5m98/
-	C+oJoZDZCuRHpqBQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792564234; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cYUvf7NtBe7pOsS1O8UsmectTcO9AE8HzkIVdhBZBbg=;
-	b=b58XjFgSc+Rt80lCkLGoCakviThM0StthXv4vGWQrcyWtlZfBmpcO5qOcRDEP1edP08j6Q
-	AyJBAWIO0zMszjPAYQ4KrPuk4aZb0vRxvTOBEq5vLY7FLkpeMuAsi0ZJDI3wSQu2MvSaac
-	y/65dwKGYltLnaNjA107I2BjRmeLV1k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792564234;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cYUvf7NtBe7pOsS1O8UsmectTcO9AE8HzkIVdhBZBbg=;
-	b=ux7OP91dbUr09+ZgkPxtqMZjEnmIVU+vkt3po6IHeeqCkJVdrdVTCd+JtXKwfhVvi5m98/
-	C+oJoZDZCuRHpqBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2967D13518;
-	Wed, 21 Oct 2026 06:30:34 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id rQzlAApc2GrNVQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 21 Oct 2026 06:30:34 +0000
-Date: Wed, 21 Oct 2026 08:30:33 +0200
-Message-ID: <87ld7rftva.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Roman Gushchin <roman.gushchin@linux.dev>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	sashiko@lists.linux.dev,
-	linux-sound@vger.kernel.org
-Subject: Re: Enabling Sashiko for linux-sound ML
-In-Reply-To: <7ia4cxt48ebr.fsf@castle.c.googlers.com>
-References: <87bj8oh7wf.wl-tiwai@suse.de>
-	<7ia4cxt48ebr.fsf@castle.c.googlers.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Z2oErRDA
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 447E41F000CF;
+	Wed, 21 Oct 2026 11:07:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792580832;
+	bh=gAf0Dg+KuB/mpjLPFq0BKt/el80eTSSfEJz3oB8HdRA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Z2oErRDAVSKOreso8AH9IyHaEXpylrc3+uXYvhujBhzL7wVV60D5dZYFsTIbl8hwS
+	 RJ1hNkiDfLZerzXNZoAurjCl3HV2oIVKXHT5dy2x5RPAyDCC3KNjBwaLgS+0TAI9aF
+	 4i/PnJM11O9/dPZFMaxEnK5+OK1nUVCVFncDsk0ZxEznlVv46wVPhVxbP/4Oru/0l1
+	 5xXhJewfTXg5X3Bmf/zN5Gqs6z/Za1h3gDsOKg52kTmx1kVvHSgHnshOvP8U5l64I9
+	 d0qy8bOkKKu6gPalLmvtq0F3ggqwoGmm9GFk0R9yzQopcIoKdHoU676HJKrTdn0Po4
+	 p/iMxi3vZ37qA==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id 50C2A1AC5994; Wed, 21 Oct 2026 12:07:09 +0100 (BST)
+Date: Wed, 21 Oct 2026 12:07:09 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Shuah Khan <skhan@linuxfoundation.org>
+Cc: Theodore Tso <tytso@mit.edu>, Bart Van Assche <bvanassche@acm.org>,
+	johannes.goede@oss.qualcomm.com, Jiri Kosina <jikos@kernel.org>,
+	ksummit@lists.linux.dev, sashiko@lists.linux.dev
+Subject: Re: Patch pre-submission to Sashiko
+Message-ID: <atic3bbDeyJI6MJs@sirena.co.uk>
+References: <nn69829p-nn62-ppn7-968q-64o246ss90or@xreary.bet>
+ <atO3pCuUxI950ftN@mit.edu>
+ <3354ebda-5158-489b-a577-5cb10e5d5fb0@oss.qualcomm.com>
+ <atZ4J86j7CXF82HX@mit.edu>
+ <2fef166e-088d-4ffe-8d0a-0143aebc1b26@acm.org>
+ <ate8oESqneK-3sQJ@mit.edu>
+ <7e473af8-2f7a-4a36-a926-e756873c9c52@linuxfoundation.org>
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Post: <mailto:sashiko@lists.linux.dev>
@@ -110,51 +65,48 @@ List-Subscribe: <mailto:sashiko+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:sashiko+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email]
-X-Spam-Score: -3.30
-X-Spam-Level: 
-X-Spam-Flag: NO
-
-On Tue, 20 Oct 2026 19:35:52 +0200,
-Roman Gushchin wrote:
-> 
-> Takashi Iwai <tiwai@suse.de> writes:
-> 
-> > Hi Roman,
-> >
-> > could you enable Sashiko reviews for linux-sound@vger.kernel.org?
-> >
-> > In the audio BOF at the previous LPC, it was discussed, and people
-> > agreed with the enablement of Sashiko.
-> >
-> > The preferred configuration is author+list.
-> 
-> Done!
-> 
-> https://github.com/sashiko-dev/sashiko/commit/b063c144377b569c39eb3c7d2f689478062fc4f1
-> 
-> I'll roll it out later today/tomorrow.
-
-Thanks!
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="WYr3eNcDcuS2J27v"
+Content-Disposition: inline
+In-Reply-To: <7e473af8-2f7a-4a36-a926-e756873c9c52@linuxfoundation.org>
+X-Cookie: You buttered your bread, now lie in it.
 
 
-Takashi
+--WYr3eNcDcuS2J27v
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Tue, Oct 20, 2026 at 02:43:27PM -0600, Shuah Khan wrote:
+> On 10/20/26 13:21, Theodore Tso wrote:
+
+> > and maybe even:
+
+> >     * Add a kunit test covering any changes made by the agentically
+> >       generated code.
+
+> kunit or kselftest covering any changes made by the agentically
+> generated code
+
+TBH having seen some LLM patches that come with LLM generated testcases
+the testcases are much worse than the patches themselves.  Open coding,
+weird structures, asserting bizzare things without explanation - just
+generally really hard to understand what the test is trying to
+accomplish and why.  Sometimes for a one and done test, especially one
+you're not going to keep around, it doesn't matter so much but stuff
+like that can really impact the maintainability of the testuite.  Some
+of this is probably submitters paying comparatively less attention to
+the tests and just throwing anything over the wall without review.
+
+--WYr3eNcDcuS2J27v
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQReagvpf3TrrA7BoYYv73Ows9A4iQUCatic2gAKCRAv73Ows9A4
+icJIAQDCOfY+cfIygb0Lhp/uoFq2Oz3i1JxMT26l0NeNzWK90wD9GovDa3Wd5Gfe
+5Vi0ThgsJvqpY/CVMUCDMjVwFy46lQM=
+=P0cp
+-----END PGP SIGNATURE-----
+
+--WYr3eNcDcuS2J27v--
