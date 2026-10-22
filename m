@@ -1,71 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792680323;
-	b=FL6//3fN/f1PJPYJfgAwSPHzopbj+r1RgPpKexjhBYXZkHf5ozFZyPT4TJEvtXK5Z5Q+
-	 RwGzNxUueK3Z8YIkHhBcD40SsmoaE7X8u4kPe5YGIeewKQKGZ1MhsjmHqRefalCuiwXXa
-	 6EXFBqr/t7QGBf2RiQhg1uylmmNF1T/ND1iC0CrT7MsH5gyb+H0/rCXBdyys4MmwP9UFl
-	 mPThXc5rF0G0PfjPZik1vDPZfqlLagEO+e3wCDtTQmst2KTsUpEpLsdVgBt40ANntoKRT
-	 wuzU6gc11BDXHo6OnHyp9jiRNAr7RhdxEi4yBscqQLy7ETREXQqIzEikCpumNfv3NBg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792680323;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=pALpS5I1KlGpkLUKtzKBtS/+k8KKUj01q0cLyiifzu4=;
-	b=A902EdF74tX9JRIqb8r/PxhgeCGPXq7/tuBUB5T+2K+FM+d8C7atprytz0aRCU8OVjc3
-	 HoYpoU//e4c3LoHirLFVOm8rDkJlKokDtUZ84oiu2eWED4G2WUXoYqchHW5746zFLQpLX
-	 QFLpPIn/WA31XvqE33y8Yi5DSe2HQiVdKJT2Qy1w3Y5VG58P+49bECJMYIT2kiZk/9u/y
-	 W2Asmg5RbVDRrTkkOr+XQxNCvlCwk9AU42g/uIN1bTBa0jDAUW8sUlAe7eXdZCUsz9sfp
-	 FsFkkI6K76jD5FYHv1hmpcf9iZ0w0DWksoEg1n1J4v8fQ9O6fGhuyNR/nIkppIw2YIA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=KmBaQ+YB;
-	arc=none smtp.remote-ip=198.137.202.133
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.75.133
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792680865;
+	b=vPIuLhn+rCRjmwCkHrGN0ahDv+XCw6IMAbG0U8fEi2N/CeOA1WTuA4XTPZnJR/mUGs2G
+	 unVnYmx2o7zOVg0IgmKJD2dGxCl9Ds3wzIQFUfPBioiHRlVf5POPOcJhqQyfqprsfzN3j
+	 ZTw8OxS6VbWqOlLQ+2lCU5UTFMH/Wt3uuSJXE4XHnQ8aRcnK4KCCnahQ1vLC/nFxqtN0V
+	 /rBMqQPI6UzfG6lN67Feaa+ZXSPfAUuzMmKMrssPg1rS0DsEG0fVhqFEM8EOEtdLuYC8f
+	 zbgwhvhJoMmGEBxyj7cQRkTYkR+Hn8LYEroK5VS0+7d3fovy8WVAYhQogJQ7nwe/9pw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792680865;
+	h=DKIM-Signature:Received:Received:Message-ID:Date:User-Agent:
+	 Content-Language:To:Cc:From:Subject:Content-Type:
+	 Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=UpBbaaYQy1kqAjN9iOwDUzlV8nLgpc/2D+7aL3TPYl8=;
+	b=oA/qJ0nZO9kQa9YJQ0RorQniK0gJEO2CANG9TUK4V//m+i58VADooU9WeS9gamkPHahl
+	 qImfzLOAennKjbRSvih+HAtEwKLUsJ8rs0eqO4pBt1yFFulX/S0qlUYbyaXW79zljBEH4
+	 UJdrRlzhZy5M21pm8+XSRPkET3rSC9B/88vUq9S9y0Kpe4rCCZWsyhE3TcZV/Dn2Cu0ET
+	 Bk/4/10g5xVxDyEj9L18c8pNmAditRVD7Lb4mDVmVxYIbGiQw1r3ZyH6mIQvKt6ceR4d3
+	 DwussIlu+BK0yTn4y0ZmE1ofx/PGKb3H4JZp8yXfy6BokAjoHGKfj4UD2nEABHDO4tA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=permerror header.from=gaisler.com;
+	spf=pass smtp.mailfrom=gaisler.com;
+	dkim=pass header.d=gaisler.com header.i=@gaisler.com header.a=rsa-sha256 header.s=selector1 header.b=ZbEGeEXp;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.75.133
+Received: from GV3P280CU013.outbound.protection.outlook.com (mail-swedencentralazon11020133.outbound.protection.outlook.com [52.101.75.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B67F1606A319;
-	Thu, 22 Oct 2026 14:45:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B67F1606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C311D606A334
+	for <sashiko@lists.linux.dev>; Thu, 22 Oct 2026 14:54:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=permerror header.from=gaisler.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gaisler.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=KmBaQ+YB
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=pALpS5I1KlGpkLUKtzKBtS/+k8KKUj01q0cLyiifzu4=; b=KmBaQ+YB1L14xyLnhfcOfFWQpf
-	/0McU6VTeH77acsbCWl+nKKoNN4Ql/8dRNKhvyIPtWrjB/Y8zMlaUlohRjBsP5/81mepRtVyFGfRP
-	MM+vM+569+9T68zhU8DeNyvTvMvs0ZF4jOUoNY+nSHwsSdfVQsC1OGKB4JJDkEXUZ3vdT6pabNv29
-	Gc/wHWkK/lL+rDSjVM05AMj4mgUzQRXaMnHBFJdRiCOgLWFSN6W7hJGTuiXYjluVjKVkJIZGBN6W0
-	V2OQqndtERNegK3xqlnzc9TBW7/JHmQB9gBfu1pH/2gGa7NOuQcTtUr9LIxZmCszDgp7hrKKDhOgv
-	NqOmmDFw==;
-Received: from [38.23.173.23] (helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xJu2g-0000000EKZP-2QNZ;
-	Thu, 22 Oct 2026 14:45:18 +0000
-Date: Thu, 22 Oct 2026 10:45:15 -0400
-From: "Liam R. Howlett" <liam@infradead.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Mark Brown <broonie@kernel.org>, Theodore Tso <tytso@mit.edu>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Bart Van Assche <bvanassche@acm.org>, 
-	johannes.goede@oss.qualcomm.com, Jiri Kosina <jikos@kernel.org>, ksummit@lists.linux.dev, 
-	sashiko@lists.linux.dev
-Subject: Re: Patch pre-submission to Sashiko
-Message-ID: <aadiwe7siqcwoe6t2sulkwt4hfu54rpvch2aphyoz2s4vnzpua@7xuhfabvjdk5>
-References: <atO3pCuUxI950ftN@mit.edu>
- <3354ebda-5158-489b-a577-5cb10e5d5fb0@oss.qualcomm.com>
- <atZ4J86j7CXF82HX@mit.edu>
- <2fef166e-088d-4ffe-8d0a-0143aebc1b26@acm.org>
- <ate8oESqneK-3sQJ@mit.edu>
- <7e473af8-2f7a-4a36-a926-e756873c9c52@linuxfoundation.org>
- <atic3bbDeyJI6MJs@sirena.co.uk>
- <atjlUoEmTagZjrYI@mit.edu>
- <atjpS__OwjZ-Q_Fh@sirena.org.uk>
- <20261021114524.4c2ea2a31a9d527b78e78768@linux-foundation.org>
+	dkim=pass (2048-bit key, unprotected) header.d=gaisler.com header.i=@gaisler.com header.a=rsa-sha256 header.s=selector1 header.b=ZbEGeEXp
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=quPiCNdvdlaHU5dCIld9orT92SEcr7JKoR6xt+EgwBP0Vj0ju31BKTFJBHoRXnmDCsd0rnys49nbRj2o7KdNtacro3872lxY1AP2iSBa04X8K/2KNdxHSr1xKqn5wv+iWqrRyy10v/jTbQ4MNNliTKx+OkqZJYZHrYJ1M4Ab0Um2XvMJRJbhy2Ws3r+zqmgWW5V87nmc5DnUT7g9uvLQk9Pl5GKNau3jTh6WdOt6+ll9VXQ9sPu4kL4Sd0RclZ9TqODbJ3zF4rnkQMOoDitKpxWu128UiyzZQ5aNvrQ+NZaDbnf2GlSyIBp2a406QyHn7wYAWhmhYiL/H1IilnKByg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UpBbaaYQy1kqAjN9iOwDUzlV8nLgpc/2D+7aL3TPYl8=;
+ b=sV1w1zJMMKHSMacWK89vMkgzgIFCy9Bz9Ykf359uxepokN/5CWjy8tQHxoy/ixikV19dkV9eHzI2sYEiBtuEB8GwM+YsuTs669oo1PNoGAhRGsWcHPfgf8OtNSVhYetdXtfV4PV3oVAa6F3dhrjNUzpaeeX3PL4xtE/Y6cBwD+fQaVC/D3q67CjK+RApjF9ViATXM3pXwsKb0YZLxbIrgOf87pJMntxQO/pmfD9cO6BSo0N0ThE2OxZZeHWm/sZzWzNHvDnCwWxkgr+nv05bwD2J5ReG6zlZQTylQYy5m9iuoX4NoDAEAfk36QiMJFHp/RumQXo881up0RkRVvWPdw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=gaisler.com; dmarc=pass action=none header.from=gaisler.com;
+ dkim=pass header.d=gaisler.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gaisler.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UpBbaaYQy1kqAjN9iOwDUzlV8nLgpc/2D+7aL3TPYl8=;
+ b=ZbEGeEXpbW0NwdtS6v9BFAqRX1xIEmKwyByWxA7MqhaWronratl/+tSACzjVivo8Xe9SDFgKOtD8o71ggRS4pdGh3AbaNXxqtw/LpjeTk1ZTo6g7uA4i+mYgg+zWPs/5ugTUdgn6iflkIQBbY43adj1rINN38KkNVqqSoZyAW8rC5ZWWg38vFyPTBUr+v/SFldZSOvb3FYVHGENe//totB+KbJpDiMsKtw8sEwKg8twkPfZigavlMMd8E044QbTq19Pgjzbt+/cZYiQc0TB6AnT+ydtqT8e5W/ut9g+V5NFQcpTDypz6aXbeu+qxETTAQUeeGWFtyVXfLPZssNg+Nw==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=gaisler.com;
+Received: from MM0P280MB495062.SWEP280.PROD.OUTLOOK.COM (2603:10a6:190:2f::5)
+ by MM0P280MB0730.SWEP280.PROD.OUTLOOK.COM (2603:10a6:190:2::7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.546.15; Thu, 22 Oct 2026 14:54:18 +0000
+Received: from MM0P280MB495062.SWEP280.PROD.OUTLOOK.COM
+ ([fe80::1f13:f10:e16b:7939]) by MM0P280MB495062.SWEP280.PROD.OUTLOOK.COM
+ ([fe80::1f13:f10:e16b:7939%4]) with mapi id 15.21.0472.016; Thu, 22 Oct 2026
+ 14:54:18 +0000
+Message-ID: <a08430ed-9e39-456d-8863-3fa478368134@gaisler.com>
+Date: Thu, 22 Oct 2026 16:54:16 +0200
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: sashiko@lists.linux.dev
+Cc: Roman Gushchin <roman.gushchin@linux.dev>, sparclinux@vger.kernel.org
+From: Andreas Larsson <andreas@gaisler.com>
+Subject: Enabling Sashiko reviews for sparclinux mailing list
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: GV3P280CA0024.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:150:b::30) To MM0P280MB495062.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:190:2f::5)
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Post: <mailto:sashiko@lists.linux.dev>
@@ -75,74 +92,78 @@ List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:sashiko+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261021114524.4c2ea2a31a9d527b78e78768@linux-foundation.org>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MM0P280MB495062:EE_|MM0P280MB0730:EE_
+X-MS-Office365-Filtering-Correlation-Id: 23f3878a-7991-4ff5-6af8-08df304c5900
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|23010399003|376014|1800799024|6133799003|18002099003|10067099003|261021121427099003|11063799006|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	RmzdMoe9xoyHGbW0uGavCS5XOgCMn0yc8sCyVRgX4i07HjCdyhVrNEAwrVuH2p8viktsd0TPKx2aVuauuFbOxV4aT/+qDKKjyHe0alUXksM31fteo1pPASBY5B5PVrZAVNgZ3B4m82iZp8BBwr7JjiW7dKeODmraBKNmTuCIWf40E9I0WJ4z8yGBqQKS8XZyb9tf5/6sflMLBd2bfWlYEcYq68eQGmi/GK8h8s1sK3cwPID2zJ87g1lxq0wM/hnor0k9ncsKD0/ZLVJXmnQmG8XZCu1HWU1fyooOE5HyDcFdUb9piOYIE+/zZwsWOwTbhc4G38U6Nrt2LKY8VetzMFClv1l4e4rEq3ij5daHQD/x8PMkywX785YdL4nisenpeTm5kbIO0YNYtVGDcXmoUQCUllQtnzMhTbOQ0eiYhiioCWr4TGt7RdbADDnXQCPbMt0HWo9sCNDO7QCqyo3Mt+4Hk/0gSJzBUVdcwXmIRD7HVmrQIGbNF/2M3qS94RtaSYO/VluhnqMaQTh+8VAvIyAtmVrmLFjFwpbXO4OmZAsmTY+UDBg4h3iQ7QBjJPneds2YMsJb4WW4PIFBXp5FLDNVVoiLJqCX+eiDn5TIB9rp2JUmPEpS1ykGd/MjbXiLs2qOf42H2vU7k9ZZ40vjR3oIuIJNC5SiUPAUWBOU4x4=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MM0P280MB495062.SWEP280.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(376014)(1800799024)(6133799003)(18002099003)(10067099003)(261021121427099003)(11063799006)(56012099006);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?MkUzNmRZaGpwN1pjNjRweUhZemRVSklwL2x6RTBBRnhXRmM3Tkk0R0p3THJD?=
+ =?utf-8?B?ZTNheERaaFpKdjg0OFFONXBheWNwZVVINDVCb0YxWm5GUDBORU45R0tPQzRR?=
+ =?utf-8?B?TzVKdkJENHZGM0RhWWNNTWgyeUN1SzRITllzOWpmTUoveTJaVkJ4TlZlU1po?=
+ =?utf-8?B?a2l5K0hjdWV4emE5cFh2d3Roc2h6K1JNRlBVbnB3UEcyb29VUkN4bzluL2xF?=
+ =?utf-8?B?cldhaGNNdS9iY3lTakNIc0t1T0FVU2RaUEVMOC9PZWkxOThlaVUzNkx1STNv?=
+ =?utf-8?B?ZmhkVU5qdU13RUlSOGtBSUNFV2pqODNkU2llbEptai9qdEh2S0x6THJHK2Nx?=
+ =?utf-8?B?QStSVE1hbFNvV0FuaUhPZ0tRRXZFRUFHbEgzSVZSTEs2VkRzOHlyVFp3QVBN?=
+ =?utf-8?B?ZURYK21zYmx6NmNheE1Hb1g5cUg5TU8wWFJPeXh4SUdVdnhxdFc1ZXBOdXZI?=
+ =?utf-8?B?djBLcmpSUmdZekxvY2dYNVBtbmlENnF0WDljYXM5elRhTGtYVmpkWHJYSkgw?=
+ =?utf-8?B?Y0xqVFpsT3g3OWdNMXNLemxhU1pFbXF6d3pYTHpDaGdiSzlGUkk1QW1XVUFL?=
+ =?utf-8?B?eVhnamF6blM2SjlDeWNDNFBMNGU0cWRPYmwzUUpVQWdYQW5FME1pU1Fndjdn?=
+ =?utf-8?B?Nzd0YUhFRU01RTVYelZUYTBEZVRGK05xUVQvS0JkYmFqTXlIM2EraXlTamti?=
+ =?utf-8?B?Q2o5eE5iY3I5cmZwcVgyQi9EcDNHSjBHd0NPZ3FlbzQ1dXhiQS9MU0ZjcmR4?=
+ =?utf-8?B?WEVDa0R0ZlVrTmRNaVgxTitLL2kwbDB1UUEyQUZwV1FwVzRQOXY2SENoeGZ3?=
+ =?utf-8?B?Ukx5VVk1ekZpNTNrVGpLRnp5VFN6Zm1SbHpERllxSFJaWlJWUGJhaXZPZFFk?=
+ =?utf-8?B?L0ZnbDlkLzFDU3huQjZCUVZmU0k1bytuUVliNkVhWXFhdVd0Yk5DT0gxY1dF?=
+ =?utf-8?B?K1RPYjJyb0J4NE1SVkV3dk9kZGtZMzdzcFNsb1NZZWVVREtjNW9RNXFwUmFD?=
+ =?utf-8?B?RW8wcTFvbEpnSFBsQllSK21zak1aYVFDbEZXQi9tcEpGc3NZUnBSOHJvWnB3?=
+ =?utf-8?B?N1g2SDdNNmRlcHA5UWdhMjFnSk9iTHJXMUl6ano3VWZocmVGQ1k2SXhvUllP?=
+ =?utf-8?B?cEtVVFZZZyt5dk4zTnBOSlUxQnJCaU1lK1Z5a0xNVVBUblFlQTdVQXh6K0F5?=
+ =?utf-8?B?MSt3OExBK2RrWlJEd2k1a1hDVHBlaTVkNzlpUTF1NncwR1RqaVpYU1lBSE5q?=
+ =?utf-8?B?QVdXbThRVnNUc2hkM2FHVncvQ2F2U1RFM2M2V2VCWjJpRldHSnlVM1lwWjJR?=
+ =?utf-8?B?NHp0ZC9taGdPdm00OHBWTDhrZkdvUHpJdVFVYnJqblFHek5DWGFxZkQ4VWZH?=
+ =?utf-8?B?S1krRmVoU1JwZ1FEaXh2RWhPYlU4eGQzd0x6WlUyclRsZ24xQnRoZzUyZFpX?=
+ =?utf-8?B?WXIrcjdUdE1iOUFHU1FPb0NaNjBsbFJlT2JzcVZWM3JhYnhLNHIrL2ZCRm13?=
+ =?utf-8?B?d0tvK3NWZVZnR0hwM253RXZBRDVTbmJCTjNlbzB2OFlweEJuMThvbzZCZEJB?=
+ =?utf-8?B?cWhjZXRhQ2pzM0ROb2RvSklyTXAxQW5RdnZVa2pmSklYbU53TklDcWNUM21p?=
+ =?utf-8?B?WXZlUmpzZmtJaFNwd3YzMUd2Q09xMmtMOEpRVlJBM2FoQ2ljRlZEU1Zwa05E?=
+ =?utf-8?B?VnJHUlIyeFV4SVJoblpuT1ZvM1RxZ1hwbjFoa0RzNkg1Wnd5M29hTm1vc050?=
+ =?utf-8?B?RloyZFRIRUp0dHpaVTFJaCtFY1g5Zk1FRlUrWTZyVVNpbWRLV21DQUhJakh6?=
+ =?utf-8?B?WTNyN3ltTmlFZW5BdXR4U3pkQzd6RnBoTndQdG5TSHBKcW9kb3FjWjlwNkly?=
+ =?utf-8?B?T2YvV0JFRmQyeW04UUVLWTVNYTFTUkpsTkJhVWIvRm0vRS9aQ3BIazFSUTU3?=
+ =?utf-8?B?S3VBUU8zVDhCcGpRNVdvUWVaRS9JYUhiNmxKVktESnZHN2U1aFR4MzVLTEdt?=
+ =?utf-8?B?NDBPaU9VazB5NXVwT1dSdktOSjNXaUMzWlcyR1JOM0d0Y2JydVFTMStwMEFP?=
+ =?utf-8?B?YjhmcjJuTmp5ZUNocXNDNDVQYUQ5Y3dWTm5HaXN0TGxhd1RHb2xwOHNQS0Vp?=
+ =?utf-8?B?bHBXcmNRQkluNDhuVytNUldYK0tQMHJqbEVkOUhmWU5VUG1QWnl5cHI0bGdV?=
+ =?utf-8?B?QytZRktTcGd1VkhBSmJTem5Gcno5TGNNYTJncDBxbzdVWW9FSFhwd2h5NS9V?=
+ =?utf-8?B?cHoyS0ZkUHFyTW80NGhzYmo4VHRVZFdFdmVRRmR6WjZ5SnJrU3ZacjVMSXFC?=
+ =?utf-8?B?NXFybCtmcGRTVjhHNGpCaUxSdjhsampJcGdob1dsUHBiZ05PbEExQjRvVzBl?=
+ =?utf-8?Q?ELLUT/ukLhkt8BpA=3D?=
+X-OriginatorOrg: gaisler.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 23f3878a-7991-4ff5-6af8-08df304c5900
+X-MS-Exchange-CrossTenant-AuthSource: MM0P280MB495062.SWEP280.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Oct 2026 14:54:18.0354
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 91fa4a59-2167-458a-8318-e45d80469d7e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: S3iTvwbbsTMktoGZV+g2ZmgjgRreipw54VwRzvTo/9vEo6hSPNg5qzuAu4Xhl6S+/Icuj4OyJ/BhT+a94cWydDNQS8VQIcC9g5EXowg0oLo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MM0P280MB0730
 
-On 26/10/21 11:45AM, Andrew Morton wrote:
-> On Wed, 21 Oct 2026 17:33:15 +0100 Mark Brown <broonie@kernel.org> wrote:
-> 
-> > On Wed, Oct 21, 2026 at 12:20:43PM -0400, Theodore Tso wrote:
-> > > On Wed, Oct 21, 2026 at 12:07:09PM -0500, Mark Brown wrote:
-> > 
-> > > > TBH having seen some LLM patches that come with LLM generated testcases
-> > > > the testcases are much worse than the patches themselves.  Open coding,
-> > > > weird structures, asserting bizzare things without explanation - just
-> > > > generally really hard to understand what the test is trying to
-> > > > accomplish and why.
-> > 
-> > > I recently posted a patch[1] to add KUnit tests for
-> > > fs/ext4/extents_status.c.  It was completely AI generated, and used
-> > > these instructions which I gave to Gemini Pro[2].
-> > 
-> > > [1] https://lore.kernel.org/all/20261021031231.40107-1-tytso@mit.edu/
-> > > [2] https://lore.kernel.org/all/atbZWze194QiSOTe@mit.edu/
-> > 
-> > > I'm obviously biased, but it seems to me these test cases were pretty
-> > > good.  I'd appreciate criticisms and suggestions for improvements, but
-> > > if your experience is test cases written with older models, the latest
-> > > frontier models have gotten way better.
-> > 
-> > Yeah, it's not that you can't do it but rather that I'm nervous of how
-> > much of a useful gate it is to require tests - my general feel is that
-> > if the commits have problems then any associated tests tend to have more
-> > problems.  One example I reviewed earlier today is here:
-> > 
-> >    https://lore.kernel.org/r/ed22ebf64ed00a56d5e1eff31ac639fef00dcae6.1792179433.git.ivanrwcm25@gmail.com
-> > 
-> > which will get the issue it was looking for but isn't something I'd want
-> > to maintain long term.
-> 
-> If someone's fixing something I don't see much value in
-> retaining/maintaining a test case for something we've already fixed. 
-> This is considered good engineering practice but why bother - we fixed
-> it!  Move on.
-> 
-> It is good to see testcases during the fixing process though.  In these
-> cases I prefer that the test code be included below the --- with a
-> brief mention in the main changelog.  So interested people can later
-> chase down the Link: and find the test code.
-> 
+Hi Roman,
 
-Having a regression test ensures old bugs don't happen again.  Issues
-that are overlooked often get overlooked repetitively.  Considering the
-next person to edit the code may not have learned about a specific bug,
-then they are likely to reintroduce it.
+Could you enable Sashiko reviews for sparclinux@vger.kernel.org?
+Preferred configuration:
 
-Tests also prove to yourself and others that you fully understand what
-is going on.  I try to have a new test case for every bug since most of
-the bugs are exposing corner cases that may be missed in the future.
-Often people go away to write a test and come back with a different fix.
-
-With the tests that have accumulated for the maple tree, we have been
-able to rewrite sections of the code to change algorithms and have a
-functional machine.
-
-They are so valuable that I record fuzzer failures into test cases.
-
-There is validity in Ted's comment about time vs return, but things that
-are harder to test will inherently be harder to fix and so having a test
-that can run on code changes will prove invaluable.
+reply_to = ["author", "list"]
 
 Thanks,
-Liam
+Andreas
+
