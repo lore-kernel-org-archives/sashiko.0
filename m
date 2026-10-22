@@ -1,66 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792670728;
-	b=dgzcUkikTWnf5MoK/7bA9MlBABuJz8o20IqOfXV49FLtRIvVD+tgAbBSwiojE9cJuwCC
-	 dXKKAvl/gmDj8fJ44R6iXJGMWF/gUeBAwiYhunIyCGbpRh12bhadEEwFKWYeD65/pVTIf
-	 PIIwzWs1IZty1BS/PdluFphVRK5rB+42cBWoZsjbx9av8Oe+h+q+5kDOQ+Tm3fIBS60E3
-	 Bj+EedjZ3j5l2kBRl2HH4ez3TtUzT4V9L9Qc+rCSuXF1icxBTx/J1Z9NJfVK7lMeex3MG
-	 x5ZdUda3ew6rHSPiOfQJcdpjz6Twg06VKIPYb/stAvZXfnjiN0yisfg7PB7DxnB1qMw==
+	t=1792672806;
+	b=owsvbeVcW2DooQFqUtwjvu/rYMHgW6YYriSzlsa83hlfvt1zoD6TE9fLUS/yyiHOvHqp
+	 LH11ehtqpNbn+G1iUePtxBstHLbvPM4iUmQ/9vz9OQpRHB3jK1DrqWurypV+1jSYu5Koa
+	 dObal5CSHApOANGidyPG2e6R9hvAQo/nbVWEQCALhIKjkNv+HO8p5d2qLxcNpancy94/P
+	 K6LpQ7s1bhBdW6l2wV78rddwq2jBUkbK0LAVMvAJk7R4mLhkxOatjjZvjBwjdui5lbVFU
+	 wIlVM1oSIAi4XEdX6Mf/NcigaRhwecE+tAc9TP9TUrhFQ/oU3hCjAibUwuEMpXVgFIA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792670728;
-	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 X-Cookie;
-	bh=ZVsC3Ix+e3aFesX0EOxrePQ/QkfxM4/UQQT1LTFST3o=;
-	b=ITrcJwLuhXi7KgZfGrVSwG4eN3LzmHbq4flu6/O3OajWEfKdbRq4FmNqe3dNL21QRM3H
-	 EBLY0h7RrU4FMpVTvUj/KObJbfYG3b01U51apAvDm1V15m7G+9u0ILTqUvRAuDQUtgarD
-	 suTs3vnMcPfg0JsSVt0S1UfdGEYZpMYD5OrUrXCi18zR08PGGH9f8pbzbfuDEeUxty1AS
-	 +QCqept3Lad4n31Y9ZgVvTkMmQkQPgxo58fvQfwkIR8xDf4awjqs3q2h1+3JJChsiglEC
-	 Mxdzrj5a6+BJQRc2kxi5nVoqhhdjDMQbKO0y6oFsMGfhsI/4x1rnY+MN5GFXpfipHsg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792672806;
+	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=fbAd6sOH6jtlVaqldmciSJ6TDZjPBt59P7MHuVHt/uI=;
+	b=k9Iae6XUOXynxgUrhXskzlyC06UAsWfOpgQG2yI5RqnB2J61zoEJYVRtEJP+BnzhOh+k
+	 VQjHCtaNtUWsUf0FOQu2+zYGdS6r4AXYdTI6D2BimJuQYPu5aljLUBN+9bcFLuP4Ypyov
+	 UYQLUokvlw6UrIrVuwwolwa0kJQdSa7wGvrBHpTgR5ptErzLBYjXD5YN2QlH3LiUsqYHt
+	 JkVjbiyMxweN4vJyVUGIZJ2kG6AX3SAMIkcHamvZu9gUVMSP75O3YpVrek9sznbgXPbjc
+	 m9J7CKTHW22Gd/RI0OmdqLjvOTDlpqDZetZgAvJIhoKDKAQQmX/1ZYijgjIFWyowIpg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SrLk+no5;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="glMlBS/v";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82953606A31A;
-	Thu, 22 Oct 2026 12:05:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D53F606A31A
+	for <sashiko@lists.linux.dev>; Thu, 22 Oct 2026 12:40:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SrLk+no5
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BEA61F000C3;
-	Thu, 22 Oct 2026 12:05:28 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=glMlBS/v
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3ADA31F000C5
+	for <sashiko@lists.linux.dev>; Thu, 22 Oct 2026 12:40:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792670728;
-	bh=ZVsC3Ix+e3aFesX0EOxrePQ/QkfxM4/UQQT1LTFST3o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=SrLk+no5qsD+63eftEyb6xn9jcZ4Yxj80tuTmkdG32YWRuJROkDb+yTaohNSRdUOV
-	 dlqrj8vc01dPoW+wgK3uEO3xNP0qayZ4CiB6qhf+z4/llzi+GUhOSluEafPMT8egNw
-	 KAqDLueT/nQZSMepeS0x7z5enNAgq10Uz4T0b2OLqsUp4nzFFIq4UTblAh7JUFiI+e
-	 fep+m+XiOKGOOODlb1Ra/bbxbSvQ/7AiFMPgXoTTbkAEjgeNIpA54peKR4vWjUcHYV
-	 Hs6GMQFvVsWwIfZOSIm5JsZseo1YWYboQJ1mlIe8G0WsqkFIbNhn8wqr3JFmkrkCZU
-	 4SVAPc8CeIvwg==
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id C1CDE1AC5994; Thu, 22 Oct 2026 13:05:25 +0100 (BST)
-Date: Thu, 22 Oct 2026 13:05:25 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Theodore Tso <tytso@mit.edu>, Shuah Khan <skhan@linuxfoundation.org>,
-	Bart Van Assche <bvanassche@acm.org>,
-	johannes.goede@oss.qualcomm.com, Jiri Kosina <jikos@kernel.org>,
-	ksummit@lists.linux.dev, sashiko@lists.linux.dev
-Subject: Re: Patch pre-submission to Sashiko
-Message-ID: <atn8Bcgvj9RGGTL3@sirena.co.uk>
-References: <atO3pCuUxI950ftN@mit.edu>
- <3354ebda-5158-489b-a577-5cb10e5d5fb0@oss.qualcomm.com>
- <atZ4J86j7CXF82HX@mit.edu>
- <2fef166e-088d-4ffe-8d0a-0143aebc1b26@acm.org>
- <ate8oESqneK-3sQJ@mit.edu>
- <7e473af8-2f7a-4a36-a926-e756873c9c52@linuxfoundation.org>
- <atic3bbDeyJI6MJs@sirena.co.uk>
- <atjlUoEmTagZjrYI@mit.edu>
- <atjpS__OwjZ-Q_Fh@sirena.org.uk>
- <20261021114524.4c2ea2a31a9d527b78e78768@linux-foundation.org>
+	s=k20260515; t=1792672806;
+	bh=fbAd6sOH6jtlVaqldmciSJ6TDZjPBt59P7MHuVHt/uI=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=glMlBS/vhtrYgeFZFXkz3d3cKLUmWxTrtAXwg2CVC+ztRyt96efjJnaQpLWj7WUVQ
+	 c++TvBpCQd/CpA2vf5siz6BPwxkERAIjkhXaPUQ7cINwdLPJjvJTQ+pAMlLy5D/A86
+	 P4d1VAco13/JvxZTR4Ps4E/Omnff60B/qi2nnriLqBVAF5Tw9D2M/C2c164UzhWsXc
+	 On74y4fdD9aPO7WACA4oiyMcAfRewsidG3SUk8797RNf6USD373DBBUOgM3vJNENnA
+	 gAmjQGG6RTtxTnAnQFS6fUUJlzYh2GKSr89cP7vgdbzoL37ySxKbDJAnhIjv4hGJIk
+	 e+OB7KCYu/Oug==
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5be4fea434bso756610e87.1
+        for <sashiko@lists.linux.dev>; Thu, 22 Oct 2026 05:40:06 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBzT1xMYyBLyKl7pBQIViIgbBHi5sx6nEynP3Czj05LY6aZO11PawIoR92SfHTgk3qqIXuJnmjJa@lists.linux.dev
+X-Gm-Message-State: AFq9FYKcD1OHEHP/zD2J/dORUIe37V+6nhSI83ZvkFfxVKwXNUGnz27H
+	zFA+TMYsF+koitM6g4YhArHa1pk6Vdtcdn9nRuiFvqNZbl0EigDY8zhTbrbrNKnwEuCYNlnPnY3
+	Kmu76hQ5qtyhG9/OUClyQS92zbqK2xQ4=
+X-Received: by 2002:a05:6512:2398:b0:5b8:f56d:d13 with SMTP id
+ 2adb3069b0e04-5bfa72f69edmr901729e87.40.1792672804655; Thu, 22 Oct 2026
+ 05:40:04 -0700 (PDT)
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Post: <mailto:sashiko@lists.linux.dev>
@@ -70,41 +59,42 @@ List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:sashiko+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="3+6KYHCfrLxfgx0S"
-Content-Disposition: inline
-In-Reply-To: <20261021114524.4c2ea2a31a9d527b78e78768@linux-foundation.org>
-X-Cookie: FEELINGS are cascading over me!!!
-
-
---3+6KYHCfrLxfgx0S
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <atO3pCuUxI950ftN@mit.edu> <3354ebda-5158-489b-a577-5cb10e5d5fb0@oss.qualcomm.com>
+ <atZ4J86j7CXF82HX@mit.edu> <2fef166e-088d-4ffe-8d0a-0143aebc1b26@acm.org>
+ <ate8oESqneK-3sQJ@mit.edu> <7e473af8-2f7a-4a36-a926-e756873c9c52@linuxfoundation.org>
+ <atic3bbDeyJI6MJs@sirena.co.uk> <atjlUoEmTagZjrYI@mit.edu>
+ <atjpS__OwjZ-Q_Fh@sirena.org.uk> <20261021114524.4c2ea2a31a9d527b78e78768@linux-foundation.org>
+ <atn8Bcgvj9RGGTL3@sirena.co.uk>
+In-Reply-To: <atn8Bcgvj9RGGTL3@sirena.co.uk>
+From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
+Date: Thu, 22 Oct 2026 14:37:42 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0jbfvLO841jo7sxvN7uWGqeRk=AcPrXzgqMbyOTbSBj7Q@mail.gmail.com>
+X-Gm-Features: AclHuK_zs3_d2tDskXJZLyTEcUVJi-R-HAXw9hTiIyFxOv0fmAMEBXdUzwh7MJg
+Message-ID: <CAJZ5v0jbfvLO841jo7sxvN7uWGqeRk=AcPrXzgqMbyOTbSBj7Q@mail.gmail.com>
+Subject: Re: Patch pre-submission to Sashiko
+To: Mark Brown <broonie@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Theodore Tso <tytso@mit.edu>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Bart Van Assche <bvanassche@acm.org>, 
+	johannes.goede@oss.qualcomm.com, Jiri Kosina <jikos@kernel.org>, ksummit@lists.linux.dev, 
+	sashiko@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 21, 2026 at 11:45:24AM -0700, Andrew Morton wrote:
+On Thu, Oct 22, 2026 at 2:05=E2=80=AFPM Mark Brown <broonie@kernel.org> wro=
+te:
+>
+> On Wed, Oct 21, 2026 at 11:45:24AM -0700, Andrew Morton wrote:
+>
+> > If someone's fixing something I don't see much value in
+> > retaining/maintaining a test case for something we've already fixed.
+> > This is considered good engineering practice but why bother - we fixed
+> > it!  Move on.
+>
+> Like others have said there's a bunch of people would say the opposite.
+> In the particular case I referenced where the code is generally pretty
+> fragile (we have rather a lot of paths through that code) and we want to
+> do a bunch of refactoring in the area it seems especially useful to keep
+> the coverage.  It's far too likely that someone could make a mistake in
+> this area, and quite likely that someone would want to do relevant work.
 
-> If someone's fixing something I don't see much value in
-> retaining/maintaining a test case for something we've already fixed.=20
-> This is considered good engineering practice but why bother - we fixed
-> it!  Move on.
-
-Like others have said there's a bunch of people would say the opposite.
-In the particular case I referenced where the code is generally pretty
-fragile (we have rather a lot of paths through that code) and we want to
-do a bunch of refactoring in the area it seems especially useful to keep
-the coverage.  It's far too likely that someone could make a mistake in
-this area, and quite likely that someone would want to do relevant work.
-
---3+6KYHCfrLxfgx0S
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQReagvpf3TrrA7BoYYv73Ows9A4iQUCatn8AwAKCRAv73Ows9A4
-iXNYAQCXm/LDeHEC10wmZdoBTrq4EdOF+DGTsbrTEjTeD7pZHgEAoxW0gPaheVn4
-bMDJeVjzdbPaUI/tI9MXcMMiL6hHPQ0=
-=DLpx
------END PGP SIGNATURE-----
-
---3+6KYHCfrLxfgx0S--
+That part I actually agree with.
