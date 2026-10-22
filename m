@@ -1,103 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.50
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792649723;
-	b=CBMXduhgXmWt2Kpdetz2gL5h38oa77WjYqMrPaDfboJXx+ZHp8SKpnRDVZxuWxC0nIgZ
-	 v2NCpqrdTyL9ZvlDv/tbDB11Ey2JGrJmEncXnAiIll2UG2DaEpL6zt3V+A2nd42sAH0jO
-	 jWKJcR+XChkCuKqtBhbArZARBIYaHUW/tC2C0l4X8X5/zXWR+PSizkuDtDfjLVtjqItj+
-	 agxxVZXzTUxHaSJXjwvRuKW5Ufrpfl+pG0uiV4C5NJIyKCHeRTRLRcwlGmT0hn3U6Ux/1
-	 AXDcrBF7+gPwaGOep6Gz2Re758tdbiL2djB0Y92PB3XzxoU/UUAU4qgj4MEf75nQD3w==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792649723;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.172
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792669509;
+	b=iYl6c9HvpRgHOSEoR3QfD56kNtgUcZ6Lxy7zGe2eKZ+XOTgtT9TYkDt27aLoZnjVRQ2q
+	 mvOQszIRolw5MKmg6Duf9xc9DOpHDoED0jB4PSA7Y75zoI+0zrms++KfTv23lNLw2nls1
+	 may8gkLqMZPfA/BlK6YZb8jbqz9ke4NOLeryVgiiYPAEByQiPOYKLgAJx9oV1jwRVnu+/
+	 PDvgc2PCfWWCbeKZQzJz+4TCZ1+YVjZ68CYhTW3zs4s+Opb/u1ntQJmJ5cpwdk3MiU9sc
+	 bje9N/7t2VgLlceftCoWvPD4ksVteGkk1MzypBzWjioTbLpwUgIlZBvf9v/3jD5W6cw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792669509;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=GMsqs+V5sy6eusb8/1fMPt8auTZbZLdQVauX29CTHxQ=;
-	b=tkipXRWSfFKuhZuP3xYI8KajWllhNIXMewd/nz0u0SDPoLj5BrQSsVdXl6onnUKM9rSq
-	 0DdbxtuBksGWOPCTVIGdFvSd/rGhM+NsVNjntMzYp1Ny+1+KnBwdiuWoH7k86fpHqo3kk
-	 jH04tEMAUvrErT7DDg7quGhhdT0rCD9SrROikn4lGfg91b41Lk1i6Ebkv2cfl23FPLUok
-	 OmDxXQbh6KSXSZ8XUWbYGOesueCrb1pCLMfom2IYjR7T9k8vrm1dvJJ+iwpS5s6gaD8YI
-	 CiGhH8jE80888M5aJQ3WkABT38jz+rXP57jTdm2vM0au+nPtTqYgNHeilIIpkUKok2g==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=UifHhMPXVlR3/YmuyIrMlpuZk373MtjpLyJtHpwSm04=;
+	b=qFZoSgsxK7Vr9jRFkt7iyCFl6i+ZQjGTPYSEqLtDHSZst3oIHKxc5ENFTvowEU9GW58D
+	 9SsOo2B7CicOUdlG/1huYZN6JOr318XZID1BdWXPtzG6MMQWMkHzLOKVwpfhH/ubaAO1s
+	 oHqrIntGGyyRx3tJ1EaQlktkmCO0v0NARQpgHeVtRYEdpbtemsP48XUiM2bUCtK7tq29H
+	 jwAATGZWUN44a3+jNbM4SDYUC8NL7SET4vcFNY7+JAoc7NAbj07Qfn7VW4oEDF0Y87jdQ
+	 NXJoE/n3V4iOqG5Hrk1dLfjCauyKg9sxEZnoL/L6aZ66MVW5Yp1PD9Qli8r1YHkIDDg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=CYI2Y3a7;
-	arc=none smtp.remote-ip=209.85.128.50
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=BdWcob4R;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.172
+Received: from mail-dy1-f172.google.com (mail-dy1-f172.google.com [74.125.82.172])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F4A8606A31F
-	for <sashiko@lists.linux.dev>; Thu, 22 Oct 2026 06:15:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9F4A8606A31F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BE13606A31B
+	for <sashiko@lists.linux.dev>; Thu, 22 Oct 2026 11:45:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4BE13606A31B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=CYI2Y3a7
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4a2072b9832so1268305e9.1
-        for <sashiko@lists.linux.dev>; Wed, 21 Oct 2026 23:15:22 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=BdWcob4R
+Received: by mail-dy1-f172.google.com with SMTP id 5a478bee46e88-313bab9cfe7so283653eec.3
+        for <sashiko@lists.linux.dev>; Thu, 22 Oct 2026 04:45:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792669508; cv=none;
+        d=google.com; s=arc-20260327;
+        b=QEYnBrl70fr05Xn1bqDoX81w9pkcyin4votOu8OAvJFBZH+inxp0nqDyK52QXEY6Cl
+         cQgacN5vux1lu3fRQFQbBwQgmw8wLxB+guuCG1TlHlTbVlsQiWavi5wDRLn9exI6bWmn
+         z6HIyA8NjyH1Zs7CILMW5zD/867N+GygGAYpARCV6JA6r9eL7YQsyggOw4AYZ4zvPrDU
+         1hLHl/rlKRmSl20yEg5FjBB1CKps+4kD5PxxAXM3Opm8bd5JiAghfPogdCvD8ZFcxyoJ
+         QbgGtKWVLh0zjOWzKAs+SzulMwKWFh9aWbjCD9TEzXLOqqT/lIoOa1wWSTk6O1eEKofl
+         iwag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=UifHhMPXVlR3/YmuyIrMlpuZk373MtjpLyJtHpwSm04=;
+        fh=gzcYE2Zeaw+yeHY/giNn9L7d1GliZO3qdV7HCbcLz5k=;
+        b=i3J7l2jSKRq4OxZ1VH9ekRVMAjOFeFq6JvUU6L4qk9ri1FgG7Htd68ulN6ZWaqDKVV
+         SOmHbY8irH9j4GQc4F6fNbgzQIEMpI1rNz148qYw5sBB0M+vHDbszj5Z1cwWTdsfqbsm
+         VH74pPA/VCp8e4gG87mjeLQx2RdKia/gxdM79BRAb77HgNIkxZo3a56gLazAJWsYhLfa
+         ZlzKJ+ELpRoJtLS0gkcUjufkmhk2YXQE0X21B2JSrHYPaxGfSYh6gzu/O3di5nvxhgmi
+         +eSwzNBHe7QSBLGeO6Tr78DXELI/kvYo6EljRIuL5NJn6sp8ZGaqR1uxckKt00U9nKEL
+         tteg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792649721; x=1793254521; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+        d=gmail.com; s=20251104; t=1792669508; x=1793274308; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=GMsqs+V5sy6eusb8/1fMPt8auTZbZLdQVauX29CTHxQ=;
-        b=CYI2Y3a7+lccza/x6nkg7ty6kj73bw0eJ0HlxpKHW12IEWKclg5TWIQomMqIT7Cte3
-         D+Vx4WH0b2i+gkgFdQkk2q5gvxxpKH9wvOeC8v5oO+Td8/vT4kmMs0HwI0jmBGP6dJl6
-         a6PQUsGjFmQZ3A9YeD7ILgwE5WiwfBiOcLlucLOCanJBI0HW7dqCE3U/8gbXIR2eSQc9
-         AsIaE41qr4gIW9xV9qq95P7C12VA3FvWukLQUE3QeCyXLA8JOcvPz/lteLIBz1deZsZW
-         yiaQxuss6GNoxpMWeUeQnWEYr+RfJfQVYTrkR7/WrcDcWVYt14Q3m3az0C5Uz6KhhE6Q
-         0gCw==
+        bh=UifHhMPXVlR3/YmuyIrMlpuZk373MtjpLyJtHpwSm04=;
+        b=BdWcob4RKyXhGi/XwulMsQHg19cCIQWmYOhQLf8UqxxiOC81aAM8qQQvp/Bx6gMYuc
+         KUcknxugWQ3NMJ2us8WWQz/WS4M2EtRDUEMqUrBHWPBO8/crEzsJB1rd/Esc/LeTLs1g
+         pZ2zbaTCl7u97+AyzYpD/VdJFuzu7ll2LhDxHYXiN9Buox2/tcRGeY/X2DqL00Wy+Tmc
+         5fRijUR0iUHjaL0u/yoan7vcFjX0hO1MLThh7ELrhD+YS17VQE53DIxEMQppCYCSSmHj
+         1VDYxlKYWTHiZYbj1nOEKsvgqm9S+DRLYajZZOC82VYXqr6db2lh2CBbdA2q+9qUx3uZ
+         n38A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792649721; x=1793254521;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20260707; t=1792669508; x=1793274308;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=GMsqs+V5sy6eusb8/1fMPt8auTZbZLdQVauX29CTHxQ=;
-        b=wQZT9/fVMFLaY/eEFcGFbmF3jueTVON2sjXM4LchOihpae8dsxfiGhbrntuz6CPGOJ
-         OfCyDVaYAQIDKmOpTjNxH372259KfRQ5NuL6wRTx1xXtiGPL249VnbnG2oWNdQaA0p9k
-         aL7VIhBIfX55/vU4iFo43s6cLbuOeZfEMGCx8M4xwhRqQ0PZWjOSk2i63dqzJ4Dmvqrt
-         5b6VZduUtKAkjCqkzGZsmP7e6bYZVQb1yi1EkCFIFEcihXjSmX5KmW7fEMrxQk4jYBxN
-         dE/mcWTb9YX87nvatkIL2BKJajSLc66X7PKBSIkNFkIFnpMYjougU9abWdQEjE2PH6wi
-         67eg==
-X-Forwarded-Encrypted: i=1; AKwUvBxqoV8q8eNJOpDOgZNd8Bz66HM+xE4RiXLzcqrfbnVbooUd1lrylWcbad13Lq2nmtEY3trPlL1Y@lists.linux.dev
-X-Gm-Message-State: AFq9FYI3lxcW6ezFYTDvy0slnRMvPe+1diXDN2BAQXuitO5nprCZ691x
-	SCZI6bGT+/xr97JptcmQwXUWQalTs++dsZt3bEiNp/e+oxo94IPZ2GBbv9VXhdixZWgW6BkF
-X-Gm-Gg: AYBFou3n+gXCG9ssQ4IV3Ya/eAGKrqdYjPTyy5NIVQ2f/mMqIqYx8Zb6CRjledezf7o
-	SGWb8y+skRGCbEUVfarozurqQqNfXmMu7ozDWUgWu8MbT/myS1D/uxjA56AMzUgLNhuNmOzxLjp
-	Ci6JvnqndkV/BJAx4rPQ4OLC9w/SAhj3PV175X0ifAE+/qPyqwYlzAIkQOZwswsG4njcP615dbK
-	8pHXjKMEkXp0FO5fqQIg+mn7BcT4/DeQQYxxuAbizdvvK4VV095YeESS79bqWlaX82sck85/nbj
-	UqOj0iUtI9XZml/es0qBlRSWjnqiwL72IuVvmYWIev6hqAL86Dxl2L0k9gdswZaZOSyMGPwMdtw
-	Vz7jSdET03cp+v39zUE4tHlASpz8pWNAaBliZePinpVD4dfLB15xl4RCEFd03e3CdqNnZYBD7TH
-	3CRiiKfn6h1Od+V1YXDsVgOdWRJLLv/NQoe5ppMW6I/gnZPbiz4ykvOlAS6DxyNrJohz2SdMycQ
-	uD+lS+YJ71p6TemBJP88ASncS17ZbG9wLdcCZAUPBAHmGWboBtm
-X-Received: by 2002:a05:600c:c093:b0:4a2:317:d0ed with SMTP id 5b1f17b1804b1-4a204a8f5b1mr19867815e9.1.1792649720655;
-        Wed, 21 Oct 2026 23:15:20 -0700 (PDT)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1fd56732fsm19856945e9.3.2026.10.21.23.15.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Oct 2026 23:15:19 -0700 (PDT)
-Date: Thu, 22 Oct 2026 09:15:11 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Mark Brown <broonie@kernel.org>, Theodore Tso <tytso@mit.edu>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Bart Van Assche <bvanassche@acm.org>,
-	johannes.goede@oss.qualcomm.com, Jiri Kosina <jikos@kernel.org>,
-	ksummit@lists.linux.dev, sashiko@lists.linux.dev
-Subject: Re: Patch pre-submission to Sashiko
-Message-ID: <atmp71xbWnADcbS3@stanley.mountain>
-References: <atO3pCuUxI950ftN@mit.edu>
- <3354ebda-5158-489b-a577-5cb10e5d5fb0@oss.qualcomm.com>
- <atZ4J86j7CXF82HX@mit.edu>
- <2fef166e-088d-4ffe-8d0a-0143aebc1b26@acm.org>
- <ate8oESqneK-3sQJ@mit.edu>
- <7e473af8-2f7a-4a36-a926-e756873c9c52@linuxfoundation.org>
- <atic3bbDeyJI6MJs@sirena.co.uk>
- <atjlUoEmTagZjrYI@mit.edu>
- <atjpS__OwjZ-Q_Fh@sirena.org.uk>
- <20261021114524.4c2ea2a31a9d527b78e78768@linux-foundation.org>
+        bh=UifHhMPXVlR3/YmuyIrMlpuZk373MtjpLyJtHpwSm04=;
+        b=Bwq5aU4RpwuvtQoDspmYvwa67XVidkyjYhkHiBuYviZ0dlo+FNPawF4I1mY2Y4azhu
+         AjhVFCrHlwIlxwzstbZaFAx1A/tUh4ZgandpYUhAoUDV+FfKC2x3aP1VY20jH321QXUP
+         McgqUu6zruSKXBhMROl38E7MShgRrlEcCJYZH/elcvFF8l1MSa/2GVb5KzujWkXZzxX1
+         ynm1HXpn1WFGqREpttZmLByDThdl3WPQ3H1psIv3H+h0PkAoBcI70Vno20sdc/wIwpdw
+         HNKKVIrRTJL0IVri5PuQz0yRKFM9kfk+p4YwEVpNSQE4jaRL6gysJl/TvzMqzry7W/eF
+         XLVw==
+X-Forwarded-Encrypted: i=1; AKwUvBzEQNUGOwan5UpcogU0XbWuUV9f/xJiBQ/0StvNihVw4w4ZQv/eyLRDwG5jpcpkB4ReWPe879Tt@lists.linux.dev
+X-Gm-Message-State: AFq9FYIje3ucjEF4SZhC/dolACqjr8elG6215SzHeOefHefKZP0k6sBe
+	arGAfqqNXLIoTx+RfTchNljUnpHv8X7ydIQE8N0sFiCiu/iGezdkb77BhvL6PlVJtPVrnUurfAx
+	k5kc86Sofs2rxSnpF/7IALpx06dX8RZY=
+X-Gm-Gg: AYBFou0DClrhcnEFrPmDTXM+KnQnJoqWDoCbLddCRmrajbhPNzvdtOVkuGIOh+pG19M
+	Z4/DURAXHXG5+QLNZ6GBVkFnY6BjnBtenFaLQtt6z5CzGSdQRGN/oSJc9xPd2vXPdfcwCX2icQj
+	aaBo+/Z05+ukXYFjKRL32rdDVERN4YvBP6EW5BOEoZPw8ajSsfiK7mojsiCZridK6ZdMKQj9Q71
+	XKLyhPK5BcHtoJYdNmYFGOL56RS2+C6iYYXYbabvotNnn9X0pt7LoQXy4N6hf2mFddSp5KiwSvV
+	SHE4QS6apqNX4Tj3eQFEN6BXFq07xZ9+jR44x+nBFEe+JqUmcQAYOeAth3jyrew2AQETRTizAZI
+	rBtgXjPRweL8CQm7IsR/oDilsoDZ8KLa04MQxZW5lAGLrbUhPq671wcg08bp7LgClg1Jf3ccJMs
+	d5Txct3ooeH5etllWx5YXRbnc019CsXcI0/oOWWJB+fsXVFkLMm2RmpQai+UV+p8OCLY5rZK6Df
+	baNgJ0wOXlDu/KY0a10jnj32dzejkN7CgG9
+X-Received: by 2002:a05:7301:1a18:b0:351:7883:bf47 with SMTP id
+ 5a478bee46e88-367473c9a92mr9794707eec.0.1792669508335; Thu, 22 Oct 2026
+ 04:45:08 -0700 (PDT)
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Post: <mailto:sashiko@lists.linux.dev>
@@ -107,20 +106,62 @@ List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:sashiko+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261021114524.4c2ea2a31a9d527b78e78768@linux-foundation.org>
+References: <atO3pCuUxI950ftN@mit.edu> <3354ebda-5158-489b-a577-5cb10e5d5fb0@oss.qualcomm.com>
+ <atZ4J86j7CXF82HX@mit.edu> <2fef166e-088d-4ffe-8d0a-0143aebc1b26@acm.org>
+ <ate8oESqneK-3sQJ@mit.edu> <7e473af8-2f7a-4a36-a926-e756873c9c52@linuxfoundation.org>
+ <atic3bbDeyJI6MJs@sirena.co.uk> <atjlUoEmTagZjrYI@mit.edu>
+ <atjpS__OwjZ-Q_Fh@sirena.org.uk> <20261021114524.4c2ea2a31a9d527b78e78768@linux-foundation.org>
+ <atkX3WwwV8XhMRiM@mit.edu>
+In-Reply-To: <atkX3WwwV8XhMRiM@mit.edu>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Thu, 22 Oct 2026 13:44:55 +0200
+X-Gm-Features: AclHuK-XAu1-d11zmrhlN3wsQruIzf1xRWqY4TkytzhxzOkV_AzC278eMp2GmIQ
+Message-ID: <CANiq72n=Y6XMyfuqYNUYpt5fxVmyrm6di6BAgXdrKZADDMm2Qw@mail.gmail.com>
+Subject: Re: Patch pre-submission to Sashiko
+To: Theodore Tso <tytso@mit.edu>, Sasha Levin <sashal@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Mark Brown <broonie@kernel.org>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Bart Van Assche <bvanassche@acm.org>, 
+	johannes.goede@oss.qualcomm.com, Jiri Kosina <jikos@kernel.org>, ksummit@lists.linux.dev, 
+	sashiko@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-It would be good if there was an automated way to collect these throw
-away tests.  Something like `cat email.txt | extract_tests.pl`.  QC
-systems could run the tests against different arches or configs.  And
-we'd just keep on running them until the test breaks at which point we
-either notify people or delete the test if it was a bug in the test.
-We wouldn't spend time trying to fix the tests themselves.
+On Wed, Oct 21, 2026 at 10:03=E2=80=AFPM Theodore Tso <tytso@mit.edu> wrote=
+:
+>
+> It's considered good engineering practice because regularly running
+> the test allows regresssions to be detected, and by increasing test
+> coverage, it makes life easier to feel confident that a future code
+> change, or rebase, is ultimately correct.
+>
+> Of course, you need to do the cost/benefit tradeoff.  If the test
+> takes a very long time to run, or if maintaining it requires a huge
+> amount of code outside of the test, then it could be that the benefits
+> aren't worth the on-going costs of keeping the test around.
+>
+> This is one of the reasons why I'm a big fan of unit testing.  The
+> unit tests tend to run much more quickly than integration-style tests.
 
-That sort of thing might useful for training AI and code coverage as
-well.
+Indeed, it is a pleasure to work on projects that routinely add a test
+for most regressions one way or another (e.g. compilers, typically).
 
-regards,
-dan carpenter
+And, yeah, sometimes the amount of time/code/setup/... may not be
+worth it, and not all kinds of projects can easily do it, but still,
+the bar for adding them can be quite higher.
 
+Regarding AI, LLMs do a fair job at adding tests given a reasonable
+prompt like the one you linked (I like that it mentions looking at
+existing examples first; I do that in many tasks and it can definitely
+help).
+
+Can we move into a new skill (or similar) after Sasha's series land? I
+see you already wrote it in a fairly generic way, i.e. not tied to
+ext4. And hopefully having the prompt around encourages people a bit
+to add more tests when it makes sense.
+
+  https://lore.kernel.org/all/20261020161642.3713052-1-sashal@kernel.org/
+
+Thanks!
+
+Cheers,
+Miguel
