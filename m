@@ -1,50 +1,48 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=140.205.208.109
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795122786;
-	b=Z/Y2h+AwJBKffHaguApamu6QdOZ840AuG4vKV3f2G84vTRXjTE05Jey28LHkvebT91ys
-	 rextM4GihvlE4jNJAfVkFK2rUs2eno/CbRqywPE2Vplgr2MkJcNFrptDyyddR5Lyt9wXZ
-	 LyqPZ3M1sR7iIU/GxEkaOu+upRUtWNrOBsw9tgscKzQtOCJNnMIJFyuUxhunwiPJWGGBj
-	 VhyA2Lx/2GkwaTlczRcmlNxKCr3WMkKSPYFsbgDee4CdOwoPFIXXKkelb4j4wwYYxet48
-	 9XNNPheYe3dqBW14fvc2Vmqd788HXG+BFV5qLKmXCw/8pJuNdCQy8GCr80ZZxI8HKNg==
+	t=1795142508;
+	b=LvS/0uUAa3AQ8Irk/DZ65cCREEhulnBVxqUrxuulz2FZGH8VHCWVAEB3mUT9VJSHfHlv
+	 pg8yEMWqkbtpjbgA8/PYEjUaBemyCJTvU22YteboennC60F+JO8R4glgxN4Qs3raQdHb8
+	 3qkhwo3sV6B5Gox/ckP1Tw6zhTe+opYddCVycQgl6Co2+tPeTklW16SUBFS0dZyuf6mPT
+	 gMrhHNY3Gr3IK3DRWPADe8zkWnMouLIruYjSSU0ssQwMV4qDLr4ZxZPspDzPlouAYCjcd
+	 N4hEl3kfwQY6pzGKWIi337YtnpKvEEDlYEwbPSq+RJejppYjnehJXFDWnuuXiYsX8nw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795122786;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:In-Reply-To:References:
-	 User-Agent:Date:Message-ID:MIME-Version:Content-Type;
-	bh=NEVEdxpCfiETkhOO0yhOqSYkQCAF7nvkqLTR0MHnnQ4=;
-	b=rjBuC7PTasreiK2AqvPZZoMkhS96hG+s/uPXVRpb6LI0ID367QVQvbjv1IGP/4f5+QV8
-	 mmjBQrcDNvrnWF4Sx+4evLnsuYWRwmZs5QY7KC8+ct/MLuSDNOAc6foM5kWTvMviVIEB+
-	 U2jJ9GYkb8eIaXIwSYRKRpw8/t8cxKv2MhZVsMIrL5zJCmvvNXA4dExYYnsMDgGs1Lddm
-	 Cg8TVV0ttbOoWm5oR+/D89JdONemkZT/VwYmyhzhbdDRRrCi9vqJtFy1UpqxxHgvpBxCz
-	 aZ69YJcbTAP6UdLy7bFtFMD2HkikzE2yHiij3HapvbXP5XkJL8dtTLIT7TTG+vmMSIw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795142508;
+	h=DMARC-Filter:X-AliDM-RcptTo:Feedback-ID:Received:X-EnvId:Date:From:
+	 Reply-To:To:Message-ID:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=ks/dLwwUk6HT8w68czYSev3ifcnTcjuMn/vaNjJ5Msg=;
+	b=vf1enhKw94WrwbNxdsn7Mpyrxu16IINTlBejK5XlUdbLLV3TnjXnkKyyiH1SmALblGOe
+	 sLcj9Mav4NSF7p/9jLt/bweftSHMEF4dBZqL6CbsgR1ZDnxar17RZbkxxxGH4dhrY35QN
+	 LrBfOIwju+aAoN7os0xKUvmILFwPlOOiQic671eBvVcq5gGOOfQrn/H/e30+cmjVUv3UW
+	 K9GaR5ypLxsD8svktSAK1TUCh22C68GgJiV/30821IR8PGGCnO9VJEXgFiFMVhcHK55ae
+	 zxPx3USw/yDuyKg3w89FIpA59Ds1W15wjIwtGCcQTEuoLzBEeKd9EdzamxvHsJxhIYg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=korg header.b=Avb8kS16;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=mail.wang.market;
+	spf=pass smtp.mailfrom=mail.wang.market;
+	arc=none smtp.remote-ip=140.205.208.109
+Received: from out208-109.dm.aliyun.com (out208-109.dm.aliyun.com [140.205.208.109])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74B0360A2603
-	for <sashiko@lists.linux.dev>; Thu, 19 Nov 2026 21:13:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=korg header.b=Avb8kS16
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A81E1F000C6;
-	Thu, 19 Nov 2026 21:13:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=korg;
-	t=1795122786; bh=NEVEdxpCfiETkhOO0yhOqSYkQCAF7nvkqLTR0MHnnQ4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date;
-	b=Avb8kS16nsXwPIwYynebCvUGfy986Ss3mqhMoKjecVOizcVI+aZdUpJdmTExFz4Mv
-	 6GEMpACD1e4+Y62uTNYdBOJIVaDOU/yLmJ9bGNIng32nkkcMlxhX2BdlrTrONRtJ1w
-	 R58AgA1AxV2Ef5GuMjnW0VAHcWXvIRmYDISpDpa8=
-From: Roman Gushchin <roman.gushchin@linux.dev>
-To: Andreas Gruenbacher <agruenba@redhat.com>
-Cc: sashiko@lists.linux.dev,  Roman Gushchin <roman.gushchin@linux.dev>
-Subject: Re: linux mailing lists: add gfs2 - #921
-In-Reply-To: <CAHc6FU7EXurbE8vb6zzfhsURRAYnCfqJ2ttDXYsFHMsHsvbH4w@mail.gmail.com>
-	(Andreas Gruenbacher's message of "Thu, 19 Nov 2026 21:47:40 +0100")
-References: <CAHc6FU7EXurbE8vb6zzfhsURRAYnCfqJ2ttDXYsFHMsHsvbH4w@mail.gmail.com>
-User-Agent: mu4e 1.12.15; emacs 30.2
-Date: Thu, 19 Nov 2026 21:13:05 +0000
-Message-ID: <7ia433swcyou.fsf@castle.c.googlers.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53772606A320
+	for <sashiko@lists.linux.dev>; Fri, 20 Nov 2026 02:41:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 53772606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mail.wang.market
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail.wang.market
+X-AliDM-RcptTo: c2FzaGlrb0BsaXN0cy5saW51eC5kZXY=
+Feedback-ID: default:hezuo@mail.wang.market:alibabak_SmtpBatch:23154
+Received: from a40199255368(mailfrom:hezuo@mail.wang.market fp:SMTPD_-VHcGaIaVVY cluster:AY35D)
+          by smtpdm.aliyun.com(127.0.0.1);
+          Fri, 20 Nov 2026 10:41:37 +0800
+X-EnvId: 600000375329265782
+Date: Fri, 20 Nov 2026 10:41:37 +0800 (CST)
+From: hezuo@mail.wang.market
+Reply-To: 921153866@qq.com
+To: sashiko@lists.linux.dev
+Message-ID: <832094796.411.1795142497649@a40199255368>
+Subject: =?UTF-8?Q?Let=E2=80=99s_talk_about_how_BizBot_he?=
+ =?UTF-8?Q?lps_promote_the_Sashiko_project?=
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Post: <mailto:sashiko@lists.linux.dev>
@@ -54,19 +52,24 @@ List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:sashiko+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Andreas Gruenbacher <agruenba@redhat.com> writes:
+The Sashiko project is very interesting, especially its intelligent code re=
+view for key systems such as the Linux kernel. The design idea of =E2=80=8B=
+=E2=80=8Busing Rust to automatically detect bugs is very solid, and it has =
+indeed captured a core pain point in the open source ecosystem.
 
-> Hello,
->
-> could I please get Sashiko review emails enabled for the
-> gfs2@lists.linux.dev list?
->
-> https://github.com/sashiko-dev/sashiko/pull/921
+ Our team has been helping technology-focused open source developers like y=
+ou solve promotion problems - many excellent projects have strong technical=
+ capabilities, but they are often unable to let the outside world know and =
+let more people actually use them. BizBot is an independently run AI promot=
+ion system that can automatically search the entire network for open source=
+ projects or technical teams similar to Sashiko, identify potential users a=
+nd establish initial contact, helping you deliver value to those who really=
+ need it.
 
-Merged, thanks.
-
-I will roll it out later today.
-
-Thanks
+ BizBot is free and can be used directly after installation. You can direct=
+ly search xnx3/bizbot in github to see it. If you're interested in learning=
+ how it can help you expand the impact of your Sashiko project, I can show =
+you how it works in a similar scenario.
