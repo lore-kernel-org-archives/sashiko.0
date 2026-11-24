@@ -1,48 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=140.205.208.109
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.42
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795142508;
-	b=LvS/0uUAa3AQ8Irk/DZ65cCREEhulnBVxqUrxuulz2FZGH8VHCWVAEB3mUT9VJSHfHlv
-	 pg8yEMWqkbtpjbgA8/PYEjUaBemyCJTvU22YteboennC60F+JO8R4glgxN4Qs3raQdHb8
-	 3qkhwo3sV6B5Gox/ckP1Tw6zhTe+opYddCVycQgl6Co2+tPeTklW16SUBFS0dZyuf6mPT
-	 gMrhHNY3Gr3IK3DRWPADe8zkWnMouLIruYjSSU0ssQwMV4qDLr4ZxZPspDzPlouAYCjcd
-	 N4hEl3kfwQY6pzGKWIi337YtnpKvEEDlYEwbPSq+RJejppYjnehJXFDWnuuXiYsX8nw==
+	t=1795521196;
+	b=kbDilIhLjz1Hqj/5HxXkqHr3FmZ9u2BY7BwxgkFdk2HmD8c6ipSMdUG/+ZJMJTfABcFP
+	 9A6y0LNJS4UXplT1BvZ4X3l0aCibY9kamo4/ykGgmMo3756/z2vOv/Y5tS1NvC4wJW4Ha
+	 aSQPZ8nVvckrbzydLYly6wtHVL3RUf0fH4QZk5aosX7X+49/lntXGrwtqJbjvNlybebsB
+	 N/J7W1sE0jdJawJ25eGMxIUmVJRQf7M2cTjlQ7seGsPcgzMnAimuyNEOs7ey4z/9MiRuV
+	 kGQ6Mj7ZX2izH3AhERuBNtRyO1vNBJ62obuucZFTyUpdiQOvQNgLvLXzC7wa8BU2ixw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795142508;
-	h=DMARC-Filter:X-AliDM-RcptTo:Feedback-ID:Received:X-EnvId:Date:From:
-	 Reply-To:To:Message-ID:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=ks/dLwwUk6HT8w68czYSev3ifcnTcjuMn/vaNjJ5Msg=;
-	b=vf1enhKw94WrwbNxdsn7Mpyrxu16IINTlBejK5XlUdbLLV3TnjXnkKyyiH1SmALblGOe
-	 sLcj9Mav4NSF7p/9jLt/bweftSHMEF4dBZqL6CbsgR1ZDnxar17RZbkxxxGH4dhrY35QN
-	 LrBfOIwju+aAoN7os0xKUvmILFwPlOOiQic671eBvVcq5gGOOfQrn/H/e30+cmjVUv3UW
-	 K9GaR5ypLxsD8svktSAK1TUCh22C68GgJiV/30821IR8PGGCnO9VJEXgFiFMVhcHK55ae
-	 zxPx3USw/yDuyKg3w89FIpA59Ds1W15wjIwtGCcQTEuoLzBEeKd9EdzamxvHsJxhIYg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795521196;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
+	 MIME-Version:Content-Type:Content-Disposition;
+	bh=4x/opzmCKLDLqalwegOmNaCRghF/n++fO7bIxX1Whws=;
+	b=2V6pCsBdSnXMvCHZRgk/FZ4N0GL1IOFVaYFKtuYgqGwFB0b6yiLgSLX2V6RAzx38bJ60
+	 16zQZUYcekEMExgyKqGbDZF2wuK28PCBcV0DY3QEj2sX2PqF8ICD6K7Rdo9unY0XbJf7J
+	 GO4+B+mfxM+CVXk/Nh1jo2P/eJ7uVwDbw1/EOZC6sEC5SAit8K9kLywRk2oPy8/xHCtmp
+	 WVh0Qqfe58z2Cxgfn2mZOWB7PvuNC0M5RF6dAGO++22HCVouFqLEx1rX653g+ffXQ2dou
+	 /6md7bRzjiiddUg+IGfnLuJ7FV/p8iD9xTQThujtX9WculT/EiJp6TtrUFOlJTJnPbw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=mail.wang.market;
-	spf=pass smtp.mailfrom=mail.wang.market;
-	arc=none smtp.remote-ip=140.205.208.109
-Received: from out208-109.dm.aliyun.com (out208-109.dm.aliyun.com [140.205.208.109])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=wyuan.org;
+	spf=pass smtp.mailfrom=wyuan.org;
+	dkim=pass header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=CZ1ZWA+s;
+	arc=none smtp.remote-ip=91.218.175.42
+Received: from mta0.migadu.com (out-42.mta0.migadu.com [91.218.175.42])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53772606A320
-	for <sashiko@lists.linux.dev>; Fri, 20 Nov 2026 02:41:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 53772606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mail.wang.market
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail.wang.market
-X-AliDM-RcptTo: c2FzaGlrb0BsaXN0cy5saW51eC5kZXY=
-Feedback-ID: default:hezuo@mail.wang.market:alibabak_SmtpBatch:23154
-Received: from a40199255368(mailfrom:hezuo@mail.wang.market fp:SMTPD_-VHcGaIaVVY cluster:AY35D)
-          by smtpdm.aliyun.com(127.0.0.1);
-          Fri, 20 Nov 2026 10:41:37 +0800
-X-EnvId: 600000375329265782
-Date: Fri, 20 Nov 2026 10:41:37 +0800 (CST)
-From: hezuo@mail.wang.market
-Reply-To: 921153866@qq.com
-To: sashiko@lists.linux.dev
-Message-ID: <832094796.411.1795142497649@a40199255368>
-Subject: =?UTF-8?Q?Let=E2=80=99s_talk_about_how_BizBot_he?=
- =?UTF-8?Q?lps_promote_the_Sashiko_project?=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E13CE606A31E
+	for <sashiko@lists.linux.dev>; Tue, 24 Nov 2026 11:53:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E13CE606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=CZ1ZWA+s
+X-Envelope-To: sashiko@lists.linux.dev
+DKIM-Signature: a=rsa-sha256; bh=qo85MlKtCmMC0JjdaYbkPAhBNVkldJBVvhtczSMKL+Y=;
+ c=simple/simple; d=wyuan.org;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1795521193; v=1; x=1796125993;
+ b=CZ1ZWA+sPca4rD66utn2XYjRHlPZ8L0RfLeznD07nKjnz5BtnxJpV12xg1Nem7sOcHOxB2kg
+ GcNWTD47SjsPJaCA2cSlvsDWqmp5CSn+cz70U20ooQKfP3aDwIfQZJrDbV1dupHT5N2rq6Hh+Qz
+ fcpxbC1pwiaPEMhkVhy3ND2tT+LB0tA5oNODFnewVbL+9rO8I0UB6gf8CWC4iSYqW+5JiH7kIx8
+ 951lMuA9dmPxFPaxVpqPKYDk06YXfOveWxezCE3yATG+XMB5fwnyK8uLh055wnM2EP0dRqnDYWU
+ MrJYfJKUK1ePnZ7GMCFsf9Aj1dEUWMbhEiFBzrGbMFyWw==
+X-Envelope-To: sashiko@lists.linux.dev
+Received: by smtp.migadu.com with ESMTPS id 4ca747cca3ad5f57;
+	Tue, 24 Nov 2026 11:53:13 +0000
+X-Mizu-Trace-ID: 4ca747cca3ad5f57
+X-Migadu-Flow: FLOW_OUT
+Date: Tue, 24 Nov 2026 19:53:07 +0800
+From: Weijie Yuan <wy@wyuan.org>
+To: sashiko@lists.linux.dev, Roman Gushchin <roman@kernel.org>
+Cc: Dongliang Mu <dzm91@hust.edu.cn>, Alex Shi <alexs@kernel.org>,
+	Yanteng Si <si.yanteng@linux.dev>,
+	Chen-Yu Yeh <chenyou910331@gmail.com>
+Subject: Request to enable Sashiko for zh_CN & zh_TW
+Message-ID: <awV6oyzXeaisqvmS@wyuan.org>
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Post: <mailto:sashiko@lists.linux.dev>
@@ -52,24 +65,27 @@ List-Unsubscribe: <mailto:sashiko+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:sashiko+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The Sashiko project is very interesting, especially its intelligent code re=
-view for key systems such as the Linux kernel. The design idea of =E2=80=8B=
-=E2=80=8Busing Rust to automatically detect bugs is very solid, and it has =
-indeed captured a core pain point in the open source ecosystem.
+Hi Roman,
 
- Our team has been helping technology-focused open source developers like y=
-ou solve promotion problems - many excellent projects have strong technical=
- capabilities, but they are often unable to let the outside world know and =
-let more people actually use them. BizBot is an independently run AI promot=
-ion system that can automatically search the entire network for open source=
- projects or technical teams similar to Sashiko, identify potential users a=
-nd establish initial contact, helping you deliver value to those who really=
- need it.
+With LKML no longer one of the default lists for Documentation
+[3a198413bb71 (docs: submitting-patches: make LKML a list of last
+resort again, 2026-11-13)], our translations directory therefore
+sometimes will possibly lose reviews from Sashiko, as linux-doc list
+does not enable Sashiko.
 
- BizBot is free and can be used directly after installation. You can direct=
-ly search xnx3/bizbot in github to see it. If you're interested in learning=
- how it can help you expand the impact of your Sashiko project, I can show =
-you how it works in a similar scenario.
+I've talked with Dongliang Mu about this and we agreed to keep
+Sashiko turning on for our paths, without touching the whole
+linux-doc list:
+
+  Documentation/translations/zh_CN
+  Documentation/translations/zh_TW
+
+I'm not sure that whether Sashiko could be configured for specific
+path like this since it seems that I didn't see any docs for this
+use case. Roman, may I ask that is there any workaround?
+
+Thank you very much,
+Weijie
