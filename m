@@ -1,110 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=66.163.184.200
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795617395;
-	b=qIAvdWe0lrKclWwzbaWBZI7JNXIGaq3SDbXN5WF8WUi+lNg1dDYRBFE1oWfOw2e4PweJ
-	 qqsr+I4igkzQOFm3Kiy+zz0M3VQO6E8WjVhaXMnaBWsnJ6uZ4141t18z4htrw312VOupq
-	 Hs0WiZCxEUPmzuhdIMYz2oOtSK/B5h9m9CefsnjGXiTOFsZ8TYIoClCJZP+0qKRknz3K1
-	 OvtSYPrMu1fJurO/m5Ru76O++ZiYNIWAeLhi7lPbPl64XqKLC6fDuFLka23pboMUQPv5S
-	 dGFfwLtIPz/fcte20DUiAsjaZT+KyoEKWnlrwPQrx7YtP77VSzg41ycxkaYadq+B39Q==
+	t=1795857249;
+	b=i+AF+D3ssiALiRxlXQHYYkZIQljwyF6WyLcvLqymdpjWqe81J21HNSetQOT3olPQeJkh
+	 M/I4IYH+kuQx54iqb5vl9Jh7TOIUcUa2LOwP1ecJ/kBSLgiCE/SxXbQeL0R/coY3sHtmZ
+	 xlmxYSidXiDoogVoaUqVTxA3o4QBE/E0oESqZpkq8lpkIaQBKTsTdZVXp2VS1ZNxeVepp
+	 GDYnv2f43PjQXhpftmN7B3MWC9TLASLNc/3Dj8nhI/BXAqyzH7+DYBh3c617EbHbnSH2L
+	 uwZ3wAH0mhwQWtTonbP09Kye11Lgo60cRRi6YzvApBNwXzXC0MtAhNZIhuu+gilEWYw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795617395;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Gm-Message-State:X-Gm-Gg:
-	 X-Received:X-Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-Proofpoint-Spam-Info:
-	 X-Proofpoint-GUID:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-Spam-Details-Enc:X-Authority-Analysis:
-	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=xKKR/qHTIq0VaqoBdG7BgjScoQgqWS6Y3y7CnOluqJ4=;
-	b=YDciCxfleodYhhcoDOYjyA8FMh9JiBHxsuIm1D26u69Vaqhz7765edcDkdbIFJOhdWGI
-	 hT809trVQJwoiz6oicA8IksvqoriPsti8w53vrX0Sug5uqo4mCrhxtz1p+RvQe6Oayt/d
-	 u8+SE1L4/ImDpigwa1eS4myXLLRV/q0XgtaLsMbU7LDt5pcpr0TU/M4r1KXkAmKqZfwRw
-	 0tTJ+UceEJwEmfzsJdGRC7I7TJf4h4dipDRvSBdqYsjdKRJWl8+/653iVYqlOrtjz7vR3
-	 8KTicxe3uPBxmMcFL4BjWCN1MaC4AefC77rucjQrnHz3Sx+f5z7p5xELEyVO4y2vjwg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795857249;
+	h=DMARC-Filter:DKIM-Signature:X-SONIC-DKIM-SIGN:X-YMail-OSG:X-Sonic-MF:
+	 X-Sonic-ID:Received:Received:Message-ID:Date:MIME-Version:User-Agent:
+	 Content-Language:To:Cc:From:Subject:Content-Type:
+	 Content-Transfer-Encoding:References:X-Mailer;
+	bh=GX2Rf7/hfUCqlpu4BsYl1qE6pH500A8R/ALqqh3LuPg=;
+	b=cgXUx9iJPFs+U6CA4pnedHv+h9JftCwLH80pIzVo0a9MPsUFyAwy/qaXeHkQULgJw+Vm
+	 VtpuD7oqTyRk+GozC0+iuKO6IDf5vKbnnm1QTMRhNKPmgxHowknwWBYotS21yeBFSE/bS
+	 69A6lUl/IhYHuvOT8qN4SMv5mFjYv4VydWUx0A0y2HVX8WT3uTjkf6shOWja8ClGJkgMz
+	 jJ0vYr6SgnGmiEhDbLG9dIW3+5rge0hUtWx8Zws3uf38iv7Lg1vXd5vszPm+NlV/4E3zV
+	 NC5tn4N03Qfc5jni6CiqX/YEhq7zWqIWOeQd6LkF2lDLGp6inRJIBkx9cb5oIo8qgOw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=bGNxwHfB;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=X9cDyo+Q;
-	arc=none smtp.remote-ip=205.220.180.131
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=yahoo.com;
+	spf=pass smtp.mailfrom=yahoo.com;
+	dkim=pass header.d=yahoo.com header.i=@yahoo.com header.a=rsa-sha256 header.s=s2048 header.b=WaKepx2c;
+	arc=none smtp.remote-ip=66.163.184.200
+Received: from sonic301-31.consmr.mail.ne1.yahoo.com (sonic301-31.consmr.mail.ne1.yahoo.com [66.163.184.200])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95504606A31E
-	for <sashiko@lists.linux.dev>; Wed, 25 Nov 2026 14:36:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 95504606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E871606A323
+	for <sashiko@lists.linux.dev>; Sat, 28 Nov 2026 09:14:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1E871606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=bGNxwHfB;
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=X9cDyo+Q
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6APEMIkp175467
-	for <sashiko@lists.linux.dev>; Wed, 25 Nov 2026 14:36:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	xKKR/qHTIq0VaqoBdG7BgjScoQgqWS6Y3y7CnOluqJ4=; b=bGNxwHfBcYESYW72
-	w9vmnmEHFSYY9CiX56h6KiWqXTny3fxaRyxbW3Lx1hDKu/CNxJrGbmMQ6iE7bocu
-	lba/wDu9zwMA6lX3xWdyKW8mcd/B+JYc7lKlK1CuWXLlHCJXCwMKHtxZJ6YiBZuJ
-	gcqg4vQViIl50U8KWbTHpnTPIUAWA7EdQgdk8LY+uxDK9I/UKO+Xh/A2XCL9F2iT
-	mpEp8X2Lk/JUAnwW19VZfdrAwtJMXWVvw7f5lbx3LeZokc2lzt6SmAiQKY6w6h7k
-	NddPNJ8qBhYw8yHHZgUl2/nWWK22Dcq2z6XMzmM6s6UmF9ruaahBTr5jv7V4Rm2X
-	qe30Sw==
-Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com [209.85.222.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4j5vv2s898-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <sashiko@lists.linux.dev>; Wed, 25 Nov 2026 14:36:32 +0000 (GMT)
-Received: by mail-ua1-f71.google.com with SMTP id a1e0cc1a2514c-99e0e774882so3036612241.3
-        for <sashiko@lists.linux.dev>; Wed, 25 Nov 2026 06:36:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1795617392; x=1796222192; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=xKKR/qHTIq0VaqoBdG7BgjScoQgqWS6Y3y7CnOluqJ4=;
-        b=X9cDyo+Qm8sSJUrMwONf1uK7ymgubKia800izfHc/yAPx7YFG9Seh8O0Ve1R7qBvqW
-         JmSRHfKXP/g39nP07SLqVpmV25pDaJGZuhIavA7DUrmu1fTVv25KxdSFsWBB/CBskO09
-         4aRJjePQDDLJVIK+Er9h8KktFLr7rOV6cD0hJrP95pPmpeOebaCM6Ozic1Nme3GRtdTn
-         yUDW+j8z/O6G8q+uDIsm6NrupNPNKsHJfoAr4pM8dKHUxjyT36dHur/gB52RTBF/IoMV
-         xhGyKG3u/65dQv4ef0CU7PiX90H0/0mO6RqSyHwNPc35qUU9g6WpM0UTfP+xUaguZfmx
-         HtPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795617392; x=1796222192;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=xKKR/qHTIq0VaqoBdG7BgjScoQgqWS6Y3y7CnOluqJ4=;
-        b=DXeanrQ+NR0QP/KuaF8YWq8/+G6AWTySLFo70694IoircaD9AyBZNp6NZZTj5gcxmf
-         HEJEIoOQ1dMqdzBbibLd12N3mxefTE1iTPY497XA9bNCS1t31xqdmtt76R2CdQn7dKGO
-         FuXYPq8tljJ231bdU5nTNNzWXHmFzpKk8MVJ33zx58VZ5DzBVQBdsRG+Tg2YCy3m3Wam
-         2XGlEh32x+bYieZVMcIs7uNtmtMZ6LKr8IH+6LqQXlNkOUjZUGbmcIlxJTQpM1c/obgp
-         CPZagPikrzDtROflV6qRcP8J/4Tc+iLCtbZIxIS75X+68JgIBqwFhfgo8iQUeJpRtzfr
-         R8gg==
-X-Gm-Message-State: APuU4Z/0QRuMZA2A+JtLVG4dFjI81XEc5jhwuiiTed1SLbBLm3ziVpLH
-	BE+wRjwWc8zGwtr5mIMX96shU7pKT+ZQbvTQR19nKTTaXWE88GU89B4yTcIv4oo8tPs0G+IGCPC
-	vG9/cxrGw9eyXJievRoWuXlglWpYKWwdIupUUXx7PTYvrtgvqX17ap/ZvZ/wvHBJ8ts04
-X-Gm-Gg: AZFdTZfu0siOoQXID+onB+Sicco7qcMnXV6nQJcK68QXbaA+A42eFocpzC3w5Me8xY7
-	dQx5JcCzUy5xbO1Th6uilAawmix3qmJOjnqKa3SQ0shb0J6MxHvVP++j7+iCWMsvkvouj8bUiud
-	tZ0Ll8hoZvJM6M85MKmRc5n6Ip7uLl0Kf/qdw/LvCPqqZiQoOBDNEsFHKXfoaAzR+aAfBf/ebV7
-	9XlxvxTSSeIzFEGq9lW8oOfq263/rrFHPhMPN3ZiwaQCTyQ0fks5BJSnKk0R5oLMLIkG2GL3Xuw
-	WtlpYVOus61k9qwQ20rRCowtg20xN2xC4SeULKUBaO5QyVeZILUi9ioITs5PP4Uin1Jxn/hJbsG
-	PL/SHc+GuNYL10UzzcZUr+a54fwnl6ASKOSK32EWneQz0e8Nho28oJjqVTbM6OcER4vacxIjJBT
-	fuZgTh0AppboNuW0+PYuS06xVBi2mS3aiUWzg=
-X-Received: by 2002:a05:6122:d03:b0:5ec:b8f0:774a with SMTP id 71dfb90a1353d-5ee8adf6c85mr10430858e0c.3.1795617392073;
-        Wed, 25 Nov 2026 06:36:32 -0800 (PST)
-X-Received: by 2002:a05:6122:d03:b0:5ec:b8f0:774a with SMTP id 71dfb90a1353d-5ee8adf6c85mr10430831e0c.3.1795617391472;
-        Wed, 25 Nov 2026 06:36:31 -0800 (PST)
-Received: from ?IPV6:2a05:6e02:1041:c10:ae4e:e70c:bc04:68c3? ([2a05:6e02:1041:c10:ae4e:e70c:bc04:68c3])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb8d4f9aa8sm488204165e9.4.2026.11.25.06.36.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Nov 2026 06:36:30 -0800 (PST)
-Message-ID: <c3623718-8783-421a-9051-c2addac5ba9c@oss.qualcomm.com>
-Date: Wed, 25 Nov 2026 15:36:29 +0100
+	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.a=rsa-sha256 header.s=s2048 header.b=WaKepx2c
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1795857248; bh=GX2Rf7/hfUCqlpu4BsYl1qE6pH500A8R/ALqqh3LuPg=; h=Date:To:Cc:From:Subject:Content-Type:References:From:Subject:Reply-To:Content-Type; b=WaKepx2cJ+ccQVZuIEENPmYgDI3tF2IvjzB4VkM+43Cr283WK55L4y5Qp9OwPeZ0SItaeMrigs0ChSbP5wT8XPq0LAwTiax7FKjTyNaQUGsKg4DiqdCyughwp8xRMg7R7VPGZdHfnBL4YmYDXCUqJyqAzAeg0OhoYqK0aWHT1UJkNnNg3HZu+8nw4LMjQc/23wVs9YX22THc5/02aO3OABrhHz0vj1/P7MY0/0XwOX2E8j/anMTjewaSlqkcbY7a2UGW51vVZPLzaqPoQJm0r4TWzSX9sUeYzwZUnOUB6NwP6L5POxOS1f4NBYwips3UfhmHYuSBXL5sesLPBteHJw==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1795857248; bh=ZWX0bifnsSUc08UUGD82fuTYGACN+zArMSdUlT3uiRa=; h=X-Sonic-MF:Date:To:From:Subject:From:Subject; b=DfWPgPimt4WCr2QhXObFeYdvAOxanPp8ufFqraiGK1hIU99KEkEbHSJnsjzyX6irLKI6fMe7g0IJAb4mRn+jXpdaoitAaXiRLFReF7XZT0Y1HTtqPMPAjPK1VBRJYJdOYKZByO6RYktT7y6HqUKVZk6umSr/XGON13wbnhkfaahpwHiATKX5fnU2OGiKNzpvRB1DIawDssHYHkejzvapREuOu5VXIJzOC5fcnQZSQxYrADMRBInMHji4pxW361aAag4aSGR478rm/tnnf41NF+JaDdNKHrQYyLjeQfrtWPp/zs9KGKva0Iy/w1yNmhdwRlGTD7GUThhy6LyRV5Lu/Q==
+X-YMail-OSG: RUjnEz8VM1kIoxmBZXGpaeLK2sWTUfUQt3iFVXMpVDG7ky1yFqLEYkQG9JYhnQx
+ 0nNGsO5kY7EZxKhLP1frEI2kpBYyyQnpfuMg6WrjbleOaRioP7XvaR.8E988r0Wp0QSUN6xtsgv3
+ lymhoLEUQXVW1ZIqlOeg9hvGTE4PmS7mWhjHkIbc_NYFPlTbODS5r36GlI_GiDBzKUo3qkjyPg1H
+ ZvXdxLhQIL_nWdjVdOrSJcB90k6pUxSku3mBo2RT3XzJHRdCZapmmba9AOskhnGv2HGFQdoacncf
+ 7zQItbFkLQBgTQTcGLm2JSOlcnD6FI.WPzFxlVT.TUvs8cEh5par22DxwSaYsmr_j7A7248Iiky1
+ wDKwIHJlyICwtbPi6ph9_NmXGBJEAU0wVAtSKzgDn1_o2g6SmWflx08C7hIEu79n23NDEnipfdam
+ PVax6RqBc17eViR2Wtq.6XQadMCZldRAezEd7QSwogn92iMNJRj9iXNNVMUnX8j1P7fEwm5.42r8
+ q.hx0Dh9A6cZKUiSrv5zA1RDJfm3I6JdbJs9s_WmmY_MEUhwPTlOSSJ7T6F1dmCYJCYOyiG3rGrR
+ 1OcmjTAKvSIQs7aJ.bi2C6rycFrYDeoJbeR_a9USsBtW8GR4OHS7cZfu0.5jkmXGiKXjGYnDWpLF
+ 2gjKDlpAC4kO0d0ycgF73.7.ypRgg6QT.LWsOCDzVTOlDofCr6cm.GKhvJkzK9JVfTynv5l3U2vq
+ 571bB5X.VUcfsRnvPzlc5g_Vm6PvYYXva6Ne0aTDl6pJWNuTejRoN7C0JHrknePydTA0y0.JsHV7
+ 6PiSc8Lbtb_topgfO0UHcG2Op_bcoAX8DjT6l.3S.1D2yCBqziPSIn6NqC9AYNisoMNJXgw0Y7VX
+ ZJUUtDR7xKsOcSsvU5ar5t8E445__proWex1I82wjhMKWYOcUJOpbL.jqYhrUDvU0ryXgoHomyht
+ OuDsqL9j8DJ3MaGtM9b3GAI55rhBP6ng1mob5XMvLrh.D75tJzdRUqCV3xTw3qYMBhkurRKiuNTv
+ A9WjHc6IaPA7FUo3DMb81E3FLlfSsAAcw6Hbc5wRo6h_w3mr1h3fEzorq7bb.omv3nQ9dmFj8xHi
+ cOpL0tpCpJlcPsTvGjmGYZz2Y8dTKjhAz._UKBNaHYioIFdtvMRYPXUjPcWv8pBphkVciN38ef4t
+ P2GbBWd3Km8EORjW14J7HH0NUo1mN.xWL8fD4jZfzzSb6.ULTI6uZuQlcqrCV8QFMKYLyKuXRVlZ
+ CbXxUnf2c8ctLp09bOUe5tUlLnJgeofC6CWh1Yr76OChcEQWtkMzOZWqmjjn2lF21X7uMRgSvOEW
+ 660VPdlOhdvmYcXfrMjxFcVynK5zHkyg_bZmBYJoPGoPSm7_xdbPAv.xPcjgHIHXUOYuf3fAWm2D
+ k9ZdGhj592a8aefi8W.fSRHJWcJoBtXY58zmQSm9Rc4yVI10X_bkenUqK0b3Hz1l9koLAkNiDxH2
+ ZVGLAU81auk3ERVQTpCAXuFvzTtKFB0EtdVnCKn6birM1g0frpM_KHemoBjZUUkgoIqulTxsIS1g
+ XHHnG0RV_qaqc3seoIPDMF_.3mS2T40V8T0I03HGH4eAfQBEdYJN.iYZ_Zy3k.rFW6W1.EQaGPYg
+ Ha8E97qmwXR.S3ozWcy_SvoEyKHeORFoSbPwM3qjDgLrsrVKXrWkTA1QzFpReqrd53AYbSnTUUWP
+ bL6eWk.0dGvrKrJ_lHlo4GqZUT18_CDyIaeJX3Y30S43UR6U3u2WBwn.S5ihwreud19iJ0JtX.Jp
+ Cm5p9VG_MfQMGEFvHPCD0AUmWWeU7j1gg1IAYeJlf8CdOBuVRVhsynn8CCEuwbKmIyIzt2UsEFD2
+ QtF6oqqGEtNHNUqz6StzQIVXTamhPUHK07JilWAT3DfwJPX4YsdKKGvcEVaSqmX8JLwtNqZ9ND5N
+ QkVhcj5.m8Gu.JOMr55wRJ8Y0XpTiw9gFWR4SiksM3U6eScPNEkBIx3HsiJGl8xI1eud0jUD4GdA
+ F2brdJbMTt0RoyrHeMB3QGIiIiYqFURaL8VQNrIm0gOD6sI4o9MAifYbEOgA4MexprR78manczE4
+ rp_8Ua6GsoJG.lTuZ.kctW5DfLoOgKAXqbvk6sYbx3eICjn2LVIRNyMDYSmSRWm6srn7j_m_rMvF
+ b1HRiweYbACNc7OvyTmiy2nsX0fROniWSBp5JVXj4M8cJHbSrn3geidsVoSAEsrQUn3UM9MQi0sW
+ T9NvYqAk5Z7fpwLF5Zt6eOdYX0kWMVKTrtBc44lDk8wdCo_s2rVpSvtQh.i6x3IV0QdZFbRyrwJ9
+ FH75b8vEoKwwLnarBrSwrrDiIjEb1XH6b2Nm826n2
+X-Sonic-MF: <namiltd@yahoo.com>
+X-Sonic-ID: fbfba199-36c6-47b6-9980-6a77d65c0cda
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic301.consmr.mail.ne1.yahoo.com with HTTP; Sat, 28 Nov 2026 09:14:08 +0000
+Received: by hermes--production-ir2-7c4859dc89-526xz (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID d3f34b57b9a41945a933ce2b7da0ed52;
+          Sat, 28 Nov 2026 09:14:04 +0000 (UTC)
+Message-ID: <90f997b8-9862-41f2-9577-f935fad75041@yahoo.com>
+Date: Sat, 28 Nov 2026 10:14:02 +0100
 X-Mailing-List: sashiko@lists.linux.dev
 List-Id: <sashiko.lists.linux.dev>
 List-Post: <mailto:sashiko@lists.linux.dev>
@@ -115,99 +85,27 @@ List-Owner: <mailto:sashiko+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: sashiko racing with maintainer for the review (duplicate work ?)
-To: roman.gushchin@linux.dev
-Cc: sashiko@lists.linux.dev
-References: <ecb65bde-3d85-40fd-8c6c-782071bfd5be@oss.qualcomm.com>
- <EE7C9947-83A4-4056-97BE-9F26D744E7E0@linux.dev>
-Content-Language: en-US
-From: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
-In-Reply-To: <EE7C9947-83A4-4056-97BE-9F26D744E7E0@linux.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Language: pl
+To: "kuba@kernel.org" <kuba@kernel.org>
+Cc: netdev@vger.kernel.org, sashiko@lists.linux.dev
+From: Mieczyslaw Nalewaj <namiltd@yahoo.com>
+Subject: [BUG] netdev-ai Sashiko instance failing to fetch threads (Failed)
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTI1MDA1OCBTYWx0ZWRfX2Pe+sfOZNezk
- KEIx+AqSZH3Np7B+TnhgCBVTSLuLeNJfBpyep7cbawimArY3pR61g+5289PDmFC+hjX7G1AUqB/
- A/ocGrFgzI0ryVcldAg2UrDNhcjAo7A=
-X-Proofpoint-GUID: 350e17qh6KiQNSmYTLetLfXb5LJavxRZ
-X-Proofpoint-ORIG-GUID: 350e17qh6KiQNSmYTLetLfXb5LJavxRZ
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTI1MDA1OCBTYWx0ZWRfX5TAqMLGHd/Ql
- gVe3JMoXmDSHEOYqHHOEliL+Qy8Loj+6IA3x3LrzVQNtHBOzpx4cWcDVy7/fy6d2d7eGhcor1uV
- TEUVoZ33VknrV8nmBPVe/ZxgIncN4eYptY2WOntuflsGZtnYzdu6Cfae7yAhPNymfx3DLSiLV8R
- M/DNM8CjlhpOKjflvjiCPpSDt/o10bUwQPCEvnNB+KUDvZcvfTD5KjdK9DHy89hNf8/GrjXqRhM
- aSdibnJ1gNfllC2+Tkb+sO+ro2Acr/g1OlygJzB4NV6CBApqpNnxuBoy0jO/rATz/ihvc5sQKC3
- Ui0F1Izh88OG4jgMC9oa/L+BBz702irSzv/4+mTYJUTcFoS+8gWcUSaH/W0yowFhZmXtDHrT0XW
- L+V7QcxuAWb7jaFCSjiTr2FSYSkHKG0PsaXGCtQVOk9BGjAc7tf5dvOgFc5fIkbp9CKnkK8C8qN
- rsZNtZwtoMTygsDDhIQ==
-X-Authority-Analysis: v=2.4 cv=A/z5rKWG c=1 sm=1 tr=0 ts=6b06f270 cx=c_pps
- a=KB4UBwrhAZV1kjiGHFQexw==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22 a=EUspDBNiAAAA:8
- a=Mny7AIAWUuP7ha50ixMA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=o1xkdb1NAhiiM49bd1HK:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-25_04,2026-11-23_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 lowpriorityscore=0 priorityscore=1501 impostorscore=0
- suspectscore=0 bulkscore=0 adultscore=0 malwarescore=0 phishscore=0
- spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
- definitions=main-2611250058
+References: <90f997b8-9862-41f2-9577-f935fad75041.ref@yahoo.com>
+X-Mailer: WebService/1.1.27100 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
 
+Hi Jakub,
 
-Hi Roman,
+It looks like the netdev-ai Sashiko instance (https://netdev-ai.bots.linux.dev/sashiko/) at linux.dev is currently failing to fetch incoming threads from the mailing list (while the main sashiko.dev instance is working fine).
+All recent entries are stuck in the "Fetching thread ..." state and immediately end up with "0/0 Failed" (author: unknown).
+Recent examples from today (2026-11-28):
+• 20261128080700.3828378-1-kuniyu@google.com
+• 20261128083639.1404522-1-yuyanghuang@google.com
+• 20261127-mptcp-cmason-fixes-v4-0-3f393ea8c48d@kernel.org
 
-we are receiving more and more patches resulting from AI assisted code.
+Could you take a look at the fetcher service / logs on netdev-ai?
 
-I would like to filter them out based on positive review from sashiko. 
-That is pay attention to them when they passed the sashiko positive review.
+Thanks!
 
-However the mailing list where the patches are sent is shared with 
-different maintainers (the linux-pm@ ml) and only me is interested in 
-getting an email when a positive review is claimed for a specific series.
-
-As I can log in sashiko as a maintainer, it would be nice if I can add 
-myself as a positive_review recipient for a specific mailing along with 
-a set of criteria (eg. positive_review + I'm in to | cc)
-
-If the result in the patch workflow is not satisfying for any reason, I 
-should be able to drop my subscription.
-
-Is it something which make sense ? Or may be it already exist ?
-
-
-On 4/25/26 02:24, Roman Gushchin wrote:
-> Hi Daniel!
-> 
-> It’s definitely possible, but Idk if it will generate too much noise.
-> In general I aim to review all public submissions and in theory
-> (subject to current AI budget and stability) reviews should be within
-> an hour, maybe except large patchsets. But I certainly can add emails
-> notifications as an option on per-subsystem basis, as well as emails
-> on clean reviews.
-> 
-> I’ll be likely a bit too busy next week and then attend lsf/mm/bpf,
-> but after that I can certainly add it.
-> 
-> Thanks!
-> 
->> On Apr 24, 2026, at 8:41 AM, Daniel Lezcano
->> <daniel.lezcano@oss.qualcomm.com> wrote:
->> 
->> ﻿ Hi,
->> 
->> as a maintainer, I don't know if I should spend time on reviewing
->> series while sashiko is may be doing the same review in parallel.
->> 
->> Is it possible to have sashiko sending an email to the
->> maintainer(s), reviewer(s) telling it began to review, cc'ing the
->> submitter and send another email to the same recipients, telling the
->> review is finished and is ok/nak ?
->> 
->> That would let me know I should wait while the submitter takes into
->> accounts the sashiko reviews. When sashiko review is ok, then I can
->> review the series
->> 
->> Does it make sense ?
->> 
-
+Mieczyslaw Nalewaj
